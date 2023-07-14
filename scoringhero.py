@@ -213,7 +213,6 @@ class Ui_MainWindow(QMainWindow):
         self.scaleDialogeBox = scaleDialogeBox(self.EEG.scales, self.EEG.displayChannels, self.EEG.channelColors)
         self.scaleDialogeBox.changesMade.connect(self.respond_to_scaleDialogeBox)
         self.scaleDialogeBox.exec_()
-        self.EEG.scaleChannels(self.scaleDialogeBox, self.epochDisplay) 
 
     def respond_to_scaleDialogeBox(self):
         self.EEG.scaleChannels(self.scaleDialogeBox, self.epochDisplay) 

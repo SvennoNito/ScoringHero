@@ -25,7 +25,7 @@ class spectogram(QtWidgets.QWidget):
         #self.graphics.scene().sigMouseClicked.connect(self.spectogramClick)
 
     def initiate(self, EEG):
-        for epo in range(1, EEG.numepo):
+        for epo in range(1, EEG.numepo+1):
             start = epo*EEG.epolen*EEG.srate - EEG.epolen*EEG.srate
             end   = epo*EEG.epolen*EEG.srate
             data  = EEG.data[0][int(start):int(end)]        
@@ -44,7 +44,7 @@ class spectogram(QtWidgets.QWidget):
         image_pos       = self.axes.mapFromParent(mouse_pos)
         image_coords    = self.axes.mapToView(image_pos)
         if image_coords.x() >= 0 and image_coords.x() < len(self.times):
-           return round(image_coords.x())
+           return int(np.ceil(image_coords.x()))
 
     def image(self):
         # https://github.com/epeters13/pyqtspecgram/blob/main/src/pyqtspecgram/pyqtspecgram.py
@@ -59,7 +59,7 @@ class spectogram(QtWidgets.QWidget):
         self.axes.setLabel('left', "Freq", units='Hz')
 
         self.axes.setXRange(0, len(self.times), padding=0)
-        self.axes.setYRange(0, len(self.freqs), padding=0)
+        self.axes.setYRange(0, len(self.freqs[self.freqs <= 40]), padding=0)
 
         # y ticks
         freqres = np.unique(np.diff(self.freqs))[0]
