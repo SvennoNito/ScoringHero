@@ -59,7 +59,7 @@ class EEG_class(QtWidgets.QWidget):
         self.numepo  = int(np.floor(self.points / self.srate / epolen))
         self.scales  = np.ones(self.nchans)
         self.displayChannels = np.ones(self.nchans, dtype='bool')
-        self.channelColors   = ['Black'] * (self.nchans-3) + ['Blue'] * 2 + ['Magenta']
+        self.channelColors = ['Black'] * (self.nchans-3) + ['Blue'] * 2 + ['Magenta']
 
     def showEEG(self, thisepoch):
         start      = thisepoch*self.epolen - self.epolen

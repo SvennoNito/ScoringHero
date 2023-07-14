@@ -52,7 +52,7 @@ class spectogram(QtWidgets.QWidget):
         img = pg.ImageItem()
         img.setImage(self.power)
         img.setColorMap(pg.colormap.get('CET-L17'))
-        img.setLevels([np.percentile(self.power, 5), np.percentile(self.power, 85)]) # Color scale   
+        img.setLevels([np.percentile(self.power, 5), np.percentile(self.power, 95)]) # Color scale   
         self.axes.addItem(img)
         self.axes.setLimits(xMin=0, xMax=len(self.times), yMin=0, yMax=len(self.freqs))
         #self.axes.setLabel('bottom', "Time", units='min')

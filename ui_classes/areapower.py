@@ -4,7 +4,6 @@ import numpy as np
 import pyqtgraph as pg
 from scipy.signal import welch, spectrogram
 from scipy.stats import iqr
-from mne.time_frequency import morlet
 
 class areapower(QtWidgets.QWidget):
     def __init__(self, centralWidget):
@@ -32,28 +31,8 @@ class areapower(QtWidgets.QWidget):
         self.srate  = EEG.srate
         self.epolen = EEG.epolen
 
-    def update(self, axes, leftCorner, rightCorner):   
+    def update(self, data):   
         self.axes.clear()
-
-        # Extract EEG traces
-        signals = axes.getPlotItem().listDataItems()
-        signals = [signal.getData()[1] for signal in signals]
-        signals = [signal for signal in signals if len(set(signal)) > 3] 
-
-        xstart, xstop = min(leftCorner.x(), rightCorner.x()), max(leftCorner.x(), rightCorner.x())
-        ystart, ystop = min(leftCorner.y(), rightCorner.y()), max(leftCorner.y(), rightCorner.y())
-        while xstart > 30:
-            xstart, xstop = xstart-self.epolen, xstop-self.epolen
-
-        # Find correct EEG trace
-        olap = []
-        for signal in signals:
-            xvals = np.where((signal <= ystop) & (signal >= ystart))[0] / self.srate
-            olap.append(sum((xvals <= xstop) & (xvals >= xstart)))
-        trace = olap.index(max(olap))
-
-        # Extract signal
-        data = signals[trace][round(xstart*self.srate):round(xstop*self.srate)]
 
         # Compute power
         nperseg = min(len(data), self.winlen*self.srate)

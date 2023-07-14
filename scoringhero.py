@@ -58,7 +58,6 @@ class Ui_MainWindow(QMainWindow):
         self.scaleDialogeBox    = []
         self.displayChannels    = []
         self.channelColors      = []
-        self.epochSpectrum      = []
 
     def keyPressEvent(self, event):
         print(event.key())
@@ -145,7 +144,7 @@ class Ui_MainWindow(QMainWindow):
         self.quickSaveSleepStages()
         self.resetGreenLine()          # Removes the greenLine widget
         self.epochpower.update(this_epoch)
-        self.epochSpectrum.drawLines(self.epochSpec, this_epoch)
+        # self.epochSpectrum.drawLines(self.epochSpec, this_epoch)
         # self.epochSpectrum.drawImage(self.epochSpec.plot, self.epochDisplay)
         # self.EpochStage.adjustSize()
 
@@ -212,9 +211,12 @@ class Ui_MainWindow(QMainWindow):
 
     def scaleChannels(self):
         self.scaleDialogeBox = scaleDialogeBox(self.EEG.scales, self.EEG.displayChannels, self.EEG.channelColors)
+        self.scaleDialogeBox.changesMade.connect(self.respond_to_scaleDialogeBox)
         self.scaleDialogeBox.exec_()
         self.EEG.scaleChannels(self.scaleDialogeBox, self.epochDisplay) 
 
+    def respond_to_scaleDialogeBox(self):
+        self.EEG.scaleChannels(self.scaleDialogeBox, self.epochDisplay) 
 
 
     def setupUi(self, MainWindow):
@@ -382,8 +384,8 @@ class Ui_MainWindow(QMainWindow):
         self.EEG.showEEG(self.epochDisplay)
         self.hypnogram.initiate(self.EEG.numepo, self.EEG.epolen)
         self.spectogram.initiate(self.EEG)
-        self.epochSpectrum = epochSpectrum(self.EEG)
-        self.epochSpectrum.drawLines(self.epochSpec, self.epochDisplay)
+        #self.epochSpectrum = epochSpectrum(self.EEG)
+        #self.epochSpectrum.drawLines(self.epochSpec, self.epochDisplay)
         self.EEG.update_text(self.epochDisplay, self.stageDisplay)
         self.epochpower.initiate(self.EEG)
         self.epochpower.update(self.epochDisplay)

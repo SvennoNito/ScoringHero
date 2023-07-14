@@ -21,10 +21,12 @@ class greenLine(QtWidgets.QWidget):
         self.coordLeftCorner  = []
         self.coordRightCorner = []
         self.amplitude        = []
-        self.secondLeft       = []
-        self.secondRight      = []
-        self.ampBottom        = []
-        self.ampTop           = []
+        self.boxLeft       = []
+        self.boxRight      = []
+        self.boxBottom        = []
+        self.boxTop           = []
+        self.colorPalette     = {'grey': (150, 150, 150)} 
+        self.fontSize         = 15
         self.show()
 
         # Create a label to display the totalLength value
@@ -71,50 +73,52 @@ class greenLine(QtWidgets.QWidget):
         self.fliplr()
         self.respectBoundaries()
         self.adjustLength()
-        self.update()
+        self.update() # draws the box
         self.transformCoordinates()
-        self.showpower()
         self.show_amplitude()
-        self.show_period()
+        self.show_period()    
 
-    def showpower(self):
-        self.areapower.update(self.axes, self.coordLeftCorner, self.coordRightCorner)
-
-    def show_amplitude(self):
+    def extract_eeg(self):
 
         # Extract EEG traces
         signals = self.axes.getPlotItem().listDataItems()
         signals = [signal.getData()[1] for signal in signals]
         signals = [signal for signal in signals if len(set(signal)) > 3] 
 
-        xstart, xstop = self.secondLeft, self.secondRight
-        ystart, ystop = self.ampBottom, self.ampTop
+        # Adjust time values of green box to allign with EEG data time value
+        xstart, xstop = self.boxLeft, self.boxRight
         epolen        = np.diff(self.axes.getAxis('bottom').range)[0]
-        while xstart > 30:
+        while xstart > epolen:
             xstart, xstop = xstart-epolen, xstop-epolen
 
         # Find correct EEG trace
         olap = []
         for signal in signals:
-            xvals = np.where((signal <= ystop) & (signal >= ystart))[0] / self.srate
+            xvals = np.where((signal <= self.boxTop) & (signal >= self.boxBottom))[0] / self.srate
             olap.append(sum((xvals <= xstop) & (xvals >= xstart)))
         trace = olap.index(max(olap))
 
-        # Extract signal
+        # Extract EEG signal during the time of the green box
         data = signals[trace][round(xstart*self.srate):round(xstop*self.srate)]
-        amplitude = int(round(max(data) - min(data), 0))
+        self.amplitude = int(round(max(data) - min(data), 0))       
+
+        # Compute power of that data
+        self.areapower.update(data)         
+
+    def show_amplitude(self):
+        self.extract_eeg() # extract amplitude
 
         # text = pg.TextItem(text=f'{round(self.amplitude[-1])} \u03BCV', color='k', anchor=(0, .9))
-        text = pg.TextItem(text=f'{amplitude} \u03BCV', color= (211, 211, 211), anchor=(0, .9))
-        text.setPos(self.secondLeft, self.ampTop)
-        font = QtGui.QFont(); font.setPixelSize(15)
+        text = pg.TextItem(text=f'{self.amplitude} \u03BCV', color=self.colorPalette['grey'], anchor=(0, .9))
+        text.setPos(self.boxLeft, self.boxTop)
+        font = QtGui.QFont(); font.setPixelSize(self.fontSize)
         text.setFont(font)
         self.axes.addItem(text)    
 
     def show_period(self):
-        text = pg.TextItem(text=f'{round(self.periodLength[-1], 2)} s', color= (211, 211, 211), anchor=(0, 1)) # (100, 149, 237)
-        text.setPos(self.secondRight, self.ampBottom)
-        font = QtGui.QFont(); font.setPixelSize(14)
+        text = pg.TextItem(text=f'{round(self.periodLength[-1], 2)} s', color=self.colorPalette['grey'], anchor=(0, 1)) # (100, 149, 237)
+        text.setPos(self.boxRight, self.boxBottom)
+        font = QtGui.QFont(); font.setPixelSize(self.fontSize)
         text.setFont(font)
         self.axes.addItem(text)              
 
@@ -144,11 +148,11 @@ class greenLine(QtWidgets.QWidget):
             self.totalLengthLabel.adjustSize()  
 
         # Transform to seconds and microvolt
-        self.secondLeft     = self.axes.plotItem.vb.mapSceneToView(self.pointLeftCorner).x()
-        self.secondRight    = self.axes.plotItem.vb.mapSceneToView(self.pointRightCorner).x()
-        self.ampBottom      = min(self.axes.plotItem.vb.mapSceneToView(self.pointLeftCorner).y(), self.axes.plotItem.vb.mapSceneToView(self.pointRightCorner).y())
-        self.ampTop         = max(self.axes.plotItem.vb.mapSceneToView(self.pointLeftCorner).y(), self.axes.plotItem.vb.mapSceneToView(self.pointRightCorner).y())
-        self.amplitude.append(self.ampTop - self.ampBottom)
+        self.boxLeft     = self.axes.plotItem.vb.mapSceneToView(self.pointLeftCorner).x()
+        self.boxRight    = self.axes.plotItem.vb.mapSceneToView(self.pointRightCorner).x()
+        self.boxBottom   = min(self.axes.plotItem.vb.mapSceneToView(self.pointLeftCorner).y(), self.axes.plotItem.vb.mapSceneToView(self.pointRightCorner).y())
+        self.boxTop      = max(self.axes.plotItem.vb.mapSceneToView(self.pointLeftCorner).y(), self.axes.plotItem.vb.mapSceneToView(self.pointRightCorner).y())
+        # self.amplitude.append(self.boxTop - self.boxBottom)
 
         self.coordLeftCorner  = self.axes.plotItem.vb.mapSceneToView(self.pointLeftCorner)
         self.coordRightCorner = self.axes.plotItem.vb.mapSceneToView(self.pointRightCorner)
@@ -162,10 +166,10 @@ class greenLine(QtWidgets.QWidget):
         self.storedLines      = []
         self.periodLength     = []
         self.amplitude        = []
-        self.secondLeft       = []
-        self.secondRight      = []
-        self.ampBottom        = []
-        self.ampTop           = []        
+        self.boxLeft       = []
+        self.boxRight      = []
+        self.boxBottom        = []
+        self.boxTop           = []        
         self.totalLength      = 0
         self.totalLengthLabel.setText(f"Total Length: {self.totalLength} s")
         self.update()   

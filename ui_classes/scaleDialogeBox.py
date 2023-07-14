@@ -1,14 +1,16 @@
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import *
 
 class scaleDialogeBox(QtWidgets.QDialog):
+    changesMade = QtCore.pyqtSignal()
+
     def __init__(self, scales, checkticks, channelcolor, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout(self)
         form_layout = QFormLayout()
-        self.scaling_spinboxes      = []
-        self.displayChannels        = []
-        self.channelColors    = []
+        self.scaling_spinboxes  = []
+        self.displayChannels    = []
+        self.channelColors      = channelcolor
 
         # Loop through channels
         for chanNdx, (scale, checks, chancolor) in enumerate(zip(scales, checkticks, channelcolor)):
@@ -17,9 +19,12 @@ class scaleDialogeBox(QtWidgets.QDialog):
             spinbox.setMinimum(0)
             #spinbox.setMaximum(100)
             spinbox.setValue(scale)
+            spinbox.valueChanged.connect(self.emit_signal)  # Connect the valueChanged signal of the spin box to the spinBoxValueChanged method
+
 
             checkbox = QCheckBox(self)
             checkbox.setChecked(checks)  # Checkbox initially checked   
+            checkbox.clicked.connect(self.emit_signal)  # Connect the checkbox clicked signal to the checkboxClicked method
 
             #color_box = QColorDialog(self)
             #color_button = QPushButton('Choose Color', self)
@@ -31,12 +36,11 @@ class scaleDialogeBox(QtWidgets.QDialog):
             color_combo.setCurrentText(chancolor)
             color_combo.currentIndexChanged.connect(lambda index, chanNdx=chanNdx: self.changeColor(index, chanNdx))
 
-
             # Layout
             row_layout = QHBoxLayout()
             row_layout.addWidget(label)
-            row_layout.addWidget(spinbox)
             row_layout.addWidget(checkbox)
+            row_layout.addWidget(spinbox)
             row_layout.addWidget(color_combo)
             form_layout.addRow(row_layout)
 
@@ -48,4 +52,10 @@ class scaleDialogeBox(QtWidgets.QDialog):
 
     def changeColor(self, index, chanNdx):
         color_mapping = {0: "Black", 1: "Blue", 2: "Magenta"}
-        self.channelColors[chanNdx] = color_mapping[index]      
+        self.channelColors[chanNdx] = color_mapping[index]     
+        self.emit_signal()
+
+    def emit_signal(self):
+        self.changesMade.emit()
+
+    
