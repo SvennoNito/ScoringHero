@@ -73,27 +73,26 @@ class Ui_MainWindow(QMainWindow):
         self.scoringFile = scoring_file
         read_artefacts = 0
         skip_line = 0
-        match scoring_extension:
-            case '.txt':
-                with open(scoring_file, 'r') as file:
-                    lines = file.readlines()                  
-                    for line in lines: # Read the last word of each row until an empty row is encountered
-                        line = line.strip()  # Remove leading/trailing whitespace
-                        if line == '':
-                            skip_line = 1
-                            continue
-                        if skip_line == 1:
-                            skip_line = 0
-                            read_artefacts = 1
-                            continue                        
-                        if read_artefacts == 0:
-                            stageinfo       = line.split()
-                            stageinfo[1]    = stageinfo[1].replace(":", "")
-                            self.hypnogram.assign_stage(int(stageinfo[1]), stageinfo[2])   
-                        elif read_artefacts == 1:                            
-                            start = float(line.split()[-3])/self.EEG.timesby
-                            stop = float(line.split()[-1])/self.EEG.timesby
-                            self.EEG.addArtefact(start, stop)
+        if scoring_extension == '.txt':
+            with open(scoring_file, 'r') as file:
+                lines = file.readlines()                  
+                for line in lines: # Read the last word of each row until an empty row is encountered
+                    line = line.strip()  # Remove leading/trailing whitespace
+                    if line == '':
+                        skip_line = 1
+                        continue
+                    if skip_line == 1:
+                        skip_line = 0
+                        read_artefacts = 1
+                        continue                        
+                    if read_artefacts == 0:
+                        stageinfo       = line.split()
+                        stageinfo[1]    = stageinfo[1].replace(":", "")
+                        self.hypnogram.assign_stage(int(stageinfo[1]), stageinfo[2])   
+                    elif read_artefacts == 1:                            
+                        start = float(line.split()[-3])/self.EEG.timesby
+                        stop = float(line.split()[-1])/self.EEG.timesby
+                        self.EEG.addArtefact(start, stop)
             
         self.updateStageDisplay()
         self.EEG.showArtefacts()
@@ -207,10 +206,9 @@ class Ui_MainWindow(QMainWindow):
         # Function to call when loading the EEG file.
         EEG_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', r'C:\PhDScripts\Sides\ScoringHero', '*.mat')
         EEG_filename, EEG_extension = os.path.splitext(EEG_file)
-        match EEG_extension:
-            case '.mat':
-                self.EEG.data  = scipy.io.loadmat(EEG_file)['EEG']['data'][0][0]
-                self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0]
+        if EEG_extension == '.mat':
+            self.EEG.data  = scipy.io.loadmat(EEG_file)['EEG']['data'][0][0]
+            self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0]
 
     def scaleChannels(self):
         self.scaleDialogeBox = scaleDialogeBox(self.EEG.scales, self.EEG.displayChannels, self.EEG.channelColors)
@@ -376,8 +374,9 @@ class Ui_MainWindow(QMainWindow):
 
 
         # Developer mode
-        self.EEG.data  = scipy.io.loadmat('C:\PhDScripts\Sides\ScoringHero\dummyfile.mat')['EEG']['data'][0][0]  
-        self.EEG.srate = scipy.io.loadmat('C:\PhDScripts\Sides\ScoringHero\dummyfile.mat')['EEG']['srate'][0][0][0][0]
+        scriptpath = os.path.dirname(os.path.abspath(__file__))
+        self.EEG.data  = scipy.io.loadmat(f'{scriptpath}\dummyfile.mat')['EEG']['data'][0][0]  
+        self.EEG.srate = scipy.io.loadmat(f'{scriptpath}\dummyfile.mat')['EEG']['srate'][0][0][0][0]
         self.EEG.update(self.epochLen_sec)
         self.sleepStages = {key: ['-', float("nan")] for key in np.arange(1, self.EEG.numepo, dtype=int)}
         self.EEG.showEEG(self.epochDisplay)
