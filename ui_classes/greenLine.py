@@ -105,14 +105,14 @@ class greenLine(QtWidgets.QWidget):
         amplitude = int(round(max(data) - min(data), 0))
 
         # text = pg.TextItem(text=f'{round(self.amplitude[-1])} \u03BCV', color='k', anchor=(0, .9))
-        text = pg.TextItem(text=f'{amplitude} \u03BCV', color=(100, 149, 237), anchor=(0, .9))
+        text = pg.TextItem(text=f'{amplitude} \u03BCV', color= (211, 211, 211), anchor=(0, .9))
         text.setPos(self.secondLeft, self.ampTop)
         font = QtGui.QFont(); font.setPixelSize(15)
         text.setFont(font)
         self.axes.addItem(text)    
 
     def show_period(self):
-        text = pg.TextItem(text=f'{round(self.periodLength[-1], 2)} s', color=(100, 149, 237), anchor=(0, 1))
+        text = pg.TextItem(text=f'{round(self.periodLength[-1], 2)} s', color= (211, 211, 211), anchor=(0, 1)) # (100, 149, 237)
         text.setPos(self.secondRight, self.ampBottom)
         font = QtGui.QFont(); font.setPixelSize(14)
         text.setFont(font)
