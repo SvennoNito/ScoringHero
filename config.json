@@ -1,0 +1,38 @@
+[
+    {
+        "Channel": "F3",
+        "Color": "Black",
+        "Display": 1,
+        "Scale": 1
+    },
+    {
+        "Channel": "C3",
+        "Color": "Black",
+        "Display": 1,
+        "Scale": 1
+    },
+    {
+        "Channel": "P3",
+        "Color": "Black",
+        "Display": 1,
+        "Scale": 1
+    },
+    {
+        "Channel": "O1",
+        "Color": "Blue",
+        "Display": 1,
+        "Scale": 1
+    },
+    {
+        "Channel": "O2",
+        "Color": "Blue",
+        "Display": 1,
+        "Scale": 1
+    },
+    {
+        "Channel": "Muscle",
+        "Color": "Magenta",
+        "Display": 1,
+        "Scale": 1
+    }
+]

@@ -32,6 +32,7 @@ from hypnogram import *
 from spectogram import *
 from epochpower import *
 from areapower import *
+import json
 
 
 class Ui_MainWindow(QMainWindow):
@@ -210,7 +211,7 @@ class Ui_MainWindow(QMainWindow):
             self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0]
 
     def scaleChannels(self):
-        self.scaleDialogeBox = scaleDialogeBox(self.EEG.scales, self.EEG.displayChannels, self.EEG.channelColors)
+        self.scaleDialogeBox = scaleDialogeBox(self.EEG.chaninfo)
         self.scaleDialogeBox.changesMade.connect(self.respond_to_scaleDialogeBox)
         self.scaleDialogeBox.exec_()
 
@@ -372,7 +373,9 @@ class Ui_MainWindow(QMainWindow):
         # Makes GUI listen to key strokes
         MainWindow.keyPressEvent = self.keyPressEvent
 
-
+        with open("config.json", "r") as file:
+            config = json.load(file)        
+            self.EEG.add_chaninfo(config)
 
         # Developer mode
         scriptpath = os.path.dirname(os.path.abspath(__file__))
@@ -391,6 +394,8 @@ class Ui_MainWindow(QMainWindow):
         self.areapower.initiate(self.EEG)
         self.greenLine.initiate(self.EEG)
         #self.epochSpectrum.drawImage(self.epochSpec.plot, self.epochDisplay)
+
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

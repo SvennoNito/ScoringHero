@@ -21,11 +21,9 @@ class EEG_class(QtWidgets.QWidget):
         self.numepo  = []
         self.epolen  = []
         self.shift   = 25
-        self.scales  = []
-        self.artefacts = []
-        self.timesby = 1
-        self.displayChannels = []
-        self.channelColors   = []        
+        self.artefacts  = []
+        self.timesby    = 1     
+        self.chaninfo   = {}
 
         # Widget for plotting
         self.axes = pg.PlotWidget(centralWidget)
@@ -52,14 +50,17 @@ class EEG_class(QtWidgets.QWidget):
         layout = QtWidgets.QVBoxLayout(self.axes)
         layout.addWidget(self.textfield)
 
+    def add_chaninfo(self, chaninfo):
+        self.chaninfo = chaninfo
+
     def update(self, epolen):
         self.nchans  = len(self.data)
         self.points  = len(self.data[0])
         self.epolen  = epolen
         self.numepo  = int(np.floor(self.points / self.srate / epolen))
-        self.scales  = np.ones(self.nchans)
-        self.displayChannels = np.ones(self.nchans, dtype='bool')
-        self.channelColors = ['Black'] * (self.nchans-3) + ['Blue'] * 2 + ['Magenta']
+        # self.scales  = np.ones(self.nchans)
+        #self.displayChannels = np.ones(self.nchans, dtype='bool')
+        #self.channelColors = ['Black'] * (self.nchans-3) + ['Blue'] * 2 + ['Magenta']
 
     def showEEG(self, thisepoch):
         start      = thisepoch*self.epolen - self.epolen
@@ -80,23 +81,23 @@ class EEG_class(QtWidgets.QWidget):
         # Loop through channels
         self.axes.clear()
         for count, channel in enumerate(self.data):
-            pen = pg.mkPen(color=self.channelColorPalette[self.channelColors[count]])
-            if self.displayChannels[count]:
+            pen = pg.mkPen(color=self.channelColorPalette[self.chaninfo[count]['Color']])
+            if self.chaninfo[count]['Display']:
 
                 # Plot EEG
-                self.axes.plot(timevec, channel[ndxvecv]*self.scales[count] - self.shift*self.nchans*channelCount, pen=pen, tag='EEG')
+                self.axes.plot(timevec, channel[ndxvecv]*self.chaninfo[count]['Scale'] - self.shift*self.nchans*channelCount, pen=pen, tag='EEG')
 
                 # Set pen style to DotLine
-                self.axes.plot(timevec, dotted_line - self.shift*self.nchans*channelCount + 37.5*self.scales[count], pen=dotted_pen)
-                self.axes.plot(timevec, dotted_line - self.shift*self.nchans*channelCount - 37.5*self.scales[count], pen=dotted_pen)
+                self.axes.plot(timevec, dotted_line - self.shift*self.nchans*channelCount + 37.5*self.chaninfo[count]['Scale'], pen=dotted_pen)
+                self.axes.plot(timevec, dotted_line - self.shift*self.nchans*channelCount - 37.5*self.chaninfo[count]['Scale'], pen=dotted_pen)
                 self.axes.plot(timevec, dotted_line - self.shift*self.nchans*channelCount - 0, pen=dashed_pen)
                 
                 # Add text
                 if channelCount == 0 and thisepoch == 1:  # Only add text on the first channel
                     text1 = pg.TextItem(text="+37.5 \u03BCV", color='k', anchor=(0, 0.5))
                     text2 = pg.TextItem(text="-37.5 \u03BCV", color='k', anchor=(0, 0.5))
-                    text1.setPos(timevec[0], 0-self.shift*self.nchans*channelCount + 37.5*self.scales[count])
-                    text2.setPos(timevec[0], 0-self.shift*self.nchans*channelCount - 37.5*self.scales[count])  
+                    text1.setPos(timevec[0], 0-self.shift*self.nchans*channelCount + 37.5*self.chaninfo[count]['Scale'])
+                    text2.setPos(timevec[0], 0-self.shift*self.nchans*channelCount - 37.5*self.chaninfo[count]['Scale'])  
                     font = QtGui.QFont(); font.setPixelSize(20)
                     text1.setFont(font)
                     text2.setFont(font)
