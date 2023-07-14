@@ -236,7 +236,7 @@ class Ui_MainWindow(QMainWindow):
         self.spectogram = spectogram(self.centralwidget)
         self.epochpower = epochpower(self.centralwidget)
         self.areapower  = areapower(self.centralwidget)
-        self.greenLine  = greenLine(self.EEG.axes, self.EEG.timesby, self.areapower)
+        self.greenLine  = greenLine(self.areapower)
         self.hypnogram.axes.scene().sigMouseClicked.connect(self.hypnoClick)
         self.spectogram.graphics.scene().sigMouseClicked.connect(self.spectogramClick)
 
@@ -388,6 +388,7 @@ class Ui_MainWindow(QMainWindow):
         self.epochpower.initiate(self.EEG)
         self.epochpower.update(self.epochDisplay)
         self.areapower.initiate(self.EEG)
+        self.greenLine.initiate(self.EEG)
         #self.epochSpectrum.drawImage(self.epochSpec.plot, self.epochDisplay)
 
     def retranslateUi(self, MainWindow):
