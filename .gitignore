@@ -1,2 +1,4 @@
 __pychache__/
+build/
+dist/
 *.pyc

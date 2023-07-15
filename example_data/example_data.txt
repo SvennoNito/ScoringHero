@@ -1,29 +1,29 @@
-Epoch 1: - nan
-Epoch 2: - nan
-Epoch 3: - nan
-Epoch 4: N1 -1
-Epoch 5: - nan
-Epoch 6: - nan
-Epoch 7: - nan
-Epoch 8: - nan
-Epoch 9: - nan
-Epoch 10: - nan
-Epoch 11: - nan
-Epoch 12: - nan
-Epoch 13: - nan
-Epoch 14: - nan
-Epoch 15: - nan
-Epoch 16: - nan
-Epoch 17: - nan
-Epoch 18: - nan
-Epoch 19: - nan
-Epoch 20: - nan
-Epoch 21: - nan
-Epoch 22: - nan
-Epoch 23: - nan
-Epoch 24: - nan
-Epoch 25: - nan
-Epoch 26: - nan
+Epoch 1: Wake 1
+Epoch 2: Wake 1
+Epoch 3: Wake 1
+Epoch 4: Wake 1
+Epoch 5: Wake 1
+Epoch 6: Wake 1
+Epoch 7: Wake 1
+Epoch 8: Wake 1
+Epoch 9: Wake 1
+Epoch 10: Wake 1
+Epoch 11: Wake 1
+Epoch 12: Wake 1
+Epoch 13: N1 -1
+Epoch 14: N1 -1
+Epoch 15: N1 -1
+Epoch 16: N1 -1
+Epoch 17: N2 -2
+Epoch 18: N2 -2
+Epoch 19: N2 -2
+Epoch 20: N2 -2
+Epoch 21: N2 -2
+Epoch 22: N2 -2
+Epoch 23: N2 -2
+Epoch 24: N2 -2
+Epoch 25: N2 -2
+Epoch 26: N2 -2
 Epoch 27: - nan
 Epoch 28: - nan
 Epoch 29: - nan
@@ -513,11 +513,11 @@ Epoch 512: - nan
 Epoch 513: - nan
 Epoch 514: - nan
 Epoch 515: - nan
-Epoch 516: - nan
-Epoch 517: - nan
-Epoch 518: - nan
-Epoch 519: - nan
-Epoch 520: - nan
+Epoch 516: Wake 1
+Epoch 517: Wake 1
+Epoch 518: Wake 1
+Epoch 519: Wake 1
+Epoch 520: Wake 1
 Epoch 521: - nan
 Epoch 522: - nan
 Epoch 523: - nan
@@ -760,8 +760,8 @@ Epoch 759: - nan
 Epoch 760: - nan
 Epoch 761: - nan
 Epoch 762: - nan
-Epoch 763: - nan
-Epoch 764: - nan
+Epoch 763: N1 -1
+Epoch 764: N1 -1
 Epoch 765: - nan
 Epoch 766: - nan
 Epoch 767: - nan
@@ -959,3 +959,15 @@ Epoch 958: - nan
 Epoch 959: - nan
 Epoch 960: - nan
 Epoch 961: - nan
+Artifact 1 (in s): 164.894 to 165.067
+Artifact 2 (in s): 0.0 to 1.936
+Artifact 3 (in s): 190.887 to 196.799
+Artifact 4 (in s): 240.0 to 257.956
+Artifact 5 (in s): 280.934 to 300.0
+Artifact 6 (in s): 300.0 to 304.188
+Artifact 7 (in s): 317.924 to 320.278
+Artifact 8 (in s): 15466.326 to 15475.182
+Artifact 9 (in s): 15480.008 to 15483.605
+Artifact 10 (in s): 15500.467 to 15506.528
+Artifact 11 (in s): 15605.243 to 15610.525
+Artifact 12 (in s): 22868.077 to 22883.317

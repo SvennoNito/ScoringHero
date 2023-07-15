@@ -51,6 +51,9 @@ class EEG_class(QtWidgets.QWidget):
         layout = QtWidgets.QVBoxLayout(self.axes)
         layout.addWidget(self.textfield)
 
+    def add_info(self, info):
+        self.srate = info['SamplingRate']
+
     def add_chaninfo(self, chaninfo):
         self.chaninfo = chaninfo
 
