@@ -17,8 +17,6 @@ import numpy as np
 import scipy.io, os
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-from draw_hypnogram import *
-from ui_plotfunctions import *
 import ui_classes.epochSpectrum as epochSpectrum
 from scipy.signal import welch, spectrogram
 #from ui_classes.EEG_class import EEG_class
@@ -46,7 +44,7 @@ class Ui_MainWindow(QMainWindow):
         self.scoringFile        = []
         self.greenLine          = []
         self.scaleDialogeBox    = []
-        self.annotationBox      = annotationBox
+        self.annotationBox      = annotationBox()
 
     def keyPressEvent(self, event):
         print(event.key())
@@ -106,15 +104,10 @@ class Ui_MainWindow(QMainWindow):
         this_epoch = self.this_epoch
         self.EEG.update_text(this_epoch, this_stage)
         self.spectogram.add_line(this_epoch)
-
-        #self.this_stage = self.hypnogram.stages[self.this_epoch][0]
         self.hypnogram.update(this_epoch)
         self.quickSaveSleepStages()
         self.resetGreenLine()          # Removes the greenLine widget
-        #self.epochpower.update(this_epoch)
-        # self.epochSpectrum.drawLines(self.epochSpec, this_epoch)
-        # self.epochSpectrum.drawImage(self.epochSpec.plot, self.this_epoch)
-        # self.EpochStage.adjustSize()
+
 
    
 
@@ -174,7 +167,6 @@ class Ui_MainWindow(QMainWindow):
         self.EEG.scaleChannels(self.scaleDialogeBox.chaninfo, self.this_epoch) 
 
     def define_annotations(self):
-        self.annotationBox = annotationBox()
         self.annotationBox.exec_()
 
     def openEEGFile(self):
@@ -183,7 +175,8 @@ class Ui_MainWindow(QMainWindow):
         EEG_filename, EEG_extension = os.path.splitext(EEG_file)
         if EEG_extension == '.mat':
             self.EEG.data  = scipy.io.loadmat(EEG_file)['EEG']['data'][0][0]
-            self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0]   
+            self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0] 
+        self.scoringFile = f'{EEG_filename}.txt'
         self.initiate()
 
     def initiate(self):
@@ -347,8 +340,8 @@ class Ui_MainWindow(QMainWindow):
 
         # Developer mode
         scriptpath      = os.path.dirname(os.path.abspath(__file__))
-        self.EEG.data   = scipy.io.loadmat(f'{scriptpath}\example_data.mat')['EEG']['data'][0][0]  
-        self.EEG.srate  = scipy.io.loadmat(f'{scriptpath}\example_data.mat')['EEG']['srate'][0][0][0][0]
+        self.EEG.data   = scipy.io.loadmat(f'{scriptpath}\example_data\example_data.mat')['EEG']['data'][0][0]  
+        self.EEG.srate  = scipy.io.loadmat(f'{scriptpath}\example_data\example_data.mat')['EEG']['srate'][0][0][0][0]
         self.initiate()
 
         # Makes GUI listen to key strokes
