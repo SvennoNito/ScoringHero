@@ -92,18 +92,26 @@ class EEG_class(QtWidgets.QWidget):
                 self.axes.plot(timevec, dotted_line - self.shift*self.nchans*channelCount - 37.5*self.chaninfo[count]['Scale'], pen=dotted_pen)
                 self.axes.plot(timevec, dotted_line - self.shift*self.nchans*channelCount - 0, pen=dashed_pen)
                 
-                # Add text
-                if channelCount == 0 and thisepoch == 1:  # Only add text on the first channel
-                    text1 = pg.TextItem(text="+37.5 \u03BCV", color='k', anchor=(0, 0.5))
-                    text2 = pg.TextItem(text="-37.5 \u03BCV", color='k', anchor=(0, 0.5))
+                # Add +37.5 muV text on the first channel
+                if channelCount == 0 and thisepoch == 1:
+                    text1 = pg.TextItem(text="+37.5 \u03BCV", color=(150,150,150), anchor=(0, 0.5))
+                    text2 = pg.TextItem(text="-37.5 \u03BCV", color=(150,150,150), anchor=(0, 0.5))
                     text1.setPos(timevec[0], 0-self.shift*self.nchans*channelCount + 37.5*self.chaninfo[count]['Scale'])
                     text2.setPos(timevec[0], 0-self.shift*self.nchans*channelCount - 37.5*self.chaninfo[count]['Scale'])  
-                    font = QtGui.QFont(); font.setPixelSize(20)
+                    font = QtGui.QFont(); font.setPixelSize(18)
                     text1.setFont(font)
                     text2.setFont(font)
                     self.axes.addItem(text1)
                     self.axes.addItem(text2)
 
+                # Add channel labels
+                text = pg.TextItem(text=self.chaninfo[count]['Channel'], color=(150,150,150), anchor=(0, 0.5))
+                text.setPos(timevec[0], 0-self.shift*self.nchans*channelCount)  
+                font = QtGui.QFont(); font.setPixelSize(20)
+                text.setFont(font)
+                self.axes.addItem(text)
+
+                # Next channel
                 channelCount += 1
 
         
@@ -137,21 +145,36 @@ class EEG_class(QtWidgets.QWidget):
     def update_text(self, this_epoch, this_stage):
         self.textfield.setText(f'Epoch {this_epoch}/{self.numepo}: {this_stage}') 
 
-    def scaleChannels(self, scaleDialogeBox, thisepoch):
-        self.scales             = [spinbox.value() for spinbox in scaleDialogeBox.scaling_spinboxes]
-        self.displayChannels    = [checkbox.isChecked() for checkbox in scaleDialogeBox.displayChannels]
-        self.channelColors      = scaleDialogeBox.channelColors
+    def scaleChannels(self, chaninfo, thisepoch):
+        self.chaninfo = chaninfo
         self.showEEG(thisepoch)       
 
     def storeArtefacts(self, greenLines):
-        for line in greenLines.storedLines:
-            self.artefacts.append(
-                [round(greenLines.axes.plotItem.vb.mapSceneToView(line[0]).x(),3),
-                round(greenLines.axes.plotItem.vb.mapSceneToView(line[1]).x(),3)]
-            )
-        unique_set      = []
-        [unique_set.append(x) for x in self.artefacts if x not in unique_set]
-        self.artefacts  = unique_set
+
+        if len(greenLines.storedLines) == 0: # Whole epoch is artefact
+            new_area = self.axes.getAxis('bottom').range
+            if new_area not in self.artefacts:
+                self.artefacts.append(new_area) # Store epoch
+            else:
+                self.artefacts.remove(new_area) # Remove epoch
+                self.removeArtefacts()
+
+        
+        else: # Only green lines as artefact
+            for line in greenLines.storedLines:
+                self.artefacts.append(
+                    [round(greenLines.axes.plotItem.vb.mapSceneToView(line[0]).x(),3),
+                    round(greenLines.axes.plotItem.vb.mapSceneToView(line[1]).x(),3)] )
+            unique_set      = [] # Otherwise old green lines will add up
+            [unique_set.append(x) for x in self.artefacts if x not in unique_set]
+            self.artefacts  = unique_set
+
+        # Remove too short areas
+        for artefact in self.artefacts:
+            if artefact[0] == artefact[1]:
+                self.artefacts.remove(artefact)
+
+        # Show artefact
         self.showArtefacts()
 
     def addArtefact(self, start, stop):
@@ -160,7 +183,7 @@ class EEG_class(QtWidgets.QWidget):
     def showArtefacts(self):
         y_range = self.axes.getAxis('left').range
         for artefact in self.artefacts:
-            red_area = pg.LinearRegionItem(brush=(255, 0, 0, 100))
+            red_area = pg.LinearRegionItem(brush=(255, 200, 200, 100))
             red_area.setRegion([artefact[0], artefact[1], y_range[0], y_range[1]])
             self.axes.addItem(red_area)         
 

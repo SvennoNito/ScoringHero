@@ -8,43 +8,49 @@ class scaleDialogeBox(QtWidgets.QDialog):
         super().__init__(parent)
         layout = QVBoxLayout(self)
         form_layout = QFormLayout()
-        self.chaninfos = chaninfos
+        self.chaninfo = chaninfos
+        self.scale      = []
+        self.display    = []
+        self.color      = []
 
         # Loop through channels
-        for chanNdx, chaninfo in enumerate(chaninfos):
-            label = QLabel(f"Channel {chanNdx+1}")
+        for chanNdx, chaninfo in enumerate(self.chaninfo):
+
+            # Channe label
+            labelbox = QLabel(chaninfo['Channel'])
+            labelbox.setAlignment(QtCore.Qt.AlignRight)
+            labelbox.setFixedWidth(max(len(chaninfo['Channel']) for chaninfo in self.chaninfo)*8)
+
+            # Value by which EEG is multiplied
             spinbox = QDoubleSpinBox(self)
             spinbox.setMinimum(0)
-            #spinbox.setMaximum(100)
             spinbox.setValue(chaninfo['Scale'])
-            spinbox.valueChanged.connect(self.emit_signal)  # Connect the valueChanged signal of the spin box to the spinBoxValueChanged method
+            spinbox.valueChanged.connect(self.emit_signal)  
 
-
+            # Whether channel is displayed or not
             checkbox = QCheckBox(self)
-            checkbox.setChecked(chaninfo['Display'])  # Checkbox initially checked   
-            checkbox.clicked.connect(self.emit_signal)  # Connect the checkbox clicked signal to the checkboxClicked method
+            checkbox.setChecked(chaninfo['Display']) 
+            checkbox.clicked.connect(self.emit_signal)
 
-            #color_box = QColorDialog(self)
-            #color_button = QPushButton('Choose Color', self)
-            #color_button.clicked.connect(lambda checked, color_box=color_box, chanNdx=chanNdx: self.changeColor(color_box, chanNdx))
-            color_combo = QComboBox(self)
-            color_combo.addItem("Black")
-            color_combo.addItem("Blue")
-            color_combo.addItem("Magenta")
-            color_combo.setCurrentText(chaninfo['Color'])
-            color_combo.currentIndexChanged.connect(lambda index, chanNdx=chanNdx: self.changeColor(index, chanNdx))
+            # Channel color
+            colorbox = QComboBox(self)
+            colorbox.addItem("Black")
+            colorbox.addItem("Blue")
+            colorbox.addItem("Magenta")
+            colorbox.setCurrentText(chaninfo['Color'])
+            colorbox.currentIndexChanged.connect(self.emit_signal)
 
             # Layout
             row_layout = QHBoxLayout()
-            row_layout.addWidget(label)
+            row_layout.addWidget(labelbox)
             row_layout.addWidget(checkbox)
             row_layout.addWidget(spinbox)
-            row_layout.addWidget(color_combo)
+            row_layout.addWidget(colorbox)
             form_layout.addRow(row_layout)
 
-            #self.scaling_spinboxes.append(spinbox) # append  
-            #self.displayChannels.append(checkbox)
-            #self.channelColors.append('Black')
+            self.scale.append(spinbox) # append  
+            self.display.append(checkbox)
+            self.color.append(colorbox)
 
         layout.addLayout(form_layout)
 
@@ -54,6 +60,10 @@ class scaleDialogeBox(QtWidgets.QDialog):
         self.emit_signal()
 
     def emit_signal(self):
+        for counter, chaninfo in enumerate(self.chaninfo):
+            chaninfo['Color']   = self.color[counter].currentText()
+            chaninfo['Display'] = self.display[counter].isChecked()
+            chaninfo['Scale']   = self.scale[counter].value()
         self.changesMade.emit()
 
     

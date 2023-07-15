@@ -32,33 +32,21 @@ from hypnogram import *
 from spectogram import *
 from epochpower import *
 from areapower import *
+from annotationBox import *
 import json
 
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.epochLen_sec       = 30
-        self.epochstart_sec     = 0
-        self.epochend_sec       = self.epochLen_sec
-        self.epochNum           = []
-        self.epochDisplay       = 1
-        self.stageDisplay       = '-'
-        self.sleepStages        = {}
+        self.epolen             = 30
+        self.this_epoch         = 1
+        self.this_stage         = '-'
         self.EEG                = []
-        self.welch_freqs        = []
-        self.welch_power        = []
-        self.spec_times         = []
-        self.spec_freqs         = []
-        self.spec_power         = [] 
-        self.spectrogram_p1     = []
         self.scoringFile        = []
-        self.shift              = 25    
         self.greenLine          = []
-        self.scales             = []
         self.scaleDialogeBox    = []
-        self.displayChannels    = []
-        self.channelColors      = []
+        self.annotationBox      = annotationBox
 
     def keyPressEvent(self, event):
         print(event.key())
@@ -71,25 +59,17 @@ class Ui_MainWindow(QMainWindow):
         scoring_file, _  = QtWidgets.QFileDialog.getOpenFileName(None, 'Open .txt file', r'C:\PhDScripts\Sides\ScoringHero', '*.txt')
         scoring_filename, scoring_extension = os.path.splitext(scoring_file)
         self.scoringFile = scoring_file
-        read_artefacts = 0
-        skip_line = 0
         if scoring_extension == '.txt':
             with open(scoring_file, 'r') as file:
                 lines = file.readlines()                  
                 for line in lines: # Read the last word of each row until an empty row is encountered
-                    line = line.strip()  # Remove leading/trailing whitespace
-                    if line == '':
-                        skip_line = 1
-                        continue
-                    if skip_line == 1:
-                        skip_line = 0
-                        read_artefacts = 1
-                        continue                        
-                    if read_artefacts == 0:
+                    line    = line.strip()  # Remove leading/trailing whitespace
+                    words   = line.split()
+                    if words[0] == 'Epoch':
                         stageinfo       = line.split()
                         stageinfo[1]    = stageinfo[1].replace(":", "")
                         self.hypnogram.assign_stage(int(stageinfo[1]), stageinfo[2])   
-                    elif read_artefacts == 1:                            
+                    elif  words[0] == 'Artifact':                           
                         start = float(line.split()[-3])/self.EEG.timesby
                         stop = float(line.split()[-1])/self.EEG.timesby
                         self.EEG.addArtefact(start, stop)
@@ -98,117 +78,92 @@ class Ui_MainWindow(QMainWindow):
         self.EEG.showArtefacts()
           
     def labelArtefact(self):
-        #self.greenLine.labelArtefact()      
         self.EEG.storeArtefacts(self.greenLine)  
 
     def removeArtefact(self):
         self.EEG.removeArtefacts()                        
 
     def saveSleepStages(self):
-        # Open a file dialog to choose the save location and filename
-        filename, _         = QFileDialog.getSaveFileName(None, "Save Sleep Stages", "", "Text Files (*.txt)")
+        filename, _         = QFileDialog.getSaveFileName(None, "Save Sleep Stages", "", "Text Files (*.txt)") # Open a file dialog to choose the save location and filename
         self.scoringFile    = filename
-
-        #path = os.path.dirname(filename)
-        #name = os.path.splitext(os.path.basename(filename))[0]
-        #ext  = os.path.splitext(os.path.basename(filename))[1]
-        #self.artefactFile = os.path.join(path, f'{name}_art{ext}')
-
-        # Write the sleep stages to the text file
         self.quickSaveSleepStages()
 
-    def quickSaveSleepStages(self):
-        # Save sleep scoring file
+    def quickSaveSleepStages(self): # Write the sleep stages to the text file
         filename = self.scoringFile
-
         if len(filename) > 0:
-            # Write the sleep stages to the text file
             with open(filename, 'w') as file:
                 for epoch, stage in self.hypnogram.stages.items():
-                    file.write(f"Epoch {epoch}: {stage[0]}\n") 
-                file.write(f"\nManually labeled artefact periods (in seconds):\n") 
+                    file.write(f"Epoch {epoch}: {stage[0]} {stage[1]}\n") # Write the sleep stages to the text file
                 for count, period in enumerate(self.EEG.artefacts):
-                    file.write(f"Artifact {count+1}: {round(period[0]*self.EEG.timesby, 3)} to {round(period[1]*self.EEG.timesby, 3)}\n") # artefacts
+                    file.write(f"Artifact {count+1} (in s): {round(period[0]*self.EEG.timesby, 3)} to {round(period[1]*self.EEG.timesby, 3)}\n") # artefacts
 
     def resetGreenLine(self):
         if self.greenLine:
             self.greenLine.reset()       
         
     def updateStageDisplay(self):
-        # Updates the sleep stage of the current epoch
-        this_stage = self.hypnogram.stages[self.epochDisplay][0]
-        this_epoch = self.epochDisplay
+        this_stage = self.hypnogram.stages[self.this_epoch][0]
+        this_epoch = self.this_epoch
         self.EEG.update_text(this_epoch, this_stage)
+        self.spectogram.add_line(this_epoch)
 
-        #self.stageDisplay = self.hypnogram.stages[self.epochDisplay][0]
+        #self.this_stage = self.hypnogram.stages[self.this_epoch][0]
         self.hypnogram.update(this_epoch)
         self.quickSaveSleepStages()
         self.resetGreenLine()          # Removes the greenLine widget
-        self.epochpower.update(this_epoch)
+        #self.epochpower.update(this_epoch)
         # self.epochSpectrum.drawLines(self.epochSpec, this_epoch)
-        # self.epochSpectrum.drawImage(self.epochSpec.plot, self.epochDisplay)
+        # self.epochSpectrum.drawImage(self.epochSpec.plot, self.this_epoch)
         # self.EpochStage.adjustSize()
 
    
 
     def scoreN1(self):     
-        self.hypnogram.stages[self.epochDisplay] = ['N1', -1]  
+        self.hypnogram.stages[self.this_epoch] = ['N1', -1]  
         self.updateStageDisplay()   
         self.nextEpoch()
 
     def scoreN2(self):     
-        self.hypnogram.stages[self.epochDisplay] = ['N2', -2]  
+        self.hypnogram.stages[self.this_epoch] = ['N2', -2]  
         self.updateStageDisplay() 
         self.nextEpoch()
 
     def scoreN3(self):     
-        self.hypnogram.stages[self.epochDisplay] = ['N3', -3]  
+        self.hypnogram.stages[self.this_epoch] = ['N3', -3]  
         self.updateStageDisplay() 
         self.nextEpoch()
 
     def scoreWake(self):     
-        self.hypnogram.stages[self.epochDisplay] = ['Wake', 1]  
+        self.hypnogram.stages[self.this_epoch] = ['Wake', 1]  
         self.updateStageDisplay() 
         self.nextEpoch()
 
     def scoreREM(self):     
-        self.hypnogram.stages[self.epochDisplay] = ['REM', 0]  
+        self.hypnogram.stages[self.this_epoch] = ['REM', 0]  
         self.updateStageDisplay()        
         self.nextEpoch()       
 
     def hypnoClick(self, event):
-        vb = self.hypnogram.axes.plotItem.vb
-        scene_coords = event.scenePos()
-        if self.hypnogram.axes.sceneBoundingRect().contains(scene_coords):
-            mouse_point = vb.mapSceneToView(scene_coords)
-            self.epochDisplay = np.round(mouse_point.x()/self.epochLen_sec*3600)
-            self.EEG.showEEG(self.epochDisplay)
-            self.updateStageDisplay()
+        self.this_epoch = self.hypnogram.onclick(event)
+        self.EEG.showEEG(self.this_epoch)
+        self.updateStageDisplay()
 
     def spectogramClick(self, event):
-        self.epochDisplay = self.spectogram.map(event)
-        self.EEG.showEEG(self.epochDisplay)
+        self.this_epoch = self.spectogram.map(event)
+        self.EEG.showEEG(self.this_epoch)
         self.updateStageDisplay()            
 
     def previousEpoch(self):
-        if self.epochDisplay > 1:
-            self.epochDisplay -= 1
-            self.EEG.showEEG(self.epochDisplay) # Plot previous epoch   
+        if self.this_epoch > 1:
+            self.this_epoch -= 1
+            self.EEG.showEEG(self.this_epoch) # Plot previous epoch   
             self.updateStageDisplay() 
 
     def nextEpoch(self):
-        if self.epochDisplay < self.EEG.numepo:
-            self.epochDisplay += 1       
-            self.EEG.showEEG(self.epochDisplay) # Plot next epoch
+        if self.this_epoch < self.EEG.numepo:
+            self.this_epoch += 1       
+            self.EEG.showEEG(self.this_epoch) # Plot next epoch
             self.updateStageDisplay() 
-
-    def openEEGFile(self):
-        # Function to call when loading the EEG file.
-        EEG_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', r'C:\PhDScripts\Sides\ScoringHero', '*.mat')
-        EEG_filename, EEG_extension = os.path.splitext(EEG_file)
-        if EEG_extension == '.mat':
-            self.EEG.data  = scipy.io.loadmat(EEG_file)['EEG']['data'][0][0]
-            self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0]
 
     def scaleChannels(self):
         self.scaleDialogeBox = scaleDialogeBox(self.EEG.chaninfo)
@@ -216,7 +171,36 @@ class Ui_MainWindow(QMainWindow):
         self.scaleDialogeBox.exec_()
 
     def respond_to_scaleDialogeBox(self):
-        self.EEG.scaleChannels(self.scaleDialogeBox, self.epochDisplay) 
+        self.EEG.scaleChannels(self.scaleDialogeBox.chaninfo, self.this_epoch) 
+
+    def define_annotations(self):
+        self.annotationBox = annotationBox()
+        self.annotationBox.exec_()
+
+    def openEEGFile(self):
+        # Function to call when loading the EEG file.
+        EEG_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', r'C:\PhDScripts\Sides\ScoringHero', '*.mat')
+        EEG_filename, EEG_extension = os.path.splitext(EEG_file)
+        if EEG_extension == '.mat':
+            self.EEG.data  = scipy.io.loadmat(EEG_file)['EEG']['data'][0][0]
+            self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0]   
+        self.initiate()
+
+    def initiate(self):
+        with open("config.json", "r") as file:
+            config = json.load(file)        
+            self.EEG.add_chaninfo(config)
+
+        self.EEG.update(self.epolen)
+        self.EEG.showEEG(self.this_epoch)
+        self.hypnogram.initiate(self.EEG.numepo, self.EEG.epolen)
+        self.spectogram.initiate(self.EEG)
+        self.spectogram.add_line(self.this_epoch)
+        self.EEG.update_text(self.this_epoch, self.this_stage)
+        #self.epochpower.initiate(self.EEG)
+        #self.epochpower.update(self.this_epoch)
+        self.areapower.initiate(self.EEG)
+        self.greenLine.initiate(self.EEG)
 
 
     def setupUi(self, MainWindow):
@@ -230,28 +214,15 @@ class Ui_MainWindow(QMainWindow):
         layout = QtWidgets.QGridLayout()
         self.centralwidget.setLayout(layout) 
 
-
-
         # Create classes
         self.EEG        = EEG_class(self.centralwidget)
         self.hypnogram  = hypnogram(self.centralwidget)
         self.spectogram = spectogram(self.centralwidget)
-        self.epochpower = epochpower(self.centralwidget)
+        #self.epochpower = epochpower(self.centralwidget)
         self.areapower  = areapower(self.centralwidget)
         self.greenLine  = greenLine(self.areapower)
         self.hypnogram.axes.scene().sigMouseClicked.connect(self.hypnoClick)
         self.spectogram.graphics.scene().sigMouseClicked.connect(self.spectogramClick)
-
-
-
-        # Spectrogram
-        pg.setConfigOptions(imageAxisOrder='row-major')
-        #self.epochSpec      = pg.GraphicsLayoutWidget(self.centralwidget)
-        #self.epochSpec.plot = self.epochSpec.addPlot()
-        self.epochSpec = PlotWidget(self.centralwidget)
-        self.epochSpec.setObjectName("epochSpec")
-        self.epochSpec.setBackground('w')
-
 
         # Layout
         layout.addWidget(self.EEG.axes,                 10, 0,  85,  100)
@@ -259,16 +230,9 @@ class Ui_MainWindow(QMainWindow):
         layout.addWidget(self.spectogram.graphics,      0,  0,  10,  70)
         layout.addWidget(self.hypnogram.axes,           0, 85,  10,  15)
         layout.addWidget(self.areapower.axes,           0, 70,  10,  15)
-        layout.addWidget(self.epochpower.axes,          95, 0,  5, 100)
+        #layout.addWidget(self.epochpower.axes,          95, 0,  5, 100)
 
-        #layout.addWidget(self.epochSpec,    97, 0,  2, 100)
    
-
-
-
-
-
-
 
 
 
@@ -279,33 +243,35 @@ class Ui_MainWindow(QMainWindow):
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 22))
         self.menubar.setObjectName("menubar")
 
-        # Menubar fields
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
         self.menuHelp = QtWidgets.QMenu(self.menubar)
         self.menuHelp.setObjectName("menuHelp")
-        self.menuChannels = QtWidgets.QMenu(self.menubar)
-        self.menuChannels.setObjectName("menuChannels")
+        self.menuEdit = QtWidgets.QMenu(self.menubar)
+        self.menuEdit.setObjectName("menuEdit")
         self.menuView = QtWidgets.QMenu(self.menubar)
         self.menuView.setObjectName("menuView")
         self.menuStages = QtWidgets.QMenu(self.menubar)
         self.menuStages.setObjectName("menuStages")
-        self.menuActions = QtWidgets.QMenu(self.menubar)  # Add the "Actions" menu
-        self.menuActions.setObjectName("menuActions")  # Set the object name
+        self.menuActions = QtWidgets.QMenu(self.menubar)
+        self.menuActions.setObjectName("menuActions")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        # Menubar actions
         self.actionOpen = QtWidgets.QAction(MainWindow)
         self.actionOpen.setObjectName("actionOpen")
+        self.actionLoadWork = QtWidgets.QAction(MainWindow)
+        self.actionLoadWork.setObjectName("actionLoadWork")
         self.actionSave = QtWidgets.QAction(MainWindow)
         self.actionSave.setObjectName("actionSave")
-        self.actionAbout = QtWidgets.QAction(MainWindow)
-        self.actionAbout.setObjectName("actionAbout")
         self.actionChannels = QtWidgets.QAction(MainWindow)
         self.actionChannels.setObjectName("actionChannels")
+        self.actionAnnotations = QtWidgets.QAction(MainWindow)
+        self.actionAnnotations.setObjectName("actionAnnotations")
+        self.actionAbout = QtWidgets.QAction(MainWindow)
+        self.actionAbout.setObjectName("actionAbout")
         self.actionHypnogram = QtWidgets.QAction(MainWindow)
         self.actionHypnogram.setObjectName("actionHypnogram")
         self.actionSpectogram = QtWidgets.QAction(MainWindow)
@@ -320,17 +286,18 @@ class Ui_MainWindow(QMainWindow):
         self.actionWake.setObjectName("actionWake")
         self.actionREM = QtWidgets.QAction(MainWindow)
         self.actionREM.setObjectName("actionREM")
-        self.actionLabelArtefacts = QtWidgets.QAction(MainWindow)  # Add the "Label artefacts" action
+        self.actionLabelArtefacts = QtWidgets.QAction(MainWindow)
         self.actionLabelArtefacts.setObjectName("actionLabelArtefacts")
-        self.actionRemoveArtefacts = QtWidgets.QAction(MainWindow)  # Add the "Remove artefacts" action
+        self.actionRemoveArtefacts = QtWidgets.QAction(MainWindow)
         self.actionRemoveArtefacts.setObjectName("actionRemoveArtefacts")
 
-        # Action menu subfields to field
         self.menuFile.addAction(self.actionOpen)
+        self.menuFile.addAction(self.actionLoadWork)
         self.menuFile.addAction(self.actionSave)
         self.menuHelp.addAction(self.actionAbout)
-        self.menuChannels.addAction(self.actionChannels)
-        self.menuChannels.addSeparator()
+        self.menuEdit.addAction(self.actionChannels)
+        self.menuEdit.addAction(self.actionAnnotations)
+        self.menuEdit.addSeparator()
         self.menuView.addAction(self.actionHypnogram)
         self.menuView.addAction(self.actionSpectogram)
         self.menuView.addSeparator()
@@ -339,70 +306,60 @@ class Ui_MainWindow(QMainWindow):
         self.menuStages.addAction(self.actionN2)
         self.menuStages.addAction(self.actionN3)
         self.menuStages.addAction(self.actionREM)
-        self.menuActions.addAction(self.actionLabelArtefacts)  # Add the "Label artefacts" action to the "Actions" menu
-        self.menuActions.addAction(self.actionRemoveArtefacts)  # Add the "Remove artefacts" action to the "Actions" menu
-        
+        self.menuActions.addAction(self.actionLabelArtefacts)
+        self.menuActions.addAction(self.actionRemoveArtefacts)
+
         self.menubar.addAction(self.menuFile.menuAction())
-        self.menubar.addAction(self.menuChannels.menuAction())
+        self.menubar.addAction(self.menuEdit.menuAction())
         self.menubar.addAction(self.menuStages.menuAction())
         self.menubar.addAction(self.menuView.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
-        self.menubar.addAction(self.menuActions.menuAction())  # Add the "Actions" menu to the menu bar
-
-        # Load hypnogram
-        self.actionLoadWork = QtWidgets.QAction(MainWindow)
-        self.actionLoadWork.setObjectName("actionLoadWork")        
-        self.menuFile.addAction(self.actionLoadWork)
+        self.menubar.addAction(self.menuActions.menuAction())
 
         self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)        
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        # Menu: "Open"
         self.actionOpen.triggered.connect(lambda: self.openEEGFile())
         self.actionLoadWork.triggered.connect(lambda: self.loadWork())
+        self.actionSave.triggered.connect(lambda: self.saveSleepStages())
+        self.actionChannels.triggered.connect(lambda: self.scaleChannels())
+        self.actionAnnotations.triggered.connect(lambda: self.define_annotations())
+        self.actionAbout.triggered.connect(lambda: self.aboutDialog())
+        self.actionHypnogram.triggered.connect(lambda: self.showHypnogram())
+        self.actionSpectogram.triggered.connect(lambda: self.showSpectogram())
         self.actionN1.triggered.connect(lambda: self.scoreN1())
         self.actionN2.triggered.connect(lambda: self.scoreN2())
         self.actionN3.triggered.connect(lambda: self.scoreN3())
         self.actionWake.triggered.connect(lambda: self.scoreWake())
         self.actionREM.triggered.connect(lambda: self.scoreREM())
-        self.actionSave.triggered.connect(lambda: self.saveSleepStages())
-        self.actionChannels.triggered.connect(lambda: self.scaleChannels())
-        self.actionLabelArtefacts.triggered.connect(lambda: self.labelArtefact())  # Connect the action to the labelArtefact method
-        self.actionRemoveArtefacts.triggered.connect(lambda: self.removeArtefact())  # Connect the action to the labelArtefact method
+        self.actionLabelArtefacts.triggered.connect(lambda: self.labelArtefact())
+        self.actionRemoveArtefacts.triggered.connect(lambda: self.removeArtefact())
 
-        # Makes GUI listen to key strokes
-        MainWindow.keyPressEvent = self.keyPressEvent
 
-        with open("config.json", "r") as file:
-            config = json.load(file)        
-            self.EEG.add_chaninfo(config)
+
+
+
+
+
+
+
+
 
         # Developer mode
-        scriptpath = os.path.dirname(os.path.abspath(__file__))
-        self.EEG.data  = scipy.io.loadmat(f'{scriptpath}\dummyfile.mat')['EEG']['data'][0][0]  
-        self.EEG.srate = scipy.io.loadmat(f'{scriptpath}\dummyfile.mat')['EEG']['srate'][0][0][0][0]
-        self.EEG.update(self.epochLen_sec)
-        self.sleepStages = {key: ['-', float("nan")] for key in np.arange(1, self.EEG.numepo, dtype=int)}
-        self.EEG.showEEG(self.epochDisplay)
-        self.hypnogram.initiate(self.EEG.numepo, self.EEG.epolen)
-        self.spectogram.initiate(self.EEG)
-        #self.epochSpectrum = epochSpectrum(self.EEG)
-        #self.epochSpectrum.drawLines(self.epochSpec, self.epochDisplay)
-        self.EEG.update_text(self.epochDisplay, self.stageDisplay)
-        self.epochpower.initiate(self.EEG)
-        self.epochpower.update(self.epochDisplay)
-        self.areapower.initiate(self.EEG)
-        self.greenLine.initiate(self.EEG)
-        #self.epochSpectrum.drawImage(self.epochSpec.plot, self.epochDisplay)
+        scriptpath      = os.path.dirname(os.path.abspath(__file__))
+        self.EEG.data   = scipy.io.loadmat(f'{scriptpath}\example_data.mat')['EEG']['data'][0][0]  
+        self.EEG.srate  = scipy.io.loadmat(f'{scriptpath}\example_data.mat')['EEG']['srate'][0][0][0][0]
+        self.initiate()
 
-
+        # Makes GUI listen to key strokes
+        MainWindow.keyPressEvent = self.keyPressEvent        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
-        self.menuChannels.setTitle(_translate("MainWindow", "Edit"))
+        self.menuEdit.setTitle(_translate("MainWindow", "Edit"))
         self.menuView.setTitle(_translate("MainWindow", "View"))
         self.menuStages.setTitle(_translate("MainWindow", "Stages"))
         self.menuActions.setTitle(_translate("MainWindow", "Actions"))
@@ -430,11 +387,13 @@ class Ui_MainWindow(QMainWindow):
         self.actionREM.setText(_translate("MainWindow", "REM"))
         self.actionREM.setShortcut(_translate("MainWindow", "R"))
         self.actionLabelArtefacts.setText(_translate("MainWindow", "Label artefacts"))
-        self.actionLabelArtefacts.setShortcut(_translate("MainWindow", "Ctrl+A"))  # Add this line for the shortcut
+        self.actionLabelArtefacts.setShortcut(_translate("MainWindow", "A"))  # Add this line for the shortcut
         self.actionRemoveArtefacts.setText(_translate("MainWindow", "Remove labeled artefacts"))
-        self.actionRemoveArtefacts.setShortcut(_translate("MainWindow", "Ctrl+Shift+A"))  # Add this line for the shortcut
+        self.actionRemoveArtefacts.setShortcut(_translate("MainWindow", "Ctrl+A"))  # Add this line for the shortcut
         self.actionLoadWork.setText(_translate("MainWindow", "Load previous work"))
         self.actionLoadWork.setShortcut(_translate("MainWindow", "Ctrl+Shift+O"))  # Add this line for the shortcut
+        self.actionAnnotations.setText(_translate("MainWindow", "Edit annotations"))
+        self.actionAnnotations.setShortcut(_translate("MainWindow", "Ctrl+E"))  # Add this line for the shortcut
 
 
 if __name__ == "__main__":

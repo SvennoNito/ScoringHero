@@ -31,6 +31,14 @@ class hypnogram(QtWidgets.QWidget):
         self.axes.setMouseEnabled(x=False, y=False)
         #self.axes.setLabel('bottom', 'Time (h)', **{'color':'r', 'font-size':'16px'})
 
+    def onclick(self, event):
+        vb              = self.axes.plotItem.vb
+        scene_coords    = event.scenePos()
+        if self.axes.sceneBoundingRect().contains(scene_coords):
+             mouse_point = vb.mapSceneToView(scene_coords)
+             this_epoch  = np.round(mouse_point.x()/self.epolen*3600)
+             return int(this_epoch)
+
     def assign_number(self, text):
         if text.lower() == "wake":
             return 1
@@ -69,7 +77,7 @@ class hypnogram(QtWidgets.QWidget):
         # Adjust axis
         self.axes.setXRange(0, max(self.times), padding=0)    
         self.axes.setYRange(min(yticks)-.5, max(yticks)+.5, padding=0)   
-        ticklabels = [(tick, f'{tick} h') for tick in np.arange(0, 100, 0.5)]
+        ticklabels = [(tick, f'{tick} h') for tick in np.arange(0, 100, 1)]
         self.axes.getAxis('bottom').setTicks([ticklabels])         
 
 
