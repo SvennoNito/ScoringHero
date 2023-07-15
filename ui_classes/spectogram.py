@@ -13,6 +13,7 @@ class spectogram(QtWidgets.QWidget):
         self.power  = []
         self.winlen = 4
         self.img    = []
+        self.vline  = None
 
         # Spectogram widget
         pg.setConfigOptions(imageAxisOrder='row-major')
@@ -48,10 +49,12 @@ class spectogram(QtWidgets.QWidget):
            return int(np.ceil(image_coords.x()))
         
     def add_line(self, this_epoch):
-        self.axes.clear()
-        self.image()
-        vertical_line = pg.InfiniteLine(pos=this_epoch-0.5, angle=90, pen=pg.mkPen(color='k', width=0.8))
-        self.axes.addItem(vertical_line)
+        #self.axes.clear()
+        #self.image()
+        if self.vline is not None:
+            self.axes.removeItem(self.vline)
+        self.vline = pg.InfiniteLine(pos=this_epoch-0.5, angle=90, pen=pg.mkPen(color='k', width=0.8))
+        self.axes.addItem(self.vline)
 
     def build_image(self):
         # https://github.com/epeters13/pyqtspecgram/blob/main/src/pyqtspecgram/pyqtspecgram.py
