@@ -7,10 +7,6 @@ from scipy.signal import welch, spectrogram
 
 class spectogram(QtWidgets.QWidget):
     def __init__(self, centralWidget):
-        self.freqs  = []
-        self.times  = []
-        self.epochs = []
-        self.power  = []
         self.winlen = 4
         self.img    = []
         self.vline  = None
@@ -27,12 +23,13 @@ class spectogram(QtWidgets.QWidget):
         #self.graphics.scene().sigMouseClicked.connect(self.spectogramClick)
 
     def initiate(self, EEG):
-        for epo in range(1, EEG.numepo+1):
-            start = epo*EEG.epolen*EEG.srate - EEG.epolen*EEG.srate
-            end   = epo*EEG.epolen*EEG.srate
-            data  = EEG.data[0][int(start):int(end)]        
+        self.freqs  = []
+        self.times  = []
+        self.power  = []
+        self.epochs = []
 
-            [f, p] = welch(data, fs=EEG.srate, window='hann', nperseg=self.winlen*EEG.srate, detrend='constant', return_onesided=True, scaling='density', average='mean') 
+        for epo in range(EEG.numepo):
+            [f, p] = welch(EEG.data[0][epo], fs=EEG.srate, window='hann', nperseg=self.winlen*EEG.srate, detrend='constant', return_onesided=True, scaling='density', average='mean') 
             self.epochs.append(epo)
             self.power.append(list(p))    
             self.times.append(epo*EEG.epolen - EEG.epolen/2)
@@ -49,8 +46,6 @@ class spectogram(QtWidgets.QWidget):
            return int(np.ceil(image_coords.x()))
         
     def add_line(self, this_epoch):
-        #self.axes.clear()
-        #self.image()
         if self.vline is not None:
             self.axes.removeItem(self.vline)
         self.vline = pg.InfiniteLine(pos=this_epoch-0.5, angle=90, pen=pg.mkPen(color='k', width=0.8))
