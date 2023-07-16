@@ -24,6 +24,7 @@ class hypnogram(QtWidgets.QWidget):
         self.times  = []
         self.numepo = []
         self.epolen = []
+        self.duration_h = []
         self.axes   = pg.PlotWidget(centralWidget)
         self.axes.setObjectName("hypnogram")
         self.axes.setBackground('w')
@@ -58,9 +59,11 @@ class hypnogram(QtWidgets.QWidget):
     def assign_stage(self, epoch, stage):
         self.stages[epoch] = [stage, self.assign_number(stage)]
 
-    def initiate(self, numepo, epolen):
-        self.numepo = numepo
-        self.epolen = epolen
+    def initiate(self, EEG):
+        self.numepo     = EEG.numepo
+        self.epolen     = EEG.epolen
+        self.duration_h = EEG.duration_h
+
         self.stages = {key: ['-', float("nan")] for key in np.arange(1, self.numepo+1, dtype=int)}
         self.axes.setYRange(-4, 1, padding=0) 
         self.axes.setXRange(0, self.numepo, padding=0)
@@ -77,7 +80,9 @@ class hypnogram(QtWidgets.QWidget):
         # Adjust axis
         self.axes.setXRange(0, max(self.times), padding=0)    
         self.axes.setYRange(min(yticks)-.5, max(yticks)+.5, padding=0)   
-        ticklabels = [(tick, f'{tick} h') for tick in np.arange(0, 100, 1)]
+        ticklabels = [(tick, f'{tick}') for tick in np.arange(0, np.round(self.duration_h), dtype=int)]
+        for ndx in [-1]:
+            ticklabels[ndx] = (ticklabels[ndx][0], f'{ticklabels[ndx][1]} h')        
         self.axes.getAxis('bottom').setTicks([ticklabels])         
 
 

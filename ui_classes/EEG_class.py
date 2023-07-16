@@ -25,6 +25,7 @@ class EEG_class(QtWidgets.QWidget):
         self.timesby    = 1     
         self.chaninfo   = {}
         self.times      = []
+        self.duration_h = []
 
         # Widget for plotting
         self.axes = pg.PlotWidget(centralWidget)
@@ -51,6 +52,7 @@ class EEG_class(QtWidgets.QWidget):
         layout = QtWidgets.QVBoxLayout(self.axes)
         layout.addWidget(self.textfield)
 
+
     def add_info(self, info):
         self.srate = info['SamplingRate']
 
@@ -62,6 +64,7 @@ class EEG_class(QtWidgets.QWidget):
         self.points  = len(self.data[0])
         self.epolen  = epolen
         self.numepo  = int(np.floor(self.points / self.srate / epolen))
+        self.duration_h = self.points/self.srate/60/60
         self.data, self.times = self.epoch_data(self.epolen)
 
     def epoch_data(self, epolen):
@@ -161,32 +164,50 @@ class EEG_class(QtWidgets.QWidget):
         self.showEEG(this_epoch)       
 
     def storeArtefacts(self, greenLines):
+        whole_epoch     = self.axes.getAxis('bottom').range # epoch range
+        areas_in_epoch  = [item[0] > whole_epoch[0] and item[1] < whole_epoch[1] for item in self.artefacts] # artefacts in epoch
 
-        if len(greenLines.storedLines) == 0: # Whole epoch is artefact
-            new_area = self.axes.getAxis('bottom').range
-            if new_area not in self.artefacts:
-                self.artefacts.append(new_area) # Store epoch
-            else:
-                self.artefacts.remove(new_area) # Remove epoch
-                self.removeArtefacts()
+        # Remove whole epoch if already marked
+        if whole_epoch in self.artefacts:
+            self.artefacts.remove(whole_epoch) 
+            self.remove_areas()        
 
-        
-        else: # Only green lines as artefact
-            for line in greenLines.storedLines:
-                self.artefacts.append(
-                    [round(greenLines.axes.plotItem.vb.mapSceneToView(line[0]).x(),3),
-                    round(greenLines.axes.plotItem.vb.mapSceneToView(line[1]).x(),3)] )
-            unique_set      = [] # Otherwise old green lines will add up
-            [unique_set.append(x) for x in self.artefacts if x not in unique_set]
-            self.artefacts  = unique_set
+        else: # whole epoch was not marked
+            if len(greenLines.storedLines) == 0: # No green lines, store whole epoch?
+                if any(areas_in_epoch): # epoch already has artefacts, remove those artefacts
+                    for index in np.where(areas_in_epoch):
+                        self.artefacts.remove(self.artefacts[index[0]])
+                    self.remove_areas()
+                elif whole_epoch not in self.artefacts: # store whole epoch
+                    self.artefacts.append(whole_epoch)
+                    self.showArtefacts()
 
-        # Remove too short areas
-        for artefact in self.artefacts:
-            if artefact[0] == artefact[1]:
-                self.artefacts.remove(artefact)
+            else: # there are greeb lines
+                newArtefacts = []
+                for line in greenLines.storedLines: # get all green lines
+                    newArtefacts.append([
+                        round(greenLines.axes.plotItem.vb.mapSceneToView(line[0]).x(),3),
+                        round(greenLines.axes.plotItem.vb.mapSceneToView(line[1]).x(),3)])
+                newArtefacts = [item for item in newArtefacts if item[0] != item[1]] # Remove dublicates
+                if not all(item in self.artefacts for item in newArtefacts): # If there are new artefacts
+                    for item in newArtefacts: # Store those new artefacts
+                        if item not in self.artefacts:
+                            self.artefacts.append(item)
+                    self.showArtefacts()
+                else: # No new artefacts
+                    for item in newArtefacts: # Remove all artefacts
+                        self.artefacts.remove(item)
+                    self.remove_areas() # Remove all red areas
 
-        # Show artefact
-        self.showArtefacts()
+        # Order artefacts based on time
+        self.artefacts.sort()
+     
+
+    def remove_areas(self):
+        for item in self.axes.items():
+            if isinstance(item, pg.LinearRegionItem):
+                self.axes.removeItem(item)  
+
 
     def addArtefact(self, start, stop):
         self.artefacts.append([start, stop])
@@ -194,7 +215,7 @@ class EEG_class(QtWidgets.QWidget):
     def showArtefacts(self):
         y_range = self.axes.getAxis('left').range
         for artefact in self.artefacts:
-            red_area = pg.LinearRegionItem(brush=(255, 200, 200, 100))
+            red_area = pg.LinearRegionItem(brush=(255, 200, 200, 100), pen=pg.mkPen(color=(139, 0, 0), width=2))
             red_area.setRegion([artefact[0], artefact[1], y_range[0], y_range[1]])
             self.axes.addItem(red_area)         
 

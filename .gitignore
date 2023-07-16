@@ -1,4 +1,5 @@
 __pychache__/
 build/
 dist/
-*.pyc
+ui_classes/__pychache__/
+**.pyc

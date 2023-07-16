@@ -70,13 +70,14 @@ class greenLine(QtWidgets.QWidget):
 
     def mouseReleaseEvent(self, event):
         self.pointRightCorner = event.pos()
-        self.fliplr()
-        self.respectBoundaries()
-        self.adjustLength()
-        self.update() # draws the box
-        self.transformCoordinates()
-        self.show_amplitude()
-        self.show_period()    
+        if self.pointRightCorner != self.pointLeftCorner:
+            self.fliplr()
+            self.respectBoundaries()
+            self.adjustLength()
+            self.update() # draws the box
+            self.transformCoordinates()
+            self.show_amplitude()
+            self.show_period()    
 
     def extract_eeg(self):
 
@@ -166,8 +167,8 @@ class greenLine(QtWidgets.QWidget):
         self.storedLines      = []
         self.periodLength     = []
         self.amplitude        = []
-        self.boxLeft       = []
-        self.boxRight      = []
+        self.boxLeft          = []
+        self.boxRight         = []
         self.boxBottom        = []
         self.boxTop           = []        
         self.totalLength      = 0

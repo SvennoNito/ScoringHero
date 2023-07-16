@@ -23,7 +23,9 @@ class areapower(QtWidgets.QWidget):
         self.axes.setLabel('left', 'Power', **{'color':'r', 'font-size':'20px'})
         self.axes.setMouseEnabled(x=False, y=False)
         self.axes.setXRange(0, 30, padding=0)    
-        ticklabels = [(tick, f'{tick}Hz') for tick in np.round(np.arange(0, 30, 3), 1)]
+        ticklabels = [(tick, f'{tick}') for tick in np.round(np.arange(0, 30, 3), 1)]
+        for ndx in [-1]:
+            ticklabels[ndx] = (ticklabels[ndx][0], f'{ticklabels[ndx][1]} Hz')
         #ticklabels = [(tick, '') for tick in np.arange(0, 30, 2)]
         #for tick in np.arange(0, 30, 4):
         #    ticklabels[int(tick/2)] = (tick, f'{tick}Hz')

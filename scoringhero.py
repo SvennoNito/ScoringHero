@@ -24,7 +24,7 @@ from annotationBox import *
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.devmode            = 0
+        self.devmode            = 1
         self.epolen             = 30
         self.this_epoch         = 1
         self.this_stage         = '-'
@@ -33,6 +33,17 @@ class Ui_MainWindow(QMainWindow):
         self.greenLine          = []
         self.scaleDialogeBox    = []
         self.annotationBox      = annotationBox()
+
+        """ self.editfield = QtWidgets.QLineEdit()
+        self.editfield.setFixedWidth(150)        
+        self.editfield.setText("Default Text")
+        self.editfield.returnPressed.connect(self.handleLineEdit)  
+        self.editfieldAction = self.editfield.addAction(QLineEdit.TrailingPosition) 
+        self.editfieldAction.triggered.connect(self.handleLineEdit)
+        self.menuBar().addAction(self.editfieldAction) """           
+
+    def handleLineEdit(self):
+        text = self.editfield.text()
 
     def keyPressEvent(self, event):
         print(event.key())
@@ -65,6 +76,7 @@ class Ui_MainWindow(QMainWindow):
           
     def labelArtefact(self):
         self.EEG.storeArtefacts(self.greenLine)  
+        self.quickSaveSleepStages()
 
     def removeArtefact(self):
         self.EEG.removeArtefacts()                        
@@ -178,7 +190,7 @@ class Ui_MainWindow(QMainWindow):
     def initiate(self):
         self.EEG.update(self.epolen)
         self.EEG.showEEG(self.this_epoch)
-        self.hypnogram.initiate(self.EEG.numepo, self.EEG.epolen)
+        self.hypnogram.initiate(self.EEG)
         self.spectogram.initiate(self.EEG)
         self.spectogram.add_line(self.this_epoch)
         self.EEG.update_text(self.this_epoch, self.this_stage)
@@ -273,8 +285,8 @@ class Ui_MainWindow(QMainWindow):
         self.actionREM.setObjectName("actionREM")
         self.actionLabelArtefacts = QtWidgets.QAction(MainWindow)
         self.actionLabelArtefacts.setObjectName("actionLabelArtefacts")
-        self.actionRemoveArtefacts = QtWidgets.QAction(MainWindow)
-        self.actionRemoveArtefacts.setObjectName("actionRemoveArtefacts")
+        #self.actionRemoveArtefacts = QtWidgets.QAction(MainWindow)
+        #self.actionRemoveArtefacts.setObjectName("actionRemoveArtefacts")
 
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionLoadWork)
@@ -291,8 +303,8 @@ class Ui_MainWindow(QMainWindow):
         self.menuStages.addAction(self.actionN2)
         self.menuStages.addAction(self.actionN3)
         self.menuStages.addAction(self.actionREM)
-        self.menuActions.addAction(self.actionLabelArtefacts)
-        self.menuActions.addAction(self.actionRemoveArtefacts)
+        self.menuStages.addAction(self.actionLabelArtefacts)
+        #self.menuActions.addAction(self.actionRemoveArtefacts)
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
@@ -318,7 +330,7 @@ class Ui_MainWindow(QMainWindow):
         self.actionWake.triggered.connect(lambda: self.scoreWake())
         self.actionREM.triggered.connect(lambda: self.scoreREM())
         self.actionLabelArtefacts.triggered.connect(lambda: self.labelArtefact())
-        self.actionRemoveArtefacts.triggered.connect(lambda: self.removeArtefact())
+        #self.actionRemoveArtefacts.triggered.connect(lambda: self.removeArtefact())
 
 
 
@@ -374,8 +386,8 @@ class Ui_MainWindow(QMainWindow):
         self.actionREM.setShortcut(_translate("MainWindow", "R"))
         self.actionLabelArtefacts.setText(_translate("MainWindow", "Label artefacts"))
         self.actionLabelArtefacts.setShortcut(_translate("MainWindow", "A"))  # Add this line for the shortcut
-        self.actionRemoveArtefacts.setText(_translate("MainWindow", "Remove labeled artefacts"))
-        self.actionRemoveArtefacts.setShortcut(_translate("MainWindow", "Ctrl+A"))  # Add this line for the shortcut
+        #self.actionRemoveArtefacts.setText(_translate("MainWindow", "Remove labeled artefacts"))
+        #self.actionRemoveArtefacts.setShortcut(_translate("MainWindow", "Ctrl+A"))  # Add this line for the shortcut
         self.actionLoadWork.setText(_translate("MainWindow", "Load previous work"))
         self.actionLoadWork.setShortcut(_translate("MainWindow", "Ctrl+Shift+O"))  # Add this line for the shortcut
         self.actionAnnotations.setText(_translate("MainWindow", "Edit annotations"))
