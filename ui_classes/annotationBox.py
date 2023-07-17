@@ -24,7 +24,7 @@ class annotationBox(QtWidgets.QDialog):
             # Channe label
             labelbox = QLineEdit(f'{container.label}')
             labelbox.setAlignment(QtCore.Qt.AlignRight)
-            labelbox.setFixedWidth(max(len(container.label) for container in annotation_containers)*8)
+            labelbox.setFixedWidth(max(len(container.label) for container in annotation_containers)*16)
 
             ## Color in RGB
             #colorbox = QLineEdit(f'{container.facecolor}')
@@ -45,7 +45,7 @@ class annotationBox(QtWidgets.QDialog):
             row_layout = QHBoxLayout()
             row_layout.addWidget(countbox)
             row_layout.addWidget(labelbox)
-            row_layout.addWidget(colorpick)
+            #row_layout.addWidget(colorpick)
             form_layout.addRow(row_layout)
 
             # Append  

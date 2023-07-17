@@ -33,7 +33,7 @@ class Ui_MainWindow(QMainWindow):
         self.scoringFile        = []
         self.greenLine          = []
         self.scaleDialogeBox    = []
-        self.artefacts          = annotation_container(self.epolen, facecolor=(255, 200, 200, 100), label="Artefacts")
+        self.artefacts          = annotation_container(self.epolen, facecolor=(255, 200, 200, 100), label="Artefact")
         self.annotationF1       = annotation_container(self.epolen, facecolor=(100, 149, 237, 100), label="Annotation_F1")
         self.annotationF2       = annotation_container(self.epolen, facecolor=(152, 251, 152, 100), label="Annotation_F2")
         self.annotationF3       = annotation_container(self.epolen, facecolor=(255, 255, 102, 100), label="Annotation_F3")
