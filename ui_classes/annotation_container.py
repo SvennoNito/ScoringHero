@@ -3,11 +3,12 @@ import pyqtgraph as pg
 import numpy as np
 
 class annotation_container():
-    def __init__(self, epolen, facecolor=(255, 200, 200, 100)):
+    def __init__(self, epolen, facecolor=(255, 200, 200, 100), label='Artefact'):
         self.borders    = []
         self.epoch      = []
         self.facecolor  = facecolor
         self.epolen     = epolen
+        self.label      = label
 
     def include(self, greenLines):
         whole_epoch     = greenLines.axes.getAxis('bottom').range # epoch range

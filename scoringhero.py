@@ -34,6 +34,12 @@ class Ui_MainWindow(QMainWindow):
         self.greenLine          = []
         self.scaleDialogeBox    = []
         self.annotationBox      = annotationBox()
+        self.artefacts          = annotation_container(self.epolen, facecolor=(255, 200, 200, 100), label="Artefacts")
+        self.annotationF1       = annotation_container(self.epolen, facecolor=(100, 149, 237, 100), label="Annotation_F1")
+        self.annotationF2       = annotation_container(self.epolen, facecolor=(152, 251, 152, 100), label="Annotation_F2")
+        self.annotationF3       = annotation_container(self.epolen, facecolor=(255, 255, 102, 100), label="Annotation_F3")
+        self.annotationF4       = annotation_container(self.epolen, facecolor=(64, 224, 208, 100), label="Annotation_F4")
+        self.annotationAll      = [self.artefacts, self.annotationF1, self.annotationF2, self.annotationF3, self.annotationF4]
 
         """ self.editfield = QtWidgets.QLineEdit()
         self.editfield.setFixedWidth(150)        
@@ -52,8 +58,18 @@ class Ui_MainWindow(QMainWindow):
             self.nextEpoch()     
         if event.key() == Qt.Key_Left:
             self.previousEpoch()      
-        if event.key() == Qt.Key_F1:
-            self.previousEpoch()               
+        if event.key() == Qt.Key_F1:            
+            self.annotationF1.include(self.greenLine)
+            self.quickSaveSleepStages()    
+        if event.key() == Qt.Key_F2:            
+            self.annotationF2.include(self.greenLine)
+            self.quickSaveSleepStages()    
+        if event.key() == Qt.Key_F3:            
+            self.annotationF3.include(self.greenLine)
+            self.quickSaveSleepStages()    
+        if event.key() == Qt.Key_F4:            
+            self.annotationF4.include(self.greenLine)
+            self.quickSaveSleepStages()                                                  
 
     def loadWork(self):
         scoring_file, _  = QtWidgets.QFileDialog.getOpenFileName(None, 'Open .txt file', r'C:\PhDScripts\Sides\ScoringHero', '*.txt')
@@ -69,10 +85,19 @@ class Ui_MainWindow(QMainWindow):
                         stageinfo       = line.split()
                         stageinfo[1]    = stageinfo[1].replace(":", "")
                         self.hypnogram.assign_stage(int(stageinfo[1]), stageinfo[2])   
-                    elif  words[0] == 'Artifact':                           
+                    else: 
                         start = float(line.split()[-3])/self.EEG.timesby
-                        stop = float(line.split()[-1])/self.EEG.timesby
-                        self.artefacts.add_instance(start, stop)
+                        stop = float(line.split()[-1])/self.EEG.timesby                        
+                        if words[0] == 'Artefact':                           
+                            self.artefacts.add_instance(start, stop)
+                        elif words[0] == 'Annotation_F1':                           
+                            self.annotationF1.add_instance(start, stop)       
+                        elif words[0] == 'Annotation_F2':                           
+                            self.annotationF2.add_instance(start, stop)   
+                        elif words[0] == 'Annotation_F3':                           
+                            self.annotationF3.add_instance(start, stop)   
+                        elif words[0] == 'Annotation_F4':                           
+                            self.annotationF4.add_instance(start, stop)                                                                                                    
             
         self.updateStageDisplay()
         self.EEG.showArtefacts()
@@ -83,7 +108,8 @@ class Ui_MainWindow(QMainWindow):
         self.quickSaveSleepStages()          
 
     def show_artefacts(self):
-        self.artefacts.show_areas(self.EEG)
+        for annotation in self.annotationAll:
+            annotation.show_areas(self.EEG)
 
     def saveSleepStages(self):
         filename, _         = QFileDialog.getSaveFileName(None, "Save Sleep Stages", "", "Text Files (*.txt)") # Open a file dialog to choose the save location and filename
@@ -96,8 +122,9 @@ class Ui_MainWindow(QMainWindow):
             with open(filename, 'w') as file:
                 for epoch, stage in self.hypnogram.stages.items():
                     file.write(f"Epoch {epoch}: {stage[0]} {stage[1]}\n") # Write the sleep stages to the text file
-                for count, period in enumerate(self.artefacts.boarders):
-                    file.write(f"Artifact {count+1} (in s): {round(period[0]/self.EEG.timesby, 3)} to {round(period[1]/self.EEG.timesby, 3)}\n") # artefacts
+                for annotation in self.annotationAll:
+                    for count, period in enumerate(annotation.borders):
+                        file.write(f"{annotation.label} {count+1} (in s): {round(period[0]/self.EEG.timesby, 3)} to {round(period[1]/self.EEG.timesby, 3)}\n") # artefacts
 
     def resetGreenLine(self):
         if self.greenLine:
@@ -202,7 +229,6 @@ class Ui_MainWindow(QMainWindow):
         #self.epochpower.update(self.this_epoch)
         self.areapower.initiate(self.EEG)
         self.greenLine.initiate(self.EEG)
-        self.artefacts = annotation_container(self.EEG.epolen)
         self.EEG.changesMade.connect(self.show_artefacts)
 
 
