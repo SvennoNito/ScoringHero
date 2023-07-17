@@ -21,8 +21,8 @@ class greenLine(QtWidgets.QWidget):
         self.coordLeftCorner  = []
         self.coordRightCorner = []
         self.amplitude        = []
-        self.boxLeft       = []
-        self.boxRight      = []
+        self.boxLeft          = []
+        self.boxRight         = []
         self.boxBottom        = []
         self.boxTop           = []
         self.colorPalette     = {'grey': (150, 150, 150)} 

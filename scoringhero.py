@@ -19,6 +19,7 @@ from hypnogram import *
 from spectogram import *
 from areapower import *
 from annotationBox import *
+from annotation_container import *
 
 
 class Ui_MainWindow(QMainWindow):
@@ -51,6 +52,8 @@ class Ui_MainWindow(QMainWindow):
             self.nextEpoch()     
         if event.key() == Qt.Key_Left:
             self.previousEpoch()      
+        if event.key() == Qt.Key_F1:
+            self.previousEpoch()               
 
     def loadWork(self):
         scoring_file, _  = QtWidgets.QFileDialog.getOpenFileName(None, 'Open .txt file', r'C:\PhDScripts\Sides\ScoringHero', '*.txt')
@@ -69,17 +72,18 @@ class Ui_MainWindow(QMainWindow):
                     elif  words[0] == 'Artifact':                           
                         start = float(line.split()[-3])/self.EEG.timesby
                         stop = float(line.split()[-1])/self.EEG.timesby
-                        self.EEG.addArtefact(start, stop)
+                        self.artefacts.add_instance(start, stop)
             
         self.updateStageDisplay()
         self.EEG.showArtefacts()
           
-    def labelArtefact(self):
-        self.EEG.storeArtefacts(self.greenLine)  
-        self.quickSaveSleepStages()
+    def label_artefacts(self):
+        #self.EEG.storeArtefacts(self.greenLine)  
+        self.artefacts.include(self.greenLine)
+        self.quickSaveSleepStages()          
 
-    def removeArtefact(self):
-        self.EEG.removeArtefacts()                        
+    def show_artefacts(self):
+        self.artefacts.show_areas(self.EEG)
 
     def saveSleepStages(self):
         filename, _         = QFileDialog.getSaveFileName(None, "Save Sleep Stages", "", "Text Files (*.txt)") # Open a file dialog to choose the save location and filename
@@ -92,8 +96,8 @@ class Ui_MainWindow(QMainWindow):
             with open(filename, 'w') as file:
                 for epoch, stage in self.hypnogram.stages.items():
                     file.write(f"Epoch {epoch}: {stage[0]} {stage[1]}\n") # Write the sleep stages to the text file
-                for count, period in enumerate(self.EEG.artefacts):
-                    file.write(f"Artifact {count+1} (in s): {round(period[0]*self.EEG.timesby, 3)} to {round(period[1]*self.EEG.timesby, 3)}\n") # artefacts
+                for count, period in enumerate(self.artefacts.boarders):
+                    file.write(f"Artifact {count+1} (in s): {round(period[0]/self.EEG.timesby, 3)} to {round(period[1]/self.EEG.timesby, 3)}\n") # artefacts
 
     def resetGreenLine(self):
         if self.greenLine:
@@ -198,6 +202,8 @@ class Ui_MainWindow(QMainWindow):
         #self.epochpower.update(self.this_epoch)
         self.areapower.initiate(self.EEG)
         self.greenLine.initiate(self.EEG)
+        self.artefacts = annotation_container(self.EEG.epolen)
+        self.EEG.changesMade.connect(self.show_artefacts)
 
 
     def setupUi(self, MainWindow):
@@ -329,7 +335,7 @@ class Ui_MainWindow(QMainWindow):
         self.actionN3.triggered.connect(lambda: self.scoreN3())
         self.actionWake.triggered.connect(lambda: self.scoreWake())
         self.actionREM.triggered.connect(lambda: self.scoreREM())
-        self.actionLabelArtefacts.triggered.connect(lambda: self.labelArtefact())
+        self.actionLabelArtefacts.triggered.connect(lambda: self.label_artefacts())
         #self.actionRemoveArtefacts.triggered.connect(lambda: self.removeArtefact())
 
 
