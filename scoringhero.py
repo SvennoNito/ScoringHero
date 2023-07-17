@@ -42,6 +42,8 @@ class Ui_MainWindow(QMainWindow):
         self.annotationBox      = annotationBox(self.annotationAll)
         self.annotationBox.changesMade.connect(self.edit_annotations)
 
+        
+
 
         """ self.editfield = QtWidgets.QLineEdit()
         self.editfield.setFixedWidth(150)        
@@ -111,6 +113,11 @@ class Ui_MainWindow(QMainWindow):
             annotation.facecolor = palette.red(), palette.green(), palette.blue(), 100  
         self.label_artefacts()
         self.label_artefacts()
+
+    def remove_areas(self):
+        1
+        #for annotation in self.annotationAll:
+        #    annotation.remove_border(self.EEG)
                     
     def label_artefacts(self):
         #self.EEG.storeArtefacts(self.greenLine)  
@@ -242,6 +249,9 @@ class Ui_MainWindow(QMainWindow):
         self.areapower.initiate(self.EEG)
         self.greenLine.initiate(self.EEG)
         self.EEG.changesMade.connect(self.show_artefacts)
+
+        for annotation in self.annotationAll:
+            annotation.changesMade.connect(self.remove_areas)        
 
 
     def setupUi(self, MainWindow):
