@@ -14,7 +14,8 @@ import pyqtgraph as pg
 
 class hypnogram(QtWidgets.QWidget):
     def __init__(self, centralWidget):
-        self.colors = { 1: '#8bbf56', 
+        self.colors = { 2: '#FF0000',
+                        1: '#8bbf56', 
                         0: '#56bf8b', 
                        -1: '#aabcce',
                        -2: '#405c79', 
@@ -67,8 +68,8 @@ class hypnogram(QtWidgets.QWidget):
         self.stages = {key: ['-', float("nan")] for key in np.arange(1, self.numepo+1, dtype=int)}
         self.axes.setYRange(-4, 1, padding=0) 
         self.axes.setXRange(0, self.numepo, padding=0)
-        yticks = [.5, -.5, -1.5, -2.5, -3.5]
-        labels = ['W', 'REM', 'N1', 'N2', 'N3']
+        yticks = [1.5, .5, -.5, -1.5, -2.5, -3.5]
+        labels = ['A', 'W', 'REM', 'N1', 'N2', 'N3']
         self.axes.getAxis('left').setTicks([[(yticks[count], label) for count, label in enumerate(labels)]])                                    
             
         # Time vector
@@ -111,5 +112,13 @@ class hypnogram(QtWidgets.QWidget):
         xt   = np.repeat(thisepo*self.epolen/3600, 2)
         data = [-4, 1]
         self.axes.plot(xt, data, pen=pen)
+
+    def show_artefacts(self, epochs_with_artefacts):
+        data            = np.zeros(self.numepo)
+        data[:]         = np.nan
+        data[epochs_with_artefacts] = 2        
+        data            = np.concatenate(np.column_stack((data, data-1)))
+        pen             = pg.mkPen(color=self.colors[2], width=4)
+        self.axes.plot(self.times, data, pen=pen)        
 
    

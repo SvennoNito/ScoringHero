@@ -53,7 +53,7 @@ class annotation_container():
     def related_epoch(self):
         self.epoch = []
         for border in self.borders:
-            self.epoch.append(np.ceil(border[1] / self.epolen))
+            self.epoch.append(int(np.ceil(border[1] / self.epolen)))
 
     def add_instance(self, start, stop):
         self.border.append([start, stop])            

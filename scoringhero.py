@@ -105,6 +105,7 @@ class Ui_MainWindow(QMainWindow):
     def label_artefacts(self):
         #self.EEG.storeArtefacts(self.greenLine)  
         self.artefacts.include(self.greenLine)
+        self.hypnogram.show_artefacts(self.artefacts.epoch)
         self.quickSaveSleepStages()          
 
     def show_artefacts(self):
@@ -136,6 +137,7 @@ class Ui_MainWindow(QMainWindow):
         self.EEG.update_text(this_epoch, this_stage)
         self.spectogram.add_line(this_epoch)
         self.hypnogram.update(this_epoch)
+        self.hypnogram.show_artefacts(self.artefacts.epoch)
         self.quickSaveSleepStages()
         self.resetGreenLine()          # Removes the greenLine widget
 
