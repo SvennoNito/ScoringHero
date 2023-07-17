@@ -1,58 +1,68 @@
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import *
 
 class annotationBox(QtWidgets.QDialog):
-    def __init__(self, parent=None):
+    changesMade = QtCore.pyqtSignal()
+
+    def __init__(self, annotation_containers, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Annotation Box")
-        self.layout = QVBoxLayout(self)
-        self.text_field = []
-        self.form_layout = []
-        self.initUI()
-               
+        layout = QVBoxLayout(self)
+        form_layout = QFormLayout()
+        self.countbox = []
+        self.labelbox = []
+        self.colorbox = []    
+        self.colorpick = [] 
 
-    def initUI(self):
-        plus_button = QtWidgets.QPushButton("+")
-        plus_button.clicked.connect(self.add_row)
-        minus_button = QtWidgets.QPushButton("-")
-        minus_button.clicked.connect(self.remove_row)
+        # Loop through channels
+        for count, container in enumerate(annotation_containers):
 
-        form_layout = QFormLayout() 
-        row_layout  = QHBoxLayout()
-        row_layout.addWidget(plus_button)
-        row_layout.addWidget(minus_button)
-        form_layout.addRow(row_layout)
-        self.layout.addLayout(form_layout)
+            # Channe label
+            countbox = QLabel(f'#{count}')
+            countbox.setAlignment(QtCore.Qt.AlignRight)
+            countbox.setFixedWidth(len('#1')*8)            
 
-    def add_row(self):
-        annotation_name = QLineEdit()
-        annotation_name.setText("Label")
+            # Channe label
+            labelbox = QLineEdit(f'{container.label}')
+            labelbox.setAlignment(QtCore.Qt.AlignRight)
+            labelbox.setFixedWidth(max(len(container.label) for container in annotation_containers)*8)
 
-        colorRGB = QLineEdit()
-        colorRGB.setText("(0, 0, 0)")
-        
-        shortcut = QLabel()
-        shortcut.setText(f'Ctrl+{self.layout.count()}')
+            ## Color in RGB
+            #colorbox = QLineEdit(f'{container.facecolor}')
+            #colorbox.setAlignment(QtCore.Qt.AlignRight)
+            #colorbox.setFixedWidth(max(len(str(container.facecolor)) for container in annotation_containers)*8)
+            #colorbox.setStyleSheet("background-color: {}".format(container.facecolor))
+            
+            # Set the background color
+            palette = labelbox.palette()
+            palette.setColor(QtGui.QPalette.Base, QtGui.QColor(*container.facecolor))
+            labelbox.setPalette(palette)           
 
-        form_layout = QFormLayout() 
-        row_layout  = QHBoxLayout()
-        row_layout.addWidget(annotation_name)
-        row_layout.addWidget(colorRGB)
-        row_layout.addWidget(shortcut)
-        form_layout.addRow(row_layout)
-        self.layout.addLayout(form_layout)
-        self.form_layout = form_layout       
+            # Annotation color
+            colorpick = QPushButton("Change color")
+            colorpick.clicked.connect(self.pick_color)            
 
-    def remove_row(self):
-        if self.layout.count() > 1:
-            item = self.layout.takeAt(self.layout.count() - 1)
-            if item:
-                layout_item = item.layout()
-                if layout_item:
-                    while layout_item.count():
-                        layout_item.removeAt(0)
-                    self.layout.removeItem(item)
-                    # Delete the item to free up memory
-                    del item
+            # Layout
+            row_layout = QHBoxLayout()
+            row_layout.addWidget(countbox)
+            row_layout.addWidget(labelbox)
+            row_layout.addWidget(colorpick)
+            form_layout.addRow(row_layout)
 
+            # Append  
+            self.countbox.append(countbox)
+            self.labelbox.append(labelbox)
+            self.colorpick.append(colorpick)
 
+        layout.addLayout(form_layout)
+
+    def pick_color(self):
+        color = QColorDialog.getColor()
+        rgb   = (color.red(), color.green(), color.blue())
+        index = self.colorpick.index(self.sender())
+
+        # Set the background color
+        palette = self.labelbox[index].palette()
+        palette.setColor(QtGui.QPalette.Base, QtGui.QColor(*rgb))
+        self.labelbox[index].setPalette(palette) 
+
+        self.changesMade.emit()

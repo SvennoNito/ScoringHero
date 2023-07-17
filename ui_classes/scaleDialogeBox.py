@@ -14,7 +14,7 @@ class scaleDialogeBox(QtWidgets.QDialog):
         self.color      = []
 
         # Loop through channels
-        for chanNdx, chaninfo in enumerate(self.chaninfo):
+        for count, chaninfo in enumerate(self.chaninfo):
 
             # Channe label
             labelbox = QLabel(chaninfo['Channel'])
@@ -53,11 +53,6 @@ class scaleDialogeBox(QtWidgets.QDialog):
             self.color.append(colorbox)
 
         layout.addLayout(form_layout)
-
-    def changeColor(self, index, chanNdx):
-        color_mapping = {0: "Black", 1: "Blue", 2: "Magenta"}
-        self.chaninfos[chanNdx]['Color'] = color_mapping[index]     
-        self.emit_signal()
 
     def emit_signal(self):
         for counter, chaninfo in enumerate(self.chaninfo):
