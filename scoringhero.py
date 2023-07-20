@@ -10,8 +10,9 @@
 from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-import scipy.io, os, sys, json, ctypes, easygui, re
+import scipy.io, os, sys, json, ctypes, re
 import tkinter as tk 
+import tkinter.simpledialog
 sys.path.append("ui_classes")
 from EEG_class import *
 from scaleDialogeBox import *
