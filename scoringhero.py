@@ -10,7 +10,8 @@
 from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-import scipy.io, os, sys, json
+import scipy.io, os, sys, json, ctypes, easygui, re
+import tkinter as tk 
 sys.path.append("ui_classes")
 from EEG_class import *
 from scaleDialogeBox import *
@@ -25,7 +26,7 @@ from annotation_container import *
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.devmode            = 1
+        self.devmode            = 0
         self.epolen             = 30
         self.this_epoch         = 1
         self.this_stage         = '-'
@@ -222,21 +223,42 @@ class Ui_MainWindow(QMainWindow):
     def openEEGFile(self):
         # Function to call when loading the EEG file.
         scriptpath  = os.path.dirname(os.path.abspath(__file__))
-        EEG_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', scriptpath, '*.mat')
+        EEG_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', scriptpath, '*.mat;*json')
         EEG_filename, EEG_extension = os.path.splitext(EEG_file)
         if EEG_extension == '.mat':
             self.EEG.data  = scipy.io.loadmat(EEG_file)['EEG']['data'][0][0]
-            self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0] 
+            # self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0] 
         self.scoringFile = f'{EEG_filename}.txt'
-        self.open_config(EEG_filename)
-        self.initiate()
+        self.open_config(EEG_filename, self.EEG.data.shape[0])
 
-    def open_config(self, filename):
-        with open(f"{filename}.json", "r") as file:
-            config = json.load(file)      
-            self.EEG.add_info(config[0])
-            self.EEG.add_chaninfo(config[1])        
+    def open_config(self, filename, numchans):
+        if os.path.exists(f"{filename}.json"):
+            with open(f"{filename}.json", "r") as file:
+                config = json.load(file)      
+        else:
+            root = tk.Tk() 
+            root.withdraw() 
+            display_text    = "Configuration file «EEG_filename».json was not found. Loading default settings instead. \nIf you want to have more meaningful channel labels than «channel 1» or want to avoid this pop-up box, create a .json file named as your EEG file in the same folder as your EEG file. \nYou can use the function «build_json.py» for that or copy an existing .json file and adapt the values accordingly. \nTo continue for now, define the sampling rate of your data here (in Hz):"
+            srate           = tk.simpledialog.askstring("Configuration file not found", display_text, parent=root)
+            srate           = int(re.findall(r'\d+', srate)[0])
+            # ctypes.windll.user32.MessageBoxW(0, "Configuration file «EEG_filename».json was not found. Loading default settings with a sampling rate of 125 Hz instead. If your data has a different sampling rate or you want to have more meaningful channel labels than «channel 1», create a .json file named as your EEG file in the same folder as your EEG file. You can use the function  «build_json.py» for that or copy an existing .json file and adapt the values accordingly.", "No configuration file found", 1)
+            config = self.default_config(srate, numchans)
+        self.EEG.add_info(config[0])
+        self.EEG.add_chaninfo(config[1])      
+        self.initiate()              
 
+    def default_config(self, srate, numchans):
+        config      = [[] for x in range(2)]
+        config[0]   = {'SamplingRate': srate}
+        for i in range(numchans):
+            config[1].append({
+                "Channel": f'Channel {i+1}',
+                "Color": "Black",
+                "Display": 1,
+                "Scale": 1
+            })
+        return config
+            
     def initiate(self):
         self.EEG.update(self.epolen)
         self.EEG.showEEG(self.this_epoch)
@@ -400,8 +422,7 @@ class Ui_MainWindow(QMainWindow):
         if self.devmode == 1:
             scriptpath      = os.path.dirname(os.path.abspath(__file__))
             self.EEG.data   = scipy.io.loadmat(f'{scriptpath}\example_data\example_data.mat')['EEG']['data'][0][0]  
-            self.open_config(f'{scriptpath}\example_data\example_data')
-            self.initiate()
+            self.open_config(f'{scriptpath}\example_data\example_data', self.EEG.data.shape[0])
 
         # Makes GUI listen to key strokes
         MainWindow.keyPressEvent = self.keyPressEvent        
