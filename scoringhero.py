@@ -10,8 +10,9 @@
 from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-import scipy.io, os, sys, json, ctypes, re
+import scipy.io, os, sys, json, ctypes, re, h5py
 import tkinter as tk 
+import numpy as np
 import tkinter.simpledialog
 sys.path.append("ui_classes")
 from EEG_class import *
@@ -227,7 +228,13 @@ class Ui_MainWindow(QMainWindow):
         EEG_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', scriptpath, '*.mat;*json')
         EEG_filename, EEG_extension = os.path.splitext(EEG_file)
         if EEG_extension == '.mat':
-            self.EEG.data  = scipy.io.loadmat(EEG_file)['EEG']['data'][0][0]
+            if scipy.io.matlab.miobase.get_matfile_version(EEG_file)[0] == 2: #v7.3 files
+                with h5py.File(EEG_file, "r") as file:
+                    self.EEG.data = file['EEG']['data'][:]
+                    if self.EEG.data.shape[0] > self.EEG.data.shape[1]: # dimensions are weird ....
+                        self.EEG.data = self.EEG.data.T
+            else:
+                self.EEG.data = scipy.io.loadmat(EEG_file)['EEG']['data'][0][0]
             # self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0] 
         self.scoringFile = f'{EEG_filename}.txt'
         self.open_config(EEG_filename, self.EEG.data.shape[0])
@@ -251,11 +258,15 @@ class Ui_MainWindow(QMainWindow):
     def default_config(self, srate, numchans):
         config      = [[] for x in range(2)]
         config[0]   = {'SamplingRate': srate}
-        for i in range(numchans):
+        for chan in range(numchans):
+            if chan < 9:
+                display = 1
+            else:
+                display = 0
             config[1].append({
-                "Channel": f'Channel {i+1}',
+                "Channel": f'Channel {chan+1}',
                 "Color": "Black",
-                "Display": 1,
+                "Display": display,
                 "Scale": 1
             })
         return config

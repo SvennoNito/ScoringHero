@@ -81,7 +81,7 @@ class hypnogram(QtWidgets.QWidget):
         # Adjust axis
         self.axes.setXRange(0, max(self.times), padding=0)    
         self.axes.setYRange(min(yticks)-.5, max(yticks)+.5, padding=0)   
-        ticklabels = [(tick, f'{tick}') for tick in np.arange(0, np.round(self.duration_h), dtype=int)]
+        ticklabels = [(tick, f'{tick}') for tick in np.arange(0, max(np.round(self.duration_h), 1), dtype=int)]
         for ndx in [-1]:
             ticklabels[ndx] = (ticklabels[ndx][0], f'{ticklabels[ndx][1]} h')        
         self.axes.getAxis('bottom').setTicks([ticklabels])         

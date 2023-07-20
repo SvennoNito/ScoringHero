@@ -87,12 +87,13 @@ class EEG_class(QtWidgets.QWidget):
         # Build dotted line
         dotted_pen  = pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine)  
         dashed_pen  = pg.mkPen(color=(0, 0, 0, 25), style=QtCore.Qt.DashLine) 
-        dotted_line = np.zeros(len(self.times[this_epoch]))
+        dotted_line = np.zeros(len(self.times[0]))
         grid_pen    = pg.mkPen(color=(0, 0, 0, 15), style=QtCore.Qt.DashLine) 
         div_pen     = pg.mkPen(color=(100, 149, 237), style=QtCore.Qt.DotLine) 
    
         # Channel counter
         channelCount = 0
+        visibleChannels = sum([chaninfo['Display'] for chaninfo in self.chaninfo])
 
         # Loop through channels
         self.axes.clear()
@@ -101,19 +102,19 @@ class EEG_class(QtWidgets.QWidget):
             if self.chaninfo[count]['Display']:
 
                 # Plot EEG
-                self.axes.plot(self.times[this_epoch-1], channel[this_epoch]*self.chaninfo[count]['Scale'] - self.shift*self.nchans*channelCount, pen=pen, tag='EEG')
+                self.axes.plot(self.times[this_epoch-1], channel[this_epoch-1]*self.chaninfo[count]['Scale'] - self.shift*visibleChannels*channelCount, pen=pen, tag='EEG')
 
                 # Set pen style to DotLine
-                self.axes.plot(self.times[this_epoch-1], dotted_line - self.shift*self.nchans*channelCount + 37.5*self.chaninfo[count]['Scale'], pen=dotted_pen)
-                self.axes.plot(self.times[this_epoch-1], dotted_line - self.shift*self.nchans*channelCount - 37.5*self.chaninfo[count]['Scale'], pen=dotted_pen)
-                self.axes.plot(self.times[this_epoch-1], dotted_line - self.shift*self.nchans*channelCount - 0, pen=dashed_pen)
+                self.axes.plot(self.times[this_epoch-1], dotted_line - self.shift*visibleChannels*channelCount + 37.5*self.chaninfo[count]['Scale'], pen=dotted_pen)
+                self.axes.plot(self.times[this_epoch-1], dotted_line - self.shift*visibleChannels*channelCount - 37.5*self.chaninfo[count]['Scale'], pen=dotted_pen)
+                self.axes.plot(self.times[this_epoch-1], dotted_line - self.shift*visibleChannels*channelCount - 0, pen=dashed_pen)
                 
                 # Add +37.5 muV text on the first channel
                 if channelCount == 0 and this_epoch == 1:
                     text1 = pg.TextItem(text="+37.5 \u03BCV", color=(150,150,150), anchor=(0, 0.5))
                     text2 = pg.TextItem(text="-37.5 \u03BCV", color=(150,150,150), anchor=(0, 0.5))
-                    text1.setPos(self.times[this_epoch-1][0], 0-self.shift*self.nchans*channelCount + 37.5*self.chaninfo[count]['Scale'])
-                    text2.setPos(self.times[this_epoch-1][0], 0-self.shift*self.nchans*channelCount - 37.5*self.chaninfo[count]['Scale'])  
+                    text1.setPos(self.times[this_epoch-1][0], 0-self.shift*visibleChannels*channelCount + 37.5*self.chaninfo[count]['Scale'])
+                    text2.setPos(self.times[this_epoch-1][0], 0-self.shift*visibleChannels*channelCount - 37.5*self.chaninfo[count]['Scale'])  
                     font = QtGui.QFont(); font.setPixelSize(18)
                     text1.setFont(font)
                     text2.setFont(font)
@@ -122,7 +123,7 @@ class EEG_class(QtWidgets.QWidget):
 
                 # Add channel labels
                 text = pg.TextItem(text=self.chaninfo[count]['Channel'], color=(150,150,150), anchor=(0, 0.5))
-                text.setPos(self.times[this_epoch-1][0], 0-self.shift*self.nchans*channelCount)  
+                text.setPos(self.times[this_epoch-1][0], 0-self.shift*visibleChannels*channelCount)  
                 font = QtGui.QFont(); font.setPixelSize(20)
                 text.setFont(font)
                 self.axes.addItem(text)
@@ -133,7 +134,7 @@ class EEG_class(QtWidgets.QWidget):
         
         # Adjust axis
         self.axes.setXRange(self.times[this_epoch-1][0]/self.timesby, self.times[this_epoch-1][-1]/self.timesby, padding=0)    
-        self.axes.setYRange(-channelCount*self.shift*(self.nchans-0.5), self.shift*(self.nchans-0.5)/1.2, padding=0)  
+        self.axes.setYRange(-channelCount*self.shift*(visibleChannels-0.5), self.shift*(visibleChannels-0.5)/1.2, padding=0)  
         if self.timesby == 1:
             ticklabels = [(tick, f'{tick} s') for tick in np.round(np.arange(5, 10000, 5), 1)]
         elif self.timesby == 60:
