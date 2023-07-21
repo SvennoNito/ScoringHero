@@ -31,6 +31,9 @@ class Ui_MainWindow(QMainWindow):
         self.this_epoch         = 1
         self.this_stage         = '-'
         self.savename           = []
+        self.path_script        = os.path.dirname(os.path.abspath(__file__))
+        self.path_expdata       = os.path.join(self.path_script, 'example_data')
+        self.path_savefile      = os.path.join(self.path_script, 'example_data')
         self.artefacts          = annotations.container(self.epolen, facecolor=(255, 200, 200, 100), label="Artefacts")
         self.containerF1        = annotations.container(self.epolen, facecolor=(100, 149, 237, 100), label="Annotation_F1")
         self.containerF2        = annotations.container(self.epolen, facecolor=(152, 251, 152, 100), label="Annotation_F2")
@@ -73,12 +76,14 @@ class Ui_MainWindow(QMainWindow):
 
     def quick_save(self): 
         filename = f'{self.savename}_stages.json'
-        savefuncs.write_json(self, filename)
+        if len(self.savename) > 0:
+            savefuncs.write_json(filename, self.epolen, self.hypnogram, self.artefacts, self.containers)
                                                
-    def quick_load(self):
-        scoring_file, _  = QtWidgets.QFileDialog.getOpenFileName(None, 'Open .json file', r'C:\PhDScripts\Sides\ScoringHero', 'Json Files (*.json)')
-        self.savename = scoring_file
-        savefuncs.load_your_work(self, scoring_file)
+    def scoring_load(self):
+        scoring_file, _     = QtWidgets.QFileDialog.getOpenFileName(None, 'Open .json file', self.path_expdata, 'Json Files (*.json)')
+        self.savename       = scoring_file
+        self.path_expdata   = os.path.dirname(scoring_file)
+        savefuncs.load_your_work(self.hypnogram, self.containers, scoring_file)
         self.show_artefacts()                                                                                        
         self.refresh()
 
@@ -106,7 +111,7 @@ class Ui_MainWindow(QMainWindow):
             annotation.show_areas(self.EEG)
 
     def saveSleepStages(self):
-        filename, _         = QFileDialog.getSaveFileName(None, "Save Sleep Stages", "", "Json Files (*.json)") # Open a file dialog to choose the save location and filename
+        filename, _      = QFileDialog.getSaveFileName(None, "Save Sleep Stages", "", "Json Files (*.json)") # Open a file dialog to choose the save location and filename
         self.savename    = filename
         self.quick_save()
 
@@ -187,8 +192,8 @@ class Ui_MainWindow(QMainWindow):
 
     def openEEGFile(self):
         # Function to call when loading the EEG file.
-        scriptpath  = os.path.dirname(os.path.abspath(__file__))
-        EEG_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', scriptpath, '*.mat;*json')
+        EEG_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', self.path_expdata, '*.mat;*json')
+        self.path_expdata           = os.path.dirname(EEG_file)
         EEG_filename, EEG_extension = os.path.splitext(EEG_file)
         if EEG_extension == '.mat':
             if scipy.io.matlab.miobase.get_matfile_version(EEG_file)[0] == 2: #v7.3 files
@@ -200,7 +205,8 @@ class Ui_MainWindow(QMainWindow):
                 self.EEG.data = scipy.io.loadmat(EEG_file)['EEG']['data'][0][0]
             # self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0] 
         self.savename = f'{EEG_filename}.txt'
-        configfuncs.open_config(self, EEG_filename, self.EEG.data.shape[0])
+        configfuncs.open_config(EEG_filename, self.EEG)
+        self.initiate()
 
             
 
@@ -281,8 +287,8 @@ class Ui_MainWindow(QMainWindow):
 
         self.actionOpen = QtWidgets.QAction(MainWindow)
         self.actionOpen.setObjectName("actionOpen")
-        self.actionquick_load = QtWidgets.QAction(MainWindow)
-        self.actionquick_load.setObjectName("actionquick_load")
+        self.actionscoring_load = QtWidgets.QAction(MainWindow)
+        self.actionscoring_load.setObjectName("actionscoring_load")
         self.actionSave = QtWidgets.QAction(MainWindow)
         self.actionSave.setObjectName("actionSave")
         self.actionChannels = QtWidgets.QAction(MainWindow)
@@ -311,7 +317,7 @@ class Ui_MainWindow(QMainWindow):
         #self.actionRemoveArtefacts.setObjectName("actionRemoveArtefacts")
 
         self.menuFile.addAction(self.actionOpen)
-        self.menuFile.addAction(self.actionquick_load)
+        self.menuFile.addAction(self.actionscoring_load)
         self.menuFile.addAction(self.actionSave)
         self.menuHelp.addAction(self.actionAbout)
         self.menuEdit.addAction(self.actionChannels)
@@ -339,7 +345,7 @@ class Ui_MainWindow(QMainWindow):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.actionOpen.triggered.connect(lambda: self.openEEGFile())
-        self.actionquick_load.triggered.connect(lambda: self.quick_load())
+        self.actionscoring_load.triggered.connect(lambda: self.scoring_load())
         self.actionSave.triggered.connect(lambda: self.saveSleepStages())
         self.actionChannels.triggered.connect(lambda: self.scaleChannels())
         self.actionAnnotations.triggered.connect(lambda: self.define_annotations())
@@ -368,7 +374,8 @@ class Ui_MainWindow(QMainWindow):
         if self.devmode == 1:
             scriptpath      = os.path.dirname(os.path.abspath(__file__))
             self.EEG.data   = scipy.io.loadmat(f'{scriptpath}\example_data\example_data.mat')['EEG']['data'][0][0]  
-            configfuncs.open_config(self, f'{scriptpath}\example_data\example_data', self.EEG.data.shape[0])
+            configfuncs.open_config(f'{scriptpath}\example_data\example_data', self.EEG)
+            self.initiate()
 
         # Makes GUI listen to key strokes
         MainWindow.keyPressEvent = self.keyPressEvent        
@@ -409,8 +416,8 @@ class Ui_MainWindow(QMainWindow):
         self.actionLabelArtefacts.setShortcut(_translate("MainWindow", "A"))  # Add this line for the shortcut
         #self.actionRemoveArtefacts.setText(_translate("MainWindow", "Remove labeled artefacts"))
         #self.actionRemoveArtefacts.setShortcut(_translate("MainWindow", "Ctrl+A"))  # Add this line for the shortcut
-        self.actionquick_load.setText(_translate("MainWindow", "Load previous work"))
-        self.actionquick_load.setShortcut(_translate("MainWindow", "Ctrl+Shift+O"))  # Add this line for the shortcut
+        self.actionscoring_load.setText(_translate("MainWindow", "Load previous work"))
+        self.actionscoring_load.setShortcut(_translate("MainWindow", "Ctrl+Shift+O"))  # Add this line for the shortcut
         self.actionAnnotations.setText(_translate("MainWindow", "Edit annotations"))
         self.actionAnnotations.setShortcut(_translate("MainWindow", "Ctrl+E"))  # Add this line for the shortcut
 
