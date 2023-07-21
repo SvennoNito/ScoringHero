@@ -10,40 +10,35 @@
 from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-import scipy.io, os, sys, json, ctypes, re, h5py
+import scipy.io, os, sys, json, re, h5py
 import tkinter as tk 
 import numpy as np
-import tkinter.simpledialog
 sys.path.append("ui_classes")
+sys.path.append("functions")
 from EEG_class import *
 from scaleDialogeBox import *
 from greenLine import *
 from hypnogram import *
-from spectogram import *
-from areapower import *
-from annotationBox import *
-from annotation_container import *
+import savefuncs, configfuncs
+import annotations, spectral
 
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.devmode            = 0
+        self.devmode            = 1
         self.epolen             = 30
         self.this_epoch         = 1
         self.this_stage         = '-'
-        self.EEG                = []
-        self.scoringFile        = []
-        self.greenLine          = []
-        self.scaleDialogeBox    = []
-        self.artefacts          = annotation_container(self.epolen, facecolor=(255, 200, 200, 100), label="Artefact")
-        self.annotationF1       = annotation_container(self.epolen, facecolor=(100, 149, 237, 100), label="Annotation_F1")
-        self.annotationF2       = annotation_container(self.epolen, facecolor=(152, 251, 152, 100), label="Annotation_F2")
-        self.annotationF3       = annotation_container(self.epolen, facecolor=(255, 255, 102, 100), label="Annotation_F3")
-        self.annotationF4       = annotation_container(self.epolen, facecolor=(64, 224, 208, 100), label="Annotation_F4")
-        self.annotationAll      = [self.artefacts, self.annotationF1, self.annotationF2, self.annotationF3, self.annotationF4]
-        self.annotationBox      = annotationBox(self.annotationAll)
-        self.annotationBox.changesMade.connect(self.edit_annotations)
+        self.savename           = []
+        self.artefacts          = annotations.container(self.epolen, facecolor=(255, 200, 200, 100), label="Artefacts")
+        self.containerF1        = annotations.container(self.epolen, facecolor=(100, 149, 237, 100), label="Annotation_F1")
+        self.containerF2        = annotations.container(self.epolen, facecolor=(152, 251, 152, 100), label="Annotation_F2")
+        self.containerF3        = annotations.container(self.epolen, facecolor=(255, 255, 102, 100), label="Annotation_F3")
+        self.containerF4        = annotations.container(self.epolen, facecolor=(64, 224, 208, 100),  label="Annotation_F4")
+        self.containers         = [self.artefacts, self.containerF1, self.containerF2, self.containerF3, self.containerF4]
+        self.notes_editbox      = annotations.editbox(self.containers)
+        self.notes_editbox.changesMade.connect(self.edit_annotations)
 
         
 
@@ -56,9 +51,6 @@ class Ui_MainWindow(QMainWindow):
         self.editfieldAction.triggered.connect(self.handleLineEdit)
         self.menuBar().addAction(self.editfieldAction) """           
 
-    def handleLineEdit(self):
-        text = self.editfield.text()
-
     def keyPressEvent(self, event):
         print(event.key())
         if event.key() == Qt.Key_Right:
@@ -66,99 +58,70 @@ class Ui_MainWindow(QMainWindow):
         if event.key() == Qt.Key_Left:
             self.previousEpoch()      
         if event.key() == Qt.Key_F1:            
-            self.annotationF1.include(self.greenLine)
-            self.quickSaveSleepStages()    
+            self.containerF1.include(self.greenLine)
+            self.quick_save()    
         if event.key() == Qt.Key_F2:            
-            self.annotationF2.include(self.greenLine)
-            self.quickSaveSleepStages()    
+            self.containerF2.include(self.greenLine)
+            self.quick_save()    
         if event.key() == Qt.Key_F3:            
-            self.annotationF3.include(self.greenLine)
-            self.quickSaveSleepStages()    
+            self.containerF3.include(self.greenLine)
+            self.quick_save()    
         if event.key() == Qt.Key_F4:            
-            self.annotationF4.include(self.greenLine)
-            self.quickSaveSleepStages()                                                  
+            self.containerF4.include(self.greenLine)
+            self.quick_save()       
 
-    def loadWork(self):
-        scoring_file, _  = QtWidgets.QFileDialog.getOpenFileName(None, 'Open .txt file', r'C:\PhDScripts\Sides\ScoringHero', '*.txt')
-        scoring_filename, scoring_extension = os.path.splitext(scoring_file)
-        self.scoringFile = scoring_file
-        if scoring_extension == '.txt':
-            with open(scoring_file, 'r') as file:
-                lines = file.readlines()                  
-                for line in lines: # Read the last word of each row until an empty row is encountered
-                    line    = line.strip()  # Remove leading/trailing whitespace
-                    words   = line.split()
-                    if words[0] == 'Epoch':
-                        stageinfo       = line.split()
-                        stageinfo[1]    = stageinfo[1].replace(":", "")
-                        self.hypnogram.assign_stage(int(stageinfo[1]), stageinfo[2])   
-                    else: 
-                        start = float(line.split()[-3])/self.EEG.timesby
-                        stop = float(line.split()[-1])/self.EEG.timesby                        
-                        if words[0] == 'Artefact':                           
-                            self.artefacts.add_instance(start, stop)
-                        elif words[0] == 'Annotation_F1':                           
-                            self.annotationF1.add_instance(start, stop)       
-                        elif words[0] == 'Annotation_F2':                           
-                            self.annotationF2.add_instance(start, stop)   
-                        elif words[0] == 'Annotation_F3':                           
-                            self.annotationF3.add_instance(start, stop)   
-                        elif words[0] == 'Annotation_F4':                           
-                            self.annotationF4.add_instance(start, stop)                                                                                                    
-            
-        self.updateStageDisplay()
-        self.EEG.showArtefacts()
+
+    def quick_save(self): 
+        filename = f'{self.savename}_stages.json'
+        savefuncs.write_json(self, filename)
+                                               
+    def quick_load(self):
+        scoring_file, _  = QtWidgets.QFileDialog.getOpenFileName(None, 'Open .json file', r'C:\PhDScripts\Sides\ScoringHero', 'Json Files (*.json)')
+        self.savename = scoring_file
+        savefuncs.load_your_work(self, scoring_file)
+        self.show_artefacts()                                                                                        
+        self.refresh()
 
     def edit_annotations(self):
-        for count, annotation in enumerate(self.annotationAll):
-            annotation.label = self.annotationBox.labelbox[count].text()
-            palette = self.annotationBox.labelbox[count].palette().color(QtGui.QPalette.Base)
+        for count, annotation in enumerate(self.containers):
+            annotation.label = self.notes_editbox.labelbox[count].text()
+            palette = self.notes_editbox.labelbox[count].palette().color(QtGui.QPalette.Base)
             annotation.facecolor = palette.red(), palette.green(), palette.blue(), 100  
         self.label_artefacts()
         self.label_artefacts()
 
     def remove_areas(self):
         1
-        #for annotation in self.annotationAll:
+        #for annotation in self.containers:
         #    annotation.remove_border(self.EEG)
                     
     def label_artefacts(self):
         #self.EEG.storeArtefacts(self.greenLine)  
         self.artefacts.include(self.greenLine)
         self.hypnogram.show_artefacts(self.artefacts.epoch)
-        self.quickSaveSleepStages()          
+        self.quick_save()          
 
     def show_artefacts(self):
-        for annotation in self.annotationAll:
+        for annotation in self.containers:
             annotation.show_areas(self.EEG)
 
     def saveSleepStages(self):
-        filename, _         = QFileDialog.getSaveFileName(None, "Save Sleep Stages", "", "Text Files (*.txt)") # Open a file dialog to choose the save location and filename
-        self.scoringFile    = filename
-        self.quickSaveSleepStages()
-
-    def quickSaveSleepStages(self): # Write the sleep stages to the text file
-        filename = self.scoringFile
-        if len(filename) > 0:
-            with open(filename, 'w') as file:
-                for epoch, stage in self.hypnogram.stages.items():
-                    file.write(f"Epoch {epoch}: {stage[0]} {stage[1]}\n") # Write the sleep stages to the text file
-                for annotation in self.annotationAll:
-                    for count, period in enumerate(annotation.borders):
-                        file.write(f"{annotation.label} {count+1} (in s): {round(period[0]/self.EEG.timesby, 3)} to {round(period[1]/self.EEG.timesby, 3)}\n") # artefacts
+        filename, _         = QFileDialog.getSaveFileName(None, "Save Sleep Stages", "", "Json Files (*.json)") # Open a file dialog to choose the save location and filename
+        self.savename    = filename
+        self.quick_save()
 
     def resetGreenLine(self):
         if self.greenLine:
             self.greenLine.reset()       
         
-    def updateStageDisplay(self):
+    def refresh(self):
         this_stage = self.hypnogram.stages[self.this_epoch][0]
         this_epoch = self.this_epoch
         self.EEG.update_text(this_epoch, this_stage)
         self.spectogram.add_line(this_epoch)
         self.hypnogram.update(this_epoch)
         self.hypnogram.show_artefacts(self.artefacts.epoch)
-        self.quickSaveSleepStages()
+        self.quick_save()
         self.resetGreenLine()          # Removes the greenLine widget
 
 
@@ -166,50 +129,50 @@ class Ui_MainWindow(QMainWindow):
 
     def scoreN1(self):     
         self.hypnogram.stages[self.this_epoch] = ['N1', -1]  
-        self.updateStageDisplay()   
+        self.refresh()   
         self.nextEpoch()
 
     def scoreN2(self):     
         self.hypnogram.stages[self.this_epoch] = ['N2', -2]  
-        self.updateStageDisplay() 
+        self.refresh() 
         self.nextEpoch()
 
     def scoreN3(self):     
         self.hypnogram.stages[self.this_epoch] = ['N3', -3]  
-        self.updateStageDisplay() 
+        self.refresh() 
         self.nextEpoch()
 
     def scoreWake(self):     
         self.hypnogram.stages[self.this_epoch] = ['Wake', 1]  
-        self.updateStageDisplay() 
+        self.refresh() 
         self.nextEpoch()
 
     def scoreREM(self):     
         self.hypnogram.stages[self.this_epoch] = ['REM', 0]  
-        self.updateStageDisplay()        
+        self.refresh()        
         self.nextEpoch()       
 
     def hypnoClick(self, event):
         self.this_epoch = self.hypnogram.onclick(event)
         self.EEG.showEEG(self.this_epoch)
-        self.updateStageDisplay()
+        self.refresh()
 
     def spectogramClick(self, event):
         self.this_epoch = self.spectogram.map(event)
         self.EEG.showEEG(self.this_epoch)
-        self.updateStageDisplay()            
+        self.refresh()            
 
     def previousEpoch(self):
         if self.this_epoch > 1:
             self.this_epoch -= 1
             self.EEG.showEEG(self.this_epoch) # Plot previous epoch   
-            self.updateStageDisplay() 
+            self.refresh() 
 
     def nextEpoch(self):
         if self.this_epoch < self.EEG.numepo:
             self.this_epoch += 1       
             self.EEG.showEEG(self.this_epoch) # Plot next epoch
-            self.updateStageDisplay() 
+            self.refresh() 
 
     def scaleChannels(self):
         self.scaleDialogeBox = scaleDialogeBox(self.EEG.chaninfo)
@@ -220,7 +183,7 @@ class Ui_MainWindow(QMainWindow):
         self.EEG.scaleChannels(self.scaleDialogeBox.chaninfo, self.this_epoch) 
 
     def define_annotations(self):
-        self.annotationBox.exec_()
+        self.notes_editbox.exec_()
 
     def openEEGFile(self):
         # Function to call when loading the EEG file.
@@ -236,40 +199,12 @@ class Ui_MainWindow(QMainWindow):
             else:
                 self.EEG.data = scipy.io.loadmat(EEG_file)['EEG']['data'][0][0]
             # self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0] 
-        self.scoringFile = f'{EEG_filename}.txt'
-        self.open_config(EEG_filename, self.EEG.data.shape[0])
+        self.savename = f'{EEG_filename}.txt'
+        configfuncs.open_config(self, EEG_filename, self.EEG.data.shape[0])
 
-    def open_config(self, filename, numchans):
-        if os.path.exists(f"{filename}.json"):
-            with open(f"{filename}.json", "r") as file:
-                config = json.load(file)      
-        else:
-            root = tk.Tk() 
-            root.withdraw() 
-            display_text    = "Configuration file «EEG_filename».json was not found. Loading default settings instead. \nIf you want to have more meaningful channel labels than «channel 1» or want to avoid this pop-up box, create a .json file named as your EEG file in the same folder as your EEG file. \nYou can use the function «build_json.py» for that or copy an existing .json file and adapt the values accordingly. \nTo continue for now, define the sampling rate of your data here (in Hz):"
-            srate           = tk.simpledialog.askstring("Configuration file not found", display_text, parent=root)
-            srate           = int(re.findall(r'\d+', srate)[0])
-            # ctypes.windll.user32.MessageBoxW(0, "Configuration file «EEG_filename».json was not found. Loading default settings with a sampling rate of 125 Hz instead. If your data has a different sampling rate or you want to have more meaningful channel labels than «channel 1», create a .json file named as your EEG file in the same folder as your EEG file. You can use the function  «build_json.py» for that or copy an existing .json file and adapt the values accordingly.", "No configuration file found", 1)
-            config = self.default_config(srate, numchans)
-        self.EEG.add_info(config[0])
-        self.EEG.add_chaninfo(config[1])      
-        self.initiate()              
+            
 
-    def default_config(self, srate, numchans):
-        config      = [[] for x in range(2)]
-        config[0]   = {'SamplingRate': srate}
-        for chan in range(numchans):
-            if chan < 9:
-                display = 1
-            else:
-                display = 0
-            config[1].append({
-                "Channel": f'Channel {chan+1}',
-                "Color": "Black",
-                "Display": display,
-                "Scale": 1
-            })
-        return config
+
             
     def initiate(self):
         self.EEG.update(self.epolen)
@@ -280,11 +215,11 @@ class Ui_MainWindow(QMainWindow):
         self.EEG.update_text(self.this_epoch, self.this_stage)
         #self.epochpower.initiate(self.EEG)
         #self.epochpower.update(self.this_epoch)
-        self.areapower.initiate(self.EEG)
+        self.powerbox.initiate(self.EEG)
         self.greenLine.initiate(self.EEG)
         self.EEG.changesMade.connect(self.show_artefacts)
 
-        for annotation in self.annotationAll:
+        for annotation in self.containers:
             annotation.changesMade.connect(self.remove_areas)        
 
 
@@ -302,10 +237,9 @@ class Ui_MainWindow(QMainWindow):
         # Create classes
         self.EEG        = EEG_class(self.centralwidget)
         self.hypnogram  = hypnogram(self.centralwidget)
-        self.spectogram = spectogram(self.centralwidget)
-        #self.epochpower = epochpower(self.centralwidget)
-        self.areapower  = areapower(self.centralwidget)
-        self.greenLine  = greenLine(self.areapower)
+        self.spectogram = spectral.spectogram(self.centralwidget)
+        self.powerbox   = spectral.powerbox(self.centralwidget)
+        self.greenLine  = greenLine(self.powerbox)
         self.hypnogram.axes.scene().sigMouseClicked.connect(self.hypnoClick)
         self.spectogram.graphics.scene().sigMouseClicked.connect(self.spectogramClick)
 
@@ -314,7 +248,7 @@ class Ui_MainWindow(QMainWindow):
         layout.addWidget(self.greenLine,                10, 0,  85,  100)     
         layout.addWidget(self.spectogram.graphics,      0,  0,  10,  70)
         layout.addWidget(self.hypnogram.axes,           0, 85,  10,  15)
-        layout.addWidget(self.areapower.axes,           0, 70,  10,  15)
+        layout.addWidget(self.powerbox.axes,           0, 70,  10,  15)
         #layout.addWidget(self.epochpower.axes,          95, 0,  5, 100)
 
    
@@ -347,8 +281,8 @@ class Ui_MainWindow(QMainWindow):
 
         self.actionOpen = QtWidgets.QAction(MainWindow)
         self.actionOpen.setObjectName("actionOpen")
-        self.actionLoadWork = QtWidgets.QAction(MainWindow)
-        self.actionLoadWork.setObjectName("actionLoadWork")
+        self.actionquick_load = QtWidgets.QAction(MainWindow)
+        self.actionquick_load.setObjectName("actionquick_load")
         self.actionSave = QtWidgets.QAction(MainWindow)
         self.actionSave.setObjectName("actionSave")
         self.actionChannels = QtWidgets.QAction(MainWindow)
@@ -377,7 +311,7 @@ class Ui_MainWindow(QMainWindow):
         #self.actionRemoveArtefacts.setObjectName("actionRemoveArtefacts")
 
         self.menuFile.addAction(self.actionOpen)
-        self.menuFile.addAction(self.actionLoadWork)
+        self.menuFile.addAction(self.actionquick_load)
         self.menuFile.addAction(self.actionSave)
         self.menuHelp.addAction(self.actionAbout)
         self.menuEdit.addAction(self.actionChannels)
@@ -405,7 +339,7 @@ class Ui_MainWindow(QMainWindow):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.actionOpen.triggered.connect(lambda: self.openEEGFile())
-        self.actionLoadWork.triggered.connect(lambda: self.loadWork())
+        self.actionquick_load.triggered.connect(lambda: self.quick_load())
         self.actionSave.triggered.connect(lambda: self.saveSleepStages())
         self.actionChannels.triggered.connect(lambda: self.scaleChannels())
         self.actionAnnotations.triggered.connect(lambda: self.define_annotations())
@@ -434,7 +368,7 @@ class Ui_MainWindow(QMainWindow):
         if self.devmode == 1:
             scriptpath      = os.path.dirname(os.path.abspath(__file__))
             self.EEG.data   = scipy.io.loadmat(f'{scriptpath}\example_data\example_data.mat')['EEG']['data'][0][0]  
-            self.open_config(f'{scriptpath}\example_data\example_data', self.EEG.data.shape[0])
+            configfuncs.open_config(self, f'{scriptpath}\example_data\example_data', self.EEG.data.shape[0])
 
         # Makes GUI listen to key strokes
         MainWindow.keyPressEvent = self.keyPressEvent        
@@ -475,8 +409,8 @@ class Ui_MainWindow(QMainWindow):
         self.actionLabelArtefacts.setShortcut(_translate("MainWindow", "A"))  # Add this line for the shortcut
         #self.actionRemoveArtefacts.setText(_translate("MainWindow", "Remove labeled artefacts"))
         #self.actionRemoveArtefacts.setShortcut(_translate("MainWindow", "Ctrl+A"))  # Add this line for the shortcut
-        self.actionLoadWork.setText(_translate("MainWindow", "Load previous work"))
-        self.actionLoadWork.setShortcut(_translate("MainWindow", "Ctrl+Shift+O"))  # Add this line for the shortcut
+        self.actionquick_load.setText(_translate("MainWindow", "Load previous work"))
+        self.actionquick_load.setShortcut(_translate("MainWindow", "Ctrl+Shift+O"))  # Add this line for the shortcut
         self.actionAnnotations.setText(_translate("MainWindow", "Edit annotations"))
         self.actionAnnotations.setShortcut(_translate("MainWindow", "Ctrl+E"))  # Add this line for the shortcut
 

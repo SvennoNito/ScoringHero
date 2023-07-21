@@ -55,7 +55,11 @@ class hypnogram(QtWidgets.QWidget):
         elif text.lower() == "n4":
             return -4
         else:
-            return None            
+            return None   
+        
+    def add_instance(self, epoch, stage, number):
+        self.stages[epoch] = [stage, number]
+                         
 
     def assign_stage(self, epoch, stage):
         self.stages[epoch] = [stage, self.assign_number(stage)]
@@ -65,7 +69,7 @@ class hypnogram(QtWidgets.QWidget):
         self.epolen     = EEG.epolen
         self.duration_h = EEG.duration_h
 
-        self.stages = {key: ['-', float("nan")] for key in np.arange(1, self.numepo+1, dtype=int)}
+        self.stages = {int(key): ['-', None] for key in np.arange(1, self.numepo+1)}
         self.axes.setYRange(-4, 1, padding=0) 
         self.axes.setXRange(0, self.numepo, padding=0)
         yticks = [1.5, .5, -.5, -1.5, -2.5, -3.5]
