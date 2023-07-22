@@ -14,6 +14,13 @@ import pyqtgraph as pg
 
 class hypnogram(QtWidgets.QWidget):
     def __init__(self, centralWidget):
+        self.A      = 'A'
+        self.N1     = 'N1'
+        self.N2     = 'N2'
+        self.N3     = 'N3'
+        self.N4     = 'N4'
+        self.W      = 'Wake'
+        self.REM    = 'REM'
         self.colors = { 2: '#FF0000',
                         1: '#8bbf56', 
                         0: '#56bf8b', 
@@ -21,7 +28,7 @@ class hypnogram(QtWidgets.QWidget):
                        -2: '#405c79', 
                        -3: '#0b1c2c', 
                        -4: '#bf5656'}
-        self.stages = {}
+        self.stages = []
         self.times  = []
         self.numepo = []
         self.epolen = []
@@ -56,24 +63,25 @@ class hypnogram(QtWidgets.QWidget):
             return -4
         else:
             return None   
-        
-    def add_instance(self, epoch, stage, number):
-        self.stages[epoch] = [stage, number]
-                         
 
-    def assign_stage(self, epoch, stage):
-        self.stages[epoch] = [stage, self.assign_number(stage)]
+    def assign(self, epoch, stage):
+        self.stages[epoch-1]['Stage'] = stage
+        self.stages[epoch-1]['Digit'] = self.assign_number(stage)
 
     def initiate(self, EEG):
         self.numepo     = EEG.numepo
         self.epolen     = EEG.epolen
-        self.duration_h = EEG.duration_h
-
-        self.stages = {int(key): ['-', None] for key in np.arange(1, self.numepo+1)}
+        self.duration_h = EEG.duration_h      
+        self.stages     = []          
+        for epoch in range(1, self.numepo + 1):
+            self.stages.append({'Epoch': epoch,
+                                'Stage': '-',
+                                'Digit': None}) 
+        # self.stages = {int(key): ['-', None] for key in np.arange(1, self.numepo+1)}
         self.axes.setYRange(-4, 1, padding=0) 
         self.axes.setXRange(0, self.numepo, padding=0)
         yticks = [1.5, .5, -.5, -1.5, -2.5, -3.5]
-        labels = ['A', 'W', 'REM', 'N1', 'N2', 'N3']
+        labels = [self.A, self.W, self.REM, self.N1, self.N2, self.N3]
         self.axes.getAxis('left').setTicks([[(yticks[count], label) for count, label in enumerate(labels)]])                                    
             
         # Time vector
@@ -100,9 +108,8 @@ class hypnogram(QtWidgets.QWidget):
 
     def update(self, thisepo):
         self.axes.clear()
-        stages = [val[1] for key, val in self.stages.items()]
-        stages = np.array(stages)
 
+        stages = np.array([stage['Digit'] for stage in self.stages])
         for stage, color in self.colors.items():
             data    = np.zeros(self.numepo)
             data[:] = np.nan
@@ -125,4 +132,41 @@ class hypnogram(QtWidgets.QWidget):
         pen             = pg.mkPen(color=self.colors[2], width=4)
         self.axes.plot(self.times, data, pen=pen)        
 
+
+
+    def add_to_spectogram(self, thisepo, axes, containers):
+
+        stages = np.array([stage['Digit'] for stage in self.stages])
+        limits = axes.getAxis('left').range
+        times  = np.linspace(axes.getAxis('bottom').range[0], axes.getAxis('bottom').range[1], self.numepo) + 0.5
+        times  = np.repeat(times, 2) 
+        shift  = limits[1]/12
+
+        for item in reversed(axes.items[2:-1]):
+            axes.removeItem(item)
+
+        for count, stage in enumerate([-3, -2, -1, 0, 1]):
+            data    = np.zeros(self.numepo)
+            data[:] = np.nan
+            data[stages == stage] = stage
+            data    = np.concatenate(np.column_stack((data+shift*count+limits[1]/2, data+shift*(count+1)+limits[1]/2)))
+            pen     = pg.mkPen(color=(0, 0, 0, 180), width=3)
+            axes.plot(times, data, pen=pen)
+
+        # Artefacts
+        for container in containers:
+            data    = np.zeros(self.numepo)
+            data[:] = np.nan
+            data[container.epoch] = 2
+            data    = np.concatenate(np.column_stack((data+shift*5+limits[1]/2, data+shift*(5+1)+limits[1]/2)))
+            color   = container.facecolor[:-1]
+            pen     = pg.mkPen(color=color, width=3)
+            axes.plot(times, data, pen=pen)
+
+
+        ## red line
+       # pen  = pg.mkPen(color='#FA8072', width=1)
+        #xt   = np.repeat(thisepo*self.epolen/3600, 2)
+        #data = [-4, 1]
+        #self.axes.plot(xt, data, pen=pen)
    
