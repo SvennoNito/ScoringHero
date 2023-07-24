@@ -772,112 +772,112 @@
    "epoch": 97,
    "start": 2880,
    "end": 2910,
-   "stage": "-",
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "clean": 1
   },
   {
    "epoch": 98,
    "start": 2910,
    "end": 2940,
-   "stage": "-",
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "clean": 1
   },
   {
    "epoch": 99,
    "start": 2940,
    "end": 2970,
-   "stage": "-",
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "clean": 1
   },
   {
    "epoch": 100,
    "start": 2970,
    "end": 3000,
-   "stage": "-",
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "clean": 1
   },
   {
    "epoch": 101,
    "start": 3000,
    "end": 3030,
-   "stage": "-",
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "clean": 1
   },
   {
    "epoch": 102,
    "start": 3030,
    "end": 3060,
-   "stage": "-",
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "clean": 1
   },
   {
    "epoch": 103,
    "start": 3060,
    "end": 3090,
-   "stage": "-",
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "clean": 1
   },
   {
    "epoch": 104,
    "start": 3090,
    "end": 3120,
-   "stage": "-",
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "clean": 1
   },
   {
    "epoch": 105,
    "start": 3120,
    "end": 3150,
-   "stage": "-",
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "clean": 1
   },
   {
    "epoch": 106,
    "start": 3150,
    "end": 3180,
-   "stage": "-",
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "clean": 1
   },
   {
    "epoch": 107,
    "start": 3180,
    "end": 3210,
-   "stage": "-",
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "clean": 1
   },
   {
    "epoch": 108,
    "start": 3210,
    "end": 3240,
-   "stage": "-",
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "clean": 1
   },
   {
    "epoch": 109,
    "start": 3240,
    "end": 3270,
-   "stage": "-",
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "clean": 1
   },
   {
    "epoch": 110,
    "start": 3270,
    "end": 3300,
-   "stage": "-",
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "clean": 1
   },
   {

@@ -16,11 +16,10 @@ import numpy as np
 sys.path.append("ui_classes")
 sys.path.append("functions")
 from EEG_class import *
-from scaleDialogeBox import *
 from greenLine import *
 from hypnogram import *
 import io_functions
-import annotations, spectral
+import popups, spectral
 
 
 class Ui_MainWindow(QMainWindow):
@@ -34,14 +33,16 @@ class Ui_MainWindow(QMainWindow):
         self.path_script        = os.path.dirname(os.path.abspath(__file__))
         self.path_expdata       = os.path.join(self.path_script, 'example_data')
         self.path_savefile      = os.path.join(self.path_script, 'example_data')
-        self.artefacts          = annotations.container(self.epolen, facecolor=(255, 200, 200, 100), label="Artefacts")
-        self.containerF1        = annotations.container(self.epolen, facecolor=(100, 149, 237, 100), label="Annotation_F1")
-        self.containerF2        = annotations.container(self.epolen, facecolor=(152, 251, 152, 100), label="Annotation_F2")
-        self.containerF3        = annotations.container(self.epolen, facecolor=(255, 255, 102, 100), label="Annotation_F3")
-        self.containerF4        = annotations.container(self.epolen, facecolor=(64, 224, 208, 100),  label="Annotation_F4")
+        self.artefacts          = popups.container(self.epolen, facecolor=(255, 200, 200, 100), label="Artefacts")
+        self.containerF1        = popups.container(self.epolen, facecolor=(100, 149, 237, 100), label="Annotation_F1")
+        self.containerF2        = popups.container(self.epolen, facecolor=(152, 251, 152, 100), label="Annotation_F2")
+        self.containerF3        = popups.container(self.epolen, facecolor=(255, 255, 102, 100), label="Annotation_F3")
+        self.containerF4        = popups.container(self.epolen, facecolor=(64, 224, 208, 100),  label="Annotation_F4")
         self.containers         = [self.artefacts, self.containerF1, self.containerF2, self.containerF3, self.containerF4]
-        self.notes_editbox      = annotations.editbox(self.containers)
+        self.notes_editbox      = popups.editbox(self.containers)
         self.notes_editbox.changesMade.connect(self.edit_annotations)
+        self.optionbox          = popups.options()
+        self.optionbox.changesMade.connect(self.edit_displayed_eeg)
 
         
 
@@ -85,6 +86,12 @@ class Ui_MainWindow(QMainWindow):
         io_functions.load_your_work(self.hypnogram, self.containers, scoring_file)
         self.show_artefacts()                                                                                        
         self.refresh()
+
+    def options(self):
+        self.optionbox.exec_()
+
+    def edit_displayed_eeg(self):
+        self.EEG.edit_extension(self.this_epoch, self.optionbox)
 
     def edit_annotations(self):
         self.notes_editbox.exec_()
@@ -179,7 +186,7 @@ class Ui_MainWindow(QMainWindow):
             self.refresh() 
 
     def scaleChannels(self):
-        self.scaleDialogeBox = scaleDialogeBox(self.EEG.chaninfo)
+        self.scaleDialogeBox = popups.scaleDialogeBox(self.EEG.chaninfo)
         self.scaleDialogeBox.changesMade.connect(self.respond_to_scaleDialogeBox)
         self.scaleDialogeBox.exec_()
 
@@ -291,6 +298,8 @@ class Ui_MainWindow(QMainWindow):
         self.actionChannels.setObjectName("actionChannels")
         self.actionAnnotations = QtWidgets.QAction(MainWindow)
         self.actionAnnotations.setObjectName("actionAnnotations")
+        self.actionEEG = QtWidgets.QAction(MainWindow)
+        self.actionEEG.setObjectName("actionEEG")        
         self.actionAbout = QtWidgets.QAction(MainWindow)
         self.actionAbout.setObjectName("actionAbout")
         self.actionHypnogram = QtWidgets.QAction(MainWindow)
@@ -318,6 +327,7 @@ class Ui_MainWindow(QMainWindow):
         self.menuHelp.addAction(self.actionAbout)
         self.menuEdit.addAction(self.actionChannels)
         self.menuEdit.addAction(self.actionAnnotations)
+        self.menuEdit.addAction(self.actionEEG)
         self.menuEdit.addSeparator()
         #self.menuView.addAction(self.actionHypnogram)
         #self.menuView.addAction(self.actionSpectogram)
@@ -345,6 +355,7 @@ class Ui_MainWindow(QMainWindow):
         self.actionSave.triggered.connect(lambda: self.saveSleepStages())
         self.actionChannels.triggered.connect(lambda: self.scaleChannels())
         self.actionAnnotations.triggered.connect(lambda: self.edit_annotations())
+        self.actionEEG.triggered.connect(lambda: self.options())
         self.actionAbout.triggered.connect(lambda: self.aboutDialog())
         #self.actionHypnogram.triggered.connect(lambda: self.showHypnogram())
         #self.actionSpectogram.triggered.connect(lambda: self.showSpectogram())
@@ -392,8 +403,10 @@ class Ui_MainWindow(QMainWindow):
         self.actionSave.setText(_translate("MainWindow", "Save your work"))
         self.actionSave.setShortcut(_translate("MainWindow", "Ctrl+S"))
         self.actionAbout.setText(_translate("MainWindow", "About"))
-        self.actionChannels.setText(_translate("MainWindow", "Channels"))
+        self.actionChannels.setText(_translate("MainWindow", "Edit displayed channels"))
         self.actionChannels.setShortcut(_translate("MainWindow", "Ctrl+C"))
+        self.actionEEG.setText(_translate("MainWindow", "Other options"))
+        self.actionEEG.setShortcut(_translate("MainWindow", "Ctrl+P"))        
         self.actionHypnogram.setText(_translate("MainWindow", "Hypnogram"))
         self.actionHypnogram.setShortcut(_translate("MainWindow", "Ctrl+H"))
         self.actionSpectogram.setText(_translate("MainWindow", "Spectogram"))

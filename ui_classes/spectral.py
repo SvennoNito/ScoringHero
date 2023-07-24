@@ -117,15 +117,16 @@ class powerbox(QtWidgets.QWidget):
         self.axes.setLabel('left', 'Power', **{'color':'r', 'font-size':'20px'})
         self.axes.setMouseEnabled(x=False, y=False)
         self.axes.setXRange(0, 30, padding=0)    
-        ticklabels = [(tick, f'{tick}') for tick in np.round(np.arange(0, 30, 3), 1)]
-        for ndx in [-1]:
-            ticklabels[ndx] = (ticklabels[ndx][0], f'{ticklabels[ndx][1]} Hz')
+        #self.axes.setLogMode(x=True)
+        #ticklabels = [(tick, f'{tick}') for tick in np.round(np.arange(0, 30, 1), 1)]
+        #for ndx in [-1]:
+        #    ticklabels[ndx] = (ticklabels[ndx][0], f'{ticklabels[ndx][1]} Hz')
         #ticklabels = [(tick, '') for tick in np.arange(0, 30, 2)]
         #for tick in np.arange(0, 30, 4):
         #    ticklabels[int(tick/2)] = (tick, f'{tick}Hz')
-        self.axes.getAxis('bottom').setTicks([ticklabels])
+        #self.axes.getAxis('bottom').setTicks([ticklabels])
         tick_font_size = QtGui.QFont()
-        tick_font_size.setPointSize(10)  # Set the desired font size
+        tick_font_size.setPointSize(8)  # Set the desired font size
         self.axes.getAxis('bottom').setStyle(tickFont= tick_font_size)          
 
 
@@ -143,23 +144,45 @@ class powerbox(QtWidgets.QWidget):
         maxf    = f[np.where(p==max(p))[0][0]]
 
         # Frequencies of interest
-        f = f[np.where(f <= 30)]
-        p = p[np.where(f <= 30)]
+        f = f[np.where((f <= 26) & (f >= 0))]
+        p = p[np.where((f <= 26) & (f >= 0))]
 
+        # Create stretched frequency vector
+        #expvector = np.exp(np.linspace(0, 2, 31))
+        #distances = np.diff(expvector)
+        #midpoint  = max(distances) + np.diff(distances[-2:])*1.5
+        #fmod      = np.cumsum(np.concatenate((distances, midpoint, distances[::-1])))
+        fmod      = np.exp(np.linspace(0, 2, len(f)))
+        fmod      = np.linspace(0, 2, len(f))
+
+        # Ticklabels
+        ticklabels  = []
+        tickvals    = np.arange(min(f), max(f), 2)
+        indices     = [np.where(val == f)[0][0] for val in tickvals]
+        for index, tickval in zip(indices, tickvals):
+            ticklabels.append((fmod[index], f'{int(tickval)}'))
+        self.axes.getAxis('bottom').setTicks([ticklabels])        
+
+        # Visible axes
+        self.axes.setXRange(min(fmod), max(fmod), padding=0) 
+        self.axes.plotItem.showGrid(x=True, y=True, alpha=0.3)
+
+        # Scale power values
         logp = np.log10(p)
         logp = (logp - min(logp)) / (max(logp) - min(logp))
         p = (p - min(p)) / (max(p) - min(p))
 
         # Plot power
         pen = pg.mkPen(width=4)
-        #redpen = pg.mkPen(width=2, color=(233, 30, 99), style=QtCore.Qt.DashLine)
-        self.axes.plot(f, p, pen=pen)
-        #self.axes.plot(f, logp, pen=pg.mkPen(width=1, style=QtCore.Qt.DashLine))
+        self.axes.plot(fmod, p, pen=pen)
 
+
+        # Plot power
+        #redpen = pg.mkPen(width=2, color=(233, 30, 99), style=QtCore.Qt.DashLine)  
+        #self.axes.plot(f, logp, pen=pg.mkPen(width=1, style=QtCore.Qt.DashLine))
         #self.axes.plot([maxf, maxf], [min(p), max(p)], pen=redpen)
 
         # Draw peaks
-        self.axes.plotItem.showGrid(x=True, y=True, alpha=0.2 )
         #self.peak(f, p)
 
     def peak(self, f, p):
