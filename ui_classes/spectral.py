@@ -22,6 +22,7 @@ class spectogram(QtWidgets.QWidget):
         #self.graphics.scene().sigMouseClicked.connect(self.spectogramClick)
 
     def initiate(self, EEG):
+        super().__init__()
         self.freqs  = []
         self.times  = []
         self.power  = []
@@ -34,8 +35,22 @@ class spectogram(QtWidgets.QWidget):
             self.times.append(epo*EEG.epolen - EEG.epolen/2)
         self.freqs = np.array(f)
         self.power = np.array(self.power)
-        self.times = np.array(self.times)
+        self.times = np.array(self.times)            
+
+        # Frequencies of interest
+        self.power = np.array([power[self.freqs <= 25] for power in self.power])
+        self.freqs = self.freqs[self.freqs <= 25]
+        self.white_top()
         self.build_image()
+
+    def white_top(self):
+        #steps = len(self.freqs) / 6 - self.freqs
+        #start = steps.tolist().index(min(steps))
+        start           = round(len(self.freqs) - len(self.freqs) / 6)
+        replace_with    = np.percentile(self.power, 50+2.5/2)
+        for power in self.power:
+            power[start:] = np.nan
+        self.power = np.array(self.power)
 
     def map(self, event):
         mouse_pos       = self.graphics.mapFromScene(event.scenePos())
@@ -56,9 +71,8 @@ class spectogram(QtWidgets.QWidget):
         self.img = pg.ImageItem()
         self.img.setImage(self.power)
         self.img.setColorMap(pg.colormap.get('CET-D9'))
-        self.img.setLevels([np.percentile(self.power, 0), np.percentile(self.power, 97.5)]) # Color scale     
+        self.img.setLevels([np.nanpercentile(self.power, 0), np.nanpercentile(self.power, 97.5)]) # Color scale     
         self.image()    
-
 
     def image(self):
         self.axes.clear()
@@ -68,7 +82,7 @@ class spectogram(QtWidgets.QWidget):
         self.axes.setLabel('left', "Freq", units='Hz', **{'color':'r', 'font-size':'20px'})
 
         self.axes.setXRange(0, len(self.times), padding=0)
-        self.axes.setYRange(0, len(self.freqs[self.freqs <= 30]), padding=0)
+        self.axes.setYRange(0, len(self.freqs), padding=0)
 
         # y ticks
         freqres = np.unique(np.diff(self.freqs))[0]

@@ -140,7 +140,7 @@ class hypnogram(QtWidgets.QWidget):
         limits = axes.getAxis('left').range
         times  = np.linspace(axes.getAxis('bottom').range[0], axes.getAxis('bottom').range[1], self.numepo) + 0.5
         times  = np.repeat(times, 2) 
-        shift  = limits[1]/12
+        shift  = limits[1]/6
 
         for item in reversed(axes.items[2:-1]):
             axes.removeItem(item)
@@ -149,7 +149,7 @@ class hypnogram(QtWidgets.QWidget):
             data    = np.zeros(self.numepo)
             data[:] = np.nan
             data[stages == stage] = stage
-            data    = np.concatenate(np.column_stack((data+shift*count+limits[1]/2, data+shift*(count+1)+limits[1]/2)))
+            data    = np.concatenate(np.column_stack((data+shift*count+limits[1]*0, data+shift*(count+1)+limits[1]*0)))
             pen     = pg.mkPen(color=(0, 0, 0, 180), width=3)
             axes.plot(times, data, pen=pen)
 
