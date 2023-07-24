@@ -61,16 +61,16 @@ class Ui_MainWindow(QMainWindow):
         if event.key() == Qt.Key_Left:
             self.previousEpoch()      
         if event.key() == Qt.Key_F1:            
-            self.containerF1.include(self.greenLine)
+            self.containerF1.include(self.greenLine, self.EEG)
             self.quick_save()    
         if event.key() == Qt.Key_F2:            
-            self.containerF2.include(self.greenLine)
+            self.containerF2.include(self.greenLine, self.EEG)
             self.quick_save()    
         if event.key() == Qt.Key_F3:            
-            self.containerF3.include(self.greenLine)
+            self.containerF3.include(self.greenLine, self.EEG)
             self.quick_save()    
         if event.key() == Qt.Key_F4:            
-            self.containerF4.include(self.greenLine)
+            self.containerF4.include(self.greenLine, self.EEG)
             self.quick_save()       
 
 
@@ -106,7 +106,7 @@ class Ui_MainWindow(QMainWindow):
                     
     def label_artefacts(self):
         #self.EEG.storeArtefacts(self.greenLine)  
-        self.artefacts.include(self.greenLine)
+        self.artefacts.include(self.greenLine, self.EEG)
         self.hypnogram.show_artefacts(self.artefacts.epoch)
         self.quick_save()          
 

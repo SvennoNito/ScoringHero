@@ -13,15 +13,16 @@ class container(QtCore.QObject):
         self.epolen     = epolen
         self.label      = label
 
-    def include(self, greenLines):
+    def include(self, greenLines, EEG):
         whole_epoch     = greenLines.axes.getAxis('bottom').range # epoch range
+        actual_epoch    = [round(whole_epoch[0] + EEG.return_extension()[0]), round(whole_epoch[1] - EEG.return_extension()[0])]
         #all_borders     = [annotation.borders[0] for annotation in allAnnotations] # all borders
         #all_borders     = [border[0] for border in all_borders if len(border) > 0]
         areas_in_epoch  = [item[0] > whole_epoch[0] and item[1] < whole_epoch[1] for item in self.borders] # artefacts in epoch
 
         # Remove whole epoch if already marked
-        if whole_epoch in self.borders:
-            self.borders.remove(whole_epoch) 
+        if actual_epoch in self.borders:
+            self.borders.remove(actual_epoch) 
             self.remove_areas(greenLines)        
 
         else: # whole epoch was not marked
@@ -30,8 +31,8 @@ class container(QtCore.QObject):
                     for index in np.where(areas_in_epoch)[0][::-1]:
                         self.borders.remove(self.borders[index])
                     self.remove_areas(greenLines)
-                elif whole_epoch not in self.borders: # store whole epoch
-                    self.borders.append(whole_epoch)
+                elif actual_epoch not in self.borders: # store whole epoch
+                    self.borders.append(actual_epoch)
                     self.show_areas(greenLines)
             else: # there are greeb lines
                 newArtefacts = []

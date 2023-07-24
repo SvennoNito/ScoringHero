@@ -158,7 +158,7 @@ class hypnogram(QtWidgets.QWidget):
             data    = np.zeros(self.numepo)
             data[:] = np.nan
             data[container.epoch] = 2
-            data    = np.concatenate(np.column_stack((data+shift*5+limits[1]/2, data+shift*(5+1)+limits[1]/2)))
+            data    = np.concatenate(np.column_stack((data+shift*5+limits[1]*0, data+shift*(5+1)+limits[1]*0)))
             color   = container.facecolor[:-1]
             pen     = pg.mkPen(color=color, width=3)
             axes.plot(times, data, pen=pen)
