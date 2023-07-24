@@ -29,8 +29,8 @@ class EEG_class(QtWidgets.QWidget):
         self.chaninfo       = {}
         self.times          = []
         self.duration_h     = []
-        self.extend_l       = 1
-        self.extend_r       = 1
+        self.extend_l       = 0
+        self.extend_r       = 0
 
         # Widget for plotting
         self.axes = pg.PlotWidget(centralWidget)

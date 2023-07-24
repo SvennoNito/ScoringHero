@@ -1,6 +1,8 @@
 [
     {
-        "SamplingRate": 128
+        "SamplingRate": 128,
+        "ExtendLeftBy": 5,
+        "ExtendRightBy": 5
     },
     [
         {
