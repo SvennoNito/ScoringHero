@@ -41,8 +41,7 @@ class Ui_MainWindow(QMainWindow):
         self.containers         = [self.artefacts, self.containerF1, self.containerF2, self.containerF3, self.containerF4]
         self.notes_editbox      = popups.editbox(self.containers)
         self.notes_editbox.changesMade.connect(self.edit_annotations)
-        self.optionbox          = popups.options()
-        self.optionbox.changesMade.connect(self.edit_displayed_eeg)
+
 
         
 
@@ -230,6 +229,8 @@ class Ui_MainWindow(QMainWindow):
 
         for annotation in self.containers:
             annotation.changesMade.connect(self.remove_areas)        
+        self.optionbox = popups.options(self.EEG.return_extension())
+        self.optionbox.changesMade.connect(self.edit_displayed_eeg)            
 
 
     def setupUi(self, MainWindow):

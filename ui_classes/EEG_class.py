@@ -59,8 +59,13 @@ class EEG_class(QtWidgets.QWidget):
 
 
     def add_info(self, info):
-        self.srate = info['SamplingRate']
+        self.srate    = info['SamplingRate']
+        self.extend_l = info['ExtendLeftBy']
+        self.extend_r = info['ExtendRightBy']
 
+    def return_extension(self):
+        return [self.extend_l, self.extend_r]
+    
     def add_chaninfo(self, chaninfo):
         self.chaninfo = chaninfo
 
@@ -207,9 +212,9 @@ class EEG_class(QtWidgets.QWidget):
         # Epoch border
         border_line = pg.InfiniteLine(angle=90, pos=self.times[this_epoch-1][0], pen=hard_pen); self.axes.addItem(border_line)                 
         border_line = pg.InfiniteLine(angle=90, pos=self.times[this_epoch-1][-1], pen=hard_pen); self.axes.addItem(border_line)                 
-        print([value for value in times if times.tolist().count(value) > 1])
-        print(len(times))
-        print(len(set(times)))
+        #print([value for value in times if times.tolist().count(value) > 1])
+        #print(len(times))
+        #print(len(set(times)))
 
         # Adjust axis
         self.axes.setXRange(times[0]/self.timesby, times[-1]/self.timesby, padding=0)    

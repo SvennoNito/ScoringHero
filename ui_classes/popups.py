@@ -161,7 +161,7 @@ class editbox(QtWidgets.QDialog):
 
 class options(QtWidgets.QDialog):
     changesMade = QtCore.pyqtSignal()
-    def __init__(self, parent=None):
+    def __init__(self, exntensions, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout(self)
         form_layout = QFormLayout()        
@@ -169,7 +169,7 @@ class options(QtWidgets.QDialog):
 
         # Loop through EEG extensions
         labels = ['EEG extension left', 'EEG extension right']
-        for label in labels:
+        for count, label in enumerate(labels):
 
             # EEG extension
             labelbox = QLabel(label)
@@ -180,7 +180,7 @@ class options(QtWidgets.QDialog):
             # Value by which EEG is extended
             spinbox = QDoubleSpinBox(self)
             spinbox.setMinimum(0)
-            spinbox.setValue(0)
+            spinbox.setValue(exntensions[count])
             spinbox.setSuffix(" s") 
             spinbox.setDecimals(0)
             spinbox.valueChanged.connect(self.emit_signal)      
