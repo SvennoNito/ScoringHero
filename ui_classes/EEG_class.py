@@ -124,21 +124,21 @@ class EEG_class(QtWidgets.QWidget):
                 ext_data[channel_count][0] = ( np.full( ndx_l, np.nan) )
                 ext_data[channel_count][1] = ( epoched_data[this_epoch][0: ndx_r ] )
             elif this_epoch == self.numepo:
-                ext_data[channel_count][0] = ( epoched_data[this_epocht-2][0: ndx_l ] )
+                ext_data[channel_count][0] = ( epoched_data[this_epoch-2][0: ndx_l ] )
                 ext_data[channel_count][1] = ( np.full( ndx_r, np.nan) )
             else:
                 ext_data[channel_count][0] = ( epoched_data[this_epoch-2][0: ndx_l ] )
                 ext_data[channel_count][1] = ( epoched_data[this_epoch][0: ndx_r ] )
             if channel_count == 0:
                 if this_epoch == 1:             
-                    ext_times[0] = ( np.linspace(-ndx_l/self.srate, 0, ndx_l) / self.timesby )
-                    ext_times[1] = ( self.times[this_epoch][0: ndx_r ] )
-                elif this_epoch == self.numepo-1:
-                    ext_times[0] = ( self.times[this_epoch-2][-ndx_l: ] )
+                    ext_times[0] = ( np.linspace(-ndx_l/self.srate, -self.times[this_epoch-1][1], ndx_l) / self.timesby )
+                    ext_times[1] = ( self.times[this_epoch][1: ndx_r+1 ] )
+                elif this_epoch == self.numepo:
+                    ext_times[0] = ( self.times[this_epoch-2][-ndx_l-1: -1 ] )
                     ext_times[1] = ( np.linspace(self.times[-1][-1]+1, self.times[-1][-1]+1+ndx_r/self.srate, ndx_r) / self.timesby )  
                 else:
-                    ext_times[0] = ( self.times[this_epoch-2][-ndx_l: ] )
-                    ext_times[1] = ( self.times[this_epoch][0: ndx_r ] )   
+                    ext_times[0] = ( self.times[this_epoch-2][-ndx_l-1: -1] )
+                    ext_times[1] = ( self.times[this_epoch][1: ndx_r+1 ] )   
         return ext_data, ext_times
                       
 
@@ -207,13 +207,15 @@ class EEG_class(QtWidgets.QWidget):
         # Epoch border
         border_line = pg.InfiniteLine(angle=90, pos=self.times[this_epoch-1][0], pen=hard_pen); self.axes.addItem(border_line)                 
         border_line = pg.InfiniteLine(angle=90, pos=self.times[this_epoch-1][-1], pen=hard_pen); self.axes.addItem(border_line)                 
+        print([value for value in times if times.tolist().count(value) > 1])
+        print(len(times))
+        print(len(set(times)))
 
-        
         # Adjust axis
         self.axes.setXRange(times[0]/self.timesby, times[-1]/self.timesby, padding=0)    
         self.axes.setYRange(-channelCount*self.shift*(visibleChannels-0.5), self.shift*(visibleChannels-0.5)/1.2, padding=0)  
         if self.timesby == 1:
-            ticklabels = [(tick, f'{tick} s') for tick in np.round(np.arange(5, 10000, 5), 1)]
+            ticklabels = [(tick, f'{tick} s') for tick in np.round(np.arange(0, 10000, 5), 1)]
         elif self.timesby == 60:
             ticklabels = [(tick, f'{tick} min') for tick in np.round(np.arange(0.1, 2000, 0.1), 1)]
 

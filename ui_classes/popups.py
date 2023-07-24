@@ -107,7 +107,7 @@ class editbox(QtWidgets.QDialog):
         for count, container in enumerate(annotation_containers):
 
             # Channe label
-            countbox = QLabel(f'#{count}')
+            countbox = QLabel(f'#{count+1}')
             countbox.setAlignment(QtCore.Qt.AlignRight)
             countbox.setFixedWidth(len('#1')*8)            
 
