@@ -131,6 +131,7 @@ class Ui_MainWindow(QMainWindow):
         self.hypnogram.update(this_epoch)
         self.hypnogram.add_to_spectogram(this_epoch, self.spectogram.axes, self.containers)
         self.hypnogram.show_artefacts(self.artefacts.epoch)
+        self.powerbox.update(self.EEG.data[0][self.this_epoch-1])
         self.quick_save()
         self.resetGreenLine()          # Removes the greenLine widget
 
