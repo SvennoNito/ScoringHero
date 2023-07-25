@@ -18,6 +18,7 @@ def write_json(filename, epolen, hypnogram, artefacts, containers):
                 'end':   stage['Epoch'] * epolen,
                 'stage': stage['Stage'],
                 'digit': stage['Digit'],
+                'channels': stage['Channels'],
                 'clean': 0 if stage['Epoch'] in artefacts.epoch else 1
                 })     
                             

@@ -64,9 +64,10 @@ class hypnogram(QtWidgets.QWidget):
         else:
             return None   
 
-    def assign(self, epoch, stage):
+    def assign(self, epoch, stage, channels):
         self.stages[epoch-1]['Stage'] = stage
         self.stages[epoch-1]['Digit'] = self.assign_number(stage)
+        self.stages[epoch-1]['Channels'] = channels
 
     def initiate(self, EEG):
         self.numepo     = EEG.numepo
@@ -76,7 +77,8 @@ class hypnogram(QtWidgets.QWidget):
         for epoch in range(1, self.numepo + 1):
             self.stages.append({'Epoch': epoch,
                                 'Stage': '-',
-                                'Digit': None}) 
+                                'Digit': None,
+                                'Channels': None}) 
         # self.stages = {int(key): ['-', None] for key in np.arange(1, self.numepo+1)}
         self.axes.setYRange(-4, 1, padding=0) 
         self.axes.setXRange(0, self.numepo, padding=0)

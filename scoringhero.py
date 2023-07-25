@@ -26,24 +26,12 @@ class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.devmode            = 1
-        self.epolen             = 30
         self.this_epoch         = 1
         self.this_stage         = '-'
         self.savename           = []
         self.path_script        = os.path.dirname(os.path.abspath(__file__))
         self.path_expdata       = os.path.join(self.path_script, 'example_data')
         self.path_savefile      = os.path.join(self.path_script, 'example_data')
-        self.artefacts          = popups.container(self.epolen, facecolor=(255, 200, 200, 100), label="Artefacts")
-        self.containerF1        = popups.container(self.epolen, facecolor=(100, 149, 237, 100), label="Annotation_F1")
-        self.containerF2        = popups.container(self.epolen, facecolor=(152, 251, 152, 100), label="Annotation_F2")
-        self.containerF3        = popups.container(self.epolen, facecolor=(255, 255, 102, 100), label="Annotation_F3")
-        self.containerF4        = popups.container(self.epolen, facecolor=(64, 224, 208, 100),  label="Annotation_F4")
-        self.containers         = [self.artefacts, self.containerF1, self.containerF2, self.containerF3, self.containerF4]
-        self.notes_editbox      = popups.editbox(self.containers)
-        self.notes_editbox.changesMade.connect(self.edit_annotations)
-
-
-        
 
 
         """ self.editfield = QtWidgets.QLineEdit()
@@ -76,7 +64,7 @@ class Ui_MainWindow(QMainWindow):
 
     def quick_save(self): 
         if len(self.savename) > 0:
-            io_functions.write_json(self.savename, self.epolen, self.hypnogram, self.artefacts, self.containers)
+            io_functions.write_json(self.savename, self.EEG.epolen, self.hypnogram, self.artefacts, self.containers)
                                                
     def scoring_load(self):
         scoring_file, _     = QtWidgets.QFileDialog.getOpenFileName(None, 'Open .json file', self.path_expdata, 'Json Files (*.json)')
@@ -139,27 +127,27 @@ class Ui_MainWindow(QMainWindow):
    
 
     def scoreN1(self):     
-        self.hypnogram.assign(self.this_epoch, self.hypnogram.N1)
+        self.hypnogram.assign(self.this_epoch, self.hypnogram.N1, self.EEG.return_active_channels())
         self.refresh()   
         self.nextEpoch()
 
     def scoreN2(self):     
-        self.hypnogram.assign(self.this_epoch, self.hypnogram.N2)
+        self.hypnogram.assign(self.this_epoch, self.hypnogram.N2, self.EEG.return_active_channels())
         self.refresh() 
         self.nextEpoch()
 
     def scoreN3(self):     
-        self.hypnogram.assign(self.this_epoch, self.hypnogram.N3)
+        self.hypnogram.assign(self.this_epoch, self.hypnogram.N3, self.EEG.return_active_channels())
         self.refresh() 
         self.nextEpoch()
 
     def scoreWake(self):     
-        self.hypnogram.assign(self.this_epoch, self.hypnogram.W)
+        self.hypnogram.assign(self.this_epoch, self.hypnogram.W, self.EEG.return_active_channels())
         self.refresh() 
         self.nextEpoch()
 
     def scoreREM(self):     
-        self.hypnogram.assign(self.this_epoch, self.hypnogram.REM)
+        self.hypnogram.assign(self.this_epoch, self.hypnogram.REM, self.EEG.return_active_channels())
         self.refresh()        
         self.nextEpoch()       
 
@@ -216,7 +204,7 @@ class Ui_MainWindow(QMainWindow):
 
             
     def initiate(self):
-        self.EEG.update(self.epolen)
+        self.EEG.update()
         self.EEG.showEEG(self.this_epoch)
         self.hypnogram.initiate(self.EEG)
         self.spectogram.initiate(self.EEG)
@@ -227,11 +215,19 @@ class Ui_MainWindow(QMainWindow):
         self.powerbox.initiate(self.EEG)
         self.greenLine.initiate(self.EEG)
         self.EEG.changesMade.connect(self.show_artefacts)
-
+           
+        self.artefacts          = popups.container(self.EEG.epolen, facecolor=(255, 200, 200, 100), label="Artefacts")
+        self.containerF1        = popups.container(self.EEG.epolen, facecolor=(100, 149, 237, 100), label="Annotation_F1")
+        self.containerF2        = popups.container(self.EEG.epolen, facecolor=(152, 251, 152, 100), label="Annotation_F2")
+        self.containerF3        = popups.container(self.EEG.epolen, facecolor=(255, 255, 102, 100), label="Annotation_F3")
+        self.containerF4        = popups.container(self.EEG.epolen, facecolor=(64, 224, 208, 100),  label="Annotation_F4")
+        self.containers         = [self.artefacts, self.containerF1, self.containerF2, self.containerF3, self.containerF4]
         for annotation in self.containers:
-            annotation.changesMade.connect(self.remove_areas)        
-        self.optionbox = popups.options(self.EEG.return_extension())
-        self.optionbox.changesMade.connect(self.edit_displayed_eeg)            
+            annotation.changesMade.connect(self.remove_areas)             
+        self.notes_editbox      = popups.editbox(self.containers)
+        self.notes_editbox.changesMade.connect(self.edit_annotations)      
+        self.optionbox          = popups.options(self.EEG.return_extension())
+        self.optionbox.changesMade.connect(self.edit_displayed_eeg)              
 
 
     def setupUi(self, MainWindow):

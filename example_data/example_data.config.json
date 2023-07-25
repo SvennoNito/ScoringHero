@@ -1,6 +1,7 @@
 [
     {
         "SamplingRate": 128,
+        "EpochLength": 20, 
         "ExtendLeftBy": 5,
         "ExtendRightBy": 5
     },

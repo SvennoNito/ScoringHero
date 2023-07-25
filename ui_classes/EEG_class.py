@@ -22,7 +22,7 @@ class EEG_class(QtWidgets.QWidget):
         self.points         = []
         self.srate          = []
         self.numepo         = []
-        self.epolen         = []
+        self.epolen         = 30
         self.shift          = 25
         self.artefacts      = []
         self.timesby        = 1     
@@ -62,6 +62,7 @@ class EEG_class(QtWidgets.QWidget):
         self.srate    = info['SamplingRate']
         self.extend_l = info['ExtendLeftBy']
         self.extend_r = info['ExtendRightBy']
+        self.epolen   = info['EpochLength']
 
     def return_extension(self):
         return [self.extend_l, self.extend_r]
@@ -73,11 +74,10 @@ class EEG_class(QtWidgets.QWidget):
         self.extend_l, self.extend_r = optionbox.get_extensions()
         self.showEEG(this_epoch)
 
-    def update(self, epolen):
+    def update(self):
         self.nchans  = len(self.data)
         self.points  = len(self.data[0])
-        self.epolen  = epolen
-        self.numepo  = int(np.floor(self.points / self.srate / epolen))
+        self.numepo  = int(np.floor(self.points / self.srate / self.epolen))
         self.duration_h = self.points/self.srate/60/60
         self.data, self.times = self.epoch_data(self.epolen)
 
@@ -146,7 +146,9 @@ class EEG_class(QtWidgets.QWidget):
                     ext_times[1] = ( self.times[this_epoch][1: ndx_r+1 ] )   
         return ext_data, ext_times
                       
-
+    def return_active_channels(self):
+        active_channels = [chaninfo['Channel'] for chaninfo in self.chaninfo if chaninfo['Display'] == 1]
+        return active_channels
 
     def showEEG(self, this_epoch):
  
