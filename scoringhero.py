@@ -181,6 +181,16 @@ class Ui_MainWindow(QMainWindow):
     def respond_to_scaleDialogeBox(self):
         self.EEG.scaleChannels(self.scaleDialogeBox.chaninfo, self.this_epoch) 
 
+    def jump_to_epoch(self):
+        self.this_epoch = self.tool_epochjump.value()
+        self.EEG.showEEG(self.this_epoch)
+        self.refresh()
+
+    def jump_to_unscored_epoch(self):
+        self.this_epoch = self.hypnogram.get_last_unscored()
+        self.EEG.showEEG(self.this_epoch)
+        self.refresh()
+
     def openEEGFile(self):
         # Function to call when loading the EEG file.
         EEG_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', self.path_expdata, '*.mat;*json')
@@ -227,7 +237,9 @@ class Ui_MainWindow(QMainWindow):
         self.notes_editbox      = popups.editbox(self.containers)
         self.notes_editbox.changesMade.connect(self.edit_annotations)      
         self.optionbox          = popups.options(self.EEG.return_extension())
-        self.optionbox.changesMade.connect(self.edit_displayed_eeg)              
+        self.optionbox.changesMade.connect(self.edit_displayed_eeg)     
+
+        self.tool_epochjump.setRange(1, self.EEG.numepo)         
 
 
     def setupUi(self, MainWindow):
@@ -365,7 +377,25 @@ class Ui_MainWindow(QMainWindow):
         self.actionLabelArtefacts.triggered.connect(lambda: self.label_artefacts())
         #self.actionRemoveArtefacts.triggered.connect(lambda: self.removeArtefact())
 
+        # Toolbar
+        toolbar = QtWidgets.QToolBar(MainWindow)
+        toolbar.setObjectName("toolbar")
+        MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, toolbar)
 
+        # Add the Spinbox to the toolbar
+        self.tool_epochjump = QSpinBox() 
+        self.tool_epochjump.valueChanged.connect(self.jump_to_epoch)
+        self.tool_lastunscored = QPushButton("Next unscored epoch")
+        self.tool_lastunscored.clicked.connect(self.jump_to_unscored_epoch)
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+        spacer.setFixedWidth(10)        
+        toolbar.addWidget(QLabel("Jump to epoch:")) 
+        toolbar.addWidget(self.tool_epochjump)
+        toolbar.addWidget(spacer)        
+        toolbar.addWidget(self.tool_lastunscored)
+        
+        
 
 
 

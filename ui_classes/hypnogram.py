@@ -69,6 +69,11 @@ class hypnogram(QtWidgets.QWidget):
         self.stages[epoch-1]['Digit'] = self.assign_number(stage)
         self.stages[epoch-1]['Channels'] = channels
 
+    def get_last_unscored(self):
+        for index, stage in enumerate(self.stages):
+            if stage['Stage'] == '-':
+                return index + 1        
+
     def initiate(self, EEG):
         self.numepo     = EEG.numepo
         self.epolen     = EEG.epolen
