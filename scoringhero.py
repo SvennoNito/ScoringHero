@@ -65,6 +65,7 @@ class Ui_MainWindow(QMainWindow):
         files = QtWidgets.QFileDialog.getOpenFileNames(None, 'Select multiple EEG files', self.path_expdata, 'Matlab files (*.mat)')
         self.EEG.data, self.savename, basename = io_functions.choose_random(files, allow_existence=1)
         io_functions.open_config(f'{basename}.config', self.EEG)
+        io_functions.load_your_work(self.hypnogram, self.containers, f'{basename}.json')
         self.initiate()        
 
     def quick_save(self): 
@@ -443,7 +444,7 @@ class Ui_MainWindow(QMainWindow):
         # File
         self.actionOpen.setText(_translate("MainWindow", "Open EEG file"))
         self.actionOpen.setShortcut(_translate("MainWindow", "Ctrl+O"))       
-        self.actionRandom.setText(_translate("MainWindow", "Open random EEG file from folder"))
+        self.actionRandom.setText(_translate("MainWindow", "Open random from selected EEG files"))
         self.actionRandom.setShortcut(_translate("MainWindow", "Ctrl+R"))            
         self.actionscoring_load.setText(_translate("MainWindow", "Load previous work"))
         self.actionscoring_load.setShortcut(_translate("MainWindow", "Ctrl+Shift+O"))  # Add this line for the shortcut        

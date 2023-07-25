@@ -66,17 +66,18 @@ def load_your_work(hypnogram, containers, scoring_file):
 
     filename, extension = os.path.splitext(scoring_file)
     if extension == '.json':
-        with open(f"{filename}.json", "r") as file:
-            json_file = json.load(file)      
+        if os.path.exists(scoring_file):
+            with open(scoring_file, "r") as file:
+                json_file = json.load(file)      
 
-        # Load sleep stages
-        for bucket in json_file[0]:
-            hypnogram.assign(bucket['epoch'], bucket['stage'])
+            # Load sleep stages
+            for bucket in json_file[0]:
+                hypnogram.assign(bucket['epoch'], bucket['stage'], bucket['channels'])
 
-        # Load annotations
-        for container, label in zip(containers, json_file[1][0].keys()):
-            container.label     = label
-            container.borders   = json_file[1][0][label]
+            # Load annotations
+            for container, label in zip(containers, json_file[1][0].keys()):
+                container.label     = label
+                container.borders   = json_file[1][0][label]
 
 
 def open_config(filename, EEG):
