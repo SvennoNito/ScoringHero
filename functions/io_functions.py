@@ -1,4 +1,4 @@
-import json, os, re
+import json, os, re, random, scipy, h5py
 import tkinter as tk 
 import tkinter.simpledialog
 
@@ -32,6 +32,34 @@ def write_json(filename, epolen, hypnogram, artefacts, containers):
         # Save json file
         json.dump(saver, file, indent=1)
 
+def choose_random(files, allow_existence=1):
+    rand_index      = random.randint(0, len(files[0]) - 1)
+    file            = files[0][rand_index]
+    basename        = os.path.splitext(file)[0]
+    scoring_file    = f'{basename}.json'
+    if allow_existence == 0:
+        while os.path.exists(scoring_file):
+            rand_index      = random.randint(0, len(files[0]) - 1)
+            file            = files[0][rand_index]
+            scoring_file    = f'{os.path.splitext(file)[0]}.json'    
+    
+    data = open_eeg(file)
+    return data, scoring_file, basename
+
+
+def open_eeg(file):
+    filename, extension = os.path.splitext(file)
+    if extension == '.mat':
+        if scipy.io.matlab.miobase.get_matfile_version(filename)[0] == 2: #v7.3 files
+            with h5py.File(filename, "r") as file:
+                data = file['EEG']['data'][:]
+                if data.shape[0] > data.shape[1]: # dimensions are weird ....
+                    data = data.T
+        else:
+            data = scipy.io.loadmat(filename)['EEG']['data'][0][0]
+            # self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0] 
+    return data
+    
 
 def load_your_work(hypnogram, containers, scoring_file):
     # Function to load previously saved staging

@@ -61,6 +61,11 @@ class Ui_MainWindow(QMainWindow):
             self.containerF4.include(self.greenLine, self.EEG)
             self.quick_save()       
 
+    def open_random(self):
+        files = QtWidgets.QFileDialog.getOpenFileNames(None, 'Select multiple EEG files', self.path_expdata, 'Matlab files (*.mat)')
+        self.EEG.data, self.savename, basename = io_functions.choose_random(files, allow_existence=1)
+        io_functions.open_config(f'{basename}.config', self.EEG)
+        self.initiate()        
 
     def quick_save(self): 
         if len(self.savename) > 0:
@@ -221,9 +226,7 @@ class Ui_MainWindow(QMainWindow):
             else:
                 self.EEG.data = scipy.io.loadmat(EEG_file)['EEG']['data'][0][0]
             # self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0] 
-        self.savename = f'{EEG_filename}.json'
-        io_functions.open_config(f'{EEG_filename}.config', self.EEG)
-        self.initiate()
+        x
 
             
 
@@ -307,6 +310,10 @@ class Ui_MainWindow(QMainWindow):
         self.actionOpen.setObjectName("actionOpen")
         self.actionOpen.triggered.connect(lambda: self.openEEGFile())
         self.menuFile.addAction(self.actionOpen)
+        self.actionRandom = QtWidgets.QAction(MainWindow)
+        self.actionRandom.setObjectName("actionRandom")
+        self.actionRandom.triggered.connect(lambda: self.open_random())
+        self.menuFile.addAction(self.actionRandom)        
         self.actionscoring_load = QtWidgets.QAction(MainWindow)
         self.actionscoring_load.setObjectName("actionscoring_load")
         self.actionscoring_load.triggered.connect(lambda: self.scoring_load())
@@ -434,10 +441,12 @@ class Ui_MainWindow(QMainWindow):
         self.menuStages.setTitle(_translate("MainWindow", "Stages"))
 
         # File
+        self.actionOpen.setText(_translate("MainWindow", "Open EEG file"))
+        self.actionOpen.setShortcut(_translate("MainWindow", "Ctrl+O"))       
+        self.actionRandom.setText(_translate("MainWindow", "Open random EEG file from folder"))
+        self.actionRandom.setShortcut(_translate("MainWindow", "Ctrl+R"))            
         self.actionscoring_load.setText(_translate("MainWindow", "Load previous work"))
         self.actionscoring_load.setShortcut(_translate("MainWindow", "Ctrl+Shift+O"))  # Add this line for the shortcut        
-        self.actionOpen.setText(_translate("MainWindow", "Open EEG file"))
-        self.actionOpen.setShortcut(_translate("MainWindow", "Ctrl+O"))
         self.actionSave.setText(_translate("MainWindow", "Save your work"))
         self.actionSave.setShortcut(_translate("MainWindow", "Ctrl+S"))
 
