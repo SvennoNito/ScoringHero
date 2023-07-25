@@ -112,11 +112,11 @@ class Ui_MainWindow(QMainWindow):
             self.greenLine.reset()       
         
     def refresh(self):
-        this_stage = self.hypnogram.stages[self.this_epoch-1]['Stage']
+        this_stage, uncertainty = self.hypnogram.get_text(self.this_epoch)
         this_epoch = self.this_epoch
-        self.EEG.update_text(this_epoch, this_stage)
+        self.EEG.update_text(this_epoch, this_stage, uncertainty)
         self.spectogram.add_line(this_epoch)
-        self.hypnogram.update(this_epoch)
+        #self.hypnogram.update(this_epoch)
         self.hypnogram.add_to_spectogram(this_epoch, self.spectogram.axes, self.containers)
         self.hypnogram.show_artefacts(self.artefacts.epoch)
         self.powerbox.update(self.EEG.data[0][self.this_epoch-1])
@@ -149,7 +149,11 @@ class Ui_MainWindow(QMainWindow):
     def scoreREM(self):     
         self.hypnogram.assign(self.this_epoch, self.hypnogram.REM, self.EEG.return_active_channels())
         self.refresh()        
-        self.nextEpoch()       
+        self.nextEpoch()     
+
+    def scoring_uncertainty(self):
+        self.hypnogram.express_uncertainty(self.this_epoch)
+        self.refresh()        
 
     def hypnoClick(self, event):
         self.this_epoch = self.hypnogram.onclick(event)
@@ -187,9 +191,21 @@ class Ui_MainWindow(QMainWindow):
         self.refresh()
 
     def jump_to_unscored_epoch(self):
-        self.this_epoch = self.hypnogram.get_last_unscored()
+        self.this_epoch = self.hypnogram.get_next_unscored()
         self.EEG.showEEG(self.this_epoch)
         self.refresh()
+
+    def jump_to_transition(self):
+        self.this_epoch = self.hypnogram.get_next_transition(self.this_epoch)
+        self.EEG.showEEG(self.this_epoch)
+        self.refresh()        
+
+    def jump_to_uncertain_epoch(self):
+        self.this_epoch = self.hypnogram.get_next_uncertain()
+        self.EEG.showEEG(self.this_epoch)
+        self.refresh()            
+
+
 
     def openEEGFile(self):
         # Function to call when loading the EEG file.
@@ -219,7 +235,8 @@ class Ui_MainWindow(QMainWindow):
         self.hypnogram.initiate(self.EEG)
         self.spectogram.initiate(self.EEG)
         self.spectogram.add_line(self.this_epoch)
-        self.EEG.update_text(self.this_epoch, self.this_stage)
+        this_stage, uncertainty = self.hypnogram.get_text(self.this_epoch)
+        self.EEG.update_text(self.this_epoch, this_stage, uncertainty)
         #self.epochpower.initiate(self.EEG)
         #self.epochpower.update(self.this_epoch)
         self.powerbox.initiate(self.EEG)
@@ -265,9 +282,9 @@ class Ui_MainWindow(QMainWindow):
         # Layout
         layout.addWidget(self.EEG.axes,                 10, 0,  85,  100)
         layout.addWidget(self.greenLine,                10, 0,  85,  100)     
-        layout.addWidget(self.spectogram.graphics,      0,  0,  10,  70)
-        layout.addWidget(self.hypnogram.axes,           0, 85,  10,  15)
-        layout.addWidget(self.powerbox.axes,           0, 70,  10,  15)
+        layout.addWidget(self.spectogram.graphics,      0,  0,  10,  85)
+        #layout.addWidget(self.hypnogram.axes,           0, 85,  10,  15)
+        layout.addWidget(self.powerbox.axes,           0, 85,  10,  15)
         #layout.addWidget(self.epochpower.axes,          95, 0,  5, 100)
 
    
@@ -281,128 +298,122 @@ class Ui_MainWindow(QMainWindow):
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 22))
         self.menubar.setObjectName("menubar")
 
+        # File menu
         self.menuFile = QtWidgets.QMenu(self.menubar)
-        self.menuFile.setObjectName("menuFile")
-        self.menuHelp = QtWidgets.QMenu(self.menubar)
-        self.menuHelp.setObjectName("menuHelp")
-        self.menuEdit = QtWidgets.QMenu(self.menubar)
+        self.menuFile.setObjectName("menuFile")    
+        self.menubar.addAction(self.menuFile.menuAction())  
+
+        self.actionOpen = QtWidgets.QAction(MainWindow)
+        self.actionOpen.setObjectName("actionOpen")
+        self.actionOpen.triggered.connect(lambda: self.openEEGFile())
+        self.menuFile.addAction(self.actionOpen)
+        self.actionscoring_load = QtWidgets.QAction(MainWindow)
+        self.actionscoring_load.setObjectName("actionscoring_load")
+        self.actionscoring_load.triggered.connect(lambda: self.scoring_load())
+        self.menuFile.addAction(self.actionscoring_load)
+        self.actionSave = QtWidgets.QAction(MainWindow)
+        self.actionSave.setObjectName("actionSave")
+        self.actionSave.triggered.connect(lambda: self.saveSleepStages())
+        self.menuFile.addAction(self.actionSave)
+
+        # Edits menu
+        self.menuEdit           = QtWidgets.QMenu(self.menubar)
         self.menuEdit.setObjectName("menuEdit")
-        #self.menuView = QtWidgets.QMenu(self.menubar)
-        #self.menuView.setObjectName("menuView")
-        self.menuStages = QtWidgets.QMenu(self.menubar)
+        self.menubar.addAction(self.menuEdit.menuAction())
+
+        self.actionChannels     = QtWidgets.QAction(MainWindow)
+        self.actionChannels.setObjectName("actionChannels")
+        self.actionChannels.triggered.connect(lambda: self.scaleChannels())
+        self.menuEdit.addAction(self.actionChannels)
+        self.actionAnnotations  = QtWidgets.QAction(MainWindow)
+        self.actionAnnotations.setObjectName("actionAnnotations")
+        self.actionAnnotations.triggered.connect(lambda: self.edit_annotations())
+        self.menuEdit.addAction(self.actionAnnotations)
+        self.actionEEG          = QtWidgets.QAction(MainWindow)
+        self.actionEEG.setObjectName("actionEEG")     
+        self.actionEEG.triggered.connect(lambda: self.options())      
+        self.menuEdit.addAction(self.actionEEG)
+
+        # Sleep stages menu
+        self.menuStages         = QtWidgets.QMenu(self.menubar)
         self.menuStages.setObjectName("menuStages")
-        #self.menuActions = QtWidgets.QMenu(self.menubar)
-        #self.menuActions.setObjectName("menuActions")
+        self.menubar.addAction(self.menuStages.menuAction())
+
+        self.actionN1           = QtWidgets.QAction(MainWindow)
+        self.actionN1.setObjectName("actionN1")
+        self.actionN1.triggered.connect(lambda: self.scoreN1())
+        self.menuStages.addAction(self.actionN1)
+        self.actionN2           = QtWidgets.QAction(MainWindow)
+        self.actionN2.setObjectName("actionN2")
+        self.actionN2.triggered.connect(lambda: self.scoreN2())
+        self.menuStages.addAction(self.actionN2)
+        self.actionN3           = QtWidgets.QAction(MainWindow)
+        self.actionN3.setObjectName("actionN3")
+        self.actionN3.triggered.connect(lambda: self.scoreN3())
+        self.menuStages.addAction(self.actionN3)
+        self.actionWake         = QtWidgets.QAction(MainWindow)
+        self.actionWake.setObjectName("actionWake")
+        self.actionWake.triggered.connect(lambda: self.scoreWake())
+        self.menuStages.addAction(self.actionWake)
+        self.actionREM          = QtWidgets.QAction(MainWindow)
+        self.actionREM.setObjectName("actionREM")
+        self.actionREM.triggered.connect(lambda: self.scoreREM())
+        self.menuStages.addAction(self.actionREM)        
+        self.actionUncertainty  = QtWidgets.QAction(MainWindow)
+        self.actionUncertainty.setObjectName("actionUncertainty")  
+        self.actionUncertainty.triggered.connect(lambda: self.scoring_uncertainty())      
+        self.menuStages.addAction(self.actionUncertainty)
+        self.menuStages.addSeparator()
+        self.actionArtefacts    = QtWidgets.QAction(MainWindow)
+        self.actionArtefacts.setObjectName("actionArtefacts")   
+        self.actionArtefacts.triggered.connect(lambda: self.label_artefacts())   
+        self.menuStages.addAction(self.actionArtefacts)
+
+        # Bring together
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-
-        self.actionOpen = QtWidgets.QAction(MainWindow)
-        self.actionOpen.setObjectName("actionOpen")
-        self.actionscoring_load = QtWidgets.QAction(MainWindow)
-        self.actionscoring_load.setObjectName("actionscoring_load")
-        self.actionSave = QtWidgets.QAction(MainWindow)
-        self.actionSave.setObjectName("actionSave")
-        self.actionChannels = QtWidgets.QAction(MainWindow)
-        self.actionChannels.setObjectName("actionChannels")
-        self.actionAnnotations = QtWidgets.QAction(MainWindow)
-        self.actionAnnotations.setObjectName("actionAnnotations")
-        self.actionEEG = QtWidgets.QAction(MainWindow)
-        self.actionEEG.setObjectName("actionEEG")        
-        self.actionAbout = QtWidgets.QAction(MainWindow)
-        self.actionAbout.setObjectName("actionAbout")
-        self.actionHypnogram = QtWidgets.QAction(MainWindow)
-        self.actionHypnogram.setObjectName("actionHypnogram")
-        self.actionSpectogram = QtWidgets.QAction(MainWindow)
-        self.actionSpectogram.setObjectName("actionSpectogram")
-        self.actionN1 = QtWidgets.QAction(MainWindow)
-        self.actionN1.setObjectName("actionN1")
-        self.actionN2 = QtWidgets.QAction(MainWindow)
-        self.actionN2.setObjectName("actionN2")
-        self.actionN3 = QtWidgets.QAction(MainWindow)
-        self.actionN3.setObjectName("actionN3")
-        self.actionWake = QtWidgets.QAction(MainWindow)
-        self.actionWake.setObjectName("actionWake")
-        self.actionREM = QtWidgets.QAction(MainWindow)
-        self.actionREM.setObjectName("actionREM")
-        self.actionLabelArtefacts = QtWidgets.QAction(MainWindow)
-        self.actionLabelArtefacts.setObjectName("actionLabelArtefacts")
-        #self.actionRemoveArtefacts = QtWidgets.QAction(MainWindow)
-        #self.actionRemoveArtefacts.setObjectName("actionRemoveArtefacts")
-
-        self.menuFile.addAction(self.actionOpen)
-        self.menuFile.addAction(self.actionscoring_load)
-        self.menuFile.addAction(self.actionSave)
-        self.menuHelp.addAction(self.actionAbout)
-        self.menuEdit.addAction(self.actionChannels)
-        self.menuEdit.addAction(self.actionAnnotations)
-        self.menuEdit.addAction(self.actionEEG)
-        self.menuEdit.addSeparator()
-        #self.menuView.addAction(self.actionHypnogram)
-        #self.menuView.addAction(self.actionSpectogram)
-        #self.menuView.addSeparator()
-        self.menuStages.addAction(self.actionWake)
-        self.menuStages.addAction(self.actionN1)
-        self.menuStages.addAction(self.actionN2)
-        self.menuStages.addAction(self.actionN3)
-        self.menuStages.addAction(self.actionREM)
-        self.menuStages.addAction(self.actionLabelArtefacts)
-        #self.menuActions.addAction(self.actionRemoveArtefacts)
-
-        self.menubar.addAction(self.menuFile.menuAction())
-        self.menubar.addAction(self.menuEdit.menuAction())
-        self.menubar.addAction(self.menuStages.menuAction())
-        #self.menubar.addAction(self.menuView.menuAction())
-        self.menubar.addAction(self.menuHelp.menuAction())
-        #self.menubar.addAction(self.menuActions.menuAction())
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-        self.actionOpen.triggered.connect(lambda: self.openEEGFile())
-        self.actionscoring_load.triggered.connect(lambda: self.scoring_load())
-        self.actionSave.triggered.connect(lambda: self.saveSleepStages())
-        self.actionChannels.triggered.connect(lambda: self.scaleChannels())
-        self.actionAnnotations.triggered.connect(lambda: self.edit_annotations())
-        self.actionEEG.triggered.connect(lambda: self.options())
-        self.actionAbout.triggered.connect(lambda: self.aboutDialog())
-        #self.actionHypnogram.triggered.connect(lambda: self.showHypnogram())
-        #self.actionSpectogram.triggered.connect(lambda: self.showSpectogram())
-        self.actionN1.triggered.connect(lambda: self.scoreN1())
-        self.actionN2.triggered.connect(lambda: self.scoreN2())
-        self.actionN3.triggered.connect(lambda: self.scoreN3())
-        self.actionWake.triggered.connect(lambda: self.scoreWake())
-        self.actionREM.triggered.connect(lambda: self.scoreREM())
-        self.actionLabelArtefacts.triggered.connect(lambda: self.label_artefacts())
-        #self.actionRemoveArtefacts.triggered.connect(lambda: self.removeArtefact())
-
-        # Toolbar
+     
+     
+        # ***************
+        # *** Toolbar ***
         toolbar = QtWidgets.QToolBar(MainWindow)
         toolbar.setObjectName("toolbar")
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, toolbar)
 
-        # Add the Spinbox to the toolbar
+        # Jump to epoch spinbox
+        toolbar.addWidget(QLabel("Jump to epoch:")) 
         self.tool_epochjump = QSpinBox() 
         self.tool_epochjump.valueChanged.connect(self.jump_to_epoch)
-        self.tool_lastunscored = QPushButton("Next unscored epoch")
-        self.tool_lastunscored.clicked.connect(self.jump_to_unscored_epoch)
+        toolbar.addWidget(self.tool_epochjump)
+
+        # Space
         spacer = QWidget()
         spacer.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
         spacer.setFixedWidth(10)        
-        toolbar.addWidget(QLabel("Jump to epoch:")) 
-        toolbar.addWidget(self.tool_epochjump)
-        toolbar.addWidget(spacer)        
-        toolbar.addWidget(self.tool_lastunscored)
+        toolbar.addWidget(spacer)    
+
+        # Next unscored epoch button     
+        self.tool_nextunscored = QPushButton("Next unscored epoch")
+        self.tool_nextunscored.clicked.connect(self.jump_to_unscored_epoch)
+        toolbar.addWidget(self.tool_nextunscored)
+        toolbar.addWidget(spacer) 
+
+        # Next uncertain epoch button     
+        self.tool_nextuncertain = QPushButton("Next uncertain epoch")
+        self.tool_nextuncertain.clicked.connect(self.jump_to_uncertain_epoch)
+        toolbar.addWidget(self.tool_nextuncertain)
+        toolbar.addWidget(spacer)         
+
+        # Next transition button
+        self.tool_nexttransition    = QPushButton("Next transition")
+        self.tool_nexttransition.clicked.connect(self.jump_to_transition)
+        toolbar.addWidget(self.tool_nexttransition)
+        toolbar.addWidget(spacer) 
         
-        
-
-
-
-
-
-
-
 
 
         # Developer mode
@@ -419,26 +430,18 @@ class Ui_MainWindow(QMainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
-        self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.menuEdit.setTitle(_translate("MainWindow", "Edit"))
-        #self.menuView.setTitle(_translate("MainWindow", "View"))
         self.menuStages.setTitle(_translate("MainWindow", "Stages"))
-        #self.menuActions.setTitle(_translate("MainWindow", "Actions"))
 
-        #self.EEG.textfield.setText(_translate("MainWindow", f'Epoch 1: -           '))  
+        # File
+        self.actionscoring_load.setText(_translate("MainWindow", "Load previous work"))
+        self.actionscoring_load.setShortcut(_translate("MainWindow", "Ctrl+Shift+O"))  # Add this line for the shortcut        
         self.actionOpen.setText(_translate("MainWindow", "Open EEG file"))
         self.actionOpen.setShortcut(_translate("MainWindow", "Ctrl+O"))
         self.actionSave.setText(_translate("MainWindow", "Save your work"))
         self.actionSave.setShortcut(_translate("MainWindow", "Ctrl+S"))
-        self.actionAbout.setText(_translate("MainWindow", "About"))
-        self.actionChannels.setText(_translate("MainWindow", "Edit displayed channels"))
-        self.actionChannels.setShortcut(_translate("MainWindow", "Ctrl+C"))
-        self.actionEEG.setText(_translate("MainWindow", "Other options"))
-        self.actionEEG.setShortcut(_translate("MainWindow", "Ctrl+P"))        
-        self.actionHypnogram.setText(_translate("MainWindow", "Hypnogram"))
-        self.actionHypnogram.setShortcut(_translate("MainWindow", "Ctrl+H"))
-        self.actionSpectogram.setText(_translate("MainWindow", "Spectogram"))
-        self.actionSpectogram.setShortcut(_translate("MainWindow", "Ctrl+P"))
+
+        # Stages   
         self.actionN1.setText(_translate("MainWindow", "N1"))
         self.actionN1.setShortcut(_translate("MainWindow", "1"))
         self.actionN2.setText(_translate("MainWindow", "N2"))
@@ -449,12 +452,16 @@ class Ui_MainWindow(QMainWindow):
         self.actionWake.setShortcut(_translate("MainWindow", "W"))
         self.actionREM.setText(_translate("MainWindow", "REM"))
         self.actionREM.setShortcut(_translate("MainWindow", "R"))
-        self.actionLabelArtefacts.setText(_translate("MainWindow", "Label artefacts"))
-        self.actionLabelArtefacts.setShortcut(_translate("MainWindow", "A"))  # Add this line for the shortcut
-        #self.actionRemoveArtefacts.setText(_translate("MainWindow", "Remove labeled artefacts"))
-        #self.actionRemoveArtefacts.setShortcut(_translate("MainWindow", "Ctrl+A"))  # Add this line for the shortcut
-        self.actionscoring_load.setText(_translate("MainWindow", "Load previous work"))
-        self.actionscoring_load.setShortcut(_translate("MainWindow", "Ctrl+Shift+O"))  # Add this line for the shortcut
+        self.actionUncertainty.setText(_translate("MainWindow", "Express uncertainty"))
+        self.actionUncertainty.setShortcut(_translate("MainWindow", "Q"))        
+        self.actionArtefacts.setText(_translate("MainWindow", "Label artefacts"))
+        self.actionArtefacts.setShortcut(_translate("MainWindow", "A"))  # Add this line for the shortcut
+
+        # Edit
+        self.actionChannels.setText(_translate("MainWindow", "Edit displayed channels"))
+        self.actionChannels.setShortcut(_translate("MainWindow", "Ctrl+C"))
+        self.actionEEG.setText(_translate("MainWindow", "Other options"))
+        self.actionEEG.setShortcut(_translate("MainWindow", "Ctrl+P"))           
         self.actionAnnotations.setText(_translate("MainWindow", "Edit annotations"))
         self.actionAnnotations.setShortcut(_translate("MainWindow", "Ctrl+E"))  # Add this line for the shortcut
 

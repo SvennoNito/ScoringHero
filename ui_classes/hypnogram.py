@@ -63,16 +63,37 @@ class hypnogram(QtWidgets.QWidget):
             return -4
         else:
             return None   
+        
+    def express_uncertainty(self, this_epoch):
+        if self.stages[this_epoch-1]['Uncertainty'] == 0:
+            self.stages[this_epoch-1]['Uncertainty'] = 1
+        else:
+            self.stages[this_epoch-1]['Uncertainty'] = 0
+
+    def get_next_uncertain(self):
+        for index, stage in enumerate(self.stages):
+            if stage['Uncertainty'] == 1:
+                return index + 1            
+        
+    def get_text(self, this_epoch):
+        return self.stages[this_epoch-1]['Stage'], self.stages[this_epoch-1]['Uncertainty']
 
     def assign(self, epoch, stage, channels):
         self.stages[epoch-1]['Stage'] = stage
         self.stages[epoch-1]['Digit'] = self.assign_number(stage)
         self.stages[epoch-1]['Channels'] = channels
 
-    def get_last_unscored(self):
+    def get_next_unscored(self):
         for index, stage in enumerate(self.stages):
             if stage['Stage'] == '-':
-                return index + 1        
+                return index + 1       
+
+    def get_next_transition(self, this_epoch):
+        current_stage = self.stages[this_epoch-1]['Stage']
+        for index in range(this_epoch, self.numepo):
+            if self.stages[index]['Stage'] != current_stage:
+                return index
+        return this_epoch            
 
     def initiate(self, EEG):
         self.numepo     = EEG.numepo
@@ -83,7 +104,8 @@ class hypnogram(QtWidgets.QWidget):
             self.stages.append({'Epoch': epoch,
                                 'Stage': '-',
                                 'Digit': None,
-                                'Channels': None}) 
+                                'Channels': None,
+                                'Uncertainty': 0}) 
         # self.stages = {int(key): ['-', None] for key in np.arange(1, self.numepo+1)}
         self.axes.setYRange(-4, 1, padding=0) 
         self.axes.setXRange(0, self.numepo, padding=0)
@@ -147,7 +169,8 @@ class hypnogram(QtWidgets.QWidget):
         limits = axes.getAxis('left').range
         times  = np.linspace(axes.getAxis('bottom').range[0], axes.getAxis('bottom').range[1], self.numepo) + 0.5
         times  = np.repeat(times, 2) 
-        shift  = limits[1]/6
+        divideby = 6
+        shift  = limits[1]/divideby
 
         for item in reversed(axes.items[2:-1]):
             axes.removeItem(item)
@@ -157,7 +180,7 @@ class hypnogram(QtWidgets.QWidget):
             data[:] = np.nan
             data[stages == stage] = stage
             data    = np.concatenate(np.column_stack((data+shift*count+limits[1]*0, data+shift*(count+1)+limits[1]*0)))
-            pen     = pg.mkPen(color=(0, 0, 0, 180), width=3)
+            pen     = pg.mkPen(color=(250, 250, 250, 180), width=4)
             axes.plot(times, data, pen=pen)
 
         # Artefacts
@@ -165,10 +188,20 @@ class hypnogram(QtWidgets.QWidget):
             data    = np.zeros(self.numepo)
             data[:] = np.nan
             data[container.epoch] = 2
-            data    = np.concatenate(np.column_stack((data+shift*5+limits[1]*0, data+shift*(5+1)+limits[1]*0)))
+            data    = np.concatenate(np.column_stack((data+shift*(divideby-1)+limits[1]*0, data+shift*divideby+limits[1]*0)))
             color   = container.facecolor[:-1]
-            pen     = pg.mkPen(color=color, width=3)
+            pen     = pg.mkPen(color=color, width=4)
             axes.plot(times, data, pen=pen)
+
+        times  = np.linspace(axes.getAxis('bottom').range[0], axes.getAxis('bottom').range[1], self.numepo) + 0.5
+        for stages in self.stages:
+            if stages['Uncertainty'] == 1:
+                index = stages['Epoch'] - 1
+                question_mark = pg.TextItem('?', anchor=(0.5, 0.5), color=QtGui.QColor('black'))
+                question_mark.setFont(QtGui.QFont('Arial', 15))
+                question_mark.setPos(times[index], (divideby-1)*shift + shift/2)
+                axes.addItem(question_mark)
+
 
 
         ## red line
