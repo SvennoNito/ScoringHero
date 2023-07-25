@@ -29,7 +29,7 @@ class spectogram(QtWidgets.QWidget):
         self.epochs = []
 
         for epo in range(EEG.numepo):
-            [f, p] = welch(EEG.data[0][epo], fs=EEG.srate, window='hann', nperseg=self.winlen*EEG.srate, detrend='constant', return_onesided=True, scaling='density', average='mean') 
+            [f, p] = welch(EEG.data[EEG.chan_main][epo], fs=EEG.srate, window='hann', nperseg=self.winlen*EEG.srate, detrend='constant', return_onesided=True, scaling='density', average='mean') 
             self.epochs.append(epo)
             self.power.append(list(p))    
             self.times.append(epo*EEG.epolen - EEG.epolen/2)

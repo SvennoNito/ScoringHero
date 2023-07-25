@@ -59,10 +59,11 @@ class EEG_class(QtWidgets.QWidget):
 
 
     def add_info(self, info):
-        self.srate    = info['SamplingRate']
-        self.extend_l = info['ExtendLeftBy']
-        self.extend_r = info['ExtendRightBy']
-        self.epolen   = info['EpochLength']
+        self.srate          = info['Sampling rate (Hz)']
+        self.epolen         = info['Epoch length (s)']
+        self.extend_l       = info['Extent epoch left (s)']
+        self.extend_r       = info['Extent epoch right (s)']
+        self.chan_main      = info['Channel for spectogram (index)'] - 1
 
     def return_extension(self):
         return [self.extend_l, self.extend_r]

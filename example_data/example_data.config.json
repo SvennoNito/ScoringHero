@@ -1,9 +1,10 @@
 [
     {
-        "SamplingRate": 128,
-        "EpochLength": 20, 
-        "ExtendLeftBy": 5,
-        "ExtendRightBy": 5
+        "Sampling rate (Hz)": 128,
+        "Epoch length (s)": 30, 
+        "Channel for spectogram (index)": 1,
+        "Extent epoch left (s)": 5,
+        "Extent epoch right (s)": 5
     },
     [
         {
