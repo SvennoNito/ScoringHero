@@ -92,7 +92,7 @@ class hypnogram(QtWidgets.QWidget):
         current_stage = self.stages[this_epoch-1]['Stage']
         for index in range(this_epoch, self.numepo):
             if self.stages[index]['Stage'] != current_stage:
-                return index
+                return index + 1
         return this_epoch            
 
     def initiate(self, EEG):
@@ -187,7 +187,7 @@ class hypnogram(QtWidgets.QWidget):
         for container in containers:
             data    = np.zeros(self.numepo)
             data[:] = np.nan
-            data[container.epoch] = 2
+            data[[x-1 for x in container.epoch]] = 2
             data    = np.concatenate(np.column_stack((data+shift*(divideby-1)+limits[1]*0, data+shift*divideby+limits[1]*0)))
             color   = container.facecolor[:-1]
             pen     = pg.mkPen(color=color, width=4)

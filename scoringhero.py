@@ -420,7 +420,7 @@ class Ui_MainWindow(QMainWindow):
         self.tool_nexttransition    = QPushButton("Next transition")
         self.tool_nexttransition.clicked.connect(self.jump_to_transition)
         toolbar.addWidget(self.tool_nexttransition)
-        toolbar.addWidget(spacer) 
+        #toolbar.addWidget(spacer) 
         
 
 
