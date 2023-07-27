@@ -25,7 +25,7 @@ import popups, spectral
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.devmode            = 1
+        self.devmode            = 0
         self.this_epoch         = 1
         self.this_stage         = '-'
         self.savename           = []
@@ -213,21 +213,13 @@ class Ui_MainWindow(QMainWindow):
 
 
 
-    def openEEGFile(self):
-        # Function to call when loading the EEG file.
-        EEG_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', self.path_expdata, '*.mat;*json')
-        self.path_expdata           = os.path.dirname(EEG_file)
-        EEG_filename, EEG_extension = os.path.splitext(EEG_file)
-        if EEG_extension == '.mat':
-            if scipy.io.matlab.miobase.get_matfile_version(EEG_file)[0] == 2: #v7.3 files
-                with h5py.File(EEG_file, "r") as file:
-                    self.EEG.data = file['EEG']['data'][:]
-                    if self.EEG.data.shape[0] > self.EEG.data.shape[1]: # dimensions are weird ....
-                        self.EEG.data = self.EEG.data.T
-            else:
-                self.EEG.data = scipy.io.loadmat(EEG_file)['EEG']['data'][0][0]
-            # self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0] 
-        x
+    def open_eeg(self):
+        EEG_file, _             = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', self.path_expdata, '*.mat;*json')
+        self.EEG.data, filename = io_functions.open_eeg(EEG_file)
+        config_file             = f'{filename}.config.json'
+        io_functions.open_config(config_file, self.EEG)
+        self.initiate()
+       
 
             
 
@@ -309,7 +301,7 @@ class Ui_MainWindow(QMainWindow):
 
         self.actionOpen = QtWidgets.QAction(MainWindow)
         self.actionOpen.setObjectName("actionOpen")
-        self.actionOpen.triggered.connect(lambda: self.openEEGFile())
+        self.actionOpen.triggered.connect(lambda: self.open_eeg())
         self.menuFile.addAction(self.actionOpen)
         self.actionRandom = QtWidgets.QAction(MainWindow)
         self.actionRandom.setObjectName("actionRandom")
@@ -428,7 +420,7 @@ class Ui_MainWindow(QMainWindow):
         if self.devmode == 1:
             scriptpath      = os.path.dirname(os.path.abspath(__file__))
             self.EEG.data   = scipy.io.loadmat(f'{scriptpath}\example_data\example_data.mat')['EEG']['data'][0][0]  
-            io_functions.open_config(f'{scriptpath}\example_data\example_data.config', self.EEG)
+            io_functions.open_config(f'{scriptpath}\example_data\example_data.config.json', self.EEG)
             self.initiate()
 
         # Makes GUI listen to key strokes

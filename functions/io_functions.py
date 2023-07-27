@@ -58,7 +58,7 @@ def open_eeg(file):
         else:
             data = scipy.io.loadmat(filename)['EEG']['data'][0][0]
             # self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0] 
-    return data
+    return data, filename
     
 
 def load_your_work(hypnogram, containers, scoring_file):
@@ -81,8 +81,8 @@ def load_your_work(hypnogram, containers, scoring_file):
 
 
 def open_config(filename, EEG):
-    if os.path.exists(f"{filename}.json"):
-        with open(f"{filename}.json", "r") as file:
+    if os.path.exists(filename):
+        with open(filename, "r") as file:
             config = json.load(file) # Open configuration file (.json)      
 
     else: # Create default configuration settings
@@ -101,7 +101,11 @@ def default_config(srate, numchans):
     # Create default configuration settings when no json file is loaded
 
     config      = [[] for x in range(2)]
-    config[0]   = {'SamplingRate': srate}
+    config[0]   = { "Sampling rate (Hz)": srate,
+                    "Epoch length (s)": 30, 
+                    "Channel for spectogram (index)": 1,
+                    "Extent epoch left (s)": 5,
+                    "Extent epoch right (s)": 5}
     for chan in range(numchans):
         if chan < 9:
             display = 1

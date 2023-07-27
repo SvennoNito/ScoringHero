@@ -5,7 +5,13 @@ block_cipher = None
 
 
 a = Analysis(
-    ['scoringhero.py'],
+    ['scoringhero.py',
+    'EEG_class.py',
+    'greenLine.py',
+    'hypnogram.py',
+    'popups.py,'
+    'spectral.py',
+    'io_functions.py'],
     pathex=[],
     binaries=[],
     datas=[],
