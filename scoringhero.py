@@ -10,7 +10,7 @@
 from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-import scipy.io, os, sys, json, re, h5py
+import scipy.io, os, sys, json, re, h5py, datetime
 import tkinter as tk 
 import numpy as np
 sys.path.append("ui_classes")
@@ -21,6 +21,9 @@ from hypnogram import *
 import io_functions
 import popups, spectral
 
+# This software protects itself by being executable only until a certain date in the future.
+expiration_date = datetime.datetime(2023, 12, 31)   # Set the expiration date
+current_date    = datetime.datetime.now()           # Get the current date
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -468,12 +471,22 @@ class Ui_MainWindow(QMainWindow):
         self.actionAnnotations.setShortcut(_translate("MainWindow", "Ctrl+E"))  # Add this line for the shortcut
 
 
+
+
 if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.activateWindow()  # Add this line to make the window active
-    MainWindow.show()
-    sys.exit(app.exec_())
+    if current_date > expiration_date:
+        # License has expired!
+        app = QApplication([])
+        msg_box = QtWidgets.QMessageBox()
+        msg_box.setIcon(QMessageBox.Critical)
+        msg_box.setText("License has expired!")
+        msg_box.exec_()
+        sys.exit(1)
+    else:
+        app         = QtWidgets.QApplication(sys.argv)
+        MainWindow  = QtWidgets.QMainWindow()
+        ui          = Ui_MainWindow()
+        ui.setupUi(MainWindow)
+        MainWindow.activateWindow()  # Add this line to make the window active
+        MainWindow.show()
+        sys.exit(app.exec_())
