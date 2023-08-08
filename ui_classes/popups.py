@@ -13,64 +13,116 @@ class container(QtCore.QObject):
         self.epolen     = epolen
         self.label      = label
 
+
     def include(self, greenLines, EEG):
         whole_epoch     = greenLines.axes.getAxis('bottom').range # epoch range
-        actual_epoch    = [round(whole_epoch[0] + EEG.return_extension()[0]), round(whole_epoch[1] - EEG.return_extension()[0])]
-        #all_borders     = [annotation.borders[0] for annotation in allAnnotations] # all borders
-        #all_borders     = [border[0] for border in all_borders if len(border) > 0]
-        areas_in_epoch  = [item[0] > whole_epoch[0] and item[1] < whole_epoch[1] for item in self.borders] # artefacts in epoch
+        current_epoch   = [round(whole_epoch[0] + EEG.return_extension()[0]), round(whole_epoch[1] - EEG.return_extension()[0])]
+        areas_in_screen = [item[0] >= whole_epoch[0] and item[1] <= whole_epoch[1] for item in self.borders]                        # Find areas that are entirely within the screen
+        epoch_in_list   = [item[0] <= current_epoch[0] and item[1] >= current_epoch[1] for item in self.borders]                      # Find out whether the current epoch is part of a pervious area in list
 
-        # Remove whole epoch if already marked
-        if actual_epoch in self.borders:
-            self.borders.remove(actual_epoch) 
-            self.remove_areas(greenLines)        
+        # Check if new green areas exist
+        if len(greenLines.storedLines) > 0: 
+            self.add_area(greenLines)
 
-        else: # whole epoch was not marked
-            if len(greenLines.storedLines) == 0: # No green lines, store whole epoch?
-                if any(areas_in_epoch): # epoch already has artefacts, remove those artefacts
-                    for index in np.where(areas_in_epoch)[0][::-1]:
-                        self.borders.remove(self.borders[index])
-                    self.remove_areas(greenLines)
-                elif actual_epoch not in self.borders: # store whole epoch
-                    self.borders.append(actual_epoch)
-                    self.show_areas(greenLines)
-            else: # there are greeb lines
-                newArtefacts = []
-                for line in greenLines.storedLines: # get all green lines
-                    newArtefacts.append([
-                        round(greenLines.axes.plotItem.vb.mapSceneToView(line[0]).x(),3),
-                        round(greenLines.axes.plotItem.vb.mapSceneToView(line[1]).x(),3)])
-                newArtefacts = [item for item in newArtefacts if item[0] != item[1]] # Remove dublicates
+        else: # No new green areas
+            if any(areas_in_screen):
+                # Remove plotted areas on screen
+                self.remove_areas_in_screen(areas_in_screen)
+            elif any(epoch_in_list):
+                # Remove current epoch that is part of one area in list
+                self.remove_epoch_from_merged_area(current_epoch)
+            else:
+                # Epoch not yet in list
+                self.borders.append(current_epoch)
+                
+            
+        # Sanity check
+        self.borders.sort(key=lambda x: x[0])
+        self.merge_border()     # Merge overlapping borders
+        self.related_epoch()    # Check which epochs are clean
 
-                if not all(item in self.borders for item in newArtefacts): # If there are new artefacts
-                    for item in newArtefacts: # Store those new artefacts
-                        if item not in self.borders:
-                            self.borders.append(item)
-                    self.show_areas(greenLines)
-                    self.remove_green_areas(greenLines)
-                else: # No new artefacts
-                    for item in newArtefacts: # Remove all artefacts
-                        self.borders.remove(item)
-                    self.remove_areas(greenLines) # Remove all red areas
+        # Refresh plot
+        self.erase_plotted_areas(greenLines)
+        self.show_areas(greenLines)
+        self.remove_green_areas(greenLines)
+        # self.borders = self.remove_epoch_from_merged_area(current_epoch)
 
-        # Order artefacts based on time
-        self.borders.sort()
-        self.related_epoch()
+
+    def remove_areas_in_screen(self, areas_in_screen):       
+        if any(areas_in_screen): 
+            # Remove areas that are within the screen
+            for index in np.where(areas_in_screen)[0][::-1]:
+                self.borders.remove(self.borders[index])
+
+
+    def remove_epoch_from_merged_area(self, current_epoch):
+        start, end  = current_epoch
+        result      = []
+        
+        for interval in self.borders:
+            if interval[1] <= start or interval[0] >= end:
+                # No overlap, keep the interval as it is
+                result.append(interval)
+            elif interval[0] < start and interval[1] > end:
+                # Interval completely contains the current_epoch, split it into two
+                result.append([interval[0], start])
+                result.append([end, interval[1]])
+            elif interval[0] < start and interval[1] <= end:
+                # Interval overlaps with the left side of current_epoch
+                result.append([interval[0], start])
+            elif interval[0] >= start and interval[1] > end:
+                # Interval overlaps with the right side of current_epoch
+                result.append([end, interval[1]])
+            elif interval == current_epoch:
+                result.append(interval)
+        self.borders = result
+
+
+    def add_area(self, greenLines):
+        newArtefacts = []
+        for line in greenLines.storedLines: # get all green lines
+            newArtefacts.append([
+                round(greenLines.axes.plotItem.vb.mapSceneToView(line[0]).x(),3),
+                round(greenLines.axes.plotItem.vb.mapSceneToView(line[1]).x(),3)])
+        newArtefacts = [item for item in newArtefacts if item[0] != item[1]] # Remove dublicates
+
+        if not all(item in self.borders for item in newArtefacts): # If there are new artefacts
+            for item in newArtefacts: # Store those new artefacts
+                if item not in self.borders:
+                    self.borders.append(item)
+        else: # No new artefacts
+            for item in newArtefacts: # Remove all artefacts
+                self.borders.remove(item)
+
+    def merge_border(self):
+        merged_borders = []
+        for start, end in self.borders:
+            if not merged_borders or start >= merged_borders[-1][1]: # Add area if the start of the border is behind the end of the next border
+                merged_borders.append([start, end])
+            else:
+                merged_borders[-1][1] = max(merged_borders[-1][1], end)
+        self.borders = merged_borders        
 
     def remove_green_areas(self, greenLines):
         greenLines.reset()
         greenLines.update()          
 
     def related_epoch(self):
-        self.epoch = []
+        epochs = []
         for border in self.borders:
-            self.epoch.append(int(np.ceil(border[1] / self.epolen)))
+            start, stop = border
+            while stop - start > self.epolen:
+                epochs.append(int(np.ceil(start / self.epolen) + 1))
+                start += self.epolen
+            epochs.append(int(np.ceil(stop / self.epolen)))                
+        self.epoch = list(set(epochs))
+            
 
     def add_instance(self, borders):
         for border in borders:
             self.border.append([border[0], border[1]])  
 
-    def remove_areas(self, AxesEEG):
+    def erase_plotted_areas(self, AxesEEG):
         for item in AxesEEG.axes.items():
             if isinstance(item, pg.LinearRegionItem):
                 rgb = item.brush.color()
