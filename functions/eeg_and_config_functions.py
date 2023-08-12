@@ -82,6 +82,12 @@ def update_channel_information_in_configuration_file(configuration_filename, cha
     with open(configuration_filename, 'w') as file:
         json.dump(configuration_settings, file, indent=4)    
 
+def update_general_information_in_configuration_file(configuration_filename, channel_information):
+    configuration_settings      = load_configuration_file(configuration_filename)
+    configuration_settings[0]   = channel_information
+    with open(configuration_filename, 'w') as file:
+        json.dump(configuration_settings, file, indent=4)  
+
 
 
 

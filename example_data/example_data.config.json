@@ -2,7 +2,7 @@
     {
         "Sampling_rate_hz": 125,
         "Epoch_length_s": 30,
-        "Channel_index_for_spectogram": 1,
+        "Channel_index_for_spectogram": 8,
         "Extension_epoch_left_s": 5,
         "Extension_epoch_right_s": 5
     },

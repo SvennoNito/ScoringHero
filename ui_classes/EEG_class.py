@@ -82,7 +82,7 @@ class EEG_class(QtWidgets.QWidget):
         self.points     = len(self.data[0])
         self.numepo     = int(np.floor(self.points / self.srate / self.epolen))
         self.duration_h = self.points/self.srate/60/60
-        self.data, self.times = self.epoch_data(self.data)
+        self.data, self.times, self.rest = self.epoch_data(self.data)
 
     def update2(self):
         self.numepo = int(np.floor(self.points / self.srate / self.epolen))
@@ -90,18 +90,16 @@ class EEG_class(QtWidgets.QWidget):
 
     def flatten_then_epoch_again(self, data):
         import time
-        start_time  = time.time()
-        flat_data   = np.empty((self.nchans, self.epolen*self.srate*self.numepo))
-        flat_data   = np.vstack([channel.flatten() for channel in data])
-        #for counter, channel in enumerate(data):
-            #flat_data[counter] = channel.flatten().tolist()
-            #flat_data[counter] = [item for sublist in channel for item in sublist]
-        elapsed_time = time.time() - start_time; print(elapsed_time)            
-        self.data, self.times  = self.epoch_data(flat_data)
-        elapsed_time = time.time() - start_time; print(elapsed_time)
+        start_time      = time.time()
+        flat_data       = np.empty((self.nchans, self.epolen*self.srate*self.numepo))
+        flat_data       = np.vstack([channel.flatten() for channel in data])
+        flat_data       = np.hstack((flat_data, self.rest))
+        elapsed_time    = time.time() - start_time; print(elapsed_time)            
+        self.data, self.times, self.rest = self.epoch_data(flat_data)
+        elapsed_time    = time.time() - start_time; print(elapsed_time)
 
     def epoch_data(self, data):
-        data_epoched    = np.empty((self.nchans, self.numepo, self.epolen*self.srate))
+        data_epoched    = np.empty((self.nchans, self.numepo, self.epolen*self.srate));
         times           = np.empty((self.numepo, self.epolen*self.srate))
         epoch_range     = np.arange(self.numepo)
         time_range      = np.linspace(0, self.epolen, self.epolen*self.srate) / self.timesby
@@ -112,7 +110,9 @@ class EEG_class(QtWidgets.QWidget):
             data_epoched[:, epoch, :]   = data[:, start*self.srate:stop*self.srate]
             times[epoch, :]             = time_range + start
             
-        return data_epoched, times
+        data_rest = data[:, stop*self.srate+1:]
+
+        return data_epoched, times, data_rest
             
     def add_extension(self):
         ext_data        = [[[], []] for _ in range(self.nchans)]

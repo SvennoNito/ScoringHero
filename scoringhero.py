@@ -204,8 +204,11 @@ class Ui_MainWindow(QMainWindow):
         self.EEG.add_info(self.configuration_box.configuration)
         self.EEG.update2()
         self.EEG.showEEG(self.this_epoch)  
-
-        self.EEG.update(self.epolen)
+        eeg_and_config_functions.update_general_information_in_configuration_file(self.filename_without_extension + '.config.json', self.configuration_box.configuration)
+        
+    def respond_to_configuration_pop_up_closing(self):
+        self.spectogram.initiate(self.EEG)
+        self.spectogram.add_line(self.this_epoch)
 
     def jump_to_epoch(self):
         self.this_epoch = self.tool_epochjump.value()
@@ -261,6 +264,7 @@ class Ui_MainWindow(QMainWindow):
         self.optionbox.changesMade.connect(self.edit_displayed_eeg)     
         self.configuration_box   = popups.configuration_box(self.EEG.configuration)
         self.configuration_box.changesMade.connect(self.respond_to_configuration_pop_up) 
+        self.configuration_box.finished.connect(self.respond_to_configuration_pop_up_closing)
         self.tool_epochjump.setRange(1, self.EEG.numepo)         
 
     def setupUi(self, MainWindow):
