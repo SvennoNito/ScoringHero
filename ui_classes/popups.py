@@ -275,19 +275,19 @@ class scaleDialogeBox(QtWidgets.QDialog):
         for count, chaninfo in enumerate(self.chaninfo):
 
             # Channe label
-            labelbox = QLabel(chaninfo['Channel'])
+            labelbox = QLabel(chaninfo['Channel_name'])
             labelbox.setAlignment(QtCore.Qt.AlignRight)
-            labelbox.setFixedWidth(max(len(chaninfo['Channel']) for chaninfo in self.chaninfo)*8)
+            labelbox.setFixedWidth(max(len(chaninfo['Channel_name']) for chaninfo in self.chaninfo)*8)
 
             # Value by which EEG is multiplied
             spinbox = QDoubleSpinBox(self)
             spinbox.setMinimum(0)
-            spinbox.setValue(chaninfo['Scale'])
+            spinbox.setValue(chaninfo['Scaling_factor'])
             spinbox.valueChanged.connect(self.emit_signal)  
 
             # Whether channel is displayed or not
             checkbox = QCheckBox(self)
-            checkbox.setChecked(chaninfo['Display']) 
+            checkbox.setChecked(chaninfo['Display_on_screen']) 
             checkbox.clicked.connect(self.emit_signal)
 
             # Channel color
@@ -295,7 +295,7 @@ class scaleDialogeBox(QtWidgets.QDialog):
             colorbox.addItem("Black")
             colorbox.addItem("Blue")
             colorbox.addItem("Magenta")
-            colorbox.setCurrentText(chaninfo['Color'])
+            colorbox.setCurrentText(chaninfo['Channel_color'])
             colorbox.currentIndexChanged.connect(self.emit_signal)
 
             # Layout
@@ -314,9 +314,51 @@ class scaleDialogeBox(QtWidgets.QDialog):
 
     def emit_signal(self):
         for counter, chaninfo in enumerate(self.chaninfo):
-            chaninfo['Color']   = self.color[counter].currentText()
-            chaninfo['Display'] = self.display[counter].isChecked()
-            chaninfo['Scale']   = self.scale[counter].value()
+            chaninfo['Channel_color']       = self.color[counter].currentText()
+            chaninfo['Display_on_screen']   = self.display[counter].isChecked()
+            chaninfo['Scaling_factor']      = self.scale[counter].value()
         self.changesMade.emit()
 
     
+class configuration_box(QtWidgets.QDialog):
+    changesMade = QtCore.pyqtSignal()
+    def __init__(self, configuration, parent=None):
+        super().__init__(parent)
+        layout              = QVBoxLayout(self)
+        form_layout         = QFormLayout()      
+        self.labels         = []  
+        self.spinboxes      = []
+        self.configuration  = configuration
+
+        # Loop through configuration items
+        for count, item in enumerate(configuration.items()):
+
+            # EEG extension
+            labelbox = QLabel(item[0])
+            labelbox.setAlignment(QtCore.Qt.AlignRight)        
+            labelbox.setFixedWidth(max(len(label) for label in configuration.keys())*8)
+
+            # Value by which EEG is extended
+            spinbox = QDoubleSpinBox(self)
+            spinbox.setMinimum(0)
+            spinbox.setMaximum(10000)
+            spinbox.setValue(item[1])
+            #spinbox.setSuffix(" s") 
+            spinbox.setDecimals(0)
+            spinbox.valueChanged.connect(self.emit_signal)      
+
+            # Layout
+            row_layout = QHBoxLayout()
+            row_layout.addWidget(labelbox)
+            row_layout.addWidget(spinbox)
+            form_layout.addRow(row_layout)
+
+            # append 
+            self.labels.append(item[0]) 
+            self.spinboxes.append(spinbox)     
+        layout.addLayout(form_layout)
+
+    def emit_signal(self):
+        for (label, item) in zip(self.labels, self.spinboxes):
+            self.configuration[label] = int(item.value())           
+        self.changesMade.emit()       

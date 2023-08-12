@@ -1,65 +1,65 @@
 [
     {
-        "Sampling rate (Hz)": 128,
-        "Epoch length (s)": 30, 
-        "Channel for spectogram (index)": 1,
-        "Extent epoch left (s)": 5,
-        "Extent epoch right (s)": 5
+        "Sampling_rate_hz": 125,
+        "Epoch_length_s": 30,
+        "Channel_index_for_spectogram": 1,
+        "Extension_epoch_left_s": 5,
+        "Extension_epoch_right_s": 5
     },
     [
         {
-            "Channel": "F3",
-            "Color": "Black",
-            "Display": 1,
-            "Scale": 1
+            "Channel_name": "Channel 1",
+            "Channel_color": "Blue",
+            "Display_on_screen": true,
+            "Scaling_factor": 3.0
         },
         {
-            "Channel": "F4",
-            "Color": "Black",
-            "Display": 0,
-            "Scale": 1
+            "Channel_name": "Channel 2",
+            "Channel_color": "Black",
+            "Display_on_screen": true,
+            "Scaling_factor": 1.0
         },
         {
-            "Channel": "C3",
-            "Color": "Black",
-            "Display": 1,
-            "Scale": 1
+            "Channel_name": "Channel 3",
+            "Channel_color": "Black",
+            "Display_on_screen": true,
+            "Scaling_factor": 1.0
         },
         {
-            "Channel": "C4",
-            "Color": "Black",
-            "Display": 0,
-            "Scale": 1
+            "Channel_name": "Channel 4",
+            "Channel_color": "Blue",
+            "Display_on_screen": true,
+            "Scaling_factor": 1.0
         },
         {
-            "Channel": "P3",
-            "Color": "Black",
-            "Display": 1,
-            "Scale": 1
+            "Channel_name": "Channel 5",
+            "Channel_color": "Black",
+            "Display_on_screen": true,
+            "Scaling_factor": 1.0
         },
         {
-            "Channel": "P4",
-            "Color": "Black",
-            "Display": 0,
-            "Scale": 1
+            "Channel_name": "Channel 6",
+            "Channel_color": "Black",
+            "Display_on_screen": true,
+            "Scaling_factor": 1.0
         },
         {
-            "Channel": "EOG1",
-            "Color": "Blue",
-            "Display": 1,
-            "Scale": 1
+            "Channel_name": "Channel 7",
+            "Channel_color": "Black",
+            "Display_on_screen": true,
+            "Scaling_factor": 1.0
         },
         {
-            "Channel": "EOG2",
-            "Color": "Blue",
-            "Display": 1,
-            "Scale": 1
+            "Channel_name": "Channel 8",
+            "Channel_color": "Black",
+            "Display_on_screen": true,
+            "Scaling_factor": 1.0
         },
         {
-            "Channel": "Muscle",
-            "Color": "Magenta",
-            "Display": 1,
-            "Scale": 1
+            "Channel_name": "Channel 9",
+            "Channel_color": "Black",
+            "Display_on_screen": true,
+            "Scaling_factor": 1.0
         }
     ]
 ]

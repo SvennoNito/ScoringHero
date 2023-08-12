@@ -1,6 +1,14 @@
-import json, os, re, random, scipy, h5py
+
+import json, os, re, random, sys
 import tkinter as tk 
 import tkinter.simpledialog
+import eeg_and_config_functions
+
+
+
+
+
+
 
 def write_json(filename, epolen, hypnogram, artefacts, containers):
     # Function to save your work as json file
@@ -61,6 +69,21 @@ def open_eeg(file):
     return data, filename
     
 
+def choose_random(files, allow_existence=1):
+    rand_index      = random.randint(0, len(files[0]) - 1)
+    file            = files[0][rand_index]
+    basename        = os.path.splitext(file)[0]
+    scoring_file    = f'{basename}.json'
+    if allow_existence == 0:
+        while os.path.exists(scoring_file):
+            rand_index      = random.randint(0, len(files[0]) - 1)
+            file            = files[0][rand_index]
+            scoring_file    = f'{os.path.splitext(file)[0]}.json'    
+    
+    data = eeg_and_config_functions.load_eeg_and_configuration_settings(file)
+    return data, scoring_file, basename
+
+
 def load_your_work(hypnogram, containers, scoring_file):
     # Function to load previously saved staging
 
@@ -78,46 +101,6 @@ def load_your_work(hypnogram, containers, scoring_file):
             for container, label in zip(containers, json_file[1][0].keys()):
                 container.label     = label
                 container.borders   = json_file[1][0][label]
-
-
-def open_config(filename, EEG):
-    if os.path.exists(filename):
-        with open(filename, "r") as file:
-            config = json.load(file) # Open configuration file (.json)      
-
-    else: # Create default configuration settings
-        root = tk.Tk() 
-        root.withdraw() 
-        display_text    = "Configuration file «EEG_filename».json was not found. Loading default settings instead. \nIf you want to have more meaningful channel labels than «channel 1» or want to avoid this pop-up box, create a .json file named as your EEG file in the same folder as your EEG file. \nYou can use the function «build_json.py» for that or copy an existing .json file and adapt the values accordingly. \nTo continue for now, define the sampling rate of your data here (in Hz):"
-        srate           = tk.simpledialog.askstring("Configuration file not found", display_text, parent=root)
-        srate           = int(re.findall(r'\d+', srate)[0])
-        # ctypes.windll.user32.MessageBoxW(0, "Configuration file «EEG_filename».json was not found. Loading default settings with a sampling rate of 125 Hz instead. If your data has a different sampling rate or you want to have more meaningful channel labels than «channel 1», create a .json file named as your EEG file in the same folder as your EEG file. You can use the function  «build_json.py» for that or copy an existing .json file and adapt the values accordingly.", "No configuration file found", 1)
-        config = default_config(srate, EEG.data.shape[0])
-    EEG.add_info(config[0])
-    EEG.add_chaninfo(config[1])      
-      
-
-def default_config(srate, numchans):
-    # Create default configuration settings when no json file is loaded
-
-    config      = [[] for x in range(2)]
-    config[0]   = { "Sampling rate (Hz)": srate,
-                    "Epoch length (s)": 30, 
-                    "Channel for spectogram (index)": 1,
-                    "Extent epoch left (s)": 5,
-                    "Extent epoch right (s)": 5}
-    for chan in range(numchans):
-        if chan < 9:
-            display = 1
-        else:
-            display = 0
-        config[1].append({
-            "Channel": f'Channel {chan+1}',
-            "Color": "Black",
-            "Display": display,
-            "Scale": 1
-        })
-    return config            
 
 
 
