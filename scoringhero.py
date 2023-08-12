@@ -18,7 +18,7 @@ sys.path.append("functions")
 from EEG_class import *
 from greenLine import *
 from hypnogram import *
-import io_functions
+import save_functions, eeg_and_config_functions
 import popups, spectral
 
 
@@ -26,7 +26,10 @@ class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.devmode            = 1
+<<<<<<< Updated upstream
         self.epolen             = 30
+=======
+>>>>>>> Stashed changes
         self.this_epoch         = 1
         self.this_stage         = '-'
         self.savename           = []
@@ -73,21 +76,34 @@ class Ui_MainWindow(QMainWindow):
             self.containerF4.include(self.greenLine, self.EEG)
             self.quick_save()       
 
+<<<<<<< Updated upstream
 
     def quick_save(self): 
         if len(self.savename) > 0:
             io_functions.write_json(self.savename, self.epolen, self.hypnogram, self.artefacts, self.containers)
+=======
+    def open_random(self):
+        files = QtWidgets.QFileDialog.getOpenFileNames(None, 'Select multiple EEG files', self.path_expdata, 'Matlab files (*.mat)')
+        self.EEG.data, self.savename, basename = save_functions.choose_random(files, allow_existence=1)
+        save_functions.open_config(f'{basename}.config', self.EEG)
+        save_functions.load_your_work(self.hypnogram, self.containers, f'{basename}.json')
+        self.initiate()        
+
+    def quick_save(self): 
+        if len(self.savename) > 0:
+            save_functions.write_json(self.savename, self.EEG.epolen, self.hypnogram, self.artefacts, self.containers)
+>>>>>>> Stashed changes
                                                
     def scoring_load(self):
         scoring_file, _     = QtWidgets.QFileDialog.getOpenFileName(None, 'Open .json file', self.path_expdata, 'Json Files (*.json)')
         self.savename       = scoring_file
         self.path_expdata   = os.path.dirname(scoring_file)
-        io_functions.load_your_work(self.hypnogram, self.containers, scoring_file)
+        save_functions.load_your_work(self.hypnogram, self.containers, scoring_file)
         self.show_artefacts()                                                                                        
         self.refresh()
 
     def options(self):
-        self.optionbox.exec_()
+        self.optionbox.exec_()      
 
     def edit_displayed_eeg(self):
         self.EEG.edit_extension(self.this_epoch, self.optionbox)
@@ -191,7 +207,17 @@ class Ui_MainWindow(QMainWindow):
 
     def respond_to_scaleDialogeBox(self):
         self.EEG.scaleChannels(self.scaleDialogeBox.chaninfo, self.this_epoch) 
+        eeg_and_config_functions.update_channel_information_in_configuration_file(self.filename_without_extension + '.config.json', self.scaleDialogeBox.chaninfo)
 
+    def configuration_pop_up(self):
+        self.configuration_box.exec()
+
+    def respond_to_configuration_pop_up(self):
+        self.EEG.add_info(self.configuration_box.configuration)
+        self.EEG.update2()
+        self.EEG.showEEG(self.this_epoch)  
+
+<<<<<<< Updated upstream
     def openEEGFile(self):
         # Function to call when loading the EEG file.
         EEG_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', self.path_expdata, '*.mat;*json')
@@ -216,6 +242,37 @@ class Ui_MainWindow(QMainWindow):
             
     def initiate(self):
         self.EEG.update(self.epolen)
+=======
+    def jump_to_epoch(self):
+        self.this_epoch = self.tool_epochjump.value()
+        self.EEG.showEEG(self.this_epoch)
+        self.refresh()
+
+    def jump_to_unscored_epoch(self):
+        self.this_epoch = self.hypnogram.get_next_unscored()
+        self.EEG.showEEG(self.this_epoch)
+        self.refresh()
+
+    def jump_to_transition(self):
+        self.this_epoch = self.hypnogram.get_next_transition(self.this_epoch)
+        self.EEG.showEEG(self.this_epoch)
+        self.refresh()        
+
+    def jump_to_uncertain_epoch(self):
+        self.this_epoch = self.hypnogram.get_next_uncertain()
+        self.EEG.showEEG(self.this_epoch)
+        self.refresh()            
+
+
+
+    def open_eeg(self):
+        eeg_filename, _  = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', self.path_expdata, '*.mat;*json')
+        self.filename_without_extension = eeg_and_config_functions.load_eeg_and_configuration_settings(eeg_filename, self.EEG)
+        self.initiate()
+       
+            
+    def initiate(self):
+>>>>>>> Stashed changes
         self.EEG.showEEG(self.this_epoch)
         self.hypnogram.initiate(self.EEG)
         self.spectogram.initiate(self.EEG)
@@ -226,11 +283,30 @@ class Ui_MainWindow(QMainWindow):
         self.powerbox.initiate(self.EEG)
         self.greenLine.initiate(self.EEG)
         self.EEG.changesMade.connect(self.show_artefacts)
+<<<<<<< Updated upstream
 
         for annotation in self.containers:
             annotation.changesMade.connect(self.remove_areas)        
         self.optionbox = popups.options(self.EEG.return_extension())
         self.optionbox.changesMade.connect(self.edit_displayed_eeg)            
+=======
+           
+        self.artefacts          = popups.container(self.EEG.epolen, facecolor=(255, 200, 200, 100), label="Artefacts")
+        self.containerF1        = popups.container(self.EEG.epolen, facecolor=(100, 149, 237, 100), label="Annotation_F1")
+        self.containerF2        = popups.container(self.EEG.epolen, facecolor=(152, 251, 152, 100), label="Annotation_F2")
+        self.containerF3        = popups.container(self.EEG.epolen, facecolor=(255, 255, 102, 100), label="Annotation_F3")
+        self.containerF4        = popups.container(self.EEG.epolen, facecolor=(64, 224, 208, 100),  label="Annotation_F4")
+        self.containers         = [self.artefacts, self.containerF1, self.containerF2, self.containerF3, self.containerF4]
+        for annotation in self.containers:
+            annotation.changesMade.connect(self.remove_areas)             
+        self.notes_editbox      = popups.editbox(self.containers)
+        self.notes_editbox.changesMade.connect(self.edit_annotations)      
+        self.optionbox          = popups.options(self.EEG.return_extension())
+        self.optionbox.changesMade.connect(self.edit_displayed_eeg)     
+        self.configuration_box   = popups.configuration_box(self.EEG.configuration)
+        self.configuration_box.changesMade.connect(self.respond_to_configuration_pop_up) 
+        self.tool_epochjump.setRange(1, self.EEG.numepo)         
+>>>>>>> Stashed changes
 
 
     def setupUi(self, MainWindow):
@@ -278,9 +354,29 @@ class Ui_MainWindow(QMainWindow):
         self.menuHelp.setObjectName("menuHelp")
         self.menuEdit = QtWidgets.QMenu(self.menubar)
         self.menuEdit.setObjectName("menuEdit")
+<<<<<<< Updated upstream
         #self.menuView = QtWidgets.QMenu(self.menubar)
         #self.menuView.setObjectName("menuView")
         self.menuStages = QtWidgets.QMenu(self.menubar)
+=======
+        self.menubar.addAction(self.menuEdit.menuAction())
+
+        self.actionChannels     = QtWidgets.QAction(MainWindow)
+        self.actionChannels.setObjectName("actionChannels")
+        self.actionChannels.triggered.connect(lambda: self.scaleChannels())
+        self.menuEdit.addAction(self.actionChannels)
+        self.actionAnnotations  = QtWidgets.QAction(MainWindow)
+        self.actionAnnotations.setObjectName("actionAnnotations")
+        self.actionAnnotations.triggered.connect(lambda: self.edit_annotations())
+        self.menuEdit.addAction(self.actionAnnotations)
+        self.actionEEG          = QtWidgets.QAction(MainWindow)
+        self.actionEEG.setObjectName("actionEEG")     
+        self.actionEEG.triggered.connect(lambda: self.configuration_pop_up())      
+        self.menuEdit.addAction(self.actionEEG)
+
+        # Sleep stages menu
+        self.menuStages         = QtWidgets.QMenu(self.menubar)
+>>>>>>> Stashed changes
         self.menuStages.setObjectName("menuStages")
         #self.menuActions = QtWidgets.QMenu(self.menubar)
         #self.menuActions.setObjectName("menuActions")
@@ -380,9 +476,14 @@ class Ui_MainWindow(QMainWindow):
 
         # Developer mode
         if self.devmode == 1:
+<<<<<<< Updated upstream
             scriptpath      = os.path.dirname(os.path.abspath(__file__))
             self.EEG.data   = scipy.io.loadmat(f'{scriptpath}\example_data\example_data.mat')['EEG']['data'][0][0]  
             io_functions.open_config(f'{scriptpath}\example_data\example_data.config', self.EEG)
+=======
+            scriptpath = os.path.dirname(os.path.abspath(__file__))
+            self.filename_without_extension = eeg_and_config_functions.load_eeg_and_configuration_settings(f'{scriptpath}\example_data\example_data.mat', self.EEG)
+>>>>>>> Stashed changes
             self.initiate()
 
         # Makes GUI listen to key strokes
@@ -422,12 +523,25 @@ class Ui_MainWindow(QMainWindow):
         self.actionWake.setShortcut(_translate("MainWindow", "W"))
         self.actionREM.setText(_translate("MainWindow", "REM"))
         self.actionREM.setShortcut(_translate("MainWindow", "R"))
+<<<<<<< Updated upstream
         self.actionLabelArtefacts.setText(_translate("MainWindow", "Label artefacts"))
         self.actionLabelArtefacts.setShortcut(_translate("MainWindow", "A"))  # Add this line for the shortcut
         #self.actionRemoveArtefacts.setText(_translate("MainWindow", "Remove labeled artefacts"))
         #self.actionRemoveArtefacts.setShortcut(_translate("MainWindow", "Ctrl+A"))  # Add this line for the shortcut
         self.actionscoring_load.setText(_translate("MainWindow", "Load previous work"))
         self.actionscoring_load.setShortcut(_translate("MainWindow", "Ctrl+Shift+O"))  # Add this line for the shortcut
+=======
+        self.actionUncertainty.setText(_translate("MainWindow", "Express uncertainty"))
+        self.actionUncertainty.setShortcut(_translate("MainWindow", "Q"))        
+        self.actionArtefacts.setText(_translate("MainWindow", "Label artefacts"))
+        self.actionArtefacts.setShortcut(_translate("MainWindow", "A"))  # Add this line for the shortcut
+
+        # Edit
+        self.actionChannels.setText(_translate("MainWindow", "Edit displayed channels"))
+        self.actionChannels.setShortcut(_translate("MainWindow", "Ctrl+C"))
+        self.actionEEG.setText(_translate("MainWindow", "General configuration settings"))
+        self.actionEEG.setShortcut(_translate("MainWindow", "Ctrl+P"))           
+>>>>>>> Stashed changes
         self.actionAnnotations.setText(_translate("MainWindow", "Edit annotations"))
         self.actionAnnotations.setShortcut(_translate("MainWindow", "Ctrl+E"))  # Add this line for the shortcut
 

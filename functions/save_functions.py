@@ -1,6 +1,17 @@
+<<<<<<< Updated upstream:functions/io_functions.py
 import json, os, re
+=======
+import json, os, re, random, sys
+>>>>>>> Stashed changes:functions/save_functions.py
 import tkinter as tk 
 import tkinter.simpledialog
+import eeg_and_config_functions
+
+
+
+
+
+
 
 def write_json(filename, epolen, hypnogram, artefacts, containers):
     # Function to save your work as json file
@@ -32,6 +43,24 @@ def write_json(filename, epolen, hypnogram, artefacts, containers):
         json.dump(saver, file, indent=1)
 
 
+<<<<<<< Updated upstream:functions/io_functions.py
+=======
+def choose_random(files, allow_existence=1):
+    rand_index      = random.randint(0, len(files[0]) - 1)
+    file            = files[0][rand_index]
+    basename        = os.path.splitext(file)[0]
+    scoring_file    = f'{basename}.json'
+    if allow_existence == 0:
+        while os.path.exists(scoring_file):
+            rand_index      = random.randint(0, len(files[0]) - 1)
+            file            = files[0][rand_index]
+            scoring_file    = f'{os.path.splitext(file)[0]}.json'    
+    
+    data = eeg_and_config_functions.load_eeg_and_configuration_settings(file)
+    return data, scoring_file, basename
+
+
+>>>>>>> Stashed changes:functions/save_functions.py
 def load_your_work(hypnogram, containers, scoring_file):
     # Function to load previously saved staging
 
@@ -50,6 +79,7 @@ def load_your_work(hypnogram, containers, scoring_file):
             container.borders   = json_file[1][0][label]
 
 
+<<<<<<< Updated upstream:functions/io_functions.py
 def open_config(filename, EEG):
     if os.path.exists(f"{filename}.json"):
         with open(f"{filename}.json", "r") as file:
@@ -86,6 +116,8 @@ def default_config(srate, numchans):
     return config            
 
 
+=======
+>>>>>>> Stashed changes:functions/save_functions.py
 
 
 

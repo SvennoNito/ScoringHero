@@ -31,6 +31,7 @@ class EEG_class(QtWidgets.QWidget):
         self.duration_h     = []
         self.extend_l       = 0
         self.extend_r       = 0
+        self.configuration  = []
 
         # Widget for plotting
         self.axes = pg.PlotWidget(centralWidget)
@@ -58,10 +59,20 @@ class EEG_class(QtWidgets.QWidget):
         layout.addWidget(self.textfield)
 
 
+<<<<<<< Updated upstream
     def add_info(self, info):
         self.srate    = info['SamplingRate']
         self.extend_l = info['ExtendLeftBy']
         self.extend_r = info['ExtendRightBy']
+=======
+    def add_info(self, configuration):     
+        self.configuration  = configuration
+        self.srate          = configuration['Sampling_rate_hz']
+        self.epolen         = configuration['Epoch_length_s']
+        self.extend_l       = configuration['Extension_epoch_left_s']
+        self.extend_r       = configuration['Extension_epoch_right_s']
+        self.chan_main      = configuration['Channel_index_for_spectogram'] - 1
+>>>>>>> Stashed changes
 
     def return_extension(self):
         return [self.extend_l, self.extend_r]
@@ -73,25 +84,51 @@ class EEG_class(QtWidgets.QWidget):
         self.extend_l, self.extend_r = optionbox.get_extensions()
         self.showEEG(this_epoch)
 
+<<<<<<< Updated upstream
     def update(self, epolen):
         self.nchans  = len(self.data)
         self.points  = len(self.data[0])
         self.epolen  = epolen
         self.numepo  = int(np.floor(self.points / self.srate / epolen))
+=======
+    def update(self):
+        self.nchans     = len(self.data)
+        self.points     = len(self.data[0])
+        self.numepo     = int(np.floor(self.points / self.srate / self.epolen))
+>>>>>>> Stashed changes
         self.duration_h = self.points/self.srate/60/60
-        self.data, self.times = self.epoch_data(self.epolen)
+        self.data, self.times = self.epoch_data(self.data)
 
-    def epoch_data(self, epolen):
-        data_epoched = [[] for _ in range(self.nchans)]
-        times        = []
-        for epoch in range(1, self.numepo+1):
-            start      = epoch*epolen - epolen
-            stop       = epoch*epolen
-            for channel in range(0, self.nchans):
-                data_epoched[channel].append(self.data[channel][start*self.srate:stop*self.srate])
-            times.append( np.linspace(start, stop, epolen*self.srate) / self.timesby) 
+    def update2(self):
+        self.numepo = int(np.floor(self.points / self.srate / self.epolen))
+        self.flatten_then_epoch_again(self.data)
 
+    def flatten_then_epoch_again(self, data):
+        import time
+        start_time  = time.time()
+        flat_data   = np.empty((self.nchans, self.epolen*self.srate*self.numepo))
+        flat_data   = np.vstack([channel.flatten() for channel in data])
+        #for counter, channel in enumerate(data):
+            #flat_data[counter] = channel.flatten().tolist()
+            #flat_data[counter] = [item for sublist in channel for item in sublist]
+        elapsed_time = time.time() - start_time; print(elapsed_time)            
+        self.data, self.times  = self.epoch_data(flat_data)
+        elapsed_time = time.time() - start_time; print(elapsed_time)
+
+    def epoch_data(self, data):
+        data_epoched    = np.empty((self.nchans, self.numepo, self.epolen*self.srate))
+        times           = np.empty((self.numepo, self.epolen*self.srate))
+        epoch_range     = np.arange(self.numepo)
+        time_range      = np.linspace(0, self.epolen, self.epolen*self.srate) / self.timesby
+
+        for epoch in range(self.numepo):
+            start                       = epoch * self.epolen
+            stop                        = (epoch + 1) * self.epolen
+            data_epoched[:, epoch, :]   = data[:, start*self.srate:stop*self.srate]
+            times[epoch, :]             = time_range + start
+            
         return data_epoched, times
+<<<<<<< Updated upstream
             
     def add_extension(self):
         ext_data        = [[[], []] for _ in range(self.nchans)]
@@ -119,6 +156,20 @@ class EEG_class(QtWidgets.QWidget):
                         ext_times[0].append( self.times[epoch_count-1][-ndx_l: ] )
                         ext_times[1].append( self.times[epoch_count+1][0: ndx_r ] )
         return ext_data, ext_times
+=======
+
+
+        """ data_epoched = [[] for _ in range(self.nchans)]
+            times        = []
+            for epoch in range(1, self.numepo+1):
+                start      = epoch*epolen - epolen
+                stop       = epoch*epolen
+                for channel in range(0, self.nchans):
+                    data_epoched[channel].append(data[channel][start*self.srate:stop*self.srate])
+                times.append( np.linspace(start, stop, epolen*self.srate) / self.timesby) 
+
+            return data_epoched, times """
+>>>>>>> Stashed changes
     
     def get_extension(self, this_epoch):
         ext_data        = [[[], []] for _ in range(self.nchans)]
@@ -146,7 +197,13 @@ class EEG_class(QtWidgets.QWidget):
                     ext_times[1] = ( self.times[this_epoch][1: ndx_r+1 ] )   
         return ext_data, ext_times
                       
+<<<<<<< Updated upstream
 
+=======
+    def return_active_channels(self):
+        active_channels = [chaninfo['Channel_name'] for chaninfo in self.chaninfo if chaninfo['Display_on_screen'] == 1]
+        return active_channels
+>>>>>>> Stashed changes
 
     def showEEG(self, this_epoch):
  
@@ -160,7 +217,7 @@ class EEG_class(QtWidgets.QWidget):
    
         # Channel counter
         channelCount = 0
-        visibleChannels = sum([chaninfo['Display'] for chaninfo in self.chaninfo])
+        visibleChannels = sum([chaninfo['Display_on_screen'] for chaninfo in self.chaninfo])
 
         # EEG extensions
         ext_data, ext_times = self.get_extension(this_epoch)        
@@ -168,31 +225,31 @@ class EEG_class(QtWidgets.QWidget):
         # Loop through channels
         self.axes.clear()
         for count, channel in enumerate(self.data):
-            pen = pg.mkPen(color=self.channelColorPalette[self.chaninfo[count]['Color']])
-            if self.chaninfo[count]['Display']:
+            pen = pg.mkPen(color=self.channelColorPalette[self.chaninfo[count]['Channel_color']])
+            if self.chaninfo[count]['Display_on_screen']:
 
                 # Add extension
                 times = np.concatenate([ext_times[0], self.times[this_epoch-1], ext_times[1]])
                 data  = np.concatenate([ext_data[count][0], channel[this_epoch-1], ext_data[count][1]])
                 
                 # Plot EEG
-                self.axes.plot(times, data*self.chaninfo[count]['Scale'] - self.shift*visibleChannels*channelCount, pen=pen, tag='EEG')
+                self.axes.plot(times, data*self.chaninfo[count]['Scaling_factor'] - self.shift*visibleChannels*channelCount, pen=pen, tag='EEG')
 
                 # Set pen style to DotLine
-                amplitude_line = pg.InfiniteLine(angle=0, pos=0-self.shift*visibleChannels*channelCount + 37.5*self.chaninfo[count]['Scale'], pen=dotted_pen); self.axes.addItem(amplitude_line)                 
-                amplitude_line = pg.InfiniteLine(angle=0, pos=0-self.shift*visibleChannels*channelCount - 37.5*self.chaninfo[count]['Scale'], pen=dotted_pen); self.axes.addItem(amplitude_line)                 
-                amplitude_line = pg.InfiniteLine(angle=0, pos=0-self.shift*visibleChannels*channelCount + 0*self.chaninfo[count]['Scale'], pen=dotted_pen); self.axes.addItem(amplitude_line)                 
+                amplitude_line = pg.InfiniteLine(angle=0, pos=0-self.shift*visibleChannels*channelCount + 37.5*self.chaninfo[count]['Scaling_factor'], pen=dotted_pen); self.axes.addItem(amplitude_line)                 
+                amplitude_line = pg.InfiniteLine(angle=0, pos=0-self.shift*visibleChannels*channelCount - 37.5*self.chaninfo[count]['Scaling_factor'], pen=dotted_pen); self.axes.addItem(amplitude_line)                 
+                amplitude_line = pg.InfiniteLine(angle=0, pos=0-self.shift*visibleChannels*channelCount + 0*self.chaninfo[count]['Scaling_factor'], pen=dotted_pen); self.axes.addItem(amplitude_line)                 
 
-                #self.axes.plot(times, dotted_line - self.shift*visibleChannels*channelCount + 37.5*self.chaninfo[count]['Scale'], pen=dotted_pen)
-                #self.axes.plot(times, dotted_line - self.shift*visibleChannels*channelCount - 37.5*self.chaninfo[count]['Scale'], pen=dotted_pen)
+                #self.axes.plot(times, dotted_line - self.shift*visibleChannels*channelCount + 37.5*self.chaninfo[count]['Scaling_factor'], pen=dotted_pen)
+                #self.axes.plot(times, dotted_line - self.shift*visibleChannels*channelCount - 37.5*self.chaninfo[count]['Scaling_factor'], pen=dotted_pen)
                 #self.axes.plot(times, dotted_line - self.shift*visibleChannels*channelCount - 0, pen=dashed_pen)
                 
                 # Add +37.5 muV text on the first channel
                 if channelCount == 0 and this_epoch == 1:
                     text1 = pg.TextItem(text="+37.5 \u03BCV", color=(150,150,150), anchor=(0, 0.5))
                     text2 = pg.TextItem(text="-37.5 \u03BCV", color=(150,150,150), anchor=(0, 0.5))
-                    text1.setPos(times[0], 0-self.shift*visibleChannels*channelCount + 37.5*self.chaninfo[count]['Scale'])
-                    text2.setPos(times[0], 0-self.shift*visibleChannels*channelCount - 37.5*self.chaninfo[count]['Scale'])  
+                    text1.setPos(times[0], 0-self.shift*visibleChannels*channelCount + 37.5*self.chaninfo[count]['Scaling_factor'])
+                    text2.setPos(times[0], 0-self.shift*visibleChannels*channelCount - 37.5*self.chaninfo[count]['Scaling_factor'])  
                     font = QtGui.QFont(); font.setPixelSize(18)
                     text1.setFont(font)
                     text2.setFont(font)
@@ -200,7 +257,7 @@ class EEG_class(QtWidgets.QWidget):
                     self.axes.addItem(text2)
 
                 # Add channel labels
-                text = pg.TextItem(text=self.chaninfo[count]['Channel'], color=(150,150,150), anchor=(0, 0.5))
+                text = pg.TextItem(text=self.chaninfo[count]['Channel_name'], color=(150,150,150), anchor=(0, 0.5))
                 text.setPos(times[0], 0-self.shift*visibleChannels*channelCount)  
                 font = QtGui.QFont(); font.setPixelSize(20)
                 text.setFont(font)
