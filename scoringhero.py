@@ -255,6 +255,7 @@ class Ui_MainWindow(QMainWindow):
         self.EEG.update2()
         self.spectogram.change_configuration(self.configuration_box.configuration)
         self.spectogram.initiate(self.EEG)
+        self.powerbox.change_configuration(self.configuration_box.configuration)
         self.refresh_GUI()
 
     def jump_to_epoch(self):

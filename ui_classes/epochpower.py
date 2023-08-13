@@ -28,7 +28,7 @@ class epochpower(QtWidgets.QWidget):
         self.axes.getAxis('left').setTicks([]) 
         # self.axes.setLabel('left', 'Stage', **{'color':'r', 'font-size':'20px'})
         self.axes.setMouseEnabled(x=False, y=False)
-        #self.axes.setLabel('bottom', 'Time (h)', **{'color':'r', 'font-size':'16px'})
+        #self.axes.setLabel('bottom', 'Time (h)', **{'color':'r', 'font-size':'16px'})        
 
     def update(self, thisepoch):   
         self.axes.clear()

@@ -128,6 +128,8 @@ class powerbox(QtWidgets.QWidget):
         self.srate          = []
         self.epolen         = []
         self.winlen         = 2
+        self.lower_limit_hz = 0
+        self.upper_limit_hz = 26
 
         # Plot widget
         self.axes   = pg.PlotWidget(centralWidget)
@@ -147,8 +149,11 @@ class powerbox(QtWidgets.QWidget):
         #self.axes.getAxis('bottom').setTicks([ticklabels])
         tick_font_size = QtGui.QFont()
         tick_font_size.setPointSize(8)  # Set the desired font size
-        self.axes.getAxis('bottom').setStyle(tickFont= tick_font_size)          
+        self.axes.getAxis('bottom').setStyle(tickFont= tick_font_size)      
 
+    def change_configuration(self, configuration):
+        self.lower_limit_hz = configuration['Area_power_lower_limit_hz']
+        self.upper_limit_hz = configuration['Area_power_upper_limit_hz']              
 
     def initiate(self, EEG):
         # self.data   = EEG.data
@@ -164,8 +169,8 @@ class powerbox(QtWidgets.QWidget):
         maxf    = f[np.where(p==max(p))[0][0]]
 
         # Frequencies of interest
-        f = f[np.where((f <= 26) & (f >= 0))]
-        p = p[np.where((f <= 26) & (f >= 0))]
+        f = f[np.where((f <= self.upper_limit_hz) & (f >= self.lower_limit_hz))]
+        p = p[np.where((f <= self.upper_limit_hz) & (f >= self.lower_limit_hz))]
 
         # Create stretched frequency vector
         #expvector = np.exp(np.linspace(0, 2, 31))

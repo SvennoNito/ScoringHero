@@ -41,6 +41,7 @@ def apply_configuration_settings(mainwindow, configuration_settings):
     mainwindow.EEG.add_chaninfo(configuration_settings[1])  
     mainwindow.EEG.update()
     mainwindow.spectogram.change_configuration(configuration_settings[0])
+    mainwindow.powerbox.change_configuration(configuration_settings[0])
 
 
 def load_configuration_file(configuration_filename, number_of_channels=6):
@@ -69,7 +70,9 @@ def build_default_configuration(number_of_channels, srate = 125):
                     "Extension_epoch_right_s": 5,
                     "Channel_index_for_spectogram": 1,
                     "Spectogram_lower_limit_hz": 0,
-                    "Spectogram_upper_limit_hz": 20                   
+                    "Spectogram_upper_limit_hz": 20,
+                    "Area_power_lower_limit_hz": 4,
+                    "Area_power_upper_limit_hz": 26,
                     }
     
     configuration_settings[1] = [{
