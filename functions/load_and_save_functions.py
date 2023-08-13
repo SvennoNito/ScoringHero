@@ -65,11 +65,11 @@ def build_default_configuration(number_of_channels, srate = 125):
     configuration_settings[0]   = { 
                     "Sampling_rate_hz": srate,
                     "Epoch_length_s": 30, 
-                    "Channel_index_for_spectogram": 1,
                     "Extension_epoch_left_s": 5,
+                    "Extension_epoch_right_s": 5,
+                    "Channel_index_for_spectogram": 1,
                     "Spectogram_lower_limit_hz": 0,
-                    "Spectogram_upper_limit_hz": 20,
-                    "Extension_epoch_right_s": 5
+                    "Spectogram_upper_limit_hz": 20                   
                     }
     
     configuration_settings[1] = [{

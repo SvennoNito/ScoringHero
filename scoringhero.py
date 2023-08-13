@@ -252,6 +252,7 @@ class Ui_MainWindow(QMainWindow):
         load_and_save_functions.update_general_information_in_configuration_file(self.name_of_eeg_file_before_extension + '.config.json', self.configuration_box.configuration)
         
     def respond_to_configuration_pop_up_closing(self):
+        self.EEG.update2()
         self.spectogram.change_configuration(self.configuration_box.configuration)
         self.spectogram.initiate(self.EEG)
         self.refresh_GUI()

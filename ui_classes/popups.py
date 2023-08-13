@@ -333,6 +333,9 @@ class configuration_box(QtWidgets.QDialog):
         # Loop through configuration items
         for count, item in enumerate(configuration.items()):
 
+            if item[0] == 'Epoch_length_s':
+                continue
+
             # EEG extension
             labelbox = QLabel(item[0])
             labelbox.setAlignment(QtCore.Qt.AlignRight)        
