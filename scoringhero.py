@@ -89,9 +89,7 @@ class Ui_MainWindow(QMainWindow):
         self.name_of_scoring_file               = name_of_scoringfile
         self.ndefault_path_to_scoring_file      = os.path.dirname(name_of_scoringfile)
         eeg_and_config_functions.load_scoring_file(name_of_scoringfile, self.hypnogram, self.containers, self.spectogram.axes)
-        #for annotation in self.containers:
-        #    annotation.show_areas(self.EEG)                                                                                       
-        #self.refresh_GUI()
+        self.refresh_GUI()
 
 
     # *** Function tto set-up and regresh the GUI ***
