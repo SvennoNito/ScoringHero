@@ -33,7 +33,8 @@ class Ui_MainWindow(QMainWindow):
         self.devmode            = 1
         self.this_epoch         = 1
         self.this_stage         = '-'
-        self.savename           = []
+        self.eeg_filename_without_extension = []
+        self.scoring_filename   = []
         self.path_script        = os.path.dirname(os.path.abspath(__file__))
         self.path_expdata       = os.path.join(self.path_script, 'example_data')
         self.path_savefile      = os.path.join(self.path_script, 'example_data')
@@ -74,8 +75,7 @@ class Ui_MainWindow(QMainWindow):
         self.initiate()        
 
     def quick_save(self): 
-        if len(self.savename) > 0:
-            save_functions.write_json(self.savename, self.EEG.epolen, self.hypnogram, self.artefacts, self.containers)
+        save_functions.write_scoring_file(self.scoring_filename, self.EEG.epolen, self.hypnogram, self.artefacts, self.containers)
                                                
     def scoring_load(self):
         scoring_file, _     = QtWidgets.QFileDialog.getOpenFileName(None, 'Open .json file', self.path_expdata, 'Json Files (*.json)')
@@ -114,8 +114,7 @@ class Ui_MainWindow(QMainWindow):
             annotation.show_areas(self.EEG)
 
     def saveSleepStages(self):
-        filename, _      = QFileDialog.getSaveFileName(None, "Save Sleep Stages", "", "Json Files (*.json)") # Open a file dialog to choose the save location and filename
-        self.savename    = filename
+        self.scoring_filename, _ = QFileDialog.getSaveFileName(None, "Save Sleep Stages", "", "Json Files (*.json)") # Open a file dialog to choose the save location and filename
         self.quick_save()
 
     def resetGreenLine(self):
@@ -131,7 +130,6 @@ class Ui_MainWindow(QMainWindow):
         self.hypnogram.add_to_spectogram(this_epoch, self.spectogram.axes, self.containers)
         self.hypnogram.show_artefacts(self.artefacts.epoch)
         self.powerbox.update(self.EEG.data[0][self.this_epoch-1])
-        self.quick_save()
         self.resetGreenLine()          # Removes the greenLine widget
 
 
@@ -141,30 +139,36 @@ class Ui_MainWindow(QMainWindow):
         self.hypnogram.assign(self.this_epoch, self.hypnogram.N1, self.EEG.return_active_channels())
         self.refresh()   
         self.nextEpoch()
+        self.quick_save()
 
     def scoreN2(self):     
         self.hypnogram.assign(self.this_epoch, self.hypnogram.N2, self.EEG.return_active_channels())
         self.refresh() 
         self.nextEpoch()
+        self.quick_save()
 
     def scoreN3(self):     
         self.hypnogram.assign(self.this_epoch, self.hypnogram.N3, self.EEG.return_active_channels())
         self.refresh() 
         self.nextEpoch()
+        self.quick_save()
 
     def scoreWake(self):     
         self.hypnogram.assign(self.this_epoch, self.hypnogram.W, self.EEG.return_active_channels())
         self.refresh() 
         self.nextEpoch()
+        self.quick_save()
 
     def scoreREM(self):     
         self.hypnogram.assign(self.this_epoch, self.hypnogram.REM, self.EEG.return_active_channels())
         self.refresh()        
-        self.nextEpoch()     
+        self.nextEpoch() 
+        self.quick_save()    
 
     def scoring_uncertainty(self):
         self.hypnogram.express_uncertainty(self.this_epoch)
-        self.refresh()        
+        self.refresh()   
+        self.quick_save()     
 
     def hypnoClick(self, event):
         self.this_epoch = self.hypnogram.onclick(event)
@@ -195,7 +199,7 @@ class Ui_MainWindow(QMainWindow):
 
     def respond_to_scaleDialogeBox(self):
         self.EEG.scaleChannels(self.scaleDialogeBox.chaninfo, self.this_epoch) 
-        eeg_and_config_functions.update_channel_information_in_configuration_file(self.filename_without_extension + '.config.json', self.scaleDialogeBox.chaninfo)
+        eeg_and_config_functions.update_channel_information_in_configuration_file(self.eeg_filename_without_extension + '.config.json', self.scaleDialogeBox.chaninfo)
 
     def configuration_pop_up(self):
         self.configuration_box.exec()
@@ -204,7 +208,7 @@ class Ui_MainWindow(QMainWindow):
         self.EEG.add_info(self.configuration_box.configuration)
         self.EEG.update2()
         self.EEG.showEEG(self.this_epoch)  
-        eeg_and_config_functions.update_general_information_in_configuration_file(self.filename_without_extension + '.config.json', self.configuration_box.configuration)
+        eeg_and_config_functions.update_general_information_in_configuration_file(self.eeg_filename_without_extension + '.config.json', self.configuration_box.configuration)
         
     def respond_to_configuration_pop_up_closing(self):
         self.spectogram.initiate(self.EEG)
@@ -234,7 +238,8 @@ class Ui_MainWindow(QMainWindow):
 
     def open_eeg(self):
         eeg_filename, _  = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', self.path_expdata, '*.mat;*json')
-        self.filename_without_extension = eeg_and_config_functions.load_eeg_and_configuration_settings(eeg_filename, self.EEG)
+        self.eeg_filename_without_extension = eeg_and_config_functions.load_eeg_and_configuration_settings(eeg_filename, self.EEG)
+        self.scoring_filename = self.eeg_filename_without_extension
         self.initiate()
        
             
@@ -430,9 +435,12 @@ class Ui_MainWindow(QMainWindow):
 
         # Developer mode
         if self.devmode == 1:
-            scriptpath = os.path.dirname(os.path.abspath(__file__))
-            self.filename_without_extension = eeg_and_config_functions.load_eeg_and_configuration_settings(f'{scriptpath}\example_data\example_data.mat', self.EEG)
+            scriptpath                          = os.path.dirname(os.path.abspath(__file__))
+            self.eeg_filename_without_extension = eeg_and_config_functions.load_eeg_and_configuration_settings(f'{scriptpath}\example_data\example_data.mat', self.EEG)
+            self.scoring_filename               = self.eeg_filename_without_extension + '.json'
             self.initiate()
+            eeg_and_config_functions.load_scoring_file(self.scoring_filename, self.hypnogram, self.containers, self.spectogram.axes)
+
 
         # Makes GUI listen to key strokes
         MainWindow.keyPressEvent = self.keyPressEvent        

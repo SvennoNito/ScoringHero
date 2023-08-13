@@ -6,13 +6,14 @@
    "end": 30,
    "stage": "N1",
    "digit": -1,
+   "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "P3",
-    "EOG1",
-    "EOG2",
-    "Muscle"
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -22,13 +23,14 @@
    "end": 60,
    "stage": "N1",
    "digit": -1,
+   "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "P3",
-    "EOG1",
-    "EOG2",
-    "Muscle"
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -36,15 +38,16 @@
    "epoch": 3,
    "start": 60,
    "end": 90,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "Wake",
+   "digit": 1,
+   "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "P3",
-    "EOG1",
-    "EOG2",
-    "Muscle"
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -52,15 +55,16 @@
    "epoch": 4,
    "start": 90,
    "end": 120,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "Wake",
+   "digit": 1,
+   "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "P3",
-    "EOG1",
-    "EOG2",
-    "Muscle"
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -68,135 +72,255 @@
    "epoch": 5,
    "start": 120,
    "end": 150,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "Wake",
+   "digit": 1,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 6,
    "start": 150,
    "end": 180,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "Wake",
+   "digit": 1,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 7,
    "start": 180,
    "end": 210,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "Wake",
+   "digit": 1,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 8,
    "start": 210,
    "end": 240,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "Wake",
+   "digit": 1,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 9,
    "start": 240,
    "end": 270,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "N1",
+   "digit": -1,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 10,
    "start": 270,
    "end": 300,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "N1",
+   "digit": -1,
+   "uncertain": 1,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 11,
    "start": 300,
    "end": 330,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "N1",
+   "digit": -1,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 12,
    "start": 330,
    "end": 360,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "N1",
+   "digit": -1,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 13,
    "start": 360,
    "end": 390,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "N1",
+   "digit": -1,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 14,
    "start": 390,
    "end": 420,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "N1",
+   "digit": -1,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 15,
    "start": 420,
    "end": 450,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "N1",
+   "digit": -1,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 16,
    "start": 450,
    "end": 480,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "N1",
+   "digit": -1,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 17,
    "start": 480,
    "end": 510,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "N2",
+   "digit": -2,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 18,
    "start": 510,
    "end": 540,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "N2",
+   "digit": -2,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 19,
    "start": 540,
    "end": 570,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "N2",
+   "digit": -2,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
@@ -205,6 +329,7 @@
    "end": 600,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -214,6 +339,7 @@
    "end": 630,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -223,6 +349,7 @@
    "end": 660,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -232,6 +359,7 @@
    "end": 690,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -241,6 +369,7 @@
    "end": 720,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -250,6 +379,7 @@
    "end": 750,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -259,6 +389,7 @@
    "end": 780,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -268,6 +399,7 @@
    "end": 810,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -277,6 +409,7 @@
    "end": 840,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -286,6 +419,7 @@
    "end": 870,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -295,6 +429,7 @@
    "end": 900,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -304,6 +439,7 @@
    "end": 930,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -313,6 +449,7 @@
    "end": 960,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -322,6 +459,7 @@
    "end": 990,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -331,6 +469,7 @@
    "end": 1020,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -340,6 +479,7 @@
    "end": 1050,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -349,6 +489,7 @@
    "end": 1080,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -358,6 +499,7 @@
    "end": 1110,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -367,6 +509,7 @@
    "end": 1140,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -376,6 +519,7 @@
    "end": 1170,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -385,6 +529,7 @@
    "end": 1200,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -394,6 +539,7 @@
    "end": 1230,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -403,6 +549,7 @@
    "end": 1260,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -412,6 +559,7 @@
    "end": 1290,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -421,6 +569,7 @@
    "end": 1320,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -430,6 +579,7 @@
    "end": 1350,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -439,6 +589,7 @@
    "end": 1380,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -448,6 +599,7 @@
    "end": 1410,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -457,6 +609,7 @@
    "end": 1440,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -466,6 +619,7 @@
    "end": 1470,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -475,6 +629,7 @@
    "end": 1500,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -484,6 +639,7 @@
    "end": 1530,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -493,8 +649,9 @@
    "end": 1560,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
-   "clean": 1
+   "clean": 0
   },
   {
    "epoch": 53,
@@ -502,6 +659,7 @@
    "end": 1590,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -511,6 +669,7 @@
    "end": 1620,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -520,6 +679,7 @@
    "end": 1650,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -529,6 +689,7 @@
    "end": 1680,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -538,6 +699,7 @@
    "end": 1710,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -547,6 +709,7 @@
    "end": 1740,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -556,6 +719,7 @@
    "end": 1770,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -565,6 +729,7 @@
    "end": 1800,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -574,6 +739,7 @@
    "end": 1830,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -583,6 +749,7 @@
    "end": 1860,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -592,6 +759,7 @@
    "end": 1890,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -601,6 +769,7 @@
    "end": 1920,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -610,6 +779,7 @@
    "end": 1950,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -617,18 +787,34 @@
    "epoch": 66,
    "start": 1950,
    "end": 1980,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
-   "clean": 1
+   "stage": "N1",
+   "digit": -1,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
+   "clean": 0
   },
   {
    "epoch": 67,
    "start": 1980,
    "end": 2010,
-   "stage": "-",
-   "digit": null,
-   "channels": null,
+   "stage": "N1",
+   "digit": -1,
+   "uncertain": 0,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
@@ -637,6 +823,7 @@
    "end": 2040,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -646,6 +833,7 @@
    "end": 2070,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -655,6 +843,7 @@
    "end": 2100,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -664,6 +853,7 @@
    "end": 2130,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -673,6 +863,7 @@
    "end": 2160,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -682,6 +873,7 @@
    "end": 2190,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -691,6 +883,7 @@
    "end": 2220,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -700,6 +893,7 @@
    "end": 2250,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -709,6 +903,7 @@
    "end": 2280,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -718,6 +913,7 @@
    "end": 2310,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -727,6 +923,7 @@
    "end": 2340,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -736,6 +933,7 @@
    "end": 2370,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -745,6 +943,7 @@
    "end": 2400,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -754,6 +953,7 @@
    "end": 2430,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -763,6 +963,7 @@
    "end": 2460,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -772,6 +973,7 @@
    "end": 2490,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -781,6 +983,7 @@
    "end": 2520,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -790,6 +993,7 @@
    "end": 2550,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -799,6 +1003,7 @@
    "end": 2580,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -808,6 +1013,7 @@
    "end": 2610,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -817,6 +1023,7 @@
    "end": 2640,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -826,6 +1033,7 @@
    "end": 2670,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -835,6 +1043,7 @@
    "end": 2700,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -844,6 +1053,7 @@
    "end": 2730,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -853,6 +1063,7 @@
    "end": 2760,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -862,6 +1073,7 @@
    "end": 2790,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -871,6 +1083,7 @@
    "end": 2820,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -880,6 +1093,7 @@
    "end": 2850,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -889,6 +1103,7 @@
    "end": 2880,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -898,6 +1113,7 @@
    "end": 2910,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -907,6 +1123,7 @@
    "end": 2940,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -916,6 +1133,7 @@
    "end": 2970,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -925,6 +1143,7 @@
    "end": 3000,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -934,6 +1153,7 @@
    "end": 3030,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -943,6 +1163,7 @@
    "end": 3060,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -952,6 +1173,7 @@
    "end": 3090,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -961,6 +1183,7 @@
    "end": 3120,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -970,6 +1193,7 @@
    "end": 3150,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -979,6 +1203,7 @@
    "end": 3180,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -988,6 +1213,7 @@
    "end": 3210,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -997,6 +1223,7 @@
    "end": 3240,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1006,6 +1233,7 @@
    "end": 3270,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1015,6 +1243,7 @@
    "end": 3300,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1024,6 +1253,7 @@
    "end": 3330,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1033,6 +1263,7 @@
    "end": 3360,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1042,8 +1273,9 @@
    "end": 3390,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
-   "clean": 1
+   "clean": 0
   },
   {
    "epoch": 114,
@@ -1051,6 +1283,7 @@
    "end": 3420,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1060,6 +1293,7 @@
    "end": 3450,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1069,6 +1303,7 @@
    "end": 3480,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1078,6 +1313,7 @@
    "end": 3510,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1087,6 +1323,7 @@
    "end": 3540,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1096,6 +1333,7 @@
    "end": 3570,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1105,6 +1343,7 @@
    "end": 3600,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1114,6 +1353,7 @@
    "end": 3630,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1123,6 +1363,7 @@
    "end": 3660,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1132,6 +1373,7 @@
    "end": 3690,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1141,6 +1383,7 @@
    "end": 3720,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1150,6 +1393,7 @@
    "end": 3750,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1159,6 +1403,7 @@
    "end": 3780,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1168,6 +1413,7 @@
    "end": 3810,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1177,6 +1423,7 @@
    "end": 3840,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1186,6 +1433,7 @@
    "end": 3870,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1195,6 +1443,7 @@
    "end": 3900,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1204,6 +1453,7 @@
    "end": 3930,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1213,6 +1463,7 @@
    "end": 3960,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1222,6 +1473,7 @@
    "end": 3990,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1231,6 +1483,7 @@
    "end": 4020,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1240,6 +1493,7 @@
    "end": 4050,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1249,6 +1503,7 @@
    "end": 4080,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1258,6 +1513,7 @@
    "end": 4110,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1267,6 +1523,7 @@
    "end": 4140,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1276,6 +1533,7 @@
    "end": 4170,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1285,6 +1543,7 @@
    "end": 4200,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1294,6 +1553,7 @@
    "end": 4230,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1303,6 +1563,7 @@
    "end": 4260,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1312,6 +1573,7 @@
    "end": 4290,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1321,6 +1583,7 @@
    "end": 4320,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1330,6 +1593,7 @@
    "end": 4350,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1339,6 +1603,7 @@
    "end": 4380,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1348,6 +1613,7 @@
    "end": 4410,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1357,6 +1623,7 @@
    "end": 4440,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1366,6 +1633,7 @@
    "end": 4470,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1375,6 +1643,7 @@
    "end": 4500,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1384,6 +1653,7 @@
    "end": 4530,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1393,6 +1663,7 @@
    "end": 4560,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1402,6 +1673,7 @@
    "end": 4590,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1411,6 +1683,7 @@
    "end": 4620,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1420,6 +1693,7 @@
    "end": 4650,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1429,6 +1703,7 @@
    "end": 4680,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1438,6 +1713,7 @@
    "end": 4710,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1447,6 +1723,7 @@
    "end": 4740,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1456,6 +1733,7 @@
    "end": 4770,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1465,6 +1743,7 @@
    "end": 4800,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1474,6 +1753,7 @@
    "end": 4830,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1483,6 +1763,7 @@
    "end": 4860,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1492,6 +1773,7 @@
    "end": 4890,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1501,6 +1783,7 @@
    "end": 4920,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1510,6 +1793,7 @@
    "end": 4950,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1519,6 +1803,7 @@
    "end": 4980,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1528,6 +1813,7 @@
    "end": 5010,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1537,6 +1823,7 @@
    "end": 5040,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1546,6 +1833,7 @@
    "end": 5070,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1555,6 +1843,7 @@
    "end": 5100,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1564,6 +1853,7 @@
    "end": 5130,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1573,6 +1863,7 @@
    "end": 5160,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1582,6 +1873,7 @@
    "end": 5190,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1591,6 +1883,7 @@
    "end": 5220,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1600,6 +1893,7 @@
    "end": 5250,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1609,6 +1903,7 @@
    "end": 5280,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1618,6 +1913,7 @@
    "end": 5310,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1627,6 +1923,7 @@
    "end": 5340,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1636,6 +1933,7 @@
    "end": 5370,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1645,6 +1943,7 @@
    "end": 5400,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1654,6 +1953,7 @@
    "end": 5430,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1663,6 +1963,7 @@
    "end": 5460,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1672,6 +1973,7 @@
    "end": 5490,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1681,6 +1983,7 @@
    "end": 5520,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1690,6 +1993,7 @@
    "end": 5550,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1699,6 +2003,7 @@
    "end": 5580,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1708,6 +2013,7 @@
    "end": 5610,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1717,6 +2023,7 @@
    "end": 5640,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1726,6 +2033,7 @@
    "end": 5670,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1735,6 +2043,7 @@
    "end": 5700,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1744,6 +2053,7 @@
    "end": 5730,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1753,6 +2063,7 @@
    "end": 5760,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1762,6 +2073,7 @@
    "end": 5790,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1771,6 +2083,7 @@
    "end": 5820,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1780,6 +2093,7 @@
    "end": 5850,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1789,6 +2103,7 @@
    "end": 5880,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1798,6 +2113,7 @@
    "end": 5910,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1807,6 +2123,7 @@
    "end": 5940,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1816,6 +2133,7 @@
    "end": 5970,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1825,6 +2143,7 @@
    "end": 6000,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1834,6 +2153,7 @@
    "end": 6030,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1843,6 +2163,7 @@
    "end": 6060,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1852,6 +2173,7 @@
    "end": 6090,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1861,6 +2183,7 @@
    "end": 6120,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1870,6 +2193,7 @@
    "end": 6150,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1879,6 +2203,7 @@
    "end": 6180,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1888,6 +2213,7 @@
    "end": 6210,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1897,6 +2223,7 @@
    "end": 6240,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1906,6 +2233,7 @@
    "end": 6270,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1915,6 +2243,7 @@
    "end": 6300,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1924,6 +2253,7 @@
    "end": 6330,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1933,6 +2263,7 @@
    "end": 6360,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1942,6 +2273,7 @@
    "end": 6390,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1951,6 +2283,7 @@
    "end": 6420,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1960,6 +2293,7 @@
    "end": 6450,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1969,6 +2303,7 @@
    "end": 6480,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1978,6 +2313,7 @@
    "end": 6510,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1987,6 +2323,7 @@
    "end": 6540,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -1996,6 +2333,7 @@
    "end": 6570,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2005,6 +2343,7 @@
    "end": 6600,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2014,6 +2353,7 @@
    "end": 6630,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2023,6 +2363,7 @@
    "end": 6660,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2032,6 +2373,7 @@
    "end": 6690,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2041,6 +2383,7 @@
    "end": 6720,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2050,6 +2393,7 @@
    "end": 6750,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2059,6 +2403,7 @@
    "end": 6780,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2068,6 +2413,7 @@
    "end": 6810,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2077,6 +2423,7 @@
    "end": 6840,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2086,6 +2433,7 @@
    "end": 6870,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2095,6 +2443,7 @@
    "end": 6900,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2104,6 +2453,7 @@
    "end": 6930,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2113,6 +2463,7 @@
    "end": 6960,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2122,6 +2473,7 @@
    "end": 6990,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2131,6 +2483,7 @@
    "end": 7020,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2140,6 +2493,7 @@
    "end": 7050,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2149,6 +2503,7 @@
    "end": 7080,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2158,6 +2513,7 @@
    "end": 7110,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2167,6 +2523,7 @@
    "end": 7140,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2176,6 +2533,7 @@
    "end": 7170,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2185,6 +2543,7 @@
    "end": 7200,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2194,6 +2553,7 @@
    "end": 7230,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2203,6 +2563,7 @@
    "end": 7260,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2212,6 +2573,7 @@
    "end": 7290,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2221,6 +2583,7 @@
    "end": 7320,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2230,6 +2593,7 @@
    "end": 7350,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2239,6 +2603,7 @@
    "end": 7380,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2248,6 +2613,7 @@
    "end": 7410,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2257,6 +2623,7 @@
    "end": 7440,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2266,6 +2633,7 @@
    "end": 7470,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2275,6 +2643,7 @@
    "end": 7500,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2284,6 +2653,7 @@
    "end": 7530,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2293,6 +2663,7 @@
    "end": 7560,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2302,6 +2673,7 @@
    "end": 7590,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2311,6 +2683,7 @@
    "end": 7620,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2320,6 +2693,7 @@
    "end": 7650,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2329,6 +2703,7 @@
    "end": 7680,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2338,6 +2713,7 @@
    "end": 7710,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2347,6 +2723,7 @@
    "end": 7740,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2356,6 +2733,7 @@
    "end": 7770,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2365,6 +2743,7 @@
    "end": 7800,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2374,6 +2753,7 @@
    "end": 7830,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2383,6 +2763,7 @@
    "end": 7860,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2392,6 +2773,7 @@
    "end": 7890,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2401,6 +2783,7 @@
    "end": 7920,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2410,6 +2793,7 @@
    "end": 7950,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2419,6 +2803,7 @@
    "end": 7980,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2428,6 +2813,7 @@
    "end": 8010,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2437,6 +2823,7 @@
    "end": 8040,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2446,6 +2833,7 @@
    "end": 8070,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2455,6 +2843,7 @@
    "end": 8100,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2464,6 +2853,7 @@
    "end": 8130,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2473,6 +2863,7 @@
    "end": 8160,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2482,6 +2873,7 @@
    "end": 8190,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2491,6 +2883,7 @@
    "end": 8220,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2500,6 +2893,7 @@
    "end": 8250,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2509,6 +2903,7 @@
    "end": 8280,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2518,6 +2913,7 @@
    "end": 8310,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2527,6 +2923,7 @@
    "end": 8340,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2536,6 +2933,7 @@
    "end": 8370,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2545,6 +2943,7 @@
    "end": 8400,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2554,6 +2953,7 @@
    "end": 8430,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2563,6 +2963,7 @@
    "end": 8460,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2572,6 +2973,7 @@
    "end": 8490,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2581,6 +2983,7 @@
    "end": 8520,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2590,6 +2993,7 @@
    "end": 8550,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2599,6 +3003,7 @@
    "end": 8580,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2608,6 +3013,7 @@
    "end": 8610,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2617,6 +3023,7 @@
    "end": 8640,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2626,6 +3033,7 @@
    "end": 8670,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2635,6 +3043,7 @@
    "end": 8700,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2644,6 +3053,7 @@
    "end": 8730,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2653,6 +3063,7 @@
    "end": 8760,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2662,6 +3073,7 @@
    "end": 8790,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2671,6 +3083,7 @@
    "end": 8820,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2680,6 +3093,7 @@
    "end": 8850,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2689,6 +3103,7 @@
    "end": 8880,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2698,6 +3113,7 @@
    "end": 8910,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2707,6 +3123,7 @@
    "end": 8940,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2716,6 +3133,7 @@
    "end": 8970,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2725,6 +3143,7 @@
    "end": 9000,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2734,6 +3153,7 @@
    "end": 9030,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2743,6 +3163,7 @@
    "end": 9060,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2752,6 +3173,7 @@
    "end": 9090,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2761,6 +3183,7 @@
    "end": 9120,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2770,6 +3193,7 @@
    "end": 9150,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2779,6 +3203,7 @@
    "end": 9180,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2788,6 +3213,7 @@
    "end": 9210,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2797,6 +3223,7 @@
    "end": 9240,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2806,6 +3233,7 @@
    "end": 9270,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2815,6 +3243,7 @@
    "end": 9300,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2824,6 +3253,7 @@
    "end": 9330,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2833,6 +3263,7 @@
    "end": 9360,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2842,6 +3273,7 @@
    "end": 9390,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2851,6 +3283,7 @@
    "end": 9420,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2860,6 +3293,7 @@
    "end": 9450,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2869,6 +3303,7 @@
    "end": 9480,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2878,6 +3313,7 @@
    "end": 9510,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2887,6 +3323,7 @@
    "end": 9540,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2896,6 +3333,7 @@
    "end": 9570,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2905,6 +3343,7 @@
    "end": 9600,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2914,6 +3353,7 @@
    "end": 9630,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2923,6 +3363,7 @@
    "end": 9660,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2932,6 +3373,7 @@
    "end": 9690,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2941,6 +3383,7 @@
    "end": 9720,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2950,6 +3393,7 @@
    "end": 9750,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2959,6 +3403,7 @@
    "end": 9780,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2968,6 +3413,7 @@
    "end": 9810,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2977,6 +3423,7 @@
    "end": 9840,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2986,6 +3433,7 @@
    "end": 9870,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -2995,6 +3443,7 @@
    "end": 9900,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3004,6 +3453,7 @@
    "end": 9930,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3013,6 +3463,7 @@
    "end": 9960,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3022,6 +3473,7 @@
    "end": 9990,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3031,6 +3483,7 @@
    "end": 10020,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3040,6 +3493,7 @@
    "end": 10050,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3049,6 +3503,7 @@
    "end": 10080,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3058,6 +3513,7 @@
    "end": 10110,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3067,6 +3523,7 @@
    "end": 10140,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3076,6 +3533,7 @@
    "end": 10170,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3085,6 +3543,7 @@
    "end": 10200,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3094,6 +3553,7 @@
    "end": 10230,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3103,6 +3563,7 @@
    "end": 10260,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3112,6 +3573,7 @@
    "end": 10290,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3121,6 +3583,7 @@
    "end": 10320,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3130,6 +3593,7 @@
    "end": 10350,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3139,6 +3603,7 @@
    "end": 10380,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3148,6 +3613,7 @@
    "end": 10410,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3157,6 +3623,7 @@
    "end": 10440,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3166,6 +3633,7 @@
    "end": 10470,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3175,6 +3643,7 @@
    "end": 10500,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3184,6 +3653,7 @@
    "end": 10530,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3193,6 +3663,7 @@
    "end": 10560,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3202,6 +3673,7 @@
    "end": 10590,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3211,6 +3683,7 @@
    "end": 10620,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3220,6 +3693,7 @@
    "end": 10650,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3229,6 +3703,7 @@
    "end": 10680,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3238,6 +3713,7 @@
    "end": 10710,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3247,6 +3723,7 @@
    "end": 10740,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3256,6 +3733,7 @@
    "end": 10770,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3265,6 +3743,7 @@
    "end": 10800,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3274,6 +3753,7 @@
    "end": 10830,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3283,6 +3763,7 @@
    "end": 10860,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3292,6 +3773,7 @@
    "end": 10890,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3301,6 +3783,7 @@
    "end": 10920,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3310,6 +3793,7 @@
    "end": 10950,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3319,6 +3803,7 @@
    "end": 10980,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3328,6 +3813,7 @@
    "end": 11010,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3337,6 +3823,7 @@
    "end": 11040,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3346,6 +3833,7 @@
    "end": 11070,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3355,6 +3843,7 @@
    "end": 11100,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3364,6 +3853,7 @@
    "end": 11130,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3373,6 +3863,7 @@
    "end": 11160,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3382,6 +3873,7 @@
    "end": 11190,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3391,6 +3883,7 @@
    "end": 11220,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3400,6 +3893,7 @@
    "end": 11250,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3409,6 +3903,7 @@
    "end": 11280,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3418,6 +3913,7 @@
    "end": 11310,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3427,6 +3923,7 @@
    "end": 11340,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3436,6 +3933,7 @@
    "end": 11370,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3445,6 +3943,7 @@
    "end": 11400,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3454,6 +3953,7 @@
    "end": 11430,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3463,6 +3963,7 @@
    "end": 11460,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3472,6 +3973,7 @@
    "end": 11490,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3481,6 +3983,7 @@
    "end": 11520,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3490,6 +3993,7 @@
    "end": 11550,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3499,6 +4003,7 @@
    "end": 11580,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3508,6 +4013,7 @@
    "end": 11610,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3517,6 +4023,7 @@
    "end": 11640,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3526,6 +4033,7 @@
    "end": 11670,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3535,6 +4043,7 @@
    "end": 11700,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3544,6 +4053,7 @@
    "end": 11730,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3553,6 +4063,7 @@
    "end": 11760,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3562,6 +4073,7 @@
    "end": 11790,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3571,6 +4083,7 @@
    "end": 11820,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3580,6 +4093,7 @@
    "end": 11850,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3589,6 +4103,7 @@
    "end": 11880,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3598,6 +4113,7 @@
    "end": 11910,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3607,6 +4123,7 @@
    "end": 11940,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3616,6 +4133,7 @@
    "end": 11970,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3625,6 +4143,7 @@
    "end": 12000,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3634,6 +4153,7 @@
    "end": 12030,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3643,6 +4163,7 @@
    "end": 12060,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3652,6 +4173,7 @@
    "end": 12090,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3661,6 +4183,7 @@
    "end": 12120,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3670,6 +4193,7 @@
    "end": 12150,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3679,6 +4203,7 @@
    "end": 12180,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3688,6 +4213,7 @@
    "end": 12210,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3697,6 +4223,7 @@
    "end": 12240,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3706,6 +4233,7 @@
    "end": 12270,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3715,6 +4243,7 @@
    "end": 12300,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3724,6 +4253,7 @@
    "end": 12330,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3733,6 +4263,7 @@
    "end": 12360,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3742,6 +4273,7 @@
    "end": 12390,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3751,6 +4283,7 @@
    "end": 12420,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3760,6 +4293,7 @@
    "end": 12450,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3769,6 +4303,7 @@
    "end": 12480,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3778,6 +4313,7 @@
    "end": 12510,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3787,6 +4323,7 @@
    "end": 12540,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3796,6 +4333,7 @@
    "end": 12570,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3805,6 +4343,7 @@
    "end": 12600,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3814,6 +4353,7 @@
    "end": 12630,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3823,6 +4363,7 @@
    "end": 12660,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3832,6 +4373,7 @@
    "end": 12690,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3841,6 +4383,7 @@
    "end": 12720,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3850,6 +4393,7 @@
    "end": 12750,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3859,6 +4403,7 @@
    "end": 12780,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3868,6 +4413,7 @@
    "end": 12810,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3877,6 +4423,7 @@
    "end": 12840,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3886,6 +4433,7 @@
    "end": 12870,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3895,6 +4443,7 @@
    "end": 12900,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3904,6 +4453,7 @@
    "end": 12930,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3913,6 +4463,7 @@
    "end": 12960,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3922,6 +4473,7 @@
    "end": 12990,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3931,6 +4483,7 @@
    "end": 13020,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3940,6 +4493,7 @@
    "end": 13050,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3949,6 +4503,7 @@
    "end": 13080,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3958,6 +4513,7 @@
    "end": 13110,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3967,6 +4523,7 @@
    "end": 13140,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3976,6 +4533,7 @@
    "end": 13170,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3985,6 +4543,7 @@
    "end": 13200,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -3994,6 +4553,7 @@
    "end": 13230,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4003,6 +4563,7 @@
    "end": 13260,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4012,6 +4573,7 @@
    "end": 13290,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4021,6 +4583,7 @@
    "end": 13320,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4030,6 +4593,7 @@
    "end": 13350,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4039,6 +4603,7 @@
    "end": 13380,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4048,6 +4613,7 @@
    "end": 13410,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4057,6 +4623,7 @@
    "end": 13440,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4066,6 +4633,7 @@
    "end": 13470,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4075,6 +4643,7 @@
    "end": 13500,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4084,6 +4653,7 @@
    "end": 13530,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4093,6 +4663,7 @@
    "end": 13560,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4102,6 +4673,7 @@
    "end": 13590,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4111,6 +4683,7 @@
    "end": 13620,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4120,6 +4693,7 @@
    "end": 13650,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4129,6 +4703,7 @@
    "end": 13680,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4138,6 +4713,7 @@
    "end": 13710,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4147,6 +4723,7 @@
    "end": 13740,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4156,6 +4733,7 @@
    "end": 13770,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4165,6 +4743,7 @@
    "end": 13800,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4174,6 +4753,7 @@
    "end": 13830,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4183,6 +4763,7 @@
    "end": 13860,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4192,6 +4773,7 @@
    "end": 13890,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4201,6 +4783,7 @@
    "end": 13920,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4210,6 +4793,7 @@
    "end": 13950,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4219,6 +4803,7 @@
    "end": 13980,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4228,6 +4813,7 @@
    "end": 14010,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4237,6 +4823,7 @@
    "end": 14040,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4246,6 +4833,7 @@
    "end": 14070,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4255,6 +4843,7 @@
    "end": 14100,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4264,6 +4853,7 @@
    "end": 14130,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4273,6 +4863,7 @@
    "end": 14160,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4282,6 +4873,7 @@
    "end": 14190,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4291,6 +4883,7 @@
    "end": 14220,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4300,6 +4893,7 @@
    "end": 14250,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4309,6 +4903,7 @@
    "end": 14280,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4318,6 +4913,7 @@
    "end": 14310,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4327,6 +4923,7 @@
    "end": 14340,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4336,6 +4933,7 @@
    "end": 14370,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4345,6 +4943,7 @@
    "end": 14400,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4354,6 +4953,7 @@
    "end": 14430,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4363,6 +4963,7 @@
    "end": 14460,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4372,6 +4973,7 @@
    "end": 14490,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4381,6 +4983,7 @@
    "end": 14520,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4390,6 +4993,7 @@
    "end": 14550,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4399,6 +5003,7 @@
    "end": 14580,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4408,6 +5013,7 @@
    "end": 14610,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4417,6 +5023,7 @@
    "end": 14640,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4426,6 +5033,7 @@
    "end": 14670,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4435,6 +5043,7 @@
    "end": 14700,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4444,6 +5053,7 @@
    "end": 14730,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4453,6 +5063,7 @@
    "end": 14760,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4462,6 +5073,7 @@
    "end": 14790,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4471,6 +5083,7 @@
    "end": 14820,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4480,6 +5093,7 @@
    "end": 14850,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4489,6 +5103,7 @@
    "end": 14880,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4498,6 +5113,7 @@
    "end": 14910,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4507,6 +5123,7 @@
    "end": 14940,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4516,6 +5133,7 @@
    "end": 14970,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4525,6 +5143,7 @@
    "end": 15000,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4534,6 +5153,7 @@
    "end": 15030,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4543,6 +5163,7 @@
    "end": 15060,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4552,6 +5173,7 @@
    "end": 15090,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4561,6 +5183,7 @@
    "end": 15120,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4570,6 +5193,7 @@
    "end": 15150,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4579,6 +5203,7 @@
    "end": 15180,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4588,6 +5213,7 @@
    "end": 15210,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4597,6 +5223,7 @@
    "end": 15240,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4606,6 +5233,7 @@
    "end": 15270,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4615,6 +5243,7 @@
    "end": 15300,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4624,6 +5253,7 @@
    "end": 15330,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4633,6 +5263,7 @@
    "end": 15360,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4642,6 +5273,7 @@
    "end": 15390,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4651,6 +5283,7 @@
    "end": 15420,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4660,6 +5293,7 @@
    "end": 15450,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4669,6 +5303,7 @@
    "end": 15480,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4678,6 +5313,7 @@
    "end": 15510,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4687,6 +5323,7 @@
    "end": 15540,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4696,6 +5333,7 @@
    "end": 15570,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4705,6 +5343,7 @@
    "end": 15600,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4714,6 +5353,7 @@
    "end": 15630,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4723,6 +5363,7 @@
    "end": 15660,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4732,6 +5373,7 @@
    "end": 15690,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4741,6 +5383,7 @@
    "end": 15720,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4750,6 +5393,7 @@
    "end": 15750,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4759,6 +5403,7 @@
    "end": 15780,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4768,6 +5413,7 @@
    "end": 15810,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4777,6 +5423,7 @@
    "end": 15840,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4786,6 +5433,7 @@
    "end": 15870,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4795,6 +5443,7 @@
    "end": 15900,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4804,6 +5453,7 @@
    "end": 15930,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4813,6 +5463,7 @@
    "end": 15960,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4822,6 +5473,7 @@
    "end": 15990,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4831,6 +5483,7 @@
    "end": 16020,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4840,6 +5493,7 @@
    "end": 16050,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4849,6 +5503,7 @@
    "end": 16080,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4858,6 +5513,7 @@
    "end": 16110,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4867,6 +5523,7 @@
    "end": 16140,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4876,6 +5533,7 @@
    "end": 16170,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4885,6 +5543,7 @@
    "end": 16200,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4894,6 +5553,7 @@
    "end": 16230,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4903,6 +5563,7 @@
    "end": 16260,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4912,6 +5573,7 @@
    "end": 16290,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4921,6 +5583,7 @@
    "end": 16320,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4930,6 +5593,7 @@
    "end": 16350,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4939,6 +5603,7 @@
    "end": 16380,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4948,6 +5613,7 @@
    "end": 16410,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4957,6 +5623,7 @@
    "end": 16440,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4966,6 +5633,7 @@
    "end": 16470,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4975,6 +5643,7 @@
    "end": 16500,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4984,6 +5653,7 @@
    "end": 16530,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -4993,6 +5663,7 @@
    "end": 16560,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5002,6 +5673,7 @@
    "end": 16590,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5011,6 +5683,7 @@
    "end": 16620,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5020,6 +5693,7 @@
    "end": 16650,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5029,6 +5703,7 @@
    "end": 16680,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5038,6 +5713,7 @@
    "end": 16710,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5047,6 +5723,7 @@
    "end": 16740,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5056,6 +5733,7 @@
    "end": 16770,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5065,6 +5743,7 @@
    "end": 16800,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5074,6 +5753,7 @@
    "end": 16830,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5083,6 +5763,7 @@
    "end": 16860,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5092,6 +5773,7 @@
    "end": 16890,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5101,6 +5783,7 @@
    "end": 16920,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5110,6 +5793,7 @@
    "end": 16950,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5119,6 +5803,7 @@
    "end": 16980,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5128,6 +5813,7 @@
    "end": 17010,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5137,6 +5823,7 @@
    "end": 17040,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5146,6 +5833,7 @@
    "end": 17070,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5155,6 +5843,7 @@
    "end": 17100,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5164,6 +5853,7 @@
    "end": 17130,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5173,6 +5863,7 @@
    "end": 17160,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5182,6 +5873,7 @@
    "end": 17190,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5191,6 +5883,7 @@
    "end": 17220,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5200,6 +5893,7 @@
    "end": 17250,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5209,6 +5903,7 @@
    "end": 17280,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5218,6 +5913,7 @@
    "end": 17310,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5227,6 +5923,7 @@
    "end": 17340,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5236,6 +5933,7 @@
    "end": 17370,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5245,6 +5943,7 @@
    "end": 17400,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5254,6 +5953,7 @@
    "end": 17430,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5263,6 +5963,7 @@
    "end": 17460,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5272,6 +5973,7 @@
    "end": 17490,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5281,6 +5983,7 @@
    "end": 17520,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5290,6 +5993,7 @@
    "end": 17550,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5299,6 +6003,7 @@
    "end": 17580,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5308,6 +6013,7 @@
    "end": 17610,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5317,6 +6023,7 @@
    "end": 17640,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5326,6 +6033,7 @@
    "end": 17670,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5335,6 +6043,7 @@
    "end": 17700,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5344,6 +6053,7 @@
    "end": 17730,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5353,6 +6063,7 @@
    "end": 17760,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5362,6 +6073,7 @@
    "end": 17790,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5371,6 +6083,7 @@
    "end": 17820,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5380,6 +6093,7 @@
    "end": 17850,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5389,6 +6103,7 @@
    "end": 17880,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5398,6 +6113,7 @@
    "end": 17910,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5407,6 +6123,7 @@
    "end": 17940,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5416,6 +6133,7 @@
    "end": 17970,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5425,6 +6143,7 @@
    "end": 18000,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5434,6 +6153,7 @@
    "end": 18030,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5443,6 +6163,7 @@
    "end": 18060,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5452,6 +6173,7 @@
    "end": 18090,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5461,6 +6183,7 @@
    "end": 18120,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5470,6 +6193,7 @@
    "end": 18150,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5479,6 +6203,7 @@
    "end": 18180,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5488,6 +6213,7 @@
    "end": 18210,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5497,6 +6223,7 @@
    "end": 18240,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5506,6 +6233,7 @@
    "end": 18270,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5515,6 +6243,7 @@
    "end": 18300,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5524,6 +6253,7 @@
    "end": 18330,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5533,6 +6263,7 @@
    "end": 18360,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5542,6 +6273,7 @@
    "end": 18390,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5551,6 +6283,7 @@
    "end": 18420,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5560,6 +6293,7 @@
    "end": 18450,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5569,6 +6303,7 @@
    "end": 18480,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5578,6 +6313,7 @@
    "end": 18510,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5587,6 +6323,7 @@
    "end": 18540,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5596,6 +6333,7 @@
    "end": 18570,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5605,6 +6343,7 @@
    "end": 18600,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5614,6 +6353,7 @@
    "end": 18630,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5623,6 +6363,7 @@
    "end": 18660,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5632,6 +6373,7 @@
    "end": 18690,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5641,6 +6383,7 @@
    "end": 18720,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5650,6 +6393,7 @@
    "end": 18750,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5659,6 +6403,7 @@
    "end": 18780,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5668,6 +6413,7 @@
    "end": 18810,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5677,6 +6423,7 @@
    "end": 18840,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5686,6 +6433,7 @@
    "end": 18870,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5695,6 +6443,7 @@
    "end": 18900,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5704,6 +6453,7 @@
    "end": 18930,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5713,6 +6463,7 @@
    "end": 18960,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5722,6 +6473,7 @@
    "end": 18990,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5731,6 +6483,7 @@
    "end": 19020,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5740,6 +6493,7 @@
    "end": 19050,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5749,6 +6503,7 @@
    "end": 19080,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5758,6 +6513,7 @@
    "end": 19110,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5767,6 +6523,7 @@
    "end": 19140,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5776,6 +6533,7 @@
    "end": 19170,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5785,6 +6543,7 @@
    "end": 19200,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5794,6 +6553,7 @@
    "end": 19230,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5803,6 +6563,7 @@
    "end": 19260,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5812,6 +6573,7 @@
    "end": 19290,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5821,6 +6583,7 @@
    "end": 19320,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5830,6 +6593,7 @@
    "end": 19350,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5839,6 +6603,7 @@
    "end": 19380,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5848,6 +6613,7 @@
    "end": 19410,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5857,6 +6623,7 @@
    "end": 19440,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5866,6 +6633,7 @@
    "end": 19470,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5875,6 +6643,7 @@
    "end": 19500,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5884,6 +6653,7 @@
    "end": 19530,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5893,6 +6663,7 @@
    "end": 19560,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5902,6 +6673,7 @@
    "end": 19590,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5911,6 +6683,7 @@
    "end": 19620,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5920,6 +6693,7 @@
    "end": 19650,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5929,6 +6703,7 @@
    "end": 19680,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5938,6 +6713,7 @@
    "end": 19710,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5947,6 +6723,7 @@
    "end": 19740,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5956,6 +6733,7 @@
    "end": 19770,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5965,6 +6743,7 @@
    "end": 19800,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5974,6 +6753,7 @@
    "end": 19830,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5983,6 +6763,7 @@
    "end": 19860,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -5992,6 +6773,7 @@
    "end": 19890,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6001,6 +6783,7 @@
    "end": 19920,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6010,6 +6793,7 @@
    "end": 19950,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6019,6 +6803,7 @@
    "end": 19980,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6028,6 +6813,7 @@
    "end": 20010,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6037,6 +6823,7 @@
    "end": 20040,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6046,6 +6833,7 @@
    "end": 20070,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6055,6 +6843,7 @@
    "end": 20100,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6064,6 +6853,7 @@
    "end": 20130,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6073,6 +6863,7 @@
    "end": 20160,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6082,6 +6873,7 @@
    "end": 20190,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6091,6 +6883,7 @@
    "end": 20220,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6100,6 +6893,7 @@
    "end": 20250,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6109,6 +6903,7 @@
    "end": 20280,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6118,6 +6913,7 @@
    "end": 20310,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6127,6 +6923,7 @@
    "end": 20340,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6136,6 +6933,7 @@
    "end": 20370,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6145,6 +6943,7 @@
    "end": 20400,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6154,6 +6953,7 @@
    "end": 20430,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6163,6 +6963,7 @@
    "end": 20460,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6172,6 +6973,7 @@
    "end": 20490,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6181,6 +6983,7 @@
    "end": 20520,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6190,6 +6993,7 @@
    "end": 20550,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6199,6 +7003,7 @@
    "end": 20580,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6208,6 +7013,7 @@
    "end": 20610,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6217,6 +7023,7 @@
    "end": 20640,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6226,6 +7033,7 @@
    "end": 20670,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6235,6 +7043,7 @@
    "end": 20700,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6244,6 +7053,7 @@
    "end": 20730,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6253,6 +7063,7 @@
    "end": 20760,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6262,6 +7073,7 @@
    "end": 20790,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6271,6 +7083,7 @@
    "end": 20820,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6280,6 +7093,7 @@
    "end": 20850,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6289,6 +7103,7 @@
    "end": 20880,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6298,6 +7113,7 @@
    "end": 20910,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6307,6 +7123,7 @@
    "end": 20940,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6316,6 +7133,7 @@
    "end": 20970,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6325,6 +7143,7 @@
    "end": 21000,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6334,6 +7153,7 @@
    "end": 21030,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6343,6 +7163,7 @@
    "end": 21060,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6352,6 +7173,7 @@
    "end": 21090,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6361,6 +7183,7 @@
    "end": 21120,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6370,6 +7193,7 @@
    "end": 21150,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6379,6 +7203,7 @@
    "end": 21180,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6388,6 +7213,7 @@
    "end": 21210,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6397,6 +7223,7 @@
    "end": 21240,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6406,6 +7233,7 @@
    "end": 21270,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6415,6 +7243,7 @@
    "end": 21300,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6424,6 +7253,7 @@
    "end": 21330,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6433,6 +7263,7 @@
    "end": 21360,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6442,6 +7273,7 @@
    "end": 21390,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6451,6 +7283,7 @@
    "end": 21420,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6460,6 +7293,7 @@
    "end": 21450,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6469,6 +7303,7 @@
    "end": 21480,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6478,6 +7313,7 @@
    "end": 21510,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6487,6 +7323,7 @@
    "end": 21540,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6496,6 +7333,7 @@
    "end": 21570,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6505,6 +7343,7 @@
    "end": 21600,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6514,6 +7353,7 @@
    "end": 21630,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6523,6 +7363,7 @@
    "end": 21660,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6532,6 +7373,7 @@
    "end": 21690,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6541,6 +7383,7 @@
    "end": 21720,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6550,6 +7393,7 @@
    "end": 21750,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6559,6 +7403,7 @@
    "end": 21780,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6568,6 +7413,7 @@
    "end": 21810,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6577,6 +7423,7 @@
    "end": 21840,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6586,6 +7433,7 @@
    "end": 21870,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6595,6 +7443,7 @@
    "end": 21900,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6604,6 +7453,7 @@
    "end": 21930,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6613,6 +7463,7 @@
    "end": 21960,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6622,6 +7473,7 @@
    "end": 21990,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6631,6 +7483,7 @@
    "end": 22020,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6640,6 +7493,7 @@
    "end": 22050,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6649,6 +7503,7 @@
    "end": 22080,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6658,6 +7513,7 @@
    "end": 22110,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6667,6 +7523,7 @@
    "end": 22140,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6676,6 +7533,7 @@
    "end": 22170,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6685,6 +7543,7 @@
    "end": 22200,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6694,6 +7553,7 @@
    "end": 22230,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6703,6 +7563,7 @@
    "end": 22260,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6712,6 +7573,7 @@
    "end": 22290,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6721,6 +7583,7 @@
    "end": 22320,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6730,6 +7593,7 @@
    "end": 22350,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6739,6 +7603,7 @@
    "end": 22380,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6748,6 +7613,7 @@
    "end": 22410,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6757,6 +7623,7 @@
    "end": 22440,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6766,6 +7633,7 @@
    "end": 22470,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6775,6 +7643,7 @@
    "end": 22500,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6784,6 +7653,7 @@
    "end": 22530,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6793,6 +7663,7 @@
    "end": 22560,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6802,6 +7673,7 @@
    "end": 22590,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6811,6 +7683,7 @@
    "end": 22620,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6820,6 +7693,7 @@
    "end": 22650,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6829,6 +7703,7 @@
    "end": 22680,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6838,6 +7713,7 @@
    "end": 22710,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6847,6 +7723,7 @@
    "end": 22740,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6856,6 +7733,7 @@
    "end": 22770,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6865,6 +7743,7 @@
    "end": 22800,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6874,6 +7753,7 @@
    "end": 22830,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6883,6 +7763,7 @@
    "end": 22860,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6892,6 +7773,7 @@
    "end": 22890,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6901,6 +7783,7 @@
    "end": 22920,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6910,6 +7793,7 @@
    "end": 22950,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6919,6 +7803,7 @@
    "end": 22980,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6928,6 +7813,7 @@
    "end": 23010,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6937,6 +7823,7 @@
    "end": 23040,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6946,6 +7833,7 @@
    "end": 23070,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6955,6 +7843,7 @@
    "end": 23100,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6964,6 +7853,7 @@
    "end": 23130,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6973,6 +7863,7 @@
    "end": 23160,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6982,6 +7873,7 @@
    "end": 23190,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -6991,6 +7883,7 @@
    "end": 23220,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7000,6 +7893,7 @@
    "end": 23250,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7009,6 +7903,7 @@
    "end": 23280,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7018,6 +7913,7 @@
    "end": 23310,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7027,6 +7923,7 @@
    "end": 23340,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7036,6 +7933,7 @@
    "end": 23370,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7045,6 +7943,7 @@
    "end": 23400,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7054,6 +7953,7 @@
    "end": 23430,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7063,6 +7963,7 @@
    "end": 23460,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7072,6 +7973,7 @@
    "end": 23490,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7081,6 +7983,7 @@
    "end": 23520,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7090,6 +7993,7 @@
    "end": 23550,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7099,6 +8003,7 @@
    "end": 23580,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7108,6 +8013,7 @@
    "end": 23610,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7117,6 +8023,7 @@
    "end": 23640,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7126,6 +8033,7 @@
    "end": 23670,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7135,6 +8043,7 @@
    "end": 23700,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7144,6 +8053,7 @@
    "end": 23730,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7153,6 +8063,7 @@
    "end": 23760,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7162,6 +8073,7 @@
    "end": 23790,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7171,6 +8083,7 @@
    "end": 23820,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7180,6 +8093,7 @@
    "end": 23850,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7189,6 +8103,7 @@
    "end": 23880,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7198,6 +8113,7 @@
    "end": 23910,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7207,6 +8123,7 @@
    "end": 23940,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7216,6 +8133,7 @@
    "end": 23970,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7225,6 +8143,7 @@
    "end": 24000,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7234,6 +8153,7 @@
    "end": 24030,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7243,6 +8163,7 @@
    "end": 24060,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7252,6 +8173,7 @@
    "end": 24090,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7261,6 +8183,7 @@
    "end": 24120,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7270,6 +8193,7 @@
    "end": 24150,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7279,6 +8203,7 @@
    "end": 24180,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7288,6 +8213,7 @@
    "end": 24210,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7297,6 +8223,7 @@
    "end": 24240,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7306,6 +8233,7 @@
    "end": 24270,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7315,6 +8243,7 @@
    "end": 24300,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7324,6 +8253,7 @@
    "end": 24330,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7333,6 +8263,7 @@
    "end": 24360,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7342,6 +8273,7 @@
    "end": 24390,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7351,6 +8283,7 @@
    "end": 24420,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7360,6 +8293,7 @@
    "end": 24450,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7369,6 +8303,7 @@
    "end": 24480,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7378,6 +8313,7 @@
    "end": 24510,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7387,6 +8323,7 @@
    "end": 24540,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7396,6 +8333,7 @@
    "end": 24570,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7405,6 +8343,7 @@
    "end": 24600,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7414,6 +8353,7 @@
    "end": 24630,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7423,6 +8363,7 @@
    "end": 24660,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7432,6 +8373,7 @@
    "end": 24690,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7441,6 +8383,7 @@
    "end": 24720,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7450,6 +8393,7 @@
    "end": 24750,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7459,6 +8403,7 @@
    "end": 24780,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7468,6 +8413,7 @@
    "end": 24810,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7477,6 +8423,7 @@
    "end": 24840,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7486,6 +8433,7 @@
    "end": 24870,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7495,6 +8443,7 @@
    "end": 24900,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7504,6 +8453,7 @@
    "end": 24930,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7513,6 +8463,7 @@
    "end": 24960,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7522,6 +8473,7 @@
    "end": 24990,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7531,6 +8483,7 @@
    "end": 25020,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7540,6 +8493,7 @@
    "end": 25050,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7549,6 +8503,7 @@
    "end": 25080,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7558,6 +8513,7 @@
    "end": 25110,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7567,6 +8523,7 @@
    "end": 25140,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7576,6 +8533,7 @@
    "end": 25170,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7585,6 +8543,7 @@
    "end": 25200,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7594,6 +8553,7 @@
    "end": 25230,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7603,6 +8563,7 @@
    "end": 25260,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7612,6 +8573,7 @@
    "end": 25290,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7621,6 +8583,7 @@
    "end": 25320,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7630,6 +8593,7 @@
    "end": 25350,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7639,6 +8603,7 @@
    "end": 25380,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7648,6 +8613,7 @@
    "end": 25410,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7657,6 +8623,7 @@
    "end": 25440,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7666,6 +8633,7 @@
    "end": 25470,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7675,6 +8643,7 @@
    "end": 25500,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7684,6 +8653,7 @@
    "end": 25530,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7693,6 +8663,7 @@
    "end": 25560,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7702,6 +8673,7 @@
    "end": 25590,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7711,6 +8683,7 @@
    "end": 25620,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7720,6 +8693,7 @@
    "end": 25650,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7729,6 +8703,7 @@
    "end": 25680,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7738,6 +8713,7 @@
    "end": 25710,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7747,6 +8723,7 @@
    "end": 25740,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7756,6 +8733,7 @@
    "end": 25770,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7765,6 +8743,7 @@
    "end": 25800,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7774,6 +8753,7 @@
    "end": 25830,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7783,6 +8763,7 @@
    "end": 25860,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7792,6 +8773,7 @@
    "end": 25890,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7801,6 +8783,7 @@
    "end": 25920,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7810,6 +8793,7 @@
    "end": 25950,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7819,6 +8803,7 @@
    "end": 25980,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7828,6 +8813,7 @@
    "end": 26010,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7837,6 +8823,7 @@
    "end": 26040,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7846,6 +8833,7 @@
    "end": 26070,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7855,6 +8843,7 @@
    "end": 26100,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7864,6 +8853,7 @@
    "end": 26130,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7873,6 +8863,7 @@
    "end": 26160,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7882,6 +8873,7 @@
    "end": 26190,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7891,6 +8883,7 @@
    "end": 26220,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7900,6 +8893,7 @@
    "end": 26250,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7909,6 +8903,7 @@
    "end": 26280,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7918,6 +8913,7 @@
    "end": 26310,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7927,6 +8923,7 @@
    "end": 26340,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7936,6 +8933,7 @@
    "end": 26370,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7945,6 +8943,7 @@
    "end": 26400,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7954,6 +8953,7 @@
    "end": 26430,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7963,6 +8963,7 @@
    "end": 26460,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7972,6 +8973,7 @@
    "end": 26490,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7981,6 +8983,7 @@
    "end": 26520,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7990,6 +8993,7 @@
    "end": 26550,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -7999,6 +9003,7 @@
    "end": 26580,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8008,6 +9013,7 @@
    "end": 26610,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8017,6 +9023,7 @@
    "end": 26640,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8026,6 +9033,7 @@
    "end": 26670,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8035,6 +9043,7 @@
    "end": 26700,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8044,6 +9053,7 @@
    "end": 26730,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8053,6 +9063,7 @@
    "end": 26760,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8062,6 +9073,7 @@
    "end": 26790,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8071,6 +9083,7 @@
    "end": 26820,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8080,6 +9093,7 @@
    "end": 26850,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8089,6 +9103,7 @@
    "end": 26880,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8098,6 +9113,7 @@
    "end": 26910,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8107,6 +9123,7 @@
    "end": 26940,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8116,6 +9133,7 @@
    "end": 26970,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8125,6 +9143,7 @@
    "end": 27000,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8134,6 +9153,7 @@
    "end": 27030,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8143,6 +9163,7 @@
    "end": 27060,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8152,6 +9173,7 @@
    "end": 27090,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8161,6 +9183,7 @@
    "end": 27120,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8170,6 +9193,7 @@
    "end": 27150,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8179,6 +9203,7 @@
    "end": 27180,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8188,6 +9213,7 @@
    "end": 27210,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8197,6 +9223,7 @@
    "end": 27240,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8206,6 +9233,7 @@
    "end": 27270,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8215,6 +9243,7 @@
    "end": 27300,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8224,6 +9253,7 @@
    "end": 27330,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8233,6 +9263,7 @@
    "end": 27360,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8242,6 +9273,7 @@
    "end": 27390,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8251,6 +9283,7 @@
    "end": 27420,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8260,6 +9293,7 @@
    "end": 27450,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8269,6 +9303,7 @@
    "end": 27480,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8278,6 +9313,7 @@
    "end": 27510,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8287,6 +9323,7 @@
    "end": 27540,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8296,6 +9333,7 @@
    "end": 27570,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8305,6 +9343,7 @@
    "end": 27600,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8314,6 +9353,7 @@
    "end": 27630,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8323,6 +9363,7 @@
    "end": 27660,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8332,6 +9373,7 @@
    "end": 27690,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8341,6 +9383,7 @@
    "end": 27720,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8350,6 +9393,7 @@
    "end": 27750,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8359,6 +9403,7 @@
    "end": 27780,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8368,6 +9413,7 @@
    "end": 27810,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8377,6 +9423,7 @@
    "end": 27840,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8386,6 +9433,7 @@
    "end": 27870,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8395,6 +9443,7 @@
    "end": 27900,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8404,6 +9453,7 @@
    "end": 27930,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8413,6 +9463,7 @@
    "end": 27960,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8422,6 +9473,7 @@
    "end": 27990,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8431,6 +9483,7 @@
    "end": 28020,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8440,6 +9493,7 @@
    "end": 28050,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8449,6 +9503,7 @@
    "end": 28080,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8458,6 +9513,7 @@
    "end": 28110,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8467,6 +9523,7 @@
    "end": 28140,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8476,6 +9533,7 @@
    "end": 28170,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8485,6 +9543,7 @@
    "end": 28200,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8494,6 +9553,7 @@
    "end": 28230,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8503,6 +9563,7 @@
    "end": 28260,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8512,6 +9573,7 @@
    "end": 28290,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8521,6 +9583,7 @@
    "end": 28320,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8530,6 +9593,7 @@
    "end": 28350,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8539,6 +9603,7 @@
    "end": 28380,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8548,6 +9613,7 @@
    "end": 28410,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8557,6 +9623,7 @@
    "end": 28440,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8566,6 +9633,7 @@
    "end": 28470,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8575,6 +9643,7 @@
    "end": 28500,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8584,6 +9653,7 @@
    "end": 28530,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8593,6 +9663,7 @@
    "end": 28560,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8602,6 +9673,7 @@
    "end": 28590,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8611,6 +9683,7 @@
    "end": 28620,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8620,6 +9693,7 @@
    "end": 28650,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8629,6 +9703,7 @@
    "end": 28680,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8638,6 +9713,7 @@
    "end": 28710,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8647,6 +9723,7 @@
    "end": 28740,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8656,6 +9733,7 @@
    "end": 28770,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8665,6 +9743,7 @@
    "end": 28800,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   },
@@ -8674,14 +9753,263 @@
    "end": 28830,
    "stage": "-",
    "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 962,
+   "start": 28830,
+   "end": 28860,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 963,
+   "start": 28860,
+   "end": 28890,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 964,
+   "start": 28890,
+   "end": 28920,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 965,
+   "start": 28920,
+   "end": 28950,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 966,
+   "start": 28950,
+   "end": 28980,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 967,
+   "start": 28980,
+   "end": 29010,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 968,
+   "start": 29010,
+   "end": 29040,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 969,
+   "start": 29040,
+   "end": 29070,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 970,
+   "start": 29070,
+   "end": 29100,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 971,
+   "start": 29100,
+   "end": 29130,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 972,
+   "start": 29130,
+   "end": 29160,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 973,
+   "start": 29160,
+   "end": 29190,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 974,
+   "start": 29190,
+   "end": 29220,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 975,
+   "start": 29220,
+   "end": 29250,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 976,
+   "start": 29250,
+   "end": 29280,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 977,
+   "start": 29280,
+   "end": 29310,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 978,
+   "start": 29310,
+   "end": 29340,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 979,
+   "start": 29340,
+   "end": 29370,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 980,
+   "start": 29370,
+   "end": 29400,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 981,
+   "start": 29400,
+   "end": 29430,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 982,
+   "start": 29430,
+   "end": 29460,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 983,
+   "start": 29460,
+   "end": 29490,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
+   "channels": null,
+   "clean": 1
+  },
+  {
+   "epoch": 984,
+   "start": 29490,
+   "end": 29520,
+   "stage": "-",
+   "digit": null,
+   "uncertain": 0,
    "channels": null,
    "clean": 1
   }
  ],
  [
   {
-   "Artefacts": [],
-   "Annotation_F1": [],
+   "Artefacts": [
+    [
+     1535.416,
+     1553.63
+    ],
+    [
+     1952.667,
+     1954.33
+    ],
+    [
+     3331.855,
+     3360.214
+    ]
+   ],
+   "Annotation_F1": [
+    [
+     2014.075,
+     2016.654
+    ]
+   ],
    "Annotation_F2": [],
    "Annotation_F3": [],
    "Annotation_F4": []

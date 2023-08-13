@@ -5,17 +5,12 @@ import tkinter.simpledialog
 import eeg_and_config_functions
 
 
-
-
-
-
-
-def write_json(filename, epolen, hypnogram, artefacts, containers):
+def write_scoring_file(scoring_filename, epolen, hypnogram, artefacts, containers):
     # Function to save your work as json file
 
-    with open(filename, mode='w', newline='') as file:
-        if not filename.endswith(".json"):
-            filename = f'{filename}.json'
+    with open(scoring_filename, mode='w', newline='') as file:
+        if not scoring_filename.endswith(".json"):
+            scoring_filename = f'{scoring_filename}.json'
 
         # Sleep stages
         saver = [[]]
@@ -26,6 +21,7 @@ def write_json(filename, epolen, hypnogram, artefacts, containers):
                 'end':   stage['Epoch'] * epolen,
                 'stage': stage['Stage'],
                 'digit': stage['Digit'],
+                'uncertain': stage['Uncertainty'],
                 'channels': stage['Channels'],
                 'clean': 0 if stage['Epoch'] in artefacts.epoch else 1
                 })     
@@ -54,19 +50,6 @@ def choose_random(files, allow_existence=1):
     data = open_eeg(file)
     return data, scoring_file, basename
 
-
-def open_eeg(file):
-    filename, extension = os.path.splitext(file)
-    if extension == '.mat':
-        if scipy.io.matlab.miobase.get_matfile_version(filename)[0] == 2: #v7.3 files
-            with h5py.File(filename, "r") as file:
-                data = file['EEG']['data'][:]
-                if data.shape[0] > data.shape[1]: # dimensions are weird ....
-                    data = data.T
-        else:
-            data = scipy.io.loadmat(filename)['EEG']['data'][0][0]
-            # self.EEG.srate = scipy.io.loadmat(EEG_file)['EEG']['srate'][0][0][0][0] 
-    return data, filename
     
 
 def choose_random(files, allow_existence=1):

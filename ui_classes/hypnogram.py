@@ -83,6 +83,13 @@ class hypnogram(QtWidgets.QWidget):
         self.stages[epoch-1]['Digit'] = self.assign_number(stage)
         self.stages[epoch-1]['Channels'] = channels
 
+    def integrate_saved_epoch(self, scoring_file):
+        for bucket in scoring_file:
+            self.stages[bucket['epoch']-1]['Stage'] = bucket['stage']
+            self.stages[bucket['epoch']-1]['Digit'] = bucket['digit']
+            self.stages[bucket['epoch']-1]['Channels'] = bucket['channels']
+            self.stages[bucket['epoch']-1]['Uncertainty'] = bucket['uncertain']
+
     def get_next_unscored(self):
         for index, stage in enumerate(self.stages):
             if stage['Stage'] == '-':

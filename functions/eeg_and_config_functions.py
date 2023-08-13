@@ -82,6 +82,7 @@ def update_channel_information_in_configuration_file(configuration_filename, cha
     with open(configuration_filename, 'w') as file:
         json.dump(configuration_settings, file, indent=4)    
 
+
 def update_general_information_in_configuration_file(configuration_filename, channel_information):
     configuration_settings      = load_configuration_file(configuration_filename)
     configuration_settings[0]   = channel_information
@@ -89,19 +90,24 @@ def update_general_information_in_configuration_file(configuration_filename, cha
         json.dump(configuration_settings, file, indent=4)  
 
 
+# *** Load scoring file ***
+# *************************
 
-
-
-
-
-
-
-"""     else: # Create default configuration configuration_settings
-        root = tk.Tk() 
-        root.withdraw() 
-        display_text    = "Configuration file «EEG_filename».json was not found. Loading default configuration_settings instead. \nIf you want to have more meaningful channel labels than «channel 1» or want to avoid this pop-up box, create a .json file named as your EEG file in the same folder as your EEG file. \nYou can use the function «build_json.py» for that or copy an existing .json file and adapt the values accordingly. \nTo continue for now, define the sampling rate of your data here (in Hz):"
-        srate           = tk.simpledialog.askstring("Configuration file not found", display_text, parent=root)
-        srate           = int(re.findall(r'\d+', srate)[0])
-        # ctypes.windll.user32.MessageBoxW(0, "Configuration file «EEG_filename».json was not found. Loading default configuration_settings with a sampling rate of 125 Hz instead. If your data has a different sampling rate or you want to have more meaningful channel labels than «channel 1», create a .json file named as your EEG file in the same folder as your EEG file. You can use the function  «build_json.py» for that or copy an existing .json file and adapt the values accordingly.", "No configuration file found", 1)
-        configuration_settings = default_config(srate, EEG.data.shape[0]) """
-  
+def load_scoring_file(scoring_filename, hypnogram, containers, EEG):
+    if os.path.exists(scoring_filename):
+        with open(scoring_filename, "r") as file:
+            scoring_data = json.load(file)     
+            integrate_loaded_scoring_file(scoring_data, hypnogram, containers, EEG)
+            
+        
+def integrate_loaded_scoring_file(scoring_data, hypnogram, containers, spectogram_axes):
+    # Load sleep stages
+    # for bucket in scoring_data[0]:
+        #hypnogram.assign(bucket['epoch'], bucket['stage'], bucket['channels'], bucket['uncertainty'])
+    hypnogram.integrate_saved_epoch(scoring_data[0])
+    
+    # Load annotations
+    for container, label in zip(containers, scoring_data[1][0].keys()):
+        container.label     = label
+        container.borders   = scoring_data[1][0][label]    
+    hypnogram.add_to_spectogram(1, spectogram_axes, containers)
