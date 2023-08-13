@@ -71,7 +71,7 @@ def build_default_configuration(number_of_channels, srate = 125):
                     "Channel_index_for_spectogram": 1,
                     "Spectogram_lower_limit_hz": 0,
                     "Spectogram_upper_limit_hz": 20,
-                    "Area_power_lower_limit_hz": 4,
+                    "Area_power_lower_limit_hz": 4 ,
                     "Area_power_upper_limit_hz": 26,
                     }
     

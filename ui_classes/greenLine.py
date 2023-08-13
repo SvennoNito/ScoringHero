@@ -88,19 +88,20 @@ class greenLine(QtWidgets.QWidget):
 
         # Adjust time values of green box to allign with EEG data time value
         xstart, xstop = self.boxLeft, self.boxRight
-        epolen        = np.diff(self.axes.getAxis('bottom').range)[0]
-        while xstart > epolen:
-            xstart, xstop = xstart-epolen, xstop-epolen
+        xstart -= self.axes.getAxis('bottom').range[0]
+        xstop -= self.axes.getAxis('bottom').range[0]
+        epolen        = round(np.diff(self.axes.getAxis('bottom').range)[0])
 
         # Find correct EEG trace
         olap = []
         for signal in signals:
             xvals = np.where((signal <= self.boxTop) & (signal >= self.boxBottom))[0] / self.srate
+            #olap.append(len(xvals))
             olap.append(sum((xvals <= xstop) & (xvals >= xstart)))
         trace = olap.index(max(olap))
 
         # Extract EEG signal during the time of the green box
-        data = signals[trace][round(xstart*self.srate):round(xstop*self.srate)]
+        data = signals[trace][round(xstart*self.srate):round(xstop*self.srate)]; import matplotlib.pyplot as plt; plt.plot(data)
         self.amplitude = int(round(max(data) - min(data), 0))       
 
         # Compute power of that data
@@ -158,6 +159,11 @@ class greenLine(QtWidgets.QWidget):
         self.coordLeftCorner  = self.axes.plotItem.vb.mapSceneToView(self.pointLeftCorner)
         self.coordRightCorner = self.axes.plotItem.vb.mapSceneToView(self.pointRightCorner)
 
+        # Enough slow waves for N3
+        if self.totalLength >= np.diff(self.axes.getAxis('bottom').range)[0] * 0.2:
+            self.totalLengthLabel.setStyleSheet(f"color: {'Green'};")
+        else:
+            self.totalLengthLabel.setStyleSheet(f"color: {'Black'};")
 
     def reset(self):
         self.pointLeftCorner  = QtCore.QPoint()
