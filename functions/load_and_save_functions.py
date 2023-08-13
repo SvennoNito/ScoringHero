@@ -94,8 +94,8 @@ def update_general_information_in_configuration_file(configuration_filename, cha
         json.dump(configuration_settings, file, indent=4)  
 
 
-# *** Load scoring file ***
-# *************************
+# *** Load and save scoring file ***
+# **********************************
 
 def load_scoring_file(scoring_filename, hypnogram, containers, spectogram_axes, EEG):
     if os.path.exists(scoring_filename):
@@ -116,3 +116,33 @@ def integrate_loaded_scoring_file(scoring_data, hypnogram, containers, spectogra
         container.label     = label
         container.borders   = scoring_data[1][0][label]    
     #hypnogram.add_to_spectogram(1, spectogram_axes, containers)
+
+
+def write_scoring_file(scoring_filename, epolen, hypnogram, artefacts, containers):
+    with open(scoring_filename, mode='w', newline='') as file:
+        if not scoring_filename.endswith(".json"):
+            scoring_filename = f'{scoring_filename}.json'
+
+        # Sleep stages
+        saver = [[]]
+        for stage in hypnogram.stages:
+            saver[0].append({
+                'epoch': stage['Epoch'],
+                'start': stage['Epoch'] * epolen - epolen,
+                'end':   stage['Epoch'] * epolen,
+                'stage': stage['Stage'],
+                'digit': stage['Digit'],
+                'uncertain': stage['Uncertainty'],
+                'channels': stage['Channels'],
+                'clean': 0 if stage['Epoch'] in artefacts.epoch else 1
+                })     
+                            
+        # Annotations
+        markers = {
+            container.label: container.borders
+            for container in containers
+        }
+        saver.append([markers])
+
+        # Save json file
+        json.dump(saver, file, indent=1)    

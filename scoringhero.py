@@ -20,7 +20,7 @@ sys.path.append("functions")
 from EEG_class import *
 from greenLine import *
 from hypnogram import *
-import save_functions, eeg_and_config_functions
+import load_and_save_functions
 import popups, spectral
 
 # This software protects itself by being executable only until a certain date in the future.
@@ -67,16 +67,16 @@ class Ui_MainWindow(QMainWindow):
 
     def select_random_eeg_from_menu(self):
         name_of_eegfiles, _     = QtWidgets.QFileDialog.getOpenFileNames(None, 'Select multiple EEG files', self.default_path_to_eeg_data, 'Matlab files (*.mat)')
-        name_of_eegfile         = eeg_and_config_functions.choose_random_file_from_selection(name_of_eegfiles)
+        name_of_eegfile         = load_and_save_functions.choose_random_file_from_selection(name_of_eegfiles)
         self.load_eeg_data_and_configuration_and_sleep_scoring(name_of_eegfile)    
 
     def load_eeg_data_and_configuration_and_sleep_scoring(self, name_of_eegfile):
         self.name_of_eeg_file_before_extension, _   = os.path.splitext(name_of_eegfile)
         self.name_of_scoring_file                   = self.name_of_eeg_file_before_extension + '.json'
         self.default_path_to_eeg_data               = os.path.dirname(self.name_of_scoring_file)
-        eeg_and_config_functions.load_eeg_and_configuration_settings(name_of_eegfile, self.EEG)
+        load_and_save_functions.load_eeg_and_configuration_settings(name_of_eegfile, self.EEG)
         self.initiate_GUI()
-        eeg_and_config_functions.load_scoring_file(self.name_of_scoring_file, self.hypnogram, self.containers, self.spectogram.axes, self.EEG)
+        load_and_save_functions.load_scoring_file(self.name_of_scoring_file, self.hypnogram, self.containers, self.spectogram.axes, self.EEG)
         self.refresh_GUI()
 
 
@@ -88,7 +88,7 @@ class Ui_MainWindow(QMainWindow):
         name_of_scoringfile, _                  = QtWidgets.QFileDialog.getOpenFileName(None, 'Open .json file', self.default_path_to_scoring_file, 'Json Files (*.json)')
         self.name_of_scoring_file               = name_of_scoringfile
         self.ndefault_path_to_scoring_file      = os.path.dirname(name_of_scoringfile)
-        eeg_and_config_functions.load_scoring_file(name_of_scoringfile, self.hypnogram, self.containers, self.spectogram.axes)
+        load_and_save_functions.load_scoring_file(name_of_scoringfile, self.hypnogram, self.containers, self.spectogram.axes)
         self.refresh_GUI()
 
 
@@ -240,7 +240,7 @@ class Ui_MainWindow(QMainWindow):
 
     def respond_to_scaleDialogeBox(self):
         self.EEG.scaleChannels(self.scaleDialogeBox.chaninfo, self.this_epoch) 
-        eeg_and_config_functions.update_channel_information_in_configuration_file(self.name_of_eeg_file_before_extension + '.config.json', self.scaleDialogeBox.chaninfo)
+        load_and_save_functions.update_channel_information_in_configuration_file(self.name_of_eeg_file_before_extension + '.config.json', self.scaleDialogeBox.chaninfo)
 
     def configuration_pop_up(self):
         self.configuration_box.exec()
@@ -249,7 +249,7 @@ class Ui_MainWindow(QMainWindow):
         self.EEG.add_info(self.configuration_box.configuration)
         self.EEG.update2()
         self.EEG.showEEG(self.this_epoch)  
-        eeg_and_config_functions.update_general_information_in_configuration_file(self.name_of_eeg_file_before_extension + '.config.json', self.configuration_box.configuration)
+        load_and_save_functions.update_general_information_in_configuration_file(self.name_of_eeg_file_before_extension + '.config.json', self.configuration_box.configuration)
         
     def respond_to_configuration_pop_up_closing(self):
         self.spectogram.initiate(self.EEG)
