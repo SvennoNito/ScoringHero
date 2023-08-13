@@ -3,15 +3,15 @@
         "Sampling_rate_hz": 125,
         "Epoch_length_s": 30,
         "Channel_index_for_spectogram": 1,
-        "Extension_epoch_left_s": 3,
-        "Extension_epoch_right_s": 3
+        "Extension_epoch_left_s": 5,
+        "Extension_epoch_right_s": 5
     },
     [
         {
             "Channel_name": "Channel 1",
             "Channel_color": "Black",
             "Display_on_screen": true,
-            "Scaling_factor": 3.0
+            "Scaling_factor": 1.0
         },
         {
             "Channel_name": "Channel 2",
@@ -27,7 +27,7 @@
         },
         {
             "Channel_name": "Channel 4",
-            "Channel_color": "Blue",
+            "Channel_color": "Black",
             "Display_on_screen": false,
             "Scaling_factor": 1.0
         },
@@ -45,19 +45,19 @@
         },
         {
             "Channel_name": "Channel 7",
-            "Channel_color": "Blue",
+            "Channel_color": "Black",
             "Display_on_screen": true,
             "Scaling_factor": 1.0
         },
         {
             "Channel_name": "Channel 8",
-            "Channel_color": "Blue",
+            "Channel_color": "Black",
             "Display_on_screen": true,
             "Scaling_factor": 1.0
         },
         {
             "Channel_name": "Channel 9",
-            "Channel_color": "Magenta",
+            "Channel_color": "Black",
             "Display_on_screen": true,
             "Scaling_factor": 1.0
         }

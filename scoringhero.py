@@ -30,60 +30,112 @@ current_date    = datetime.datetime.now()           # Get the current date
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.devmode            = 1
-        self.this_epoch         = 1
-        self.this_stage         = '-'
-        self.eeg_filename_without_extension = []
-        self.scoring_filename   = []
-        self.path_script        = os.path.dirname(os.path.abspath(__file__))
-        self.path_expdata       = os.path.join(self.path_script, 'example_data')
-        self.path_savefile      = os.path.join(self.path_script, 'example_data')
-
-
-        """ self.editfield = QtWidgets.QLineEdit()
-        self.editfield.setFixedWidth(150)        
-        self.editfield.setText("Default Text")
-        self.editfield.returnPressed.connect(self.handleLineEdit)  
-        self.editfieldAction = self.editfield.addAction(QLineEdit.TrailingPosition) 
-        self.editfieldAction.triggered.connect(self.handleLineEdit)
-        self.menuBar().addAction(self.editfieldAction) """           
+        self.devmode                        = 1
+        self.this_epoch                     = 1
+        self.containers                     = []
+        self.name_of_eeg_file_before_extension = []
+        self.name_of_scoring_file           = []
+        self.path_to_this_script            = os.path.dirname(os.path.abspath(__file__))
+        self.default_path_to_eeg_data       = os.path.join(self.path_to_this_script, 'example_data')
+        self.default_path_to_scoring_file   = os.path.join(self.path_to_this_script, 'example_data')
 
     def keyPressEvent(self, event):
-        print(event.key())
+        # Define key press events
+        # print(event.key())
         if event.key() == Qt.Key_Right:
             self.nextEpoch()     
         if event.key() == Qt.Key_Left:
             self.previousEpoch()      
         if event.key() == Qt.Key_F1:            
             self.containerF1.include(self.greenLine, self.EEG)
-            self.quick_save()    
+            self.write_scoring_file_as_json()    
         if event.key() == Qt.Key_F2:            
             self.containerF2.include(self.greenLine, self.EEG)
-            self.quick_save()    
+            self.write_scoring_file_as_json()    
         if event.key() == Qt.Key_F3:            
             self.containerF3.include(self.greenLine, self.EEG)
-            self.quick_save()    
+            self.write_scoring_file_as_json()    
         if event.key() == Qt.Key_F4:            
             self.containerF4.include(self.greenLine, self.EEG)
-            self.quick_save()       
+            self.write_scoring_file_as_json()    
 
-    def open_random(self):
-        files = QtWidgets.QFileDialog.getOpenFileNames(None, 'Select multiple EEG files', self.path_expdata, 'Matlab files (*.mat)')
-        self.EEG.data, self.savename, basename = save_functions.choose_random(files, allow_existence=1)
-        save_functions.open_config(f'{basename}.config', self.EEG)
-        save_functions.load_your_work(self.hypnogram, self.containers, f'{basename}.json')
-        self.initiate()        
 
-    def quick_save(self): 
-        save_functions.write_scoring_file(self.scoring_filename, self.EEG.epolen, self.hypnogram, self.artefacts, self.containers)
+    # *** Functions for loading EEG file ***
+    def select_eeg_from_menu(self):
+        name_of_eegfile, _      = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', self.default_path_to_eeg_data, '*.mat;*json')
+        self.load_eeg_data_and_configuration_and_sleep_scoring(name_of_eegfile)    
+
+    def select_random_eeg_from_menu(self):
+        name_of_eegfiles, _     = QtWidgets.QFileDialog.getOpenFileNames(None, 'Select multiple EEG files', self.default_path_to_eeg_data, 'Matlab files (*.mat)')
+        name_of_eegfile         = eeg_and_config_functions.choose_random_file_from_selection(name_of_eegfiles)
+        self.load_eeg_data_and_configuration_and_sleep_scoring(name_of_eegfile)    
+
+    def load_eeg_data_and_configuration_and_sleep_scoring(self, name_of_eegfile):
+        self.name_of_eeg_file_before_extension, _   = os.path.splitext(name_of_eegfile)
+        self.name_of_scoring_file                   = self.name_of_eeg_file_before_extension + '.json'
+        self.default_path_to_eeg_data               = os.path.dirname(self.name_of_scoring_file)
+        eeg_and_config_functions.load_eeg_and_configuration_settings(name_of_eegfile, self.EEG)
+        self.initiate_GUI()
+        eeg_and_config_functions.load_scoring_file(self.name_of_scoring_file, self.hypnogram, self.containers, self.spectogram.axes, self.EEG)
+        self.refresh_GUI()
+
+
+    # *** Functions for handling scoring file ***
+    def write_scoring_file_as_json(self): 
+        save_functions.write_scoring_file(self.name_of_scoring_file, self.EEG.epolen, self.hypnogram, self.containerA, self.containers)
                                                
-    def scoring_load(self):
-        scoring_file, _     = QtWidgets.QFileDialog.getOpenFileName(None, 'Open .json file', self.path_expdata, 'Json Files (*.json)')
-        self.savename       = scoring_file
-        self.path_expdata   = os.path.dirname(scoring_file)
-        save_functions.load_your_work(self.hypnogram, self.containers, scoring_file)
-        self.show_artefacts()                                                                                        
-        self.refresh()
+    def load_scorin_file_from_menu(self):
+        name_of_scoringfile, _                  = QtWidgets.QFileDialog.getOpenFileName(None, 'Open .json file', self.default_path_to_scoring_file, 'Json Files (*.json)')
+        self.name_of_scoring_file               = name_of_scoringfile
+        self.ndefault_path_to_scoring_file      = os.path.dirname(name_of_scoringfile)
+        eeg_and_config_functions.load_scoring_file(name_of_scoringfile, self.hypnogram, self.containers, self.spectogram.axes)
+        #for annotation in self.containers:
+        #    annotation.show_areas(self.EEG)                                                                                       
+        #self.refresh_GUI()
+
+
+    # *** Function tto set-up and regresh the GUI ***
+    def initiate_GUI(self):
+        self.hypnogram.initiate(self.EEG)
+        self.spectogram.initiate(self.EEG)
+        self.powerbox.initiate(self.EEG)
+        self.greenLine.initiate(self.EEG)
+        
+        self.containerA         = popups.container(self.EEG.epolen, facecolor=(255, 200, 200, 100), label="Artefacts")
+        self.containerF1        = popups.container(self.EEG.epolen, facecolor=(100, 149, 237, 100), label="Annotation_F1")
+        self.containerF2        = popups.container(self.EEG.epolen, facecolor=(152, 251, 152, 100), label="Annotation_F2")
+        self.containerF3        = popups.container(self.EEG.epolen, facecolor=(255, 255, 102, 100), label="Annotation_F3")
+        self.containerF4        = popups.container(self.EEG.epolen, facecolor=(64, 224, 208, 100),  label="Annotation_F4")
+        self.containers         = [self.containerA, self.containerF1, self.containerF2, self.containerF3, self.containerF4]
+        for container in self.containers:
+            container.changesMade.connect(self.remove_areas)         
+
+        self.notes_editbox      = popups.editbox(self.containers)
+        self.notes_editbox.changesMade.connect(self.edit_annotations)      
+        #self.optionbox          = popups.options(self.EEG.return_extension())
+        #self.optionbox.changesMade.connect(self.edit_displayed_eeg)     
+        self.configuration_box   = popups.configuration_box(self.EEG.configuration)
+        self.configuration_box.changesMade.connect(self.respond_to_configuration_pop_up) 
+        self.configuration_box.finished.connect(self.respond_to_configuration_pop_up_closing)
+
+        self.tool_epochjump.setRange(1, self.EEG.numepo)        
+        self.EEG.changesMade.connect(self.show_artefacts) 
+
+    def refresh_GUI(self):
+        for container in self.containers:
+            container.related_epoch()          
+        this_stage, uncertainty = self.hypnogram.get_text(self.this_epoch)
+        this_epoch = self.this_epoch
+        self.EEG.update_text(this_epoch, this_stage, uncertainty)
+        self.spectogram.add_line(this_epoch)
+        #self.hypnogram.update(this_epoch)
+        self.hypnogram.add_to_spectogram(this_epoch, self.spectogram.axes, self.containers)
+        self.hypnogram.show_artefacts(self.containerA.epoch)
+        self.powerbox.update(self.EEG.data[0][self.this_epoch-1])
+        self.EEG.showEEG(self.this_epoch)
+        self.resetGreenLine()        
+       
+
 
     def options(self):
         self.optionbox.exec_()      
@@ -105,92 +157,83 @@ class Ui_MainWindow(QMainWindow):
                     
     def label_artefacts(self):
         #self.EEG.storeArtefacts(self.greenLine)  
-        self.artefacts.include(self.greenLine, self.EEG)
-        self.hypnogram.show_artefacts(self.artefacts.epoch)
-        self.quick_save()          
+        self.containerA.include(self.greenLine, self.EEG)
+        self.hypnogram.show_artefacts(self.containerA.epoch)
+        self.write_scoring_file_as_json()          
 
     def show_artefacts(self):
         for annotation in self.containers:
             annotation.show_areas(self.EEG)
 
     def saveSleepStages(self):
-        self.scoring_filename, _ = QFileDialog.getSaveFileName(None, "Save Sleep Stages", "", "Json Files (*.json)") # Open a file dialog to choose the save location and filename
-        self.quick_save()
+        self.name_of_scoring_file, _ = QFileDialog.getSaveFileName(None, "Save Sleep Stages", "", "Json Files (*.json)") # Open a file dialog to choose the save location and filename
+        self.write_scoring_file_as_json()
 
     def resetGreenLine(self):
         if self.greenLine:
             self.greenLine.reset()       
         
-    def refresh(self):
-        this_stage, uncertainty = self.hypnogram.get_text(self.this_epoch)
-        this_epoch = self.this_epoch
-        self.EEG.update_text(this_epoch, this_stage, uncertainty)
-        self.spectogram.add_line(this_epoch)
-        #self.hypnogram.update(this_epoch)
-        self.hypnogram.add_to_spectogram(this_epoch, self.spectogram.axes, self.containers)
-        self.hypnogram.show_artefacts(self.artefacts.epoch)
-        self.powerbox.update(self.EEG.data[0][self.this_epoch-1])
-        self.resetGreenLine()          # Removes the greenLine widget
+
 
 
    
 
     def scoreN1(self):     
         self.hypnogram.assign(self.this_epoch, self.hypnogram.N1, self.EEG.return_active_channels())
-        self.refresh()   
+        self.refresh_GUI()   
         self.nextEpoch()
-        self.quick_save()
+        self.write_scoring_file_as_json()
 
     def scoreN2(self):     
         self.hypnogram.assign(self.this_epoch, self.hypnogram.N2, self.EEG.return_active_channels())
-        self.refresh() 
+        self.refresh_GUI() 
         self.nextEpoch()
-        self.quick_save()
+        self.write_scoring_file_as_json()
 
     def scoreN3(self):     
         self.hypnogram.assign(self.this_epoch, self.hypnogram.N3, self.EEG.return_active_channels())
-        self.refresh() 
+        self.refresh_GUI() 
         self.nextEpoch()
-        self.quick_save()
+        self.write_scoring_file_as_json()
 
     def scoreWake(self):     
         self.hypnogram.assign(self.this_epoch, self.hypnogram.W, self.EEG.return_active_channels())
-        self.refresh() 
+        self.refresh_GUI() 
         self.nextEpoch()
-        self.quick_save()
+        self.write_scoring_file_as_json()
 
     def scoreREM(self):     
         self.hypnogram.assign(self.this_epoch, self.hypnogram.REM, self.EEG.return_active_channels())
-        self.refresh()        
+        self.refresh_GUI()        
         self.nextEpoch() 
-        self.quick_save()    
+        self.write_scoring_file_as_json()    
 
     def scoring_uncertainty(self):
         self.hypnogram.express_uncertainty(self.this_epoch)
-        self.refresh()   
-        self.quick_save()     
+        self.refresh_GUI()   
+        self.write_scoring_file_as_json()     
 
     def hypnoClick(self, event):
         self.this_epoch = self.hypnogram.onclick(event)
         self.EEG.showEEG(self.this_epoch)
-        self.refresh()
+        self.refresh_GUI()
 
     def spectogramClick(self, event):
         self.this_epoch = self.spectogram.map(event)
         self.EEG.showEEG(self.this_epoch)
-        self.refresh()            
+        self.refresh_GUI()            
 
     def previousEpoch(self):
         if self.this_epoch > 1:
             self.this_epoch -= 1
             self.EEG.showEEG(self.this_epoch) # Plot previous epoch   
-            self.refresh() 
+            self.refresh_GUI() 
 
     def nextEpoch(self):
         if self.this_epoch < self.EEG.numepo:
             self.this_epoch += 1       
             self.EEG.showEEG(self.this_epoch) # Plot next epoch
-            self.refresh() 
+            self.refresh_GUI() 
 
     def scaleChannels(self):
         self.scaleDialogeBox = popups.scaleDialogeBox(self.EEG.chaninfo)
@@ -199,7 +242,7 @@ class Ui_MainWindow(QMainWindow):
 
     def respond_to_scaleDialogeBox(self):
         self.EEG.scaleChannels(self.scaleDialogeBox.chaninfo, self.this_epoch) 
-        eeg_and_config_functions.update_channel_information_in_configuration_file(self.eeg_filename_without_extension + '.config.json', self.scaleDialogeBox.chaninfo)
+        eeg_and_config_functions.update_channel_information_in_configuration_file(self.name_of_eeg_file_before_extension + '.config.json', self.scaleDialogeBox.chaninfo)
 
     def configuration_pop_up(self):
         self.configuration_box.exec()
@@ -208,7 +251,7 @@ class Ui_MainWindow(QMainWindow):
         self.EEG.add_info(self.configuration_box.configuration)
         self.EEG.update2()
         self.EEG.showEEG(self.this_epoch)  
-        eeg_and_config_functions.update_general_information_in_configuration_file(self.eeg_filename_without_extension + '.config.json', self.configuration_box.configuration)
+        eeg_and_config_functions.update_general_information_in_configuration_file(self.name_of_eeg_file_before_extension + '.config.json', self.configuration_box.configuration)
         
     def respond_to_configuration_pop_up_closing(self):
         self.spectogram.initiate(self.EEG)
@@ -217,60 +260,29 @@ class Ui_MainWindow(QMainWindow):
     def jump_to_epoch(self):
         self.this_epoch = self.tool_epochjump.value()
         self.EEG.showEEG(self.this_epoch)
-        self.refresh()
+        self.refresh_GUI()
 
     def jump_to_unscored_epoch(self):
         self.this_epoch = self.hypnogram.get_next_unscored()
         self.EEG.showEEG(self.this_epoch)
-        self.refresh()
+        self.refresh_GUI()
 
     def jump_to_transition(self):
         self.this_epoch = self.hypnogram.get_next_transition(self.this_epoch)
         self.EEG.showEEG(self.this_epoch)
-        self.refresh()        
+        self.refresh_GUI()        
 
     def jump_to_uncertain_epoch(self):
         self.this_epoch = self.hypnogram.get_next_uncertain()
         self.EEG.showEEG(self.this_epoch)
-        self.refresh()            
+        self.refresh_GUI()            
 
 
 
-    def open_eeg(self):
-        eeg_filename, _  = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', self.path_expdata, '*.mat;*json')
-        self.eeg_filename_without_extension = eeg_and_config_functions.load_eeg_and_configuration_settings(eeg_filename, self.EEG)
-        self.scoring_filename = self.eeg_filename_without_extension
-        self.initiate()
+
        
             
-    def initiate(self):
-        self.EEG.showEEG(self.this_epoch)
-        self.hypnogram.initiate(self.EEG)
-        self.spectogram.initiate(self.EEG)
-        self.spectogram.add_line(self.this_epoch)
-        this_stage, uncertainty = self.hypnogram.get_text(self.this_epoch)
-        self.EEG.update_text(self.this_epoch, this_stage, uncertainty)
-        #self.epochpower.initiate(self.EEG)
-        #self.epochpower.update(self.this_epoch)
-        self.powerbox.initiate(self.EEG)
-        self.greenLine.initiate(self.EEG)
-        self.EEG.changesMade.connect(self.show_artefacts)
-        self.artefacts          = popups.container(self.EEG.epolen, facecolor=(255, 200, 200, 100), label="Artefacts")
-        self.containerF1        = popups.container(self.EEG.epolen, facecolor=(100, 149, 237, 100), label="Annotation_F1")
-        self.containerF2        = popups.container(self.EEG.epolen, facecolor=(152, 251, 152, 100), label="Annotation_F2")
-        self.containerF3        = popups.container(self.EEG.epolen, facecolor=(255, 255, 102, 100), label="Annotation_F3")
-        self.containerF4        = popups.container(self.EEG.epolen, facecolor=(64, 224, 208, 100),  label="Annotation_F4")
-        self.containers         = [self.artefacts, self.containerF1, self.containerF2, self.containerF3, self.containerF4]
-        for annotation in self.containers:
-            annotation.changesMade.connect(self.remove_areas)             
-        self.notes_editbox      = popups.editbox(self.containers)
-        self.notes_editbox.changesMade.connect(self.edit_annotations)      
-        self.optionbox          = popups.options(self.EEG.return_extension())
-        self.optionbox.changesMade.connect(self.edit_displayed_eeg)     
-        self.configuration_box   = popups.configuration_box(self.EEG.configuration)
-        self.configuration_box.changesMade.connect(self.respond_to_configuration_pop_up) 
-        self.configuration_box.finished.connect(self.respond_to_configuration_pop_up_closing)
-        self.tool_epochjump.setRange(1, self.EEG.numepo)         
+      
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -318,15 +330,15 @@ class Ui_MainWindow(QMainWindow):
 
         self.actionOpen = QtWidgets.QAction(MainWindow)
         self.actionOpen.setObjectName("actionOpen")
-        self.actionOpen.triggered.connect(lambda: self.open_eeg())
+        self.actionOpen.triggered.connect(lambda: self.select_eeg_from_menu())
         self.menuFile.addAction(self.actionOpen)
         self.actionRandom = QtWidgets.QAction(MainWindow)
         self.actionRandom.setObjectName("actionRandom")
-        self.actionRandom.triggered.connect(lambda: self.open_random())
+        self.actionRandom.triggered.connect(lambda: self.select_random_eeg_from_menu())
         self.menuFile.addAction(self.actionRandom)        
         self.actionscoring_load = QtWidgets.QAction(MainWindow)
         self.actionscoring_load.setObjectName("actionscoring_load")
-        self.actionscoring_load.triggered.connect(lambda: self.scoring_load())
+        self.actionscoring_load.triggered.connect(lambda: self.load_scorin_file_from_menu())
         self.menuFile.addAction(self.actionscoring_load)
         self.actionSave = QtWidgets.QAction(MainWindow)
         self.actionSave.setObjectName("actionSave")
@@ -435,12 +447,7 @@ class Ui_MainWindow(QMainWindow):
 
         # Developer mode
         if self.devmode == 1:
-            scriptpath                          = os.path.dirname(os.path.abspath(__file__))
-            self.eeg_filename_without_extension = eeg_and_config_functions.load_eeg_and_configuration_settings(f'{scriptpath}\example_data\example_data.mat', self.EEG)
-            self.scoring_filename               = self.eeg_filename_without_extension + '.json'
-            self.initiate()
-            eeg_and_config_functions.load_scoring_file(self.scoring_filename, self.hypnogram, self.containers, self.spectogram.axes)
-
+            self.load_eeg_data_and_configuration_and_sleep_scoring(os.path.join(self.default_path_to_eeg_data, 'example_data.mat'))
 
         # Makes GUI listen to key strokes
         MainWindow.keyPressEvent = self.keyPressEvent        

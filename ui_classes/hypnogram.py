@@ -14,6 +14,7 @@ import pyqtgraph as pg
 
 class hypnogram(QtWidgets.QWidget):
     def __init__(self, centralWidget):
+        super().__init__()
         self.A      = 'A'
         self.N1     = 'N1'
         self.N2     = 'N2'

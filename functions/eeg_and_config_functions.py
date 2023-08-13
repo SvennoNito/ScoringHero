@@ -1,4 +1,4 @@
-import os, json, scipy, h5py
+import os, json, scipy, h5py, random
 
 
 
@@ -26,7 +26,11 @@ def load_eeg_and_configuration_settings(eeg_filename, EEG):
     configuration_settings = load_configuration_file(eeg_filename_without_extension + '.config.json', number_of_channels)
     apply_configuration_settings(EEG, configuration_settings)
 
-    return eeg_filename_without_extension
+
+def choose_random_file_from_selection(files):
+    rand_index  = random.randint(0, len(files) - 1)
+    file        = files[rand_index]
+    return file
 
 
 # *** Configuration file functions *** 
@@ -93,21 +97,22 @@ def update_general_information_in_configuration_file(configuration_filename, cha
 # *** Load scoring file ***
 # *************************
 
-def load_scoring_file(scoring_filename, hypnogram, containers, EEG):
+def load_scoring_file(scoring_filename, hypnogram, containers, spectogram_axes, EEG):
     if os.path.exists(scoring_filename):
         with open(scoring_filename, "r") as file:
             scoring_data = json.load(file)     
-            integrate_loaded_scoring_file(scoring_data, hypnogram, containers, EEG)
+            integrate_loaded_scoring_file(scoring_data, hypnogram, containers, spectogram_axes, EEG)
             
         
-def integrate_loaded_scoring_file(scoring_data, hypnogram, containers, spectogram_axes):
+def integrate_loaded_scoring_file(scoring_data, hypnogram, containers, spectogram_axes, EEG):
     # Load sleep stages
     # for bucket in scoring_data[0]:
         #hypnogram.assign(bucket['epoch'], bucket['stage'], bucket['channels'], bucket['uncertainty'])
+    hypnogram.initiate(EEG)
     hypnogram.integrate_saved_epoch(scoring_data[0])
     
     # Load annotations
     for container, label in zip(containers, scoring_data[1][0].keys()):
         container.label     = label
         container.borders   = scoring_data[1][0][label]    
-    hypnogram.add_to_spectogram(1, spectogram_axes, containers)
+    #hypnogram.add_to_spectogram(1, spectogram_axes, containers)

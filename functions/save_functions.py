@@ -36,35 +36,8 @@ def write_scoring_file(scoring_filename, epolen, hypnogram, artefacts, container
         # Save json file
         json.dump(saver, file, indent=1)
 
-def choose_random(files, allow_existence=1):
-    rand_index      = random.randint(0, len(files[0]) - 1)
-    file            = files[0][rand_index]
-    basename        = os.path.splitext(file)[0]
-    scoring_file    = f'{basename}.json'
-    if allow_existence == 0:
-        while os.path.exists(scoring_file):
-            rand_index      = random.randint(0, len(files[0]) - 1)
-            file            = files[0][rand_index]
-            scoring_file    = f'{os.path.splitext(file)[0]}.json'    
-    
-    data = open_eeg(file)
-    return data, scoring_file, basename
 
-    
 
-def choose_random(files, allow_existence=1):
-    rand_index      = random.randint(0, len(files[0]) - 1)
-    file            = files[0][rand_index]
-    basename        = os.path.splitext(file)[0]
-    scoring_file    = f'{basename}.json'
-    if allow_existence == 0:
-        while os.path.exists(scoring_file):
-            rand_index      = random.randint(0, len(files[0]) - 1)
-            file            = files[0][rand_index]
-            scoring_file    = f'{os.path.splitext(file)[0]}.json'    
-    
-    data = eeg_and_config_functions.load_eeg_and_configuration_settings(file)
-    return data, scoring_file, basename
 
 
 def load_your_work(hypnogram, containers, scoring_file):
