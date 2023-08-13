@@ -336,7 +336,7 @@ class configuration_box(QtWidgets.QDialog):
             # EEG extension
             labelbox = QLabel(item[0])
             labelbox.setAlignment(QtCore.Qt.AlignRight)        
-            labelbox.setFixedWidth(max(len(label) for label in configuration.keys())*6)
+            labelbox.setFixedWidth(max(len(label) for label in configuration.keys())*8)
 
             # Value by which EEG is extended
             spinbox = QDoubleSpinBox(self)
