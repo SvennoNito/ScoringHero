@@ -171,7 +171,10 @@ class Ui_MainWindow(QMainWindow):
         if self.greenLine:
             self.greenLine.reset()       
         
-
+    def zoom_on_selected_eeg(self):
+        visibleChannels = sum([chaninfo['Display_on_screen'] for chaninfo in self.EEG.chaninfo])
+        shift           = self.EEG.shift*visibleChannels
+        self.greenLine.zoom_on_selected_eeg(shift)
 
 
    
@@ -398,6 +401,10 @@ class Ui_MainWindow(QMainWindow):
         self.actionArtefacts.setObjectName("actionArtefacts")   
         self.actionArtefacts.triggered.connect(lambda: self.label_artefacts())   
         self.menuStages.addAction(self.actionArtefacts)
+        self.actionZoomOnEEG    = QtWidgets.QAction(MainWindow)
+        self.actionZoomOnEEG.setObjectName("actionZoomOnEEG")   
+        self.actionZoomOnEEG.triggered.connect(lambda: self.zoom_on_selected_eeg())   
+        self.menuStages.addAction(self.actionZoomOnEEG)
 
         # Bring together
         MainWindow.setMenuBar(self.menubar)
@@ -483,8 +490,10 @@ class Ui_MainWindow(QMainWindow):
         self.actionREM.setShortcut(_translate("MainWindow", "R"))
         self.actionUncertainty.setText(_translate("MainWindow", "Express uncertainty"))
         self.actionUncertainty.setShortcut(_translate("MainWindow", "Q"))        
-        self.actionArtefacts.setText(_translate("MainWindow", "Label artefacts"))
+        self.actionArtefacts.setText(_translate("MainWindow", "Mark box as artefact"))
         self.actionArtefacts.setShortcut(_translate("MainWindow", "A"))  # Add this line for the shortcut
+        self.actionZoomOnEEG.setText(_translate("MainWindow", "Zoom on selected EEG"))
+        self.actionZoomOnEEG.setShortcut(_translate("MainWindow", "Z"))  # Add this line for the shortcut
 
         # Edit
         self.actionChannels.setText(_translate("MainWindow", "Edit displayed channels"))

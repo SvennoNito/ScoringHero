@@ -79,18 +79,20 @@ class greenLine(QtWidgets.QWidget):
             self.show_amplitude()
             self.show_period()    
 
-    def extract_eeg(self):
-
+    def extract_selected_eeg_trace(self):
         # Extract EEG traces
         signals = self.axes.getPlotItem().listDataItems()
         signals = [signal.getData()[1] for signal in signals]
         signals = [signal for signal in signals if len(set(signal)) > 3] 
 
+        xtickvals = self.axes.getPlotItem().listDataItems()
+        xtickvals = [signal.getData()[0] for signal in xtickvals]
+        xtickvals = [signal for signal in xtickvals if len(set(signal)) > 3]         
+
         # Adjust time values of green box to allign with EEG data time value
         xstart, xstop = self.boxLeft, self.boxRight
         xstart -= self.axes.getAxis('bottom').range[0]
         xstop -= self.axes.getAxis('bottom').range[0]
-        epolen        = round(np.diff(self.axes.getAxis('bottom').range)[0])
 
         # Find correct EEG trace
         olap = []
@@ -101,11 +103,26 @@ class greenLine(QtWidgets.QWidget):
         trace = olap.index(max(olap))
 
         # Extract EEG signal during the time of the green box
-        data = signals[trace][round(xstart*self.srate):round(xstop*self.srate)]; import matplotlib.pyplot as plt; plt.plot(data)
+        data    = signals[trace][round(xstart*self.srate):round(xstop*self.srate)]
+        times   = xtickvals[trace][round(xstart*self.srate):round(xstop*self.srate)] 
+        return data, times, trace
+
+    def extract_eeg(self):
+        data = self.extract_selected_eeg_trace()
         self.amplitude = int(round(max(data) - min(data), 0))       
 
         # Compute power of that data
-        self.areapower.update(data)         
+        self.areapower.update(data)      
+
+
+    def zoom_on_selected_eeg(self, shift = 0):
+        import matplotlib.pyplot as plt; 
+        data, times, trace = self.extract_selected_eeg_trace()
+        figure, ax = plt.subplots()
+        ax.set_xlabel('Time (seconds)')
+        ax.set_ylabel('Amplitude')        
+        ax.plot(times - times[0], data + shift*trace); 
+        plt.show()
 
     def show_amplitude(self):
         self.extract_eeg() # extract amplitude
