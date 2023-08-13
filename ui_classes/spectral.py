@@ -6,9 +6,11 @@ from scipy.signal import welch, find_peaks
 
 class spectogram(QtWidgets.QWidget):
     def __init__(self, centralWidget):
-        self.winlen = 4
-        self.img    = []
-        self.vline  = None
+        self.winlen         = 4
+        self.img            = []
+        self.vline          = None
+        self.lower_limit_hz = 0
+        self.upper_limit_hz = 20
 
         # Spectogram widget
         pg.setConfigOptions(imageAxisOrder='row-major')
@@ -20,6 +22,10 @@ class spectogram(QtWidgets.QWidget):
         #self.spectogram.setLabel('left', 'Frequency (Hz)', **styles)
         #self.spectogram.setLabel('bottom', 'Time (h)', **styles)  
         #self.graphics.scene().sigMouseClicked.connect(self.spectogramClick)
+
+    def change_configuration(self, configuration):
+        self.lower_limit_hz = configuration['Spectogram_lower_limit_hz']
+        self.upper_limit_hz = configuration['Spectogram_upper_limit_hz']*6/5   
 
     def initiate(self, EEG):
         super().__init__()
@@ -38,8 +44,8 @@ class spectogram(QtWidgets.QWidget):
         self.times = np.array(self.times)            
 
         # Frequencies of interest
-        self.power = np.array([power[self.freqs <= 25] for power in self.power])
-        self.freqs = self.freqs[self.freqs <= 25]
+        self.power = np.array([power[(self.freqs >= self.lower_limit_hz) & (self.freqs <= self.upper_limit_hz)] for power in self.power])
+        self.freqs = self.freqs[(self.freqs >= self.lower_limit_hz) & (self.freqs <= self.upper_limit_hz)]
         self.white_top()
         self.build_image()
 
@@ -86,7 +92,7 @@ class spectogram(QtWidgets.QWidget):
 
         # y ticks
         freqres = np.unique(np.diff(self.freqs))[0]
-        yvals   = np.arange(0, 100, 5)
+        yvals   = np.arange(0, self.upper_limit_hz*5/6, 5)
         yndx    = np.where(np.isin(self.freqs, yvals))[0] 
         ystr    = list(map(str, [int(y) for y in yndx * freqres]))
         yticks  = [(val, text) for val, text in zip(yndx, ystr)]

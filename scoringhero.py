@@ -74,7 +74,7 @@ class Ui_MainWindow(QMainWindow):
         self.name_of_eeg_file_before_extension, _   = os.path.splitext(name_of_eegfile)
         self.name_of_scoring_file                   = self.name_of_eeg_file_before_extension + '.json'
         self.default_path_to_eeg_data               = os.path.dirname(self.name_of_scoring_file)
-        load_and_save_functions.load_eeg_and_configuration_settings(name_of_eegfile, self.EEG)
+        load_and_save_functions.load_eeg_and_configuration_settings(name_of_eegfile, self)
         self.initiate_GUI()
         load_and_save_functions.load_scoring_file(self.name_of_scoring_file, self.hypnogram, self.containers, self.spectogram.axes, self.EEG)
         self.refresh_GUI()
@@ -82,13 +82,13 @@ class Ui_MainWindow(QMainWindow):
 
     # *** Functions for handling scoring file ***
     def write_scoring_file_as_json(self): 
-        save_functions.write_scoring_file(self.name_of_scoring_file, self.EEG.epolen, self.hypnogram, self.containerA, self.containers)
+        load_and_save_functions.write_scoring_file(self.name_of_scoring_file, self.EEG.epolen, self.hypnogram, self.containerA, self.containers)
                                                
     def load_scorin_file_from_menu(self):
         name_of_scoringfile, _                  = QtWidgets.QFileDialog.getOpenFileName(None, 'Open .json file', self.default_path_to_scoring_file, 'Json Files (*.json)')
         self.name_of_scoring_file               = name_of_scoringfile
         self.ndefault_path_to_scoring_file      = os.path.dirname(name_of_scoringfile)
-        load_and_save_functions.load_scoring_file(name_of_scoringfile, self.hypnogram, self.containers, self.spectogram.axes)
+        load_and_save_functions.load_scoring_file(name_of_scoringfile, self.hypnogram, self.containers, self.spectogram.axes, self.EEG)
         self.refresh_GUI()
 
 
@@ -252,8 +252,9 @@ class Ui_MainWindow(QMainWindow):
         load_and_save_functions.update_general_information_in_configuration_file(self.name_of_eeg_file_before_extension + '.config.json', self.configuration_box.configuration)
         
     def respond_to_configuration_pop_up_closing(self):
+        self.spectogram.change_configuration(self.configuration_box.configuration)
         self.spectogram.initiate(self.EEG)
-        self.spectogram.add_line(self.this_epoch)
+        self.refresh_GUI()
 
     def jump_to_epoch(self):
         self.this_epoch = self.tool_epochjump.value()

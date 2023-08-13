@@ -5,7 +5,7 @@ import os, json, scipy, h5py, random
 # *** EEG file functions *** 
 # **************************
 
-def load_eeg_and_configuration_settings(eeg_filename, EEG):
+def load_eeg_and_configuration_settings(eeg_filename, mainwindow):
     eeg_filename_without_extension, extension = os.path.splitext(eeg_filename)
 
     # Load EEG data
@@ -20,11 +20,11 @@ def load_eeg_and_configuration_settings(eeg_filename, EEG):
     number_of_channels = eeg_data.shape[0]
 
     # Integrate EEG data into structure
-    EEG.data = eeg_data
+    mainwindow.EEG.data = eeg_data
 
     # Load and apply configuration settings
     configuration_settings = load_configuration_file(eeg_filename_without_extension + '.config.json', number_of_channels)
-    apply_configuration_settings(EEG, configuration_settings)
+    apply_configuration_settings(mainwindow, configuration_settings)
 
 
 def choose_random_file_from_selection(files):
@@ -36,10 +36,11 @@ def choose_random_file_from_selection(files):
 # *** Configuration file functions *** 
 # ************************************
 
-def apply_configuration_settings(EEG, configuration_settings):
-    EEG.add_info(configuration_settings[0])
-    EEG.add_chaninfo(configuration_settings[1])  
-    EEG.update()
+def apply_configuration_settings(mainwindow, configuration_settings):
+    mainwindow.EEG.add_info(configuration_settings[0])
+    mainwindow.EEG.add_chaninfo(configuration_settings[1])  
+    mainwindow.EEG.update()
+    mainwindow.spectogram.change_configuration(configuration_settings[0])
 
 
 def load_configuration_file(configuration_filename, number_of_channels=6):
@@ -66,6 +67,8 @@ def build_default_configuration(number_of_channels, srate = 125):
                     "Epoch_length_s": 30, 
                     "Channel_index_for_spectogram": 1,
                     "Extension_epoch_left_s": 5,
+                    "Spectogram_lower_limit_hz": 0,
+                    "Spectogram_upper_limit_hz": 20,
                     "Extension_epoch_right_s": 5
                     }
     
