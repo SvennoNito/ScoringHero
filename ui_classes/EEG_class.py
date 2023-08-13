@@ -113,47 +113,7 @@ class EEG_class(QtWidgets.QWidget):
         data_rest = data[:, stop*self.srate+1:]
 
         return data_epoched, times, data_rest
-            
-    def add_extension(self):
-        ext_data        = [[[], []] for _ in range(self.nchans)]
-        ext_times       = [[], []]
-        ndx_l, ndx_r    = int(self.srate*self.extend_l), int(self.srate*self.extend_r)
-        for channel_count, epoched_data in enumerate(self.data):
-            for epoch_count, epoch in enumerate(epoched_data):
-                if epoch_count == 0:
-                    ext_data[channel_count][0].append( np.full( ndx_l, np.nan) )
-                    ext_data[channel_count][1].append( epoched_data[epoch_count+1][0: ndx_r ] )
-                elif epoch_count == self.numepo-1:
-                    ext_data[channel_count][0].append( epoched_data[epoch_count-1][0: ndx_l ] )
-                    ext_data[channel_count][1].append( np.full( ndx_r, np.nan) )
-                else:
-                    ext_data[channel_count][0].append( epoched_data[epoch_count-1][0: ndx_l ] )
-                    ext_data[channel_count][1].append( epoched_data[epoch_count+1][0: ndx_r ] )
-                if channel_count == 0:
-                    if epoch_count == 0:             
-                        ext_times[0].append( np.linspace(-ndx_l/self.srate, 0, ndx_l) / self.timesby )
-                        ext_times[1].append( self.times[epoch_count+1][0: ndx_r ] )
-                    elif epoch_count == self.numepo-1:
-                        ext_times[0].append( self.times[epoch_count-1][-ndx_l: ] )
-                        ext_times[1].append( np.linspace(self.times[-1][-1]+1, self.times[-1][-1]+1+ndx_r/self.srate, ndx_r) / self.timesby )  
-                    else:
-                        ext_times[0].append( self.times[epoch_count-1][-ndx_l: ] )
-                        ext_times[1].append( self.times[epoch_count+1][0: ndx_r ] )
-        return ext_data, ext_times
-
-
-        """ data_epoched = [[] for _ in range(self.nchans)]
-            times        = []
-            for epoch in range(1, self.numepo+1):
-                start      = epoch*epolen - epolen
-                stop       = epoch*epolen
-                for channel in range(0, self.nchans):
-                    data_epoched[channel].append(data[channel][start*self.srate:stop*self.srate])
-                times.append( np.linspace(start, stop, epolen*self.srate) / self.timesby) 
-
-            return data_epoched, times """
-        
-    
+           
     def get_extension(self, this_epoch):
         ext_data        = [[[], []] for _ in range(self.nchans)]
         ext_times       = [[], []]        
@@ -163,10 +123,10 @@ class EEG_class(QtWidgets.QWidget):
                 ext_data[channel_count][0] = ( np.full( ndx_l, np.nan) )
                 ext_data[channel_count][1] = ( epoched_data[this_epoch][0: ndx_r ] )
             elif this_epoch == self.numepo:
-                ext_data[channel_count][0] = ( epoched_data[this_epoch-2][0: ndx_l ] )
+                ext_data[channel_count][0] = ( epoched_data[this_epoch-2][self.srate*self.epolen-ndx_l:: ] )
                 ext_data[channel_count][1] = ( np.full( ndx_r, np.nan) )
             else:
-                ext_data[channel_count][0] = ( epoched_data[this_epoch-2][0: ndx_l ] )
+                ext_data[channel_count][0] = ( epoched_data[this_epoch-2][self.srate*self.epolen-ndx_l:: ] )
                 ext_data[channel_count][1] = ( epoched_data[this_epoch][0: ndx_r ] )
             if channel_count == 0:
                 if this_epoch == 1:             
