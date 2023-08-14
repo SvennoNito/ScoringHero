@@ -56,8 +56,9 @@ class greenLine(QtWidgets.QWidget):
             qp.drawRect(QtCore.QRect(line[0].x(), line[0].y(), width, height)) 
               
     def mousePressEvent(self, event):
-        self.pointLeftCorner    = event.pos()
-        self.pointRightCorner   = event.pos()
+        self.pointLeftCorner        = event.pos()
+        self.pointRightCorner       = event.pos()
+        self.clickedGreenAreaIndex  = self.get_clicked_green_area_index(self.pointLeftCorner)
         self.storedLines.append([self.pointLeftCorner, self.pointRightCorner])
         self.width.append(self.pointRightCorner.x() - self.pointLeftCorner.x())
         self.height.append(self.pointRightCorner.y() - self.pointLeftCorner.y())
@@ -78,6 +79,29 @@ class greenLine(QtWidgets.QWidget):
             self.transformCoordinates()
             self.show_amplitude()
             self.show_period()    
+        else:
+            self.remove_clicked_green_area()
+
+    def remove_clicked_green_area(self):
+        if self.clickedGreenAreaIndex is not None:
+            self.storedLines.pop(self.clickedGreenAreaIndex)
+            self.width.pop(self.clickedGreenAreaIndex)
+            self.height.pop(self.clickedGreenAreaIndex)
+            self.update()
+
+            self.periodLength.pop(self.clickedGreenAreaIndex)
+            self.update_total_length_label()
+            self.clickedGreenAreaIndex = None             
+
+    def get_clicked_green_area_index(self, point):
+            for index, (start, end) in enumerate(self.storedLines):
+                if self.is_point_inside_area(point, start, end):
+                    return index
+            return None                 
+            
+    def is_point_inside_area(self, point, start, end):
+        return (start.x() <= point.x() <= end.x()) and (start.y() <= point.y() <= end.y())
+
 
     def extract_selected_eeg_trace(self):
         # Extract EEG traces
@@ -108,7 +132,7 @@ class greenLine(QtWidgets.QWidget):
         return data, times, trace
 
     def extract_eeg(self):
-        data = self.extract_selected_eeg_trace()
+        data, _, _ = self.extract_selected_eeg_trace()
         self.amplitude = int(round(max(data) - min(data), 0))       
 
         # Compute power of that data
@@ -161,10 +185,7 @@ class greenLine(QtWidgets.QWidget):
 
     def transformCoordinates(self):
         self.periodLength.append(self.axes.plotItem.vb.mapSceneToView(self.pointRightCorner).x()*self.timesby - self.axes.plotItem.vb.mapSceneToView(self.pointLeftCorner).x()*self.timesby)
-        self.totalLength = round(sum(self.periodLength), 2)
-        self.totalLengthLabel.setText(f"Total Length: {self.totalLength} s")
-        if round(self.periodLength[-1], 1) != 0:
-            self.totalLengthLabel.adjustSize()  
+        self.update_total_length_label()
 
         # Transform to seconds and microvolt
         self.boxLeft     = self.axes.plotItem.vb.mapSceneToView(self.pointLeftCorner).x()
@@ -176,11 +197,19 @@ class greenLine(QtWidgets.QWidget):
         self.coordLeftCorner  = self.axes.plotItem.vb.mapSceneToView(self.pointLeftCorner)
         self.coordRightCorner = self.axes.plotItem.vb.mapSceneToView(self.pointRightCorner)
 
+
+
+    def update_total_length_label(self):
+        self.totalLength = round(sum(self.periodLength), 2)
+        self.totalLengthLabel.setText(f"Total Length: {self.totalLength} s")
+        if round(self.periodLength[-1], 1) != 0:
+            self.totalLengthLabel.adjustSize() 
+
         # Enough slow waves for N3
         if self.totalLength >= np.diff(self.axes.getAxis('bottom').range)[0] * 0.2:
             self.totalLengthLabel.setStyleSheet(f"color: {'Green'};")
         else:
-            self.totalLengthLabel.setStyleSheet(f"color: {'Black'};")
+            self.totalLengthLabel.setStyleSheet(f"color: {'Black'};")             
 
     def reset(self):
         self.pointLeftCorner  = QtCore.QPoint()
