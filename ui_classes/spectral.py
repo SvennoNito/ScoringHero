@@ -169,8 +169,8 @@ class powerbox(QtWidgets.QWidget):
         maxf    = f[np.where(p==max(p))[0][0]]
 
         # Frequencies of interest
-        f = f[np.where((f <= self.upper_limit_hz) & (f >= self.lower_limit_hz))]
         p = p[np.where((f <= self.upper_limit_hz) & (f >= self.lower_limit_hz))]
+        f = f[np.where((f <= self.upper_limit_hz) & (f >= self.lower_limit_hz))]
 
         # Create stretched frequency vector
         #expvector = np.exp(np.linspace(0, 2, 31))
