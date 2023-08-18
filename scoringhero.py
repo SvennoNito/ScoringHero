@@ -422,28 +422,33 @@ class Ui_MainWindow(QMainWindow):
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, toolbar)
 
         # Jump to epoch spinbox
-        toolbar.addWidget(QLabel("Jump to epoch:")) 
+        toolbar.addWidget(QLabel("Jump to this epoch:")) 
         self.tool_epochjump = QSpinBox() 
         self.tool_epochjump.valueChanged.connect(self.jump_to_epoch)
+        self.tool_epochjump.editingFinished.connect(self.tool_epochjump.clearFocus)
+        self.tool_epochjump.setFixedWidth(60) 
         toolbar.addWidget(self.tool_epochjump)
 
         # Space
-        spacer = QWidget()
-        spacer.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-        spacer.setFixedWidth(10)        
-        toolbar.addWidget(spacer)    
+        toolbar.addSeparator()
+        spacer = QtWidgets.QWidget()
+        spacer.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        spacer.setFixedWidth(10)  
+        toolbar.addWidget(spacer)        
+        
 
         # Next unscored epoch button     
+        toolbar.addWidget(QLabel("Jump to:")) 
         self.tool_nextunscored = QPushButton("Next unscored epoch")
         self.tool_nextunscored.clicked.connect(self.jump_to_unscored_epoch)
         toolbar.addWidget(self.tool_nextunscored)
-        toolbar.addWidget(spacer) 
+        #toolbar.addWidget(spacer) 
 
         # Next uncertain epoch button     
         self.tool_nextuncertain = QPushButton("Next uncertain epoch")
         self.tool_nextuncertain.clicked.connect(self.jump_to_uncertain_epoch)
         toolbar.addWidget(self.tool_nextuncertain)
-        toolbar.addWidget(spacer)         
+        #toolbar.addWidget(spacer)         
 
         # Next transition button
         self.tool_nexttransition    = QPushButton("Next transition")
@@ -455,7 +460,7 @@ class Ui_MainWindow(QMainWindow):
 
         # Developer mode
         if self.devmode == 1:
-            self.load_eeg_data_and_configuration_and_sleep_scoring(os.path.join(self.default_path_to_eeg_data, 'example_data.mat'))
+            self.load_eeg_data_and_configuration_and_sleep_scoring(os.path.join(self.default_path_to_eeg_data, 'ST70MS_session3_scoringfile.mat'))
 
         # Makes GUI listen to key strokes
         MainWindow.keyPressEvent = self.keyPressEvent        

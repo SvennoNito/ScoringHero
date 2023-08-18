@@ -188,7 +188,7 @@ class hypnogram(QtWidgets.QWidget):
             data[:] = np.nan
             data[stages == stage] = stage
             data    = np.concatenate(np.column_stack((data+shift*count+limits[1]*0, data+shift*(count+1)+limits[1]*0)))
-            pen     = pg.mkPen(color=(250, 250, 250, 180), width=4)
+            pen     = pg.mkPen(color=(250, 250, 250, 180), width=3)
             axes.plot(times, data, pen=pen)
 
         # Artefacts

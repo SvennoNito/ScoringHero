@@ -76,8 +76,8 @@ class spectogram(QtWidgets.QWidget):
         pg.setConfigOptions(imageAxisOrder='col-major')
         self.img = pg.ImageItem()
         self.img.setImage(self.power)
-        self.img.setColorMap(pg.colormap.get('CET-D9'))
-        self.img.setLevels([np.nanpercentile(self.power, 0), np.nanpercentile(self.power, 97.5)]) # Color scale     
+        self.img.setColorMap(pg.colormap.get('CET-D1A'))
+        self.img.setLevels([np.nanpercentile(self.power, 0), np.nanpercentile(self.power, 95)]) # Color scale     
         self.image()    
 
     def image(self):
@@ -85,7 +85,7 @@ class spectogram(QtWidgets.QWidget):
         self.axes.addItem(self.img)
         self.axes.setLimits(xMin=0, xMax=len(self.times), yMin=0, yMax=len(self.freqs))
         #self.axes.setLabel('bottom', "Time", units='min')
-        self.axes.setLabel('left', "Freq", units='Hz', **{'color':'r', 'font-size':'20px'})
+        self.axes.setLabel('left', "Freq", units='Hz', **{'color':'r', 'font-size':'18px'})
 
         self.axes.setXRange(0, len(self.times), padding=0)
         self.axes.setYRange(0, len(self.freqs), padding=0)

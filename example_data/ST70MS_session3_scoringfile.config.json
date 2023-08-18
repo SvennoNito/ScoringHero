@@ -12,56 +12,56 @@
     },
     [
         {
-            "Channel_name": "F3",
+            "Channel_name": "Channel 1",
             "Channel_color": "Black",
             "Display_on_screen": true,
             "Scaling_factor": 1.0
         },
         {
-            "Channel_name": "F4",
+            "Channel_name": "Channel 2",
             "Channel_color": "Black",
             "Display_on_screen": false,
             "Scaling_factor": 1.0
         },
         {
-            "Channel_name": "C3",
+            "Channel_name": "Channel 3",
             "Channel_color": "Black",
             "Display_on_screen": true,
             "Scaling_factor": 1.0
         },
         {
-            "Channel_name": "C4",
-            "Channel_color": "Black",
-            "Display_on_screen": false,
-            "Scaling_factor": 1.0
-        },
-        {
-            "Channel_name": "O1",
-            "Channel_color": "Black",
-            "Display_on_screen": true,
-            "Scaling_factor": 1.0
-        },
-        {
-            "Channel_name": "O2",
+            "Channel_name": "Channel 4",
             "Channel_color": "Black",
             "Display_on_screen": false,
             "Scaling_factor": 1.0
         },
         {
-            "Channel_name": "EOG1",
-            "Channel_color": "Blue",
+            "Channel_name": "Channel 5",
+            "Channel_color": "Black",
             "Display_on_screen": true,
             "Scaling_factor": 1.0
         },
         {
-            "Channel_name": "EOG2",
-            "Channel_color": "Blue",
+            "Channel_name": "Channel 6",
+            "Channel_color": "Black",
+            "Display_on_screen": false,
+            "Scaling_factor": 1.0
+        },
+        {
+            "Channel_name": "Channel 7",
+            "Channel_color": "Black",
             "Display_on_screen": true,
             "Scaling_factor": 1.0
         },
         {
-            "Channel_name": "EMG",
-            "Channel_color": "Magenta",
+            "Channel_name": "Channel 8",
+            "Channel_color": "Black",
+            "Display_on_screen": true,
+            "Scaling_factor": 1.0
+        },
+        {
+            "Channel_name": "Channel 9",
+            "Channel_color": "Black",
             "Display_on_screen": true,
             "Scaling_factor": 1.0
         }

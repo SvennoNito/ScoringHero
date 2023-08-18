@@ -4,16 +4,16 @@
    "epoch": 1,
    "start": 0,
    "end": 30,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 0
   },
@@ -25,12 +25,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -42,12 +45,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -59,12 +65,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -76,12 +85,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -93,12 +105,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -110,12 +125,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -127,12 +145,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -144,14 +165,17 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
-   "clean": 1
+   "clean": 0
   },
   {
    "epoch": 10,
@@ -161,14 +185,17 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
-   "clean": 0
+   "clean": 1
   },
   {
    "epoch": 11,
@@ -178,12 +205,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -195,12 +225,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -212,14 +245,17 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
-   "clean": 1
+   "clean": 0
   },
   {
    "epoch": 14,
@@ -229,12 +265,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 0
   },
@@ -246,12 +285,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -263,12 +305,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -280,12 +325,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -297,12 +345,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -310,16 +361,19 @@
    "epoch": 19,
    "start": 540,
    "end": 570,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -331,12 +385,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -348,12 +405,15 @@
    "digit": 1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -365,12 +425,15 @@
    "digit": -1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -382,12 +445,15 @@
    "digit": -1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -399,12 +465,15 @@
    "digit": -1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -416,12 +485,15 @@
    "digit": -1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -429,16 +501,19 @@
    "epoch": 26,
    "start": 750,
    "end": 780,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 2",
+    "Channel 3",
+    "Channel 4",
+    "Channel 5",
+    "Channel 6",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -450,12 +525,12 @@
    "digit": -1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -463,16 +538,16 @@
    "epoch": 28,
    "start": 810,
    "end": 840,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
    "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
    ],
    "clean": 1
   },
@@ -480,952 +555,560 @@
    "epoch": 29,
    "start": 840,
    "end": 870,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 30,
    "start": 870,
    "end": 900,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 31,
    "start": 900,
    "end": 930,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 32,
    "start": 930,
    "end": 960,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 33,
    "start": 960,
    "end": 990,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 34,
    "start": 990,
    "end": 1020,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
-   "clean": 0
+   "channels": null,
+   "clean": 1
   },
   {
    "epoch": 35,
    "start": 1020,
    "end": 1050,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 36,
    "start": 1050,
    "end": 1080,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 37,
    "start": 1080,
    "end": 1110,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 38,
    "start": 1110,
    "end": 1140,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 39,
    "start": 1140,
    "end": 1170,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 40,
    "start": 1170,
    "end": 1200,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
-   "clean": 0
+   "channels": null,
+   "clean": 1
   },
   {
    "epoch": 41,
    "start": 1200,
    "end": 1230,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 42,
    "start": 1230,
    "end": 1260,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 43,
    "start": 1260,
    "end": 1290,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 44,
    "start": 1290,
    "end": 1320,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 45,
    "start": 1320,
    "end": 1350,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 46,
    "start": 1350,
    "end": 1380,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 47,
    "start": 1380,
    "end": 1410,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 48,
    "start": 1410,
    "end": 1440,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 49,
    "start": 1440,
    "end": 1470,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 50,
    "start": 1470,
    "end": 1500,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 51,
    "start": 1500,
    "end": 1530,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 52,
    "start": 1530,
    "end": 1560,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 53,
    "start": 1560,
    "end": 1590,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 54,
    "start": 1590,
    "end": 1620,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 55,
    "start": 1620,
    "end": 1650,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 56,
    "start": 1650,
    "end": 1680,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 57,
    "start": 1680,
    "end": 1710,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 58,
    "start": 1710,
    "end": 1740,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 59,
    "start": 1740,
    "end": 1770,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 60,
    "start": 1770,
    "end": 1800,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 61,
    "start": 1800,
    "end": 1830,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 62,
    "start": 1830,
    "end": 1860,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 63,
    "start": 1860,
    "end": 1890,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 64,
    "start": 1890,
    "end": 1920,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 65,
    "start": 1920,
    "end": 1950,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 66,
    "start": 1950,
    "end": 1980,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 67,
    "start": 1980,
    "end": 2010,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 68,
    "start": 2010,
    "end": 2040,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 69,
    "start": 2040,
    "end": 2070,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 70,
    "start": 2070,
    "end": 2100,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 71,
    "start": 2100,
    "end": 2130,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 72,
    "start": 2130,
    "end": 2160,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 73,
    "start": 2160,
    "end": 2190,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 74,
    "start": 2190,
    "end": 2220,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 75,
    "start": 2220,
    "end": 2250,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 76,
    "start": 2250,
    "end": 2280,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 77,
    "start": 2280,
    "end": 2310,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 78,
    "start": 2310,
    "end": 2340,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 79,
    "start": 2340,
    "end": 2370,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 80,
    "start": 2370,
    "end": 2400,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 81,
    "start": 2400,
    "end": 2430,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 82,
    "start": 2430,
    "end": 2460,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 83,
    "start": 2460,
    "end": 2490,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
    "epoch": 84,
    "start": 2490,
    "end": 2520,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "-",
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": null,
    "clean": 1
   },
   {
@@ -1482,180 +1165,306 @@
    "epoch": 90,
    "start": 2670,
    "end": 2700,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 91,
    "start": 2700,
    "end": 2730,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 92,
    "start": 2730,
    "end": 2760,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 93,
    "start": 2760,
    "end": 2790,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 94,
    "start": 2790,
    "end": 2820,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 95,
    "start": 2820,
    "end": 2850,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 96,
    "start": 2850,
    "end": 2880,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 97,
    "start": 2880,
    "end": 2910,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 98,
    "start": 2910,
    "end": 2940,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 99,
    "start": 2940,
    "end": 2970,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 100,
    "start": 2970,
    "end": 3000,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 101,
    "start": 3000,
    "end": 3030,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 102,
    "start": 3030,
    "end": 3060,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 103,
    "start": 3060,
    "end": 3090,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 104,
    "start": 3090,
    "end": 3120,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 105,
    "start": 3120,
    "end": 3150,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 106,
    "start": 3150,
    "end": 3180,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
    "epoch": 107,
    "start": 3180,
    "end": 3210,
-   "stage": "-",
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [
+    "Channel 1",
+    "Channel 3",
+    "Channel 5",
+    "Channel 7",
+    "Channel 8",
+    "Channel 9"
+   ],
    "clean": 1
   },
   {
@@ -8257,1380 +8066,30 @@
    "uncertain": 0,
    "channels": null,
    "clean": 1
-  },
-  {
-   "epoch": 768,
-   "start": 23010,
-   "end": 23040,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 769,
-   "start": 23040,
-   "end": 23070,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 770,
-   "start": 23070,
-   "end": 23100,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 771,
-   "start": 23100,
-   "end": 23130,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 772,
-   "start": 23130,
-   "end": 23160,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 773,
-   "start": 23160,
-   "end": 23190,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 774,
-   "start": 23190,
-   "end": 23220,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 775,
-   "start": 23220,
-   "end": 23250,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 776,
-   "start": 23250,
-   "end": 23280,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 777,
-   "start": 23280,
-   "end": 23310,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 778,
-   "start": 23310,
-   "end": 23340,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 779,
-   "start": 23340,
-   "end": 23370,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 780,
-   "start": 23370,
-   "end": 23400,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 781,
-   "start": 23400,
-   "end": 23430,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 782,
-   "start": 23430,
-   "end": 23460,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 783,
-   "start": 23460,
-   "end": 23490,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 784,
-   "start": 23490,
-   "end": 23520,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 785,
-   "start": 23520,
-   "end": 23550,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 786,
-   "start": 23550,
-   "end": 23580,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 787,
-   "start": 23580,
-   "end": 23610,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 788,
-   "start": 23610,
-   "end": 23640,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 789,
-   "start": 23640,
-   "end": 23670,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 790,
-   "start": 23670,
-   "end": 23700,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 791,
-   "start": 23700,
-   "end": 23730,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 792,
-   "start": 23730,
-   "end": 23760,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 793,
-   "start": 23760,
-   "end": 23790,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 794,
-   "start": 23790,
-   "end": 23820,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 795,
-   "start": 23820,
-   "end": 23850,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 796,
-   "start": 23850,
-   "end": 23880,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 797,
-   "start": 23880,
-   "end": 23910,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 798,
-   "start": 23910,
-   "end": 23940,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 799,
-   "start": 23940,
-   "end": 23970,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 800,
-   "start": 23970,
-   "end": 24000,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 801,
-   "start": 24000,
-   "end": 24030,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 802,
-   "start": 24030,
-   "end": 24060,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 803,
-   "start": 24060,
-   "end": 24090,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 804,
-   "start": 24090,
-   "end": 24120,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 805,
-   "start": 24120,
-   "end": 24150,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 806,
-   "start": 24150,
-   "end": 24180,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 807,
-   "start": 24180,
-   "end": 24210,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 808,
-   "start": 24210,
-   "end": 24240,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 809,
-   "start": 24240,
-   "end": 24270,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 810,
-   "start": 24270,
-   "end": 24300,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 811,
-   "start": 24300,
-   "end": 24330,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 812,
-   "start": 24330,
-   "end": 24360,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 813,
-   "start": 24360,
-   "end": 24390,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 814,
-   "start": 24390,
-   "end": 24420,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 815,
-   "start": 24420,
-   "end": 24450,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 816,
-   "start": 24450,
-   "end": 24480,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 817,
-   "start": 24480,
-   "end": 24510,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 818,
-   "start": 24510,
-   "end": 24540,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 819,
-   "start": 24540,
-   "end": 24570,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 820,
-   "start": 24570,
-   "end": 24600,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 821,
-   "start": 24600,
-   "end": 24630,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 822,
-   "start": 24630,
-   "end": 24660,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 823,
-   "start": 24660,
-   "end": 24690,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 824,
-   "start": 24690,
-   "end": 24720,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 825,
-   "start": 24720,
-   "end": 24750,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 826,
-   "start": 24750,
-   "end": 24780,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 827,
-   "start": 24780,
-   "end": 24810,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 828,
-   "start": 24810,
-   "end": 24840,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 829,
-   "start": 24840,
-   "end": 24870,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 830,
-   "start": 24870,
-   "end": 24900,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 831,
-   "start": 24900,
-   "end": 24930,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 832,
-   "start": 24930,
-   "end": 24960,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 833,
-   "start": 24960,
-   "end": 24990,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 834,
-   "start": 24990,
-   "end": 25020,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 835,
-   "start": 25020,
-   "end": 25050,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 836,
-   "start": 25050,
-   "end": 25080,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 837,
-   "start": 25080,
-   "end": 25110,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 838,
-   "start": 25110,
-   "end": 25140,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 839,
-   "start": 25140,
-   "end": 25170,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 840,
-   "start": 25170,
-   "end": 25200,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 841,
-   "start": 25200,
-   "end": 25230,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 842,
-   "start": 25230,
-   "end": 25260,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 843,
-   "start": 25260,
-   "end": 25290,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 844,
-   "start": 25290,
-   "end": 25320,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 845,
-   "start": 25320,
-   "end": 25350,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 846,
-   "start": 25350,
-   "end": 25380,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 847,
-   "start": 25380,
-   "end": 25410,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 848,
-   "start": 25410,
-   "end": 25440,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 849,
-   "start": 25440,
-   "end": 25470,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 850,
-   "start": 25470,
-   "end": 25500,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 851,
-   "start": 25500,
-   "end": 25530,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 852,
-   "start": 25530,
-   "end": 25560,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 853,
-   "start": 25560,
-   "end": 25590,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 854,
-   "start": 25590,
-   "end": 25620,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 855,
-   "start": 25620,
-   "end": 25650,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 856,
-   "start": 25650,
-   "end": 25680,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 857,
-   "start": 25680,
-   "end": 25710,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 858,
-   "start": 25710,
-   "end": 25740,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 859,
-   "start": 25740,
-   "end": 25770,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 860,
-   "start": 25770,
-   "end": 25800,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 861,
-   "start": 25800,
-   "end": 25830,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 862,
-   "start": 25830,
-   "end": 25860,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 863,
-   "start": 25860,
-   "end": 25890,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 864,
-   "start": 25890,
-   "end": 25920,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 865,
-   "start": 25920,
-   "end": 25950,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 866,
-   "start": 25950,
-   "end": 25980,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 867,
-   "start": 25980,
-   "end": 26010,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 868,
-   "start": 26010,
-   "end": 26040,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 869,
-   "start": 26040,
-   "end": 26070,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 870,
-   "start": 26070,
-   "end": 26100,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 871,
-   "start": 26100,
-   "end": 26130,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 872,
-   "start": 26130,
-   "end": 26160,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 873,
-   "start": 26160,
-   "end": 26190,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 874,
-   "start": 26190,
-   "end": 26220,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 875,
-   "start": 26220,
-   "end": 26250,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 876,
-   "start": 26250,
-   "end": 26280,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 877,
-   "start": 26280,
-   "end": 26310,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 878,
-   "start": 26310,
-   "end": 26340,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 879,
-   "start": 26340,
-   "end": 26370,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 880,
-   "start": 26370,
-   "end": 26400,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 881,
-   "start": 26400,
-   "end": 26430,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 882,
-   "start": 26430,
-   "end": 26460,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 883,
-   "start": 26460,
-   "end": 26490,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 884,
-   "start": 26490,
-   "end": 26520,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 885,
-   "start": 26520,
-   "end": 26550,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 886,
-   "start": 26550,
-   "end": 26580,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 887,
-   "start": 26580,
-   "end": 26610,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 888,
-   "start": 26610,
-   "end": 26640,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 889,
-   "start": 26640,
-   "end": 26670,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 890,
-   "start": 26670,
-   "end": 26700,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 891,
-   "start": 26700,
-   "end": 26730,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 892,
-   "start": 26730,
-   "end": 26760,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 893,
-   "start": 26760,
-   "end": 26790,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 894,
-   "start": 26790,
-   "end": 26820,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 895,
-   "start": 26820,
-   "end": 26850,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 896,
-   "start": 26850,
-   "end": 26880,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 897,
-   "start": 26880,
-   "end": 26910,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 898,
-   "start": 26910,
-   "end": 26940,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 899,
-   "start": 26940,
-   "end": 26970,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 900,
-   "start": 26970,
-   "end": 27000,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 901,
-   "start": 27000,
-   "end": 27030,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 902,
-   "start": 27030,
-   "end": 27060,
-   "stage": "-",
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
   }
  ],
  [
   {
    "Artefacts": [
     [
-     -0.324,
-     6.806
+     -0.203,
+     10.062
     ],
     [
-     248.431,
-     272.873
+     245.369,
+     269.994
     ],
     [
-     415.68,
-     415.837
+     371.247,
+     371.352
     ],
     [
-     1012.219,
-     1012.303
+     371.762,
+     372.287
     ],
     [
-     1181.922,
-     1182.038
+     415.733,
+     415.848
     ]
    ],
    "Annotation_F1": [],
