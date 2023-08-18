@@ -309,11 +309,11 @@ class Ui_MainWindow(QMainWindow):
         self.spectogram.graphics.scene().sigMouseClicked.connect(self.spectogramClick)
 
         # Layout
-        layout.addWidget(self.EEG.axes,                 10, 0,  85,  100)
-        layout.addWidget(self.greenLine,                10, 0,  85,  100)     
-        layout.addWidget(self.spectogram.graphics,      0,  0,  10,  85)
+        layout.addWidget(self.EEG.axes,                 12, 0,  85,  100)
+        layout.addWidget(self.greenLine,                12, 0,  85,  100)     
+        layout.addWidget(self.spectogram.graphics,      0,  0,  12,  85)
         #layout.addWidget(self.hypnogram.axes,           0, 85,  10,  15)
-        layout.addWidget(self.powerbox.axes,           0, 85,  10,  15)
+        layout.addWidget(self.powerbox.axes,           0, 85,  12,  15)
         #layout.addWidget(self.epochpower.axes,          95, 0,  5, 100)
 
    

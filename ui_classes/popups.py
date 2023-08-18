@@ -129,6 +129,11 @@ class container(QtCore.QObject):
                 if self.facecolor == (rgb.red(), rgb.green(), rgb.blue(), rgb.alpha()):
                     AxesEEG.axes.removeItem(item)
 
+    def erase_clicked_area(self, greenLines, AxesEEG):
+        # To be continues
+        return
+
+
     def show_areas(self, AxesEEG):
         previous_areas  = [item.getRegion() for item in AxesEEG.axes.items() if isinstance(item, pg.LinearRegionItem)]
         for border in self.borders:

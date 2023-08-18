@@ -76,7 +76,7 @@ class spectogram(QtWidgets.QWidget):
         pg.setConfigOptions(imageAxisOrder='col-major')
         self.img = pg.ImageItem()
         self.img.setImage(self.power)
-        self.img.setColorMap(pg.colormap.get('CET-D1A'))
+        self.img.setColorMap(pg.colormap.get('CET-D1'))
         self.img.setLevels([np.nanpercentile(self.power, 0), np.nanpercentile(self.power, 95)]) # Color scale     
         self.image()    
 
