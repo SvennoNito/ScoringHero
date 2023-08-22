@@ -1,9 +1,7 @@
-def next_epoch(this_epoch, numepo):
-    if this_epoch < numepo:
-        this_epoch += 1      
-    return this_epoch
+from .refresh_gui import refresh_gui
 
-def prev_epoch(this_epoch):
-    if this_epoch > 0:
-        this_epoch -= 1   
-    return this_epoch 
+def next_epoch(ui):
+    if ui.this_epoch+1 < ui.numepo:
+        ui.this_epoch += 1     
+        refresh_gui(ui)
+    

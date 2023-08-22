@@ -5,6 +5,8 @@ from PySide6.QtWidgets import QWidget, QGridLayout, QMenuBar, QMenu, QStatusBar,
 from .toolbar import setup_toolbar
 from .menu import setup_menu
 from widgets import *
+from utilities import *
+
 
 def setup_ui(ui, MainWindow):
     MainWindow.setObjectName("MainWindow")
@@ -20,6 +22,7 @@ def setup_ui(ui, MainWindow):
     # Build widgets
     ui.BackgroundWidget = BackgroundWidget(ui.centralwidget)
     ui.SignalWidget     = SignalWidget(ui.centralwidget)
+    ui.DisplayedEpochWidget = DisplayedEpochWidget(ui.SignalWidget.axes)
 
     # Layout
     #layout.addWidget(ui.BackgroundWidget.axes)
@@ -84,23 +87,23 @@ def setup_ui(ui, MainWindow):
 
     ui.action_N1           = QAction(MainWindow)
     ui.action_N1.setObjectName("action_N1")
-    #ui.action_N1.triggered.connect(lambda: ui.scoreN1())
+    ui.action_N1.triggered.connect(lambda stage="N1", ui=ui: score_stage(stage, ui))
     ui.menu_stages.addAction(ui.action_N1)
     ui.action_N2           = QAction(MainWindow)
     ui.action_N2.setObjectName("action_N2")
-    #ui.action_N2.triggered.connect(lambda: ui.scoreN2())
+    ui.action_N2.triggered.connect(lambda stage="N2", ui=ui: score_stage(stage, ui))
     ui.menu_stages.addAction(ui.action_N2)
     ui.action_N3           = QAction(MainWindow)
     ui.action_N3.setObjectName("action_N3")
-    #ui.action_N3.triggered.connect(lambda: ui.scoreN3())
+    ui.action_N3.triggered.connect(lambda stage="N3", ui=ui: score_stage(stage, ui))
     ui.menu_stages.addAction(ui.action_N3)
     ui.action_wake         = QAction(MainWindow)
     ui.action_wake.setObjectName("action_wake")
-    #ui.action_wake.triggered.connect(lambda: ui.scoreWake())
+    ui.action_wake.triggered.connect(lambda stage="Wake", ui=ui: score_stage(stage, ui))
     ui.menu_stages.addAction(ui.action_wake)
     ui.action_REM          = QAction(MainWindow)
     ui.action_REM.setObjectName("action_REM")
-    #ui.action_REM.triggered.connect(lambda: ui.scoreREM())
+    ui.action_REM.triggered.connect(lambda stage="REM", ui=ui: score_stage(stage, ui))
     ui.menu_stages.addAction(ui.action_REM)        
     ui.action_express_uncertainty  = QAction(MainWindow)
     ui.action_express_uncertainty.setObjectName("action_express_uncertainty")  

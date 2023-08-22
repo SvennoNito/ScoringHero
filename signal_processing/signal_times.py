@@ -1,13 +1,13 @@
 import numpy as np
 
 def signal_times_vector(npoints, srate, epolen, extend_l, extend_r):
-    times_vector                        = np.arange(0, npoints) / srate
+    times_vector         = np.arange(0, npoints) / srate
     times_vector_epoched = turn_into_epochs(times_vector, epolen, srate, extend_l, extend_r)
     return times_vector_epoched, len(times_vector_epoched)
 
 
 def turn_into_epochs(times_vector, epolen, srate, extend_l, extend_r):
-    num_epochs              = int(np.ceil(times_vector[-1] / epolen))
+    num_epochs              = int(np.floor(times_vector[-1] / epolen))
     epoched_times_vector    = []
     start_indices           = np.arange(0, num_epochs) * epolen * srate
     end_indices             = np.minimum(start_indices + epolen * srate, len(times_vector))
@@ -18,7 +18,7 @@ def turn_into_epochs(times_vector, epolen, srate, extend_l, extend_r):
 
     # Remove impossible numbers
     start_indices_ext[start_indices_ext < 0] = 0
-    end_indices_ext[end_indices_ext > epolen*srate*num_epochs] = epolen*srate*num_epochs
+    end_indices_ext[end_indices_ext > int(np.floor(times_vector[-1]*srate))] = int(np.floor(times_vector[-1]*srate))
 
     for start_ext, end_ext, start, end in zip(start_indices_ext, end_indices_ext, start_indices, end_indices):
         epoch_times     = times_vector[start_ext:end_ext]
