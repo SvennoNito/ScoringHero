@@ -49,9 +49,6 @@ class SignalWidget(QWidget):
         # Initiate list
         self.drawn_signals = []
 
-        # EEG extensions
-        #times, index_times = times_extended_epoch(times_and_indices, this_epoch, config[0]['Epoch_length_s'], config[0]['Extension_epoch_left_s'], config[0]['Extension_epoch_right_s'])
-
         # Loop through channels
         self.axes.clear()
         for chan_counter, visible_counter in enumerate(index_visible_chans):
@@ -59,10 +56,6 @@ class SignalWidget(QWidget):
 
             # Extract data
             data  = eeg_data[visible_counter][index_times]
-            
-            ## Add extension
-            #times = np.concatenate([ext_times[0], self.times[this_epoch], ext_times[1]])
-            #data  = np.concatenate([ext_data[visible_counter][0], channel[this_epoch], ext_data[visible_counter][1]])
             
             # Plot EEG
             drawn_signal = self.axes.plot(times, data*config[1][visible_counter]['Scaling_factor'] - config[0]['Distance_between_channels_muV']*numchans_visible*chan_counter, pen=pen)
@@ -140,25 +133,3 @@ class SignalWidget(QWidget):
         ticklabels = [(tick, f'{tick} s') for tick in np.round(np.arange(0, times[-1], config[0]['Epoch_length_s']/5), 1)]
         self.axes.getAxis('bottom').setTicks([ticklabels])
         self.axes.setXRange(times[0], times[-1], padding=0)            
-
-
-    # def vertical_grid_lines(self, config, times):
-
-    #     # 1 second grid
-    #     times_grid = np.array_split(times, config[0]['Epoch_length_s'])
-    #     for time in times_grid:    
-    #         grid_line = pg.InfiniteLine(pos=time[0], angle=90, pen=self.pen_grid_1s)
-    #         self.axes.addItem(grid_line)     
-
-    #     # 20% epoch length grid
-    #     times_grid = np.array_split(times, 5)
-    #     for time in times_grid:    
-    #         grid_line = pg.InfiniteLine(pos=time[0], angle=90, pen=self.pen_grid)
-    #         self.axes.addItem(grid_line) 
-
-    #     # Epoch border
-    #     border_line = pg.InfiniteLine(angle=90, pos=times[0], pen=self.pen_border); self.axes.addItem(border_line)                 
-    #     border_line = pg.InfiniteLine(angle=90, pos=times[-1], pen=self.pen_border); self.axes.addItem(border_line)                 
-
-
-

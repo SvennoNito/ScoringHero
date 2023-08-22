@@ -27,12 +27,14 @@ class Ui_MainWindow(QMainWindow):
 
 
     # *** Loading data ***
+    @timing_decorator
     def load_eeg(self, datatype):
         self.eeg_data, self.config  = load_eeg_wrapper(self.default_data_path, **{"datatype": datatype})
         self.times, self.numepo     = signal_times_vector(self.eeg_data.shape[1], self.config[0]['Sampling_rate_hz'], self.config[0]['Epoch_length_s'], self.config[0]['Extension_epoch_left_s'], self.config[0]['Extension_epoch_right_s'])
         self.stages                 = empty_stages(self.numepo, self.config[0]['Epoch_length_s'])
         self.toolbar_jump_to_epoch.setMaximum(self.numepo) 
         self.SignalWidget.draw_signal(self.config, self.eeg_data, self.times, self.this_epoch)
+        self.DisplayedEpochWidget.update_text(self.this_epoch, self.numepo, self.stages)
 
 
 
@@ -50,6 +52,7 @@ if __name__ == "__main__":
         ui.stages = empty_stages(ui.numepo, ui.config[0]['Epoch_length_s'])
         ui.toolbar_jump_to_epoch.setMaximum(ui.numepo) 
         ui.SignalWidget.draw_signal(ui.config, ui.eeg_data, ui.times, ui.this_epoch)
+        ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
 
     MainWindow.activateWindow()  # Add this line to make the window active
     MainWindow.show()

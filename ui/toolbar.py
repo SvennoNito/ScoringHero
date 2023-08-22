@@ -22,7 +22,7 @@ def setup_toolbar(ui, MainWindow):
 
     # Next unscored epoch button     
     ui.tool_nextunscored = QPushButton("Next unscored epoch")
-    #ui.tool_nextunscored.clicked.connect(ui.jump_to_unscored_epoch)
+    ui.tool_nextunscored.clicked.connect(lambda: first_unscored_epoch(ui))
     toolbar.addWidget(ui.tool_nextunscored)
     toolbar.addWidget(spacer) 
 
@@ -34,6 +34,6 @@ def setup_toolbar(ui, MainWindow):
 
     # Next transition button
     ui.tool_nexttransition    = QPushButton("Next transition")
-    #ui.tool_nexttransition.clicked.connect(ui.jump_to_transition)
+    ui.tool_nexttransition.clicked.connect(lambda: next_stage_transition(ui))
     toolbar.addWidget(ui.tool_nexttransition)
     #toolbar.addWidget(spacer)     
