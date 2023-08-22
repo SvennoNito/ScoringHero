@@ -28,12 +28,12 @@ def setup_toolbar(ui, MainWindow):
 
     # Next uncertain epoch button     
     ui.tool_nextuncertain = QPushButton("Next uncertain epoch")
-    #ui.tool_nextuncertain.clicked.connect(ui.jump_to_uncertain_epoch)
+    ui.tool_nextuncertain.clicked.connect(lambda: first_uncertain_stage(ui))
     toolbar.addWidget(ui.tool_nextuncertain)
     toolbar.addWidget(spacer)         
 
     # Next transition button
-    ui.tool_nexttransition    = QPushButton("Next transition")
+    ui.tool_nexttransition    = QPushButton("Next transition") 
     ui.tool_nexttransition.clicked.connect(lambda: next_stage_transition(ui))
     toolbar.addWidget(ui.tool_nexttransition)
     #toolbar.addWidget(spacer)     
