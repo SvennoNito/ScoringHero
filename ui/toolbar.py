@@ -1,5 +1,6 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QToolBar, QLabel, QSpinBox, QWidget, QPushButton, QSizePolicy
+from utilities import *
 
 def setup_toolbar(ui, MainWindow):
     toolbar = QToolBar(MainWindow)
@@ -8,9 +9,10 @@ def setup_toolbar(ui, MainWindow):
 
     # Jump to epoch spinbox
     toolbar.addWidget(QLabel("Jump to epoch:")) 
-    ui.tool_epochjump = QSpinBox() 
-    #ui.tool_epochjump.valueChanged.connect(ui.jump_to_epoch)
-    toolbar.addWidget(ui.tool_epochjump)
+    ui.toolbar_jump_to_epoch = QSpinBox() 
+    ui.toolbar_jump_to_epoch.setMinimum(1)
+    ui.toolbar_jump_to_epoch.valueChanged.connect(lambda value, ui=ui: jump_to_epoch(value, ui))   
+    toolbar.addWidget(ui.toolbar_jump_to_epoch)
 
     # Space
     spacer = QWidget()

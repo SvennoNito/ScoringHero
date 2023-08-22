@@ -22,17 +22,17 @@ class Ui_MainWindow(QMainWindow):
         # print(event.key())
         if event.key() == Qt.Key_Right:
             self.this_epoch = next_epoch(self.this_epoch, self.numepo)  
-            self.SignalWidget.update_signal(self.config, self.eeg_data, self.times, self.this_epoch)
+            refresh_gui(self)
         if event.key() == Qt.Key_Left:
             self.this_epoch = prev_epoch(self.this_epoch)  
-            self.SignalWidget.update_signal(self.config, self.eeg_data, self.times, self.this_epoch)
+            refresh_gui(self)
 
 
     # *** Loading data ***
     def load_eeg(self, datatype):
         self.eeg_data, self.config = load_eeg_wrapper(self.default_data_path, **{"datatype": datatype})
         self.times, self.numepo = signal_times_vector(self.eeg_data.shape[1], self.config[0]['Sampling_rate_hz'], self.config[0]['Epoch_length_s'], self.config[0]['Extension_epoch_left_s'], self.config[0]['Extension_epoch_right_s'])
-        #self.BackgroundWidget.draw_background(self.eeg_data, self.times, self.this_epoch)
+        self.toolbar_jump_to_epoch.setMaximum(self.numepo) 
         self.SignalWidget.draw_signal(self.config, self.eeg_data, self.times, self.this_epoch)
 
 
