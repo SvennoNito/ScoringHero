@@ -87,7 +87,7 @@ class SignalWidget(QWidget):
 
         # Draw background and adjust axes
         self.adjust_time_axis(config, times)
-        self.axes.setYRange(-chan_counter*config[0]['Distance_between_channels_muV']*(numchans_visible-0.5), config[0]['Distance_between_channels_muV']*(numchans_visible-0.5)/1.2, padding=0)  
+        self.axes.setYRange(-(chan_counter+1)*config[0]['Distance_between_channels_muV']*(numchans_visible-0.5), config[0]['Distance_between_channels_muV']*(numchans_visible-0.5)/1.2, padding=0)  
 
         # Add grid lines using pg.GridItem
         grid_item = pg.GridItem()
