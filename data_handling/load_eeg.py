@@ -21,7 +21,7 @@ def load_all_important(name_of_eegfile_prefix, kwargs):
     config_settings = load_configuration(f'{name_of_eegfile_prefix}.config.json', eeg_data.shape[0])
     num_epo         = compute_numepo(eeg_data.shape[1], config_settings[0]['Sampling_rate_hz'], config_settings[0]['Epoch_length_s'])
     scoring_data, annotations = load_scoring(f'{name_of_eegfile_prefix}.json', config_settings[0]['Epoch_length_s'], num_epo)
-    return eeg_data, config_settings, scoring_data, annotations          
+    return eeg_data, config_settings, scoring_data, annotations, name_of_eegfile_prefix          
 
 def compute_numepo(npoints, srate, epolen):
     return np.floor(npoints/srate/epolen).astype(int)

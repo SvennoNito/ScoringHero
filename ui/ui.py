@@ -6,6 +6,7 @@ from .toolbar import setup_toolbar
 from .menu import setup_menu
 from widgets import *
 from utilities import *
+from data_handling import *
 
 
 def setup_ui(ui, MainWindow):
@@ -59,7 +60,7 @@ def setup_ui(ui, MainWindow):
     ui.menu_file.addAction(ui.action_load_scoring)
     ui.action_save_scoring = QAction(MainWindow)
     ui.action_save_scoring.setObjectName("action_save_scoring")
-    #ui.action_save_scoring.triggered.connect(lambda: ui.saveSleepStages())
+    ui.action_save_scoring.triggered.connect(lambda: write_scoring_popup(ui))
     ui.menu_file.addAction(ui.action_save_scoring)  
 
     # Edits menu

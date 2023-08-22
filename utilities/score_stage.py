@@ -1,4 +1,5 @@
 from .next_epoch import next_epoch
+from data_handling import write_scoring_wrapper
 
 def score_stage(value, ui):
 
@@ -14,6 +15,8 @@ def score_stage(value, ui):
 
     ui.stages[ui.this_epoch]["stage"] = value
     ui.stages[ui.this_epoch]["digit"] = stages_notation[value]
+
+    write_scoring_wrapper(ui)
 
     next_epoch(ui)
 
