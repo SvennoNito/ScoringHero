@@ -29,9 +29,8 @@ class Ui_MainWindow(QMainWindow):
     # *** Loading data ***
     @timing_decorator
     def load_eeg(self, datatype):
-        self.eeg_data, self.config  = load_eeg_wrapper(self.default_data_path, **{"datatype": datatype})
+        self.eeg_data, self.config, self.stages, self.annotations = load_eeg_wrapper(self.default_data_path, **{"datatype": datatype})
         self.times, self.numepo     = signal_times_vector(self.eeg_data.shape[1], self.config[0]['Sampling_rate_hz'], self.config[0]['Epoch_length_s'], self.config[0]['Extension_epoch_left_s'], self.config[0]['Extension_epoch_right_s'])
-        self.stages                 = empty_stages(self.numepo, self.config[0]['Epoch_length_s'])
         self.toolbar_jump_to_epoch.setMaximum(self.numepo) 
         self.SignalWidget.draw_signal(self.config, self.eeg_data, self.times, self.this_epoch)
         self.DisplayedEpochWidget.update_text(self.this_epoch, self.numepo, self.stages)
@@ -46,10 +45,8 @@ if __name__ == "__main__":
     ui          = Ui_MainWindow()
     setup_ui(ui, MainWindow)
     if ui.devmode == 1:
-        ui.eeg_data = load_mat_eeglab(f'{ui.default_data_path}\ST70MS_session3_scoringfile')
-        ui.config = load_configuration(f'{ui.default_data_path}\ST70MS_session3_scoringfile.config.json', ui.eeg_data.shape[0])
+        ui.eeg_data, ui.config, ui.stages, ui.annotations = load_all_important(f'{ui.default_data_path}\ST70MS_session3_scoringfile', {"datatype": 'eeglab'})
         ui.times, ui.numepo = signal_times_vector(ui.eeg_data.shape[1], ui.config[0]['Sampling_rate_hz'], ui.config[0]['Epoch_length_s'], ui.config[0]['Extension_epoch_left_s'], ui.config[0]['Extension_epoch_right_s'])
-        ui.stages = empty_stages(ui.numepo, ui.config[0]['Epoch_length_s'])
         ui.toolbar_jump_to_epoch.setMaximum(ui.numepo) 
         ui.SignalWidget.draw_signal(ui.config, ui.eeg_data, ui.times, ui.this_epoch)
         ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)

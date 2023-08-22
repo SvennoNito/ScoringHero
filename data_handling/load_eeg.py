@@ -3,18 +3,28 @@ import os, h5py
 from scipy import io
 from PySide6.QtWidgets import QFileDialog
 from .load_config import load_configuration 
+from .load_scoring import load_scoring
+import numpy as np
 
 
 def load_eeg_wrapper(default_data_path, **kwargs):
     name_of_eegfile, _              = QFileDialog.getOpenFileName(None, 'Open File', default_data_path, '*.mat;*json')
     name_of_eegfile_prefix, suffix  = os.path.splitext(name_of_eegfile)
+    return load_all_important(name_of_eegfile_prefix, kwargs)
+                         
+
+def load_all_important(name_of_eegfile_prefix, kwargs):
 
     if kwargs['datatype'] == 'eeglab':
         eeg_data = load_mat_eeglab(name_of_eegfile_prefix)
 
     config_settings = load_configuration(f'{name_of_eegfile_prefix}.config.json', eeg_data.shape[0])
+    num_epo         = compute_numepo(eeg_data.shape[1], config_settings[0]['Sampling_rate_hz'], config_settings[0]['Epoch_length_s'])
+    scoring_data, annotations = load_scoring(f'{name_of_eegfile_prefix}.json', config_settings[0]['Epoch_length_s'], num_epo)
+    return eeg_data, config_settings, scoring_data, annotations          
 
-    return eeg_data, config_settings
+def compute_numepo(npoints, srate, epolen):
+    return np.floor(npoints/srate/epolen).astype(int)
 
     # Integrate EEG data into structure
     #mainwindow.EEG.data = eeg_data

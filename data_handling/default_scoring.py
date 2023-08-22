@@ -1,4 +1,4 @@
-def empty_stages(numepo, epolen):
+def default_scoring(numepo, epolen):
 
     stages = []
     for counter in range(numepo):
