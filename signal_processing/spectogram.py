@@ -4,8 +4,8 @@ from utilities import *
 
 
 def spectogram_wrapper(ui):
-    ui.power, ui.freqs      = compute_spectogram(ui.eeg_data, ui.times, ui.config[0]['Sampling_rate_hz'], ui.config[0]['Channel_index_for_spectogram']-1, ui.config[0]['Epoch_length_s'])
-    ui.freqs_of_interest    = freqs_of_interest(ui.freqs, ui.config[0]['Spectogram_lower_limit_hz'], ui.config[0]['Spectogram_upper_limit_hz'])
+    ui.power, ui.freqs  = compute_spectogram(ui.eeg_data, ui.times, ui.config[0]['Sampling_rate_hz'], ui.config[0]['Channel_index_for_spectogram']-1, ui.config[0]['Epoch_length_s'])
+    ui.freqsOI          = freqs_of_interest(ui.freqs, ui.config[0]['Spectogram_lower_limit_hz'], ui.config[0]['Spectogram_upper_limit_hz'])
 
 @timing_decorator
 def compute_spectogram(eeg_data, times, srate, channel, epolen, winlen=4):

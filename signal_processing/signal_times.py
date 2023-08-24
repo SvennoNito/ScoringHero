@@ -1,5 +1,7 @@
 import numpy as np
+from utilities import *
 
+@timing_decorator
 def signal_times_vector(ui):
 
     npoints         = ui.eeg_data.shape[1]

@@ -34,6 +34,7 @@ class Ui_MainWindow(QMainWindow):
         self.toolbar_jump_to_epoch.setMaximum(self.numepo) 
         self.SignalWidget.draw_signal(self.config, self.eeg_data, self.times, self.this_epoch)
         self.DisplayedEpochWidget.update_text(self.this_epoch, self.numepo, self.stages)
+        spectogram_wrapper(self)
 
 
 
@@ -52,6 +53,7 @@ if __name__ == "__main__":
         ui.SignalWidget.draw_signal(ui.config, ui.eeg_data, ui.times, ui.this_epoch)
         ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
         spectogram_wrapper(ui)
+        ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
 
     MainWindow.activateWindow()  # Add this line to make the window active
     MainWindow.show()

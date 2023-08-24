@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QFileDialog
 from .load_config import load_configuration 
 from .load_scoring import load_scoring
 import numpy as np
+from utilities import *
 
 
 def load_eeg_wrapper(ui, datatype):
@@ -12,7 +13,7 @@ def load_eeg_wrapper(ui, datatype):
     ui.filename, suffix  = os.path.splitext(name_of_eegfile)
     load_eeg_config_scoring(ui, datatype)
                          
-
+@timing_decorator
 def load_eeg_config_scoring(ui, datatype):
 
     if datatype == 'eeglab':

@@ -8,7 +8,7 @@ from widgets import *
 from utilities import *
 from data_handling import *
 
-
+@timing_decorator
 def setup_ui(ui, MainWindow):
     MainWindow.setObjectName("MainWindow")
     MainWindow.resize(800, 600)
@@ -24,14 +24,13 @@ def setup_ui(ui, MainWindow):
     ui.BackgroundWidget = BackgroundWidget(ui.centralwidget)
     ui.SignalWidget     = SignalWidget(ui.centralwidget)
     ui.DisplayedEpochWidget = DisplayedEpochWidget(ui.SignalWidget.axes)
+    ui.SpectogramWidget = SpectogramWidget(ui.centralwidget)
 
     # Layout
-    #layout.addWidget(ui.BackgroundWidget.axes)
-    #layout.addWidget(sublayout, 10, 0,  85,  100)
     layout.addWidget(ui.BackgroundWidget.axes,             10, 0,  85,  100)
     layout.addWidget(ui.SignalWidget.axes,                 10, 0,  85,  101)
     #layout.addWidget(ui.greenLine,                10, 0,  85,  100)     
-    #layout.addWidget(ui.spectogram.graphics,      0,  0,  10,  85)
+    layout.addWidget(ui.SpectogramWidget.graphics,      0,  0,  10,  60)
     #layout.addWidget(ui.powerbox.axes,           0, 85,  10,  15)
 
     # menu
