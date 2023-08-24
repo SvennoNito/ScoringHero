@@ -1,9 +1,15 @@
 import numpy as np
 
-def signal_times_vector(npoints, srate, epolen, extend_l, extend_r):
-    times_vector         = np.arange(0, npoints) / srate
-    times_vector_epoched = turn_into_epochs(times_vector, epolen, srate, extend_l, extend_r)
-    return times_vector_epoched, len(times_vector_epoched)
+def signal_times_vector(ui):
+
+    npoints         = ui.eeg_data.shape[1]
+    srate           = ui.config[0]['Sampling_rate_hz']
+    epolen          = ui.config[0]['Epoch_length_s']
+    extend_l        = ui.config[0]['Extension_epoch_left_s']
+    extend_r        = ui.config[0]['Extension_epoch_right_s']    
+
+    times_vector    = np.arange(0, npoints) / srate
+    ui.times        = turn_into_epochs(times_vector, epolen, srate, extend_l, extend_r)
 
 
 def turn_into_epochs(times_vector, epolen, srate, extend_l, extend_r):
