@@ -1,0 +1,31 @@
+import numpy as np
+from scipy.signal import welch
+from utilities import *
+
+
+def spectogram_wrapper(ui):
+    ui.power, ui.freqs      = compute_spectogram(ui.eeg_data, ui.times, ui.config[0]['Sampling_rate_hz'], ui.config[0]['Channel_index_for_spectogram']-1, ui.config[0]['Epoch_length_s'])
+    ui.freqs_of_interest    = freqs_of_interest(ui.freqs, ui.config[0]['Spectogram_lower_limit_hz'], ui.config[0]['Spectogram_upper_limit_hz'])
+
+@timing_decorator
+def compute_spectogram(eeg_data, times, srate, channel, epolen, winlen=4):
+
+    indices_window  = [np.arange(start, start + srate*winlen) for start in range(0, epolen*srate+2*srate, 2*srate)]
+    power           = np.empty((len(times), len(indices_window), int(winlen*srate/2+1)))
+    for i_epoch, times_indices_epoch in enumerate(times):
+        indices_epoch   = times_indices_epoch[1]      
+        for i_window, index_window in enumerate(indices_window):
+            indices = indices_epoch[index_window]
+            freqs, power[i_epoch, i_window, :] = welch(eeg_data[channel][indices], fs=srate, window='hann', nperseg=winlen*srate, detrend='constant', return_onesided=True, scaling='density', average='mean') 
+
+    # Mean over 4s windows
+    power = np.mean(power, axis=1)
+
+    return power, freqs
+
+
+def freqs_of_interest(freqs, lower_limit, upper_limit):
+    return (freqs >= lower_limit) & (freqs <= upper_limit)
+
+    #power = power[(freqs >= lower_limit) & (freqs <= upper_limit)]
+    #freqs = power[(freqs >= lower_limit) & (freqs <= upper_limit)]
