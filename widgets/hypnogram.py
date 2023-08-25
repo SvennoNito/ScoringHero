@@ -33,7 +33,7 @@ class HypnogramWidget(QWidget):
 
 
     @timing_decorator
-    def draw_hypnogram(self, scoring, numepo, config):
+    def draw_hypnogram(self, scoring, numepo, config, SWA):
 
         self.axes.clear()
         # self.stage_items = []
@@ -57,6 +57,10 @@ class HypnogramWidget(QWidget):
         # Initialize epoch indicator line
         self.epoch_indicator_line = pg.InfiniteLine(pos=self.times[0], angle=90, pen=pg.mkPen(color='k', width=0.8))
         self.axes.addItem(self.epoch_indicator_line)   
+
+        # Draw SWA
+        #SWA[SWA > np.median(SWA) + 1 * np.std(SWA)] = np.nan
+        self.axes.plot(self.times, SWA* (1 - (-4)) + (-4), pen=pg.mkPen(color=(11, 28, 44, 20)), width=.1, style=Qt.DotLine)
 
 
     @timing_decorator

@@ -56,7 +56,7 @@ if __name__ == "__main__":
         # spectogram_to_ui(ui)
         load_cache(ui)
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
-        ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config)
+        ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
 
     MainWindow.activateWindow()  # Add this line to make the window active
     MainWindow.show()

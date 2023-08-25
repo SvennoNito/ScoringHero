@@ -1,14 +1,16 @@
 import numpy as np
 from scipy.signal import welch
 from utilities import *
+from .swa import compute_swa
 
 def spectogram_to_ui(ui):
-    ui.power, ui.freqs, ui.freqsOI = spectogram_wrapper(ui)
+    ui.power, ui.freqs, ui.freqsOI, ui.swa = spectogram_wrapper(ui)
 
 def spectogram_wrapper(ui):
     power, freqs    = compute_spectogram(ui.eeg_data, ui.times, ui.config[0]['Sampling_rate_hz'], ui.config[0]['Channel_index_for_spectogram']-1, ui.config[0]['Epoch_length_s'])
     freqsOI         = freqs_of_interest_indices(freqs, ui.config[0]['Spectogram_lower_limit_hz'], ui.config[0]['Spectogram_upper_limit_hz']) 
-    return power, freqs, freqsOI
+    swa             = compute_swa(power, freqs)
+    return power, freqs, freqsOI, swa
 
 @timing_decorator
 def compute_spectogram(eeg_data, times, srate, channel, epolen, winlen=4):

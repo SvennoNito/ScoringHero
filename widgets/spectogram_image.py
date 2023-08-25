@@ -47,7 +47,7 @@ class SpectogramWidget(QtWidgets.QWidget):
         timeres                                 = np.unique(np.diff(times))[0]
         desired_tick_values                     = np.round(np.arange(0, max(times), 1), 1)
         index_of_desired_tick_values_in_times   = np.unique([(np.abs(times - tick_value)).argmin() for tick_value in desired_tick_values])
-        desired_tick_string                     = list(map(str, [float(x) for x in desired_tick_values[0:len(index_of_desired_tick_values_in_times)]]))
+        desired_tick_string                     = list(map(str, [int(x) for x in desired_tick_values[0:len(index_of_desired_tick_values_in_times)]]))
         desired_tick_tuple                      = [(val, f'{text} h') for val, text in zip(index_of_desired_tick_values_in_times, desired_tick_string)]
         self.axes.getAxis('bottom').setTicks([desired_tick_tuple, []])
 

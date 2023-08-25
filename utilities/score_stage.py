@@ -7,7 +7,7 @@ def score_stage(value, ui):
         'N1': -1,
         'N2': -2,
         'N3': -3,
-        'N4': -4,
+        # 'N4': -4,
         'Wake': 1,
         'REM':  0,
         'NREM': -1
@@ -17,7 +17,7 @@ def score_stage(value, ui):
     ui.stages[ui.this_epoch]["digit"] = stages_notation[value]
 
     # Update hypnpgram
-    ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config)    
+    ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)    
     # ui.HypnogramWidget.update_hypnogram(ui.stages, ui.numepo, ui.this_epoch)
 
     write_scoring_wrapper(ui)

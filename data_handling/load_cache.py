@@ -11,7 +11,7 @@ def load_cache(ui):
 
     # Spectogram
     if "spectogram_power" not in cache:
-        cache["spectogram_power"], cache["spectogram_freqs"], cache["spectogram_freqsOI"] = spectogram_wrapper(ui)
+        cache["spectogram_power"], cache["spectogram_freqs"], cache["spectogram_freqsOI"], cache["swa"] = spectogram_wrapper(ui)
 
 
     # Move cache to ui
@@ -23,4 +23,4 @@ def load_cache(ui):
 
 
 def cache_to_ui(ui, cache):
-    ui.power, ui.freqs, ui.freqsOI = cache["spectogram_power"], cache["spectogram_freqs"], cache["spectogram_freqsOI"]
+    ui.power, ui.freqs, ui.freqsOI, ui.swa = cache["spectogram_power"], cache["spectogram_freqs"], cache["spectogram_freqsOI"], cache["swa"]
