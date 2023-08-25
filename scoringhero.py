@@ -35,8 +35,8 @@ class Ui_MainWindow(QMainWindow):
         self.toolbar_jump_to_epoch.setMaximum(self.numepo) 
         self.SignalWidget.draw_signal(self.config, self.eeg_data, self.times, self.this_epoch)
         self.DisplayedEpochWidget.update_text(self.this_epoch, self.numepo, self.stages)
-        spectogram_wrapper(self)
-
+        load_cache(ui)
+        ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
 
 
 
@@ -47,13 +47,14 @@ if __name__ == "__main__":
     ui          = Ui_MainWindow()
     setup_ui(ui, MainWindow)
     if ui.devmode == 1:
-        ui.filename = f'{ui.default_data_path}\ST70MS_session3_scoringfile'
+        ui.filename = f'{ui.default_data_path}\example_data'
         load_eeg_config_scoring(ui, datatype='eeglab')
         signal_times_vector(ui)
         ui.toolbar_jump_to_epoch.setMaximum(ui.numepo) 
         ui.SignalWidget.draw_signal(ui.config, ui.eeg_data, ui.times, ui.this_epoch)
         ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
-        spectogram_wrapper(ui)
+        # spectogram_to_ui(ui)
+        load_cache(ui)
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
 
     MainWindow.activateWindow()  # Add this line to make the window active
