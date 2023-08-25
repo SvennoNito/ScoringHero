@@ -10,6 +10,7 @@ from ui import *
 from data_handling import * 
 from signal_processing import *
 from utilities import *
+from mouse_click import *
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):

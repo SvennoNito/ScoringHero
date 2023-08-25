@@ -5,3 +5,6 @@ def refresh_gui(ui):
 
     # Update display text
     ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
+
+    # Update epoch indicator line in spectogram
+    ui.SpectogramWidget.update_epoch_indicator(ui.this_epoch)

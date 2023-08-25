@@ -50,4 +50,19 @@ class SpectogramWidget(QtWidgets.QWidget):
         desired_tick_string                     = list(map(str, [float(x) for x in desired_tick_values[0:len(index_of_desired_tick_values_in_times)]]))
         desired_tick_tuple                      = [(val, f'{text} h') for val, text in zip(index_of_desired_tick_values_in_times, desired_tick_string)]
         self.axes.getAxis('bottom').setTicks([desired_tick_tuple, []])
+
+        # Initialize epoch indicator line
+        self.vline = pg.InfiniteLine(pos=1-0.5, angle=90, pen=pg.mkPen(color='k', width=0.8))
+        self.axes.addItem(self.vline)
+
+    def update_epoch_indicator(self, this_epoch):
+        self.vline.setPos(this_epoch+0.5)
+
+    def coordinates_upon_mousclick(self, event):
+        mouse_pos                   = self.graphics.mapFromScene(event.scenePos())
+        image_pos                   = self.axes.mapFromParent(mouse_pos)
+        mouse_click_coordinates     = self.axes.mapToView(image_pos)
+        x_axis_range                = self.axes.getViewBox().viewRange()[0]
+        if mouse_click_coordinates.x() >= x_axis_range[0] and mouse_click_coordinates.x() < x_axis_range[1]:
+           return np.floor(mouse_click_coordinates.x()).astype(int)
     

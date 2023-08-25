@@ -7,6 +7,7 @@ from .menu import setup_menu
 from widgets import *
 from utilities import *
 from data_handling import *
+from mouse_click import *
 
 @timing_decorator
 def setup_ui(ui, MainWindow):
@@ -25,6 +26,9 @@ def setup_ui(ui, MainWindow):
     ui.SignalWidget     = SignalWidget(ui.centralwidget)
     ui.DisplayedEpochWidget = DisplayedEpochWidget(ui.SignalWidget.axes)
     ui.SpectogramWidget = SpectogramWidget(ui.centralwidget)
+
+    # Make widgets react to mouse click
+    ui.SpectogramWidget.graphics.scene().sigMouseClicked.connect(lambda event, ui=ui: click_on_spectogram(event, ui))
 
     # Layout
     layout.addWidget(ui.BackgroundWidget.axes,             10, 0,  85,  100)
