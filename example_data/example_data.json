@@ -4,595 +4,350 @@
    "epoch": 1,
    "start": 0,
    "end": 30,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
-   "clean": 0
+   "channels": [],
+   "clean": 1
   },
   {
    "epoch": 2,
    "start": 30,
    "end": 60,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 3,
    "start": 60,
    "end": 90,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 4,
    "start": 90,
    "end": 120,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 5,
    "start": 120,
    "end": 150,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 6,
    "start": 150,
    "end": 180,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 7,
    "start": 180,
    "end": 210,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 8,
    "start": 210,
    "end": 240,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 9,
    "start": 240,
    "end": 270,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 10,
    "start": 270,
    "end": 300,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
-   "clean": 0
+   "channels": [],
+   "clean": 1
   },
   {
    "epoch": 11,
    "start": 300,
    "end": 330,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 12,
    "start": 330,
    "end": 360,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 13,
    "start": 360,
    "end": 390,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 14,
    "start": 390,
    "end": 420,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
-   "clean": 0
+   "channels": [],
+   "clean": 1
   },
   {
    "epoch": 15,
    "start": 420,
    "end": 450,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 16,
    "start": 450,
    "end": 480,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 17,
    "start": 480,
    "end": 510,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 18,
    "start": 510,
    "end": 540,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 19,
    "start": 540,
    "end": 570,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 20,
    "start": 570,
    "end": 600,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 21,
    "start": 600,
    "end": 630,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 22,
    "start": 630,
    "end": 660,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 23,
    "start": 660,
    "end": 690,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 24,
    "start": 690,
    "end": 720,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 25,
    "start": 720,
    "end": 750,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 26,
    "start": 750,
    "end": 780,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 27,
    "start": 780,
    "end": 810,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 28,
    "start": 810,
    "end": 840,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 29,
    "start": 840,
    "end": 870,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 30,
    "start": 870,
    "end": 900,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 31,
    "start": 900,
    "end": 930,
-   "stage": "Wake",
-   "digit": 1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 32,
    "start": 930,
    "end": 960,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 33,
    "start": 960,
    "end": 990,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 34,
    "start": 990,
    "end": 1020,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
-   "clean": 0
+   "channels": [],
+   "clean": 1
   },
   {
    "epoch": 35,
    "start": 1020,
    "end": 1050,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
@@ -602,14 +357,7 @@
    "stage": "N1",
    "digit": -1,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
@@ -619,813 +367,477 @@
    "stage": "N1",
    "digit": -1,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 38,
    "start": 1110,
    "end": 1140,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 39,
    "start": 1140,
    "end": 1170,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 40,
    "start": 1170,
    "end": 1200,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
-   "clean": 0
+   "channels": [],
+   "clean": 1
   },
   {
    "epoch": 41,
    "start": 1200,
    "end": 1230,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 42,
    "start": 1230,
    "end": 1260,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 43,
    "start": 1260,
    "end": 1290,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 44,
    "start": 1290,
    "end": 1320,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 45,
    "start": 1320,
    "end": 1350,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 46,
    "start": 1350,
    "end": 1380,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 47,
    "start": 1380,
    "end": 1410,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 48,
    "start": 1410,
    "end": 1440,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 49,
    "start": 1440,
    "end": 1470,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 50,
    "start": 1470,
    "end": 1500,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 51,
    "start": 1500,
    "end": 1530,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 52,
    "start": 1530,
    "end": 1560,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 53,
    "start": 1560,
    "end": 1590,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 54,
    "start": 1590,
    "end": 1620,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 55,
    "start": 1620,
    "end": 1650,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 56,
    "start": 1650,
    "end": 1680,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 57,
    "start": 1680,
    "end": 1710,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 58,
    "start": 1710,
    "end": 1740,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 59,
    "start": 1740,
    "end": 1770,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 60,
    "start": 1770,
    "end": 1800,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 61,
    "start": 1800,
    "end": 1830,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 62,
    "start": 1830,
    "end": 1860,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 63,
    "start": 1860,
    "end": 1890,
-   "stage": "N3",
-   "digit": -3,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 64,
    "start": 1890,
    "end": 1920,
-   "stage": "N3",
-   "digit": -3,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 65,
    "start": 1920,
    "end": 1950,
-   "stage": "N3",
-   "digit": -3,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 66,
    "start": 1950,
    "end": 1980,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 67,
    "start": 1980,
    "end": 2010,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 68,
    "start": 2010,
    "end": 2040,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 69,
    "start": 2040,
    "end": 2070,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 70,
    "start": 2070,
    "end": 2100,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 71,
    "start": 2100,
    "end": 2130,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 72,
    "start": 2130,
    "end": 2160,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 73,
    "start": 2160,
    "end": 2190,
-   "stage": "N3",
-   "digit": -3,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 74,
    "start": 2190,
    "end": 2220,
-   "stage": "N3",
-   "digit": -3,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 75,
    "start": 2220,
    "end": 2250,
-   "stage": "N3",
-   "digit": -3,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 76,
    "start": 2250,
    "end": 2280,
-   "stage": "N3",
-   "digit": -3,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 77,
    "start": 2280,
    "end": 2310,
-   "stage": "N3",
-   "digit": -3,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 78,
    "start": 2310,
    "end": 2340,
-   "stage": "N3",
-   "digit": -3,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 79,
    "start": 2340,
    "end": 2370,
-   "stage": "N3",
-   "digit": -3,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 80,
    "start": 2370,
    "end": 2400,
-   "stage": "N3",
-   "digit": -3,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 81,
    "start": 2400,
    "end": 2430,
-   "stage": "N3",
-   "digit": -3,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 82,
    "start": 2430,
    "end": 2460,
-   "stage": "N3",
-   "digit": -3,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 83,
    "start": 2460,
    "end": 2490,
-   "stage": "N3",
-   "digit": -3,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 84,
    "start": 2490,
    "end": 2520,
-   "stage": "N3",
-   "digit": -3,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": [
-    "F3",
-    "C3",
-    "O1",
-    "EOG1",
-    "EOG2",
-    "EMG"
-   ],
+   "channels": [],
    "clean": 1
   },
   {
@@ -1435,7 +847,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -1445,7 +857,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -1455,7 +867,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -1465,7 +877,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -1475,7 +887,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -1485,7 +897,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -1495,297 +907,297 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 92,
    "start": 2730,
    "end": 2760,
-   "stage": "N1",
-   "digit": -1,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 93,
    "start": 2760,
    "end": 2790,
-   "stage": "N1",
-   "digit": -1,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 94,
    "start": 2790,
    "end": 2820,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 95,
    "start": 2820,
    "end": 2850,
-   "stage": "N1",
-   "digit": -1,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 96,
    "start": 2850,
    "end": 2880,
-   "stage": "N1",
-   "digit": -1,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 97,
    "start": 2880,
    "end": 2910,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 98,
    "start": 2910,
    "end": 2940,
-   "stage": "N1",
-   "digit": -1,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 99,
    "start": 2940,
    "end": 2970,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 100,
    "start": 2970,
    "end": 3000,
-   "stage": "N1",
-   "digit": -1,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 101,
    "start": 3000,
    "end": 3030,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 102,
    "start": 3030,
    "end": 3060,
-   "stage": "N1",
-   "digit": -1,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 103,
    "start": 3060,
    "end": 3090,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 104,
    "start": 3090,
    "end": 3120,
-   "stage": "N1",
-   "digit": -1,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 105,
    "start": 3120,
    "end": 3150,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 106,
    "start": 3150,
    "end": 3180,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 107,
    "start": 3180,
    "end": 3210,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 108,
    "start": 3210,
    "end": 3240,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 109,
    "start": 3240,
    "end": 3270,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 110,
    "start": 3270,
    "end": 3300,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 111,
    "start": 3300,
    "end": 3330,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 112,
    "start": 3330,
    "end": 3360,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 113,
    "start": 3360,
    "end": 3390,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 114,
    "start": 3390,
    "end": 3420,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 115,
    "start": 3420,
    "end": 3450,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 116,
    "start": 3450,
    "end": 3480,
-   "stage": "N2",
-   "digit": -2,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 117,
    "start": 3480,
    "end": 3510,
-   "stage": "N1",
-   "digit": -1,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 118,
    "start": 3510,
    "end": 3540,
-   "stage": "N1",
-   "digit": -1,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 119,
    "start": 3540,
    "end": 3570,
-   "stage": "N1",
-   "digit": -1,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 120,
    "start": 3570,
    "end": 3600,
-   "stage": "N1",
-   "digit": -1,
+   "stage": null,
+   "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -1795,317 +1207,317 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 122,
    "start": 3630,
    "end": 3660,
-   "stage": null,
-   "digit": null,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 123,
    "start": 3660,
    "end": 3690,
-   "stage": null,
-   "digit": null,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 124,
    "start": 3690,
    "end": 3720,
-   "stage": null,
-   "digit": null,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 125,
    "start": 3720,
    "end": 3750,
-   "stage": null,
-   "digit": null,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 126,
    "start": 3750,
    "end": 3780,
-   "stage": null,
-   "digit": null,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 127,
    "start": 3780,
    "end": 3810,
-   "stage": null,
-   "digit": null,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 128,
    "start": 3810,
    "end": 3840,
-   "stage": null,
-   "digit": null,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 129,
    "start": 3840,
    "end": 3870,
-   "stage": null,
-   "digit": null,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 130,
    "start": 3870,
    "end": 3900,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 131,
    "start": 3900,
    "end": 3930,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 132,
    "start": 3930,
    "end": 3960,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 133,
    "start": 3960,
    "end": 3990,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 134,
    "start": 3990,
    "end": 4020,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 135,
    "start": 4020,
    "end": 4050,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 136,
    "start": 4050,
    "end": 4080,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 137,
    "start": 4080,
    "end": 4110,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 138,
    "start": 4110,
    "end": 4140,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 139,
    "start": 4140,
    "end": 4170,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 140,
    "start": 4170,
    "end": 4200,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 141,
    "start": 4200,
    "end": 4230,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 142,
    "start": 4230,
    "end": 4260,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 143,
    "start": 4260,
    "end": 4290,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 144,
    "start": 4290,
    "end": 4320,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 145,
    "start": 4320,
    "end": 4350,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 146,
    "start": 4350,
    "end": 4380,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 147,
    "start": 4380,
    "end": 4410,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 148,
    "start": 4410,
    "end": 4440,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 149,
    "start": 4440,
    "end": 4470,
-   "stage": null,
-   "digit": null,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 150,
    "start": 4470,
    "end": 4500,
-   "stage": null,
-   "digit": null,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 151,
    "start": 4500,
    "end": 4530,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 152,
    "start": 4530,
    "end": 4560,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2115,7 +1527,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2125,7 +1537,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2135,7 +1547,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2145,7 +1557,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2155,7 +1567,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2165,7 +1577,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2175,7 +1587,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2185,7 +1597,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2195,7 +1607,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2205,7 +1617,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2215,7 +1627,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2225,7 +1637,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2235,7 +1647,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2245,7 +1657,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2255,7 +1667,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2265,7 +1677,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2275,7 +1687,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2285,7 +1697,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2295,7 +1707,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2305,7 +1717,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2315,7 +1727,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2325,7 +1737,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2335,7 +1747,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2345,7 +1757,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2355,7 +1767,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2365,7 +1777,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2375,7 +1787,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2385,7 +1797,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2395,7 +1807,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2405,7 +1817,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2415,7 +1827,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2425,7 +1837,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2435,7 +1847,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2445,117 +1857,117 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 187,
    "start": 5580,
    "end": 5610,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 188,
    "start": 5610,
    "end": 5640,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 189,
    "start": 5640,
    "end": 5670,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 190,
    "start": 5670,
    "end": 5700,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 191,
    "start": 5700,
    "end": 5730,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 192,
    "start": 5730,
    "end": 5760,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 193,
    "start": 5760,
    "end": 5790,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 194,
    "start": 5790,
    "end": 5820,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 195,
    "start": 5820,
    "end": 5850,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 196,
    "start": 5850,
    "end": 5880,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 197,
    "start": 5880,
    "end": 5910,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2565,7 +1977,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2575,7 +1987,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2585,7 +1997,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2595,7 +2007,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2605,7 +2017,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2615,7 +2027,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2625,7 +2037,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2635,7 +2047,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2645,7 +2057,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2655,7 +2067,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2665,7 +2077,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2675,7 +2087,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2685,7 +2097,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2695,7 +2107,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2705,7 +2117,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2715,7 +2127,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2725,7 +2137,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2735,7 +2147,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2745,7 +2157,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2755,7 +2167,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2765,7 +2177,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2775,7 +2187,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2785,7 +2197,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2795,7 +2207,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2805,7 +2217,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2815,7 +2227,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2825,7 +2237,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2835,7 +2247,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2845,7 +2257,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2855,7 +2267,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2865,7 +2277,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2875,7 +2287,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2885,7 +2297,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2895,7 +2307,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2905,7 +2317,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2915,7 +2327,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2925,7 +2337,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -2935,237 +2347,237 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 236,
    "start": 7050,
    "end": 7080,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 237,
    "start": 7080,
    "end": 7110,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 238,
    "start": 7110,
    "end": 7140,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 239,
    "start": 7140,
    "end": 7170,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 240,
    "start": 7170,
    "end": 7200,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 241,
    "start": 7200,
    "end": 7230,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 242,
    "start": 7230,
    "end": 7260,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 243,
    "start": 7260,
    "end": 7290,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 244,
    "start": 7290,
    "end": 7320,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 245,
    "start": 7320,
    "end": 7350,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 246,
    "start": 7350,
    "end": 7380,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 247,
    "start": 7380,
    "end": 7410,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 248,
    "start": 7410,
    "end": 7440,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 249,
    "start": 7440,
    "end": 7470,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 250,
    "start": 7470,
    "end": 7500,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 251,
    "start": 7500,
    "end": 7530,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 252,
    "start": 7530,
    "end": 7560,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 253,
    "start": 7560,
    "end": 7590,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 254,
    "start": 7590,
    "end": 7620,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 255,
    "start": 7620,
    "end": 7650,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 256,
    "start": 7650,
    "end": 7680,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 257,
    "start": 7680,
    "end": 7710,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 258,
    "start": 7710,
    "end": 7740,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3175,7 +2587,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3185,7 +2597,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3195,7 +2607,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3205,7 +2617,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3215,7 +2627,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3225,7 +2637,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3235,7 +2647,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3245,7 +2657,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3255,7 +2667,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3265,7 +2677,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3275,187 +2687,187 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 270,
    "start": 8070,
    "end": 8100,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 271,
    "start": 8100,
    "end": 8130,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 272,
    "start": 8130,
    "end": 8160,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 273,
    "start": 8160,
    "end": 8190,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 274,
    "start": 8190,
    "end": 8220,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 275,
    "start": 8220,
    "end": 8250,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 276,
    "start": 8250,
    "end": 8280,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 277,
    "start": 8280,
    "end": 8310,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 278,
    "start": 8310,
    "end": 8340,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 279,
    "start": 8340,
    "end": 8370,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 280,
    "start": 8370,
    "end": 8400,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 281,
    "start": 8400,
    "end": 8430,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 282,
    "start": 8430,
    "end": 8460,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 283,
    "start": 8460,
    "end": 8490,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 284,
    "start": 8490,
    "end": 8520,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 285,
    "start": 8520,
    "end": 8550,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 286,
    "start": 8550,
    "end": 8580,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 287,
    "start": 8580,
    "end": 8610,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3465,7 +2877,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3475,7 +2887,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3485,7 +2897,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3495,7 +2907,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3505,7 +2917,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3515,7 +2927,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3525,7 +2937,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3535,7 +2947,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3545,7 +2957,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3555,7 +2967,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3565,7 +2977,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3575,7 +2987,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3585,7 +2997,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3595,7 +3007,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3605,7 +3017,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3615,7 +3027,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3625,7 +3037,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3635,7 +3047,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3645,7 +3057,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3655,7 +3067,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3665,7 +3077,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3675,7 +3087,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3685,7 +3097,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3695,7 +3107,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3705,7 +3117,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3715,7 +3127,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3725,7 +3137,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3735,7 +3147,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3745,7 +3157,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3755,7 +3167,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3765,7 +3177,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3775,7 +3187,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3785,7 +3197,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3795,7 +3207,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3805,7 +3217,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3815,7 +3227,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3825,7 +3237,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3835,7 +3247,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3845,7 +3257,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3855,7 +3267,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3865,7 +3277,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3875,7 +3287,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3885,7 +3297,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3895,7 +3307,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3905,7 +3317,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3915,7 +3327,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3925,7 +3337,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3935,7 +3347,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3945,7 +3357,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3955,7 +3367,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3965,7 +3377,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3975,7 +3387,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3985,7 +3397,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -3995,7 +3407,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4005,7 +3417,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4015,7 +3427,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4025,7 +3437,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4035,7 +3447,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4045,7 +3457,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4055,7 +3467,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4065,7 +3477,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4075,7 +3487,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4085,7 +3497,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4095,7 +3507,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4105,7 +3517,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4115,7 +3527,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4125,7 +3537,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4135,7 +3547,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4145,7 +3557,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4155,7 +3567,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4165,7 +3577,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4175,7 +3587,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4185,7 +3597,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4195,7 +3607,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4205,7 +3617,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4215,7 +3627,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4225,7 +3637,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4235,7 +3647,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4245,7 +3657,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4255,7 +3667,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4265,7 +3677,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4275,7 +3687,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4285,7 +3697,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4295,7 +3707,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4305,7 +3717,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4315,7 +3727,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4325,7 +3737,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4335,7 +3747,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4345,7 +3757,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4355,7 +3767,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4365,7 +3777,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4375,307 +3787,307 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 380,
    "start": 11370,
    "end": 11400,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 381,
    "start": 11400,
    "end": 11430,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 382,
    "start": 11430,
    "end": 11460,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 383,
    "start": 11460,
    "end": 11490,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 384,
    "start": 11490,
    "end": 11520,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 385,
    "start": 11520,
    "end": 11550,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 386,
    "start": 11550,
    "end": 11580,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 387,
    "start": 11580,
    "end": 11610,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 388,
    "start": 11610,
    "end": 11640,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 389,
    "start": 11640,
    "end": 11670,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 390,
    "start": 11670,
    "end": 11700,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 391,
    "start": 11700,
    "end": 11730,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 392,
    "start": 11730,
    "end": 11760,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 393,
    "start": 11760,
    "end": 11790,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 394,
    "start": 11790,
    "end": 11820,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 395,
    "start": 11820,
    "end": 11850,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 396,
    "start": 11850,
    "end": 11880,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 397,
    "start": 11880,
    "end": 11910,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 398,
    "start": 11910,
    "end": 11940,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 399,
    "start": 11940,
    "end": 11970,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 400,
    "start": 11970,
    "end": 12000,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 401,
    "start": 12000,
    "end": 12030,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 402,
    "start": 12030,
    "end": 12060,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 403,
    "start": 12060,
    "end": 12090,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 404,
    "start": 12090,
    "end": 12120,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 405,
    "start": 12120,
    "end": 12150,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 406,
    "start": 12150,
    "end": 12180,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 407,
    "start": 12180,
    "end": 12210,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 408,
    "start": 12210,
    "end": 12240,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 409,
    "start": 12240,
    "end": 12270,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4685,7 +4097,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4695,7 +4107,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4705,7 +4117,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4715,7 +4127,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4725,7 +4137,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4735,7 +4147,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4745,7 +4157,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4755,7 +4167,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4765,7 +4177,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4775,7 +4187,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4785,7 +4197,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4795,7 +4207,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4805,7 +4217,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4815,7 +4227,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4825,7 +4237,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4835,7 +4247,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4845,7 +4257,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4855,7 +4267,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4865,7 +4277,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4875,7 +4287,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4885,7 +4297,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4895,7 +4307,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4905,7 +4317,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4915,7 +4327,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4925,7 +4337,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4935,7 +4347,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4945,7 +4357,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4955,7 +4367,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4965,7 +4377,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4975,7 +4387,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4985,7 +4397,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -4995,7 +4407,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5005,7 +4417,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5015,7 +4427,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5025,7 +4437,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5035,7 +4447,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5045,7 +4457,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5055,7 +4467,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5065,7 +4477,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5075,7 +4487,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5085,7 +4497,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5095,7 +4507,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5105,7 +4517,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5115,7 +4527,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5125,7 +4537,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5135,7 +4547,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5145,7 +4557,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5155,7 +4567,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5165,7 +4577,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5175,7 +4587,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5185,7 +4597,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5195,7 +4607,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5205,7 +4617,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5215,7 +4627,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5225,7 +4637,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5235,7 +4647,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5245,7 +4657,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5255,7 +4667,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5265,7 +4677,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5275,7 +4687,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5285,7 +4697,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5295,7 +4707,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5305,7 +4717,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5315,7 +4727,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5325,7 +4737,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5335,7 +4747,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5345,7 +4757,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5355,7 +4767,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5365,7 +4777,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5375,7 +4787,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5385,7 +4797,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5395,7 +4807,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5405,7 +4817,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5415,7 +4827,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5425,7 +4837,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5435,7 +4847,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5445,7 +4857,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5455,7 +4867,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5465,7 +4877,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5475,7 +4887,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5485,7 +4897,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5495,7 +4907,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5505,7 +4917,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5515,7 +4927,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5525,7 +4937,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5535,7 +4947,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5545,7 +4957,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5555,7 +4967,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5565,7 +4977,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5575,7 +4987,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5585,7 +4997,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5595,7 +5007,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5605,7 +5017,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5615,7 +5027,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5625,7 +5037,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5635,7 +5047,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5645,7 +5057,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5655,7 +5067,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5665,7 +5077,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5675,7 +5087,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5685,7 +5097,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5695,7 +5107,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5705,7 +5117,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5715,7 +5127,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5725,7 +5137,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5735,7 +5147,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5745,7 +5157,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5755,7 +5167,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5765,7 +5177,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5775,7 +5187,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5785,7 +5197,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5795,7 +5207,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5805,7 +5217,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5815,7 +5227,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5825,7 +5237,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -5835,227 +5247,227 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 526,
    "start": 15750,
    "end": 15780,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 527,
    "start": 15780,
    "end": 15810,
-   "stage": null,
-   "digit": null,
+   "stage": "N1",
+   "digit": -1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 528,
    "start": 15810,
    "end": 15840,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 529,
    "start": 15840,
    "end": 15870,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 530,
    "start": 15870,
    "end": 15900,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 531,
    "start": 15900,
    "end": 15930,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 532,
    "start": 15930,
    "end": 15960,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 533,
    "start": 15960,
    "end": 15990,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 534,
    "start": 15990,
    "end": 16020,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 535,
    "start": 16020,
    "end": 16050,
-   "stage": null,
-   "digit": null,
+   "stage": "N2",
+   "digit": -2,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 536,
    "start": 16050,
    "end": 16080,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 537,
    "start": 16080,
    "end": 16110,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 538,
    "start": 16110,
    "end": 16140,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 539,
    "start": 16140,
    "end": 16170,
-   "stage": null,
-   "digit": null,
+   "stage": "N3",
+   "digit": -3,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 540,
    "start": 16170,
    "end": 16200,
-   "stage": null,
-   "digit": null,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 541,
    "start": 16200,
    "end": 16230,
-   "stage": null,
-   "digit": null,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 542,
    "start": 16230,
    "end": 16260,
-   "stage": null,
-   "digit": null,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 543,
    "start": 16260,
    "end": 16290,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 544,
    "start": 16290,
    "end": 16320,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 545,
    "start": 16320,
    "end": 16350,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 546,
    "start": 16350,
    "end": 16380,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
    "epoch": 547,
    "start": 16380,
    "end": 16410,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6065,7 +5477,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6075,7 +5487,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6085,7 +5497,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6095,7 +5507,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6105,7 +5517,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6115,7 +5527,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6125,7 +5537,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6135,7 +5547,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6145,7 +5557,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6155,7 +5567,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6165,7 +5577,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6175,7 +5587,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6185,7 +5597,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6195,7 +5607,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6205,7 +5617,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6215,7 +5627,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6225,7 +5637,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6235,7 +5647,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6245,7 +5657,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6255,7 +5667,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6265,7 +5677,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6275,7 +5687,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6285,7 +5697,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6295,7 +5707,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6305,7 +5717,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6315,7 +5727,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6325,7 +5737,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6335,7 +5747,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6345,7 +5757,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6355,7 +5767,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6365,7 +5777,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6375,7 +5787,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6385,7 +5797,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6395,7 +5807,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6405,7 +5817,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6415,7 +5827,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6425,7 +5837,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6435,7 +5847,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6445,7 +5857,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6455,7 +5867,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6465,7 +5877,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6475,7 +5887,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6485,7 +5897,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6495,7 +5907,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6505,7 +5917,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6515,7 +5927,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6525,7 +5937,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6535,7 +5947,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6545,7 +5957,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6555,7 +5967,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6565,7 +5977,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6575,7 +5987,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6585,7 +5997,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6595,7 +6007,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6605,7 +6017,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6615,7 +6027,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6625,7 +6037,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6635,7 +6047,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6645,7 +6057,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6655,7 +6067,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6665,7 +6077,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6675,7 +6087,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6685,7 +6097,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6695,7 +6107,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6705,7 +6117,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6715,7 +6127,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6725,7 +6137,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6735,7 +6147,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6745,7 +6157,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6755,7 +6167,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6765,7 +6177,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6775,7 +6187,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6785,7 +6197,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6795,7 +6207,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6805,7 +6217,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6815,7 +6227,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6825,7 +6237,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6835,7 +6247,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6845,7 +6257,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6855,7 +6267,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6865,7 +6277,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6875,7 +6287,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6885,7 +6297,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6895,7 +6307,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6905,7 +6317,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6915,7 +6327,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6925,7 +6337,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6935,7 +6347,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6945,7 +6357,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6955,7 +6367,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6965,7 +6377,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6975,7 +6387,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6985,7 +6397,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -6995,7 +6407,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7005,7 +6417,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7015,7 +6427,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7025,7 +6437,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7035,7 +6447,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7045,7 +6457,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7055,7 +6467,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7065,7 +6477,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7075,7 +6487,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7085,7 +6497,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7095,7 +6507,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7105,7 +6517,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7115,7 +6527,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7125,7 +6537,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7135,7 +6547,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7145,7 +6557,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7155,7 +6567,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7165,7 +6577,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7175,7 +6587,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7185,7 +6597,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7195,7 +6607,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7205,7 +6617,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7215,7 +6627,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7225,7 +6637,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7235,7 +6647,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7245,7 +6657,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7255,7 +6667,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7265,7 +6677,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7275,7 +6687,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7285,7 +6697,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7295,7 +6707,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7305,7 +6717,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7315,7 +6727,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7325,7 +6737,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7335,7 +6747,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7345,7 +6757,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7355,7 +6767,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7365,7 +6777,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7375,7 +6787,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7385,7 +6797,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7395,7 +6807,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7405,7 +6817,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7415,7 +6827,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7425,7 +6837,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7435,7 +6847,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7445,7 +6857,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7455,7 +6867,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7465,7 +6877,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7475,7 +6887,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7485,7 +6897,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7495,7 +6907,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7505,7 +6917,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7515,7 +6927,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7525,7 +6937,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7535,7 +6947,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7545,7 +6957,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7555,7 +6967,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7565,7 +6977,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7575,7 +6987,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7585,7 +6997,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7595,7 +7007,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7605,7 +7017,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7615,7 +7027,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7625,7 +7037,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7635,7 +7047,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7645,7 +7057,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7655,7 +7067,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7665,7 +7077,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7675,7 +7087,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7685,7 +7097,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7695,7 +7107,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7705,7 +7117,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7715,7 +7127,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7725,7 +7137,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7735,7 +7147,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7745,7 +7157,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7755,7 +7167,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7765,7 +7177,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7775,7 +7187,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7785,7 +7197,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7795,7 +7207,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7805,7 +7217,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7815,7 +7227,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7825,7 +7237,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7835,7 +7247,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7845,7 +7257,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7855,7 +7267,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7865,7 +7277,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7875,7 +7287,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7885,7 +7297,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7895,7 +7307,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7905,7 +7317,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7915,7 +7327,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7925,7 +7337,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7935,7 +7347,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7945,7 +7357,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7955,7 +7367,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7965,7 +7377,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7975,7 +7387,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7985,7 +7397,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -7995,7 +7407,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8005,7 +7417,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8015,7 +7427,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8025,7 +7437,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8035,7 +7447,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8045,7 +7457,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8055,7 +7467,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8065,7 +7477,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8075,7 +7487,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8085,7 +7497,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8095,7 +7507,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8105,7 +7517,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8115,7 +7527,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8125,7 +7537,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8135,7 +7547,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8145,7 +7557,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8155,7 +7567,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8165,7 +7577,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8175,7 +7587,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8185,7 +7597,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8195,7 +7607,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8205,7 +7617,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8215,7 +7627,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8225,7 +7637,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8235,7 +7647,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8245,7 +7657,7 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   },
   {
@@ -8255,1388 +7667,9 @@
    "stage": null,
    "digit": null,
    "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 768,
-   "start": 23010,
-   "end": 23040,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 769,
-   "start": 23040,
-   "end": 23070,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 770,
-   "start": 23070,
-   "end": 23100,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 771,
-   "start": 23100,
-   "end": 23130,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 772,
-   "start": 23130,
-   "end": 23160,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 773,
-   "start": 23160,
-   "end": 23190,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 774,
-   "start": 23190,
-   "end": 23220,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 775,
-   "start": 23220,
-   "end": 23250,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 776,
-   "start": 23250,
-   "end": 23280,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 777,
-   "start": 23280,
-   "end": 23310,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 778,
-   "start": 23310,
-   "end": 23340,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 779,
-   "start": 23340,
-   "end": 23370,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 780,
-   "start": 23370,
-   "end": 23400,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 781,
-   "start": 23400,
-   "end": 23430,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 782,
-   "start": 23430,
-   "end": 23460,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 783,
-   "start": 23460,
-   "end": 23490,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 784,
-   "start": 23490,
-   "end": 23520,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 785,
-   "start": 23520,
-   "end": 23550,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 786,
-   "start": 23550,
-   "end": 23580,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 787,
-   "start": 23580,
-   "end": 23610,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 788,
-   "start": 23610,
-   "end": 23640,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 789,
-   "start": 23640,
-   "end": 23670,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 790,
-   "start": 23670,
-   "end": 23700,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 791,
-   "start": 23700,
-   "end": 23730,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 792,
-   "start": 23730,
-   "end": 23760,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 793,
-   "start": 23760,
-   "end": 23790,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 794,
-   "start": 23790,
-   "end": 23820,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 795,
-   "start": 23820,
-   "end": 23850,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 796,
-   "start": 23850,
-   "end": 23880,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 797,
-   "start": 23880,
-   "end": 23910,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 798,
-   "start": 23910,
-   "end": 23940,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 799,
-   "start": 23940,
-   "end": 23970,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 800,
-   "start": 23970,
-   "end": 24000,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 801,
-   "start": 24000,
-   "end": 24030,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 802,
-   "start": 24030,
-   "end": 24060,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 803,
-   "start": 24060,
-   "end": 24090,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 804,
-   "start": 24090,
-   "end": 24120,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 805,
-   "start": 24120,
-   "end": 24150,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 806,
-   "start": 24150,
-   "end": 24180,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 807,
-   "start": 24180,
-   "end": 24210,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 808,
-   "start": 24210,
-   "end": 24240,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 809,
-   "start": 24240,
-   "end": 24270,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 810,
-   "start": 24270,
-   "end": 24300,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 811,
-   "start": 24300,
-   "end": 24330,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 812,
-   "start": 24330,
-   "end": 24360,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 813,
-   "start": 24360,
-   "end": 24390,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 814,
-   "start": 24390,
-   "end": 24420,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 815,
-   "start": 24420,
-   "end": 24450,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 816,
-   "start": 24450,
-   "end": 24480,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 817,
-   "start": 24480,
-   "end": 24510,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 818,
-   "start": 24510,
-   "end": 24540,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 819,
-   "start": 24540,
-   "end": 24570,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 820,
-   "start": 24570,
-   "end": 24600,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 821,
-   "start": 24600,
-   "end": 24630,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 822,
-   "start": 24630,
-   "end": 24660,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 823,
-   "start": 24660,
-   "end": 24690,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 824,
-   "start": 24690,
-   "end": 24720,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 825,
-   "start": 24720,
-   "end": 24750,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 826,
-   "start": 24750,
-   "end": 24780,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 827,
-   "start": 24780,
-   "end": 24810,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 828,
-   "start": 24810,
-   "end": 24840,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 829,
-   "start": 24840,
-   "end": 24870,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 830,
-   "start": 24870,
-   "end": 24900,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 831,
-   "start": 24900,
-   "end": 24930,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 832,
-   "start": 24930,
-   "end": 24960,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 833,
-   "start": 24960,
-   "end": 24990,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 834,
-   "start": 24990,
-   "end": 25020,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 835,
-   "start": 25020,
-   "end": 25050,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 836,
-   "start": 25050,
-   "end": 25080,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 837,
-   "start": 25080,
-   "end": 25110,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 838,
-   "start": 25110,
-   "end": 25140,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 839,
-   "start": 25140,
-   "end": 25170,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 840,
-   "start": 25170,
-   "end": 25200,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 841,
-   "start": 25200,
-   "end": 25230,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 842,
-   "start": 25230,
-   "end": 25260,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 843,
-   "start": 25260,
-   "end": 25290,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 844,
-   "start": 25290,
-   "end": 25320,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 845,
-   "start": 25320,
-   "end": 25350,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 846,
-   "start": 25350,
-   "end": 25380,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 847,
-   "start": 25380,
-   "end": 25410,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 848,
-   "start": 25410,
-   "end": 25440,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 849,
-   "start": 25440,
-   "end": 25470,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 850,
-   "start": 25470,
-   "end": 25500,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 851,
-   "start": 25500,
-   "end": 25530,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 852,
-   "start": 25530,
-   "end": 25560,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 853,
-   "start": 25560,
-   "end": 25590,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 854,
-   "start": 25590,
-   "end": 25620,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 855,
-   "start": 25620,
-   "end": 25650,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 856,
-   "start": 25650,
-   "end": 25680,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 857,
-   "start": 25680,
-   "end": 25710,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 858,
-   "start": 25710,
-   "end": 25740,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 859,
-   "start": 25740,
-   "end": 25770,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 860,
-   "start": 25770,
-   "end": 25800,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 861,
-   "start": 25800,
-   "end": 25830,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 862,
-   "start": 25830,
-   "end": 25860,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 863,
-   "start": 25860,
-   "end": 25890,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 864,
-   "start": 25890,
-   "end": 25920,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 865,
-   "start": 25920,
-   "end": 25950,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 866,
-   "start": 25950,
-   "end": 25980,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 867,
-   "start": 25980,
-   "end": 26010,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 868,
-   "start": 26010,
-   "end": 26040,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 869,
-   "start": 26040,
-   "end": 26070,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 870,
-   "start": 26070,
-   "end": 26100,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 871,
-   "start": 26100,
-   "end": 26130,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 872,
-   "start": 26130,
-   "end": 26160,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 873,
-   "start": 26160,
-   "end": 26190,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 874,
-   "start": 26190,
-   "end": 26220,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 875,
-   "start": 26220,
-   "end": 26250,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 876,
-   "start": 26250,
-   "end": 26280,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 877,
-   "start": 26280,
-   "end": 26310,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 878,
-   "start": 26310,
-   "end": 26340,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 879,
-   "start": 26340,
-   "end": 26370,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 880,
-   "start": 26370,
-   "end": 26400,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 881,
-   "start": 26400,
-   "end": 26430,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 882,
-   "start": 26430,
-   "end": 26460,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 883,
-   "start": 26460,
-   "end": 26490,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 884,
-   "start": 26490,
-   "end": 26520,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 885,
-   "start": 26520,
-   "end": 26550,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 886,
-   "start": 26550,
-   "end": 26580,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 887,
-   "start": 26580,
-   "end": 26610,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 888,
-   "start": 26610,
-   "end": 26640,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 889,
-   "start": 26640,
-   "end": 26670,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 890,
-   "start": 26670,
-   "end": 26700,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 891,
-   "start": 26700,
-   "end": 26730,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 892,
-   "start": 26730,
-   "end": 26760,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 893,
-   "start": 26760,
-   "end": 26790,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 894,
-   "start": 26790,
-   "end": 26820,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 895,
-   "start": 26820,
-   "end": 26850,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 896,
-   "start": 26850,
-   "end": 26880,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 897,
-   "start": 26880,
-   "end": 26910,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 898,
-   "start": 26910,
-   "end": 26940,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 899,
-   "start": 26940,
-   "end": 26970,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 900,
-   "start": 26970,
-   "end": 27000,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 901,
-   "start": 27000,
-   "end": 27030,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
-   "clean": 1
-  },
-  {
-   "epoch": 902,
-   "start": 27030,
-   "end": 27060,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
-   "channels": null,
+   "channels": [],
    "clean": 1
   }
  ],
- [
-  {
-   "Artefacts": [
-    [
-     -0.324,
-     6.806
-    ],
-    [
-     248.431,
-     272.873
-    ],
-    [
-     415.68,
-     415.837
-    ],
-    [
-     1012.219,
-     1012.303
-    ],
-    [
-     1181.922,
-     1182.038
-    ]
-   ],
-   "Annotation_F1": [],
-   "Annotation_F2": [],
-   "Annotation_F3": [],
-   "Annotation_F4": []
-  }
- ]
+ []
 ]

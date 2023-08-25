@@ -15,7 +15,7 @@ class SignalWidget(QWidget):
         # Plot axes
         self.axes = pg.PlotWidget(centralWidget)
         self.axes.setObjectName("SignalWidget")
-        self.axes.setBackground((20, 0, 0, 0))
+        self.axes.setBackground((0, 0, 0, 0))
         self.axes.getAxis('left').setTicks([])  
         self.axes.showGrid(x=True, y=True, alpha=1)
         self.setWindowFlags(Qt.FramelessWindowHint)

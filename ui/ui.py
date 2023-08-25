@@ -26,16 +26,19 @@ def setup_ui(ui, MainWindow):
     ui.SignalWidget     = SignalWidget(ui.centralwidget)
     ui.DisplayedEpochWidget = DisplayedEpochWidget(ui.SignalWidget.axes)
     ui.SpectogramWidget = SpectogramWidget(ui.centralwidget)
+    ui.HypnogramWidget = HypnogramWidget(ui.centralwidget)
+
 
     # Make widgets react to mouse click
     ui.SpectogramWidget.graphics.scene().sigMouseClicked.connect(lambda event, ui=ui: click_on_spectogram(event, ui))
+    ui.HypnogramWidget.axes.scene().sigMouseClicked.connect(lambda event, ui=ui: click_on_hypnogram(event, ui))
 
     # Layout
     layout.addWidget(ui.BackgroundWidget.axes,             10, 0,  85,  100)
     layout.addWidget(ui.SignalWidget.axes,                 10, 0,  85,  101)
     #layout.addWidget(ui.greenLine,                10, 0,  85,  100)     
     layout.addWidget(ui.SpectogramWidget.graphics,      0,  0,  10,  60)
-    #layout.addWidget(ui.powerbox.axes,           0, 85,  10,  15)
+    layout.addWidget(ui.HypnogramWidget.axes,           0, 60,  10,  20)
 
     # menu
     MainWindow.setCentralWidget(ui.centralwidget)

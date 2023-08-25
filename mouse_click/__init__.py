@@ -1,1 +1,2 @@
 from .click_on_spectogram import click_on_spectogram
+from .click_on_hypnogram import click_on_hypnogram

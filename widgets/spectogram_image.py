@@ -52,11 +52,11 @@ class SpectogramWidget(QtWidgets.QWidget):
         self.axes.getAxis('bottom').setTicks([desired_tick_tuple, []])
 
         # Initialize epoch indicator line
-        self.vline = pg.InfiniteLine(pos=1-0.5, angle=90, pen=pg.mkPen(color='k', width=0.8))
-        self.axes.addItem(self.vline)
+        self.epoch_indicator_line = pg.InfiniteLine(pos=1-0.5, angle=90, pen=pg.mkPen(color='k', width=0.8))
+        self.axes.addItem(self.epoch_indicator_line)
 
     def update_epoch_indicator(self, this_epoch):
-        self.vline.setPos(this_epoch+0.5)
+        self.epoch_indicator_line.setPos(this_epoch+0.5)
 
     def coordinates_upon_mousclick(self, event):
         mouse_pos                   = self.graphics.mapFromScene(event.scenePos())

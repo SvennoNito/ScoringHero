@@ -16,7 +16,10 @@ def score_stage(value, ui):
     ui.stages[ui.this_epoch]["stage"] = value
     ui.stages[ui.this_epoch]["digit"] = stages_notation[value]
 
-    write_scoring_wrapper(ui)
+    # Update hypnpgram
+    ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config)    
+    # ui.HypnogramWidget.update_hypnogram(ui.stages, ui.numepo, ui.this_epoch)
 
+    write_scoring_wrapper(ui)
     next_epoch(ui)
 
