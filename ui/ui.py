@@ -27,6 +27,7 @@ def setup_ui(ui, MainWindow):
     ui.DisplayedEpochWidget = DisplayedEpochWidget(ui.SignalWidget.axes)
     ui.SpectogramWidget = SpectogramWidget(ui.centralwidget)
     ui.HypnogramWidget = HypnogramWidget(ui.centralwidget)
+    ui.SpectogramSlider = SpectogramSlider(ui.centralwidget)
 
 
     # Make widgets react to mouse click
@@ -38,7 +39,8 @@ def setup_ui(ui, MainWindow):
     layout.addWidget(ui.SignalWidget.axes,                 10, 0,  85,  101)
     #layout.addWidget(ui.greenLine,                10, 0,  85,  100)     
     layout.addWidget(ui.SpectogramWidget.graphics,      0,  0,  10,  60)
-    layout.addWidget(ui.HypnogramWidget.axes,           0, 60,  10,  20)
+    layout.addWidget(ui.HypnogramWidget.axes,           0, 61,  10,  20)
+    layout.addWidget(ui.SpectogramSlider.slider,           1, 60,  8,  1)
 
     # menu
     MainWindow.setCentralWidget(ui.centralwidget)

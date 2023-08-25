@@ -60,7 +60,7 @@ class HypnogramWidget(QWidget):
 
         # Draw SWA
         #SWA[SWA > np.median(SWA) + 1 * np.std(SWA)] = np.nan
-        self.axes.plot(self.times, SWA* (1 - (-4)) + (-4), pen=pg.mkPen(color=(11, 28, 44, 20)), width=.1, style=Qt.DotLine)
+        self.axes.plot(self.times, SWA * (1 - (-4)) + (-4), pen=pg.mkPen(color=(11, 28, 44, 20)), width=.1, style=Qt.DotLine)
 
 
     @timing_decorator
