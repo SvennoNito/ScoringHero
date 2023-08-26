@@ -1,3 +1,5 @@
+from paint_event import *
+
 def refresh_gui(ui):
 
     # Update EEG signal
@@ -9,4 +11,7 @@ def refresh_gui(ui):
     # Update epoch indicator lines
     ui.SpectogramWidget.update_epoch_indicator(ui.this_epoch)
     ui.HypnogramWidget.update_epoch_indicator(ui.this_epoch)
+
+    # Remove green rectangles
+    ui.PaintEventWidget.reset()
 

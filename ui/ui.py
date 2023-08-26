@@ -8,6 +8,7 @@ from widgets import *
 from utilities import *
 from data_handling import *
 from mouse_click import *
+from paint_event import *
 
 @timing_decorator
 def setup_ui(ui, MainWindow):
@@ -29,18 +30,20 @@ def setup_ui(ui, MainWindow):
     ui.HypnogramWidget = HypnogramWidget(ui.centralwidget)
     ui.SpectogramSlider = SpectogramSlider(ui.centralwidget)
     ui.HypnogramSlider = HypnogramSlider(ui.centralwidget)
-
+    ui.PaintEventWidget = PaintEventWidget()
 
     # Make widgets react to mouse click
     ui.SpectogramWidget.graphics.scene().sigMouseClicked.connect(lambda event, ui=ui: click_on_spectogram(event, ui))
     ui.HypnogramWidget.axes.scene().sigMouseClicked.connect(lambda event, ui=ui: click_on_hypnogram(event, ui))
     ui.SpectogramSlider.slider.valueChanged.connect(lambda value, ui=ui: move_spectogram_slider(value, ui))
     ui.HypnogramSlider.slider.valueChanged.connect(lambda value, ui=ui: move_swa_slider(value, ui))
+    ui.PaintEventWidget.changesMade.connect(lambda ui=ui: paint_event_wrapper(ui))
 
 
     # Layout
     layout.addWidget(ui.BackgroundWidget.axes,             10, 0,  85,  100)
     layout.addWidget(ui.SignalWidget.axes,                 10, 0,  85,  101)
+    layout.addWidget(ui.PaintEventWidget,                  10, 0,  85,  101)
     #layout.addWidget(ui.greenLine,                10, 0,  85,  100)     
     layout.addWidget(ui.SpectogramWidget.graphics,      0,  0,  10,  55)
     layout.addWidget(ui.HypnogramWidget.axes,           0, 56,  10,  30)

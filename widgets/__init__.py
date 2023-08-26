@@ -5,3 +5,4 @@ from .spectogram_image import SpectogramWidget
 from .hypnogram import HypnogramWidget
 from .spectogram_slider import SpectogramSlider
 from .hypnogram_slider import HypnogramSlider
+from .paint_event_rectangle import PaintEventWidget
