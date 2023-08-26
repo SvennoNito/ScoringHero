@@ -4,3 +4,4 @@ from .displayed_epoch import DisplayedEpochWidget
 from .spectogram_image import SpectogramWidget
 from .hypnogram import HypnogramWidget
 from .spectogram_slider import SpectogramSlider
+from .hypnogram_slider import HypnogramSlider

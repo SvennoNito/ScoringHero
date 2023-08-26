@@ -30,7 +30,7 @@ class HypnogramWidget(QWidget):
         # Y axis
         self.axes.setYRange(-4, 1, padding=0)     
         self.axes.getAxis('left').setTicks([[(-4.5, "N4"), (-3.5, "N3"), (-2.5, "N2"), (-1.5, "N1"), (-0.5, "R"), (0.5, "W")]])
-
+        self.swa_item = []
 
     @timing_decorator
     def draw_hypnogram(self, scoring, numepo, config, SWA):
@@ -60,7 +60,22 @@ class HypnogramWidget(QWidget):
 
         # Draw SWA
         #SWA[SWA > np.median(SWA) + 1 * np.std(SWA)] = np.nan
-        self.axes.plot(self.times, SWA * (1 - (-4)) + (-4), pen=pg.mkPen(color=(11, 28, 44, 20)), width=.1, style=Qt.DotLine)
+        self.draw_swa_in_time(SWA)
+        #self.axes.plot(self.times, SWA * (1 - (-4)) + (-4), pen=pg.mkPen(color=(11, 28, 44, 20)), width=.1, style=Qt.DotLine)
+
+    def draw_swa_in_time(self, SWA):
+        if isinstance(self.swa_item, list):
+            SWA = (SWA - min(SWA)) / (np.percentile(SWA, 100) - min(SWA))
+            SWA = SWA * (1 - (-4)) + (-4)            
+            self.swa_item = pg.PlotDataItem(self.times, SWA, pen=pg.mkPen(color=(233, 30, 99, 100)), width=1, style=Qt.DotLine)
+            self.axes.addItem(self.swa_item)
+
+    def scale_swa(self, SWA, upper_limit):
+        SWA = (SWA - min(SWA)) / (np.percentile(SWA, upper_limit) - min(SWA))
+        SWA = SWA * (1 - (-4)) + (-4)
+        self.swa_item.setData(self.times, SWA)
+
+
 
 
     @timing_decorator
@@ -72,7 +87,7 @@ class HypnogramWidget(QWidget):
         # data[:]      = np.nan
         # data[stages == this_stage] = this_stage
         # data         = np.concatenate(np.column_stack((data, data-1)))  
-        # self.stage_items[this_stage + 4].setData(x=np.repeat(self.times, 2), y=data)       
+        # self.stage_items[this_stage + 4].setData(x=np.repeat(self.times, 2), y=data)    
 
 
     def update_epoch_indicator(self, this_epoch):

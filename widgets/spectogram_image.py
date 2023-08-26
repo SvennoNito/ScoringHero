@@ -23,7 +23,7 @@ class SpectogramWidget(QtWidgets.QWidget):
         pg.setConfigOptions(imageAxisOrder='col-major')
         self.img = pg.ImageItem()
         self.img.setImage(power)
-        self.img.setColorMap(pg.colormap.get('CET-D9'))
+        self.img.setColorMap(pg.colormap.get('CET-D1'))
         self.img.setLevels([np.nanpercentile(power, 0), np.nanpercentile(power, 97)]) # Color scale     
 
         self.axes.clear()
@@ -57,6 +57,9 @@ class SpectogramWidget(QtWidgets.QWidget):
 
     def update_epoch_indicator(self, this_epoch):
         self.epoch_indicator_line.setPos(this_epoch+0.5)
+
+    def adjust_color_limit(self, power, upper_limit):
+        self.img.setLevels([0, np.nanpercentile(power, upper_limit)])
 
     def coordinates_upon_mousclick(self, event):
         mouse_pos                   = self.graphics.mapFromScene(event.scenePos())

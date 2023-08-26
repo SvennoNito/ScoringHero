@@ -3,12 +3,12 @@ from PySide6.QtWidgets import QSlider, QWidget
 import numpy as np
 from mouse_click import *
 
-class SpectogramSlider(QWidget):
+class HypnogramSlider(QWidget):
     def __init__(self, centralWidget):
         super().__init__()
         self.slider = QSlider(centralWidget, Qt.Vertical)
         self.slider.setValue(100)
-        self.slider.setMinimum(75)
+        self.slider.setMinimum(50)
 
         # self.slider.setStyleSheet({
         #     background: #3498db;

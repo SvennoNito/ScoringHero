@@ -28,19 +28,24 @@ def setup_ui(ui, MainWindow):
     ui.SpectogramWidget = SpectogramWidget(ui.centralwidget)
     ui.HypnogramWidget = HypnogramWidget(ui.centralwidget)
     ui.SpectogramSlider = SpectogramSlider(ui.centralwidget)
+    ui.HypnogramSlider = HypnogramSlider(ui.centralwidget)
 
 
     # Make widgets react to mouse click
     ui.SpectogramWidget.graphics.scene().sigMouseClicked.connect(lambda event, ui=ui: click_on_spectogram(event, ui))
     ui.HypnogramWidget.axes.scene().sigMouseClicked.connect(lambda event, ui=ui: click_on_hypnogram(event, ui))
+    ui.SpectogramSlider.slider.valueChanged.connect(lambda value, ui=ui: move_spectogram_slider(value, ui))
+    ui.HypnogramSlider.slider.valueChanged.connect(lambda value, ui=ui: move_swa_slider(value, ui))
+
 
     # Layout
     layout.addWidget(ui.BackgroundWidget.axes,             10, 0,  85,  100)
     layout.addWidget(ui.SignalWidget.axes,                 10, 0,  85,  101)
     #layout.addWidget(ui.greenLine,                10, 0,  85,  100)     
-    layout.addWidget(ui.SpectogramWidget.graphics,      0,  0,  10,  60)
-    layout.addWidget(ui.HypnogramWidget.axes,           0, 61,  10,  20)
-    layout.addWidget(ui.SpectogramSlider.slider,           1, 60,  8,  1)
+    layout.addWidget(ui.SpectogramWidget.graphics,      0,  0,  10,  55)
+    layout.addWidget(ui.HypnogramWidget.axes,           0, 56,  10,  30)
+    layout.addWidget(ui.SpectogramSlider.slider,           1, 55,  8,  1)
+    layout.addWidget(ui.HypnogramSlider.slider,           1, 86,  8,  1)
 
     # menu
     MainWindow.setCentralWidget(ui.centralwidget)

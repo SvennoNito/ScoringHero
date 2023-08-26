@@ -1,2 +1,4 @@
 from .click_on_spectogram import click_on_spectogram
 from .click_on_hypnogram import click_on_hypnogram
+from .move_spectogram_slider import move_spectogram_slider
+from .move_swa_slider import move_swa_slider
