@@ -1,4 +1,4 @@
-def drop_clicked_rectangle(stored_corners, rectangle_sizes):
+def drop_clicked_rectangle(stored_corners, rectangle_sizes):    
     if rectangle_sizes[-1][0] == 0:
         for index, corners in enumerate(stored_corners[:-1]):
             if (

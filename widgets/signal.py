@@ -30,6 +30,7 @@ class SignalWidget(QWidget):
         self.pen_grid_1s  = pg.mkPen(color=(25, 25, 25, 15), style=Qt.DashLine) 
         self.pen_grid     = pg.mkPen(color=(100, 149, 237), style=Qt.DotLine) 
 
+
         
 
 
@@ -102,6 +103,10 @@ class SignalWidget(QWidget):
 
         # Show artefacts
         # self.changesMade.emit() 
+
+        self.text_period    = pg.TextItem(text = '', color = (10, 100, 10), anchor = (0, .75)); font = QFont(); font.setPixelSize(12); self.text_period.setFont(font); self.axes.addItem(self.text_period) 
+        self.text_amplitude = pg.TextItem(text = '', color = (10, 100, 10), anchor = (.1, .9)); font = QFont(); font.setPixelSize(12); self.text_amplitude.setFont(font); self.axes.addItem(self.text_amplitude) 
+    
 
     @timing_decorator
     def update_signal(self, config, eeg_data, times_and_indices, this_epoch):

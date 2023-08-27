@@ -15,3 +15,7 @@ def refresh_gui(ui):
     # Remove green rectangles
     ui.PaintEventWidget.reset()
 
+    # Remove rectangle size text
+    ui.SignalWidget.text_amplitude.setText('')
+    ui.SignalWidget.text_amplitude.setText('')
+

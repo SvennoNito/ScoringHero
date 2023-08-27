@@ -11,6 +11,8 @@ from data_handling import *
 from signal_processing import *
 from utilities import *
 from mouse_click import *
+from widgets import *
+
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -57,6 +59,7 @@ if __name__ == "__main__":
         load_cache(ui)
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
         ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
+
 
     MainWindow.activateWindow()  # Add this line to make the window active
     MainWindow.show()
