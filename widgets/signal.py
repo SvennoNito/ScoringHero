@@ -3,7 +3,7 @@ from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont
 import pyqtgraph as pg
 import numpy as np
-from my_utilities import *
+from utilities import *
 from signal_processing import *
 
 class SignalWidget(QWidget):

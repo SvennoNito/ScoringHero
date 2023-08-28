@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.signal import welch
-from my_utilities import *
+from utilities import *
 from .swa import compute_swa
 
 def spectogram_to_ui(ui):

@@ -1,4 +1,4 @@
-def drop_clicked_rectangle(stored_corners, converted_corners, rectangle_sizes):    
+def drop_clicked_rectangle(stored_corners, rectangle_sizes):    
     if rectangle_sizes[-1][0] == 0:
         for index, corners in enumerate(stored_corners[:-1]):
             if (
@@ -7,9 +7,7 @@ def drop_clicked_rectangle(stored_corners, converted_corners, rectangle_sizes):
                 ):
                 stored_corners.pop(index)
                 rectangle_sizes.pop(index)
-                converted_corners.pop(index)
         stored_corners.pop(-1)
-        rectangle_sizes.pop(-1)  
-        converted_corners.pop(-1) 
+        rectangle_sizes.pop(-1)   
 
-    return stored_corners, converted_corners, rectangle_sizes     
+    return stored_corners, rectangle_sizes     

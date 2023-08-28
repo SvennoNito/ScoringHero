@@ -9,7 +9,7 @@ import numpy as np
 from ui import * 
 from data_handling import * 
 from signal_processing import *
-from my_utilities import *
+from utilities import *
 from mouse_click import *
 from widgets import *
 
@@ -37,9 +37,8 @@ class Ui_MainWindow(QMainWindow):
         self.toolbar_jump_to_epoch.setMaximum(self.numepo) 
         self.SignalWidget.draw_signal(self.config, self.eeg_data, self.times, self.this_epoch)
         self.DisplayedEpochWidget.update_text(self.this_epoch, self.numepo, self.stages)
-        load_cache(self)
-        self.SpectogramWidget.draw_spectogram(self.power, self.freqs, self.freqsOI, self.config)
-        self.HypnogramWidget.draw_hypnogram(self.stages, self.numepo, self.config, self.swa)
+        load_cache(ui)
+        ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
 
 
 

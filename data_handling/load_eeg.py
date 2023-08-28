@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QFileDialog
 from .load_config import load_configuration 
 from .load_scoring import load_scoring
 import numpy as np
-from my_utilities import *
+from utilities import *
 
 
 def load_eeg_wrapper(ui, datatype):

@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QToolBar, QLabel, QSpinBox, QWidget, QPushButton, QSizePolicy
-from my_utilities import *
+from utilities import *
 
 def setup_toolbar(ui, MainWindow):
     toolbar = QToolBar(MainWindow)
@@ -12,7 +12,6 @@ def setup_toolbar(ui, MainWindow):
     ui.toolbar_jump_to_epoch = QSpinBox() 
     ui.toolbar_jump_to_epoch.setMinimum(1)
     ui.toolbar_jump_to_epoch.valueChanged.connect(lambda value, ui=ui: jump_to_epoch(value, ui))   
-    ui.toolbar_jump_to_epoch.editingFinished.connect(ui.toolbar_jump_to_epoch.clearFocus)
     toolbar.addWidget(ui.toolbar_jump_to_epoch)
 
     # Space

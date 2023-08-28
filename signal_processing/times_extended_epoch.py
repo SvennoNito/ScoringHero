@@ -1,6 +1,7 @@
 import numpy as np
-from my_utilities import * 
+from utilities import * 
 
+@timing_decorator
 def times_extended_epoch(times_and_indices, this_epoch, epolen, extension_l, extension_r):
     
     times                   = times_and_indices[this_epoch][0]
