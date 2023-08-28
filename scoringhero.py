@@ -8,10 +8,11 @@ import numpy as np
 
 from ui import * 
 from data_handling import * 
-from signal_processing import *
 from utilities import *
 from mouse_click import *
 from widgets import *
+from signal_processing.build_times_vector import build_times_vector
+
 
 
 class Ui_MainWindow(QMainWindow):
@@ -33,7 +34,7 @@ class Ui_MainWindow(QMainWindow):
     @timing_decorator
     def load_eeg(self, datatype):
         load_eeg_wrapper(self, datatype)
-        signal_times_vector(self)
+        build_times_vector(self)
         self.toolbar_jump_to_epoch.setMaximum(self.numepo) 
         self.SignalWidget.draw_signal(self.config, self.eeg_data, self.times, self.this_epoch)
         self.DisplayedEpochWidget.update_text(self.this_epoch, self.numepo, self.stages)
@@ -52,7 +53,7 @@ if __name__ == "__main__":
     if ui.devmode == 1:
         ui.filename = f'{ui.default_data_path}\example_data'
         load_eeg_config_scoring(ui, datatype='eeglab')
-        signal_times_vector(ui)
+        build_times_vector(ui)
         ui.toolbar_jump_to_epoch.setMaximum(ui.numepo) 
         ui.SignalWidget.draw_signal(ui.config, ui.eeg_data, ui.times, ui.this_epoch)
         ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)

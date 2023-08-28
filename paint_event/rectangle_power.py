@@ -1,6 +1,7 @@
 from scipy.signal import welch
 import numpy as np
-#from signal_processing import trim_power, min_max_scale
+from signal_processing.trim_power import trim_power
+from signal_processing.min_max_scale import min_max_scale
 
 
 def rectangle_power(ui, converted_corner, converted_shape):
@@ -24,15 +25,4 @@ def rectangle_power(ui, converted_corner, converted_shape):
 
     # Scale power values between 0 and 1
     power = min_max_scale(power)
-
-
     return freqs, power
-
-def min_max_scale(values):
-    return (values - min(values)) / (max(values) - min(values))
-
-def trim_power(power, freqs, upper_limit, lower_limit):
-
-    power = power[np.where((freqs <= upper_limit) & (freqs >= lower_limit))]
-    freqs = freqs[np.where((freqs <= upper_limit) & (freqs >= lower_limit))]
-    return power, freqs
