@@ -3,9 +3,12 @@ from .compute_total_length import *
 from .drop_clicked_rectangle import *
 from .show_rectangle_size import *
 from .rectangle_power import *
-
+from .order_corners import order_corners
 
 def paint_event_wrapper(ui):
+    # Correct for drawing rectangles from right to left
+    order_corners(ui.PaintEventWidget.stored_corners[-1])
+
     # Compute rectangle size in seconds and microvolt
     converted_corners, converted_shape = convert_to_seconds(
         ui, ui.PaintEventWidget.stored_corners
@@ -13,8 +16,7 @@ def paint_event_wrapper(ui):
 
     # Drop rectangle if clicked on
     if len(converted_shape) > 0:
-        (
-            ui.PaintEventWidget.stored_corners,
+        (   ui.PaintEventWidget.stored_corners,
             converted_corners,
             converted_shape,
         ) = drop_clicked_rectangle(
