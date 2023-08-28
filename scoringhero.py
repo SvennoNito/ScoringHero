@@ -37,8 +37,9 @@ class Ui_MainWindow(QMainWindow):
         self.toolbar_jump_to_epoch.setMaximum(self.numepo) 
         self.SignalWidget.draw_signal(self.config, self.eeg_data, self.times, self.this_epoch)
         self.DisplayedEpochWidget.update_text(self.this_epoch, self.numepo, self.stages)
-        load_cache(ui)
-        ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
+        load_cache(self)
+        self.SpectogramWidget.draw_spectogram(self.power, self.freqs, self.freqsOI, self.config)
+        self.HypnogramWidget.draw_hypnogram(self.stages, self.numepo, self.config, self.swa)
 
 
 
