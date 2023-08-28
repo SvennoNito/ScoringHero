@@ -1,30 +1,18 @@
 from scipy.signal import welch
 import numpy as np
+from .selected_samples import selected_samples
+from .selected_channel import selected_channel
 from signal_processing.trim_power import trim_power
 from signal_processing.min_max_scale import min_max_scale
 
 
 def rectangle_power(ui, converted_corner, converted_shape):
+    
     # Selected sample points
-    time_index = (converted_corner[0].x() <= ui.times[ui.this_epoch][0]) & (
-        ui.times[ui.this_epoch][0] <= converted_corner[1].x()
-    )
-    samples = ui.times[ui.this_epoch][1][time_index]
+    samples, times = selected_samples(ui.times, ui.this_epoch, converted_corner)
 
     # Select channel
-    numchans_visible = len(
-        [counter for counter, info in enumerate(ui.config[1]) if info["Display_on_screen"]]
-    )
-    channel_anchors = np.array(
-        [
-            -ui.config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
-            for chan_counter in range(numchans_visible)
-        ]
-    )
-    rectangle_midpoint_in_amp = (
-        min(converted_corner[1].y(), converted_corner[0].y()) + converted_shape[1] / 2
-    )
-    channel = np.argmin(abs(channel_anchors - rectangle_midpoint_in_amp))
+    channel = selected_channel(ui.config, converted_corner, converted_shape)
 
     # Compute power
     data = ui.eeg_data[channel][samples]
@@ -49,4 +37,7 @@ def rectangle_power(ui, converted_corner, converted_shape):
 
     # Scale power values between 0 and 1
     power = min_max_scale(power)
+
+    # Also store selected data in ui
+    ui.PaintEventWidget.selected_data = (data, times)
     return freqs, power

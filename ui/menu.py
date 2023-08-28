@@ -30,13 +30,9 @@ def setup_menu(ui, MainWindow):
     ui.action_express_uncertainty.setText(_translate("MainWindow", "Express uncertainty"))
     ui.action_express_uncertainty.setShortcut(_translate("MainWindow", "Q"))
     ui.action_label_artefact.setText(_translate("MainWindow", "Mark box as artefact"))
-    ui.action_label_artefact.setShortcut(
-        _translate("MainWindow", "A")
-    )  # Add this line for the shortcut
+    ui.action_label_artefact.setShortcut(_translate("MainWindow", "A")) 
     ui.action_zoon_on_EEG.setText(_translate("MainWindow", "Zoom on selected EEG"))
-    ui.action_zoon_on_EEG.setShortcut(
-        _translate("MainWindow", "Z")
-    )  # Add this line for the shortcut
+    ui.action_zoon_on_EEG.setShortcut(_translate("MainWindow", "Z"))  
 
     # Edit
     ui.action_edit_channels.setText(_translate("MainWindow", "Edit displayed channels"))
@@ -44,6 +40,4 @@ def setup_menu(ui, MainWindow):
     ui.action_edit_config.setText(_translate("MainWindow", "General configuration settings"))
     ui.action_edit_config.setShortcut(_translate("MainWindow", "Ctrl+P"))
     ui.action_edit_annotations.setText(_translate("MainWindow", "Edit annotations"))
-    ui.action_edit_annotations.setShortcut(
-        _translate("MainWindow", "Ctrl+E")
-    )  # Add this line for the shortcut
+    ui.action_edit_annotations.setShortcut(_translate("MainWindow", "Ctrl+E"))  

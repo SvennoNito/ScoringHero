@@ -16,6 +16,7 @@ from utilities import *
 from data_handling import *
 from mouse_click import *
 from paint_event import *
+from paint_event.zoom_on_selected_eeg import zoom_on_selected_eeg
 
 
 @timing_decorator
@@ -149,7 +150,7 @@ def setup_ui(ui, MainWindow):
     ui.menu_stages.addAction(ui.action_label_artefact)
     ui.action_zoon_on_EEG = QAction(MainWindow)
     ui.action_zoon_on_EEG.setObjectName("action_zoon_on_EEG")
-    # ui.action_zoon_on_EEG.triggered.connect(lambda: ui.zoom_on_selected_eeg())
+    ui.action_zoon_on_EEG.triggered.connect(lambda: zoom_on_selected_eeg(ui))
     ui.menu_stages.addAction(ui.action_zoon_on_EEG)
 
     # Bring together
