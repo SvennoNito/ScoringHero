@@ -1,8 +1,7 @@
 from .convert_to_seconds import *
 from .compute_total_length import *
 from .drop_clicked_rectangle import *
-from .show_rectangle_length import *
-from .show_rectangle_height import *
+from .show_rectangle_size import *
 
 def paint_event_wrapper(ui):
 
@@ -17,7 +16,5 @@ def paint_event_wrapper(ui):
         total_length = compute_total_length(converted_shape)
         ui.PaintEventWidget.length_text.setText(f"Total Length: {round(total_length, 2)} s")
 
-        ## Display length and amplitude of rectangles
-        #show_rectangle_length(ui, rectangle_sizes)
-        #show_rectangle_height(ui, rectangle_sizes)
-
+        # Display length and amplitude of rectangles
+        show_rectangle_size(ui, converted_corners, converted_shape)
