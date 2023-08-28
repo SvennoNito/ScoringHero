@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QWidget, QGridLayout, QMenuBar, QMenu, QStatusBar,
 from .toolbar import setup_toolbar
 from .menu import setup_menu
 from widgets import *
-from utilities import *
+from my_utilities import *
 from data_handling import *
 from mouse_click import *
 from paint_event import *
@@ -30,6 +30,7 @@ def setup_ui(ui, MainWindow):
     ui.HypnogramWidget = HypnogramWidget(ui.centralwidget)
     ui.SpectogramSlider = SpectogramSlider(ui.centralwidget)
     ui.HypnogramSlider = HypnogramSlider(ui.centralwidget)
+    ui.RectanglePower  = RectanglePower(ui.centralwidget)
     ui.PaintEventWidget = PaintEventWidget()
 
     # Make widgets react to mouse click
@@ -41,14 +42,14 @@ def setup_ui(ui, MainWindow):
 
 
     # Layout
-    layout.addWidget(ui.BackgroundWidget.axes,             10, 0,  85,  100)
-    layout.addWidget(ui.SignalWidget.axes,                 10, 0,  85,  101)
-    layout.addWidget(ui.PaintEventWidget,                  10, 0,  85,  101)
-    #layout.addWidget(ui.greenLine,                10, 0,  85,  100)     
-    layout.addWidget(ui.SpectogramWidget.graphics,      0,  0,  10,  55)
-    layout.addWidget(ui.HypnogramWidget.axes,           0, 56,  10,  30)
-    layout.addWidget(ui.SpectogramSlider.slider,           1, 55,  8,  1)
-    layout.addWidget(ui.HypnogramSlider.slider,           1, 86,  8,  1)
+    layout.addWidget(ui.BackgroundWidget.axes,             10,  0,  85,  100)
+    layout.addWidget(ui.SignalWidget.axes,                 10,  0,  85,  101)
+    layout.addWidget(ui.PaintEventWidget,                  10,  0,  85,  101)
+    layout.addWidget(ui.SpectogramWidget.graphics,          0,  0,  10,   55)
+    layout.addWidget(ui.SpectogramSlider.slider,            1, 55,   8,    1)
+    layout.addWidget(ui.HypnogramWidget.axes,               0, 56,  10,   30)
+    layout.addWidget(ui.HypnogramSlider.slider,             1, 86,   8,    1)
+    layout.addWidget(ui.RectanglePower.axes,                0, 87,  10,   13)
 
     # menu
     MainWindow.setCentralWidget(ui.centralwidget)
