@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.signal import welch
 from utilities import *
-from .swa import compute_swa
+from .compute_swa import compute_swa
 
 def spectogram_to_ui(ui):
     ui.power, ui.freqs, ui.freqsOI, ui.swa = spectogram_wrapper(ui)

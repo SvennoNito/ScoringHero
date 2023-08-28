@@ -2,6 +2,7 @@ from .convert_to_seconds import *
 from .compute_total_length import *
 from .drop_clicked_rectangle import *
 from .show_rectangle_size import *
+from .rectangle_power import *
 
 def paint_event_wrapper(ui):
 
@@ -18,3 +19,7 @@ def paint_event_wrapper(ui):
 
         # Display length and amplitude of rectangles
         show_rectangle_size(ui, converted_corners, converted_shape)
+
+        # Compute power
+        freqs, power = rectangle_power(ui, converted_corners[-1], converted_shape[-1])
+        ui.RectanglePower.update_powerline(freqs, power)        
