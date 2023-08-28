@@ -2,8 +2,8 @@ from paint_event import *
 from signal_processing.trim_power import trim_power
 from signal_processing.min_max_scale import min_max_scale
 
-def refresh_gui(ui):
 
+def refresh_gui(ui):
     # Update EEG signal
     ui.SignalWidget.update_signal(ui.config, ui.eeg_data, ui.times, ui.this_epoch)
 
@@ -18,11 +18,15 @@ def refresh_gui(ui):
     ui.PaintEventWidget.reset()
 
     # Remove rectangle size text
-    ui.SignalWidget.text_amplitude.setText('')
-    ui.SignalWidget.text_amplitude.setText('')
+    ui.SignalWidget.text_amplitude.setText("")
+    ui.SignalWidget.text_amplitude.setText("")
 
     ## Show power line of epoch
-    power, freqs = trim_power(ui.power[ui.this_epoch], ui.freqs, ui.config[0]['Area_power_upper_limit_hz'], ui.config[0]['Area_power_lower_limit_hz'])
-    power = min_max_scale(power)    
-    ui.RectanglePower.update_powerline(freqs, power)   
-
+    power, freqs = trim_power(
+        ui.power[ui.this_epoch],
+        ui.freqs,
+        ui.config[0]["Area_power_upper_limit_hz"],
+        ui.config[0]["Area_power_lower_limit_hz"],
+    )
+    power = min_max_scale(power)
+    ui.RectanglePower.update_powerline(freqs, power)

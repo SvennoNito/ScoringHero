@@ -4,15 +4,23 @@ from .drop_clicked_rectangle import *
 from .show_rectangle_size import *
 from .rectangle_power import *
 
-def paint_event_wrapper(ui):
 
+def paint_event_wrapper(ui):
     # Compute rectangle size in seconds and microvolt
-    converted_corners, converted_shape = convert_to_seconds(ui, ui.PaintEventWidget.stored_corners)
+    converted_corners, converted_shape = convert_to_seconds(
+        ui, ui.PaintEventWidget.stored_corners
+    )
 
     # Drop rectangle if clicked on
     if len(converted_shape) > 0:
-        ui.PaintEventWidget.stored_corners, converted_corners, converted_shape = drop_clicked_rectangle(ui.PaintEventWidget.stored_corners, converted_corners, converted_shape)
-        
+        (
+            ui.PaintEventWidget.stored_corners,
+            converted_corners,
+            converted_shape,
+        ) = drop_clicked_rectangle(
+            ui.PaintEventWidget.stored_corners, converted_corners, converted_shape
+        )
+
         # Display total length of rectangles
         total_length = compute_total_length(converted_shape)
         ui.PaintEventWidget.length_text.setText(f"Total Length: {round(total_length, 2)} s")
@@ -22,4 +30,4 @@ def paint_event_wrapper(ui):
 
         # Compute power
         freqs, power = rectangle_power(ui, converted_corners[-1], converted_shape[-1])
-        ui.RectanglePower.update_powerline(freqs, power)        
+        ui.RectanglePower.update_powerline(freqs, power)

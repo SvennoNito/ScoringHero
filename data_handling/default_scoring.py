@@ -1,5 +1,4 @@
 def default_scoring(epolen, numepo):
-
     stages = []
     for counter in range(numepo):
         template = {
@@ -10,7 +9,7 @@ def default_scoring(epolen, numepo):
             "digit": None,
             "uncertain": 0,
             "channels": [],
-            "clean": 1
+            "clean": 1,
         }
-        stages.append(template)  
-    return stages  
+        stages.append(template)
+    return stages

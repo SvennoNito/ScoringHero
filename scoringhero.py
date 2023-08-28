@@ -6,36 +6,36 @@ from PySide6.QtCore import *
 import scipy.io, os, sys, json, re, h5py, datetime
 import numpy as np
 
-from ui import * 
-from data_handling import * 
+from ui import *
+from data_handling import *
 from utilities import *
 from mouse_click import *
 from widgets import *
 from signal_processing.build_times_vector import build_times_vector
 
 
-
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.devmode            = 1
-        self.this_epoch         = 0
-        self.default_data_path  = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'example_data')
-        
+        self.devmode = 1
+        self.this_epoch = 0
+        self.default_data_path = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "example_data"
+        )
+
     def keyPressEvent(self, event):
         # print(event.key())
         if event.key() == Qt.Key_Right:
-            next_epoch(self)  
+            next_epoch(self)
         if event.key() == Qt.Key_Left:
-            prev_epoch(self)  
-
+            prev_epoch(self)
 
     # *** Loading data ***
     @timing_decorator
     def load_eeg(self, datatype):
         load_eeg_wrapper(self, datatype)
         build_times_vector(self)
-        self.toolbar_jump_to_epoch.setMaximum(self.numepo) 
+        self.toolbar_jump_to_epoch.setMaximum(self.numepo)
         self.SignalWidget.draw_signal(self.config, self.eeg_data, self.times, self.this_epoch)
         self.DisplayedEpochWidget.update_text(self.this_epoch, self.numepo, self.stages)
         load_cache(self)
@@ -43,25 +43,22 @@ class Ui_MainWindow(QMainWindow):
         self.HypnogramWidget.draw_hypnogram(self.stages, self.numepo, self.config, self.swa)
 
 
-
-
 if __name__ == "__main__":
-    app         = QtWidgets.QApplication(sys.argv)
-    MainWindow  = QtWidgets.QMainWindow()
-    ui          = Ui_MainWindow()
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
     setup_ui(ui, MainWindow)
     if ui.devmode == 1:
-        ui.filename = f'{ui.default_data_path}\example_data'
-        load_eeg_config_scoring(ui, datatype='eeglab')
+        ui.filename = f"{ui.default_data_path}\example_data"
+        load_eeg_config_scoring(ui, datatype="eeglab")
         build_times_vector(ui)
-        ui.toolbar_jump_to_epoch.setMaximum(ui.numepo) 
+        ui.toolbar_jump_to_epoch.setMaximum(ui.numepo)
         ui.SignalWidget.draw_signal(ui.config, ui.eeg_data, ui.times, ui.this_epoch)
         ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
         # spectogram_to_ui(ui)
         load_cache(ui)
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
         ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
-
 
     MainWindow.activateWindow()  # Add this line to make the window active
     MainWindow.show()

@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QSlider, QWidget
 import numpy as np
 from mouse_click import *
 
+
 class HypnogramSlider(QWidget):
     def __init__(self, centralWidget):
         super().__init__()

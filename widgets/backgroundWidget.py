@@ -4,6 +4,7 @@ from PySide6.QtGui import QFont
 import pyqtgraph as pg
 import numpy as np
 
+
 class BackgroundWidget(QWidget):
     changesMade = Signal()
 
@@ -13,9 +14,9 @@ class BackgroundWidget(QWidget):
         # Plot axes
         self.axes = pg.PlotWidget(centralWidget)
         self.axes.setObjectName("BackgroundWidget")
-        self.axes.setBackground('w')        
-        self.axes.getAxis('left').setTicks([]) 
-        self.axes.getAxis('bottom').setTicks([]) 
+        self.axes.setBackground("w")
+        self.axes.getAxis("left").setTicks([])
+        self.axes.getAxis("bottom").setTicks([])
 
         # Text showing current epoch
         self.textfield = QLabel(self.axes)
@@ -26,12 +27,12 @@ class BackgroundWidget(QWidget):
         self.textfield.setFont(font)
         self.textfield.setObjectName("textfield")
         self.textfield.setText("Test")
-        #self.textfield.setStyleSheet("QLabel { color: red; font-size: 20px; text-align: center; }")
+        # self.textfield.setStyleSheet("QLabel { color: red; font-size: 20px; text-align: center; }")
 
         # Layout
         layout = QVBoxLayout(self.axes)
-        layout.addWidget(self.textfield)   
+        layout.addWidget(self.textfield)
 
         # Pens
-        self.pen_grid = pg.mkPen(color=(25, 25, 25, 15), style=Qt.DashLine) 
-        self.pen_border = pg.mkPen(color=(0, 0, 0), style=Qt.DotLine, width=3) 
+        self.pen_grid = pg.mkPen(color=(25, 25, 25, 15), style=Qt.DashLine)
+        self.pen_border = pg.mkPen(color=(0, 0, 0), style=Qt.DotLine, width=3)

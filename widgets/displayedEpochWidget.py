@@ -3,11 +3,12 @@ from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont
 import numpy as np
 
+
 class DisplayedEpochWidget(QWidget):
     changesMade = Signal()
 
     def __init__(self, axes):
-        super().__init__()        
+        super().__init__()
 
         self.textfield = QLabel(axes)
         self.textfield.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
@@ -17,11 +18,11 @@ class DisplayedEpochWidget(QWidget):
         self.textfield.setFont(font)
         self.textfield.setObjectName("textfield")
         self.textfield.setText("Epoch 1 | Stage ?")
-        #self.textfield.setStyleSheet("QLabel { color: red; font-size: 20px; text-align: center; }")
+        # self.textfield.setStyleSheet("QLabel { color: red; font-size: 20px; text-align: center; }")
 
         # Layout
         layout = QVBoxLayout(axes)
-        layout.addWidget(self.textfield)  
+        layout.addWidget(self.textfield)
 
     def update_text(self, this_epoch, numepo, stages):
         self.textfield.setText(f'Epoch {this_epoch+1}/{numepo} | {stages[this_epoch]["stage"]}')
