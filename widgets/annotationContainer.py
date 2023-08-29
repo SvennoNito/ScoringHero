@@ -23,7 +23,7 @@ class AnnotationContainer(QObject):
         ]
 
         self.facecolor      = self.colorpalette[colorindex]
-        self.label          = label if not "F0" else "Artifacts"
+        self.label          = label if not (label=="F0") else "Artifact"
         self.borders        = []
         self.drawn_boxes    = []
         self.epochs         = []

@@ -42,7 +42,7 @@ def setup_ui(ui, MainWindow):
     ui.HypnogramSlider = HypnogramSlider(ui.centralwidget)
     ui.RectanglePower = RectanglePower(ui.centralwidget)
     ui.PaintEventWidget = PaintEventWidget()
-    ui.AnnotationContainer = [AnnotationContainer(colorindex=counter, label=f'F{counter}') for counter in range(10)]
+    ui.AnnotationContainer = [AnnotationContainer(colorindex=counter, label=f'F{counter}') for counter in range(6)]
 
 
     # Make widgets react to mouse click

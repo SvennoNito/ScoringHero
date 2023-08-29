@@ -11,7 +11,15 @@ def write_scoring_popup(ui):
 
 
 def write_scoring_wrapper(ui):
-    write_scoring(f"{ui.filename}.json", ui.stages, ui.annotations)
+    annotations = []
+    for container in ui.AnnotationContainer:
+        for border in container.borders:
+            annotations.append({
+                'label': container.label,
+                'start': border[0],
+                'end': border[1],
+            })
+    write_scoring(f"{ui.filename}.json", ui.stages, annotations)
 
 
 def write_scoring(scoring_filename, stages, annotations):
