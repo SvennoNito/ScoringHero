@@ -1,5 +1,5 @@
 
-
+import numpy as np
 from PyQt5 import QtWidgets, QtCore, QtGui, QtCore
 from PyQt5.QtCore import QObject, pyqtSignal
 
@@ -22,10 +22,10 @@ class AnnotationContainer(QObject):
             (188, 189, 34, 100),
         ]
 
-        self.facecolor = self.colorpalette[colorindex]
-        self.label     = label if not "F0" else "Artifacts"
-        self.borders   = []
-        self.duration  = []
+        self.facecolor      = self.colorpalette[colorindex]
+        self.label          = label if not "F0" else "Artifacts"
+        self.borders        = []
+        self.drawn_boxes    = []
     #     self.borders    = []
     #     self.epoch      = []
     #     self.epolen     = epolen
