@@ -12,10 +12,13 @@ def write_scoring_popup(ui):
 
 def write_scoring_wrapper(ui):
     annotations = []
-    for container in ui.AnnotationContainer:
-        for border in container.borders:
+    for numerator, container in enumerate(ui.AnnotationContainer):
+        for counter, (border, epochs) in enumerate(zip(container.borders, container.epochs)):
             annotations.append({
-                'label': container.label,
+                'id': container.label,
+                'id_number': numerator,
+                'counter': counter,
+                'epoch': epochs.tolist(),
                 'start': border[0],
                 'end': border[1],
             })

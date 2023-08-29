@@ -12,6 +12,7 @@ from utilities import *
 from mouse_click import *
 from widgets import *
 from signal_processing.build_times_vector import build_times_vector
+from annotations.draw_box_in_epoch import draw_box_in_epoch
 
 
 class Ui_MainWindow(QMainWindow):
@@ -41,7 +42,8 @@ class Ui_MainWindow(QMainWindow):
         load_cache(self)
         self.SpectogramWidget.draw_spectogram(self.power, self.freqs, self.freqsOI, self.config)
         self.HypnogramWidget.draw_hypnogram(self.stages, self.numepo, self.config, self.swa)
-
+        for container in self.AnnotationContainer:
+            draw_box_in_epoch(self, container)  
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
@@ -59,6 +61,8 @@ if __name__ == "__main__":
         load_cache(ui)
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
         ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
+        for container in ui.AnnotationContainer:
+            draw_box_in_epoch(ui, container)        
 
     MainWindow.activateWindow()  # Add this line to make the window active
     MainWindow.show()

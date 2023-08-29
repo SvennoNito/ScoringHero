@@ -31,9 +31,18 @@ def load_eeg_config_scoring(ui, datatype):
         ui.config[0]["Sampling_rate_hz"],
         ui.config[0]["Epoch_length_s"],
     )
-    ui.stages, ui.annotations = load_scoring(
+    ui.stages, annotations = load_scoring(
         f"{ui.filename}.json", ui.config[0]["Epoch_length_s"], ui.numepo
     )
+
+    id_numbers = [item['id_number'] for item in annotations]
+    for id_number in set(id_numbers):
+        container_index = np.where(np.array(id_numbers) == id_number)[0].tolist()
+        for container in np.array(annotations)[container_index]:
+            ui.AnnotationContainer[id_number].label = container['id']
+            ui.AnnotationContainer[id_number].borders.append([container['start'], container['end']])
+            ui.AnnotationContainer[id_number].epochs.append(container['epoch'])
+
 
 
 def load_eeglab(filename_prefix):
