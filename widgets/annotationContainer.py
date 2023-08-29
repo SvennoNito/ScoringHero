@@ -26,6 +26,7 @@ class AnnotationContainer(QObject):
         self.label          = label if not "F0" else "Artifacts"
         self.borders        = []
         self.drawn_boxes    = []
+        self.epochs         = []
     #     self.borders    = []
     #     self.epoch      = []
     #     self.epolen     = epolen

@@ -7,6 +7,7 @@ def setup_menu(ui, MainWindow):
     ui.menu_file.setTitle(_translate("MainWindow", "File"))
     ui.menu_edit.setTitle(_translate("MainWindow", "Edit"))
     ui.menu_stages.setTitle(_translate("MainWindow", "Stages"))
+    ui.menu_labels.setTitle(_translate("MainWindow", "Labels"))
 
     # File
     ui.action_load_eeglab.setText(_translate("MainWindow", "Load EEGLAB structure (.mat)"))
@@ -29,10 +30,22 @@ def setup_menu(ui, MainWindow):
     ui.action_REM.setShortcut(_translate("MainWindow", "R"))
     ui.action_express_uncertainty.setText(_translate("MainWindow", "Express uncertainty"))
     ui.action_express_uncertainty.setShortcut(_translate("MainWindow", "Q"))
-    ui.action_label_artefact.setText(_translate("MainWindow", "Mark box as artefact"))
-    ui.action_label_artefact.setShortcut(_translate("MainWindow", "A")) 
-    ui.action_zoon_on_EEG.setText(_translate("MainWindow", "Zoom on selected EEG"))
-    ui.action_zoon_on_EEG.setShortcut(_translate("MainWindow", "Z"))  
+
+    # Annotations
+    ui.action_artefact.setText(_translate("MainWindow", "Artefact"))
+    ui.action_artefact.setShortcut(_translate("MainWindow", "A")) 
+    ui.action_F1.setText(_translate("MainWindow", "Mark box as F1"))
+    ui.action_F1.setShortcut(_translate("MainWindow", "F1")) 
+    ui.action_F2.setText(_translate("MainWindow", "Mark box as F2"))
+    ui.action_F2.setShortcut(_translate("MainWindow", "F2")) 
+    ui.action_F3.setText(_translate("MainWindow", "Mark box as F3"))
+    ui.action_F3.setShortcut(_translate("MainWindow", "F3")) 
+    ui.action_F4.setText(_translate("MainWindow", "Mark box as F4"))
+    ui.action_F4.setShortcut(_translate("MainWindow", "F4")) 
+    ui.action_F5.setText(_translate("MainWindow", "Mark box as F5"))
+    ui.action_F5.setShortcut(_translate("MainWindow", "F5")) 
+    ui.action_zoom_on_EEG.setText(_translate("MainWindow", "Zoom on selected EEG"))
+    ui.action_zoom_on_EEG.setShortcut(_translate("MainWindow", "Z"))      
 
     # Edit
     ui.action_edit_channels.setText(_translate("MainWindow", "Edit displayed channels"))

@@ -7,4 +7,4 @@ def merge_borders(borders):
             merged_borders.append([border[0], border[1]])   
         else:
             merged_borders[-1][1] = max(merged_borders[-1][1], border[1])  
-    return np.array(merged_borders)
+    return merged_borders

@@ -1,6 +1,7 @@
 from paint_event import *
 from signal_processing.trim_power import trim_power
 from signal_processing.min_max_scale import min_max_scale
+from annotations.draw_box_in_epoch import draw_box_in_epoch
 
 
 def refresh_gui(ui):
@@ -21,7 +22,7 @@ def refresh_gui(ui):
     ui.SignalWidget.text_amplitude.setText("")
     ui.SignalWidget.text_amplitude.setText("")
 
-    ## Show power line of epoch
+    # Show power line of epoch
     power, freqs = trim_power(
         ui.power[ui.this_epoch],
         ui.freqs,
@@ -30,3 +31,7 @@ def refresh_gui(ui):
     )
     power = min_max_scale(power)
     ui.RectanglePower.update_powerline(freqs, power)
+
+    # Draw annotations
+    for container in ui.AnnotationContainer:
+        draw_box_in_epoch(ui, container)
