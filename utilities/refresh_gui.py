@@ -20,7 +20,7 @@ def refresh_gui(ui):
 
     # Remove rectangle size text
     ui.SignalWidget.text_amplitude.setText("")
-    ui.SignalWidget.text_amplitude.setText("")
+    ui.SignalWidget.text_period.setText("")
 
     # Show power line of epoch
     power, freqs = trim_power(
