@@ -18,6 +18,7 @@ from mouse_click import *
 from paint_event import *
 from paint_event.zoom_on_selected_eeg import zoom_on_selected_eeg
 from annotations.draw_box import draw_box
+from utilities.scoring_uncertainty import scoring_uncertainty
 
 
 @timing_decorator
@@ -97,25 +98,7 @@ def setup_ui(ui, MainWindow):
     ui.action_save_scoring = QAction(MainWindow)
     ui.action_save_scoring.setObjectName("action_save_scoring")
     ui.action_save_scoring.triggered.connect(lambda: write_scoring_popup(ui))
-    ui.menu_file.addAction(ui.action_save_scoring)
-
-    # Edits menu
-    ui.menu_edit = QMenu(ui.menu)
-    ui.menu_edit.setObjectName("menu_edit")
-    ui.menu.addAction(ui.menu_edit.menuAction())
-
-    ui.action_edit_channels = QAction(MainWindow)
-    ui.action_edit_channels.setObjectName("action_edit_channels")
-    # ui.action_edit_channels.triggered.connect(lambda: ui.scaleChannels())
-    ui.menu_edit.addAction(ui.action_edit_channels)
-    ui.action_edit_annotations = QAction(MainWindow)
-    ui.action_edit_annotations.setObjectName("action_edit_annotations")
-    # ui.action_edit_annotations.triggered.connect(lambda: ui.edit_annotations())
-    ui.menu_edit.addAction(ui.action_edit_annotations)
-    ui.action_edit_config = QAction(MainWindow)
-    ui.action_edit_config.setObjectName("action_edit_config")
-    # ui.action_edit_config.triggered.connect(lambda: ui.configuration_pop_up())
-    ui.menu_edit.addAction(ui.action_edit_config)
+    ui.menu_file.addAction(ui.action_save_scoring) 
 
     # Sleep stages menu
     ui.menu_stages = QMenu(ui.menu)
@@ -145,7 +128,7 @@ def setup_ui(ui, MainWindow):
     ui.menu_stages.addSeparator()
     ui.action_express_uncertainty = QAction(MainWindow)
     ui.action_express_uncertainty.setObjectName("action_express_uncertainty")
-    # ui.action_express_uncertainty.triggered.connect(lambda: ui.scoring_uncertainty())
+    ui.action_express_uncertainty.triggered.connect(lambda: scoring_uncertainty(ui))
     ui.menu_stages.addAction(ui.action_express_uncertainty)
     
     # Sleep stages menu
@@ -181,12 +164,23 @@ def setup_ui(ui, MainWindow):
     ui.action_F5 = QAction("", ui)
     ui.action_F5.setObjectName("action_F5")
     ui.action_F5.triggered.connect(lambda box_index=5, ui=ui: draw_box(box_index, ui))
-    ui.label_box_as.addAction(ui.action_F5)           
+    ui.label_box_as.addAction(ui.action_F5)    
 
-    ui.action_zoom_on_EEG = QAction(MainWindow)
-    ui.action_zoom_on_EEG.setObjectName("action_zoom_on_EEG")
-    ui.action_zoom_on_EEG.triggered.connect(lambda: zoom_on_selected_eeg(ui))
-    ui.menu_labels.addAction(ui.action_zoom_on_EEG)    
+    # Utilities menu
+    ui.menu_utils = QMenu(ui.menu)
+    ui.menu_utils.setObjectName("menu_utils")
+    ui.menu.addAction(ui.menu_utils.menuAction())           
+
+    ui.action_zoom = QAction(MainWindow)
+    ui.action_zoom.setObjectName("action_zoom")
+    ui.action_zoom.triggered.connect(lambda: zoom_on_selected_eeg(ui))
+    ui.menu_utils.addAction(ui.action_zoom)
+
+    # Options menu
+    ui.menu_config = QMenu(ui.menu)
+    ui.menu_config.setObjectName("menu_config")
+    ui.menu.addAction(ui.menu_config.menuAction())
+    #ui.menu_config.triggered.connect(options_menu_clicked)        
 
     # Bring together
     MainWindow.setMenuBar(ui.menu)
