@@ -27,3 +27,4 @@ def show_rectangle_size(ui, converted_corners, converted_shape):
     else:
         # Reset text when there are no rectangles present
         ui.SignalWidget.text_amplitude.setText("")
+        ui.SignalWidget.text_period.setText("")

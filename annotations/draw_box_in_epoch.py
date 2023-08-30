@@ -1,5 +1,6 @@
 import numpy as np
 import pyqtgraph as pg
+from data_handling.write_scoring import write_scoring_wrapper
 
 def draw_box_in_epoch(ui, container):
 
@@ -18,3 +19,6 @@ def draw_box_in_epoch(ui, container):
         ui.SignalWidget.axes.addItem(box_to_be_drawn)   
         # if tuple(border) not in previously_drawn_borders:
         container.drawn_boxes.append(box_to_be_drawn)
+
+    # Write scoring file
+    #write_scoring_wrapper(ui)        

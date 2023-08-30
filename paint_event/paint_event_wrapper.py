@@ -21,7 +21,7 @@ def paint_event_wrapper(ui):
                 converted_corners,
                 converted_shape,
             ) = drop_clicked_rectangle(
-                ui.PaintEventWidget.stored_corners, converted_corners, converted_shape
+                ui, converted_corners, converted_shape
             )
 
             # Display total length of rectangles
@@ -32,5 +32,6 @@ def paint_event_wrapper(ui):
             show_rectangle_size(ui, converted_corners, converted_shape)
 
             # Compute power
-            freqs, power = rectangle_power(ui, converted_corners[-1], converted_shape[-1])
-            ui.RectanglePower.update_powerline(freqs, power)
+            if len(converted_corners) > 0:
+                freqs, power = rectangle_power(ui, converted_corners[-1], converted_shape[-1])
+                ui.RectanglePower.update_powerline(freqs, power)

@@ -52,5 +52,4 @@ def draw_box(box_index, ui):
     ui.SignalWidget.text_amplitude.setText("")
 
     # Write scoring file
-    write_scoring_wrapper(ui)
-
+    write_scoring_wrapper(ui)        
