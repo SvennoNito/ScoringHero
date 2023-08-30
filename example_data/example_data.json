@@ -7679,13 +7679,33 @@
    "epoch": [
     0
    ],
+   "start": 2.8896619354838706,
+   "end": 4.28934193548387
+  },
+  {
+   "id": "Artifact",
+   "id_number": 0,
+   "counter": 1,
+   "epoch": [
+    0
+   ],
+   "start": 8.262627096774192,
+   "end": 9.255948387096772
+  },
+  {
+   "id": "Artifact",
+   "id_number": 0,
+   "counter": 2,
+   "epoch": [
+    0
+   ],
    "start": 14.26770580645161,
    "end": 16.525254193548385
   },
   {
    "id": "Artifact",
    "id_number": 0,
-   "counter": 1,
+   "counter": 3,
    "epoch": [
     0
    ],
@@ -7695,7 +7715,7 @@
   {
    "id": "Artifact",
    "id_number": 0,
-   "counter": 2,
+   "counter": 4,
    "epoch": [
     0
    ],
@@ -7705,13 +7725,23 @@
   {
    "id": "Artifact",
    "id_number": 0,
-   "counter": 3,
+   "counter": 5,
    "epoch": [
     0,
     1
    ],
    "start": 28.625713548387093,
    "end": 31.109016774193545
+  },
+  {
+   "id": "Artifact",
+   "id_number": 0,
+   "counter": 6,
+   "epoch": [
+    1
+   ],
+   "start": 39.08750451612904,
+   "end": 40.01635096774194
   },
   {
    "id": "F1",

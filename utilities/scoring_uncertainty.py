@@ -10,15 +10,8 @@ def scoring_uncertainty(ui):
     # Update hypnpgram
     #ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa) 
 
-
 def change_value(value):
     if value == 1:
         return 0
     else:
         return 1
-    
-def change_text(text, value):
-    if value == 1:
-        return f'{text} (not sure)'
-    else:
-        return text[:-10]

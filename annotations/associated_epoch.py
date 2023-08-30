@@ -2,5 +2,5 @@ import numpy as np
 
 def associated_epoch(borders, epolen):
     epoch_from_to = [np.floor(np.array(border)/epolen) for border in borders]
-    epoch_array   = [np.arange(start, end+1).astype(int) for start, end in epoch_from_to]
+    epoch_array   = [np.arange(start, end+1).astype(int).tolist() for start, end in epoch_from_to]
     return epoch_array

@@ -18,7 +18,7 @@ def write_scoring_wrapper(ui):
                 'id': container.label,
                 'id_number': numerator,
                 'counter': counter,
-                'epoch': epochs.tolist(),
+                'epoch': epochs,
                 'start': border[0],
                 'end': border[1],
             })
