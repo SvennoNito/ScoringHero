@@ -19,7 +19,7 @@ from paint_event import *
 from paint_event.zoom_on_selected_eeg import zoom_on_selected_eeg
 from annotations.draw_box import draw_box
 from utilities.scoring_uncertainty import scoring_uncertainty
-
+from utilities.open_config_window import open_config_window
 
 @timing_decorator
 def setup_ui(ui, MainWindow):
@@ -180,7 +180,12 @@ def setup_ui(ui, MainWindow):
     ui.menu_config = QMenu(ui.menu)
     ui.menu_config.setObjectName("menu_config")
     ui.menu.addAction(ui.menu_config.menuAction())
-    #ui.menu_config.triggered.connect(options_menu_clicked)        
+
+    ui.action_config_window = QAction("Open configuration window", MainWindow)
+    ui.action_config_window.setObjectName("action_config_window")
+    ui.action_config_window.setShortcut("")
+    ui.action_config_window.triggered.connect(lambda: open_config_window(ui))
+    ui.menu_config.addAction(ui.action_config_window)  
 
     # Bring together
     MainWindow.setMenuBar(ui.menu)

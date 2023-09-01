@@ -1,70 +1,70 @@
 [
+  {
+    "Sampling_rate_hz": 125,
+    "Epoch_length_s": 30,
+    "Distance_between_channels_muV": 25,
+    "Extension_epoch_left_s": 5,
+    "Extension_epoch_right_s": 5,
+    "Channel_index_for_spectogram": 1,
+    "Spectogram_lower_limit_hz": 0,
+    "Spectogram_upper_limit_hz": 20,
+    "Area_power_lower_limit_hz": 4,
+    "Area_power_upper_limit_hz": 26
+  },
+  [
     {
-        "Sampling_rate_hz": 125,
-        "Epoch_length_s": 30,
-        "Distance_between_channels_muV": 25,
-        "Extension_epoch_left_s": 5,
-        "Extension_epoch_right_s": 5,
-        "Channel_index_for_spectogram": 1,
-        "Spectogram_lower_limit_hz": 0,
-        "Spectogram_upper_limit_hz": 20,
-        "Area_power_lower_limit_hz": 4,
-        "Area_power_upper_limit_hz": 26
+      "Channel_name": "F3",
+      "Channel_color": "Black",
+      "Display_on_screen": false,
+      "Scaling_factor": 1.0
     },
-    [
-        {
-            "Channel_name": "F3",
-            "Channel_color": "Black",
-            "Display_on_screen": true,
-            "Scaling_factor": 1.0
-        },
-        {
-            "Channel_name": "F4",
-            "Channel_color": "Black",
-            "Display_on_screen": false,
-            "Scaling_factor": 1.0
-        },
-        {
-            "Channel_name": "C3",
-            "Channel_color": "Black",
-            "Display_on_screen": true,
-            "Scaling_factor": 1.0
-        },
-        {
-            "Channel_name": "C4",
-            "Channel_color": "Black",
-            "Display_on_screen": false,
-            "Scaling_factor": 1.0
-        },
-        {
-            "Channel_name": "O1",
-            "Channel_color": "Black",
-            "Display_on_screen": true,
-            "Scaling_factor": 1.0
-        },
-        {
-            "Channel_name": "O2",
-            "Channel_color": "Black",
-            "Display_on_screen": false,
-            "Scaling_factor": 1.0
-        },
-        {
-            "Channel_name": "EOG1",
-            "Channel_color": "Blue",
-            "Display_on_screen": true,
-            "Scaling_factor": 1.0
-        },
-        {
-            "Channel_name": "EOG2",
-            "Channel_color": "Blue",
-            "Display_on_screen": true,
-            "Scaling_factor": 1.0
-        },
-        {
-            "Channel_name": "EMG",
-            "Channel_color": "Magenta",
-            "Display_on_screen": true,
-            "Scaling_factor": 1.0
-        }
-    ]
+    {
+      "Channel_name": "F4",
+      "Channel_color": "Black",
+      "Display_on_screen": false,
+      "Scaling_factor": 1.0
+    },
+    {
+      "Channel_name": "C3",
+      "Channel_color": "Black",
+      "Display_on_screen": true,
+      "Scaling_factor": 1.0
+    },
+    {
+      "Channel_name": "C4",
+      "Channel_color": "Black",
+      "Display_on_screen": false,
+      "Scaling_factor": 1.0
+    },
+    {
+      "Channel_name": "O1",
+      "Channel_color": "Black",
+      "Display_on_screen": true,
+      "Scaling_factor": 1.0
+    },
+    {
+      "Channel_name": "O2",
+      "Channel_color": "Black",
+      "Display_on_screen": false,
+      "Scaling_factor": 1.0
+    },
+    {
+      "Channel_name": "EOG1",
+      "Channel_color": "Blue",
+      "Display_on_screen": true,
+      "Scaling_factor": 1.0
+    },
+    {
+      "Channel_name": "EOG2",
+      "Channel_color": "Blue",
+      "Display_on_screen": true,
+      "Scaling_factor": 1.0
+    },
+    {
+      "Channel_name": "EMG",
+      "Channel_color": "Magenta",
+      "Display_on_screen": true,
+      "Scaling_factor": 1.0
+    }
+  ]
 ]

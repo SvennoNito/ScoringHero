@@ -1076,7 +1076,7 @@
    "end": 3240,
    "stage": null,
    "digit": null,
-   "uncertain": 0,
+   "uncertain": 1,
    "channels": [],
    "clean": 1
   },
@@ -1916,7 +1916,7 @@
    "end": 5760,
    "stage": "N1",
    "digit": -1,
-   "uncertain": 0,
+   "uncertain": 1,
    "channels": [],
    "clean": 1
   },
@@ -7677,20 +7677,20 @@
    "id_number": 0,
    "counter": 0,
    "epoch": [
-    0
-   ],
-   "start": 8.804438709677418,
-   "end": 12.597119999999999
-  },
-  {
-   "id": "Artifact",
-   "id_number": 0,
-   "counter": 1,
-   "epoch": [
     1
    ],
    "start": 39.08750451612904,
    "end": 40.01635096774194
+  },
+  {
+   "id": "F1",
+   "id_number": 1,
+   "counter": 0,
+   "epoch": [
+    5
+   ],
+   "start": 168.51473074204944,
+   "end": 170.12571590106003
   }
  ]
 ]

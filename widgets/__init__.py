@@ -8,3 +8,4 @@ from .hypnogramSlider import HypnogramSlider
 from .paintEventWidget import PaintEventWidget
 from .rectanglePower import RectanglePower
 from .annotationContainer import AnnotationContainer
+from .configurationWindow import ConfigurationWindow
