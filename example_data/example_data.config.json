@@ -3,8 +3,8 @@
     "Sampling_rate_hz": 125,
     "Epoch_length_s": 30,
     "Distance_between_channels_muV": 25,
-    "Extension_epoch_left_s": 5,
-    "Extension_epoch_right_s": 5,
+    "Extension_epoch_left_s": 6,
+    "Extension_epoch_right_s": 6,
     "Channel_index_for_spectogram": 1,
     "Spectogram_lower_limit_hz": 0,
     "Spectogram_upper_limit_hz": 20,
@@ -15,7 +15,7 @@
     {
       "Channel_name": "F3",
       "Channel_color": "Black",
-      "Display_on_screen": false,
+      "Display_on_screen": true,
       "Scaling_factor": 1.0
     },
     {
