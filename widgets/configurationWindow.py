@@ -27,7 +27,7 @@ class ConfigurationWindow(QDialog):
 
 
 class GeneralConfiguration(QDialog):
-    changesMade = Signal()
+    changesMade = Signal(str)
 
     def __init__(self, general_config, parent=None):
         super().__init__(parent)
@@ -49,7 +49,7 @@ class GeneralConfiguration(QDialog):
                 'label': 'Vertical distance between channels',
                 'unit': ' \u03BCV'
             },                                         
-            'Channel_index_for_spectogram': {
+            'Channel_for_spectogram': {
                 'label': 'Channel for spectogram',
                 'unit': ' (considered after restart)'
             },
@@ -67,7 +67,7 @@ class GeneralConfiguration(QDialog):
             }                  
         }
    
-        for key, specs in legend.items():
+        for config_parameter_name, specs in legend.items():
 
             labelbox = QLabel(specs['label'])
             labelbox.setAlignment(Qt.AlignRight)
@@ -76,19 +76,21 @@ class GeneralConfiguration(QDialog):
             row_layout = QHBoxLayout()
             row_layout.addWidget(labelbox)    
  
-            value_in_list       = [general_config[key]] if not isinstance(general_config[key], list) else general_config[key]
-            self.spinboxes[key] = []
+            value_in_list       = [general_config[config_parameter_name]] if not isinstance(general_config[config_parameter_name], list) else general_config[config_parameter_name]
+            self.spinboxes[config_parameter_name] = []
 
             for value in value_in_list:
+                spinbox = None
                 spinbox = QDoubleSpinBox(self)
                 spinbox.setMinimum(0)
                 spinbox.setMaximum(10000)
                 spinbox.setDecimals(0)
                 spinbox.setValue(value) 
                 spinbox.setSuffix(specs['unit'])     
-                spinbox.valueChanged.connect(lambda: self.change_event(general_config))              
-                self.spinboxes[key].append(spinbox)
-
+                print(config_parameter_name)
+                spinbox.valueChanged.connect(lambda var1=value, var2=config_parameter_name, var3=general_config: self.change_event(var1, var2, var3))              
+                self.spinboxes[config_parameter_name].append(spinbox)
+                
                 row_layout.addWidget(spinbox)                      
 
             form_layout.addRow(row_layout) 
@@ -96,14 +98,14 @@ class GeneralConfiguration(QDialog):
         # Final layout
         layout.addLayout(form_layout)    
 
-    def change_event(self, general_config):
+    def change_event(self, value, config_parameter_name, general_config):
         for id, spinbox_list in self.spinboxes.items():
             for index, spinbox in enumerate(spinbox_list):
                 if isinstance(general_config[id], list):
                     general_config[id][index] = int(spinbox.value())
                 else:
                     general_config[id] = int(spinbox.value())                    
-        self.changesMade.emit()                  
+        self.changesMade.emit(config_parameter_name)                  
 
 
 class ChannelConfiguration(QDialog):

@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.signal import welch
-from utilities import *
+from utilities.timing_decorator import timing_decorator
 from .compute_swa import compute_swa
 
 
@@ -13,14 +13,10 @@ def spectogram_wrapper(ui):
         ui.eeg_data,
         ui.times,
         ui.config[0]["Sampling_rate_hz"],
-        ui.config[0]["Channel_index_for_spectogram"] - 1,
+        ui.config[0]["Channel_for_spectogram"] - 1,
         ui.config[0]["Epoch_length_s"],
     )
-    freqsOI = freqs_of_interest_indices(
-        freqs,
-        ui.config[0]["Spectogram_limit_hz"][0],
-        ui.config[0]["Spectogram_limit_hz"][1],
-    )
+    freqsOI = freqsOI_ui(freqs, ui.config)
     swa = compute_swa(power, freqs)
     return power, freqs, freqsOI, swa
 
@@ -52,6 +48,13 @@ def compute_spectogram(eeg_data, times, srate, channel, epolen, winlen=4):
 
     return power, freqs
 
+def freqsOI_ui(freqs, config):
+    freqsOI = freqs_of_interest_indices(
+        freqs,
+        config[0]["Spectogram_limit_hz"][0],
+        config[0]["Spectogram_limit_hz"][1],
+    )  
+    return freqsOI
 
 def freqs_of_interest_indices(freqs, lower_limit, upper_limit):
     return (freqs >= lower_limit) & (freqs <= upper_limit)
