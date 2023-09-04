@@ -26,8 +26,8 @@ def refresh_gui(ui):
     power, freqs = trim_power(
         ui.power[ui.this_epoch],
         ui.freqs,
-        ui.config[0]["Area_power_upper_limit_hz"],
-        ui.config[0]["Area_power_lower_limit_hz"],
+        ui.config[0]["Periodogram_limit_hz"][0],
+        ui.config[0]["Periodogram_limit_hz"][1],
     )
     power = min_max_scale(power)
     ui.RectanglePower.update_powerline(freqs, power)

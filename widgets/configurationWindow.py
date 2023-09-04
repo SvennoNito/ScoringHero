@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QTabWidget, QDialog, QFormLayout, QDoubleSpinBox, QCheckBox, QComboBox, QHBoxLayout
+from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QTabWidget, QDialog, QFormLayout, QDoubleSpinBox, QCheckBox, QComboBox, QHBoxLayout, QLineEdit
 from PySide6.QtCore import Signal, Qt
 
 class ConfigurationWindow(QDialog):
@@ -38,71 +38,58 @@ class GeneralConfiguration(QDialog):
 
         legend = {
             'Sampling_rate_hz': {
-                'name_pair': None,
                 'label': 'Sampling rate',
                 'unit': ' Hz'
             },   
             'Epoch_length_s': {
-                'name_pair': None,
                 'label': 'Epoch length',
                 'unit': ' s'
             },     
             'Distance_between_channels_muV': {
-                'name_pair': None,
                 'label': 'Vertical distance between channels',
                 'unit': ' \u03BCV'
             },                                         
             'Channel_index_for_spectogram': {
-                'name_pair': None,
                 'label': 'Channel for spectogram',
-                'unit': ''
+                'unit': ' (considered after restart)'
             },
-            'Extension_epoch_left_s': {
-                'name_pair': 'Extension_epoch_right_s',
+            'Extension_epoch_s': {
                 'label': 'Extent epoch',
                 'unit': ' s'
             },                      
-            'Spectogram_lower_limit_hz': {
-                'name_pair': 'Spectogram_upper_limit_hz',
+            'Spectogram_limit_hz': {
                 'label': 'Spectogram limits',
                 'unit': ' Hz'
             },  
-            'Area_power_lower_limit_hz': {
-                'name_pair': 'Area_power_upper_limit_hz',
+            'Periodogram_limit_hz': {
                 'label': 'Periodogram limits',
                 'unit': ' Hz'
             }                  
         }
    
-        for key, value in legend.items():
+        for key, specs in legend.items():
 
-            labelbox = QLabel(value['label'])
+            labelbox = QLabel(specs['label'])
             labelbox.setAlignment(Qt.AlignRight)
             labelbox.setFixedWidth(self.width_label)
 
-            spinbox = QDoubleSpinBox(self)
-            spinbox.setMinimum(0)
-            spinbox.setMaximum(10000)
-            spinbox.setDecimals(0)
-            spinbox.setValue(general_config[key]) 
-            spinbox.setSuffix(value['unit'])     
-            spinbox.valueChanged.connect(lambda: self.change_event(general_config))              
-            self.spinboxes[key] = spinbox
-
             row_layout = QHBoxLayout()
-            row_layout.addWidget(labelbox)
-            row_layout.addWidget(spinbox)            
+            row_layout.addWidget(labelbox)    
+ 
+            value_in_list       = [general_config[key]] if not isinstance(general_config[key], list) else general_config[key]
+            self.spinboxes[key] = []
 
-            if value['name_pair'] is not None:
+            for value in value_in_list:
                 spinbox = QDoubleSpinBox(self)
                 spinbox.setMinimum(0)
                 spinbox.setMaximum(10000)
                 spinbox.setDecimals(0)
-                spinbox.setValue(general_config[value['name_pair']]) 
-                spinbox.setSuffix(value['unit'])    
+                spinbox.setValue(value) 
+                spinbox.setSuffix(specs['unit'])     
                 spinbox.valueChanged.connect(lambda: self.change_event(general_config))              
-                self.spinboxes[value['name_pair']] = spinbox    
-                row_layout.addWidget(spinbox)            
+                self.spinboxes[key].append(spinbox)
+
+                row_layout.addWidget(spinbox)                      
 
             form_layout.addRow(row_layout) 
                            
@@ -110,8 +97,12 @@ class GeneralConfiguration(QDialog):
         layout.addLayout(form_layout)    
 
     def change_event(self, general_config):
-        for id, spinbox in self.spinboxes.items():
-            general_config[id] = int(spinbox.value())
+        for id, spinbox_list in self.spinboxes.items():
+            for index, spinbox in enumerate(spinbox_list):
+                if isinstance(general_config[id], list):
+                    general_config[id][index] = int(spinbox.value())
+                else:
+                    general_config[id] = int(spinbox.value())                    
         self.changesMade.emit()                  
 
 
@@ -125,14 +116,16 @@ class ChannelConfiguration(QDialog):
         self.scale      = []
         self.display    = []
         self.color      = []
+        self.label      = []
 
         # Loop through channels
         for count, chaninfo in enumerate(channel_config):
 
             # Channe label
-            labelbox = QLabel(chaninfo['Channel_name'])
+            labelbox = QLineEdit(chaninfo['Channel_name'])
             labelbox.setAlignment(Qt.AlignRight)
-            labelbox.setFixedWidth(max(len(chaninfo['Channel_name']) for chaninfo in channel_config)*8)
+            labelbox.setFixedWidth(max(len(chaninfo['Channel_name']) for chaninfo in channel_config)*8 + 10)
+            labelbox.textChanged.connect(lambda: self.change_event(channel_config))  
 
             # Value by which EEG is multiplied
             spinbox = QDoubleSpinBox(self)
@@ -164,7 +157,8 @@ class ChannelConfiguration(QDialog):
             row_layout.addWidget(colorbox)
             form_layout.addRow(row_layout)
 
-            self.scale.append(spinbox) # append  
+            self.label.append(labelbox) 
+            self.scale.append(spinbox)
             self.display.append(checkbox)
             self.color.append(colorbox)
 
@@ -172,7 +166,8 @@ class ChannelConfiguration(QDialog):
 
     def change_event(self, channel_config):
         for counter, chaninfo in enumerate(channel_config):
-            chaninfo['Channel_color']       = self.color[counter].currentText()
-            chaninfo['Display_on_screen']   = self.display[counter].isChecked()
-            chaninfo['Scaling_factor']      = int(self.scale[counter].value())
+            chaninfo['Channel_name']       = self.label[counter].text()
+            chaninfo['Channel_color']      = self.color[counter].currentText()
+            chaninfo['Display_on_screen']  = self.display[counter].isChecked()
+            chaninfo['Scaling_factor']     = int(self.scale[counter].value())
         self.changesMade.emit()        

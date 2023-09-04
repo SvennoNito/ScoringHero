@@ -22,8 +22,8 @@ def apply_config_changes(ui):
     # Spectogram borders
     ui.freqsOI = freqs_of_interest_indices(
         ui.freqs,
-        ui.config[0]["Spectogram_lower_limit_hz"],
-        ui.config[0]["Spectogram_upper_limit_hz"],
+        ui.config[0]["Spectogram_limit_hz"][0],
+        ui.config[0]["Spectogram_limit_hz"][1],
     )
     ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
 

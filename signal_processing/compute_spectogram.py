@@ -18,8 +18,8 @@ def spectogram_wrapper(ui):
     )
     freqsOI = freqs_of_interest_indices(
         freqs,
-        ui.config[0]["Spectogram_lower_limit_hz"],
-        ui.config[0]["Spectogram_upper_limit_hz"],
+        ui.config[0]["Spectogram_limit_hz"][0],
+        ui.config[0]["Spectogram_limit_hz"][1],
     )
     swa = compute_swa(power, freqs)
     return power, freqs, freqsOI, swa
