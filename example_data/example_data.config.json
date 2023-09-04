@@ -3,7 +3,7 @@
     "Sampling_rate_hz": 125,
     "Epoch_length_s": 30,
     "Distance_between_channels_muV": 25,
-    "Channel_index_for_spectogram": 1,
+    "Channel_for_spectogram": 1,
     "Extension_epoch_s": [
       5,
       5

@@ -7,7 +7,8 @@ from data_handling.cache import ui_to_cache, write_cache
 
 
 def open_config_window(ui):
-    ui.ConfigurationWindow = ConfigurationWindow(ui.config)
+    allow_staging = all([stage['stage'] == None for stage in ui.stages])
+    ui.ConfigurationWindow = ConfigurationWindow(ui.config, allow_staging)
     ui.ChannelPage, ui.GeneralPage = ui.ConfigurationWindow.return_page()
     ui.ChannelPage.changesMade.connect(lambda: redraw_gui(ui))
     ui.GeneralPage.changesMade.connect(lambda config_parameter_name, ui=ui: apply_general_configurations(config_parameter_name, ui))

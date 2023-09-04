@@ -1,9 +1,10 @@
-from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QTabWidget, QDialog, QFormLayout, QDoubleSpinBox, QCheckBox, QComboBox, QHBoxLayout, QLineEdit
+from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QTabWidget, QDialog, QFormLayout, QDoubleSpinBox, QCheckBox, QComboBox, QHBoxLayout, QLineEdit, QStyle
 from PySide6.QtCore import Signal, Qt
+from PySide6.QtGui import QIcon, QPixmap
 
 class ConfigurationWindow(QDialog):
     changesMade = Signal()
-    def __init__(self, config):
+    def __init__(self, config, allow_staging):
         super().__init__()
         self.setWindowTitle("Configuration Window")  
         self.resize(500, 400)        
@@ -14,7 +15,7 @@ class ConfigurationWindow(QDialog):
 
         # Create the pages
         self.channel_page = ChannelConfiguration(config[1])
-        self.general_page = GeneralConfiguration(config[0])
+        self.general_page = GeneralConfiguration(config[0], allow_staging)
         events_page = QLabel("Events Content")
 
         # Add the pages to the tabs
@@ -29,7 +30,7 @@ class ConfigurationWindow(QDialog):
 class GeneralConfiguration(QDialog):
     changesMade = Signal(str)
 
-    def __init__(self, general_config, parent=None):
+    def __init__(self, general_config, allow_staging, parent=None):
         super().__init__(parent)
         layout              = QVBoxLayout(self)
         form_layout         = QFormLayout()
@@ -51,7 +52,7 @@ class GeneralConfiguration(QDialog):
             },                                         
             'Channel_for_spectogram': {
                 'label': 'Channel for spectogram',
-                'unit': ' (considered after restart)'
+                'unit': ''
             },
             'Extension_epoch_s': {
                 'label': 'Extent epoch',
@@ -90,6 +91,10 @@ class GeneralConfiguration(QDialog):
                 print(config_parameter_name)
                 spinbox.valueChanged.connect(lambda var1=value, var2=config_parameter_name, var3=general_config: self.change_event(var1, var2, var3))              
                 self.spinboxes[config_parameter_name].append(spinbox)
+
+                if config_parameter_name in ["Epoch_length_s", "Sampling_rate_hz"] and not allow_staging:
+                    spinbox.setDisabled(True)
+                    spinbox.setToolTip("Disabled after scoring epochs.\nChanging this value would cause scored stages to become misaligned with epochs.")                      
                 
                 row_layout.addWidget(spinbox)                      
 
