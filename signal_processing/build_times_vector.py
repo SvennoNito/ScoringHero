@@ -8,7 +8,7 @@ def build_times_vector(ui):
     srate = ui.config[0]["Sampling_rate_hz"]
     epolen = ui.config[0]["Epoch_length_s"]
     extend_l = ui.config[0]["Extension_epoch_s"][0]
-    extend_r = ui.config[0]["Extension_epoch_s"][0]
+    extend_r = ui.config[0]["Extension_epoch_s"][1]
 
     times_vector = np.arange(0, npoints) / srate
     ui.times = turn_into_epochs(times_vector, epolen, srate, extend_l, extend_r)

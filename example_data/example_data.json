@@ -7677,6 +7677,16 @@
    "id_number": 0,
    "counter": 0,
    "epoch": [
+    0
+   ],
+   "start": 14.854668387096773,
+   "end": 16.841310967741933
+  },
+  {
+   "id": "Artifact",
+   "id_number": 0,
+   "counter": 1,
+   "epoch": [
     8,
     9
    ],

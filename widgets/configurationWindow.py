@@ -16,7 +16,7 @@ class ConfigurationWindow(QDialog):
         # Create the pages
         self.channel_page = ChannelConfiguration(config[1])
         self.general_page = GeneralConfiguration(config[0], allow_staging)
-        events_page = QLabel("Events Content")
+        events_page = QLabel("Coming soon!")
 
         # Add the pages to the tabs
         self.tabs.addTab(self.channel_page, "Select Channels")
