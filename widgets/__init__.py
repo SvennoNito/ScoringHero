@@ -1,4 +1,3 @@
-from .backgroundWidget import BackgroundWidget
 from .signalWidget import SignalWidget
 from .displayedEpochWidget import DisplayedEpochWidget
 from .spectogramWidget import SpectogramWidget

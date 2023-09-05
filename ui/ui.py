@@ -25,6 +25,7 @@ from utilities.open_config_window import open_config_window
 def setup_ui(ui, MainWindow):
     MainWindow.setObjectName("MainWindow")
     MainWindow.resize(800, 600)
+    MainWindow.setStyleSheet("background-color: white;")
     ui.centralwidget = QWidget(MainWindow)
     ui.centralwidget.setObjectName("centralwidget")
     # MainWindow.showMaximized()
@@ -34,7 +35,6 @@ def setup_ui(ui, MainWindow):
     ui.centralwidget.setLayout(layout)
 
     # Build widgets
-    ui.BackgroundWidget = BackgroundWidget(ui.centralwidget)
     ui.SignalWidget = SignalWidget(ui.centralwidget)
     ui.DisplayedEpochWidget = DisplayedEpochWidget(ui.SignalWidget.axes)
     ui.SpectogramWidget = SpectogramWidget(ui.centralwidget)
@@ -62,7 +62,6 @@ def setup_ui(ui, MainWindow):
     ui.PaintEventWidget.changesMade.connect(lambda ui=ui: paint_event_wrapper(ui))
 
     # Layout
-    layout.addWidget(ui.BackgroundWidget.axes, 10, 0, 85, 100)
     layout.addWidget(ui.SignalWidget.axes, 10, 0, 85, 101)
     layout.addWidget(ui.PaintEventWidget, 10, 0, 85, 101)
     layout.addWidget(ui.SpectogramWidget.graphics, 0, 0, 10, 55)
@@ -70,7 +69,7 @@ def setup_ui(ui, MainWindow):
     layout.addWidget(ui.HypnogramWidget.axes, 0, 56, 10, 30)
     layout.addWidget(ui.HypnogramSlider.slider, 1, 86, 8, 1)
     layout.addWidget(ui.RectanglePower.axes, 0, 87, 10, 13)
-
+   
     # menu
     MainWindow.setCentralWidget(ui.centralwidget)
     ui.menu = QMenuBar(MainWindow)

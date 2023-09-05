@@ -18,6 +18,7 @@ class DisplayedEpochWidget(QWidget):
         self.textfield.setFont(font)
         self.textfield.setObjectName("textfield")
         self.textfield.setText("Epoch 1 | Stage ?")
+        self.textfield.setAttribute(Qt.WA_TranslucentBackground)
         # self.textfield.setStyleSheet("QLabel { color: red; font-size: 20px; text-align: center; }")
 
         # Layout

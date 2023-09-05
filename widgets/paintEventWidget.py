@@ -13,6 +13,8 @@ class PaintEventWidget(QWidget):
         super().__init__()
         self.brush = QBrush(QColor(10, 100, 10, 40))
         self.reset()
+        self.setAutoFillBackground(False)
+        self.setAttribute(Qt.WA_NoSystemBackground, True)
 
         # Create a label to display the totalLength value
         self.length_text = QLabel(self)
@@ -23,6 +25,7 @@ class PaintEventWidget(QWidget):
         self.length_text.setObjectName("totalLengthLabel")
         self.length_text.setAlignment(Qt.AlignRight | Qt.AlignTop)
         self.length_text.setText(f"Total Length: 0.00 s")
+        self.length_text.setAttribute(Qt.WA_TranslucentBackground)
 
         # Use QVBoxLayout for relative positioning
         layout = QVBoxLayout(self)
