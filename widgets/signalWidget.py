@@ -207,7 +207,7 @@ class SignalWidget(QWidget):
 
     def adjust_time_axis(self, config, times):
         ticklabels = [
-            (tick, f"{tick} s")
+            (tick, f"{int(tick)} s")
             for tick in np.round(np.arange(0, times[-1], config[0]["Epoch_length_s"] / 5), 1)
         ]
         self.axes.getAxis("bottom").setTicks([ticklabels])
