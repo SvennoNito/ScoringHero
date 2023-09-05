@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont
+from scipy.signal import medfilt
 import pyqtgraph as pg
 import numpy as np
 from utilities import *
@@ -44,7 +45,7 @@ class HypnogramWidget(QWidget):
                 ]
             ]
         )
-        self.swa_item = []
+        self.kernel = 100
 
     @timing_decorator
     def draw_hypnogram(self, scoring, numepo, config, SWA):
@@ -79,22 +80,26 @@ class HypnogramWidget(QWidget):
         # self.axes.plot(self.times, SWA * (1 - (-4)) + (-4), pen=pg.mkPen(color=(11, 28, 44, 20)), width=.1, style=Qt.DotLine)
 
     def draw_swa_in_time(self, SWA):
-        if isinstance(self.swa_item, list):
-            SWA = (SWA - min(SWA)) / (np.percentile(SWA, 100) - min(SWA))
-            SWA = SWA * (1 - (-4)) + (-4)
-            self.swa_item = pg.PlotDataItem(
-                self.times,
-                SWA,
-                pen=pg.mkPen(color=(233, 30, 99, 100)),
-                width=1,
-                style=Qt.DotLine,
-            )
-            self.axes.addItem(self.swa_item)
+        SWA = self.median_filter(SWA, self.kernel)      
+        self.swa_item = pg.PlotDataItem(
+            self.times,
+            SWA,
+            pen=pg.mkPen(color=(0, 0, 0, 100)),
+            width=2,
+            style=Qt.DotLine,
+        )
+        self.axes.addItem(self.swa_item)
 
-    def scale_swa(self, SWA, upper_limit):
-        SWA = (SWA - min(SWA)) / (np.percentile(SWA, upper_limit) - min(SWA))
-        SWA = SWA * (1 - (-4)) + (-4)
+    def scale_swa(self, SWA, kernel):
+        SWA = self.median_filter(SWA, kernel)
+        self.kernel = kernel
         self.swa_item.setData(self.times, SWA)
+
+    def median_filter(self, SWA, kernel):
+        SWA = medfilt(SWA, 101-kernel)
+        SWA = (SWA - min(SWA)) / (np.percentile(SWA, 100) - min(SWA))        
+        SWA = SWA * (1 - (-4)) + (-4)
+        return SWA      
 
     @timing_decorator
     def update_hypnogram(self, scoring, numepo, this_epoch):
