@@ -22,7 +22,7 @@ class SpectogramWidget(QtWidgets.QWidget):
         pg.setConfigOptions(imageAxisOrder="col-major")
         self.img = pg.ImageItem()
         self.img.setImage(power)
-        self.img.setColorMap(pg.colormap.get("CET-D1"))
+        self.img.setColorMap(pg.colormap.get("cividis"))
         self.img.setLevels(
             [np.nanpercentile(power, 0), np.nanpercentile(power, 97)]
         )  # Color scale
