@@ -11,10 +11,10 @@ class AnnotationContainer(QObject):
 
         self.colorpalette = [
             (255, 200, 200, 100), 
-            (44, 160, 44, 100),
-            (31, 119, 180, 100),
-            (255, 127, 14, 100),
-            (214, 39, 40, 100),
+            (100, 149, 237, 100),
+            (152, 251, 152, 100),
+            (255, 255, 102, 100),
+            (64, 224, 208, 100),
             (148, 103, 189, 100),
             (140, 86, 75, 100),
             (227, 119, 194, 100),
@@ -23,6 +23,7 @@ class AnnotationContainer(QObject):
         ]
 
         self.facecolor      = self.colorpalette[colorindex]
+        self.key            = label if not (label=="F0") else "A"
         self.label          = label if not (label=="F0") else "Artifact"
         self.borders        = []
         self.drawn_boxes    = []

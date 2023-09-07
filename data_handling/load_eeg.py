@@ -35,13 +35,13 @@ def load_eeg_config_scoring(ui, datatype):
         f"{ui.filename}.json", ui.config[0]["Epoch_length_s"], ui.numepo
     )
 
-    id_numbers = [item['id_number'] for item in annotations]
-    for id_number in set(id_numbers):
-        container_index = np.where(np.array(id_numbers) == id_number)[0].tolist()
+    event_digits = [item['digit'] for item in annotations]
+    for event_digit in set(event_digits):
+        container_index = np.where(np.array(event_digits) == event_digit)[0].tolist()
         for container in np.array(annotations)[container_index]:
-            ui.AnnotationContainer[id_number].label = container['id']
-            ui.AnnotationContainer[id_number].borders.append([container['start'], container['end']])
-            ui.AnnotationContainer[id_number].epochs.append(container['epoch'])
+            ui.AnnotationContainer[event_digit].label = container['event']
+            ui.AnnotationContainer[event_digit].borders.append([container['start'], container['end']])
+            ui.AnnotationContainer[event_digit].epochs.append(container['epoch'])
 
 
 

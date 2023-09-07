@@ -4,16 +4,22 @@ from data_handling.write_config import write_configuration_file
 from signal_processing.build_times_vector import build_times_vector
 from signal_processing.compute_spectogram import freqsOI_ui, spectogram_to_ui
 from data_handling.cache import ui_to_cache, write_cache
+from data_handling.write_scoring import write_scoring_wrapper
 
 
 def open_config_window(ui):
     allow_staging = all([stage['stage'] == None for stage in ui.stages])
-    ui.ConfigurationWindow = ConfigurationWindow(ui.config, allow_staging)
-    ui.ChannelPage, ui.GeneralPage = ui.ConfigurationWindow.return_page()
+    ui.ConfigurationWindow = ConfigurationWindow(ui.config, ui.AnnotationContainer, allow_staging)
+    ui.ChannelPage, ui.GeneralPage, ui.EventPage = ui.ConfigurationWindow.return_page()
     ui.ChannelPage.changesMade.connect(lambda: redraw_gui(ui))
     ui.GeneralPage.changesMade.connect(lambda config_parameter_name, ui=ui: apply_general_configurations(config_parameter_name, ui))
+    ui.EventPage.changesMade.connect(lambda: event_page(ui))
     ui.ConfigurationWindow.finished.connect(lambda: apply_config_changes(ui))
     ui.ConfigurationWindow.show()        
+
+
+def event_page(ui):
+    write_scoring_wrapper(ui)
 
 
 def apply_general_configurations(config_parameter_name, ui):

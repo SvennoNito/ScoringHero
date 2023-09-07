@@ -15,8 +15,9 @@ def write_scoring_wrapper(ui):
     for numerator, container in enumerate(ui.AnnotationContainer):
         for counter, (border, epochs) in enumerate(zip(container.borders, container.epochs)):
             annotations.append({
-                'id': container.label,
-                'id_number': numerator,
+                'key': container.key,
+                'event': container.label,
+                'digit': numerator,
                 'counter': counter,
                 'epoch': epochs,
                 'start': border[0],

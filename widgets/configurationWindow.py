@@ -1,10 +1,10 @@
-from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QTabWidget, QDialog, QFormLayout, QDoubleSpinBox, QCheckBox, QComboBox, QHBoxLayout, QLineEdit, QStyle
+from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QTabWidget, QDialog, QFormLayout, QDoubleSpinBox, QCheckBox, QComboBox, QHBoxLayout, QLineEdit, QColorDialog, QPushButton
 from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtGui import QIcon, QPixmap, QColor
 
 class ConfigurationWindow(QDialog):
     changesMade = Signal()
-    def __init__(self, config, allow_staging):
+    def __init__(self, config, AnnotationContainer, allow_staging):
         super().__init__()
         self.setWindowTitle("Configuration Window")  
         self.resize(500, 400)        
@@ -16,15 +16,61 @@ class ConfigurationWindow(QDialog):
         # Create the pages
         self.channel_page = ChannelConfiguration(config[1])
         self.general_page = GeneralConfiguration(config[0], allow_staging)
-        events_page = QLabel("Coming soon!")
+        self.events_page = EventConfiguration(AnnotationContainer)
 
         # Add the pages to the tabs
-        self.tabs.addTab(self.channel_page, "Select Channels")
         self.tabs.addTab(self.general_page, "Configuration")
-        self.tabs.addTab(events_page, "Events")
+        self.tabs.addTab(self.channel_page, "Channels")
+        self.tabs.addTab(self.events_page, "Events")
 
     def return_page(self):
-        return self.channel_page, self.general_page
+        return self.channel_page, self.general_page, self.events_page
+    
+class EventConfiguration(QDialog):
+    changesMade = Signal()
+
+    def __init__(self, AnnotationContainer, parent=None):
+        super().__init__(parent)
+        layout          = QVBoxLayout(self)
+        form_layout     = QFormLayout()
+        self.scale      = []
+        self.display    = []
+        self.color      = []
+        self.label      = []
+
+        # Loop through channels
+        for count, container in enumerate(AnnotationContainer):
+
+            # QColor
+            qcolor = QColor(container.facecolor[0], container.facecolor[1],container.facecolor[2], container.facecolor[3])
+
+            # Channe label
+            labelbox = QLineEdit(container.label)
+            labelbox.setAlignment(Qt.AlignRight)
+            #labelbox.setFixedWidth(max(len(container.label) for container in AnnotationContainer)*8 + 10)
+            #labelbox.setStyleSheet(f"background: {qcolor.name()};") # {container.facecolor};
+            labelbox.textChanged.connect(lambda: self.change_event(AnnotationContainer))  
+
+            # Pushbutton
+            colorbutton = QPushButton()
+            colorbutton .setStyleSheet(f"background-color: {qcolor.name()};") # {container.facecolor};
+
+
+            # Layout
+            row_layout = QHBoxLayout()
+            row_layout.addWidget(labelbox)
+            row_layout.addWidget(colorbutton)
+            form_layout.addRow(row_layout)
+
+            self.label.append(labelbox) 
+
+        layout.addLayout(form_layout)     
+
+    def change_event(self, AnnotationContainer):
+        for counter, container in enumerate(AnnotationContainer):
+            container.label = self.label[counter].text()
+        self.changesMade.emit()        
+
 
 
 class GeneralConfiguration(QDialog):
