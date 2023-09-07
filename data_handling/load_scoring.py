@@ -22,9 +22,10 @@ def load_scoring_qdialog(ui):
         None, "Open Scoring File", ui.default_data_path, "*.json"
     )
     ui.filename, suffix = os.path.splitext(name_of_scoringfile)
-    ui.stages, events = load_scoring(ui.filename,  ui.config[0]["Epoch_length_s"], ui.numepo)
+    ui.stages, events = load_scoring(f"{ui.filename}.json",  ui.config[0]["Epoch_length_s"], ui.numepo)
     events_to_ui(ui, events)
     refresh_gui(ui)
+    ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
 
 
 def events_to_ui(ui, events):

@@ -24,8 +24,8 @@
    "epoch": 3,
    "start": 60,
    "end": 90,
-   "stage": "N1",
-   "digit": -1,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -34,8 +34,8 @@
    "epoch": 4,
    "start": 90,
    "end": 120,
-   "stage": "N2",
-   "digit": -2,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -44,8 +44,8 @@
    "epoch": 5,
    "start": 120,
    "end": 150,
-   "stage": "N3",
-   "digit": -3,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -54,8 +54,8 @@
    "epoch": 6,
    "start": 150,
    "end": 180,
-   "stage": "REM",
-   "digit": 0,
+   "stage": "Wake",
+   "digit": 1,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6344,8 +6344,8 @@
    "epoch": 635,
    "start": 19020,
    "end": 19050,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6354,8 +6354,8 @@
    "epoch": 636,
    "start": 19050,
    "end": 19080,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6364,8 +6364,8 @@
    "epoch": 637,
    "start": 19080,
    "end": 19110,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6374,8 +6374,8 @@
    "epoch": 638,
    "start": 19110,
    "end": 19140,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6384,8 +6384,8 @@
    "epoch": 639,
    "start": 19140,
    "end": 19170,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6394,8 +6394,8 @@
    "epoch": 640,
    "start": 19170,
    "end": 19200,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6404,8 +6404,8 @@
    "epoch": 641,
    "start": 19200,
    "end": 19230,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6414,8 +6414,8 @@
    "epoch": 642,
    "start": 19230,
    "end": 19260,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6424,8 +6424,8 @@
    "epoch": 643,
    "start": 19260,
    "end": 19290,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6434,8 +6434,8 @@
    "epoch": 644,
    "start": 19290,
    "end": 19320,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6444,8 +6444,8 @@
    "epoch": 645,
    "start": 19320,
    "end": 19350,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6454,8 +6454,8 @@
    "epoch": 646,
    "start": 19350,
    "end": 19380,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6464,8 +6464,8 @@
    "epoch": 647,
    "start": 19380,
    "end": 19410,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6474,8 +6474,8 @@
    "epoch": 648,
    "start": 19410,
    "end": 19440,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6484,8 +6484,8 @@
    "epoch": 649,
    "start": 19440,
    "end": 19470,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6494,8 +6494,8 @@
    "epoch": 650,
    "start": 19470,
    "end": 19500,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6504,8 +6504,8 @@
    "epoch": 651,
    "start": 19500,
    "end": 19530,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6514,8 +6514,8 @@
    "epoch": 652,
    "start": 19530,
    "end": 19560,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6524,8 +6524,8 @@
    "epoch": 653,
    "start": 19560,
    "end": 19590,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -6534,8 +6534,8 @@
    "epoch": 654,
    "start": 19590,
    "end": 19620,
-   "stage": null,
-   "digit": null,
+   "stage": "REM",
+   "digit": 0,
    "uncertain": 0,
    "channels": [],
    "clean": 1
@@ -7685,10 +7685,171 @@
    "end": 270.2347929328622
   },
   {
+   "key": "A",
+   "event": "Artifacts",
+   "digit": 0,
+   "counter": 1,
+   "epoch": [
+    8,
+    9
+   ],
+   "start": 249.46136537102478,
+   "end": 270.2347929328622
+  },
+  {
+   "key": "A",
+   "event": "Artifacts",
+   "digit": 0,
+   "counter": 2,
+   "epoch": [
+    8,
+    9
+   ],
+   "start": 249.46136537102478,
+   "end": 270.2347929328622
+  },
+  {
+   "key": "A",
+   "event": "Artifacts",
+   "digit": 0,
+   "counter": 3,
+   "epoch": [
+    8,
+    9
+   ],
+   "start": 249.46136537102478,
+   "end": 270.2347929328622
+  },
+  {
+   "key": "A",
+   "event": "Artifacts",
+   "digit": 0,
+   "counter": 4,
+   "epoch": [
+    8,
+    9
+   ],
+   "start": 249.46136537102478,
+   "end": 270.2347929328622
+  },
+  {
+   "key": "A",
+   "event": "Artifacts",
+   "digit": 0,
+   "counter": 5,
+   "epoch": [
+    8,
+    9
+   ],
+   "start": 249.46136537102478,
+   "end": 270.2347929328622
+  },
+  {
+   "key": "A",
+   "event": "Artifacts",
+   "digit": 0,
+   "counter": 6,
+   "epoch": [
+    8,
+    9
+   ],
+   "start": 249.46136537102478,
+   "end": 270.2347929328622
+  },
+  {
+   "key": "A",
+   "event": "Artifacts",
+   "digit": 0,
+   "counter": 7,
+   "epoch": [
+    8,
+    9
+   ],
+   "start": 249.46136537102478,
+   "end": 270.2347929328622
+  },
+  {
    "key": "F5",
    "event": "F5",
    "digit": 5,
    "counter": 0,
+   "epoch": [
+    5
+   ],
+   "start": 179.02500129032254,
+   "end": 179.90224516129027
+  },
+  {
+   "key": "F5",
+   "event": "F5",
+   "digit": 5,
+   "counter": 1,
+   "epoch": [
+    5
+   ],
+   "start": 179.02500129032254,
+   "end": 179.90224516129027
+  },
+  {
+   "key": "F5",
+   "event": "F5",
+   "digit": 5,
+   "counter": 2,
+   "epoch": [
+    5
+   ],
+   "start": 179.02500129032254,
+   "end": 179.90224516129027
+  },
+  {
+   "key": "F5",
+   "event": "F5",
+   "digit": 5,
+   "counter": 3,
+   "epoch": [
+    5
+   ],
+   "start": 179.02500129032254,
+   "end": 179.90224516129027
+  },
+  {
+   "key": "F5",
+   "event": "F5",
+   "digit": 5,
+   "counter": 4,
+   "epoch": [
+    5
+   ],
+   "start": 179.02500129032254,
+   "end": 179.90224516129027
+  },
+  {
+   "key": "F5",
+   "event": "F5",
+   "digit": 5,
+   "counter": 5,
+   "epoch": [
+    5
+   ],
+   "start": 179.02500129032254,
+   "end": 179.90224516129027
+  },
+  {
+   "key": "F5",
+   "event": "F5",
+   "digit": 5,
+   "counter": 6,
+   "epoch": [
+    5
+   ],
+   "start": 179.02500129032254,
+   "end": 179.90224516129027
+  },
+  {
+   "key": "F5",
+   "event": "F5",
+   "digit": 5,
+   "counter": 7,
    "epoch": [
     5
    ],
