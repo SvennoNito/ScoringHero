@@ -1,7 +1,8 @@
 import os, json
 import numpy as np
-from .default_scoring import default_scoring
 from PySide6.QtWidgets import QFileDialog
+from .default_scoring import default_scoring
+from utilities.refresh_gui import refresh_gui 
 
 
 def load_scoring(scoring_filename, epolen, numepo):
@@ -23,6 +24,7 @@ def load_scoring_qdialog(ui):
     ui.filename, suffix = os.path.splitext(name_of_scoringfile)
     ui.stages, events = load_scoring(ui.filename,  ui.config[0]["Epoch_length_s"], ui.numepo)
     events_to_ui(ui, events)
+    refresh_gui(ui)
 
 
 def events_to_ui(ui, events):

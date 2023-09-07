@@ -1,5 +1,5 @@
 from .next_epoch import next_epoch
-from data_handling import write_scoring_wrapper
+from data_handling.write_scoring import write_scoring_wrapper
 
 
 def score_stage(value, ui):

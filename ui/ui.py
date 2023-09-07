@@ -12,8 +12,9 @@ from PySide6.QtWidgets import (
 from .toolbar import setup_toolbar
 from .menu import setup_menu
 from widgets import *
-from utilities import *
-from data_handling import *
+from utilities.timing_decorator import timing_decorator
+from utilities.score_stage import score_stage 
+from data_handling.write_scoring import write_scoring_popup
 from mouse_click import *
 from paint_event import *
 from paint_event.zoom_on_selected_eeg import zoom_on_selected_eeg

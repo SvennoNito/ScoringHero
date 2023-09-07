@@ -1,4 +1,4 @@
-from utilities import *
+from utilities.refresh_gui import refresh_gui
 
 
 def click_on_spectogram(event, ui):

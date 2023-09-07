@@ -3,7 +3,7 @@ from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont
 import pyqtgraph as pg
 import numpy as np
-from utilities import *
+from utilities.timing_decorator import timing_decorator
 from signal_processing import *
 
 

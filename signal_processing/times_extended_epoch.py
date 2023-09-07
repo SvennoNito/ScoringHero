@@ -1,5 +1,5 @@
 import numpy as np
-from utilities import *
+from utilities import timing_decorator
 
 
 @timing_decorator

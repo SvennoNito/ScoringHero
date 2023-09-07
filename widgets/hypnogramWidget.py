@@ -4,7 +4,7 @@ from PySide6.QtGui import QFont
 from scipy.signal import medfilt
 import pyqtgraph as pg
 import numpy as np
-from utilities import *
+from utilities.timing_decorator import timing_decorator
 from signal_processing import *
 
 

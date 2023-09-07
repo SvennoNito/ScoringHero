@@ -8,7 +8,10 @@ import numpy as np
 
 from ui import *
 from data_handling import *
-from utilities import *
+from utilities.timing_decorator import timing_decorator
+from utilities.next_epoch import next_epoch
+from utilities.prev_epoch import prev_epoch
+from data_handling.load_eeg import load_eeg_wrapper, load_eeg_config_scoring
 from mouse_click import *
 from widgets import *
 from signal_processing.build_times_vector import build_times_vector

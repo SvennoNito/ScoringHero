@@ -7,8 +7,10 @@ from PySide6.QtWidgets import (
     QPushButton,
     QSizePolicy,
 )
-from utilities import *
-
+from utilities.jump_to_epoch import jump_to_epoch
+from utilities.find_unscored_epoch import first_unscored_epoch
+from utilities.find_uncertain_stage import first_uncertain_stage
+from utilities.find_stage_transition import next_stage_transition
 
 def setup_toolbar(ui, MainWindow):
     toolbar = QToolBar(MainWindow)
