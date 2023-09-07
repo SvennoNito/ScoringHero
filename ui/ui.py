@@ -75,6 +75,7 @@ def setup_ui(ui, MainWindow):
     ui.menu = QMenuBar(MainWindow)
     ui.menu.setGeometry(QRect(0, 0, 800, 22))
     ui.menu.setObjectName("menu")
+    ui.menu.setStyleSheet("QMenu::item:selected { color: gray; }")
 
     # File menu
     ui.menu_file = QMenu(ui.menu)

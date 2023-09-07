@@ -70,9 +70,12 @@ class HypnogramWidget(QWidget):
 
         # Initialize epoch indicator line
         self.epoch_indicator_line = pg.InfiniteLine(
-            pos=self.times[0], angle=90, pen=pg.mkPen(color="k", width=0.8)
+            pos=self.times[0], angle=90, pen=pg.mkPen(color="k", width=1.5)
         )
         self.axes.addItem(self.epoch_indicator_line)
+
+        # Remove x ticks
+        self.axes.getAxis("bottom").setTicks([])        
 
         # Draw SWA
         # SWA[SWA > np.median(SWA) + 1 * np.std(SWA)] = np.nan
@@ -98,7 +101,7 @@ class HypnogramWidget(QWidget):
     def median_filter(self, SWA, kernel):
         SWA = medfilt(SWA, 101-kernel)
         SWA = (SWA - min(SWA)) / (np.percentile(SWA, 100) - min(SWA))        
-        SWA = SWA * (1 - (-4)) + (-4)
+        SWA = SWA * (-4 - (1)) + (1)
         return SWA      
 
     @timing_decorator

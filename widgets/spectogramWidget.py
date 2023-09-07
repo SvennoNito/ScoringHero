@@ -74,7 +74,7 @@ class SpectogramWidget(QtWidgets.QWidget):
 
         # Initialize epoch indicator line
         self.epoch_indicator_line = pg.InfiniteLine(
-            pos=1 - 0.5, angle=90, pen=pg.mkPen(color="k", width=0.8)
+            pos=1 - 0.5, angle=90, pen=pg.mkPen(color="w", width=1.8)
         )
         self.axes.addItem(self.epoch_indicator_line)
 
