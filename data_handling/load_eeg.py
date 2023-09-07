@@ -3,7 +3,7 @@ import numpy as np
 from scipy import io
 from PySide6.QtWidgets import QFileDialog
 from .load_config import load_configuration
-from .load_scoring import load_scoring
+from .load_scoring import load_scoring, events_to_ui
 from utilities.timing_decorator import timing_decorator
 
 
@@ -31,18 +31,10 @@ def load_eeg_config_scoring(ui, datatype):
         ui.config[0]["Sampling_rate_hz"],
         ui.config[0]["Epoch_length_s"],
     )
-    ui.stages, annotations = load_scoring(
+    ui.stages, events = load_scoring(
         f"{ui.filename}.json", ui.config[0]["Epoch_length_s"], ui.numepo
     )
-
-    event_digits = [item['digit'] for item in annotations]
-    for event_digit in set(event_digits):
-        container_index = np.where(np.array(event_digits) == event_digit)[0].tolist()
-        for container in np.array(annotations)[container_index]:
-            ui.AnnotationContainer[event_digit].label = container['event']
-            ui.AnnotationContainer[event_digit].borders.append([container['start'], container['end']])
-            ui.AnnotationContainer[event_digit].epochs.append(container['epoch'])
-
+    events_to_ui(ui, events)
 
 
 def load_eeglab(filename_prefix):

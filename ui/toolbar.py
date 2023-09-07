@@ -53,7 +53,7 @@ def setup_toolbar(ui, MainWindow):
     toolbar.addWidget(spacer)
 
     # Next uncertain epoch button
-    ui.tool_nextuncertain = QPushButton("uncertain ")
+    ui.tool_nextuncertain = QPushButton("uncertain")
     ui.tool_nextuncertain.clicked.connect(lambda: first_uncertain_stage(ui))
     toolbar.addWidget(ui.tool_nextuncertain)
 
