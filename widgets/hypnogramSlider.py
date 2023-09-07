@@ -11,6 +11,7 @@ class HypnogramSlider(QWidget):
         self.slider.setValue(100)
         self.slider.setMinimum(0)      
         self.slider.setMaximum(100)      
+        self.slider.setFocusPolicy(Qt.NoFocus)
 
         self.slider.sliderMoved.connect(self.transform_value)  
 

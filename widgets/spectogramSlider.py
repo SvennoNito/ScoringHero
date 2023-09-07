@@ -10,6 +10,7 @@ class SpectogramSlider(QWidget):
         self.slider = QSlider(centralWidget, Qt.Vertical)
         self.slider.setValue(100)
         self.slider.setMinimum(75)
+        self.slider.setFocusPolicy(Qt.NoFocus)
 
         # self.slider.setStyleSheet({
         #     background: #3498db;
