@@ -38,7 +38,7 @@ def setup_toolbar(ui, MainWindow):
     toolbar.addWidget(spacer)
 
     # Next unscored epoch button
-    toolbar.addWidget(QLabel("or"))    
+    toolbar.addWidget(QLabel("or to"))    
 
     spacer = QWidget()
     spacer.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
