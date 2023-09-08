@@ -26,6 +26,7 @@ class SignalWidget(QWidget):
             "Black": (0, 0, 0),
             "Blue": (100, 149, 237),
             "Magenta": (233, 30, 99),
+            "Green":  (0, 128, 64),
         }
 
         self.pen_amplines = pg.mkPen(color=(0, 0, 0, 80), style=Qt.DotLine)

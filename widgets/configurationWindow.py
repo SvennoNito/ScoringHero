@@ -198,6 +198,7 @@ class ChannelConfiguration(QDialog):
             colorbox = QComboBox(self)
             colorbox.addItem("Black")
             colorbox.addItem("Blue")
+            colorbox.addItem("Green")
             colorbox.addItem("Magenta")
             colorbox.setCurrentText(chaninfo['Channel_color'])
             colorbox.currentIndexChanged.connect(lambda: self.change_event(channel_config))
