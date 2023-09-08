@@ -22,7 +22,7 @@ from data_handling.cache import load_cache
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.devmode = 0
+        self.devmode = 1
         self.this_epoch = 0
         self.default_data_path = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), "example_data"

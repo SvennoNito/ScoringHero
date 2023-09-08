@@ -16,6 +16,7 @@ def default_configuration(number_of_channels, srate=125):
             "Channel_color": "Black",
             "Display_on_screen": 1 if chan < 9 else 0,
             "Scaling_factor": 1,
+            "Vertical_shift": 0,
         }
         for chan in range(number_of_channels)
     ]

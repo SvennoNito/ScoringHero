@@ -22,55 +22,64 @@
       "Channel_name": "F3",
       "Channel_color": "Black",
       "Display_on_screen": true,
-      "Scaling_factor": 1
+      "Scaling_factor": 1,
+      "Vertical_shift": 0
     },
     {
       "Channel_name": "F4",
       "Channel_color": "Black",
       "Display_on_screen": false,
-      "Scaling_factor": 1
+      "Scaling_factor": 1,
+      "Vertical_shift": 0
     },
     {
       "Channel_name": "C3",
       "Channel_color": "Black",
       "Display_on_screen": true,
-      "Scaling_factor": 1
+      "Scaling_factor": 1,
+      "Vertical_shift": 0
     },
     {
       "Channel_name": "C4",
       "Channel_color": "Black",
       "Display_on_screen": false,
-      "Scaling_factor": 1
+      "Scaling_factor": 1,
+      "Vertical_shift": 0
     },
     {
       "Channel_name": "O1",
       "Channel_color": "Black",
       "Display_on_screen": true,
-      "Scaling_factor": 1
+      "Scaling_factor": 1,
+      "Vertical_shift": 0
     },
     {
       "Channel_name": "O2",
       "Channel_color": "Black",
       "Display_on_screen": false,
-      "Scaling_factor": 1
+      "Scaling_factor": 1,
+      "Vertical_shift": 0
     },
     {
       "Channel_name": "EOG1",
       "Channel_color": "Blue",
       "Display_on_screen": true,
-      "Scaling_factor": 1
+      "Scaling_factor": 1,
+      "Vertical_shift": 0
     },
     {
       "Channel_name": "EOG2",
       "Channel_color": "Blue",
       "Display_on_screen": true,
-      "Scaling_factor": 1
+      "Scaling_factor": 1,
+      "Vertical_shift": 0
     },
     {
       "Channel_name": "EMG",
       "Channel_color": "Magenta",
       "Display_on_screen": true,
-      "Scaling_factor": 1
+      "Scaling_factor": 1,
+      "Vertical_shift": 0
     }
   ]
 ]

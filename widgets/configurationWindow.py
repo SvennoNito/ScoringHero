@@ -170,6 +170,7 @@ class ChannelConfiguration(QDialog):
         self.display    = []
         self.color      = []
         self.label      = []
+        self.shift      = []
 
         # Loop through channels
         for count, chaninfo in enumerate(channel_config):
@@ -187,6 +188,14 @@ class ChannelConfiguration(QDialog):
             spinbox.setDecimals(0)
             spinbox.setValue(chaninfo['Scaling_factor'])
             spinbox.valueChanged.connect(lambda: self.change_event(channel_config))  
+
+            # Value by which EEG is multiplied
+            shiftbox = QDoubleSpinBox(self)
+            shiftbox.setMinimum(0)
+            shiftbox.setMaximum(10000)
+            shiftbox.setDecimals(0)
+            shiftbox.setValue(chaninfo['Vertical_shift'])
+            shiftbox.valueChanged.connect(lambda: self.change_event(channel_config))             
 
             # Whether channel is displayed or not
             checkbox = QCheckBox(self)
@@ -208,6 +217,7 @@ class ChannelConfiguration(QDialog):
             row_layout.addWidget(labelbox)
             row_layout.addWidget(checkbox)
             row_layout.addWidget(spinbox)
+            row_layout.addWidget(shiftbox)
             row_layout.addWidget(colorbox)
             form_layout.addRow(row_layout)
 
@@ -215,6 +225,7 @@ class ChannelConfiguration(QDialog):
             self.scale.append(spinbox)
             self.display.append(checkbox)
             self.color.append(colorbox)
+            self.shift.append(shiftbox)
 
         layout.addLayout(form_layout)     
 
@@ -224,4 +235,5 @@ class ChannelConfiguration(QDialog):
             chaninfo['Channel_color']      = self.color[counter].currentText()
             chaninfo['Display_on_screen']  = self.display[counter].isChecked()
             chaninfo['Scaling_factor']     = int(self.scale[counter].value())
+            chaninfo['Vertical_shift']     = int(self.shift[counter].value())
         self.changesMade.emit()        

@@ -64,6 +64,7 @@ class SignalWidget(QWidget):
             drawn_signal = self.axes.plot(
                 times,
                 data * config[1][visible_counter]["Scaling_factor"]
+                + config[1][visible_counter]["Vertical_shift"]
                 - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter,
                 pen=pen,
             )
@@ -74,7 +75,7 @@ class SignalWidget(QWidget):
                 angle=0,
                 pos=0
                 - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
-                + 37.5 * config[1][visible_counter]["Scaling_factor"],
+                + config[1][visible_counter]["Vertical_shift"] + 37.5 * config[1][visible_counter]["Scaling_factor"],
                 pen=self.pen_amplines,
             )
             self.axes.addItem(amplitude_line)
@@ -82,7 +83,7 @@ class SignalWidget(QWidget):
                 angle=0,
                 pos=0
                 - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
-                - 37.5 * config[1][visible_counter]["Scaling_factor"],
+                + config[1][visible_counter]["Vertical_shift"] - 37.5 * config[1][visible_counter]["Scaling_factor"],
                 pen=self.pen_amplines,
             )
             self.axes.addItem(amplitude_line)
@@ -90,7 +91,7 @@ class SignalWidget(QWidget):
                 angle=0,
                 pos=0
                 - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
-                + 0 * config[1][visible_counter]["Scaling_factor"],
+                + config[1][visible_counter]["Vertical_shift"] + 0 * config[1][visible_counter]["Scaling_factor"],
                 pen=self.pen_amplines,
             )
             self.axes.addItem(amplitude_line)
@@ -103,6 +104,7 @@ class SignalWidget(QWidget):
                     times[0],
                     0
                     - config[0]["Distance_between_channels_muV"]
+                    + config[1][visible_counter]["Vertical_shift"]
                     * numchans_visible
                     * chan_counter
                     + 37.5 * config[1][visible_counter]["Scaling_factor"],
@@ -111,6 +113,7 @@ class SignalWidget(QWidget):
                     times[0],
                     0
                     - config[0]["Distance_between_channels_muV"]
+                    + config[1][visible_counter]["Vertical_shift"]
                     * numchans_visible
                     * chan_counter
                     - 37.5 * config[1][visible_counter]["Scaling_factor"],
@@ -199,6 +202,7 @@ class SignalWidget(QWidget):
             self.drawn_signals[chan_counter].setData(
                 times,
                 data * config[1][visible_counter]["Scaling_factor"]
+                + config[1][visible_counter]["Vertical_shift"]
                 - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter,
                 pen=pen,
             )
