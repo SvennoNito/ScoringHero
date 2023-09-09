@@ -1,5 +1,15 @@
 # -*- coding: utf-8 -*-
 
+# To do
+# Assign a button to apply configuration
+# Green box wegclick error when it's very high
+# Signal border not necessarily even on top and bottom
+# Option to randomize files
+# When closing, error message that says how many epochs were not scored
+# Hypnogram on top of spectogram
+# artefact more transparent
+# Scoring should save channels on which it was scored
+
 from PySide6 import QtCore, QtWidgets, QtGui
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
