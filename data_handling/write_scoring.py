@@ -1,5 +1,13 @@
 import json, os
-from PySide6.QtWidgets import QFileDialog
+from PySide6.QtWidgets import QFileDialog, QMessageBox
+
+
+def write_scoring_catch_error(ui):
+    try:
+        write_scoring_wrapper(ui)
+    except Exception as e:
+        error_message = f"An error occurred while writing the scoring file in \n{ui.filename}.json: \n\n{str(e)} \n\nThis means that the latest change in the scoring file was not saved! Please 1) screenshot this errorbox and 2) go to the black command window that opened with this program and copy the last error messages. Please report this bug so that it can be fixed fast!"
+        QMessageBox.warning(ui, "Error", error_message)       
 
 
 def write_scoring_popup(ui):
@@ -7,7 +15,7 @@ def write_scoring_popup(ui):
         None, "Write scoring file", ui.default_data_path, "*json"
     )
     ui.filename, _ = os.path.splitext(name_of_scoringfile)
-    write_scoring_wrapper(ui)
+    write_scoring_catch_error(ui)
 
 
 def write_scoring_wrapper(ui):
@@ -23,7 +31,7 @@ def write_scoring_wrapper(ui):
                 'start': border[0],
                 'end': border[1],
             })
-    write_scoring(f"{ui.filename}.json", ui.stages, annotations)
+    write_scoring(f"{ui.filename}.json", ui.stages, annotations)  
 
 
 def write_scoring(scoring_filename, stages, annotations):

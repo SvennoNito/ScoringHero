@@ -4,7 +4,7 @@ from data_handling.write_config import write_configuration_file
 from signal_processing.build_times_vector import build_times_vector
 from signal_processing.compute_spectogram import freqsOI_ui, spectogram_to_ui
 from data_handling.cache import ui_to_cache, write_cache
-from data_handling.write_scoring import write_scoring_wrapper
+from data_handling.write_scoring import write_scoring_catch_error
 
 
 def open_config_window(ui):
@@ -19,7 +19,7 @@ def open_config_window(ui):
 
 
 def event_page(ui):
-    write_scoring_wrapper(ui)
+    write_scoring_catch_error(ui)
 
 
 def apply_general_configurations(config_parameter_name, ui):
