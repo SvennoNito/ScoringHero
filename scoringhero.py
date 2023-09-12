@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 # To do
-# Assign a button to apply configuration
 # Green box wegclick error when it's very high
 # Signal border not necessarily even on top and bottom
 # Option to randomize files

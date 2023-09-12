@@ -1,4 +1,4 @@
-from PySide6.QtCore import Qt, QRect, Signal
+from PySide6.QtCore import Qt, QRect, Signal, QPoint
 from PySide6.QtWidgets import QSlider, QWidget, QLabel, QVBoxLayout
 from PySide6.QtGui import QPainter, QBrush, QColor, QFont
 
@@ -15,6 +15,7 @@ class PaintEventWidget(QWidget):
         self.reset()
         self.setAutoFillBackground(False)
         self.setAttribute(Qt.WA_NoSystemBackground, True)
+        self.rect_limits = self.rect()
 
         # Create a label to display the totalLength value
         self.length_text = QLabel(self)
@@ -34,7 +35,7 @@ class PaintEventWidget(QWidget):
     def mousePressEvent(self, event):
         self.store_new_rectangle(event)
 
-    def mouseMoveEvent(self, event):
+    def mouseMoveEvent(self, event):               
         self.update_last_rectangle(event)
         self.update()
 
@@ -53,6 +54,9 @@ class PaintEventWidget(QWidget):
             qp.drawRect(QRect(corners[0].x(), corners[0].y(), width, height))
             # for line, width, height in zip(self.stored_corners, self.width, self.height):
 
+    def resizeEvent(self, event):
+        self.rect_limits = self.rect()            
+
     def store_new_rectangle(self, event):
         self.stored_corners.append([event.pos(), event.pos()])
         # self.width.append([])
@@ -60,8 +64,11 @@ class PaintEventWidget(QWidget):
 
     def update_last_rectangle(self, event):
         self.stored_corners[-1][1] = event.pos()
-        # self.width[-1]              = self.stored_corners[-1][1].x() - self.stored_corners[-1][0].x()
-        # self.height[-1]             = self.stored_corners[-1][1].y() - self.stored_corners[-1][0].y()
+        self.respect_boder()
+
+    def respect_boder(self):
+        if self.stored_corners[-1][1].y() < self.rect_limits.top():
+            self.stored_corners[-1][1].setY(self.rect_limits.top())
 
     def update_text_label(self):
         total_length = sum(
