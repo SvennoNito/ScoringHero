@@ -4,7 +4,6 @@ from .drop_clicked_rectangle import *
 from .show_rectangle_size import *
 from .rectangle_power import *
 from .order_corners import order_corners
-from .restrict_border import restrict_border
 
 def paint_event_wrapper(ui):
     # Correct for drawing rectangles from right to left
@@ -15,9 +14,6 @@ def paint_event_wrapper(ui):
         converted_corners, converted_shape = convert_to_seconds(
             ui, ui.PaintEventWidget.stored_corners
         )
-
-        # Restrict rectangles to borders
-        # converted_corners, converted_shape = restrict_border(converted_corners, converted_shape)
 
         # Drop rectangle if clicked on
         if len(converted_shape) > 0:
