@@ -167,6 +167,7 @@ def setup_ui(ui, MainWindow):
     )
     ui.action_artefact.setShortcut("A")
     ui.menu_labels.addAction(ui.action_artefact)
+    ui.menu_labels.addSeparator()
 
     ui.action_F1 = QAction("Event 1", MainWindow)
     ui.action_F1.setObjectName("action_F1")
