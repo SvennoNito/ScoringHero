@@ -1,5 +1,6 @@
 from config.load_configuration import load_configuration
-from data_handling.load_scoring import load_scoring, events_to_ui
+from scoring.load_scoring import load_scoring
+from scoring.events_to_ui import events_to_ui
 from utilities.timing_decorator import timing_decorator
 from .load_eeglab import load_eeglab
 from .number_of_epochs import number_of_epochs

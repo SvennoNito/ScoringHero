@@ -2,6 +2,7 @@ import os, json
 from .default_config import default_configuration
 from .write_configuration import write_configuration
 
+
 def load_configuration(configuration_filename, number_of_channels=6):
     if os.path.exists(configuration_filename):
         with open(configuration_filename, "r") as file:

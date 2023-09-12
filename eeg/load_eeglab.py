@@ -1,6 +1,7 @@
 import h5py
 from scipy import io
 
+
 def load_eeglab(filename_prefix):
     if io.matlab.miobase.get_matfile_version(filename_prefix)[0] == 2:  # v7.3 files
         with h5py.File(filename_prefix, "r") as eeg_file:

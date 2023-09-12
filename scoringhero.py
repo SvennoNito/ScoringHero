@@ -13,7 +13,7 @@ import scipy.io, os, sys, json, re, h5py, datetime
 import numpy as np
 
 from ui import *
-from data_handling import *
+from scoring import *
 from utilities.timing_decorator import timing_decorator
 from utilities.next_epoch import next_epoch
 from utilities.prev_epoch import prev_epoch
@@ -24,7 +24,7 @@ from widgets import *
 from signal_processing.build_times_vector import build_times_vector
 from events.draw_box_in_epoch import draw_box_in_epoch
 from cache.load_cache import load_cache
-from data_handling.write_scoring import write_scoring_catch_error
+from scoring.write_scoring import write_scoring
 
 
 class MyMainWindow(QtWidgets.QMainWindow):
@@ -52,7 +52,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
                 event.ignore()
                 return
             else:
-                write_scoring_catch_error(ui)
+                write_scoring(ui)
                 event.accept()
 
 

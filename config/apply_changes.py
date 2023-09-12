@@ -1,6 +1,6 @@
 from .write_configuration import write_configuration
 from eeg.number_of_epochs import number_of_epochs
-from data_handling.default_scoring import default_scoring
+from scoring.default_scoring import default_scoring
 from cache.ui_to_cache import ui_to_cache
 from cache.write_cache import write_cache
 from signal_processing.trim_power import trim_power

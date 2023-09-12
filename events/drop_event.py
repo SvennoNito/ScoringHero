@@ -1,5 +1,5 @@
 from .draw_box_in_epoch import draw_box_in_epoch
-from data_handling.write_scoring import write_scoring_catch_error
+from scoring.write_scoring import write_scoring
 
 
 def drop_event(ui, converted_corners):
@@ -13,4 +13,4 @@ def drop_event(ui, converted_corners):
         draw_box_in_epoch(ui, container)
 
     # Write scoring file
-    write_scoring_catch_error(ui)
+    write_scoring(ui)

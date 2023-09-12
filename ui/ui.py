@@ -14,14 +14,14 @@ from .menu import setup_menu
 from widgets import *
 from utilities.timing_decorator import timing_decorator
 from utilities.score_stage import score_stage
-from data_handling.write_scoring import write_scoring_popup
+from scoring.scoring_export_window import scoring_export_window
 from mouse_click import *
 from paint_event import *
 from paint_event.zoom_on_selected_eeg import zoom_on_selected_eeg
 from events.draw_box import draw_box
 from utilities.scoring_uncertainty import scoring_uncertainty
 from config.open_config_window import open_config_window
-from data_handling.load_scoring import load_scoring_qdialog
+from scoring.scoring_import_window import scoring_import_window
 
 
 @timing_decorator
@@ -95,11 +95,11 @@ def setup_ui(ui, MainWindow):
 
     ui.action_load_scoring = QAction(MainWindow)
     ui.action_load_scoring.setObjectName("action_load_scoring")
-    ui.action_load_scoring.triggered.connect(lambda: load_scoring_qdialog(ui))
+    ui.action_load_scoring.triggered.connect(lambda: scoring_import_window(ui))
     ui.menu_file.addAction(ui.action_load_scoring)
     ui.action_save_scoring = QAction(MainWindow)
     ui.action_save_scoring.setObjectName("action_save_scoring")
-    ui.action_save_scoring.triggered.connect(lambda: write_scoring_popup(ui))
+    ui.action_save_scoring.triggered.connect(lambda: scoring_export_window(ui))
     ui.menu_file.addAction(ui.action_save_scoring)
 
     # Sleep stages menu

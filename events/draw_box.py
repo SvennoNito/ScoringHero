@@ -6,7 +6,7 @@ from .associated_epoch import associated_epoch
 from .draw_box_in_epoch import draw_box_in_epoch
 from .remove_epoch_from_merged_area import remove_epoch_from_merged_area
 from paint_event.convert_to_seconds import convert_to_seconds
-from data_handling.write_scoring import write_scoring_catch_error
+from scoring.write_scoring import write_scoring
 
 
 def draw_box(box_index, ui):
@@ -56,4 +56,4 @@ def draw_box(box_index, ui):
     ui.SignalWidget.text_amplitude.setText("")
 
     # Write scoring file
-    write_scoring_catch_error(ui)
+    write_scoring(ui)
