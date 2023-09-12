@@ -1,4 +1,4 @@
-from .draw_box_in_epoch import draw_box_in_epoch
+from .draw_event_in_this_epoch import draw_event_in_this_epoch
 from scoring.write_scoring import write_scoring
 
 
@@ -10,7 +10,7 @@ def drop_event(ui, converted_corners):
                 container.epochs.pop(index)
 
         # Draw rectangle
-        draw_box_in_epoch(ui, container)
+        draw_event_in_this_epoch(ui, container)
 
     # Write scoring file
     write_scoring(ui)

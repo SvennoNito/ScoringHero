@@ -1,6 +1,6 @@
 from signal_processing.trim_power import trim_power
 from signal_processing.min_max_scale import min_max_scale
-from events.draw_box_in_epoch import draw_box_in_epoch
+from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 
 
 def refresh_gui(ui):
@@ -33,4 +33,4 @@ def refresh_gui(ui):
 
     # Draw annotations
     for container in ui.AnnotationContainer:
-        draw_box_in_epoch(ui, container)
+        draw_event_in_this_epoch(ui, container)

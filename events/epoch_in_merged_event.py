@@ -1,4 +1,4 @@
-def remove_epoch_from_merged_area(borders, border_of_this_epoch):
+def epoch_in_merged_event(borders, border_of_this_epoch):
     start, end = border_of_this_epoch
     result = []
 

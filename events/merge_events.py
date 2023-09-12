@@ -1,7 +1,4 @@
-import numpy as np
-
-
-def merge_borders(borders):
+def merge_events(borders):
     merged_borders = []
 
     for border in sorted(borders, key=lambda x: x[0]):

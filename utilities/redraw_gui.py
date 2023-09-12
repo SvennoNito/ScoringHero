@@ -1,4 +1,4 @@
-from events.draw_box_in_epoch import draw_box_in_epoch
+from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 
 
 def redraw_gui(ui):
@@ -10,4 +10,4 @@ def redraw_gui(ui):
 
     # Draw annotations
     for container in ui.AnnotationContainer:
-        draw_box_in_epoch(ui, container)
+        draw_event_in_this_epoch(ui, container)

@@ -22,7 +22,7 @@ from eeg.eeg_import_window import eeg_import_window
 from mouse_click import *
 from widgets import *
 from signal_processing.build_times_vector import build_times_vector
-from events.draw_box_in_epoch import draw_box_in_epoch
+from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 from cache.load_cache import load_cache
 from scoring.write_scoring import write_scoring
 
@@ -90,7 +90,7 @@ class Ui_MainWindow(QMainWindow):
             self.stages, self.numepo, self.config, self.swa
         )
         for container in self.AnnotationContainer:
-            draw_box_in_epoch(self, container)
+            draw_event_in_this_epoch(self, container)
 
 
 if __name__ == "__main__":
@@ -110,7 +110,7 @@ if __name__ == "__main__":
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
         ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
         for container in ui.AnnotationContainer:
-            draw_box_in_epoch(ui, container)
+            draw_event_in_this_epoch(ui, container)
 
     MainWindow.activateWindow()  # Add this line to make the window active
     MainWindow.show()

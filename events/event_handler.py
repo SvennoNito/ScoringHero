@@ -1,15 +1,12 @@
-import pyqtgraph as pg
-import numpy as np
-from PyQt5.QtCore import QPoint
-from .merge_borders import merge_borders
-from .associated_epoch import associated_epoch
-from .draw_box_in_epoch import draw_box_in_epoch
-from .remove_epoch_from_merged_area import remove_epoch_from_merged_area
+from .merge_events import merge_events
+from .event_epoch import event_epoch
+from .draw_event_in_this_epoch import draw_event_in_this_epoch
+from .epoch_in_merged_event import epoch_in_merged_event
 from paint_event.convert_to_seconds import convert_to_seconds
 from scoring.write_scoring import write_scoring
 
 
-def draw_box(box_index, ui):
+def event_handler(box_index, ui):
     # Extract respective container
     container = ui.AnnotationContainer[box_index]
 
@@ -24,9 +21,7 @@ def draw_box(box_index, ui):
         ]
 
         # Append or remove epoch
-        container.borders = remove_epoch_from_merged_area(
-            container.borders, converted_corners
-        )
+        container.borders = epoch_in_merged_event(container.borders, converted_corners)
         if converted_corners not in container.borders:
             container.borders.append(converted_corners)
         else:
@@ -40,15 +35,13 @@ def draw_box(box_index, ui):
         ]
 
     # Merge borders
-    container.borders = merge_borders(container.borders)
+    container.borders = merge_events(container.borders)
 
     # Associated epoch of each border
-    container.epochs = associated_epoch(
-        container.borders, ui.config[0]["Epoch_length_s"]
-    )
+    container.epochs = event_epoch(container.borders, ui.config[0]["Epoch_length_s"])
 
     # Draw rectangle
-    draw_box_in_epoch(ui, container)
+    draw_event_in_this_epoch(ui, container)
 
     # Update paint evenet
     ui.PaintEventWidget.reset()

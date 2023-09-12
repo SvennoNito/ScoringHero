@@ -18,7 +18,7 @@ from scoring.scoring_export_window import scoring_export_window
 from mouse_click import *
 from paint_event import *
 from paint_event.zoom_on_selected_eeg import zoom_on_selected_eeg
-from events.draw_box import draw_box
+from events.event_handler import event_handler
 from utilities.scoring_uncertainty import scoring_uncertainty
 from config.open_config_window import open_config_window
 from scoring.scoring_import_window import scoring_import_window
@@ -145,45 +145,45 @@ def setup_ui(ui, MainWindow):
     ui.action_artefact = QAction("", ui)
     ui.action_artefact.setObjectName("action_artefact")
     ui.action_artefact.triggered.connect(
-        lambda box_index=0, ui=ui: draw_box(box_index, ui)
+        lambda box_index=0, ui=ui: event_handler(box_index, ui)
     )
     ui.label_box_as.addAction(ui.action_artefact)
 
     ui.action_F1 = QAction("", ui)
     ui.action_F1.setObjectName("action_F1")
-    ui.action_F1.triggered.connect(lambda box_index=1, ui=ui: draw_box(box_index, ui))
+    ui.action_F1.triggered.connect(lambda box_index=1, ui=ui: event_handler(box_index, ui))
     ui.label_box_as.addAction(ui.action_F1)
     ui.action_F2 = QAction("", ui)
     ui.action_F2.setObjectName("action_F2")
-    ui.action_F2.triggered.connect(lambda box_index=2, ui=ui: draw_box(box_index, ui))
+    ui.action_F2.triggered.connect(lambda box_index=2, ui=ui: event_handler(box_index, ui))
     ui.label_box_as.addAction(ui.action_F2)
     ui.action_F3 = QAction("", ui)
     ui.action_F3.setObjectName("action_F3")
-    ui.action_F3.triggered.connect(lambda box_index=3, ui=ui: draw_box(box_index, ui))
+    ui.action_F3.triggered.connect(lambda box_index=3, ui=ui: event_handler(box_index, ui))
     ui.label_box_as.addAction(ui.action_F3)
     ui.action_F4 = QAction("", ui)
     ui.action_F4.setObjectName("action_F4")
-    ui.action_F4.triggered.connect(lambda box_index=4, ui=ui: draw_box(box_index, ui))
+    ui.action_F4.triggered.connect(lambda box_index=4, ui=ui: event_handler(box_index, ui))
     ui.label_box_as.addAction(ui.action_F4)
     ui.action_F5 = QAction("", ui)
     ui.action_F5.setObjectName("action_F5")
-    ui.action_F5.triggered.connect(lambda box_index=5, ui=ui: draw_box(box_index, ui))
+    ui.action_F5.triggered.connect(lambda box_index=5, ui=ui: event_handler(box_index, ui))
     ui.label_box_as.addAction(ui.action_F5)
     ui.action_F6 = QAction("", ui)
     ui.action_F6.setObjectName("action_F6")
-    ui.action_F6.triggered.connect(lambda box_index=6, ui=ui: draw_box(box_index, ui))
+    ui.action_F6.triggered.connect(lambda box_index=6, ui=ui: event_handler(box_index, ui))
     ui.label_box_as.addAction(ui.action_F6)
     ui.action_F7 = QAction("", ui)
     ui.action_F7.setObjectName("action_F7")
-    ui.action_F7.triggered.connect(lambda box_index=7, ui=ui: draw_box(box_index, ui))
+    ui.action_F7.triggered.connect(lambda box_index=7, ui=ui: event_handler(box_index, ui))
     ui.label_box_as.addAction(ui.action_F7)
     ui.action_F8 = QAction("", ui)
     ui.action_F8.setObjectName("action_F8")
-    ui.action_F8.triggered.connect(lambda box_index=8, ui=ui: draw_box(box_index, ui))
+    ui.action_F8.triggered.connect(lambda box_index=8, ui=ui: event_handler(box_index, ui))
     ui.label_box_as.addAction(ui.action_F8)
     ui.action_F9 = QAction("", ui)
     ui.action_F9.setObjectName("action_F9")
-    ui.action_F9.triggered.connect(lambda box_index=9, ui=ui: draw_box(box_index, ui))
+    ui.action_F9.triggered.connect(lambda box_index=9, ui=ui: event_handler(box_index, ui))
     ui.label_box_as.addAction(ui.action_F9)
 
     # Utilities menu
