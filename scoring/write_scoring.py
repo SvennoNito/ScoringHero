@@ -6,9 +6,7 @@ def write_scoring(ui):
     try:
         annotations = []
         for numerator, container in enumerate(ui.AnnotationContainer):
-            for counter, (border, epochs) in enumerate(
-                zip(container.borders, container.epochs)
-            ):
+            for counter, (border, epochs) in enumerate(zip(container.borders, container.epochs)):
                 annotations.append(
                     {
                         "key": container.key,

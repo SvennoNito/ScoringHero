@@ -7,9 +7,7 @@ def channel_from_selection(config, converted_corner, converted_shape):
     )
     channel_anchors = np.array(
         [
-            -config[0]["Distance_between_channels_muV"]
-            * numchans_visible
-            * chan_counter
+            -config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
             for chan_counter in range(numchans_visible)
         ]
     )

@@ -35,7 +35,5 @@ def paint_event_handler(ui):
 
             # Compute power
             if len(converted_corners) > 0:
-                freqs, power = compute_periodogram(
-                    ui, converted_corners[-1], converted_shape[-1]
-                )
+                freqs, power = compute_periodogram(ui, converted_corners[-1], converted_shape[-1])
                 ui.RectanglePower.update_powerline(freqs, power)

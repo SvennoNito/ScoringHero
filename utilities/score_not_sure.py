@@ -1,8 +1,6 @@
 def score_not_sure(ui):
     # Change uncertainty
-    ui.stages[ui.this_epoch]["uncertain"] = change_value(
-        ui.stages[ui.this_epoch]["uncertain"]
-    )
+    ui.stages[ui.this_epoch]["uncertain"] = change_value(ui.stages[ui.this_epoch]["uncertain"])
 
     # Update text
     # ui.DisplayedEpochWidget.change_uncertainty(ui.stages[ui.this_epoch]["uncertain"])

@@ -26,9 +26,7 @@ class DisplayedEpochWidget(QWidget):
         layout.addWidget(self.textfield)
 
     def update_text(self, this_epoch, numepo, stages):
-        self.textfield.setText(
-            f'Epoch {this_epoch+1}/{numepo} | {stages[this_epoch]["stage"]}'
-        )
+        self.textfield.setText(f'Epoch {this_epoch+1}/{numepo} | {stages[this_epoch]["stage"]}')
         self.change_uncertainty(stages[this_epoch]["uncertain"])
 
     def change_uncertainty(self, uncertainty):

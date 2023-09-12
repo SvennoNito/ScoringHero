@@ -1,4 +1,4 @@
-from PySide6.QtGui import QAction, QColor
+from PySide6.QtGui import QAction
 from PySide6.QtCore import QRect, QMetaObject
 from PySide6.QtWidgets import (
     QWidget,
@@ -6,8 +6,7 @@ from PySide6.QtWidgets import (
     QMenuBar,
     QMenu,
     QStatusBar,
-    QVBoxLayout,
-)
+    )
 
 from .toolbar import setup_toolbar
 from .menu import setup_menu
@@ -32,6 +31,10 @@ def setup_ui(ui, MainWindow):
     ui.centralwidget = QWidget(MainWindow)
     ui.centralwidget.setObjectName("centralwidget")
     # MainWindow.showMaximized()
+
+
+    # *** Widgets ***
+    # ***************
 
     # set the grid layout
     layout = QGridLayout()
@@ -74,6 +77,10 @@ def setup_ui(ui, MainWindow):
     layout.addWidget(ui.HypnogramWidget.axes, 0, 56, 10, 30)
     layout.addWidget(ui.HypnogramSlider.slider, 1, 86, 8, 1)
     layout.addWidget(ui.RectanglePower.axes, 0, 87, 10, 13)
+
+
+    # *** Menu ***
+    # ************    
 
     # menu
     MainWindow.setCentralWidget(ui.centralwidget)

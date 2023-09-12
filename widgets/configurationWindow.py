@@ -180,9 +180,7 @@ class GeneralConfiguration(QDialog):
                     general_config[id][index] = int(spinbox.value())
                 else:
                     general_config[id] = int(spinbox.value())
-        changed_config_settings = self.config_keys_which_changed(
-            old_config, general_config
-        )
+        changed_config_settings = self.config_keys_which_changed(old_config, general_config)
         self.changesMade.emit(changed_config_settings)
 
     def config_keys_which_changed(self, config1, config2):
@@ -221,8 +219,7 @@ class ChannelConfiguration(QDialog):
             labelbox = QLineEdit(chaninfo["Channel_name"])
             labelbox.setAlignment(Qt.AlignRight)
             labelbox.setFixedWidth(
-                max(len(chaninfo["Channel_name"]) for chaninfo in channel_config) * 8
-                + 10
+                max(len(chaninfo["Channel_name"]) for chaninfo in channel_config) * 8 + 10
             )
             labelbox.textChanged.connect(lambda: self.change_event(channel_config))
 
@@ -255,9 +252,7 @@ class ChannelConfiguration(QDialog):
             colorbox.addItem("Green")
             colorbox.addItem("Magenta")
             colorbox.setCurrentText(chaninfo["Channel_color"])
-            colorbox.currentIndexChanged.connect(
-                lambda: self.change_event(channel_config)
-            )
+            colorbox.currentIndexChanged.connect(lambda: self.change_event(channel_config))
 
             # Layout
             row_layout = QHBoxLayout()

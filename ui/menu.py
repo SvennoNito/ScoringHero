@@ -10,9 +10,7 @@ def setup_menu(ui, MainWindow):
     ui.menu_config.setTitle(_translate("MainWindow", "Configuration"))
 
     # File
-    ui.action_load_eeglab.setText(
-        _translate("MainWindow", "Load EEGLAB structure (.mat)")
-    )
+    ui.action_load_eeglab.setText(_translate("MainWindow", "Load EEGLAB structure (.mat)"))
     ui.action_load_eeglab.setShortcut(_translate("MainWindow", "Ctrl+O"))
     ui.action_load_scoring.setText(_translate("MainWindow", "Load previous scoring"))
     ui.action_load_scoring.setShortcut(_translate("MainWindow", "Ctrl+Shift+O"))
@@ -30,9 +28,7 @@ def setup_menu(ui, MainWindow):
     ui.action_wake.setShortcut(_translate("MainWindow", "W"))
     ui.action_REM.setText(_translate("MainWindow", "REM"))
     ui.action_REM.setShortcut(_translate("MainWindow", "R"))
-    ui.action_express_uncertainty.setText(
-        _translate("MainWindow", "Express uncertainty")
-    )
+    ui.action_express_uncertainty.setText(_translate("MainWindow", "Express uncertainty"))
     ui.action_express_uncertainty.setShortcut(_translate("MainWindow", "Q"))
 
     # Annotations

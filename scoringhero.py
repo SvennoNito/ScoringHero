@@ -12,14 +12,12 @@ from PySide6.QtCore import *
 import scipy.io, os, sys, json, re, h5py, datetime
 import numpy as np
 
-from ui import *
-from scoring import *
+from ui.setup_ui import setup_ui
 from utilities.timing_decorator import timing_decorator
 from utilities.next_epoch import next_epoch
 from utilities.prev_epoch import prev_epoch
 from eeg.load_wrapper import load_wrapper
 from eeg.eeg_import_window import eeg_import_window
-from mouse_click import *
 from widgets import *
 from signal_processing.times_vector import times_vector
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
@@ -78,17 +76,11 @@ class Ui_MainWindow(QMainWindow):
         eeg_import_window(self, datatype)
         times_vector(self)
         self.toolbar_jump_to_epoch.setMaximum(self.numepo)
-        self.SignalWidget.draw_signal(
-            self.config, self.eeg_data, self.times, self.this_epoch
-        )
+        self.SignalWidget.draw_signal(self.config, self.eeg_data, self.times, self.this_epoch)
         self.DisplayedEpochWidget.update_text(self.this_epoch, self.numepo, self.stages)
         load_cache(self)
-        self.SpectogramWidget.draw_spectogram(
-            self.power, self.freqs, self.freqsOI, self.config
-        )
-        self.HypnogramWidget.draw_hypnogram(
-            self.stages, self.numepo, self.config, self.swa
-        )
+        self.SpectogramWidget.draw_spectogram(self.power, self.freqs, self.freqsOI, self.config)
+        self.HypnogramWidget.draw_hypnogram(self.stages, self.numepo, self.config, self.swa)
         for container in self.AnnotationContainer:
             draw_event_in_this_epoch(self, container)
 

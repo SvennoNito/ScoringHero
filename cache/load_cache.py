@@ -16,8 +16,7 @@ def load_cache(ui):
         is_same_spectogram_parameters = (
             cache["Sampling_rate_hz"] == ui.config[0]["Sampling_rate_hz"]
             and cache["Epoch_length_s"] == ui.config[0]["Epoch_length_s"]
-            and cache["Channel_for_spectogram"]
-            == ui.config[0]["Channel_for_spectogram"]
+            and cache["Channel_for_spectogram"] == ui.config[0]["Channel_for_spectogram"]
             and "spectogram" in cache
         )
 

@@ -7,9 +7,7 @@ from .apply_changes import apply_changes
 def open_config_window(ui):
     allow_staging = all([stage["stage"] == None for stage in ui.stages])
 
-    ui.ConfigurationWindow = ConfigurationWindow(
-        ui.config, ui.AnnotationContainer, allow_staging
-    )
+    ui.ConfigurationWindow = ConfigurationWindow(ui.config, ui.AnnotationContainer, allow_staging)
     ui.ChannelPage, ui.GeneralPage, ui.EventPage = ui.ConfigurationWindow.return_page()
     ui.ChannelPage.changesMade.connect(lambda: redraw_gui(ui))
     ui.GeneralPage.changesMade.connect(

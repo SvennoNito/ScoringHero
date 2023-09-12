@@ -28,12 +28,8 @@ def setup_toolbar(ui, MainWindow):
 
     ui.toolbar_jump_to_epoch = QSpinBox()
     ui.toolbar_jump_to_epoch.setMinimum(1)
-    ui.toolbar_jump_to_epoch.valueChanged.connect(
-        lambda value, ui=ui: jump_to_epoch(value, ui)
-    )
-    ui.toolbar_jump_to_epoch.editingFinished.connect(
-        ui.toolbar_jump_to_epoch.clearFocus
-    )
+    ui.toolbar_jump_to_epoch.valueChanged.connect(lambda value, ui=ui: jump_to_epoch(value, ui))
+    ui.toolbar_jump_to_epoch.editingFinished.connect(ui.toolbar_jump_to_epoch.clearFocus)
     toolbar.addWidget(ui.toolbar_jump_to_epoch)
 
     # Space

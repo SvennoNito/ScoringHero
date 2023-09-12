@@ -29,10 +29,7 @@ def event_handler(box_index, ui):
 
     else:
         # Rectangle was drawn
-        [
-            container.borders.append([corner[0].x(), corner[1].x()])
-            for corner in converted_corners
-        ]
+        [container.borders.append([corner[0].x(), corner[1].x()]) for corner in converted_corners]
 
     # Merge borders
     container.borders = merge_events(container.borders)
