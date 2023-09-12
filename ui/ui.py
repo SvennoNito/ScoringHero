@@ -15,7 +15,10 @@ from widgets import *
 from utilities.timing_decorator import timing_decorator
 from utilities.score_stage import score_stage
 from scoring.scoring_export_window import scoring_export_window
-from mouse_click import *
+from mouse_click.click_on_hypnogram import click_on_hypnogram
+from mouse_click.click_on_spectogram import click_on_spectogram
+from mouse_click.move_spectogram_slider import move_spectogram_slider
+from mouse_click.move_swa_slider import move_swa_slider
 from paint_event import *
 from paint_event.zoom_on_selected_eeg import zoom_on_selected_eeg
 from events.event_handler import event_handler
