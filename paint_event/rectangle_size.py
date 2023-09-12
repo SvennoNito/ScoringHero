@@ -1,8 +1,4 @@
-import pyqtgraph as pg
-from PySide6.QtGui import QFont
-
-
-def show_rectangle_size(ui, converted_corners, converted_shape):
+def rectangle_size(ui, converted_corners, converted_shape):
     if len(converted_shape) > 0:
         # Amplitude
         text = f"{round(converted_shape[-1][1], 2)} \u03BCV"

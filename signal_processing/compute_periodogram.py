@@ -1,17 +1,17 @@
 from scipy.signal import welch
 import numpy as np
-from .selected_samples import selected_samples
-from .selected_channel import selected_channel
+from .sample_from_selection import sample_from_selection
+from .channel_from_selection import channel_from_selection
 from signal_processing.trim_power import trim_power
 from signal_processing.min_max_scale import min_max_scale
 
 
-def rectangle_power(ui, converted_corner, converted_shape):
+def compute_periodogram(ui, converted_corner, converted_shape):
     # Selected sample points
-    samples, times = selected_samples(ui.times, ui.this_epoch, converted_corner)
+    samples, times = sample_from_selection(ui.times, ui.this_epoch, converted_corner)
 
     # Select channel
-    channel = selected_channel(ui.config, converted_corner, converted_shape)
+    channel = channel_from_selection(ui.config, converted_corner, converted_shape)
 
     # Compute power
     data = ui.eeg_data[channel][samples]

@@ -19,8 +19,8 @@ from mouse_click.click_on_hypnogram import click_on_hypnogram
 from mouse_click.click_on_spectogram import click_on_spectogram
 from mouse_click.move_spectogram_slider import move_spectogram_slider
 from mouse_click.move_swa_slider import move_swa_slider
-from paint_event import *
-from paint_event.zoom_on_selected_eeg import zoom_on_selected_eeg
+from paint_event.paint_event_handler import paint_event_handler
+from utilities.zoom_on_selected_eeg import zoom_on_selected_eeg
 from events.event_handler import event_handler
 from utilities.scoring_uncertainty import scoring_uncertainty
 from config.open_config_window import open_config_window
@@ -64,7 +64,7 @@ def setup_ui(ui, MainWindow):
     ui.HypnogramSlider.slider.valueChanged.connect(
         lambda value, ui=ui: move_swa_slider(value, ui)
     )
-    ui.PaintEventWidget.changesMade.connect(lambda ui=ui: paint_event_wrapper(ui))
+    ui.PaintEventWidget.changesMade.connect(lambda ui=ui: paint_event_handler(ui))
 
     # Layout
     layout.addWidget(ui.SignalWidget.axes, 10, 0, 85, 101)
@@ -154,39 +154,57 @@ def setup_ui(ui, MainWindow):
 
     ui.action_F1 = QAction("", ui)
     ui.action_F1.setObjectName("action_F1")
-    ui.action_F1.triggered.connect(lambda box_index=1, ui=ui: event_handler(box_index, ui))
+    ui.action_F1.triggered.connect(
+        lambda box_index=1, ui=ui: event_handler(box_index, ui)
+    )
     ui.label_box_as.addAction(ui.action_F1)
     ui.action_F2 = QAction("", ui)
     ui.action_F2.setObjectName("action_F2")
-    ui.action_F2.triggered.connect(lambda box_index=2, ui=ui: event_handler(box_index, ui))
+    ui.action_F2.triggered.connect(
+        lambda box_index=2, ui=ui: event_handler(box_index, ui)
+    )
     ui.label_box_as.addAction(ui.action_F2)
     ui.action_F3 = QAction("", ui)
     ui.action_F3.setObjectName("action_F3")
-    ui.action_F3.triggered.connect(lambda box_index=3, ui=ui: event_handler(box_index, ui))
+    ui.action_F3.triggered.connect(
+        lambda box_index=3, ui=ui: event_handler(box_index, ui)
+    )
     ui.label_box_as.addAction(ui.action_F3)
     ui.action_F4 = QAction("", ui)
     ui.action_F4.setObjectName("action_F4")
-    ui.action_F4.triggered.connect(lambda box_index=4, ui=ui: event_handler(box_index, ui))
+    ui.action_F4.triggered.connect(
+        lambda box_index=4, ui=ui: event_handler(box_index, ui)
+    )
     ui.label_box_as.addAction(ui.action_F4)
     ui.action_F5 = QAction("", ui)
     ui.action_F5.setObjectName("action_F5")
-    ui.action_F5.triggered.connect(lambda box_index=5, ui=ui: event_handler(box_index, ui))
+    ui.action_F5.triggered.connect(
+        lambda box_index=5, ui=ui: event_handler(box_index, ui)
+    )
     ui.label_box_as.addAction(ui.action_F5)
     ui.action_F6 = QAction("", ui)
     ui.action_F6.setObjectName("action_F6")
-    ui.action_F6.triggered.connect(lambda box_index=6, ui=ui: event_handler(box_index, ui))
+    ui.action_F6.triggered.connect(
+        lambda box_index=6, ui=ui: event_handler(box_index, ui)
+    )
     ui.label_box_as.addAction(ui.action_F6)
     ui.action_F7 = QAction("", ui)
     ui.action_F7.setObjectName("action_F7")
-    ui.action_F7.triggered.connect(lambda box_index=7, ui=ui: event_handler(box_index, ui))
+    ui.action_F7.triggered.connect(
+        lambda box_index=7, ui=ui: event_handler(box_index, ui)
+    )
     ui.label_box_as.addAction(ui.action_F7)
     ui.action_F8 = QAction("", ui)
     ui.action_F8.setObjectName("action_F8")
-    ui.action_F8.triggered.connect(lambda box_index=8, ui=ui: event_handler(box_index, ui))
+    ui.action_F8.triggered.connect(
+        lambda box_index=8, ui=ui: event_handler(box_index, ui)
+    )
     ui.label_box_as.addAction(ui.action_F8)
     ui.action_F9 = QAction("", ui)
     ui.action_F9.setObjectName("action_F9")
-    ui.action_F9.triggered.connect(lambda box_index=9, ui=ui: event_handler(box_index, ui))
+    ui.action_F9.triggered.connect(
+        lambda box_index=9, ui=ui: event_handler(box_index, ui)
+    )
     ui.label_box_as.addAction(ui.action_F9)
 
     # Utilities menu

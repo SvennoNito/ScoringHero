@@ -1,6 +1,4 @@
 import matplotlib.pyplot as plt
-from .selected_samples import selected_samples
-from .selected_channel import selected_channel
 
 
 def zoom_on_selected_eeg(ui):

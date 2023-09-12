@@ -1,1 +1,0 @@
-from .paint_event_wrapper import paint_event_wrapper

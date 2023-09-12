@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def selected_channel(config, converted_corner, converted_shape):
+def channel_from_selection(config, converted_corner, converted_shape):
     numchans_visible = len(
         [counter for counter, info in enumerate(config[1]) if info["Display_on_screen"]]
     )
