@@ -42,7 +42,7 @@ def setup_ui(ui, MainWindow):
     ui.HypnogramSlider = HypnogramSlider(ui.centralwidget)
     ui.RectanglePower = RectanglePower(ui.centralwidget)
     ui.PaintEventWidget = PaintEventWidget()
-    ui.AnnotationContainer = [AnnotationContainer(colorindex=counter, label=f'F{counter}') for counter in range(6)]
+    ui.AnnotationContainer = [AnnotationContainer(colorindex=counter, label=f'F{counter}') for counter in range(10)]
 
 
     # Make widgets react to mouse click
@@ -163,7 +163,23 @@ def setup_ui(ui, MainWindow):
     ui.action_F5 = QAction("", ui)
     ui.action_F5.setObjectName("action_F5")
     ui.action_F5.triggered.connect(lambda box_index=5, ui=ui: draw_box(box_index, ui))
-    ui.label_box_as.addAction(ui.action_F5)    
+    ui.label_box_as.addAction(ui.action_F5)   
+    ui.action_F6 = QAction("", ui)
+    ui.action_F6.setObjectName("action_F6")
+    ui.action_F6.triggered.connect(lambda box_index=6, ui=ui: draw_box(box_index, ui))
+    ui.label_box_as.addAction(ui.action_F6)    
+    ui.action_F7 = QAction("", ui)
+    ui.action_F7.setObjectName("action_F7")
+    ui.action_F7.triggered.connect(lambda box_index=7, ui=ui: draw_box(box_index, ui))
+    ui.label_box_as.addAction(ui.action_F7)         
+    ui.action_F8 = QAction("", ui)
+    ui.action_F8.setObjectName("action_F8")
+    ui.action_F8.triggered.connect(lambda box_index=8, ui=ui: draw_box(box_index, ui))
+    ui.label_box_as.addAction(ui.action_F8)     
+    ui.action_F9 = QAction("", ui)
+    ui.action_F9.setObjectName("action_F9")
+    ui.action_F9.triggered.connect(lambda box_index=9, ui=ui: draw_box(box_index, ui))
+    ui.label_box_as.addAction(ui.action_F9)         
 
     # Utilities menu
     ui.menu_utils = QMenu(ui.menu)

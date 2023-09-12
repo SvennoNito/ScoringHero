@@ -7708,7 +7708,7 @@
   },
   {
    "key": "F1",
-   "event": "F1",
+   "event": "Event 1",
    "digit": 1,
    "counter": 0,
    "epoch": [
@@ -7719,7 +7719,7 @@
   },
   {
    "key": "F2",
-   "event": "F2",
+   "event": "Event 2",
    "digit": 2,
    "counter": 0,
    "epoch": [
@@ -7730,7 +7730,7 @@
   },
   {
    "key": "F3",
-   "event": "F3",
+   "event": "Event 3",
    "digit": 3,
    "counter": 0,
    "epoch": [
@@ -7742,7 +7742,7 @@
   },
   {
    "key": "F4",
-   "event": "F4",
+   "event": "Event 4",
    "digit": 4,
    "counter": 0,
    "epoch": [
@@ -7753,7 +7753,7 @@
   },
   {
    "key": "F5",
-   "event": "F5",
+   "event": "Event 5",
    "digit": 5,
    "counter": 0,
    "epoch": [
@@ -7764,7 +7764,7 @@
   },
   {
    "key": "F5",
-   "event": "F5",
+   "event": "Event 5",
    "digit": 5,
    "counter": 1,
    "epoch": [
@@ -7775,7 +7775,7 @@
   },
   {
    "key": "F5",
-   "event": "F5",
+   "event": "Event 5",
    "digit": 5,
    "counter": 2,
    "epoch": [
@@ -7786,7 +7786,7 @@
   },
   {
    "key": "F5",
-   "event": "F5",
+   "event": "Event 5",
    "digit": 5,
    "counter": 3,
    "epoch": [
@@ -7797,7 +7797,7 @@
   },
   {
    "key": "F5",
-   "event": "F5",
+   "event": "Event 5",
    "digit": 5,
    "counter": 4,
    "epoch": [
@@ -7808,7 +7808,7 @@
   },
   {
    "key": "F5",
-   "event": "F5",
+   "event": "Event 5",
    "digit": 5,
    "counter": 5,
    "epoch": [
@@ -7819,7 +7819,7 @@
   },
   {
    "key": "F5",
-   "event": "F5",
+   "event": "Event 5",
    "digit": 5,
    "counter": 6,
    "epoch": [
@@ -7830,7 +7830,7 @@
   },
   {
    "key": "F5",
-   "event": "F5",
+   "event": "Event 5",
    "digit": 5,
    "counter": 7,
    "epoch": [

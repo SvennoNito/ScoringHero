@@ -44,7 +44,14 @@ def setup_menu(ui, MainWindow):
     ui.action_F4.setShortcut(_translate("MainWindow", "F4")) 
     ui.action_F5.setText(_translate("MainWindow", "Event 5"))
     ui.action_F5.setShortcut(_translate("MainWindow", "F5")) 
-
+    ui.action_F6.setText(_translate("MainWindow", "Event 6"))
+    ui.action_F6.setShortcut(_translate("MainWindow", "F6")) 
+    ui.action_F7.setText(_translate("MainWindow", "Event 7"))
+    ui.action_F7.setShortcut(_translate("MainWindow", "F7")) 
+    ui.action_F8.setText(_translate("MainWindow", "Event 8"))
+    ui.action_F8.setShortcut(_translate("MainWindow", "F8")) 
+    ui.action_F9.setText(_translate("MainWindow", "Event 9"))
+    ui.action_F9.setShortcut(_translate("MainWindow", "F9"))             
     # Utilities
     ui.action_zoom.setText(_translate("MainWindow", "Zoom on selected EEG"))
     ui.action_zoom.setShortcut(_translate("MainWindow", "Z"))      
