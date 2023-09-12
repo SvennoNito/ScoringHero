@@ -1,4 +1,4 @@
-from annotations.drop_event import drop_event
+from events.drop_event import drop_event
 
 def drop_clicked_rectangle(ui, converted_corners, rectangle_sizes):
     if (rectangle_sizes[-1][0] < 0.1 or rectangle_sizes[-1][1] < 0.1):

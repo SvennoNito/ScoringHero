@@ -1,6 +1,6 @@
 from signal_processing.trim_power import trim_power
 from signal_processing.min_max_scale import min_max_scale
-from annotations.draw_box_in_epoch import draw_box_in_epoch
+from events.draw_box_in_epoch import draw_box_in_epoch
 
 
 def refresh_gui(ui):

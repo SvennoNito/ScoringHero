@@ -10,7 +10,7 @@
     ],
     "Spectogram_limit_hz": [
       1,
-      20
+      18
     ],
     "Periodogram_limit_hz": [
       4,

@@ -21,8 +21,8 @@ from data_handling.load_eeg import load_eeg_wrapper, load_eeg_config_scoring
 from mouse_click import *
 from widgets import *
 from signal_processing.build_times_vector import build_times_vector
-from annotations.draw_box_in_epoch import draw_box_in_epoch
-from data_handling.cache import load_cache
+from events.draw_box_in_epoch import draw_box_in_epoch
+from cache.load_cache import load_cache
 from data_handling.write_scoring import write_scoring_catch_error
 
 

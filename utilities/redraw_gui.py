@@ -1,4 +1,4 @@
-from annotations.draw_box_in_epoch import draw_box_in_epoch
+from events.draw_box_in_epoch import draw_box_in_epoch
 
 def redraw_gui(ui):
 

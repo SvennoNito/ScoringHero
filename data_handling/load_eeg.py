@@ -2,7 +2,7 @@ import os, h5py
 import numpy as np
 from scipy import io
 from PySide6.QtWidgets import QFileDialog
-from .load_config import load_configuration
+from config.load_configuration import load_configuration
 from .load_scoring import load_scoring, events_to_ui
 from utilities.timing_decorator import timing_decorator
 

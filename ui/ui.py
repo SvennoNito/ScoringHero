@@ -18,7 +18,7 @@ from data_handling.write_scoring import write_scoring_popup
 from mouse_click import *
 from paint_event import *
 from paint_event.zoom_on_selected_eeg import zoom_on_selected_eeg
-from annotations.draw_box import draw_box
+from events.draw_box import draw_box
 from utilities.scoring_uncertainty import scoring_uncertainty
 from config.open_config_window import open_config_window
 from data_handling.load_scoring import load_scoring_qdialog
