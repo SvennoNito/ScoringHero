@@ -21,7 +21,7 @@ from eeg.load_wrapper import load_wrapper
 from eeg.eeg_import_window import eeg_import_window
 from mouse_click import *
 from widgets import *
-from signal_processing.build_times_vector import build_times_vector
+from signal_processing.times_vector import times_vector
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 from cache.load_cache import load_cache
 from scoring.write_scoring import write_scoring
@@ -76,7 +76,7 @@ class Ui_MainWindow(QMainWindow):
     @timing_decorator
     def load_eeg(self, datatype):
         eeg_import_window(self, datatype)
-        build_times_vector(self)
+        times_vector(self)
         self.toolbar_jump_to_epoch.setMaximum(self.numepo)
         self.SignalWidget.draw_signal(
             self.config, self.eeg_data, self.times, self.this_epoch
@@ -101,11 +101,10 @@ if __name__ == "__main__":
     if ui.devmode == 1:
         ui.filename = f"{ui.default_data_path}\example_data"
         load_wrapper(ui, datatype="eeglab")
-        build_times_vector(ui)
+        times_vector(ui)
         ui.toolbar_jump_to_epoch.setMaximum(ui.numepo)
         ui.SignalWidget.draw_signal(ui.config, ui.eeg_data, ui.times, ui.this_epoch)
         ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
-        # spectogram_to_ui(ui)
         load_cache(ui)
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
         ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)

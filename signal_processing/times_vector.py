@@ -3,7 +3,7 @@ from utilities.timing_decorator import timing_decorator
 
 
 @timing_decorator
-def build_times_vector(ui):
+def times_vector(ui):
     npoints = ui.eeg_data.shape[1]
     srate = ui.config[0]["Sampling_rate_hz"]
     epolen = ui.config[0]["Epoch_length_s"]

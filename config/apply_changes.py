@@ -5,8 +5,9 @@ from cache.ui_to_cache import ui_to_cache
 from cache.write_cache import write_cache
 from signal_processing.trim_power import trim_power
 from signal_processing.min_max_scale import min_max_scale
-from signal_processing.build_times_vector import build_times_vector
-from signal_processing.compute_spectogram import freqsOI_ui, spectogram_to_ui
+from signal_processing.times_vector import times_vector
+from signal_processing.spectogram_to_ui import spectogram_to_ui
+from signal_processing.freqs_of_interest import freqs_of_interest
 from utilities.redraw_gui import redraw_gui
 
 
@@ -26,19 +27,19 @@ def apply_changes(config_parameter_name, ui):
         or ("Epoch_length_s" in config_parameter_name)
         or ("Extension_epoch_s" in config_parameter_name)
     ):
-        build_times_vector(ui)
+        times_vector(ui)
 
     if (
         ("Channel_for_spectogram" in config_parameter_name)
         or ("Sampling_rate_hz" in config_parameter_name)
         or ("Epoch_length_s" in config_parameter_name)
     ):
-        spectogram_to_ui(ui)
+        ui.power, ui.freqs, ui.freqsOI, ui.swa = spectogram_to_ui(ui)
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
         write_cache(ui, ui_to_cache(ui))
 
     if "Spectogram_limit_hz" in config_parameter_name:
-        ui.freqsOI = freqsOI_ui(ui.freqs, ui.config)
+        ui.freqsOI = freqs_of_interest(ui.freqs, ui.config)
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
         write_cache(ui, ui_to_cache(ui))
 

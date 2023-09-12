@@ -1,5 +1,5 @@
 import os, pickle
-from signal_processing.compute_spectogram import spectogram_wrapper
+from signal_processing.spectogram_to_ui import spectogram_to_ui
 from .write_cache import write_cache
 from .ui_to_cache import ui_to_cache
 
@@ -23,7 +23,7 @@ def load_cache(ui):
 
     # Spectogram
     if not is_same_spectogram_parameters:
-        ui.power, ui.freqs, ui.freqsOI, ui.swa = spectogram_wrapper(ui)
+        ui.power, ui.freqs, ui.freqsOI, ui.swa = spectogram_to_ui(ui)
         cache = ui_to_cache(ui, cache)
     else:
         ui.power, ui.freqs, ui.freqsOI, ui.swa = cache["spectogram"].values()
