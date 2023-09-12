@@ -10,7 +10,7 @@ class AnnotationContainer(QObject):
         super().__init__(parent)
 
         self.colorpalette = [
-            (255, 200, 200, 100), 
+            (255, 200, 200, 75), 
             (100, 149, 237, 100),
             (152, 251, 152, 100),
             (255, 255, 102, 100),

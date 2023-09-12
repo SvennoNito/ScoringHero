@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QTabWidget, QDialog, QFormLayout, QDoubleSpinBox, QCheckBox, QComboBox, QHBoxLayout, QLineEdit, QColorDialog, QPushButton
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QIcon, QPixmap, QColor
+import copy
 
 class ConfigurationWindow(QDialog):
     changesMade = Signal()
@@ -74,7 +75,7 @@ class EventConfiguration(QDialog):
 
 
 class GeneralConfiguration(QDialog):
-    changesMade = Signal(str)
+    changesMade = Signal(list)
 
     def __init__(self, general_config, allow_staging, parent=None):
         super().__init__(parent)
@@ -135,7 +136,7 @@ class GeneralConfiguration(QDialog):
                 spinbox.setValue(value) 
                 spinbox.setSuffix(specs['unit'])     
                 print(config_parameter_name)
-                spinbox.valueChanged.connect(lambda var1=value, var2=config_parameter_name, var3=general_config: self.change_event(var1, var2, var3))              
+                # spinbox.valueChanged.connect(lambda var1=value, var2=config_parameter_name, var3=general_config: self.change_event(var1, var2, var3))              
                 self.spinboxes[config_parameter_name].append(spinbox)
 
                 if config_parameter_name in ["Epoch_length_s", "Sampling_rate_hz"] and not allow_staging:
@@ -145,9 +146,38 @@ class GeneralConfiguration(QDialog):
                 row_layout.addWidget(spinbox)                      
 
             form_layout.addRow(row_layout) 
+
+        # Apply button
+        apply_button = QPushButton("Apply")
+        apply_button.setFixedWidth(100)
+        apply_button.clicked.connect(lambda: self.apply_changes(general_config))              
+        
+        button_layout = QHBoxLayout()
+        button_layout.addStretch(1)  # Add stretch to push the button to the right
+        button_layout.addWidget(apply_button)
                            
         # Final layout
-        layout.addLayout(form_layout)    
+        layout.addLayout(form_layout)  
+        layout.addLayout(button_layout)        
+
+    def apply_changes(self, general_config):
+        old_config = copy.deepcopy(general_config)
+        #old_config = general_config.deepcopy()
+        for id, spinbox_list in self.spinboxes.items():
+            for index, spinbox in enumerate(spinbox_list):
+                if isinstance(general_config[id], list):
+                    general_config[id][index] = int(spinbox.value())
+                else:
+                    general_config[id] = int(spinbox.value())     
+        changed_config_settings = self.config_keys_which_changed(old_config, general_config)
+        self.changesMade.emit(changed_config_settings)  
+
+    def config_keys_which_changed(self, config1, config2):
+        differing_keys = []
+        for key in config1.keys():
+            if config1[key] != config2[key]:
+                differing_keys.append(key)    
+        return differing_keys
 
     def change_event(self, value, config_parameter_name, general_config):
         for id, spinbox_list in self.spinboxes.items():

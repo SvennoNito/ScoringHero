@@ -37,6 +37,10 @@ def load_eeg_config_scoring(ui, datatype):
     events_to_ui(ui, events)
 
 
+def compute_numepo(npoints, srate, epolen):
+    return np.floor(npoints / srate / epolen).astype(int)    
+
+
 def load_eeglab(filename_prefix):
     if io.matlab.miobase.get_matfile_version(filename_prefix)[0] == 2:  # v7.3 files
         with h5py.File(filename_prefix, "r") as eeg_file:
@@ -48,5 +52,4 @@ def load_eeglab(filename_prefix):
     return eeg_data
 
 
-def compute_numepo(npoints, srate, epolen):
-    return np.floor(npoints / srate / epolen).astype(int)
+
