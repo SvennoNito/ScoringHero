@@ -12,6 +12,7 @@ from utilities.find_unscored_epoch import first_unscored_epoch
 from utilities.find_uncertain_stage import first_uncertain_stage
 from utilities.find_stage_transition import next_stage_transition
 
+
 def setup_toolbar(ui, MainWindow):
     toolbar = QToolBar(MainWindow)
     toolbar.setObjectName("toolbar")
@@ -22,13 +23,17 @@ def setup_toolbar(ui, MainWindow):
 
     spacer = QWidget()
     spacer.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-    spacer.setFixedWidth(2)    
+    spacer.setFixedWidth(2)
     toolbar.addWidget(spacer)
 
     ui.toolbar_jump_to_epoch = QSpinBox()
     ui.toolbar_jump_to_epoch.setMinimum(1)
-    ui.toolbar_jump_to_epoch.valueChanged.connect(lambda value, ui=ui: jump_to_epoch(value, ui))
-    ui.toolbar_jump_to_epoch.editingFinished.connect(ui.toolbar_jump_to_epoch.clearFocus)
+    ui.toolbar_jump_to_epoch.valueChanged.connect(
+        lambda value, ui=ui: jump_to_epoch(value, ui)
+    )
+    ui.toolbar_jump_to_epoch.editingFinished.connect(
+        ui.toolbar_jump_to_epoch.clearFocus
+    )
     toolbar.addWidget(ui.toolbar_jump_to_epoch)
 
     # Space
@@ -38,11 +43,11 @@ def setup_toolbar(ui, MainWindow):
     toolbar.addWidget(spacer)
 
     # Next unscored epoch button
-    toolbar.addWidget(QLabel("or to"))    
+    toolbar.addWidget(QLabel("or to"))
 
     spacer = QWidget()
     spacer.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-    spacer.setFixedWidth(2)    
+    spacer.setFixedWidth(2)
     toolbar.addWidget(spacer)
 
     ui.tool_nextunscored = QPushButton("unscored")
@@ -51,7 +56,7 @@ def setup_toolbar(ui, MainWindow):
 
     spacer = QWidget()
     spacer.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-    spacer.setFixedWidth(2)    
+    spacer.setFixedWidth(2)
     toolbar.addWidget(spacer)
 
     # Next uncertain epoch button
@@ -61,7 +66,7 @@ def setup_toolbar(ui, MainWindow):
 
     spacer = QWidget()
     spacer.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-    spacer.setFixedWidth(2)    
+    spacer.setFixedWidth(2)
     toolbar.addWidget(spacer)
 
     # Next transition button

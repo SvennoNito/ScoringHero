@@ -48,13 +48,15 @@ def compute_spectogram(eeg_data, times, srate, channel, epolen, winlen=4):
 
     return power, freqs
 
+
 def freqsOI_ui(freqs, config):
     freqsOI = freqs_of_interest_indices(
         freqs,
         config[0]["Spectogram_limit_hz"][0],
         config[0]["Spectogram_limit_hz"][1],
-    )  
+    )
     return freqsOI
+
 
 def freqs_of_interest_indices(freqs, lower_limit, upper_limit):
     return (freqs >= lower_limit) & (freqs <= upper_limit)

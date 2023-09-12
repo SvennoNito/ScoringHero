@@ -1,7 +1,6 @@
 def remove_epoch_from_merged_area(borders, border_of_this_epoch):
-
-    start, end  = border_of_this_epoch
-    result      = []
+    start, end = border_of_this_epoch
+    result = []
 
     for interval in borders:
         if interval[1] <= start or interval[0] >= end:

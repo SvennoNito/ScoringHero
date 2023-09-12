@@ -1,13 +1,15 @@
 import numpy as np
 
-def selected_channel(config, converted_corner, converted_shape):
 
+def selected_channel(config, converted_corner, converted_shape):
     numchans_visible = len(
-            [counter for counter, info in enumerate(config[1]) if info["Display_on_screen"]]
-        )
+        [counter for counter, info in enumerate(config[1]) if info["Display_on_screen"]]
+    )
     channel_anchors = np.array(
         [
-            -config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
+            -config[0]["Distance_between_channels_muV"]
+            * numchans_visible
+            * chan_counter
             for chan_counter in range(numchans_visible)
         ]
     )

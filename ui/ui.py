@@ -13,7 +13,7 @@ from .toolbar import setup_toolbar
 from .menu import setup_menu
 from widgets import *
 from utilities.timing_decorator import timing_decorator
-from utilities.score_stage import score_stage 
+from utilities.score_stage import score_stage
 from data_handling.write_scoring import write_scoring_popup
 from mouse_click import *
 from paint_event import *
@@ -22,6 +22,7 @@ from events.draw_box import draw_box
 from utilities.scoring_uncertainty import scoring_uncertainty
 from config.open_config_window import open_config_window
 from data_handling.load_scoring import load_scoring_qdialog
+
 
 @timing_decorator
 def setup_ui(ui, MainWindow):
@@ -42,8 +43,10 @@ def setup_ui(ui, MainWindow):
     ui.HypnogramSlider = HypnogramSlider(ui.centralwidget)
     ui.RectanglePower = RectanglePower(ui.centralwidget)
     ui.PaintEventWidget = PaintEventWidget()
-    ui.AnnotationContainer = [AnnotationContainer(colorindex=counter, label=f'F{counter}') for counter in range(10)]
-
+    ui.AnnotationContainer = [
+        AnnotationContainer(colorindex=counter, label=f"F{counter}")
+        for counter in range(10)
+    ]
 
     # Make widgets react to mouse click
     ui.SpectogramWidget.graphics.scene().sigMouseClicked.connect(
@@ -68,7 +71,7 @@ def setup_ui(ui, MainWindow):
     layout.addWidget(ui.HypnogramWidget.axes, 0, 56, 10, 30)
     layout.addWidget(ui.HypnogramSlider.slider, 1, 86, 8, 1)
     layout.addWidget(ui.RectanglePower.axes, 0, 87, 10, 13)
-   
+
     # menu
     MainWindow.setCentralWidget(ui.centralwidget)
     ui.menu = QMenuBar(MainWindow)
@@ -97,7 +100,7 @@ def setup_ui(ui, MainWindow):
     ui.action_save_scoring = QAction(MainWindow)
     ui.action_save_scoring.setObjectName("action_save_scoring")
     ui.action_save_scoring.triggered.connect(lambda: write_scoring_popup(ui))
-    ui.menu_file.addAction(ui.action_save_scoring) 
+    ui.menu_file.addAction(ui.action_save_scoring)
 
     # Sleep stages menu
     ui.menu_stages = QMenu(ui.menu)
@@ -129,11 +132,11 @@ def setup_ui(ui, MainWindow):
     ui.action_express_uncertainty.setObjectName("action_express_uncertainty")
     ui.action_express_uncertainty.triggered.connect(lambda: scoring_uncertainty(ui))
     ui.menu_stages.addAction(ui.action_express_uncertainty)
-    
+
     # Sleep stages menu
     ui.menu_labels = QMenu(ui.menu)
     ui.menu_labels.setObjectName("menu_labels")
-    ui.menu.addAction(ui.menu_labels.menuAction())    
+    ui.menu.addAction(ui.menu_labels.menuAction())
 
     ui.label_box_as = QMenu("Label box as", ui.menu_labels)
     ui.label_box_as.setObjectName("label_box_as")
@@ -141,50 +144,52 @@ def setup_ui(ui, MainWindow):
 
     ui.action_artefact = QAction("", ui)
     ui.action_artefact.setObjectName("action_artefact")
-    ui.action_artefact.triggered.connect(lambda box_index=0, ui=ui: draw_box(box_index, ui))
+    ui.action_artefact.triggered.connect(
+        lambda box_index=0, ui=ui: draw_box(box_index, ui)
+    )
     ui.label_box_as.addAction(ui.action_artefact)
 
     ui.action_F1 = QAction("", ui)
     ui.action_F1.setObjectName("action_F1")
     ui.action_F1.triggered.connect(lambda box_index=1, ui=ui: draw_box(box_index, ui))
-    ui.label_box_as.addAction(ui.action_F1)    
+    ui.label_box_as.addAction(ui.action_F1)
     ui.action_F2 = QAction("", ui)
     ui.action_F2.setObjectName("action_F2")
     ui.action_F2.triggered.connect(lambda box_index=2, ui=ui: draw_box(box_index, ui))
-    ui.label_box_as.addAction(ui.action_F2)   
+    ui.label_box_as.addAction(ui.action_F2)
     ui.action_F3 = QAction("", ui)
     ui.action_F3.setObjectName("action_F3")
     ui.action_F3.triggered.connect(lambda box_index=3, ui=ui: draw_box(box_index, ui))
-    ui.label_box_as.addAction(ui.action_F3)     
+    ui.label_box_as.addAction(ui.action_F3)
     ui.action_F4 = QAction("", ui)
     ui.action_F4.setObjectName("action_F4")
     ui.action_F4.triggered.connect(lambda box_index=4, ui=ui: draw_box(box_index, ui))
-    ui.label_box_as.addAction(ui.action_F4)        
+    ui.label_box_as.addAction(ui.action_F4)
     ui.action_F5 = QAction("", ui)
     ui.action_F5.setObjectName("action_F5")
     ui.action_F5.triggered.connect(lambda box_index=5, ui=ui: draw_box(box_index, ui))
-    ui.label_box_as.addAction(ui.action_F5)   
+    ui.label_box_as.addAction(ui.action_F5)
     ui.action_F6 = QAction("", ui)
     ui.action_F6.setObjectName("action_F6")
     ui.action_F6.triggered.connect(lambda box_index=6, ui=ui: draw_box(box_index, ui))
-    ui.label_box_as.addAction(ui.action_F6)    
+    ui.label_box_as.addAction(ui.action_F6)
     ui.action_F7 = QAction("", ui)
     ui.action_F7.setObjectName("action_F7")
     ui.action_F7.triggered.connect(lambda box_index=7, ui=ui: draw_box(box_index, ui))
-    ui.label_box_as.addAction(ui.action_F7)         
+    ui.label_box_as.addAction(ui.action_F7)
     ui.action_F8 = QAction("", ui)
     ui.action_F8.setObjectName("action_F8")
     ui.action_F8.triggered.connect(lambda box_index=8, ui=ui: draw_box(box_index, ui))
-    ui.label_box_as.addAction(ui.action_F8)     
+    ui.label_box_as.addAction(ui.action_F8)
     ui.action_F9 = QAction("", ui)
     ui.action_F9.setObjectName("action_F9")
     ui.action_F9.triggered.connect(lambda box_index=9, ui=ui: draw_box(box_index, ui))
-    ui.label_box_as.addAction(ui.action_F9)         
+    ui.label_box_as.addAction(ui.action_F9)
 
     # Utilities menu
     ui.menu_utils = QMenu(ui.menu)
     ui.menu_utils.setObjectName("menu_utils")
-    ui.menu.addAction(ui.menu_utils.menuAction())           
+    ui.menu.addAction(ui.menu_utils.menuAction())
 
     ui.action_zoom = QAction(MainWindow)
     ui.action_zoom.setObjectName("action_zoom")
@@ -200,7 +205,7 @@ def setup_ui(ui, MainWindow):
     ui.action_config_window.setObjectName("action_config_window")
     ui.action_config_window.setShortcut("")
     ui.action_config_window.triggered.connect(lambda: open_config_window(ui))
-    ui.menu_config.addAction(ui.action_config_window)  
+    ui.menu_config.addAction(ui.action_config_window)
 
     # Bring together
     MainWindow.setMenuBar(ui.menu)

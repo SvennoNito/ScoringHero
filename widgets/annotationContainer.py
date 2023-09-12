@@ -1,4 +1,3 @@
-
 import numpy as np
 from PyQt5 import QtWidgets, QtCore, QtGui, QtCore
 from PyQt5.QtCore import QObject, pyqtSignal
@@ -6,11 +5,12 @@ from PyQt5.QtCore import QObject, pyqtSignal
 
 class AnnotationContainer(QObject):
     changesMade = pyqtSignal()
-    def __init__(self, colorindex=0, label='Artefact', parent=None):
+
+    def __init__(self, colorindex=0, label="Artefact", parent=None):
         super().__init__(parent)
 
         self.colorpalette = [
-            (255, 200, 200, 75), 
+            (255, 200, 200, 75),
             (100, 149, 237, 100),
             (152, 251, 152, 100),
             (255, 255, 102, 100),
@@ -22,9 +22,9 @@ class AnnotationContainer(QObject):
             (188, 189, 34, 100),
         ]
 
-        self.facecolor      = self.colorpalette[colorindex]
-        self.key            = label if not (label=="F0") else "A"
-        self.label          = f'Event {label[-1]}' if not (label=="F0") else "Artifact"
-        self.borders        = []
-        self.drawn_boxes    = []
-        self.epochs         = []
+        self.facecolor = self.colorpalette[colorindex]
+        self.key = label if not (label == "F0") else "A"
+        self.label = f"Event {label[-1]}" if not (label == "F0") else "Artifact"
+        self.borders = []
+        self.drawn_boxes = []
+        self.epochs = []

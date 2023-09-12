@@ -16,17 +16,17 @@ class SignalWidget(QWidget):
         # Plot axes
         self.axes = pg.PlotWidget(centralWidget)
         self.axes.setObjectName("SignalWidget")
-        self.axes.setBackground((0,0,0,0))
+        self.axes.setBackground((0, 0, 0, 0))
         self.axes.getAxis("left").setTicks([])
         self.axes.showGrid(x=True, y=True, alpha=1)
-        #self.setWindowFlags(Qt.FramelessWindowHint)
-        #self.setAttribute(Qt.WA_TranslucentBackground)
+        # self.setWindowFlags(Qt.FramelessWindowHint)
+        # self.setAttribute(Qt.WA_TranslucentBackground)
 
         self.channelColorPalette = {
             "Black": (0, 0, 0),
             "Blue": (100, 149, 237),
             "Magenta": (233, 30, 99),
-            "Green":  (0, 128, 64),
+            "Green": (0, 128, 64),
         }
 
         self.pen_amplines = pg.mkPen(color=(0, 0, 0, 80), style=Qt.DotLine)
@@ -38,7 +38,9 @@ class SignalWidget(QWidget):
     def draw_signal(self, config, eeg_data, times_and_indices, this_epoch):
         # Indices of visible channels
         index_visible_chans = [
-            counter for counter, info in enumerate(config[1]) if info["Display_on_screen"]
+            counter
+            for counter, info in enumerate(config[1])
+            if info["Display_on_screen"]
         ]
         numchans_visible = len(index_visible_chans)
 
@@ -54,7 +56,9 @@ class SignalWidget(QWidget):
         self.axes.clear()
         for chan_counter, visible_counter in enumerate(index_visible_chans):
             pen = pg.mkPen(
-                color=self.channelColorPalette[config[1][visible_counter]["Channel_color"]]
+                color=self.channelColorPalette[
+                    config[1][visible_counter]["Channel_color"]
+                ]
             )
 
             # Extract data
@@ -65,7 +69,9 @@ class SignalWidget(QWidget):
                 times,
                 data * config[1][visible_counter]["Scaling_factor"]
                 + config[1][visible_counter]["Vertical_shift"]
-                - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter,
+                - config[0]["Distance_between_channels_muV"]
+                * numchans_visible
+                * chan_counter,
                 pen=pen,
             )
             self.drawn_signals.append(drawn_signal)
@@ -74,32 +80,45 @@ class SignalWidget(QWidget):
             amplitude_line = pg.InfiniteLine(
                 angle=0,
                 pos=0
-                - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
-                + config[1][visible_counter]["Vertical_shift"] + 37.5 * config[1][visible_counter]["Scaling_factor"],
+                - config[0]["Distance_between_channels_muV"]
+                * numchans_visible
+                * chan_counter
+                + config[1][visible_counter]["Vertical_shift"]
+                + 37.5 * config[1][visible_counter]["Scaling_factor"],
                 pen=self.pen_amplines,
             )
             self.axes.addItem(amplitude_line)
             amplitude_line = pg.InfiniteLine(
                 angle=0,
                 pos=0
-                - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
-                + config[1][visible_counter]["Vertical_shift"] - 37.5 * config[1][visible_counter]["Scaling_factor"],
+                - config[0]["Distance_between_channels_muV"]
+                * numchans_visible
+                * chan_counter
+                + config[1][visible_counter]["Vertical_shift"]
+                - 37.5 * config[1][visible_counter]["Scaling_factor"],
                 pen=self.pen_amplines,
             )
             self.axes.addItem(amplitude_line)
             amplitude_line = pg.InfiniteLine(
                 angle=0,
                 pos=0
-                - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
-                + config[1][visible_counter]["Vertical_shift"] + 0 * config[1][visible_counter]["Scaling_factor"],
+                - config[0]["Distance_between_channels_muV"]
+                * numchans_visible
+                * chan_counter
+                + config[1][visible_counter]["Vertical_shift"]
+                + 0 * config[1][visible_counter]["Scaling_factor"],
                 pen=self.pen_amplines,
             )
             self.axes.addItem(amplitude_line)
 
             # Add +37.5 muV text on the first channel
             if chan_counter == 0 and this_epoch == 1:
-                text1 = pg.TextItem(text="+37.5 \u03BCV", color=(150, 150, 150), anchor=(0, 0.5))
-                text2 = pg.TextItem(text="-37.5 \u03BCV", color=(150, 150, 150), anchor=(0, 0.5))
+                text1 = pg.TextItem(
+                    text="+37.5 \u03BCV", color=(150, 150, 150), anchor=(0, 0.5)
+                )
+                text2 = pg.TextItem(
+                    text="-37.5 \u03BCV", color=(150, 150, 150), anchor=(0, 0.5)
+                )
                 text1.setPos(
                     times[0],
                     0
@@ -133,7 +152,10 @@ class SignalWidget(QWidget):
             )
             text.setPos(
                 times[0],
-                0 - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter,
+                0
+                - config[0]["Distance_between_channels_muV"]
+                * numchans_visible
+                * chan_counter,
             )
             font = QFont()
             font.setPixelSize(20)
@@ -146,9 +168,7 @@ class SignalWidget(QWidget):
             -config[0]["Distance_between_channels_muV"]
             * (chan_counter + 0.5)
             * (numchans_visible),
-            config[0]["Distance_between_channels_muV"]
-            * (-0.5)
-            * (numchans_visible),
+            config[0]["Distance_between_channels_muV"] * (-0.5) * (numchans_visible),
             padding=0,
         )
 
@@ -174,7 +194,9 @@ class SignalWidget(QWidget):
         font.setPixelSize(12)
         self.text_period.setFont(font)
         self.axes.addItem(self.text_period)
-        self.text_amplitude = pg.TextItem(text="", color=(10, 100, 10), anchor=(0.1, 0.9))
+        self.text_amplitude = pg.TextItem(
+            text="", color=(10, 100, 10), anchor=(0.1, 0.9)
+        )
         font = QFont()
         font.setPixelSize(12)
         self.text_amplitude.setFont(font)
@@ -184,7 +206,9 @@ class SignalWidget(QWidget):
     def update_signal(self, config, eeg_data, times_and_indices, this_epoch):
         # Indices of visible channels
         index_visible_chans = [
-            counter for counter, info in enumerate(config[1]) if info["Display_on_screen"]
+            counter
+            for counter, info in enumerate(config[1])
+            if info["Display_on_screen"]
         ]
         numchans_visible = len(index_visible_chans)
 
@@ -194,7 +218,9 @@ class SignalWidget(QWidget):
 
         for chan_counter, visible_counter in enumerate(index_visible_chans):
             pen = pg.mkPen(
-                color=self.channelColorPalette[config[1][visible_counter]["Channel_color"]]
+                color=self.channelColorPalette[
+                    config[1][visible_counter]["Channel_color"]
+                ]
             )
 
             # Extract data
@@ -205,7 +231,9 @@ class SignalWidget(QWidget):
                 times,
                 data * config[1][visible_counter]["Scaling_factor"]
                 + config[1][visible_counter]["Vertical_shift"]
-                - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter,
+                - config[0]["Distance_between_channels_muV"]
+                * numchans_visible
+                * chan_counter,
                 pen=pen,
             )
 
@@ -215,7 +243,9 @@ class SignalWidget(QWidget):
     def adjust_time_axis(self, config, times):
         ticklabels = [
             (tick, f"{int(tick)} s")
-            for tick in np.round(np.arange(0, times[-1], config[0]["Epoch_length_s"] / 5), 1)
+            for tick in np.round(
+                np.arange(0, times[-1], config[0]["Epoch_length_s"] / 5), 1
+            )
         ]
         self.axes.getAxis("bottom").setTicks([ticklabels])
         self.axes.setXRange(times[0], times[-1], padding=0)

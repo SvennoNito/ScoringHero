@@ -7,7 +7,7 @@ def write_scoring_catch_error(ui):
         write_scoring_wrapper(ui)
     except Exception as e:
         error_message = f"An error occurred while writing the scoring file in \n{ui.filename}.json: \n\n{str(e)} \n\nThis means that the latest change in the scoring file was not saved! Please 1) screenshot this errorbox and 2) go to the black command window that opened with this program and copy the last error messages. Please report this bug so that it can be fixed fast!"
-        QMessageBox.critical(ui, "Error", error_message)       
+        QMessageBox.critical(ui, "Error", error_message)
 
 
 def write_scoring_popup(ui):
@@ -21,17 +21,21 @@ def write_scoring_popup(ui):
 def write_scoring_wrapper(ui):
     annotations = []
     for numerator, container in enumerate(ui.AnnotationContainer):
-        for counter, (border, epochs) in enumerate(zip(container.borders, container.epochs)):
-            annotations.append({
-                'key': container.key,
-                'event': container.label,
-                'digit': numerator,
-                'counter': counter,
-                'epoch': epochs,
-                'start': border[0],
-                'end': border[1],
-            })
-    write_scoring(f"{ui.filename}.json", ui.stages, annotations)  
+        for counter, (border, epochs) in enumerate(
+            zip(container.borders, container.epochs)
+        ):
+            annotations.append(
+                {
+                    "key": container.key,
+                    "event": container.label,
+                    "digit": numerator,
+                    "counter": counter,
+                    "epoch": epochs,
+                    "start": border[0],
+                    "end": border[1],
+                }
+            )
+    write_scoring(f"{ui.filename}.json", ui.stages, annotations)
 
 
 def write_scoring(scoring_filename, stages, annotations):

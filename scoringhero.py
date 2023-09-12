@@ -17,7 +17,8 @@ from data_handling import *
 from utilities.timing_decorator import timing_decorator
 from utilities.next_epoch import next_epoch
 from utilities.prev_epoch import prev_epoch
-from data_handling.load_eeg import load_eeg_wrapper, load_eeg_config_scoring
+from eeg.load_wrapper import load_wrapper
+from eeg.eeg_import_window import eeg_import_window
 from mouse_click import *
 from widgets import *
 from signal_processing.build_times_vector import build_times_vector
@@ -32,18 +33,20 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.setObjectName("ScoringHero")
         self.resize(800, 600)
         self.setStyleSheet("background-color: white;")
-        self.setWindowTitle("Scoring Hero") 
+        self.setWindowTitle("Scoring Hero")
         self.ui = ui
-            
+
     def closeEvent(self, event):
-        if None in [stage['stage'] for stage in self.ui.stages]:
+        if None in [stage["stage"] for stage in self.ui.stages]:
             messagebox = QMessageBox()
             messagebox.setIcon(QMessageBox.Warning)
             messagebox.setWindowTitle("Scoring incomplete")
-            messagebox.setText("There are unscored epochs.\nAre you sure you want to exit Scoring Hero?")
+            messagebox.setText(
+                "There are unscored epochs.\nAre you sure you want to exit Scoring Hero?"
+            )
             messagebox.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
             messagebox.setDefaultButton(QMessageBox.Cancel)
-            
+
             response = messagebox.exec_()
             if response == QMessageBox.Cancel:
                 event.ignore()
@@ -68,21 +71,27 @@ class Ui_MainWindow(QMainWindow):
             next_epoch(self)
         if event.key() == Qt.Key_Left:
             prev_epoch(self)
-                        
 
     # *** Loading data ***
     @timing_decorator
     def load_eeg(self, datatype):
-        load_eeg_wrapper(self, datatype)
+        eeg_import_window(self, datatype)
         build_times_vector(self)
         self.toolbar_jump_to_epoch.setMaximum(self.numepo)
-        self.SignalWidget.draw_signal(self.config, self.eeg_data, self.times, self.this_epoch)
+        self.SignalWidget.draw_signal(
+            self.config, self.eeg_data, self.times, self.this_epoch
+        )
         self.DisplayedEpochWidget.update_text(self.this_epoch, self.numepo, self.stages)
         load_cache(self)
-        self.SpectogramWidget.draw_spectogram(self.power, self.freqs, self.freqsOI, self.config)
-        self.HypnogramWidget.draw_hypnogram(self.stages, self.numepo, self.config, self.swa)
+        self.SpectogramWidget.draw_spectogram(
+            self.power, self.freqs, self.freqsOI, self.config
+        )
+        self.HypnogramWidget.draw_hypnogram(
+            self.stages, self.numepo, self.config, self.swa
+        )
         for container in self.AnnotationContainer:
-            draw_box_in_epoch(self, container)  
+            draw_box_in_epoch(self, container)
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
@@ -91,7 +100,7 @@ if __name__ == "__main__":
     setup_ui(ui, MainWindow)
     if ui.devmode == 1:
         ui.filename = f"{ui.default_data_path}\example_data"
-        load_eeg_config_scoring(ui, datatype="eeglab")
+        load_wrapper(ui, datatype="eeglab")
         build_times_vector(ui)
         ui.toolbar_jump_to_epoch.setMaximum(ui.numepo)
         ui.SignalWidget.draw_signal(ui.config, ui.eeg_data, ui.times, ui.this_epoch)
@@ -101,7 +110,7 @@ if __name__ == "__main__":
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
         ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
         for container in ui.AnnotationContainer:
-            draw_box_in_epoch(ui, container)        
+            draw_box_in_epoch(ui, container)
 
     MainWindow.activateWindow()  # Add this line to make the window active
     MainWindow.show()

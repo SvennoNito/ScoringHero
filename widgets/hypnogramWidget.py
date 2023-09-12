@@ -75,7 +75,7 @@ class HypnogramWidget(QWidget):
         self.axes.addItem(self.epoch_indicator_line)
 
         # Remove x ticks
-        self.axes.getAxis("bottom").setTicks([])        
+        self.axes.getAxis("bottom").setTicks([])
 
         # Draw SWA
         # SWA[SWA > np.median(SWA) + 1 * np.std(SWA)] = np.nan
@@ -83,7 +83,7 @@ class HypnogramWidget(QWidget):
         # self.axes.plot(self.times, SWA * (1 - (-4)) + (-4), pen=pg.mkPen(color=(11, 28, 44, 20)), width=.1, style=Qt.DotLine)
 
     def draw_swa_in_time(self, SWA):
-        SWA = self.median_filter(SWA, self.kernel)      
+        SWA = self.median_filter(SWA, self.kernel)
         self.swa_item = pg.PlotDataItem(
             self.times,
             SWA,
@@ -99,10 +99,10 @@ class HypnogramWidget(QWidget):
         self.swa_item.setData(self.times, SWA)
 
     def median_filter(self, SWA, kernel):
-        SWA = medfilt(SWA, 101-kernel)
-        SWA = (SWA - min(SWA)) / (np.percentile(SWA, 100) - min(SWA))        
+        SWA = medfilt(SWA, 101 - kernel)
+        SWA = (SWA - min(SWA)) / (np.percentile(SWA, 100) - min(SWA))
         SWA = SWA * (-4 - (1)) + (1)
-        return SWA      
+        return SWA
 
     @timing_decorator
     def update_hypnogram(self, scoring, numepo, this_epoch):

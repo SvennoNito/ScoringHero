@@ -40,14 +40,19 @@ class SpectogramWidget(QtWidgets.QWidget):
         freqres = np.unique(np.diff(freqs))[0]
         desired_tick_values = np.arange(0, max(freqs), 5)
         index_of_desired_tick_values_in_freqs = np.unique(
-            [(np.abs(freqs - tick_value)).argmin() for tick_value in desired_tick_values]
+            [
+                (np.abs(freqs - tick_value)).argmin()
+                for tick_value in desired_tick_values
+            ]
         )
         desired_tick_string = list(
             map(str, [int(y) for y in index_of_desired_tick_values_in_freqs * freqres])
         )
         desired_tick_tuple = [
             (val, text)
-            for val, text in zip(index_of_desired_tick_values_in_freqs, desired_tick_string)
+            for val, text in zip(
+                index_of_desired_tick_values_in_freqs, desired_tick_string
+            )
         ]
         self.axes.getAxis("left").setTicks([desired_tick_tuple, []])
 
@@ -55,20 +60,27 @@ class SpectogramWidget(QtWidgets.QWidget):
         timeres = np.unique(np.diff(times))[0]
         desired_tick_values = np.round(np.arange(0, max(times), 1), 1)
         index_of_desired_tick_values_in_times = np.unique(
-            [(np.abs(times - tick_value)).argmin() for tick_value in desired_tick_values]
+            [
+                (np.abs(times - tick_value)).argmin()
+                for tick_value in desired_tick_values
+            ]
         )
         desired_tick_string = list(
             map(
                 str,
                 [
                     int(x)
-                    for x in desired_tick_values[0 : len(index_of_desired_tick_values_in_times)]
+                    for x in desired_tick_values[
+                        0 : len(index_of_desired_tick_values_in_times)
+                    ]
                 ],
             )
         )
         desired_tick_tuple = [
             (val, f"{text} h")
-            for val, text in zip(index_of_desired_tick_values_in_times, desired_tick_string)
+            for val, text in zip(
+                index_of_desired_tick_values_in_times, desired_tick_string
+            )
         ]
         self.axes.getAxis("bottom").setTicks([desired_tick_tuple, []])
 

@@ -7,7 +7,6 @@ from signal_processing.min_max_scale import min_max_scale
 
 
 def rectangle_power(ui, converted_corner, converted_shape):
-    
     # Selected sample points
     samples, times = selected_samples(ui.times, ui.this_epoch, converted_corner)
 

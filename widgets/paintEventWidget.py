@@ -35,7 +35,7 @@ class PaintEventWidget(QWidget):
     def mousePressEvent(self, event):
         self.store_new_rectangle(event)
 
-    def mouseMoveEvent(self, event):               
+    def mouseMoveEvent(self, event):
         self.update_last_rectangle(event)
         self.update()
 
@@ -55,7 +55,7 @@ class PaintEventWidget(QWidget):
             # for line, width, height in zip(self.stored_corners, self.width, self.height):
 
     def resizeEvent(self, event):
-        self.rect_limits = self.rect()            
+        self.rect_limits = self.rect()
 
     def store_new_rectangle(self, event):
         self.stored_corners.append([event.pos(), event.pos()])
