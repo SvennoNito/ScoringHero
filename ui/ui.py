@@ -22,7 +22,7 @@ from mouse_click.move_swa_slider import move_swa_slider
 from paint_event.paint_event_handler import paint_event_handler
 from utilities.zoom_on_selected_eeg import zoom_on_selected_eeg
 from events.event_handler import event_handler
-from utilities.scoring_uncertainty import scoring_uncertainty
+from utilities.score_not_sure import score_not_sure
 from config.open_config_window import open_config_window
 from scoring.scoring_import_window import scoring_import_window
 
@@ -133,7 +133,7 @@ def setup_ui(ui, MainWindow):
     ui.menu_stages.addSeparator()
     ui.action_express_uncertainty = QAction(MainWindow)
     ui.action_express_uncertainty.setObjectName("action_express_uncertainty")
-    ui.action_express_uncertainty.triggered.connect(lambda: scoring_uncertainty(ui))
+    ui.action_express_uncertainty.triggered.connect(lambda: score_not_sure(ui))
     ui.menu_stages.addAction(ui.action_express_uncertainty)
 
     # Sleep stages menu

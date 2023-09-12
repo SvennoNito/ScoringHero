@@ -6,7 +6,7 @@
    "end": 30,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 1,
+   "uncertain": 0,
    "channels": [],
    "clean": 1
   },

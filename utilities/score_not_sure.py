@@ -1,4 +1,4 @@
-def scoring_uncertainty(ui):
+def score_not_sure(ui):
     # Change uncertainty
     ui.stages[ui.this_epoch]["uncertain"] = change_value(
         ui.stages[ui.this_epoch]["uncertain"]

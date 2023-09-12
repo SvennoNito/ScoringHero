@@ -8,9 +8,9 @@ from PySide6.QtWidgets import (
     QSizePolicy,
 )
 from utilities.jump_to_epoch import jump_to_epoch
-from utilities.find_unscored_epoch import first_unscored_epoch
-from utilities.find_uncertain_stage import first_uncertain_stage
-from utilities.find_stage_transition import next_stage_transition
+from utilities.epoch_unscored import first_unscored_epoch
+from utilities.epoch_uncertain import first_uncertain_stage
+from utilities.epoch_transition import stage_transition
 
 
 def setup_toolbar(ui, MainWindow):
@@ -71,6 +71,6 @@ def setup_toolbar(ui, MainWindow):
 
     # Next transition button
     ui.tool_nexttransition = QPushButton("transition")
-    ui.tool_nexttransition.clicked.connect(lambda: next_stage_transition(ui))
+    ui.tool_nexttransition.clicked.connect(lambda: stage_transition(ui))
     toolbar.addWidget(ui.tool_nexttransition)
     # toolbar.addWidget(spacer)
