@@ -143,10 +143,12 @@ class SignalWidget(QWidget):
         # Draw background and adjust axes
         self.adjust_time_axis(config, times)
         self.axes.setYRange(
-            -(chan_counter + 1)
-            * config[0]["Distance_between_channels_muV"]
-            * (numchans_visible - 0.5),
-            config[0]["Distance_between_channels_muV"] * (numchans_visible - 0.5) / 1.2,
+            -config[0]["Distance_between_channels_muV"]
+            * (chan_counter + 0.5)
+            * (numchans_visible),
+            config[0]["Distance_between_channels_muV"]
+            * (-0.5)
+            * (numchans_visible),
             padding=0,
         )
 

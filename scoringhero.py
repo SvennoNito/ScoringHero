@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 # To do
-# Green box wegclick error when it's very high
 # Signal border not necessarily even on top and bottom
 # Option to randomize files
 # When closing, error message that says how many epochs were not scored
