@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
 # To do
-# Signal border not necessarily even on top and bottom
 # Option to randomize files
 # When closing, error message that says how many epochs were not scored
 # Hypnogram on top of spectogram
-# artefact more transparent
 # Scoring should save channels on which it was scored
 
 from PySide6 import QtCore, QtWidgets, QtGui
@@ -25,6 +23,34 @@ from widgets import *
 from signal_processing.build_times_vector import build_times_vector
 from annotations.draw_box_in_epoch import draw_box_in_epoch
 from data_handling.cache import load_cache
+from data_handling.write_scoring import write_scoring_catch_error
+
+
+class MyMainWindow(QtWidgets.QMainWindow):
+    def __init__(self, ui):
+        super().__init__()
+        self.setObjectName("ScoringHero")
+        self.resize(800, 600)
+        self.setStyleSheet("background-color: white;")
+        self.setWindowTitle("Scoring Hero") 
+        self.ui = ui
+            
+    def closeEvent(self, event):
+        if None in [stage['stage'] for stage in self.ui.stages]:
+            messagebox = QMessageBox()
+            messagebox.setIcon(QMessageBox.Warning)
+            messagebox.setWindowTitle("Scoring incomplete")
+            messagebox.setText("There are unscored epochs.\nAre you sure you want to exit Scoring Hero?")
+            messagebox.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            messagebox.setDefaultButton(QMessageBox.Cancel)
+            
+            response = messagebox.exec_()
+            if response == QMessageBox.Cancel:
+                event.ignore()
+                return
+            else:
+                write_scoring_catch_error(ui)
+                event.accept()
 
 
 class Ui_MainWindow(QMainWindow):
@@ -42,6 +68,7 @@ class Ui_MainWindow(QMainWindow):
             next_epoch(self)
         if event.key() == Qt.Key_Left:
             prev_epoch(self)
+                        
 
     # *** Loading data ***
     @timing_decorator
@@ -59,8 +86,8 @@ class Ui_MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
+    MainWindow = MyMainWindow(ui)
     setup_ui(ui, MainWindow)
     if ui.devmode == 1:
         ui.filename = f"{ui.default_data_path}\example_data"

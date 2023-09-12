@@ -19,6 +19,6 @@ def score_stage(value, ui):
     # Update hypnpgram
     ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
     # ui.HypnogramWidget.update_hypnogram(ui.stages, ui.numepo, ui.this_epoch)
-
+    
     write_scoring_catch_error(ui)
     next_epoch(ui)

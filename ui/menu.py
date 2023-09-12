@@ -3,7 +3,6 @@ from PySide6.QtCore import QCoreApplication
 
 def setup_menu(ui, MainWindow):
     _translate = QCoreApplication.translate
-    MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
     ui.menu_file.setTitle(_translate("MainWindow", "File"))
     ui.menu_stages.setTitle(_translate("MainWindow", "Stages"))
     ui.menu_labels.setTitle(_translate("MainWindow", "Labels"))

@@ -25,9 +25,6 @@ from data_handling.load_scoring import load_scoring_qdialog
 
 @timing_decorator
 def setup_ui(ui, MainWindow):
-    MainWindow.setObjectName("MainWindow")
-    MainWindow.resize(800, 600)
-    MainWindow.setStyleSheet("background-color: white;")
     ui.centralwidget = QWidget(MainWindow)
     ui.centralwidget.setObjectName("centralwidget")
     # MainWindow.showMaximized()
