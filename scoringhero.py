@@ -2,9 +2,9 @@
 
 # To do
 # Option to randomize files
-# When closing, error message that says how many epochs were not scored
 # Hypnogram on top of spectogram
 # Scoring should save channels on which it was scored
+# Rename label as eent menu and no submenu
 
 from PySide6 import QtCore, QtWidgets, QtGui
 from PySide6.QtWidgets import *
