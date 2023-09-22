@@ -9,32 +9,3 @@ def load_r09(filename_prefix):
     data            = [data[i::num_channels] for i in [3,4,5,6,7,8,1,2,0]]
     srate           = 128
     return np.array(data), srate
-
-
-# import matplotlib.pyplot as plt
-
-# # Create a figure and axis for the plot
-# fig, ax = plt.subplots()
-
-# # Plot each vector separately
-# ax.plot(channel_data[1])
-
-# # Add labels, legend, and title
-# ax.set_xlabel('Data Points')
-# ax.set_ylabel('Values')
-# ax.legend()
-# ax.set_title('Plot of 9 Separate Vectors')
-
-# # Show the plot
-# plt.show()
-
-
-
-# data_range = data.max() - data.min()
-# bin_width = 1
-# fig, ax = plt.subplots()
-# num_bins = int(np.ceil(data_range / bin_width))
-
-# # Create a histogram with bins of width 1
-# plt.hist(data, bins=num_bins, edgecolor='k', align='left', rwidth=0.8)
-# plt.show()
