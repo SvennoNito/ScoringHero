@@ -227,7 +227,7 @@ class ChannelConfiguration(QDialog):
             spinbox = QDoubleSpinBox(self)
             spinbox.setMinimum(0)
             spinbox.setMaximum(10000)
-            spinbox.setDecimals(0)
+            spinbox.setDecimals(2)
             spinbox.setValue(chaninfo["Scaling_factor"])
             spinbox.valueChanged.connect(lambda: self.change_event(channel_config))
 
@@ -276,6 +276,6 @@ class ChannelConfiguration(QDialog):
             chaninfo["Channel_name"] = self.label[counter].text()
             chaninfo["Channel_color"] = self.color[counter].currentText()
             chaninfo["Display_on_screen"] = self.display[counter].isChecked()
-            chaninfo["Scaling_factor"] = int(self.scale[counter].value())
+            chaninfo["Scaling_factor"] = float(self.scale[counter].value())
             chaninfo["Vertical_shift"] = int(self.shift[counter].value())
         self.changesMade.emit()
