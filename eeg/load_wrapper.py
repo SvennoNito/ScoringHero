@@ -3,13 +3,16 @@ from scoring.load_scoring import load_scoring
 from scoring.events_to_ui import events_to_ui
 from utilities.timing_decorator import timing_decorator
 from .load_eeglab import load_eeglab
+from .load_r09 import load_r09
 from .number_of_epochs import number_of_epochs
 
 
 @timing_decorator
 def load_wrapper(ui, datatype):
     if datatype == "eeglab":
-        ui.eeg_data = load_eeglab(ui.filename)
+        ui.eeg_data, srate = load_eeglab(ui.filename)
+    if datatype == "r09":
+        ui.eeg_data, srate = load_r09(ui.filename)        
 
     try:
         numchans = ui.eeg_data.shape[0]
