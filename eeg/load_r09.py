@@ -6,7 +6,7 @@ def load_r09(filename_prefix):
 
     # Reshape the data into separate channels
     num_channels    = 9
-    data            = [data[i::num_channels] for i in range(num_channels-1, -1, -1)]
+    data            = [data[i::num_channels] for i in [3,4,5,6,7,8,1,2,0]]
     srate           = 128
     return np.array(data), srate
 
