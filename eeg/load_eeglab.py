@@ -11,5 +11,5 @@ def load_eeglab(filename_prefix):
                 eeg_data = eeg_data.T
     else:
         eeg_data = io.loadmat(filename_prefix)["EEG"]["data"][0][0]
-        srate    = io.loadmat(filename_prefix)["EEG"]["srate"][0][0]
+        srate    = io.loadmat(filename_prefix)["EEG"]["srate"][0][0][0][0]
     return eeg_data, srate

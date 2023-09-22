@@ -1,4 +1,4 @@
-def default_configuration(number_of_channels, srate=125):
+def default_configuration(number_of_channels, srate):
     configuration_settings = [[] for x in range(2)]
     configuration_settings[0] = {
         "Sampling_rate_hz": srate,

@@ -19,7 +19,7 @@ def load_wrapper(ui, datatype):
     except:
         numchans = 6
 
-    ui.config = load_configuration(f"{ui.filename}.config.json", numchans)
+    ui.config = load_configuration(f"{ui.filename}.config.json", numchans, srate)
     ui.numepo = number_of_epochs(
         ui.eeg_data.shape[1],
         ui.config[0]["Sampling_rate_hz"],
