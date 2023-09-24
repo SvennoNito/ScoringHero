@@ -14,7 +14,7 @@ class SpectogramWidget(QtWidgets.QWidget):
         self.axes = self.graphics.addPlot()
 
     def draw_spectogram(self, power, freqs, freqsOI, config):
-        power = power[:, freqsOI]
+        power = np.log10(power)[:, freqsOI]
         freqs = freqs[freqsOI]
         times = np.arange(0, power.shape[0]) * config[0]["Epoch_length_s"] / 60 / 60
 
@@ -24,8 +24,8 @@ class SpectogramWidget(QtWidgets.QWidget):
         self.img.setImage(power)
         self.img.setColorMap(pg.colormap.get("cividis"))
         self.img.setLevels(
-            [np.nanpercentile(power, 0), np.nanpercentile(power, 97)]
-        )  # Color scale
+            [-1, np.nanpercentile(power, 97)]
+        )  # Color scale      np.nanpercentile(power, 0)
 
         self.axes.clear()
         self.axes.addItem(self.img)
@@ -82,7 +82,7 @@ class SpectogramWidget(QtWidgets.QWidget):
         self.epoch_indicator_line.setPos(this_epoch + 0.5)
 
     def adjust_color_limit(self, power, upper_limit):
-        self.img.setLevels([0, np.nanpercentile(power, upper_limit)])
+        self.img.setLevels([-1, np.nanpercentile(np.log10(power), upper_limit)])
 
     def coordinates_upon_mousclick(self, event):
         mouse_pos = self.graphics.mapFromScene(event.scenePos())
