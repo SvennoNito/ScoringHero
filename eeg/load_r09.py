@@ -8,4 +8,5 @@ def load_r09(filename_prefix):
     num_channels    = 9
     data            = [data[i::num_channels] for i in [3,4,5,6,7,8,1,2,0]]
     srate           = 128
-    return np.array(data), srate
+    channel_names   = ["F3-A2", "F4-A1", "C3-A2", "C4-A1", "O1-A2", "O2-A1", "EOG1", "EOG2", "EMG"]
+    return np.array(data), srate, channel_names

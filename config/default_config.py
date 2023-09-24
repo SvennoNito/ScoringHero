@@ -1,4 +1,4 @@
-def default_configuration(number_of_channels, srate):
+def default_configuration(number_of_channels, srate, channel_names):
     configuration_settings = [[] for x in range(2)]
     configuration_settings[0] = {
         "Sampling_rate_hz": srate,
@@ -28,5 +28,9 @@ def default_configuration(number_of_channels, srate):
         configuration_settings[1][6]["Channel_color"] = "Blue"
         configuration_settings[1][7]["Channel_color"] = "Blue"
         configuration_settings[1][8]["Channel_color"] = "Magenta"
+
+    if len(channel_names) > 0:
+        for row, channel_name in enumerate(channel_names):
+            configuration_settings[1][row]["Channel_name"] = channel_name
 
     return configuration_settings
