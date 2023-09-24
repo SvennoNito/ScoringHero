@@ -9,10 +9,10 @@ def open_config_window(ui):
 
     ui.ConfigurationWindow = ConfigurationWindow(ui.config, ui.AnnotationContainer, allow_staging)
     ui.ChannelPage, ui.GeneralPage, ui.EventPage = ui.ConfigurationWindow.return_page()
-    ui.ChannelPage.changesMade.connect(lambda: redraw_gui(ui))
+    ui.ChannelPage.changesMade.connect(lambda: apply_changes([], ui))
     ui.GeneralPage.changesMade.connect(
         lambda config_parameter_name, ui=ui: apply_changes(config_parameter_name, ui)
     )
     ui.EventPage.changesMade.connect(lambda: write_scoring(ui))
-    ui.ConfigurationWindow.finished.connect(lambda: write_configuration(f"{ui.filename}.config.json", ui.config))
+    # ui.ConfigurationWindow.finished.connect(lambda: write_configuration(f"{ui.filename}.config.json", ui.config))
     ui.ConfigurationWindow.show()
