@@ -21,4 +21,12 @@ def default_configuration(number_of_channels, srate):
         for chan in range(number_of_channels)
     ]
 
+    if number_of_channels == 9:
+        configuration_settings[1][1]["Display_on_screen"] = 0     
+        configuration_settings[1][3]["Display_on_screen"] = 0        
+        configuration_settings[1][5]["Display_on_screen"] = 0        
+        configuration_settings[1][6]["Channel_color"] = "Blue"
+        configuration_settings[1][7]["Channel_color"] = "Blue"
+        configuration_settings[1][8]["Channel_color"] = "Magenta"
+
     return configuration_settings

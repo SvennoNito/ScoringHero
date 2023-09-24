@@ -31,11 +31,7 @@ def load_wrapper(ui, datatype):
 
     if datatype == "r09":
         channel_names = ["F3-A2", "F4-A1", "C3-A2", "C4-A1", "O1-A2", "O2-A1", "EOG1", "EOG2", "EMG"]
-        colors        = ["Black", "Black", "Black", "Black", "Black", "Black", "Blue", "Blue", "Magenta"]
-        visibles      = [1,0,1,0,1,0,1,1,1]
-        for (channel, name, color, visible) in zip(ui.config[1], channel_names, colors, visibles):
+        for (channel, name) in zip(ui.config[1], channel_names):
             channel["Channel_name"]     = name
-            channel["Channel_color"]    = color
-            channel["Display_on_screen"]= visible
 
     events_to_ui(ui, events)
