@@ -29,9 +29,4 @@ def load_wrapper(ui, datatype):
         f"{ui.filename}.json", ui.config[0]["Epoch_length_s"], ui.numepo
     )
 
-    # if datatype == "r09":
-    #     channel_names = ["F3-A2", "F4-A1", "C3-A2", "C4-A1", "O1-A2", "O2-A1", "EOG1", "EOG2", "EMG"]
-    #     for (channel, name) in zip(ui.config[1], channel_names):
-    #         channel["Channel_name"]     = name
-
     events_to_ui(ui, events)

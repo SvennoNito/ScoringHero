@@ -49,6 +49,7 @@ class SignalWidget(QWidget):
 
         # Initiate list
         self.drawn_signals = []
+        self.written_channel_labels  = []
 
         # Loop through channels
         self.axes.clear()
@@ -129,19 +130,20 @@ class SignalWidget(QWidget):
                 self.axes.addItem(text2)
 
             # Add channel labels
-            text = pg.TextItem(
+            channel_label = pg.TextItem(
                 text=config[1][visible_counter]["Channel_name"],
                 color=(150, 150, 150),
                 anchor=(0, 0.5),
             )
-            text.setPos(
+            channel_label.setPos(
                 times[0],
                 0 - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter,
             )
             font = QFont()
             font.setPixelSize(20)
-            text.setFont(font)
-            self.axes.addItem(text)
+            channel_label.setFont(font)
+            self.axes.addItem(channel_label)
+            self.written_channel_labels.append(channel_label)
 
         # Draw background and adjust axes
         self.adjust_time_axis(config, times)
@@ -207,6 +209,12 @@ class SignalWidget(QWidget):
                 + config[1][visible_counter]["Vertical_shift"]
                 - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter,
                 pen=pen,
+            )
+
+            # Update position of label
+            self.written_channel_labels[chan_counter].setPos(
+                times[0],
+                0 - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter,
             )
 
         # Draw background and adjust axes
