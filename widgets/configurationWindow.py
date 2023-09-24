@@ -14,7 +14,7 @@ from PySide6.QtWidgets import (
     QPushButton,
 )
 from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QIcon, QPixmap, QColor
+from PySide6.QtGui import QColor, QFont
 import copy
 
 
@@ -213,22 +213,51 @@ class ChannelConfiguration(QDialog):
         self.label = []
         self.shift = []
 
+        # Channel name width
+        channel_name_widhet_width = max(len(chaninfo["Channel_name"]) for chaninfo in channel_config) * 8 + 10
+
+        # Bold font
+        bold_font = QFont()
+        bold_font.setBold(True)
+
+        # Create header 
+        placeholder1 = QLabel("")
+        placeholder1.setFixedWidth(channel_name_widhet_width)
+        placeholder2 = QLabel("")
+        placeholder2.setFixedWidth(QCheckBox().sizeHint().width())  # Set width of the placeholder to match the checkbox below
+        labelbox1 = QLabel("Scaling factor")
+        labelbox1.setAlignment(Qt.AlignLeft) 
+        labelbox1.setFont(bold_font)           
+        labelbox2 = QLabel("Vertical shift")
+        labelbox2.setAlignment(Qt.AlignLeft)  
+        labelbox2.setFont(bold_font)          
+        labelbox3 = QLabel("Channel color")
+        labelbox3.setAlignment(Qt.AlignLeft)   
+        labelbox3.setFont(bold_font)
+
+        row_layout = QHBoxLayout()
+        row_layout.addWidget(placeholder1)
+        row_layout.addWidget(placeholder2)
+        row_layout.addWidget(labelbox1)
+        row_layout.addWidget(labelbox2)
+        row_layout.addWidget(labelbox3)
+        form_layout.addRow(row_layout)
+        
         # Loop through channels
         for count, chaninfo in enumerate(channel_config):
             # Channe label
             labelbox = QLineEdit(chaninfo["Channel_name"])
             labelbox.setAlignment(Qt.AlignRight)
-            labelbox.setFixedWidth(
-                max(len(chaninfo["Channel_name"]) for chaninfo in channel_config) * 8 + 10
-            )
+            labelbox.setFixedWidth(channel_name_widhet_width)
             labelbox.textChanged.connect(lambda: self.change_event(channel_config))
 
             # Value by which EEG is multiplied
             spinbox = QDoubleSpinBox(self)
             spinbox.setMinimum(0)
             spinbox.setMaximum(10000)
-            spinbox.setDecimals(2)
+            spinbox.setDecimals(0)
             spinbox.setValue(chaninfo["Scaling_factor"])
+            spinbox.setSuffix(" %")
             spinbox.valueChanged.connect(lambda: self.change_event(channel_config))
 
             # Value by which EEG is multiplied
@@ -276,6 +305,6 @@ class ChannelConfiguration(QDialog):
             chaninfo["Channel_name"] = self.label[counter].text()
             chaninfo["Channel_color"] = self.color[counter].currentText()
             chaninfo["Display_on_screen"] = self.display[counter].isChecked()
-            chaninfo["Scaling_factor"] = float(self.scale[counter].value())
+            chaninfo["Scaling_factor"] = int(self.scale[counter].value())
             chaninfo["Vertical_shift"] = int(self.shift[counter].value())
         self.changesMade.emit()

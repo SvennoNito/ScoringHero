@@ -2,7 +2,7 @@ from widgets import ConfigurationWindow
 from utilities.redraw_gui import redraw_gui
 from scoring.write_scoring import write_scoring
 from .apply_changes import apply_changes
-
+from .write_configuration import write_configuration
 
 def open_config_window(ui):
     allow_staging = all([stage["stage"] == None for stage in ui.stages])
@@ -14,5 +14,5 @@ def open_config_window(ui):
         lambda config_parameter_name, ui=ui: apply_changes(config_parameter_name, ui)
     )
     ui.EventPage.changesMade.connect(lambda: write_scoring(ui))
-    # ui.ConfigurationWindow.finished.connect(lambda: apply_config_changes(ui))
+    ui.ConfigurationWindow.finished.connect(lambda: write_configuration(f"{ui.filename}.config.json", ui.config))
     ui.ConfigurationWindow.show()
