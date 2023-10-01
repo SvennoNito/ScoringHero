@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout
+from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QGraphicsRectItem
 from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QFont
+from PySide6.QtGui import QFont, QColor, QBrush, QPen
 import pyqtgraph as pg
 import numpy as np
 from utilities.timing_decorator import timing_decorator
@@ -33,6 +33,7 @@ class SignalWidget(QWidget):
         self.pen_border = pg.mkPen(color=(0, 0, 0), style=Qt.DashLine, width=5)
         self.pen_grid_1s = pg.mkPen(color=(25, 25, 25, 15), style=Qt.DashLine)
         self.pen_grid = pg.mkPen(color=(100, 149, 237), style=Qt.DotLine)
+        self.transparent_numbers = pg.mkPen(color=(255, 255, 255, 0))
 
     @timing_decorator
     def draw_signal(self, config, eeg_data, times_and_indices, this_epoch):
@@ -90,15 +91,15 @@ class SignalWidget(QWidget):
                 pen=self.pen_amplines,
             )
             self.axes.addItem(amplitude_line)
-            amplitude_line = pg.InfiniteLine(
-                angle=0,
-                pos=0
-                - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
-                + config[1][visible_counter]["Vertical_shift"]
-                + 0 * config[1][visible_counter]["Scaling_factor"] / 100,
-                pen=self.pen_amplines,
-            )
-            self.axes.addItem(amplitude_line)
+            # amplitude_line = pg.InfiniteLine(
+            #     angle=0,
+            #     pos=0
+            #     - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
+            #     + config[1][visible_counter]["Vertical_shift"]
+            #     + 0 * config[1][visible_counter]["Scaling_factor"] / 100,
+            #     pen=self.pen_amplines,
+            # )
+            # self.axes.addItem(amplitude_line)
 
             # Add +37.5 muV text on the first channel
             if chan_counter == 0 and this_epoch == 1:
@@ -158,14 +159,29 @@ class SignalWidget(QWidget):
 
         # Add grid lines using pg.GridItem
         grid_item = pg.GridItem()
-        grid_item.setTickSpacing(x=[1], y=[1])  # This could be a problem if you have few channels
+        grid_item.setTickSpacing(x=[1], y=[config[0]["Distance_between_channels_muV"] * numchans_visible if numchans_visible > 1 else 10000])  # This could be a problem if you have few channels
+        grid_item.setTextPen(self.transparent_numbers)
         self.axes.addItem(grid_item)
 
         # Epoch border grid
-        grid_item = pg.GridItem()
-        grid_item.setTickSpacing(x=[borders[1] - borders[0]], y=[1])
-        grid_item.setPen(self.pen_border)
-        self.axes.addItem(grid_item)
+        #grid_item = pg.GridItem()
+        #grid_item.setTickSpacing(x=[borders[1] - borders[0]], y=[1])
+        #grid_item.setTextPen(self.transparent_numbers)
+        #grid_item.setPen(self.pen_border)
+        #self.axes.addItem(grid_item)
+        self.axes.showGrid(x=True, y=False)     
+
+        # Darker areas on both sides
+        bottom, top     = self.axes.viewRange()[1]
+        color           = QColor(0, 0, 0, 35)
+        brush           = QBrush(color)    
+        no_pen          = QPen(Qt.NoPen)    
+        self.dark_area  = [ QGraphicsRectItem(times[0], top, config[0]["Extension_epoch_s"][0] if this_epoch > 0 else 0, bottom-top),
+                            QGraphicsRectItem(borders[1], top, config[0]["Extension_epoch_s"][1] if this_epoch < len(times_and_indices)-1 else 0, bottom-top) ]
+        for iarea in range(len(self.dark_area)):
+            self.dark_area[iarea].setBrush(brush)
+            self.dark_area[iarea].setPen(no_pen)
+            self.axes.addItem(self.dark_area[iarea])
 
         # Show artefacts
         # self.changesMade.emit()
@@ -193,6 +209,7 @@ class SignalWidget(QWidget):
         # Extract times and indices
         times = times_and_indices[this_epoch][0]
         index_times = times_and_indices[this_epoch][1]
+        borders = times_and_indices[this_epoch][2]
 
         for chan_counter, visible_counter in enumerate(index_visible_chans):
             pen = pg.mkPen(
@@ -219,6 +236,11 @@ class SignalWidget(QWidget):
 
         # Draw background and adjust axes
         self.adjust_time_axis(config, times)
+
+        # Adjust dark areas
+        bottom, top  = self.axes.viewRange()[1]
+        self.dark_area[0].setRect(times[0], top, config[0]["Extension_epoch_s"][0] if this_epoch > 0 else 0, bottom-top)
+        self.dark_area[1].setRect(borders[1], top, config[0]["Extension_epoch_s"][1] if this_epoch < len(times_and_indices)-1 else 0, bottom-top)
 
     def adjust_time_axis(self, config, times):
         ticklabels = [
