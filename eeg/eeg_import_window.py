@@ -13,4 +13,5 @@ def eeg_import_window(ui, datatype):
         None, "Open File", ui.default_data_path, datatype_to_show
     )
     ui.filename, suffix = os.path.splitext(name_of_eegfile)
+    ui.default_data_path = os.path.dirname(name_of_eegfile)
     load_wrapper(ui, datatype)
