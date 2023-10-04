@@ -16,8 +16,8 @@ def event_handler(box_index, ui):
     if len(converted_corners) == 0:
         # No rectangle was drawn
         converted_corners = [
-            ui.this_epoch * ui.config[0]["Epoch_length_s"],
-            (ui.this_epoch + 1) * ui.config[0]["Epoch_length_s"],
+            int(ui.this_epoch) * ui.config[0]["Epoch_length_s"],
+            (int(ui.this_epoch) + 1) * ui.config[0]["Epoch_length_s"],
         ]
 
         # Append or remove epoch
