@@ -152,8 +152,8 @@ class SignalWidget(QWidget):
             -config[0]["Distance_between_channels_muV"]
             * (chan_counter)
             * (numchans_visible)
-            - 50,
-            + 50,
+            - 40 - 12*numchans_visible,
+            + 40 + 12*numchans_visible,
             padding=0,
         )
 
