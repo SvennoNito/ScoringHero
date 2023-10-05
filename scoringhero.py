@@ -1,10 +1,16 @@
 # -*- coding: utf-8 -*-
 
 # To do
+# Automatic scoring
+# Ability to overlay two scorings
+# Read different scoring formats
+# Read EDF files
+
 # Option to randomize files
 # Hypnogram on top of spectogram
 # Scoring should save channels on which it was scored
-# Rename label as eent menu and no submenu
+# Start import where last import stopped
+
 
 from PySide6 import QtCore, QtWidgets, QtGui
 from PySide6.QtWidgets import *

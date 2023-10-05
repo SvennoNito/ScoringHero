@@ -1,14 +1,13 @@
 import os, json
-from .default_scoring import default_scoring
+from .load_scoringhero import load_scoringhero
+from .load_vis import load_vis
 
+def load_scoring(scoring_filename, epolen, numepo, filetype):
 
-def load_scoring(scoring_filename, epolen, numepo):
-    if os.path.exists(scoring_filename):
-        with open(scoring_filename, "r") as file:
-            json_data = json.load(file)
-            annotations = json_data[1]
-            scoring_data = json_data[0]
-    else:
-        annotations = []
-        scoring_data = default_scoring(epolen, numepo)
+    if filetype == "scoringhero":
+        scoring_data, annotations = load_scoringhero(scoring_filename, epolen, numepo)
+
+    if filetype == "vis":
+        scoring_data, annotations = load_vis(scoring_filename, epolen, numepo)
+
     return scoring_data, annotations

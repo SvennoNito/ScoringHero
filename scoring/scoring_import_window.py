@@ -5,14 +5,19 @@ from .load_scoring import load_scoring
 from .events_to_ui import events_to_ui
 
 
-def scoring_import_window(ui):
+def scoring_import_window(ui, filetype):
+    if filetype == "scoringhero":
+        datatype = "*.json"
+    if filetype == "vis":
+        datatype = "*.vis"
+
     name_of_scoringfile, _ = QFileDialog.getOpenFileName(
-        None, "Open Scoring File", ui.default_data_path, "*.json"
+        None, "Open Scoring File", ui.default_data_path, datatype
     )
     ui.filename, suffix = os.path.splitext(name_of_scoringfile)
     ui.default_data_path = os.path.dirname(name_of_scoringfile)
     ui.stages, events = load_scoring(
-        f"{ui.filename}.json", ui.config[0]["Epoch_length_s"], ui.numepo
+        name_of_scoringfile, ui.config[0]["Epoch_length_s"], ui.numepo, filetype
     )
     events_to_ui(ui, events)
     refresh_gui(ui)

@@ -12,7 +12,7 @@ def load_wrapper(ui, datatype):
     if datatype == "eeglab":
         ui.eeg_data, srate, channel_names = load_eeglab(ui.filename)
     if datatype == "r09":
-        ui.eeg_data, srate, channel_names = load_r09(ui.filename)        
+        ui.eeg_data, srate, channel_names = load_r09(ui.filename)    
 
     try:
         numchans = ui.eeg_data.shape[0]
@@ -26,7 +26,7 @@ def load_wrapper(ui, datatype):
         ui.config[0]["Epoch_length_s"],
     )
     ui.stages, events = load_scoring(
-        f"{ui.filename}.json", ui.config[0]["Epoch_length_s"], ui.numepo
+        f"{ui.filename}.json", ui.config[0]["Epoch_length_s"], ui.numepo, "scoringhero"
     )
 
     events_to_ui(ui, events)
