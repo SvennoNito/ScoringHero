@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (
 )
 from utilities.jump_to_epoch import jump_to_epoch
 from utilities.epoch_unscored import first_unscored_epoch
-from utilities.epoch_uncertain import first_uncertain_stage
+from utilities.epoch_uncertain import next_uncertain_stage
 from utilities.epoch_transition import stage_transition
 
 
@@ -47,7 +47,7 @@ def setup_toolbar(ui, MainWindow):
     toolbar.addWidget(spacer)
 
     ui.tool_nextunscored = QPushButton("unscored")
-    ui.tool_nextunscored.clicked.connect(lambda: first_unscored_epoch(ui))
+    ui.tool_nextunscored.clicked.connect(lambda: [first_unscored_epoch(ui), ui.tool_nextunscored.clearFocus()])
     toolbar.addWidget(ui.tool_nextunscored)
 
     spacer = QWidget()
@@ -57,7 +57,7 @@ def setup_toolbar(ui, MainWindow):
 
     # Next uncertain epoch button
     ui.tool_nextuncertain = QPushButton("uncertain")
-    ui.tool_nextuncertain.clicked.connect(lambda: first_uncertain_stage(ui))
+    ui.tool_nextuncertain.clicked.connect(lambda: [next_uncertain_stage(ui), ui.tool_nextuncertain.clearFocus()])
     toolbar.addWidget(ui.tool_nextuncertain)
 
     spacer = QWidget()
@@ -67,6 +67,6 @@ def setup_toolbar(ui, MainWindow):
 
     # Next transition button
     ui.tool_nexttransition = QPushButton("transition")
-    ui.tool_nexttransition.clicked.connect(lambda: stage_transition(ui))
+    ui.tool_nexttransition.clicked.connect(lambda: [stage_transition(ui), ui.tool_nexttransition.clearFocus()])
     toolbar.addWidget(ui.tool_nexttransition)
     # toolbar.addWidget(spacer)

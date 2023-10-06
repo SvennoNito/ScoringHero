@@ -15,6 +15,8 @@ def score_stage(value, ui):
 
     ui.stages[ui.this_epoch]["stage"] = value
     ui.stages[ui.this_epoch]["digit"] = stages_notation[value]
+    ui.stages[ui.this_epoch]["source"] = "human"
+    ui.stages[ui.this_epoch]["confidence"] = None
 
     # Update hypnpgram
     ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)

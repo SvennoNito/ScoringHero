@@ -7,9 +7,10 @@ def default_scoring(epolen, numepo):
             "end": (counter + 1) * epolen,
             "stage": None,
             "digit": None,
-            "uncertain": 0,
+            "confidence": None,
             "channels": [],
             "clean": 1,
+            "source": None,
         }
         stages.append(template)
     return stages

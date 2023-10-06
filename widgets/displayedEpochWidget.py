@@ -26,11 +26,17 @@ class DisplayedEpochWidget(QWidget):
         layout.addWidget(self.textfield)
 
     def update_text(self, this_epoch, numepo, stages):
-        self.textfield.setText(f'Epoch {this_epoch+1}/{numepo} | {stages[this_epoch]["stage"]}')
-        self.change_uncertainty(stages[this_epoch]["uncertain"])
-
-    def change_uncertainty(self, uncertainty):
-        if uncertainty == 1:
-            self.textfield.setText(f"{self.textfield.text()} (not sure)")
+        if stages[this_epoch]["confidence"] == None:
+            confidence_text = "" 
+        elif stages[this_epoch]["confidence"] == 0:
+            confidence_text = "(not sure)"
         else:
-            self.textfield.setText(self.textfield.text())
+            confidence_text = f'| Confidence {np.round(stages[this_epoch]["confidence"] * 100, 2)}%'
+        self.textfield.setText(f'Epoch {this_epoch+1}/{numepo} | {stages[this_epoch]["stage"]} {confidence_text}')
+    #     self.change_uncertainty(stages[this_epoch]["confidence"])
+
+    # def change_uncertainty(self, confidence):
+    #     if confidence < .5:
+    #         self.textfield.setText(f"{self.textfield.text()} (not sure)")
+    #     else:
+    #         self.textfield.setText(self.textfield.text())

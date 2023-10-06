@@ -23,7 +23,7 @@ from events.event_handler import event_handler
 from utilities.score_not_sure import score_not_sure
 from config.open_config_window import open_config_window
 from scoring.scoring_import_window import scoring_import_window
-
+from scoring.score_yasa import score_yasa
 
 @timing_decorator
 def setup_ui(ui, MainWindow):
@@ -250,6 +250,11 @@ def setup_ui(ui, MainWindow):
     ui.menu_utils = QMenu("Utilities", ui.menu)
     ui.menu_utils.setObjectName("menu_utils")
     ui.menu.addAction(ui.menu_utils.menuAction())
+
+    ui.action_yasa = QAction("Let machine sleep score (YASA)", MainWindow)
+    ui.action_yasa.setObjectName("action_yasa")
+    ui.action_yasa.triggered.connect(lambda: score_yasa(ui))
+    ui.menu_utils.addAction(ui.action_yasa)    
 
     ui.action_zoom = QAction("Zoom on selected EEG", MainWindow)
     ui.action_zoom.setObjectName("action_zoom")

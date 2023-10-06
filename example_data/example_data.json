@@ -6,9 +6,10 @@
    "end": 30,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.9672,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 2,
@@ -16,9 +17,10 @@
    "end": 60,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.9523,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 3,
@@ -26,9 +28,10 @@
    "end": 90,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.9262,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 4,
@@ -36,9 +39,10 @@
    "end": 120,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.9381,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 5,
@@ -46,9 +50,10 @@
    "end": 150,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.8606,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 6,
@@ -56,9 +61,10 @@
    "end": 180,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.9259,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 7,
@@ -66,9 +72,10 @@
    "end": 210,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.8881,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 8,
@@ -76,9 +83,10 @@
    "end": 240,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.8979,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 9,
@@ -86,9 +94,10 @@
    "end": 270,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.9922,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 10,
@@ -96,9 +105,10 @@
    "end": 300,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.8306,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 11,
@@ -106,9 +116,10 @@
    "end": 330,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.8969,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 12,
@@ -116,9 +127,10 @@
    "end": 360,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.8546,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 13,
@@ -126,9 +138,10 @@
    "end": 390,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.7338,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 14,
@@ -136,9 +149,10 @@
    "end": 420,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.8947,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 15,
@@ -146,9 +160,10 @@
    "end": 450,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.8587,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 16,
@@ -156,9 +171,10 @@
    "end": 480,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.7681,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 17,
@@ -166,9 +182,10 @@
    "end": 510,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.933,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 18,
@@ -176,9 +193,10 @@
    "end": 540,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.7952,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 19,
@@ -186,9 +204,10 @@
    "end": 570,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.8414,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 20,
@@ -196,9 +215,10 @@
    "end": 600,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.759,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 21,
@@ -206,19 +226,21 @@
    "end": 630,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.6368,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 22,
    "start": 630,
    "end": 660,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.5436,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 23,
@@ -226,9 +248,10 @@
    "end": 690,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.5577,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 24,
@@ -236,9 +259,10 @@
    "end": 720,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.7593,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 25,
@@ -246,9 +270,10 @@
    "end": 750,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.7186,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 26,
@@ -256,9 +281,10 @@
    "end": 780,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.7955,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 27,
@@ -266,9 +292,10 @@
    "end": 810,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.8306,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 28,
@@ -276,9 +303,10 @@
    "end": 840,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.884,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 29,
@@ -286,259 +314,285 @@
    "end": 870,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.6593,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 30,
    "start": 870,
    "end": 900,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.6014,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 31,
    "start": 900,
    "end": 930,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.7862,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 32,
    "start": 930,
    "end": 960,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.7303,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 33,
    "start": 960,
    "end": 990,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.7641,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 34,
    "start": 990,
    "end": 1020,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.7788,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 35,
    "start": 1020,
    "end": 1050,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.8739,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 36,
    "start": 1050,
    "end": 1080,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.8475,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 37,
    "start": 1080,
    "end": 1110,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.7654,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 38,
    "start": 1110,
    "end": 1140,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.5918,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 39,
    "start": 1140,
    "end": 1170,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7057,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 40,
    "start": 1170,
    "end": 1200,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7705,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 41,
    "start": 1200,
    "end": 1230,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8662,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 42,
    "start": 1230,
    "end": 1260,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6998,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 43,
    "start": 1260,
    "end": 1290,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6774,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 44,
    "start": 1290,
    "end": 1320,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8412,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 45,
    "start": 1320,
    "end": 1350,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7255,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 46,
    "start": 1350,
    "end": 1380,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.891,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 47,
    "start": 1380,
    "end": 1410,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8603,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 48,
    "start": 1410,
    "end": 1440,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9281,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 49,
    "start": 1440,
    "end": 1470,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9222,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 50,
    "start": 1470,
    "end": 1500,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8833,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 51,
    "start": 1500,
    "end": 1530,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8979,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 52,
    "start": 1530,
    "end": 1560,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9134,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 53,
    "start": 1560,
    "end": 1590,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9657,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 54,
    "start": 1590,
    "end": 1620,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9436,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 55,
@@ -546,9 +600,10 @@
    "end": 1650,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.9329,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 56,
@@ -556,9 +611,10 @@
    "end": 1680,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.9138,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 57,
@@ -566,9 +622,10 @@
    "end": 1710,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.8756,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 58,
@@ -576,9 +633,10 @@
    "end": 1740,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.6492,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 59,
@@ -586,9 +644,10 @@
    "end": 1770,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.6591,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 60,
@@ -596,109 +655,120 @@
    "end": 1800,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.5216,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 61,
    "start": 1800,
    "end": 1830,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.5749,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 62,
    "start": 1830,
    "end": 1860,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.5694,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 63,
    "start": 1860,
    "end": 1890,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.5606,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 64,
    "start": 1890,
    "end": 1920,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.7637,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 65,
    "start": 1920,
    "end": 1950,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.8503,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 66,
    "start": 1950,
    "end": 1980,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.8154,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 67,
    "start": 1980,
    "end": 2010,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.6786,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 68,
    "start": 2010,
    "end": 2040,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.8632,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 69,
    "start": 2040,
    "end": 2070,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.4797,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 70,
    "start": 2070,
    "end": 2100,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.9267,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 71,
@@ -706,9 +776,10 @@
    "end": 2130,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9243,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 72,
@@ -716,9 +787,10 @@
    "end": 2160,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.5576,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 73,
@@ -726,9 +798,10 @@
    "end": 2190,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.8833,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 74,
@@ -736,9 +809,10 @@
    "end": 2220,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9072,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 75,
@@ -746,9 +820,10 @@
    "end": 2250,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9111,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 76,
@@ -756,9 +831,10 @@
    "end": 2280,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9379,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 77,
@@ -766,9 +842,10 @@
    "end": 2310,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.8697,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 78,
@@ -776,9 +853,10 @@
    "end": 2340,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.8738,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 79,
@@ -786,9 +864,10 @@
    "end": 2370,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9405,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 80,
@@ -796,9 +875,10 @@
    "end": 2400,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9331,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 81,
@@ -806,9 +886,10 @@
    "end": 2430,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9685,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 82,
@@ -816,9 +897,10 @@
    "end": 2460,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9539,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 83,
@@ -826,9 +908,10 @@
    "end": 2490,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.8949,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 84,
@@ -836,9 +919,10 @@
    "end": 2520,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9672,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 85,
@@ -846,9 +930,10 @@
    "end": 2550,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.942,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 86,
@@ -856,9 +941,10 @@
    "end": 2580,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9478,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 87,
@@ -866,9 +952,10 @@
    "end": 2610,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9662,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 88,
@@ -876,9 +963,10 @@
    "end": 2640,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9165,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 89,
@@ -886,9 +974,10 @@
    "end": 2670,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9389,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 90,
@@ -896,9 +985,10 @@
    "end": 2700,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9629,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 91,
@@ -906,9 +996,10 @@
    "end": 2730,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9678,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 92,
@@ -916,9 +1007,10 @@
    "end": 2760,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9303,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 93,
@@ -926,9 +1018,10 @@
    "end": 2790,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9699,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 94,
@@ -936,9 +1029,10 @@
    "end": 2820,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9723,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 95,
@@ -946,9 +1040,10 @@
    "end": 2850,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9537,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 96,
@@ -956,9 +1051,10 @@
    "end": 2880,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9588,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 97,
@@ -966,9 +1062,10 @@
    "end": 2910,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9725,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 98,
@@ -976,9 +1073,10 @@
    "end": 2940,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9809,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 99,
@@ -986,9 +1084,10 @@
    "end": 2970,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9613,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 100,
@@ -996,9 +1095,10 @@
    "end": 3000,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9439,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 101,
@@ -1006,9 +1106,10 @@
    "end": 3030,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9611,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 102,
@@ -1016,9 +1117,10 @@
    "end": 3060,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9702,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 103,
@@ -1026,9 +1128,10 @@
    "end": 3090,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9245,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 104,
@@ -1036,9 +1139,10 @@
    "end": 3120,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9551,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 105,
@@ -1046,9 +1150,10 @@
    "end": 3150,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9499,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 106,
@@ -1056,9 +1161,10 @@
    "end": 3180,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9466,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 107,
@@ -1066,9 +1172,10 @@
    "end": 3210,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9546,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 108,
@@ -1076,9 +1183,10 @@
    "end": 3240,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 1,
+   "confidence": 0.9756,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 109,
@@ -1086,9 +1194,10 @@
    "end": 3270,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9523,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 110,
@@ -1096,9 +1205,10 @@
    "end": 3300,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9151,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 111,
@@ -1106,9 +1216,10 @@
    "end": 3330,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9853,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 112,
@@ -1116,9 +1227,10 @@
    "end": 3360,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9409,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 113,
@@ -1126,9 +1238,10 @@
    "end": 3390,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.952,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 114,
@@ -1136,9 +1249,10 @@
    "end": 3420,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9507,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 115,
@@ -1146,9 +1260,10 @@
    "end": 3450,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9394,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 116,
@@ -1156,19 +1271,21 @@
    "end": 3480,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9312,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 117,
    "start": 3480,
    "end": 3510,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.5781,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 118,
@@ -1176,9 +1293,10 @@
    "end": 3540,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.7927,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 119,
@@ -1186,9 +1304,10 @@
    "end": 3570,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.8193,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 120,
@@ -1196,9 +1315,10 @@
    "end": 3600,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.5858,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 121,
@@ -1206,9 +1326,10 @@
    "end": 3630,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.8816,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 122,
@@ -1216,9 +1337,10 @@
    "end": 3660,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.9925,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 123,
@@ -1226,29 +1348,32 @@
    "end": 3690,
    "stage": "Wake",
    "digit": 1,
-   "uncertain": 0,
+   "confidence": 0.7185,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 124,
    "start": 3690,
    "end": 3720,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6844,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 125,
    "start": 3720,
    "end": 3750,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.5092,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 126,
@@ -1256,9 +1381,10 @@
    "end": 3780,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.7219,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 127,
@@ -1266,9 +1392,10 @@
    "end": 3810,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.7478,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 128,
@@ -1276,9 +1403,10 @@
    "end": 3840,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.9057,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 129,
@@ -1286,9 +1414,10 @@
    "end": 3870,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.8961,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 130,
@@ -1296,9 +1425,10 @@
    "end": 3900,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.9722,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 131,
@@ -1306,9 +1436,10 @@
    "end": 3930,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.8998,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 132,
@@ -1316,9 +1447,10 @@
    "end": 3960,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.9535,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 133,
@@ -1326,9 +1458,10 @@
    "end": 3990,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.9579,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 134,
@@ -1336,9 +1469,10 @@
    "end": 4020,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.8361,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 135,
@@ -1346,9 +1480,10 @@
    "end": 4050,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.8981,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 136,
@@ -1356,9 +1491,10 @@
    "end": 4080,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.9246,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 137,
@@ -1366,9 +1502,10 @@
    "end": 4110,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.9098,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 138,
@@ -1376,9 +1513,10 @@
    "end": 4140,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.8425,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 139,
@@ -1386,9 +1524,10 @@
    "end": 4170,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.9571,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 140,
@@ -1396,9 +1535,10 @@
    "end": 4200,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.7753,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 141,
@@ -1406,9 +1546,10 @@
    "end": 4230,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.8639,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 142,
@@ -1416,9 +1557,10 @@
    "end": 4260,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.8119,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 143,
@@ -1426,9 +1568,10 @@
    "end": 4290,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.9032,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 144,
@@ -1436,199 +1579,219 @@
    "end": 4320,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.8037,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 145,
    "start": 4320,
    "end": 4350,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5269,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 146,
    "start": 4350,
    "end": 4380,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.4952,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 147,
    "start": 4380,
    "end": 4410,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5271,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 148,
    "start": 4410,
    "end": 4440,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8181,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 149,
    "start": 4440,
    "end": 4470,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9355,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 150,
    "start": 4470,
    "end": 4500,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.856,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 151,
    "start": 4500,
    "end": 4530,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9629,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 152,
    "start": 4530,
    "end": 4560,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9258,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 153,
    "start": 4560,
    "end": 4590,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6703,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 154,
    "start": 4590,
    "end": 4620,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.4182,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 155,
    "start": 4620,
    "end": 4650,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.5146,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 156,
    "start": 4650,
    "end": 4680,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.9978,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 157,
    "start": 4680,
    "end": 4710,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.8503,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 158,
    "start": 4710,
    "end": 4740,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.4842,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 159,
    "start": 4740,
    "end": 4770,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6996,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 160,
    "start": 4770,
    "end": 4800,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9043,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 161,
    "start": 4800,
    "end": 4830,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9108,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 162,
    "start": 4830,
    "end": 4860,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9404,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 163,
    "start": 4860,
    "end": 4890,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5065,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 164,
@@ -1636,39 +1799,43 @@
    "end": 4920,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.5303,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 165,
    "start": 4920,
    "end": 4950,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6864,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 166,
    "start": 4950,
    "end": 4980,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5316,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 167,
    "start": 4980,
    "end": 5010,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6683,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 168,
@@ -1676,9 +1843,10 @@
    "end": 5040,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.5905,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 169,
@@ -1686,9 +1854,10 @@
    "end": 5070,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.8674,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 170,
@@ -1696,9 +1865,10 @@
    "end": 5100,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.5043,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 171,
@@ -1706,19 +1876,21 @@
    "end": 5130,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.5023,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 172,
    "start": 5130,
    "end": 5160,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5591,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 173,
@@ -1726,9 +1898,10 @@
    "end": 5190,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.533,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 174,
@@ -1736,29 +1909,32 @@
    "end": 5220,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.5349,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 175,
    "start": 5220,
    "end": 5250,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5357,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 176,
    "start": 5250,
    "end": 5280,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5652,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 177,
@@ -1766,19 +1942,21 @@
    "end": 5310,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.6174,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 178,
    "start": 5310,
    "end": 5340,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6071,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 179,
@@ -1786,9 +1964,10 @@
    "end": 5370,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.5483,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 180,
@@ -1796,9 +1975,10 @@
    "end": 5400,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.7384,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 181,
@@ -1806,9 +1986,10 @@
    "end": 5430,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.5487,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 182,
@@ -1816,9 +1997,10 @@
    "end": 5460,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.5854,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 183,
@@ -1826,9 +2008,10 @@
    "end": 5490,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.6912,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 184,
@@ -1836,9 +2019,10 @@
    "end": 5520,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.7809,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 185,
@@ -1846,9 +2030,10 @@
    "end": 5550,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.8604,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 186,
@@ -1856,9 +2041,10 @@
    "end": 5580,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.8582,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 187,
@@ -1866,9 +2052,10 @@
    "end": 5610,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.7299,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 188,
@@ -1876,9 +2063,10 @@
    "end": 5640,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.7297,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 189,
@@ -1886,9 +2074,10 @@
    "end": 5670,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.7156,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 190,
@@ -1896,9 +2085,10 @@
    "end": 5700,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.8695,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 191,
@@ -1906,9 +2096,10 @@
    "end": 5730,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9061,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 192,
@@ -1916,1969 +2107,2166 @@
    "end": 5760,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 1,
+   "confidence": 0.6766,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 193,
    "start": 5760,
    "end": 5790,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.639,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 194,
    "start": 5790,
    "end": 5820,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.5742,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 195,
    "start": 5820,
    "end": 5850,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7925,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 196,
    "start": 5850,
    "end": 5880,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6396,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 197,
    "start": 5880,
    "end": 5910,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.712,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 198,
    "start": 5910,
    "end": 5940,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5473,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 199,
    "start": 5940,
    "end": 5970,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8223,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 200,
    "start": 5970,
    "end": 6000,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.876,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 201,
    "start": 6000,
    "end": 6030,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8388,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 202,
    "start": 6030,
    "end": 6060,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9094,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 203,
    "start": 6060,
    "end": 6090,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9174,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 204,
    "start": 6090,
    "end": 6120,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9117,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 205,
    "start": 6120,
    "end": 6150,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8975,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 206,
    "start": 6150,
    "end": 6180,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9606,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 207,
    "start": 6180,
    "end": 6210,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9633,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 208,
    "start": 6210,
    "end": 6240,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9747,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 209,
    "start": 6240,
    "end": 6270,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9773,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 210,
    "start": 6270,
    "end": 6300,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9836,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 211,
    "start": 6300,
    "end": 6330,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9186,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 212,
    "start": 6330,
    "end": 6360,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9107,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 213,
    "start": 6360,
    "end": 6390,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9829,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 214,
    "start": 6390,
    "end": 6420,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9204,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 215,
    "start": 6420,
    "end": 6450,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9295,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 216,
    "start": 6450,
    "end": 6480,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8418,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 217,
    "start": 6480,
    "end": 6510,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9431,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 218,
    "start": 6510,
    "end": 6540,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9203,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 219,
    "start": 6540,
    "end": 6570,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6518,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 220,
    "start": 6570,
    "end": 6600,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8643,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 221,
    "start": 6600,
    "end": 6630,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8531,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 222,
    "start": 6630,
    "end": 6660,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8526,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 223,
    "start": 6660,
    "end": 6690,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7188,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 224,
    "start": 6690,
    "end": 6720,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.825,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 225,
    "start": 6720,
    "end": 6750,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.823,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 226,
    "start": 6750,
    "end": 6780,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.999,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 227,
    "start": 6780,
    "end": 6810,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.6315,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 228,
    "start": 6810,
    "end": 6840,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.5312,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 229,
    "start": 6840,
    "end": 6870,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.5445,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 230,
    "start": 6870,
    "end": 6900,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.4409,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 231,
    "start": 6900,
    "end": 6930,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.4367,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 232,
    "start": 6930,
    "end": 6960,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.779,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 233,
    "start": 6960,
    "end": 6990,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.829,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 234,
    "start": 6990,
    "end": 7020,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.7605,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 235,
    "start": 7020,
    "end": 7050,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6597,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 236,
    "start": 7050,
    "end": 7080,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5203,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 237,
    "start": 7080,
    "end": 7110,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5148,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 238,
    "start": 7110,
    "end": 7140,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9502,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 239,
    "start": 7140,
    "end": 7170,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8351,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 240,
    "start": 7170,
    "end": 7200,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8118,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 241,
    "start": 7200,
    "end": 7230,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9251,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 242,
    "start": 7230,
    "end": 7260,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7746,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 243,
    "start": 7260,
    "end": 7290,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7713,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 244,
    "start": 7290,
    "end": 7320,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.425,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 245,
    "start": 7320,
    "end": 7350,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6494,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 246,
    "start": 7350,
    "end": 7380,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.4896,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 247,
    "start": 7380,
    "end": 7410,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6994,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 248,
    "start": 7410,
    "end": 7440,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7981,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 249,
    "start": 7440,
    "end": 7470,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8396,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 250,
    "start": 7470,
    "end": 7500,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9572,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 251,
    "start": 7500,
    "end": 7530,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9802,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 252,
    "start": 7530,
    "end": 7560,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9137,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 253,
    "start": 7560,
    "end": 7590,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9806,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 254,
    "start": 7590,
    "end": 7620,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8816,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 255,
    "start": 7620,
    "end": 7650,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8474,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 256,
    "start": 7650,
    "end": 7680,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9596,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 257,
    "start": 7680,
    "end": 7710,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7051,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 258,
    "start": 7710,
    "end": 7740,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7737,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 259,
    "start": 7740,
    "end": 7770,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7675,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 260,
    "start": 7770,
    "end": 7800,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8655,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 261,
    "start": 7800,
    "end": 7830,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8132,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 262,
    "start": 7830,
    "end": 7860,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.7359,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 263,
    "start": 7860,
    "end": 7890,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.4615,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 264,
    "start": 7890,
    "end": 7920,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5061,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 265,
    "start": 7920,
    "end": 7950,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6146,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 266,
    "start": 7950,
    "end": 7980,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5681,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 267,
    "start": 7980,
    "end": 8010,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6752,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 268,
    "start": 8010,
    "end": 8040,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6947,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 269,
    "start": 8040,
    "end": 8070,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.761,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 270,
    "start": 8070,
    "end": 8100,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5732,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 271,
    "start": 8100,
    "end": 8130,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7424,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 272,
    "start": 8130,
    "end": 8160,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.4819,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 273,
    "start": 8160,
    "end": 8190,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6097,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 274,
    "start": 8190,
    "end": 8220,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5126,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 275,
    "start": 8220,
    "end": 8250,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5438,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 276,
    "start": 8250,
    "end": 8280,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8984,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 277,
    "start": 8280,
    "end": 8310,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6743,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 278,
    "start": 8310,
    "end": 8340,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6368,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 279,
    "start": 8340,
    "end": 8370,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.5292,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 280,
    "start": 8370,
    "end": 8400,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.9268,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 281,
    "start": 8400,
    "end": 8430,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.9983,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 282,
    "start": 8430,
    "end": 8460,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.8862,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 283,
    "start": 8460,
    "end": 8490,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.609,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 284,
    "start": 8490,
    "end": 8520,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.6783,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 285,
    "start": 8520,
    "end": 8550,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.3588,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 286,
    "start": 8550,
    "end": 8580,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.4279,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 287,
    "start": 8580,
    "end": 8610,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.4459,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 288,
    "start": 8610,
    "end": 8640,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5794,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 289,
    "start": 8640,
    "end": 8670,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5895,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 290,
    "start": 8670,
    "end": 8700,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7024,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 291,
    "start": 8700,
    "end": 8730,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.812,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 292,
    "start": 8730,
    "end": 8760,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7909,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 293,
    "start": 8760,
    "end": 8790,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.3909,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 294,
    "start": 8790,
    "end": 8820,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7063,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 295,
    "start": 8820,
    "end": 8850,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7281,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 296,
    "start": 8850,
    "end": 8880,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6821,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 297,
    "start": 8880,
    "end": 8910,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8398,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 298,
    "start": 8910,
    "end": 8940,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9623,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 299,
    "start": 8940,
    "end": 8970,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9733,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 300,
    "start": 8970,
    "end": 9000,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8952,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 301,
    "start": 9000,
    "end": 9030,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9204,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 302,
    "start": 9030,
    "end": 9060,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9385,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 303,
    "start": 9060,
    "end": 9090,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7123,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 304,
    "start": 9090,
    "end": 9120,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8034,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 305,
    "start": 9120,
    "end": 9150,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6349,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 306,
    "start": 9150,
    "end": 9180,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8337,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 307,
    "start": 9180,
    "end": 9210,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8098,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 308,
    "start": 9210,
    "end": 9240,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.654,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 309,
    "start": 9240,
    "end": 9270,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7544,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 310,
    "start": 9270,
    "end": 9300,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9393,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 311,
    "start": 9300,
    "end": 9330,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6029,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 312,
    "start": 9330,
    "end": 9360,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6871,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 313,
    "start": 9360,
    "end": 9390,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7464,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 314,
    "start": 9390,
    "end": 9420,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8132,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 315,
    "start": 9420,
    "end": 9450,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9176,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 316,
    "start": 9450,
    "end": 9480,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8878,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 317,
    "start": 9480,
    "end": 9510,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9196,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 318,
    "start": 9510,
    "end": 9540,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9275,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 319,
    "start": 9540,
    "end": 9570,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7816,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 320,
    "start": 9570,
    "end": 9600,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8661,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 321,
    "start": 9600,
    "end": 9630,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8312,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 322,
    "start": 9630,
    "end": 9660,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.9787,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 323,
    "start": 9660,
    "end": 9690,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.5181,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 324,
    "start": 9690,
    "end": 9720,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.8463,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 325,
    "start": 9720,
    "end": 9750,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.742,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 326,
    "start": 9750,
    "end": 9780,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6612,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 327,
    "start": 9780,
    "end": 9810,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7006,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 328,
    "start": 9810,
    "end": 9840,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7443,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 329,
    "start": 9840,
    "end": 9870,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8511,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 330,
    "start": 9870,
    "end": 9900,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9297,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 331,
    "start": 9900,
    "end": 9930,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8782,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 332,
    "start": 9930,
    "end": 9960,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6022,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 333,
    "start": 9960,
    "end": 9990,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "human"
   },
   {
    "epoch": 334,
    "start": 9990,
    "end": 10020,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5279,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 335,
    "start": 10020,
    "end": 10050,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8859,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 336,
    "start": 10050,
    "end": 10080,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.4507,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 337,
    "start": 10080,
    "end": 10110,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.4903,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 338,
    "start": 10110,
    "end": 10140,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7563,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 339,
    "start": 10140,
    "end": 10170,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8343,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 340,
    "start": 10170,
    "end": 10200,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.907,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 341,
    "start": 10200,
    "end": 10230,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8974,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 342,
    "start": 10230,
    "end": 10260,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9462,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 343,
    "start": 10260,
    "end": 10290,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.833,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 344,
    "start": 10290,
    "end": 10320,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7262,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 345,
    "start": 10320,
    "end": 10350,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8531,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 346,
    "start": 10350,
    "end": 10380,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8805,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 347,
    "start": 10380,
    "end": 10410,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.915,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 348,
    "start": 10410,
    "end": 10440,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9081,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 349,
    "start": 10440,
    "end": 10470,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8085,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 350,
    "start": 10470,
    "end": 10500,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5856,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 351,
    "start": 10500,
    "end": 10530,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.799,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 352,
    "start": 10530,
    "end": 10560,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.949,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 353,
    "start": 10560,
    "end": 10590,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8759,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 354,
    "start": 10590,
    "end": 10620,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6824,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 355,
    "start": 10620,
    "end": 10650,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.744,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 356,
    "start": 10650,
    "end": 10680,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8402,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 357,
    "start": 10680,
    "end": 10710,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5168,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 358,
    "start": 10710,
    "end": 10740,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8803,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 359,
    "start": 10740,
    "end": 10770,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7332,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 360,
    "start": 10770,
    "end": 10800,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9386,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 361,
    "start": 10800,
    "end": 10830,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7223,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 362,
    "start": 10830,
    "end": 10860,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7099,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 363,
    "start": 10860,
    "end": 10890,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8764,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 364,
    "start": 10890,
    "end": 10920,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8545,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 365,
    "start": 10920,
    "end": 10950,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9078,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 366,
    "start": 10950,
    "end": 10980,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.726,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 367,
    "start": 10980,
    "end": 11010,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8641,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 368,
    "start": 11010,
    "end": 11040,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.919,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 369,
    "start": 11040,
    "end": 11070,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8295,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 370,
    "start": 11070,
    "end": 11100,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.818,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 371,
    "start": 11100,
    "end": 11130,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6416,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 372,
    "start": 11130,
    "end": 11160,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.795,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 373,
    "start": 11160,
    "end": 11190,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.5347,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 374,
    "start": 11190,
    "end": 11220,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.4958,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 375,
    "start": 11220,
    "end": 11250,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.5849,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 376,
    "start": 11250,
    "end": 11280,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.6965,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 377,
    "start": 11280,
    "end": 11310,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.4999,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 378,
    "start": 11310,
    "end": 11340,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.6155,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 379,
    "start": 11340,
    "end": 11370,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.5846,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 380,
    "start": 11370,
    "end": 11400,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.7131,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 381,
    "start": 11400,
    "end": 11430,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5173,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 382,
    "start": 11430,
    "end": 11460,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7208,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 383,
    "start": 11460,
    "end": 11490,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7371,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 384,
    "start": 11490,
    "end": 11520,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7318,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 385,
    "start": 11520,
    "end": 11550,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9313,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 386,
    "start": 11550,
    "end": 11580,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.849,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 387,
    "start": 11580,
    "end": 11610,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8004,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 388,
    "start": 11610,
    "end": 11640,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7666,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 389,
@@ -3886,9 +4274,10 @@
    "end": 11670,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.6495,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 390,
@@ -3896,99 +4285,109 @@
    "end": 11700,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.5468,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 391,
    "start": 11700,
    "end": 11730,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.5677,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 392,
    "start": 11730,
    "end": 11760,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.5312,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 393,
    "start": 11760,
    "end": 11790,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.7841,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 394,
    "start": 11790,
    "end": 11820,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.8813,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 395,
    "start": 11820,
    "end": 11850,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.6886,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 396,
    "start": 11850,
    "end": 11880,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.6278,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 397,
    "start": 11880,
    "end": 11910,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.6103,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 398,
    "start": 11910,
    "end": 11940,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.7913,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 399,
    "start": 11940,
    "end": 11970,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.6752,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 400,
@@ -3996,9 +4395,10 @@
    "end": 12000,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.8554,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 401,
@@ -4006,1349 +4406,1484 @@
    "end": 12030,
    "stage": "N2",
    "digit": -2,
-   "uncertain": 0,
+   "confidence": 0.7098,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 402,
    "start": 12030,
    "end": 12060,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8025,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 403,
    "start": 12060,
    "end": 12090,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7772,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 404,
    "start": 12090,
    "end": 12120,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7851,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 405,
    "start": 12120,
    "end": 12150,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8891,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 406,
    "start": 12150,
    "end": 12180,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8038,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 407,
    "start": 12180,
    "end": 12210,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8977,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 408,
    "start": 12210,
    "end": 12240,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9209,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 409,
    "start": 12240,
    "end": 12270,
-   "stage": "N3",
-   "digit": -3,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9168,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 410,
    "start": 12270,
    "end": 12300,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.9147,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 411,
    "start": 12300,
    "end": 12330,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.4141,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 412,
    "start": 12330,
    "end": 12360,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.671,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 413,
    "start": 12360,
    "end": 12390,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.568,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 414,
    "start": 12390,
    "end": 12420,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7622,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 415,
    "start": 12420,
    "end": 12450,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6484,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 416,
    "start": 12450,
    "end": 12480,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.3742,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 417,
    "start": 12480,
    "end": 12510,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5502,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 418,
    "start": 12510,
    "end": 12540,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.4076,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 419,
    "start": 12540,
    "end": 12570,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5101,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 420,
    "start": 12570,
    "end": 12600,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.9966,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 421,
    "start": 12600,
    "end": 12630,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.5779,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 422,
    "start": 12630,
    "end": 12660,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.9306,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 423,
    "start": 12660,
    "end": 12690,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.4639,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 424,
    "start": 12690,
    "end": 12720,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": null,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "human"
   },
   {
    "epoch": 425,
    "start": 12720,
    "end": 12750,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7313,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 426,
    "start": 12750,
    "end": 12780,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.4513,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 427,
    "start": 12780,
    "end": 12810,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.3111,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 428,
    "start": 12810,
    "end": 12840,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.4707,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 429,
    "start": 12840,
    "end": 12870,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5794,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 430,
    "start": 12870,
    "end": 12900,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8243,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 431,
    "start": 12900,
    "end": 12930,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9267,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 432,
    "start": 12930,
    "end": 12960,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8708,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 433,
    "start": 12960,
    "end": 12990,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9515,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 434,
    "start": 12990,
    "end": 13020,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8861,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 435,
    "start": 13020,
    "end": 13050,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9404,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 436,
    "start": 13050,
    "end": 13080,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9321,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 437,
    "start": 13080,
    "end": 13110,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9662,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 438,
    "start": 13110,
    "end": 13140,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9737,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 439,
    "start": 13140,
    "end": 13170,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9824,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 440,
    "start": 13170,
    "end": 13200,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.95,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 441,
    "start": 13200,
    "end": 13230,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9156,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 442,
    "start": 13230,
    "end": 13260,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8243,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 443,
    "start": 13260,
    "end": 13290,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7126,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 444,
    "start": 13290,
    "end": 13320,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5161,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 445,
    "start": 13320,
    "end": 13350,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6544,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 446,
    "start": 13350,
    "end": 13380,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5638,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 447,
    "start": 13380,
    "end": 13410,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6946,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 448,
    "start": 13410,
    "end": 13440,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8821,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 449,
    "start": 13440,
    "end": 13470,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9355,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 450,
    "start": 13470,
    "end": 13500,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8997,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 451,
    "start": 13500,
    "end": 13530,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6487,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 452,
    "start": 13530,
    "end": 13560,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9493,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 453,
    "start": 13560,
    "end": 13590,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8749,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 454,
    "start": 13590,
    "end": 13620,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8616,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 455,
    "start": 13620,
    "end": 13650,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9641,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 456,
    "start": 13650,
    "end": 13680,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9103,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 457,
    "start": 13680,
    "end": 13710,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9017,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 458,
    "start": 13710,
    "end": 13740,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8396,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 459,
    "start": 13740,
    "end": 13770,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9206,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 460,
    "start": 13770,
    "end": 13800,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.564,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 461,
    "start": 13800,
    "end": 13830,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9548,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 462,
    "start": 13830,
    "end": 13860,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.944,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 463,
    "start": 13860,
    "end": 13890,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8998,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 464,
    "start": 13890,
    "end": 13920,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7531,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 465,
    "start": 13920,
    "end": 13950,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9464,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 466,
    "start": 13950,
    "end": 13980,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9127,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 467,
    "start": 13980,
    "end": 14010,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7985,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 468,
    "start": 14010,
    "end": 14040,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9148,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 469,
    "start": 14040,
    "end": 14070,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.557,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 470,
    "start": 14070,
    "end": 14100,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5925,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 471,
    "start": 14100,
    "end": 14130,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8709,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 472,
    "start": 14130,
    "end": 14160,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6677,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 473,
    "start": 14160,
    "end": 14190,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9474,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 474,
    "start": 14190,
    "end": 14220,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6109,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 475,
    "start": 14220,
    "end": 14250,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.5205,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 476,
    "start": 14250,
    "end": 14280,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5462,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 477,
    "start": 14280,
    "end": 14310,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5047,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 478,
    "start": 14310,
    "end": 14340,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.5478,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 479,
    "start": 14340,
    "end": 14370,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7197,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 480,
    "start": 14370,
    "end": 14400,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7891,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 481,
    "start": 14400,
    "end": 14430,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.847,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 482,
    "start": 14430,
    "end": 14460,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.94,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 483,
    "start": 14460,
    "end": 14490,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8227,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 484,
    "start": 14490,
    "end": 14520,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5631,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 485,
    "start": 14520,
    "end": 14550,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.7968,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 486,
    "start": 14550,
    "end": 14580,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.5522,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 487,
    "start": 14580,
    "end": 14610,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.466,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 488,
    "start": 14610,
    "end": 14640,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.4066,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 489,
    "start": 14640,
    "end": 14670,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.671,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 490,
    "start": 14670,
    "end": 14700,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5495,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 491,
    "start": 14700,
    "end": 14730,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.4312,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 492,
    "start": 14730,
    "end": 14760,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5846,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 493,
    "start": 14760,
    "end": 14790,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5519,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 494,
    "start": 14790,
    "end": 14820,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.4243,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 495,
    "start": 14820,
    "end": 14850,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5094,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 496,
    "start": 14850,
    "end": 14880,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.4321,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 497,
    "start": 14880,
    "end": 14910,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5631,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 498,
    "start": 14910,
    "end": 14940,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.4693,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 499,
    "start": 14940,
    "end": 14970,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5138,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 500,
    "start": 14970,
    "end": 15000,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5135,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 501,
    "start": 15000,
    "end": 15030,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.4707,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 502,
    "start": 15030,
    "end": 15060,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.3364,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 503,
    "start": 15060,
    "end": 15090,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.347,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 504,
    "start": 15090,
    "end": 15120,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.3308,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 505,
    "start": 15120,
    "end": 15150,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5074,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 506,
    "start": 15150,
    "end": 15180,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5645,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 507,
    "start": 15180,
    "end": 15210,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5866,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 508,
    "start": 15210,
    "end": 15240,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7806,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 509,
    "start": 15240,
    "end": 15270,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8572,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 510,
    "start": 15270,
    "end": 15300,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8129,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 511,
    "start": 15300,
    "end": 15330,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8235,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 512,
    "start": 15330,
    "end": 15360,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7388,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 513,
    "start": 15360,
    "end": 15390,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8175,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 514,
    "start": 15390,
    "end": 15420,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7943,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 515,
    "start": 15420,
    "end": 15450,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8028,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 516,
    "start": 15450,
    "end": 15480,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8078,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 517,
    "start": 15480,
    "end": 15510,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.858,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 518,
    "start": 15510,
    "end": 15540,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8096,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 519,
    "start": 15540,
    "end": 15570,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 520,
    "start": 15570,
    "end": 15600,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8282,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 521,
    "start": 15600,
    "end": 15630,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8594,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 522,
    "start": 15630,
    "end": 15660,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7064,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 523,
    "start": 15660,
    "end": 15690,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7999,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 524,
    "start": 15690,
    "end": 15720,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.625,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 525,
    "start": 15720,
    "end": 15750,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.5462,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 526,
    "start": 15750,
    "end": 15780,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.471,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 527,
    "start": 15780,
    "end": 15810,
-   "stage": "N1",
-   "digit": -1,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.4821,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 528,
    "start": 15810,
    "end": 15840,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.8234,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 529,
    "start": 15840,
    "end": 15870,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.7095,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 530,
    "start": 15870,
    "end": 15900,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.7123,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 531,
    "start": 15900,
    "end": 15930,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.9454,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 532,
    "start": 15930,
    "end": 15960,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.9236,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 533,
    "start": 15960,
    "end": 15990,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.8892,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 534,
    "start": 15990,
    "end": 16020,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.8205,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 535,
    "start": 16020,
    "end": 16050,
-   "stage": "N2",
-   "digit": -2,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.9366,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 536,
@@ -5356,9 +5891,10 @@
    "end": 16080,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.9687,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 537,
@@ -5366,9 +5902,10 @@
    "end": 16110,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.7871,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 538,
@@ -5376,9 +5913,10 @@
    "end": 16140,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.6179,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 539,
@@ -5386,1069 +5924,1176 @@
    "end": 16170,
    "stage": "N3",
    "digit": -3,
-   "uncertain": 0,
+   "confidence": 0.8065,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 540,
    "start": 16170,
    "end": 16200,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6885,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 541,
    "start": 16200,
    "end": 16230,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7393,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 542,
    "start": 16230,
    "end": 16260,
-   "stage": "Wake",
-   "digit": 1,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6178,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 543,
    "start": 16260,
    "end": 16290,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8016,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 544,
    "start": 16290,
    "end": 16320,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7028,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 545,
    "start": 16320,
    "end": 16350,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.729,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 546,
    "start": 16350,
    "end": 16380,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6685,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 547,
    "start": 16380,
    "end": 16410,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6754,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 548,
    "start": 16410,
    "end": 16440,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.516,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 549,
    "start": 16440,
    "end": 16470,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.7015,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 550,
    "start": 16470,
    "end": 16500,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.6994,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 551,
    "start": 16500,
    "end": 16530,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.8915,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 552,
    "start": 16530,
    "end": 16560,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.9175,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 553,
    "start": 16560,
    "end": 16590,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.9362,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 554,
    "start": 16590,
    "end": 16620,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.8747,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 555,
    "start": 16620,
    "end": 16650,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.5728,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 556,
    "start": 16650,
    "end": 16680,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.6813,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 557,
    "start": 16680,
    "end": 16710,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.8239,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 558,
    "start": 16710,
    "end": 16740,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.7186,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 559,
    "start": 16740,
    "end": 16770,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7512,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 560,
    "start": 16770,
    "end": 16800,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8418,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 561,
    "start": 16800,
    "end": 16830,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.631,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 562,
    "start": 16830,
    "end": 16860,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6364,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 563,
    "start": 16860,
    "end": 16890,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7759,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 564,
    "start": 16890,
    "end": 16920,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.818,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 565,
    "start": 16920,
    "end": 16950,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6055,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 566,
    "start": 16950,
    "end": 16980,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6113,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 567,
    "start": 16980,
    "end": 17010,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.9093,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 568,
    "start": 17010,
    "end": 17040,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.9985,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 569,
    "start": 17040,
    "end": 17070,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.7621,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 570,
    "start": 17070,
    "end": 17100,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.4806,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 571,
    "start": 17100,
    "end": 17130,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N1",
+   "digit": -1,
+   "confidence": 0.415,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 572,
    "start": 17130,
    "end": 17160,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6255,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 573,
    "start": 17160,
    "end": 17190,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7676,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 574,
    "start": 17190,
    "end": 17220,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6962,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 575,
    "start": 17220,
    "end": 17250,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7361,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 576,
    "start": 17250,
    "end": 17280,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.5195,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 577,
    "start": 17280,
    "end": 17310,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6736,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 578,
    "start": 17310,
    "end": 17340,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8432,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 579,
    "start": 17340,
    "end": 17370,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7791,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 580,
    "start": 17370,
    "end": 17400,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7178,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 581,
    "start": 17400,
    "end": 17430,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6651,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 582,
    "start": 17430,
    "end": 17460,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8066,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 583,
    "start": 17460,
    "end": 17490,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.4932,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 584,
    "start": 17490,
    "end": 17520,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8154,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 585,
    "start": 17520,
    "end": 17550,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7819,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 586,
    "start": 17550,
    "end": 17580,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7652,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 587,
    "start": 17580,
    "end": 17610,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7426,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 588,
    "start": 17610,
    "end": 17640,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6513,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 589,
    "start": 17640,
    "end": 17670,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6778,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 590,
    "start": 17670,
    "end": 17700,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5257,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 591,
    "start": 17700,
    "end": 17730,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7135,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 592,
    "start": 17730,
    "end": 17760,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.5441,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 593,
    "start": 17760,
    "end": 17790,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7069,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 594,
    "start": 17790,
    "end": 17820,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7044,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 595,
    "start": 17820,
    "end": 17850,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.677,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 596,
    "start": 17850,
    "end": 17880,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7512,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 597,
    "start": 17880,
    "end": 17910,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6841,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 598,
    "start": 17910,
    "end": 17940,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.5401,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 599,
    "start": 17940,
    "end": 17970,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.6922,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 600,
    "start": 17970,
    "end": 18000,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7121,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 601,
    "start": 18000,
    "end": 18030,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.6029,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 602,
    "start": 18030,
    "end": 18060,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7404,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 603,
    "start": 18060,
    "end": 18090,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.6256,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 604,
    "start": 18090,
    "end": 18120,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.4995,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 605,
    "start": 18120,
    "end": 18150,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.4973,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 606,
    "start": 18150,
    "end": 18180,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.5327,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 607,
    "start": 18180,
    "end": 18210,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N3",
+   "digit": -3,
+   "confidence": 0.6245,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 608,
    "start": 18210,
    "end": 18240,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6922,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 609,
    "start": 18240,
    "end": 18270,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7272,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 610,
    "start": 18270,
    "end": 18300,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.682,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 611,
    "start": 18300,
    "end": 18330,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5325,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 612,
    "start": 18330,
    "end": 18360,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.688,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 613,
    "start": 18360,
    "end": 18390,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.695,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 614,
    "start": 18390,
    "end": 18420,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.4766,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 615,
    "start": 18420,
    "end": 18450,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7957,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 616,
    "start": 18450,
    "end": 18480,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6079,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 617,
    "start": 18480,
    "end": 18510,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5501,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 618,
    "start": 18510,
    "end": 18540,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5073,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 619,
    "start": 18540,
    "end": 18570,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.528,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 620,
    "start": 18570,
    "end": 18600,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6391,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 621,
    "start": 18600,
    "end": 18630,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5669,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 622,
    "start": 18630,
    "end": 18660,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7451,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 623,
    "start": 18660,
    "end": 18690,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5839,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 624,
    "start": 18690,
    "end": 18720,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5331,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 625,
    "start": 18720,
    "end": 18750,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5925,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 626,
    "start": 18750,
    "end": 18780,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6246,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 627,
    "start": 18780,
    "end": 18810,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6926,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 628,
    "start": 18810,
    "end": 18840,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6206,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 629,
    "start": 18840,
    "end": 18870,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5335,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 630,
    "start": 18870,
    "end": 18900,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7172,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 631,
    "start": 18900,
    "end": 18930,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5166,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 632,
    "start": 18930,
    "end": 18960,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6051,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 633,
    "start": 18960,
    "end": 18990,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7037,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 634,
    "start": 18990,
    "end": 19020,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8006,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 635,
    "start": 19020,
    "end": 19050,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8304,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 636,
    "start": 19050,
    "end": 19080,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7257,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 637,
    "start": 19080,
    "end": 19110,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5704,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 638,
    "start": 19110,
    "end": 19140,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7331,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 639,
    "start": 19140,
    "end": 19170,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6097,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 640,
    "start": 19170,
    "end": 19200,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7035,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 641,
    "start": 19200,
    "end": 19230,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5818,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 642,
    "start": 19230,
    "end": 19260,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6903,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 643,
    "start": 19260,
    "end": 19290,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6194,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 644,
    "start": 19290,
    "end": 19320,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5116,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 645,
    "start": 19320,
    "end": 19350,
-   "stage": "REM",
-   "digit": 0,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.4755,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 646,
@@ -6456,9 +7101,10 @@
    "end": 19380,
    "stage": "REM",
    "digit": 0,
-   "uncertain": 0,
+   "confidence": 0.7716,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 647,
@@ -6466,9 +7112,10 @@
    "end": 19410,
    "stage": "REM",
    "digit": 0,
-   "uncertain": 0,
+   "confidence": 0.7379,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 648,
@@ -6476,9 +7123,10 @@
    "end": 19440,
    "stage": "REM",
    "digit": 0,
-   "uncertain": 0,
+   "confidence": 0.7781,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 649,
@@ -6486,9 +7134,10 @@
    "end": 19470,
    "stage": "REM",
    "digit": 0,
-   "uncertain": 0,
+   "confidence": 0.9079,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 650,
@@ -6496,9 +7145,10 @@
    "end": 19500,
    "stage": "REM",
    "digit": 0,
-   "uncertain": 0,
+   "confidence": 0.9112,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 651,
@@ -6506,9 +7156,10 @@
    "end": 19530,
    "stage": "REM",
    "digit": 0,
-   "uncertain": 0,
+   "confidence": 0.8444,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 652,
@@ -6516,9 +7167,10 @@
    "end": 19560,
    "stage": "REM",
    "digit": 0,
-   "uncertain": 0,
+   "confidence": 0.9726,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 653,
@@ -6526,9 +7178,10 @@
    "end": 19590,
    "stage": "REM",
    "digit": 0,
-   "uncertain": 0,
+   "confidence": 0.661,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 654,
@@ -6536,1308 +7189,1254 @@
    "end": 19620,
    "stage": "REM",
    "digit": 0,
-   "uncertain": 0,
+   "confidence": 0.4596,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 655,
    "start": 19620,
    "end": 19650,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8832,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 656,
    "start": 19650,
    "end": 19680,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9624,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 657,
    "start": 19680,
    "end": 19710,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9892,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 658,
    "start": 19710,
    "end": 19740,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9863,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 659,
    "start": 19740,
    "end": 19770,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9657,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 660,
    "start": 19770,
    "end": 19800,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9929,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 661,
    "start": 19800,
    "end": 19830,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9831,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 662,
    "start": 19830,
    "end": 19860,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9967,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 663,
    "start": 19860,
    "end": 19890,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.984,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 664,
    "start": 19890,
    "end": 19920,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9789,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 665,
    "start": 19920,
    "end": 19950,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9373,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 666,
    "start": 19950,
    "end": 19980,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.961,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 667,
    "start": 19980,
    "end": 20010,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9827,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 668,
    "start": 20010,
    "end": 20040,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.7892,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 669,
    "start": 20040,
    "end": 20070,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6034,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 670,
    "start": 20070,
    "end": 20100,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7475,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 671,
    "start": 20100,
    "end": 20130,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.3937,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 672,
    "start": 20130,
    "end": 20160,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.75,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 673,
    "start": 20160,
    "end": 20190,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5827,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 674,
    "start": 20190,
    "end": 20220,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5852,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 675,
    "start": 20220,
    "end": 20250,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.62,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 676,
    "start": 20250,
    "end": 20280,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8222,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 677,
    "start": 20280,
    "end": 20310,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6753,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 678,
    "start": 20310,
    "end": 20340,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5871,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 679,
    "start": 20340,
    "end": 20370,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6221,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 680,
    "start": 20370,
    "end": 20400,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6896,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 681,
    "start": 20400,
    "end": 20430,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7009,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 682,
    "start": 20430,
    "end": 20460,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5743,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 683,
    "start": 20460,
    "end": 20490,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7309,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 684,
    "start": 20490,
    "end": 20520,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8306,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 685,
    "start": 20520,
    "end": 20550,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.897,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 686,
    "start": 20550,
    "end": 20580,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8073,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 687,
    "start": 20580,
    "end": 20610,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6851,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 688,
    "start": 20610,
    "end": 20640,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7497,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 689,
    "start": 20640,
    "end": 20670,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5644,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 690,
    "start": 20670,
    "end": 20700,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.736,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 691,
    "start": 20700,
    "end": 20730,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6779,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 692,
    "start": 20730,
    "end": 20760,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.872,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 693,
    "start": 20760,
    "end": 20790,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8401,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 694,
    "start": 20790,
    "end": 20820,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8811,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 695,
    "start": 20820,
    "end": 20850,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7658,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 696,
    "start": 20850,
    "end": 20880,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8181,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 697,
    "start": 20880,
    "end": 20910,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8773,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 698,
    "start": 20910,
    "end": 20940,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9278,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 699,
    "start": 20940,
    "end": 20970,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8779,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 700,
    "start": 20970,
    "end": 21000,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.591,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 701,
    "start": 21000,
    "end": 21030,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9385,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 702,
    "start": 21030,
    "end": 21060,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9108,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 703,
    "start": 21060,
    "end": 21090,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9212,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 704,
    "start": 21090,
    "end": 21120,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9449,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 705,
    "start": 21120,
    "end": 21150,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9548,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 706,
    "start": 21150,
    "end": 21180,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9665,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 707,
    "start": 21180,
    "end": 21210,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.971,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 708,
    "start": 21210,
    "end": 21240,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9948,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 709,
    "start": 21240,
    "end": 21270,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9899,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 710,
    "start": 21270,
    "end": 21300,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9501,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 711,
    "start": 21300,
    "end": 21330,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9094,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 712,
    "start": 21330,
    "end": 21360,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8506,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 713,
    "start": 21360,
    "end": 21390,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9766,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 714,
    "start": 21390,
    "end": 21420,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.9798,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 715,
    "start": 21420,
    "end": 21450,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": 0.8312,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 716,
    "start": 21450,
    "end": 21480,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6522,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 717,
    "start": 21480,
    "end": 21510,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.6723,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 718,
    "start": 21510,
    "end": 21540,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.5097,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 719,
    "start": 21540,
    "end": 21570,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.8904,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 720,
    "start": 21570,
    "end": 21600,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.7003,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 721,
    "start": 21600,
    "end": 21630,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "REM",
+   "digit": 0,
+   "confidence": 0.4113,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 722,
    "start": 21630,
    "end": 21660,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.482,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 723,
    "start": 21660,
    "end": 21690,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.4378,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 724,
    "start": 21690,
    "end": 21720,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.4563,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 725,
    "start": 21720,
    "end": 21750,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5177,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 726,
    "start": 21750,
    "end": 21780,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6554,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 727,
    "start": 21780,
    "end": 21810,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7367,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 728,
    "start": 21810,
    "end": 21840,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6129,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 729,
    "start": 21840,
    "end": 21870,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7138,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 730,
    "start": 21870,
    "end": 21900,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5677,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 731,
    "start": 21900,
    "end": 21930,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7045,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 732,
    "start": 21930,
    "end": 21960,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7468,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 733,
    "start": 21960,
    "end": 21990,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7853,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 734,
    "start": 21990,
    "end": 22020,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6971,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 735,
    "start": 22020,
    "end": 22050,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8036,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 736,
    "start": 22050,
    "end": 22080,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8139,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 737,
    "start": 22080,
    "end": 22110,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7234,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 738,
    "start": 22110,
    "end": 22140,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7268,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 739,
    "start": 22140,
    "end": 22170,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.826,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 740,
    "start": 22170,
    "end": 22200,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8002,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 741,
    "start": 22200,
    "end": 22230,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8683,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 742,
    "start": 22230,
    "end": 22260,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8793,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 743,
    "start": 22260,
    "end": 22290,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6887,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 744,
    "start": 22290,
    "end": 22320,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7827,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 745,
    "start": 22320,
    "end": 22350,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7073,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 746,
    "start": 22350,
    "end": 22380,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.4913,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 747,
    "start": 22380,
    "end": 22410,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5504,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 748,
    "start": 22410,
    "end": 22440,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7151,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 749,
    "start": 22440,
    "end": 22470,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7101,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 750,
    "start": 22470,
    "end": 22500,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8461,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 751,
    "start": 22500,
    "end": 22530,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.8387,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 752,
    "start": 22530,
    "end": 22560,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6721,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 753,
    "start": 22560,
    "end": 22590,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5949,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 754,
    "start": 22590,
    "end": 22620,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7491,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 755,
    "start": 22620,
    "end": 22650,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6817,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 756,
    "start": 22650,
    "end": 22680,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6922,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 757,
    "start": 22680,
    "end": 22710,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.815,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 758,
    "start": 22710,
    "end": 22740,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7661,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 759,
    "start": 22740,
    "end": 22770,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7236,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 760,
    "start": 22770,
    "end": 22800,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7852,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 761,
    "start": 22800,
    "end": 22830,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6588,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 762,
    "start": 22830,
    "end": 22860,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6257,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 763,
    "start": 22860,
    "end": 22890,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7236,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 764,
    "start": 22890,
    "end": 22920,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.5465,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 765,
    "start": 22920,
    "end": 22950,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.4092,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 766,
    "start": 22950,
    "end": 22980,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.7344,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   },
   {
    "epoch": 767,
    "start": 22980,
    "end": 23010,
-   "stage": null,
-   "digit": null,
-   "uncertain": 0,
+   "stage": "N2",
+   "digit": -2,
+   "confidence": 0.6223,
    "channels": [],
-   "clean": 1
+   "clean": 1,
+   "source": "YASA"
   }
  ],
- [
-  {
-   "key": "A",
-   "event": "Artifacts",
-   "digit": 0,
-   "counter": 0,
-   "epoch": [
-    0
-   ],
-   "start": 18.015236129032257,
-   "end": 21.08550193548387
-  },
-  {
-   "key": "A",
-   "event": "Artifacts",
-   "digit": 0,
-   "counter": 1,
-   "epoch": [
-    8,
-    9
-   ],
-   "start": 249.46136537102478,
-   "end": 270.2347929328622
-  },
-  {
-   "key": "F1",
-   "event": "Event 1",
-   "digit": 1,
-   "counter": 0,
-   "epoch": [
-    0
-   ],
-   "start": 24.0369074204947,
-   "end": 25.792689752650176
-  },
-  {
-   "key": "F2",
-   "event": "Event 2",
-   "digit": 2,
-   "counter": 0,
-   "epoch": [
-    0
-   ],
-   "start": 9.526854193548386,
-   "end": 12.190761290322579
-  },
-  {
-   "key": "F2",
-   "event": "Event 2",
-   "digit": 2,
-   "counter": 1,
-   "epoch": [
-    0
-   ],
-   "start": 27.152802826855122,
-   "end": 28.166705300353357
-  },
-  {
-   "key": "F3",
-   "event": "Event 3",
-   "digit": 3,
-   "counter": 0,
-   "epoch": [
-    0,
-    1
-   ],
-   "start": 29.353713074204947,
-   "end": 30.169780918727916
-  },
-  {
-   "key": "F4",
-   "event": "Event 4",
-   "digit": 4,
-   "counter": 0,
-   "epoch": [
-    1
-   ],
-   "start": 31.332059363957597,
-   "end": 32.271773851590105
-  },
-  {
-   "key": "F5",
-   "event": "Event 5",
-   "digit": 5,
-   "counter": 0,
-   "epoch": [
-    5
-   ],
-   "start": 179.02500129032254,
-   "end": 179.90224516129027
-  },
-  {
-   "key": "F5",
-   "event": "Event 5",
-   "digit": 5,
-   "counter": 1,
-   "epoch": [
-    5
-   ],
-   "start": 179.02500129032254,
-   "end": 179.90224516129027
-  },
-  {
-   "key": "F5",
-   "event": "Event 5",
-   "digit": 5,
-   "counter": 2,
-   "epoch": [
-    5
-   ],
-   "start": 179.02500129032254,
-   "end": 179.90224516129027
-  },
-  {
-   "key": "F5",
-   "event": "Event 5",
-   "digit": 5,
-   "counter": 3,
-   "epoch": [
-    5
-   ],
-   "start": 179.02500129032254,
-   "end": 179.90224516129027
-  },
-  {
-   "key": "F5",
-   "event": "Event 5",
-   "digit": 5,
-   "counter": 4,
-   "epoch": [
-    5
-   ],
-   "start": 179.02500129032254,
-   "end": 179.90224516129027
-  },
-  {
-   "key": "F5",
-   "event": "Event 5",
-   "digit": 5,
-   "counter": 5,
-   "epoch": [
-    5
-   ],
-   "start": 179.02500129032254,
-   "end": 179.90224516129027
-  },
-  {
-   "key": "F5",
-   "event": "Event 5",
-   "digit": 5,
-   "counter": 6,
-   "epoch": [
-    5
-   ],
-   "start": 179.02500129032254,
-   "end": 179.90224516129027
-  },
-  {
-   "key": "F5",
-   "event": "Event 5",
-   "digit": 5,
-   "counter": 7,
-   "epoch": [
-    5
-   ],
-   "start": 179.02500129032254,
-   "end": 179.90224516129027
-  }
- ]
+ []
 ]
