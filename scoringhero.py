@@ -34,10 +34,11 @@ from scoring.write_scoring import write_scoring
 class MyMainWindow(QtWidgets.QMainWindow):
     def __init__(self, ui):
         super().__init__()
+        self.version = 'v0.0'        
         self.setObjectName("ScoringHero")
         self.resize(800, 600)
         self.setStyleSheet("background-color: white;")
-        self.setWindowTitle("Scoring Hero")
+        self.setWindowTitle(f"Scoring Hero {self.version}")
         self.ui = ui
 
     def closeEvent(self, event):
@@ -63,7 +64,6 @@ class MyMainWindow(QtWidgets.QMainWindow):
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.version = 'v0.0'
         self.devmode = 0
         self.this_epoch = 0
         self.default_data_path = os.path.join(
