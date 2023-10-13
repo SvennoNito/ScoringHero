@@ -8,7 +8,7 @@ a = Analysis(
     ['scoringhero.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('C:/Users/info/AppData/Local/Programs/Python/Python311/Lib/site-packages/mne', 'mne'), ('C:/Users/info/AppData/Local/Programs/Python/Python311/Lib/site-packages/lspopt', 'lspopt')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
