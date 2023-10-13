@@ -4,6 +4,7 @@ from .draw_event_in_this_epoch import draw_event_in_this_epoch
 from .epoch_in_merged_event import epoch_in_merged_event
 from paint_event.convert_to_seconds import convert_to_seconds
 from scoring.write_scoring import write_scoring
+from scoring.clean_epochs_to_uistages import clean_epochs_to_uiscoring
 
 
 def event_handler(box_index, ui):
@@ -36,6 +37,9 @@ def event_handler(box_index, ui):
 
     # Associated epoch of each border
     container.epochs = event_epoch(container.borders, ui.config[0]["Epoch_length_s"])
+
+    # Update clean epochs in scoring structure
+    clean_epochs_to_uiscoring(ui, container.epochs)
 
     # Draw rectangle
     draw_event_in_this_epoch(ui, container)

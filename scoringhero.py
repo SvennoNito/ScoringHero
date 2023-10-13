@@ -63,6 +63,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.version = 'v0.0'
         self.devmode = 0
         self.this_epoch = 0
         self.default_data_path = os.path.join(
