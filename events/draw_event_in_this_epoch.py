@@ -5,7 +5,7 @@ import pyqtgraph as pg
 def draw_event_in_this_epoch(ui, container):
     # Epochs in this epoch
     box_in_this_epoch = [
-        True if (ui.this_epoch in epoch) | (ui.this_epoch + 1 in epoch) else False
+        True if (ui.this_epoch + 1 in epoch) else False
         for epoch in container.epochs
     ]
 
