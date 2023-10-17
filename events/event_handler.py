@@ -39,7 +39,7 @@ def event_handler(box_index, ui):
     container.epochs = event_epoch(container.borders, ui.config[0]["Epoch_length_s"])
 
     # Update clean epochs in scoring structure
-    clean_epochs_to_uiscoring(ui, container.epochs)
+    clean_epochs_to_uiscoring(ui, container)
 
     # Draw rectangle
     draw_event_in_this_epoch(ui, container)
