@@ -1,5 +1,5 @@
 def clean_epochs_to_uiscoring(ui, container_epochs):
-    if ui.version == 'v0.0':
+    if ui.version[0] == 0 and ui.version[1] == 0:
         for epoch, stage in enumerate(ui.stages):
             stage["clean"] = 0 if any(epoch+1 in container for container in container_epochs) else 1
 

@@ -33,13 +33,13 @@ from scoring.write_scoring import write_scoring
 
 class MyMainWindow(QtWidgets.QMainWindow):
     def __init__(self, ui):
-        super().__init__()
-        self.version = 'v0.0'        
+        super().__init__()        
         self.setObjectName("ScoringHero")
         self.resize(800, 600)
         self.setStyleSheet("background-color: white;")
-        self.setWindowTitle(f"Scoring Hero {self.version}")
         self.ui = ui
+        self.ui.version = [0, 0, 1]      
+        self.setWindowTitle(f"Scoring Hero v.{self.ui.version[0]}.{self.ui.version[1]}.{self.ui.version[2]}")
 
     def closeEvent(self, event):
         if None in [stage["stage"] for stage in self.ui.stages]:
