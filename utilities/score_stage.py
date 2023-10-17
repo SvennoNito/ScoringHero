@@ -17,6 +17,7 @@ def score_stage(value, ui):
     ui.stages[ui.this_epoch]["digit"] = stages_notation[value]
     ui.stages[ui.this_epoch]["source"] = "human"
     ui.stages[ui.this_epoch]["confidence"] = None
+    ui.stages[ui.this_epoch]["channels"] = [config["Channel_name"] for config in ui.config[1] if config["Display_on_screen"] == 1]
 
     # Update hypnpgram
     ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
