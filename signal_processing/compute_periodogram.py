@@ -6,15 +6,9 @@ from signal_processing.trim_power import trim_power
 from signal_processing.min_max_scale import min_max_scale
 
 
-def compute_periodogram(ui, converted_corner, converted_shape):
-    # Selected sample points
-    samples, times = sample_from_selection(ui.times, ui.this_epoch, converted_corner)
-
-    # Select channel
-    channel = channel_from_selection(ui.config, converted_corner, converted_shape)
+def compute_periodogram(ui, data, times):
 
     # Compute power
-    data = ui.eeg_data[channel][samples]
     freqs, power = welch(
         data,
         fs=ui.config[0]["Sampling_rate_hz"],

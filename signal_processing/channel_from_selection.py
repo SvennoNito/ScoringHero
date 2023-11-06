@@ -14,5 +14,7 @@ def channel_from_selection(config, converted_corner, converted_shape):
     rectangle_midpoint_in_amp = (
         min(converted_corner[1].y(), converted_corner[0].y()) + converted_shape[1] / 2
     )
-    channel = np.argmin(abs(channel_anchors - rectangle_midpoint_in_amp))
-    return channel
+    displayed_channel = np.argmin(abs(channel_anchors - rectangle_midpoint_in_amp))
+    channel = np.where([chaninfo['Display_on_screen'] for chaninfo in config[1]])[0][displayed_channel]
+
+    return displayed_channel, channel

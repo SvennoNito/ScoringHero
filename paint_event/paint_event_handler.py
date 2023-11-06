@@ -3,7 +3,9 @@ from .total_length import total_length
 from .drop_clicked_rectangle import drop_clicked_rectangle
 from .rectangle_size import rectangle_size
 from .order_by_time import order_by_time
+from .eeg_from_rectangle import eeg_from_rectangle
 from signal_processing.compute_periodogram import compute_periodogram
+
 
 
 def paint_event_handler(ui):
@@ -30,10 +32,13 @@ def paint_event_handler(ui):
                 f"Total Length: {round(total_length_value, 2)} s"
             )
 
+            # Selected EEG data 
+            data, times = eeg_from_rectangle(ui, converted_corners, converted_shape)          
+
             # Display length and amplitude of rectangles
-            rectangle_size(ui, converted_corners, converted_shape)
+            rectangle_size(ui, data, converted_corners, converted_shape)
 
             # Compute power
             if len(converted_corners) > 0:
-                freqs, power = compute_periodogram(ui, converted_corners[-1], converted_shape[-1])
+                freqs, power = compute_periodogram(ui, data, times)
                 ui.RectanglePower.update_powerline(freqs, power)
