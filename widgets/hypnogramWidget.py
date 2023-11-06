@@ -101,7 +101,8 @@ class HypnogramWidget(QWidget):
     def median_filter(self, SWA, kernel):
         SWA = medfilt(SWA, 101 - kernel)
         SWA = (SWA - min(SWA)) / (np.percentile(SWA, 100) - min(SWA))
-        SWA = SWA * (-4 - (1)) + (1)
+        SWA = 5 * SWA - 4
+        #SWA = -5 * SWA + 1
         return SWA
 
     @timing_decorator
