@@ -64,7 +64,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.devmode = 0
+        self.devmode = 1
         self.this_epoch = 0
         self.default_data_path = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), "example_data"
@@ -77,20 +77,6 @@ class Ui_MainWindow(QMainWindow):
         if event.key() == Qt.Key_Left:
             prev_epoch(self)
 
-    # *** Loading data ***
-    @timing_decorator
-    def load_eeg(self, datatype):
-        eeg_import_window(self, datatype)
-        times_vector(self)
-        self.toolbar_jump_to_epoch.setMaximum(self.numepo)
-        self.SignalWidget.draw_signal(self.config, self.eeg_data, self.times, self.this_epoch)
-        self.DisplayedEpochWidget.update_text(self.this_epoch, self.numepo, self.stages)
-        load_cache(self)
-        self.SpectogramWidget.draw_spectogram(self.power, self.freqs, self.freqsOI, self.config)
-        self.HypnogramWidget.draw_hypnogram(self.stages, self.numepo, self.config, self.swa)
-        for container in self.AnnotationContainer:
-            draw_event_in_this_epoch(self, container)
-
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
@@ -98,17 +84,10 @@ if __name__ == "__main__":
     MainWindow = MyMainWindow(ui)
     setup_ui(ui, MainWindow)
     if ui.devmode == 1:
-        ui.filename = f"{ui.default_data_path}\example_data"
-        load_wrapper(ui, datatype="eeglab")
-        times_vector(ui)
-        ui.toolbar_jump_to_epoch.setMaximum(ui.numepo)
-        ui.SignalWidget.draw_signal(ui.config, ui.eeg_data, ui.times, ui.this_epoch)
-        ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
-        load_cache(ui)
-        ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
-        ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
-        for container in ui.AnnotationContainer:
-            draw_event_in_this_epoch(ui, container)
+        name_of_eegfile = f"{ui.default_data_path}\example_data.mat"
+        ui.filename, suffix = os.path.splitext(name_of_eegfile)
+        MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({os.path.basename(name_of_eegfile)})")
+        load_wrapper(ui, 'eeglab')
 
     MainWindow.activateWindow()  # Add this line to make the window active
     MainWindow.show()

@@ -5,6 +5,9 @@ from utilities.timing_decorator import timing_decorator
 from .load_eeglab import load_eeglab
 from .load_r09 import load_r09
 from .number_of_epochs import number_of_epochs
+from cache.load_cache import load_cache
+from signal_processing.times_vector import times_vector
+from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 
 
 @timing_decorator
@@ -30,3 +33,13 @@ def load_wrapper(ui, datatype):
     )
 
     events_to_ui(ui, events)
+
+    times_vector(ui)
+    ui.toolbar_jump_to_epoch.setMaximum(ui.numepo)
+    ui.SignalWidget.draw_signal(ui.config, ui.eeg_data, ui.times, ui.this_epoch)
+    ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
+    load_cache(ui)
+    ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
+    ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
+    for container in ui.AnnotationContainer:
+        draw_event_in_this_epoch(ui, container)

@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (
     QMenuBar,
     QMenu,
     QStatusBar,
+    QSizePolicy,
     )
 
 from .toolbar import setup_toolbar
@@ -23,7 +24,8 @@ from events.event_handler import event_handler
 from utilities.score_not_sure import score_not_sure
 from config.open_config_window import open_config_window
 from scoring.scoring_import_window import scoring_import_window
-from scoring.score_yasa import score_yasa
+# from scoring.score_yasa import score_yasa
+from eeg.eeg_import_window import eeg_import_window
 
 @timing_decorator
 def setup_ui(ui, MainWindow):
@@ -77,6 +79,15 @@ def setup_ui(ui, MainWindow):
     layout.addWidget(ui.HypnogramSlider.slider, 1, 86, 8, 1)
     layout.addWidget(ui.RectanglePower.axes, 0, 87, 10, 13)
 
+    # Statusbar
+    ui.statusbar = QStatusBar(MainWindow)
+    ui.statusbar.setObjectName("statusbar")
+    ui.statusBar().showMessage('Ready')
+    ui.statusbar.setVisible(True)
+    #ui.statusbar.setMinimumHeight(20) 
+    layout.addWidget(ui.statusbar, 95, 0, 5, 101)    
+    #layout.setRowStretch(95, 0.1)
+
 
     # *** Menu ***
     # ************    
@@ -99,12 +110,12 @@ def setup_ui(ui, MainWindow):
     ui.menu_file.addMenu(ui.submenu_load_eeg)
     ui.action_load_eeglab = QAction("Load EEGLAB structure (.mat)", ui)
     ui.action_load_eeglab.setObjectName("action_load_eeglab")
-    ui.action_load_eeglab.triggered.connect(lambda: ui.load_eeg(datatype="eeglab"))
+    ui.action_load_eeglab.triggered.connect(lambda: eeg_import_window(ui, MainWindow, datatype="eeglab"))
     # ui.action_load_eeglab.setShortcut("Ctrl+O")
     ui.submenu_load_eeg.addAction(ui.action_load_eeglab)
     ui.action_load_r09 = QAction("Load zurich scoring file (.r09)", ui)
     ui.action_load_r09.setObjectName("action_load_r09")
-    ui.action_load_r09.triggered.connect(lambda: ui.load_eeg(datatype="r09"))
+    ui.action_load_r09.triggered.connect(lambda: eeg_import_window(ui, MainWindow, datatype="r09"))
     # ui.action_load_r09.setShortcut("Ctrl+O")
     ui.submenu_load_eeg.addAction(ui.action_load_r09)    
 
@@ -251,10 +262,10 @@ def setup_ui(ui, MainWindow):
     ui.menu_utils.setObjectName("menu_utils")
     ui.menu.addAction(ui.menu_utils.menuAction())
 
-    ui.action_yasa = QAction("Let machine sleep score (YASA)", MainWindow)
+    """     ui.action_yasa = QAction("Let machine sleep score (YASA)", MainWindow)
     ui.action_yasa.setObjectName("action_yasa")
     ui.action_yasa.triggered.connect(lambda: score_yasa(ui))
-    ui.menu_utils.addAction(ui.action_yasa)    
+    ui.menu_utils.addAction(ui.action_yasa)  """   
 
     ui.action_zoom = QAction("Zoom on selected EEG", MainWindow)
     ui.action_zoom.setObjectName("action_zoom")
@@ -276,8 +287,6 @@ def setup_ui(ui, MainWindow):
 
     # Bring together
     MainWindow.setMenuBar(ui.menu)
-    ui.statusbar = QStatusBar(MainWindow)
-    ui.statusbar.setObjectName("statusbar")
     MainWindow.setStatusBar(ui.statusbar)
     QMetaObject.connectSlotsByName(MainWindow)
 

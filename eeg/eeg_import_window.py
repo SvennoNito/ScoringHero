@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QFileDialog
 from .load_wrapper import load_wrapper
 
 
-def eeg_import_window(ui, datatype):
+def eeg_import_window(ui, MainWindow, datatype):
     if datatype == "eeglab":
         datatype_to_show = "*.mat"
     if datatype == "r09":
@@ -14,4 +14,5 @@ def eeg_import_window(ui, datatype):
     )
     ui.filename, suffix = os.path.splitext(name_of_eegfile)
     ui.default_data_path = os.path.dirname(name_of_eegfile)
+    MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({os.path.basename(name_of_eegfile)})")
     load_wrapper(ui, datatype)
