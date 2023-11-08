@@ -36,7 +36,7 @@ def event_handler(box_index, ui):
     container.borders = merge_events(container.borders)
 
     # Associated epoch of each border
-    container.epochs = event_epoch(container.borders, ui.config[0]["Epoch_length_s"])
+    container.epochs = event_epoch(container.borders, ui.config[0]["Epoch_length_s"], ui.numepo)
 
     # Update clean epochs in scoring structure
     clean_epochs_to_uiscoring(ui, container)
