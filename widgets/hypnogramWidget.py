@@ -99,7 +99,7 @@ class HypnogramWidget(QWidget):
                 data[:] = np.nan                
                 data[epochs] = 2
                 data = np.concatenate(np.column_stack((data, data - 1)))
-                pen = pg.mkPen(color=container.facecolor, width=2)
+                pen = pg.mkPen(color=container.facecolor[0:3], width=2)
                 self.axes.plot(times, data, pen=pen)        
 
 
