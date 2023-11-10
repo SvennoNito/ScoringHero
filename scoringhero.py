@@ -38,7 +38,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.resize(800, 600)
         self.setStyleSheet("background-color: white;")
         self.ui = ui
-        self.ui.version = [0, 0, 3]      
+        self.ui.version = [0, 0, 4]      
         self.setWindowTitle(f"Scoring Hero v.{self.ui.version[0]}.{self.ui.version[1]}.{self.ui.version[2]}")
 
     def closeEvent(self, event):
