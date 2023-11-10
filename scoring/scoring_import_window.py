@@ -21,4 +21,4 @@ def scoring_import_window(ui, filetype):
     )
     events_to_ui(ui, events)
     refresh_gui(ui)
-    ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
+    ui.HypnogramWidget.draw_hypnogram(ui)

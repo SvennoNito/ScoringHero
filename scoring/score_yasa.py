@@ -32,5 +32,5 @@ def score_yasa(ui):
     ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
 
     # Update hypnpgram
-    ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
+    ui.HypnogramWidget.draw_hypnogram(ui)
     write_scoring(ui)        

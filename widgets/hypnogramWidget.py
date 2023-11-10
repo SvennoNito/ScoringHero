@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont
 from scipy.signal import medfilt
+from itertools import chain
 import pyqtgraph as pg
 import numpy as np
 from utilities.timing_decorator import timing_decorator
@@ -32,7 +33,7 @@ class HypnogramWidget(QWidget):
         }
 
         # Y axis
-        self.axes.setYRange(-4, 1, padding=0)
+        self.axes.setYRange(-4, 2, padding=0)
         self.axes.getAxis("left").setTicks(
             [
                 [
@@ -40,22 +41,23 @@ class HypnogramWidget(QWidget):
                     (-3.5, "N3"),
                     (-2.5, "N2"),
                     (-1.5, "N1"),
-                    (-0.5, "R"),
-                    (0.5, "W"),
+                    (-0.5, "REM"),
+                    (0.5, "Wake"),
+                    (1.5, "Event"),
                 ]
             ]
         )
         self.kernel = 100
 
     @timing_decorator
-    def draw_hypnogram(self, scoring, numepo, config, SWA):
+    def draw_hypnogram(self, ui):
         self.axes.clear()
         # self.stage_items = []
-        self.times = np.arange(0, numepo) * config[0]["Epoch_length_s"] / 3600
+        self.times = np.arange(0, ui.numepo) * ui.config[0]["Epoch_length_s"] / 3600
         times = np.repeat(self.times, 2)
-        stages = np.array([stage["digit"] for stage in scoring])
+        stages = np.array([stage["digit"] for stage in ui.stages])
         for stage, color in self.colors.items():
-            data = np.zeros(numepo)
+            data = np.zeros(ui.numepo)
             data[:] = np.nan
             data[stages == stage] = stage
             data = np.concatenate(np.column_stack((data, data - 1)))
@@ -63,8 +65,11 @@ class HypnogramWidget(QWidget):
             self.axes.plot(times, data, pen=pen)
             # item = pg.PlotDataItem(times, data, pen=pen)
             # self.stage_items.append(item)
-            # self.axes.addItem(item)
+            # self.axes.addItem(item)    
 
+        # Draw events
+        self.draw_events(ui)
+            
         # Axis limits
         self.axes.setXRange(times[0], times[-1], padding=0)
 
@@ -79,8 +84,26 @@ class HypnogramWidget(QWidget):
 
         # Draw SWA
         # SWA[SWA > np.median(SWA) + 1 * np.std(SWA)] = np.nan
-        self.draw_swa_in_time(SWA)
+        self.draw_swa_in_time(ui.swa)
         # self.axes.plot(self.times, SWA * (1 - (-4)) + (-4), pen=pg.mkPen(color=(11, 28, 44, 20)), width=.1, style=Qt.DotLine)
+
+    def draw_events(self, ui):
+        self.times = np.arange(0, ui.numepo) * ui.config[0]["Epoch_length_s"] / 3600
+        times = np.repeat(self.times, 2)        
+        
+        # Draw events
+        for container in ui.AnnotationContainer:
+            data = np.zeros(ui.numepo)
+            data[:] = np.nan
+            epochs = list(set(chain.from_iterable(container.epochs)))
+            data[epochs] = 2
+            data = np.concatenate(np.column_stack((data, data - 1)))
+            pen = pg.mkPen(color=container.facecolor, width=2)
+            self.axes.plot(times, data, pen=pen)        
+
+
+
+
 
     def draw_swa_in_time(self, SWA):
         SWA = self.median_filter(SWA, self.kernel)

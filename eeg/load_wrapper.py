@@ -40,6 +40,6 @@ def load_wrapper(ui, datatype):
     ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
     load_cache(ui)
     ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
-    ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
+    ui.HypnogramWidget.draw_hypnogram(ui)
     for container in ui.AnnotationContainer:
         draw_event_in_this_epoch(ui, container)
