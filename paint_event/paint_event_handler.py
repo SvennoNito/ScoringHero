@@ -42,3 +42,4 @@ def paint_event_handler(ui):
                 # Compute power           
                 freqs, power = compute_periodogram(ui, data, times)
                 ui.RectanglePower.update_powerline(freqs, power)
+

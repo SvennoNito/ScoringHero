@@ -45,7 +45,7 @@ def event_handler(box_index, ui):
     draw_event_in_this_epoch(ui, container)
 
     # Update event in hypnogram
-    ui.HypnogramWidget.draw_events(ui)
+    ui.HypnogramWidget.draw_hypnogram(ui)
 
     # Update paint evenet
     ui.PaintEventWidget.reset()

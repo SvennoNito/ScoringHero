@@ -11,6 +11,7 @@ from utilities.jump_to_epoch import jump_to_epoch
 from utilities.epoch_unscored import first_unscored_epoch
 from utilities.epoch_uncertain import next_uncertain_stage
 from utilities.epoch_transition import stage_transition
+from utilities.jump_to_event import jump_to_event
 
 
 def setup_toolbar(ui, MainWindow):
@@ -69,4 +70,13 @@ def setup_toolbar(ui, MainWindow):
     ui.tool_nexttransition = QPushButton("transition")
     ui.tool_nexttransition.clicked.connect(lambda: [stage_transition(ui), ui.tool_nexttransition.clearFocus()])
     toolbar.addWidget(ui.tool_nexttransition)
-    # toolbar.addWidget(spacer)
+
+    spacer = QWidget()
+    spacer.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+    spacer.setFixedWidth(2)
+    toolbar.addWidget(spacer)
+
+    # Next event button
+    ui.tool_nextevent = QPushButton("event")
+    ui.tool_nextevent.clicked.connect(lambda: [jump_to_event(ui), ui.tool_nextevent.clearFocus()])
+    toolbar.addWidget(ui.tool_nextevent)    

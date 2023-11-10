@@ -88,7 +88,7 @@ class HypnogramWidget(QWidget):
         # self.axes.plot(self.times, SWA * (1 - (-4)) + (-4), pen=pg.mkPen(color=(11, 28, 44, 20)), width=.1, style=Qt.DotLine)
 
     def draw_events(self, ui):
-        self.times = np.arange(0, ui.numepo) * ui.config[0]["Epoch_length_s"] / 3600
+        # self.times = np.arange(0, ui.numepo) * ui.config[0]["Epoch_length_s"] / 3600
         times = np.repeat(self.times, 2)        
         
         # Draw events

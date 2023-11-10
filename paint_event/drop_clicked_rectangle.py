@@ -28,4 +28,7 @@ def drop_clicked_rectangle(ui, converted_corners, rectangle_sizes):
         rectangle_sizes.pop(-1)
         converted_corners.pop(-1)
 
+        # Update Hypnogram
+        ui.HypnogramWidget.draw_hypnogram(ui)        
+
     return ui.PaintEventWidget.stored_corners, converted_corners, rectangle_sizes
