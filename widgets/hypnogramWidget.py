@@ -93,13 +93,14 @@ class HypnogramWidget(QWidget):
         
         # Draw events
         for container in ui.AnnotationContainer:
-            data = np.zeros(ui.numepo)
-            data[:] = np.nan
-            epochs = list(set(chain.from_iterable(container.epochs)))
-            data[epochs] = 2
-            data = np.concatenate(np.column_stack((data, data - 1)))
-            pen = pg.mkPen(color=container.facecolor, width=2)
-            self.axes.plot(times, data, pen=pen)        
+            epochs = np.array(list(set(chain.from_iterable(container.epochs)))) - 1
+            if len(epochs) > 0:
+                data = np.zeros(ui.numepo)
+                data[:] = np.nan                
+                data[epochs] = 2
+                data = np.concatenate(np.column_stack((data, data - 1)))
+                pen = pg.mkPen(color=container.facecolor, width=2)
+                self.axes.plot(times, data, pen=pen)        
 
 
 
