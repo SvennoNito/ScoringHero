@@ -42,12 +42,21 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle(f"Scoring Hero v.{self.ui.version[0]}.{self.ui.version[1]}.{self.ui.version[2]}")
 
     def closeEvent(self, event):
-        if None in [stage["stage"] for stage in self.ui.stages]:
+        n_unscored_epochs = sum(1 for stage in self.ui.stages if stage["digit"] is None)
+        if n_unscored_epochs == 1:
+            text_plural = ["is", "epoch"]
+        else:
+            text_plural = ["are", "epochs"]
+
+        # if None in [stage["digit"] for stage in self.ui.stages]:
+        if n_unscored_epochs / len(self.ui.stages) < .5 and n_unscored_epochs != 0:
+            # Raise warning message when 50% or less epochs were not scored. 
+            # If the message always pops up it the user habituates to the message unintentionally. 
             messagebox = QMessageBox()
             messagebox.setIcon(QMessageBox.Warning)
             messagebox.setWindowTitle("Scoring incomplete")
             messagebox.setText(
-                "There are unscored epochs.\nAre you sure you want to exit Scoring Hero?"
+                f"There {text_plural[0]} <b>{n_unscored_epochs} unscored {text_plural[1]}</b>. You can click [unscored] in the toolbar to jump to the respective {text_plural[1]}. Are you sure you want to exit Scoring Hero?"
             )
             messagebox.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
             messagebox.setDefaultButton(QMessageBox.Cancel)
