@@ -145,7 +145,7 @@ def setup_ui(ui, MainWindow):
 
     ui.action_None = QAction("None", MainWindow)
     ui.action_None.setObjectName("action_None")
-    ui.action_None.triggered.connect(lambda stage="None", ui=ui: score_stage(stage, ui))
+    ui.action_None.triggered.connect(lambda stage=None, ui=ui: score_stage(stage, ui))
     ui.action_None.setShortcut("Delete")
     ui.menu_stages.addAction(ui.action_None)  
     ui.menu_stages.addSeparator()
