@@ -12,6 +12,7 @@ from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 
 @timing_decorator
 def load_wrapper(ui, datatype):
+    ui.this_epoch = 0
     if datatype == "eeglab":
         ui.eeg_data, srate, channel_names = load_eeglab(ui.filename)
     if datatype == "r09":
