@@ -28,6 +28,7 @@ def apply_changes(config_parameter_name, ui):
         or ("Extension_epoch_s" in config_parameter_name)
     ):
         times_vector(ui)
+        ui.this_epoch = 0
 
     if (
         ("Channel_for_spectogram" in config_parameter_name)
@@ -55,6 +56,14 @@ def apply_changes(config_parameter_name, ui):
 
     # Redraw EEG
     redraw_gui(ui)
+
+    # Hypnogram has it's own time scale
+    if (
+        ("Sampling_rate_hz" in config_parameter_name)
+        or ("Epoch_length_s" in config_parameter_name)
+        or ("Extension_epoch_s" in config_parameter_name)
+    ):    
+        ui.HypnogramWidget.draw_hypnogram(ui)
 
     # Write configuration file
     write_configuration(f"{ui.filename}.config.json", ui.config)
