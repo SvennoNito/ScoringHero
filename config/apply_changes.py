@@ -9,6 +9,7 @@ from signal_processing.times_vector import times_vector
 from signal_processing.spectogram_to_ui import spectogram_to_ui
 from signal_processing.freqs_of_interest import freqs_of_interest
 from utilities.redraw_gui import redraw_gui
+from scoring.default_scoring import default_scoring
 
 
 def apply_changes(config_parameter_name, ui):
@@ -61,9 +62,9 @@ def apply_changes(config_parameter_name, ui):
     if (
         ("Sampling_rate_hz" in config_parameter_name)
         or ("Epoch_length_s" in config_parameter_name)
-        or ("Extension_epoch_s" in config_parameter_name)
     ):    
         ui.HypnogramWidget.draw_hypnogram(ui)
+        ui.stages = default_scoring(ui.config[0]["Epoch_length_s"], ui.numepo)
 
     # Write configuration file
     write_configuration(f"{ui.filename}.config.json", ui.config)
