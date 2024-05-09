@@ -11,7 +11,7 @@ class SpectogramWidget(QtWidgets.QWidget):
         self.graphics = pg.GraphicsLayoutWidget(centralWidget)
         self.graphics.setObjectName("spectogram")
         self.graphics.setBackground("w")
-        self.axes = self.graphics.addPlot()
+        self.axes = self.graphics.addPlot()       
 
     def draw_spectogram(self, power, freqs, freqsOI, config):
         power = np.log10(power)[:, freqsOI]
@@ -52,31 +52,64 @@ class SpectogramWidget(QtWidgets.QWidget):
         self.axes.getAxis("left").setTicks([desired_tick_tuple, []])
 
         # xticks
-        timeres = np.unique(np.diff(times))[0]
-        desired_tick_values = np.round(np.arange(0, max(times), 1), 1)
-        index_of_desired_tick_values_in_times = np.unique(
-            [(np.abs(times - tick_value)).argmin() for tick_value in desired_tick_values]
-        )
-        desired_tick_string = list(
-            map(
-                str,
-                [
-                    int(x)
-                    for x in desired_tick_values[0 : len(index_of_desired_tick_values_in_times)]
-                ],
-            )
-        )
-        desired_tick_tuple = [
-            (val, f"{text} h")
-            for val, text in zip(index_of_desired_tick_values_in_times, desired_tick_string)
-        ]
-        self.axes.getAxis("bottom").setTicks([desired_tick_tuple, []])
+        self.adjust_time_axis(config, times)
 
         # Initialize epoch indicator line
         self.epoch_indicator_line = pg.InfiniteLine(
             pos=1 - 0.5, angle=90, pen=pg.mkPen(color="w", width=1.8)
         )
         self.axes.addItem(self.epoch_indicator_line)
+
+    def adjust_time_axis(self, config, times):
+        # xticks
+
+        if times[-1] >= 4:
+            # every 60 minutes
+            desired_tick_values = np.round(np.arange(0, max(times), 1/60*60), 4)
+            unit_format = {'format': '{:.0f}h', 'mult': 1}
+        elif times[-1] >= 2:
+            # every 30 minutes
+            desired_tick_values = np.round(np.arange(0, max(times), 1/60*30), 4)
+            unit_format = {'format': '{:.1f}h', 'mult': 1}
+        elif times[-1] >= 1:
+            # every 15 minutes
+            desired_tick_values = np.round(np.arange(0, max(times), 1/60*15), 4)
+            unit_format = {'format': '{:.0f}m', 'mult': 60}
+        elif times[-1]*60 > 45:
+            # every 10 minutes
+            desired_tick_values = np.round(np.arange(0, max(times), 1/60*10), 4)
+            unit_format = {'format': '{:.0f}m', 'mult': 60}            
+        elif times[-1]*60 > 30:
+            # every 5 minutes
+            desired_tick_values = np.round(np.arange(0, max(times), 1/60*5), 4)
+            unit_format = {'format': '{:.0f}m', 'mult': 60}
+        elif times[-1]*60 > 18:
+            # every 3 minutes
+            desired_tick_values = np.round(np.arange(0, max(times), 1/60*3), 4)
+            unit_format = {'format': '{:.0f}m', 'mult': 60}
+        elif times[-1]*60 > 10:
+            # every 2 minutes
+            desired_tick_values = np.round(np.arange(0, max(times), 1/60*2), 4)
+            unit_format = {'format': '{:.0f}m', 'mult': 60}            
+        else:
+            # every minute
+            desired_tick_values = np.round(np.arange(0, max(times), 1/60), 4)
+            unit_format = {'format': '{:.0f}m', 'mult': 60}
+
+
+        index_of_desired_tick_values_in_times = np.unique(
+            [(np.abs(times - tick_value)).argmin() for tick_value in desired_tick_values]
+        )
+       
+        ticklabels = [
+            (tick, unit_format["format"].format(label * unit_format["mult"]))
+            for tick, label in zip(index_of_desired_tick_values_in_times, desired_tick_values)
+        ]
+
+        # Remove .0
+        ticklabels = [(hour, label.replace('.0', '')) for hour, label in ticklabels]
+
+        self.axes.getAxis("bottom").setTicks([ticklabels, []])        
 
     def update_epoch_indicator(self, this_epoch):
         self.epoch_indicator_line.setPos(this_epoch + 0.5)
