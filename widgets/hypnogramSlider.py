@@ -1,17 +1,32 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QSlider, QWidget
-import numpy as np
-from mouse_click import *
-
+from PySide6.QtWidgets import QSlider, QWidget, QVBoxLayout, QLabel
 
 class HypnogramSlider(QWidget):
     def __init__(self, centralWidget):
         super().__init__()
-        self.slider = QSlider(centralWidget, Qt.Vertical)
+        self.box = QVBoxLayout()  # Use a QVBoxLayout to stack the label and slider vertically
+        self.setLayout(self.box)
+
+        # Create the label for the title
+        labelbox = QLabel("SWA")
+
+        # Rotate the label by 90 degrees
+        labelbox.setStyleSheet("transform: rotate(90deg);")
+        labelbox.setAlignment(Qt.AlignTop | Qt.AlignCenter)  # Align the label to the top
+
+        # Create the vertical slider
+        self.slider = QSlider(Qt.Vertical)
         self.slider.setValue(100)
         self.slider.setMinimum(0)
         self.slider.setMaximum(100)
         self.slider.setFocusPolicy(Qt.NoFocus)
+
+        # Add the label and slider to the layout
+        self.box.addWidget(labelbox)
+        self.box.addWidget(self.slider)
+
+        # Set alignment to center
+        self.box.setAlignment(Qt.AlignCenter)
 
         self.slider.sliderMoved.connect(self.transform_value)
 
@@ -19,11 +34,3 @@ class HypnogramSlider(QWidget):
         remainder = value % 2
         value_by_two = value - remainder if remainder < 1 else value + (2 - remainder)
         self.slider.setValue(value_by_two)
-
-        # self.slider.setStyleSheet({
-        #     background: #3498db;
-        #     border: 1px solid #3498db;
-        #     width: 8px;  /* Adjust this value to change the handle width */
-        #     margin: -3px 0;
-        #     border-radius: 4px;
-        # })

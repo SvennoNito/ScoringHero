@@ -1,21 +1,30 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QSlider, QWidget
-import numpy as np
-from mouse_click import *
-
+from PySide6.QtWidgets import QSlider, QWidget, QVBoxLayout, QLabel
 
 class SpectogramSlider(QWidget):
     def __init__(self, centralWidget):
         super().__init__()
-        self.slider = QSlider(centralWidget, Qt.Vertical)
+        
+        # Create a vertical layout to stack the title and slider
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        # Create the label for the title
+        labelbox = QLabel("MAX")
+        labelbox.setAlignment(Qt.AlignHCenter)  # Align the title to the center horizontally
+        # Rotate the label by 90 degrees
+        labelbox.setStyleSheet("transform: rotate(90deg);")
+        labelbox.setAlignment(Qt.AlignTop | Qt.AlignCenter)  # Align the label to the top
+
+        # Create the vertical slider
+        self.slider = QSlider(Qt.Vertical)
         self.slider.setValue(100)
         self.slider.setMinimum(75)
         self.slider.setFocusPolicy(Qt.NoFocus)
 
-        # self.slider.setStyleSheet({
-        #     background: #3498db;
-        #     border: 1px solid #3498db;
-        #     width: 8px;  /* Adjust this value to change the handle width */
-        #     margin: -3px 0;
-        #     border-radius: 4px;
-        # })
+        # Add the title and slider to the layout
+        layout.addWidget(labelbox)
+        layout.addWidget(self.slider)
+
+        # Optionally, you can adjust the alignment of the layout
+        layout.setAlignment(Qt.AlignCenter)
