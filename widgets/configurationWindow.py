@@ -34,14 +34,27 @@ class ConfigurationWindow(QDialog):
         self.channel_page = ChannelConfiguration(config[1])
         self.general_page = GeneralConfiguration(config[0], allow_staging)
         self.events_page = EventConfiguration(AnnotationContainer)
+        # self.layout_page = PanelLayout(config[0])
 
         # Add the pages to the tabs
         self.tabs.addTab(self.general_page, "Configuration")
         self.tabs.addTab(self.channel_page, "Channels")
         self.tabs.addTab(self.events_page, "Events")
+        # self.tabs.addTab(self.events_page, "Layout")
 
     def return_page(self):
         return self.channel_page, self.general_page, self.events_page
+    
+
+""" class PanelLayout(QDialog):
+    changesMade = Signal(list)
+
+   def __init__(self, general_config, parent=None):
+        super().__init__(parent)
+        layout = QVBoxLayout(self)
+        form_layout = QFormLayout()
+        self.width_label = 200
+        self.spinboxes = {} """   
 
 
 class EventConfiguration(QDialog):
@@ -104,6 +117,7 @@ class GeneralConfiguration(QDialog):
         form_layout = QFormLayout()
         self.width_label = 200
         self.spinboxes = {}
+        self.optionboxes = {}
 
         legend = {
             "Sampling_rate_hz": {"label": "Sampling rate", "unit": " Hz"},
@@ -155,8 +169,34 @@ class GeneralConfiguration(QDialog):
                     )
 
                 row_layout.addWidget(spinbox)
-
             form_layout.addRow(row_layout)
+
+        ### Configuration paramters that have options
+        box_options = {
+            "EEG_panel_time_unit": {"label": "EEG time unit in", "options": ["Seconds", "Minutes", "Hours"]},
+        }    
+
+        for config_parameter_name, specs in box_options.items():
+            self.optionboxes[config_parameter_name] = []
+
+            labelbox = QLabel(specs["label"])
+            labelbox.setAlignment(Qt.AlignRight)
+            labelbox.setFixedWidth(self.width_label)
+
+            row_layout = QHBoxLayout()
+            row_layout.addWidget(labelbox)
+
+            optionbox = None
+            optionbox = QComboBox(self)
+
+            for option in specs["options"]:
+                optionbox.addItem(option)      
+            optionbox.setCurrentText(general_config[config_parameter_name])
+            self.optionboxes[config_parameter_name].append(optionbox)
+
+            row_layout.addWidget(optionbox)
+            form_layout.addRow(row_layout)
+        
 
         # Apply button
         apply_button = QPushButton("Apply")
@@ -171,6 +211,8 @@ class GeneralConfiguration(QDialog):
         layout.addLayout(form_layout)
         layout.addLayout(button_layout)
 
+
+
     def apply_changes(self, general_config):
         old_config = copy.deepcopy(general_config)
         # old_config = general_config.deepcopy()
@@ -180,6 +222,11 @@ class GeneralConfiguration(QDialog):
                     general_config[id][index] = int(spinbox.value())
                 else:
                     general_config[id] = int(spinbox.value())
+
+        for id, optionbox_list in self.optionboxes.items():
+              for index, optionbox in enumerate(optionbox_list):
+                  general_config[id] = optionbox.currentText()
+          
         changed_config_settings = self.config_keys_which_changed(old_config, general_config)
         self.changesMade.emit(changed_config_settings)
 

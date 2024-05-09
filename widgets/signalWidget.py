@@ -29,6 +29,12 @@ class SignalWidget(QWidget):
             "Green": (0, 128, 64),
         }
 
+        self.x_unit_format = {
+            "Seconds": {"format": "{:.0f} s", "div": 1},
+            "Minutes": {"format": "{:.2f} min", "div": 60},
+            "Hours": {"format": "{:.3f} h", "div": 3600},
+        }        
+
         self.pen_amplines = pg.mkPen(color=(0, 0, 0, 80), style=Qt.DotLine)
         self.pen_border = pg.mkPen(color=(0, 0, 0), style=Qt.DashLine, width=5)
         self.pen_grid_1s = pg.mkPen(color=(25, 25, 25, 15), style=Qt.DashLine)
@@ -243,9 +249,15 @@ class SignalWidget(QWidget):
         self.dark_area[1].setRect(borders[1], top, config[0]["Extension_epoch_s"][1] if this_epoch < len(times_and_indices)-1 else 0, bottom-top)
 
     def adjust_time_axis(self, config, times):
+
+        # Determine the format string based on the unit
+        unit_format = self.x_unit_format[config[0]["EEG_panel_time_unit"]]
+
+        # Generate the tick labels using list comprehension
         ticklabels = [
-            (tick, f"{int(tick)} s")
+            (tick, unit_format["format"].format(tick / unit_format["div"]))
             for tick in np.round(np.arange(0, times[-1], config[0]["Epoch_length_s"] / 5), 1)
         ]
+         
         self.axes.getAxis("bottom").setTicks([ticklabels])
         self.axes.setXRange(times[0], times[-1], padding=0)

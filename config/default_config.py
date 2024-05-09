@@ -8,6 +8,7 @@ def default_configuration(number_of_channels, srate, channel_names):
         "Extension_epoch_s": [5, 5],
         "Spectogram_limit_hz": [0, 20],
         "Periodogram_limit_hz": [4, 26],
+        "EEG_panel_time_unit": "Seconds",
     }
 
     configuration_settings[1] = [
