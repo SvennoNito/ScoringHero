@@ -72,12 +72,14 @@ def setup_ui(ui, MainWindow):
 
     # Layout
     layout.addWidget(ui.SignalWidget.axes, 10, 0, 85, 101)
+    #layout.addWidget(ui.SignalWidget.axes, 10, 0, 75, 101)
     layout.addWidget(ui.PaintEventWidget, 10, 0, 85, 101)
     layout.addWidget(ui.SpectogramWidget.graphics, 0, 0, 10, 55)
     layout.addWidget(ui.SpectogramSlider, 1, 55, 8, 1)
     layout.addWidget(ui.HypnogramWidget.axes, 0, 56, 10, 30)
     layout.addWidget(ui.HypnogramSlider, 1, 86, 8, 1)
     layout.addWidget(ui.RectanglePower.axes, 0, 87, 10, 13)
+    #layout.addWidget(ui.HypnogramWidget.axes, 85, 0, 10, 101)
 
     # Statusbar
     ui.statusbar = QStatusBar(MainWindow)
@@ -118,6 +120,10 @@ def setup_ui(ui, MainWindow):
     ui.action_load_r09.triggered.connect(lambda: eeg_import_window(ui, MainWindow, datatype="r09"))
     # ui.action_load_r09.setShortcut("Ctrl+O")
     ui.submenu_load_eeg.addAction(ui.action_load_r09)    
+    ui.action_load_edf = QAction("Load EDF file (.edf)", ui)
+    ui.action_load_edf.setObjectName("action_load_edf")
+    ui.action_load_edf.triggered.connect(lambda: eeg_import_window(ui, MainWindow, datatype="edf"))
+    ui.submenu_load_eeg.addAction(ui.action_load_edf)        
 
     ui.submenu_scoring = QMenu("Load Scoring", ui.menu_file)
     ui.submenu_scoring.setObjectName("submenu_scoring")

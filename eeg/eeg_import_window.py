@@ -8,6 +8,8 @@ def eeg_import_window(ui, MainWindow, datatype):
         datatype_to_show = "*.mat"
     if datatype == "r09":
         datatype_to_show = "*.r09"
+    if datatype == "edf":
+        datatype_to_show = "*.edf"
 
     name_of_eegfile, _ = QFileDialog.getOpenFileName(
         None, "Open File", ui.default_data_path, datatype_to_show
