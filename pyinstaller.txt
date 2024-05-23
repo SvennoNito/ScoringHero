@@ -1,1 +1,5 @@
 pyinstaller --onefile --icon=icon.ico scoringhero.py
+
+("c:/Users/info/AppData/Local/Programs/Python/Python311/Lib/site-packages/mne", "mne")
+
+pyinstaller scoringhero.spec
