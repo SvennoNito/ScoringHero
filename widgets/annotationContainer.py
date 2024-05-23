@@ -20,11 +20,15 @@ class AnnotationContainer(QObject):
             (227, 119, 194, 100),
             (127, 127, 127, 100),
             (188, 189, 34, 100),
+            (255, 165, 0, 100),
+            (75, 0, 130, 100),
+            (255, 105, 180, 100)            
         ]
 
         self.facecolor = self.colorpalette[colorindex]
         self.key = label if not (label == "F0") else "A"
-        self.label = f"Event {label[-1]}" if not (label == "F0") else "Artifact"
+        # self.label = f"Event {label[-1]}" if not (label == "F0") else "Artifact (A)"
+        self.label = f"{label}" if not (label == "F0") else "Artifact"
         self.borders = []
         self.drawn_boxes = []
         self.epochs = []

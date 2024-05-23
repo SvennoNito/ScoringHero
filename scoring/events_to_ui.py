@@ -5,7 +5,7 @@ def events_to_ui(ui, events):
 
     ui.AnnotationContainer = [
         AnnotationContainer(colorindex=counter, label=f"F{counter}")
-        for counter in range(10)
+        for counter in range(13)
     ]   
 
     if len(events) > 0:

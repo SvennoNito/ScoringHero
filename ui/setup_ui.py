@@ -268,6 +268,28 @@ def setup_ui(ui, MainWindow):
     )
     ui.action_F9.setShortcut("F9")
     ui.menu_labels.addAction(ui.action_F9)
+    ui.action_F10 = QAction("Event 10", MainWindow)
+    ui.action_F10.setObjectName("action_F10")
+    ui.action_F10.triggered.connect(
+        lambda box_index=10, ui=ui: event_handler(box_index, ui)
+    )
+    ui.action_F10.setShortcut("F10")
+    ui.menu_labels.addAction(ui.action_F10)
+    ui.action_F11= QAction("Event 11", MainWindow)
+    ui.action_F11.setObjectName("action_F11")
+    ui.action_F11.triggered.connect(
+        lambda box_index=11, ui=ui: event_handler(box_index, ui)
+    )
+    ui.action_F11.setShortcut("F11")
+    ui.menu_labels.addAction(ui.action_F11)
+    ui.action_F12= QAction("Event 12", MainWindow)
+    ui.action_F12.setObjectName("action_F12")
+    ui.action_F12.triggered.connect(
+        lambda box_index=12, ui=ui: event_handler(box_index, ui)
+    )
+    ui.action_F12.setShortcut("F12")
+    ui.menu_labels.addAction(ui.action_F12)
+
 
     # Utilities menu
     ui.menu_utils = QMenu("Utilities", ui.menu)
