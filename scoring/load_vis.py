@@ -47,20 +47,12 @@ def load_vis(scoring_filename, epolen, numepo, track=1):
         mapping = {'0': 'Wake', '1': 'N1', '2': 'N2', '3': 'N3', 'r': 'REM', 'e': 'Wake'}
         vissymb = np.vectorize(mapping.get)(df)
         mapping_numeric = {'Wake': 1, 'N1': -1, 'N2': -2, 'N3': -3, 'REM': 0, }
-        visnum = np.vectorize(mapping_numeric.get)(vissymb)        
+        visnum = np.vectorize(mapping_numeric.get)(vissymb)      
 
-        scoring_data = []
+        scoring_data = default_scoring(epolen, numepo)
+
         for counter, (str, num) in enumerate(zip(vissymb, visnum)):
-            template = {
-                "epoch": counter + 1,
-                "start": counter * epolen,
-                "end": (counter + 1) * epolen,
-                "stage": str,
-                "digit": int(num),
-                "uncertain": 0,
-                "channels": [],
-                "clean": 1,
-            }
-            scoring_data.append(template)        
+            scoring_data[counter]["digit"]  = int(num)
+            scoring_data[counter]["stage"]  = str             
 
     return scoring_data, annotations
