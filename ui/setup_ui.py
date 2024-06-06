@@ -137,6 +137,10 @@ def setup_ui(ui, MainWindow):
     ui.action_load_vis.setObjectName("action_load_vis")
     ui.action_load_vis.triggered.connect(lambda: scoring_import_window(ui, filetype="vis"))
     ui.submenu_scoring.addAction(ui.action_load_vis)
+    ui.action_load_yasa = QAction("Load Yasa Scoring (.txt)", ui)
+    ui.action_load_yasa.setObjectName("action_load_yasa")
+    ui.action_load_yasa.triggered.connect(lambda: scoring_import_window(ui, filetype="yasa"))
+    ui.submenu_scoring.addAction(ui.action_load_yasa)
 
     ui.action_save_scoring = QAction("Save to", MainWindow)
     ui.action_save_scoring.setObjectName("action_save_scoring")
