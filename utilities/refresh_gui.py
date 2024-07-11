@@ -18,7 +18,8 @@ def refresh_gui(ui):
     ui.PaintEventWidget.reset()
 
     # Remove rectangle size text
-    ui.SignalWidget.text_amplitude.setText("")
+    ui.SignalWidget.text_amplitude_box.setText("")
+    ui.SignalWidget.text_amplitude_signal.setText("")
     ui.SignalWidget.text_period.setText("")
 
     # Show power line of epoch

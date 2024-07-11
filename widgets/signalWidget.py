@@ -198,11 +198,19 @@ class SignalWidget(QWidget):
         font.setPixelSize(12)
         self.text_period.setFont(font)
         self.axes.addItem(self.text_period)
-        self.text_amplitude = pg.TextItem(text="", color=(10, 100, 10), anchor=(0.1, 0.9))
+
+        self.text_amplitude_box = pg.TextItem(text="", color=(10, 100, 10), anchor=(0.1, 0.9))
         font = QFont()
         font.setPixelSize(12)
-        self.text_amplitude.setFont(font)
-        self.axes.addItem(self.text_amplitude)
+        self.text_amplitude_box.setFont(font)
+        self.axes.addItem(self.text_amplitude_box)
+
+        self.text_amplitude_signal = pg.TextItem(text="", color=(10, 100, 10), anchor=(0.1, 0.9))
+        self.text_amplitude_signal.setRotation(270)        
+        font = QFont()
+        font.setPixelSize(12)
+        self.text_amplitude_signal.setFont(font)
+        self.axes.addItem(self.text_amplitude_signal)        
 
     @timing_decorator
     def update_signal(self, config, eeg_data, times_and_indices, this_epoch):

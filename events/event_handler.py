@@ -50,7 +50,8 @@ def event_handler(box_index, ui):
     # Update paint evenet
     ui.PaintEventWidget.reset()
     ui.SignalWidget.text_period.setText("")
-    ui.SignalWidget.text_amplitude.setText("")
+    ui.SignalWidget.text_amplitude_signal.setText("")
+    ui.SignalWidget.text_amplitude_box.setText("")
 
     # Write scoring file
     write_scoring(ui)
