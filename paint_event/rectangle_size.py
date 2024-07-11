@@ -11,7 +11,7 @@ def rectangle_size(ui, eeg_in_rectangle, converted_corners, converted_shape):
 
         corner = converted_corners[-1]
         xposition = corner[0].x()
-        yposition = max(corner[0].y(), corner[1].y())
+        yposition = min(corner[0].y(), corner[1].y())
 
         ui.SignalWidget.text_amplitude_box.setPos(xposition, yposition)
         ui.SignalWidget.text_amplitude_box.setText(text)
@@ -22,7 +22,7 @@ def rectangle_size(ui, eeg_in_rectangle, converted_corners, converted_shape):
 
         corner = converted_corners[-1]
         xposition = corner[0].x()
-        yposition = min(corner[0].y(), corner[1].y())
+        yposition = max(corner[0].y(), corner[1].y())
 
         ui.SignalWidget.text_amplitude_signal.setPos(xposition, yposition)
         ui.SignalWidget.text_amplitude_signal.setText(text)
