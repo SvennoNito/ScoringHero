@@ -261,15 +261,20 @@ class ChannelConfiguration(QDialog):
         self.shift = []
 
         # Channel name width
-        channel_name_widhet_width = max(len(chaninfo["Channel_name"]) for chaninfo in channel_config) * 8 + 10
+        channel_name_widget_width = max(len(chaninfo["Channel_name"]) for chaninfo in channel_config) * 8 + 10
+        channel_number_widget_width = len(str(len(channel_config))) * 6 *2
 
         # Bold font
         bold_font = QFont()
         bold_font.setBold(True)
 
         # Create header 
+        placeholder0 = QLabel("#")
+        placeholder0.setFixedWidth(channel_number_widget_width)      
+        placeholder0.setFont(bold_font)
+        placeholder0.setAlignment(Qt.AlignRight)   
         placeholder1 = QLabel("")
-        placeholder1.setFixedWidth(channel_name_widhet_width)
+        placeholder1.setFixedWidth(channel_name_widget_width)
         placeholder2 = QLabel("")
         placeholder2.setFixedWidth(QCheckBox().sizeHint().width())  # Set width of the placeholder to match the checkbox below
         labelbox1 = QLabel("Scaling factor")
@@ -283,6 +288,7 @@ class ChannelConfiguration(QDialog):
         labelbox3.setFont(bold_font)
 
         row_layout = QHBoxLayout()
+        row_layout.addWidget(placeholder0)
         row_layout.addWidget(placeholder1)
         row_layout.addWidget(placeholder2)
         row_layout.addWidget(labelbox1)
@@ -292,10 +298,17 @@ class ChannelConfiguration(QDialog):
         
         # Loop through channels
         for count, chaninfo in enumerate(channel_config):
-            # Channe label
+
+            # Channel number
+            numberbox = QLabel(str(count+1))
+            numberbox.setAlignment(Qt.AlignRight)             
+            numberbox.setFixedWidth(channel_number_widget_width)
+            numberbox.setFont(bold_font)   
+
+            # Channel label
             labelbox = QLineEdit(chaninfo["Channel_name"])
-            labelbox.setAlignment(Qt.AlignRight)
-            labelbox.setFixedWidth(channel_name_widhet_width)
+            labelbox.setAlignment(Qt.AlignLeft)
+            labelbox.setFixedWidth(channel_name_widget_width)
             labelbox.textChanged.connect(lambda: self.change_event(channel_config))
 
             # Value by which EEG is multiplied
@@ -332,6 +345,7 @@ class ChannelConfiguration(QDialog):
 
             # Layout
             row_layout = QHBoxLayout()
+            row_layout.addWidget(numberbox)
             row_layout.addWidget(labelbox)
             row_layout.addWidget(checkbox)
             row_layout.addWidget(spinbox)
