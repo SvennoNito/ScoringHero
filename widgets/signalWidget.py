@@ -206,7 +206,7 @@ class SignalWidget(QWidget):
         self.text_amplitude_box.setRotation(270)        
         self.axes.addItem(self.text_amplitude_box)
 
-        self.text_amplitude_signal = pg.TextItem(text="", color=self.channelColorPalette["Black"], anchor=(0.1, 0.9))
+        self.text_amplitude_signal = pg.TextItem(text="", color=color=(10, 100, 10), anchor=(0.1, 0.9))
         font = QFont()
         font.setPixelSize(12)
         self.text_amplitude_signal.setFont(font)
