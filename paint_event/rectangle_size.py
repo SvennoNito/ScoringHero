@@ -2,7 +2,7 @@ from signal_processing.sample_from_selection import sample_from_selection
 from signal_processing.channel_from_selection import channel_from_selection
 import numpy as np
 
-def rectangle_size(ui, eeg_in_rectangle, converted_corners, converted_shape):
+def rectangle_size(ui, eeg_in_rectangle, channel, converted_corners, converted_shape):
     if len(converted_shape) > 0:
 
 
@@ -26,6 +26,7 @@ def rectangle_size(ui, eeg_in_rectangle, converted_corners, converted_shape):
 
         ui.SignalWidget.text_amplitude_signal.setPos(xposition, yposition)
         ui.SignalWidget.text_amplitude_signal.setText(text)
+        ui.SignalWidget.text_amplitude_signal.setColor(ui.config[1][channel]["Channel_color"])
 
         # Period length
         text = f"{round(converted_shape[-1][0], 2)} s"

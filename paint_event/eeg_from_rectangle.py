@@ -13,4 +13,4 @@ def eeg_from_rectangle(ui, converted_corners, converted_shape):
     # Compute power
     data = ui.eeg_data[channel][samples]      
 
-    return data, times
+    return data, times, channel

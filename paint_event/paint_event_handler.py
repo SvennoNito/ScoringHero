@@ -34,10 +34,10 @@ def paint_event_handler(ui):
 
             # Selected EEG data 
             if len(converted_corners) > 0:
-                data, times = eeg_from_rectangle(ui, converted_corners, converted_shape)          
+                data, times, channel = eeg_from_rectangle(ui, converted_corners, converted_shape)          
 
                 # Display length and amplitude of rectangles
-                rectangle_size(ui, data, converted_corners, converted_shape)
+                rectangle_size(ui, data, channel, converted_corners, converted_shape)
 
                 # Compute power           
                 freqs, power = compute_periodogram(ui, data, times)
