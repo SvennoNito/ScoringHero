@@ -26,6 +26,7 @@ from config.open_config_window import open_config_window
 from scoring.scoring_import_window import scoring_import_window
 # from scoring.score_yasa import score_yasa
 from eeg.eeg_import_window import eeg_import_window
+from help.open_help_selection_box import open_help_selection_box
 
 @timing_decorator
 def setup_ui(ui, MainWindow):
@@ -322,6 +323,18 @@ def setup_ui(ui, MainWindow):
     ui.action_config_window.triggered.connect(lambda: open_config_window(ui))
     ui.action_config_window.setShortcut("Ctrl+C")
     ui.menu_config.addAction(ui.action_config_window)
+
+    # Help menu
+    ui.menu_help = QMenu("Help", ui.menu)
+    ui.menu_help.setObjectName("menu_help")
+    ui.menu.addAction(ui.menu_help.menuAction())
+
+    ui.action_help_selection_box = QAction("Signal selection box", MainWindow)
+    ui.action_help_selection_box.setObjectName("action_help_selection_box")
+    ui.action_help_selection_box.setShortcut("")
+    ui.action_help_selection_box.triggered.connect(lambda: open_help_selection_box(ui))
+    ui.action_help_selection_box.setShortcut("Ctrl+H")
+    ui.menu_help.addAction(ui.action_help_selection_box)    
 
     # Bring together
     MainWindow.setMenuBar(ui.menu)
