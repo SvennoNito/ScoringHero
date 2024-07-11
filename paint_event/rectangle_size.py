@@ -31,7 +31,7 @@ def rectangle_size(ui, eeg_in_rectangle, converted_corners, converted_shape):
         text = f"{round(converted_shape[-1][0], 2)} s"
 
         corner = converted_corners[-1]
-        xposition = corner[1].x()
+        xposition = corner[0].x()
         yposition = min(corner[0].y(), corner[1].y())
 
         ui.SignalWidget.text_period.setPos(xposition, yposition)

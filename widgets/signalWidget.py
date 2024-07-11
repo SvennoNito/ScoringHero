@@ -193,7 +193,7 @@ class SignalWidget(QWidget):
         # self.changesMade.emit()
 
         # Rectangle shape text
-        self.text_period = pg.TextItem(text="", color=(10, 100, 10), anchor=(0, 0.75))
+        self.text_period = pg.TextItem(text="", color=(10, 100, 10), anchor=(0.1, 0.2))
         font = QFont()
         font.setPixelSize(12)
         self.text_period.setFont(font)
