@@ -7,7 +7,7 @@ def rectangle_size(ui, eeg_in_rectangle, converted_corners, converted_shape):
 
 
         # Amplitude text box
-        text = f"{round(converted_shape[-1][1], 2)} \u03BCV"
+        text = f"{round(converted_shape[-1][1], 1)} \u03BCV"
 
         corner = converted_corners[-1]
         xposition = corner[0].x()
@@ -18,7 +18,7 @@ def rectangle_size(ui, eeg_in_rectangle, converted_corners, converted_shape):
 
 
         # Amplitude peak-2-peak
-        text = f"{max(eeg_in_rectangle) - min(eeg_in_rectangle):.2f} \u03BCV"
+        text = f"{max(eeg_in_rectangle) - min(eeg_in_rectangle):.1f} \u03BCV"
 
         corner = converted_corners[-1]
         xposition = corner[0].x()
