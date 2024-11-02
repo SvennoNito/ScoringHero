@@ -8,7 +8,7 @@ a = Analysis(
     ['scoringhero.py'],
     pathex=[],
     binaries=[],
-    datas=[("c:/Users/info/AppData/Local/Programs/Python/Python311/Lib/site-packages/mne", "mne")],
+    datas=[("c:/Users/info/AppData/Local/Programs/Python/Python311/Lib/site-packages/mne", "mne"), ("c:/PhDScripts/Sides/ScoringHero/help/images/selection_box.png", "help/images")],  
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
