@@ -1,10 +1,10 @@
 import numpy as np
-from PyQt5 import QtWidgets, QtCore, QtGui, QtCore
-from PyQt5.QtCore import QObject, pyqtSignal
+from PySide6 import QtWidgets, QtCore, QtGui, QtCore
+from PySide6.QtCore import QObject, Signal
 
 
 class AnnotationContainer(QObject):
-    changesMade = pyqtSignal()
+    changesMade = Signal()
 
     def __init__(self, colorindex=0, label="Artefact", parent=None):
         super().__init__(parent)

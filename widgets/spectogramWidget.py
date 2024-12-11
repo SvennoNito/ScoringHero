@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, QtGui
+from PySide6 import QtWidgets, QtGui
 import pyqtgraph as pg
 import numpy as np
 from scipy.signal import welch, find_peaks

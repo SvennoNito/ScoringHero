@@ -93,7 +93,7 @@ if __name__ == "__main__":
     MainWindow = MyMainWindow(ui)
     setup_ui(ui, MainWindow)
     if ui.devmode == 1:
-        name_of_eegfile = f"{ui.default_data_path}\example_data.mat"
+        name_of_eegfile = fr"{ui.default_data_path}\example_data.mat"
         ui.filename, suffix = os.path.splitext(name_of_eegfile)
         MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({os.path.basename(name_of_eegfile)})")
         load_wrapper(ui, 'eeglab')
