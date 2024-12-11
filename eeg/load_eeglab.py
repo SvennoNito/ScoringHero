@@ -24,7 +24,7 @@ def load_eeglab(filename_prefix):
     except (OSError, KeyError):
         # If it fails to open as HDF5, fallback to standard MATLAB v7 or earlier
         loaded_file   = io.loadmat(f'{filename_prefix}.mat')
-        eeg_data      = loaded_file["EEG"]["data"]
+        eeg_data      = loaded_file["EEG"]["data"][0][0]
         srate         = loaded_file["EEG"]["srate"][0][0]
         chanlocs      = loaded_file["EEG"]["chanlocs"][0][0][0]['labels']
         channel_names = [chanloc[0] for chanloc in chanlocs]
