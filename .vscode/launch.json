@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug ScoringHero.py",
+            "type": "python",
+            "request": "launch",
+            "program": "C:/PhDScripts/Sides/ScoringHero/scoringhero.py",
+            "pythonPath": "C:/PhDScripts/Sides/ScoringHero/.venv/Scripts/python"  // for Windows
+            // OR
+            // "pythonPath": "${workspaceFolder}/.venv/bin/python"  // for macOS/Linux
+        }
+    ]
+}
