@@ -106,8 +106,7 @@ class HypnogramWidget(QWidget):
 
 
 
-    def draw_swa_in_time(self, SWA):
-        SWA = self.median_filter(SWA, self.kernel)
+    def draw_swa_in_time(self, SWA):  
         self.swa_item = pg.PlotDataItem(
             self.times,
             SWA,
@@ -115,19 +114,32 @@ class HypnogramWidget(QWidget):
             width=2,
             style=Qt.DotLine,
         )
+        self.scale_swa(SWA, self.kernel)
         self.axes.addItem(self.swa_item)
 
     def scale_swa(self, SWA, kernel):
         SWA = self.median_filter(SWA, kernel)
+        # SWA = self.above_thresh_to_nan(SWA, kernel)
         self.kernel = kernel
+        SWA = (SWA - np.nanmin(SWA)) / (np.nanmax(SWA) - np.nanmin(SWA))
+        SWA = 5 * SWA - 4         
         self.swa_item.setData(self.times, SWA)
 
+    def above_thresh_to_nan(self, SWA, kernel):
+        threshold = np.nanpercentile(SWA, kernel)
+        copySWA   = SWA.copy() 
+        copySWA[copySWA > threshold] = np.nan
+        return copySWA        
+
     def median_filter(self, SWA, kernel):
+        kernel = self.make_even(kernel)
         SWA = medfilt(SWA, 101 - kernel)
-        SWA = (SWA - min(SWA)) / (np.percentile(SWA, 100) - min(SWA))
-        SWA = 5 * SWA - 4
         #SWA = -5 * SWA + 1
         return SWA
+    
+    def make_even(self, number):
+        return number if number % 2 == 0 else number + 1
+
 
     @timing_decorator
     def update_hypnogram(self, scoring, numepo, this_epoch):
