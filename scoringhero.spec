@@ -1,31 +1,25 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 
-block_cipher = None
-
-
 a = Analysis(
     ['scoringhero.py'],
-    pathex=[],
+    pathex=['./.venv/Lib/site-packages'],
     binaries=[],
-    datas=[("c:/Users/info/AppData/Local/Programs/Python/Python311/Lib/site-packages/mne", "mne"), ("c:/PhDScripts/Sides/ScoringHero/help/images/selection_box.png", "help/images")],  
-    hiddenimports=[],
+    datas=[('./.venv/Lib/site-packages/mne', 'mne'), ('./help/images/selection_box.png', 'help/images')],
+    hiddenimports=['decorator'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[],
-    win_no_prefer_redirects=False,
-    win_private_assemblies=False,
-    cipher=block_cipher,
     noarchive=False,
+    optimize=0,
 )
-pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
+pyz = PYZ(a.pure)
 
 exe = EXE(
     pyz,
     a.scripts,
     a.binaries,
-    a.zipfiles,
     a.datas,
     [],
     name='scoringhero',
