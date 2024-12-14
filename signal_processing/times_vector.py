@@ -15,7 +15,7 @@ def times_vector(ui):
 
 
 def turn_into_epochs(times_vector, epolen, srate, extend_l, extend_r):
-    num_epochs = int(np.floor(times_vector[-1] / epolen))
+    num_epochs = int( np.floor(times_vector[-1] + 1/srate) / epolen)
     epoched_times_vector = []
     start_indices = np.arange(0, num_epochs) * epolen * srate
     end_indices = np.minimum(start_indices + epolen * srate, len(times_vector))
