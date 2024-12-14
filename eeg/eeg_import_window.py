@@ -23,3 +23,22 @@ def eeg_import_window(ui, MainWindow, datatype):
     ui.default_data_path = os.path.dirname(name_of_eegfile)
     MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({os.path.basename(name_of_eegfile)})")
     load_wrapper(ui, datatype)
+
+    # Enable the menus once the data is loaded
+    ui.menu_stages.setEnabled(True)
+    ui.menu_labels.setEnabled(True)
+    ui.menu_utils.setEnabled(True)
+    ui.menu_config.setEnabled(True) 
+
+    # Enable toolbar once the data is loaded
+    ui.toolbar_jump_to_epoch.setEnabled(True)
+    ui.tool_nextunscored.setEnabled(True)
+    ui.tool_nextuncertain.setEnabled(True)
+    ui.tool_nexttransition.setEnabled(True)
+    ui.tool_nextevent.setEnabled(True)    
+
+    # Enable sliders
+    ui.HypnogramSlider.enable_slider()
+    ui.SpectogramSlider.enable_slider()
+
+    

@@ -337,6 +337,12 @@ def setup_ui(ui, MainWindow):
     ui.action_help_selection_box.setShortcut("Ctrl+H")
     ui.menu_help.addAction(ui.action_help_selection_box)    
 
+    # Disable the stages, events, utilities, and configuration menu items initially
+    ui.menu_stages.setEnabled(False)
+    ui.menu_labels.setEnabled(False)
+    ui.menu_utils.setEnabled(False)
+    ui.menu_config.setEnabled(False)    
+
     # Bring together
     MainWindow.setMenuBar(ui.menu)
     MainWindow.setStatusBar(ui.statusbar)

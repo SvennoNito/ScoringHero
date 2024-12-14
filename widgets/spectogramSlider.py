@@ -22,9 +22,16 @@ class SpectogramSlider(QWidget):
         self.slider.setMinimum(75)
         self.slider.setFocusPolicy(Qt.NoFocus)
 
+        # Disable the slider initially
+        self.slider.setEnabled(False)        
+
         # Add the title and slider to the layout
         layout.addWidget(labelbox)
         layout.addWidget(self.slider)
 
         # Optionally, you can adjust the alignment of the layout
         layout.setAlignment(Qt.AlignCenter)
+
+    # Method to enable the slider after EEG data is imported
+    def enable_slider(self):
+        self.slider.setEnabled(True)        

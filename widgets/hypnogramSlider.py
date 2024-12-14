@@ -20,6 +20,9 @@ class HypnogramSlider(QWidget):
         self.slider.setMinimum(0)
         self.slider.setMaximum(100)
         self.slider.setFocusPolicy(Qt.NoFocus)
+        
+        # Disable the slider initially
+        self.slider.setEnabled(False)
 
         # Add the label and slider to the layout
         self.box.addWidget(labelbox)
@@ -34,3 +37,7 @@ class HypnogramSlider(QWidget):
         remainder = value % 2
         value_by_two = value - remainder if remainder < 1 else value + (2 - remainder)
         self.slider.setValue(value_by_two)
+
+    # Method to enable the slider after EEG data is imported
+    def enable_slider(self):
+        self.slider.setEnabled(True)

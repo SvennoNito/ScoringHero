@@ -31,6 +31,7 @@ def setup_toolbar(ui, MainWindow):
     ui.toolbar_jump_to_epoch.setMinimum(1)
     ui.toolbar_jump_to_epoch.valueChanged.connect(lambda value, ui=ui: jump_to_epoch(value, ui))
     ui.toolbar_jump_to_epoch.editingFinished.connect(ui.toolbar_jump_to_epoch.clearFocus)
+    ui.toolbar_jump_to_epoch.setEnabled(False)
     toolbar.addWidget(ui.toolbar_jump_to_epoch)
 
     # Space
@@ -49,6 +50,7 @@ def setup_toolbar(ui, MainWindow):
 
     ui.tool_nextunscored = QPushButton("unscored")
     ui.tool_nextunscored.clicked.connect(lambda: [first_unscored_epoch(ui), ui.tool_nextunscored.clearFocus()])
+    ui.tool_nextunscored.setEnabled(False) 
     toolbar.addWidget(ui.tool_nextunscored)
 
     spacer = QWidget()
@@ -59,6 +61,7 @@ def setup_toolbar(ui, MainWindow):
     # Next uncertain epoch button
     ui.tool_nextuncertain = QPushButton("uncertain")
     ui.tool_nextuncertain.clicked.connect(lambda: [next_uncertain_stage(ui), ui.tool_nextuncertain.clearFocus()])
+    ui.tool_nextuncertain.setEnabled(False)
     toolbar.addWidget(ui.tool_nextuncertain)
 
     spacer = QWidget()
@@ -69,6 +72,7 @@ def setup_toolbar(ui, MainWindow):
     # Next transition button
     ui.tool_nexttransition = QPushButton("transition")
     ui.tool_nexttransition.clicked.connect(lambda: [stage_transition(ui), ui.tool_nexttransition.clearFocus()])
+    ui.tool_nexttransition.setEnabled(False)
     toolbar.addWidget(ui.tool_nexttransition)
 
     spacer = QWidget()
@@ -79,4 +83,5 @@ def setup_toolbar(ui, MainWindow):
     # Next event button
     ui.tool_nextevent = QPushButton("event")
     ui.tool_nextevent.clicked.connect(lambda: [jump_to_event(ui), ui.tool_nextevent.clearFocus()])
+    ui.tool_nextevent.setEnabled(False)
     toolbar.addWidget(ui.tool_nextevent)    
