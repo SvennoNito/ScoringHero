@@ -14,6 +14,11 @@ def eeg_import_window(ui, MainWindow, datatype):
     name_of_eegfile, _ = QFileDialog.getOpenFileName(
         None, "Open File", ui.default_data_path, datatype_to_show
     )
+
+    # Check if the user clicked "Cancel"
+    if not name_of_eegfile:
+        return  # Exit the function if no file is selected
+
     ui.filename, suffix = os.path.splitext(name_of_eegfile)
     ui.default_data_path = os.path.dirname(name_of_eegfile)
     MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({os.path.basename(name_of_eegfile)})")
