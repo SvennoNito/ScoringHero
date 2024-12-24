@@ -18,6 +18,7 @@ def setup_toolbar(ui, MainWindow):
     toolbar = QToolBar(MainWindow)
     toolbar.setObjectName("toolbar")
     MainWindow.addToolBar(Qt.TopToolBarArea, toolbar)
+    MainWindow.toolbar = toolbar
 
     # Jump to epoch spinbox
     toolbar.addWidget(QLabel("Jump to epoch:"))
@@ -37,11 +38,11 @@ def setup_toolbar(ui, MainWindow):
     # Space
     spacer = QWidget()
     spacer.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-    spacer.setFixedWidth(10)
+    spacer.setFixedWidth(20)
     toolbar.addWidget(spacer)
 
     # Next unscored epoch button
-    toolbar.addWidget(QLabel("or to"))
+    toolbar.addWidget(QLabel(""))
 
     spacer = QWidget()
     spacer.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
@@ -84,4 +85,4 @@ def setup_toolbar(ui, MainWindow):
     ui.tool_nextevent = QPushButton("event")
     ui.tool_nextevent.clicked.connect(lambda: [jump_to_event(ui), ui.tool_nextevent.clearFocus()])
     ui.tool_nextevent.setEnabled(False)
-    toolbar.addWidget(ui.tool_nextevent)    
+    toolbar.addWidget(ui.tool_nextevent)  

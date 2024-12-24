@@ -1,0 +1,120 @@
+/* Menu Bar */
+QMenuBar {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+QMenuBar::item {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+QMenuBar::item:selected { 
+    background-color: #e0e0e0;
+}
+
+QMenuBar::item:disabled {
+    color: #a0a0a0;  /* Gray out disabled items */
+}
+
+
+
+/* Menu */
+QMenu {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+QMenu::item {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+QMenu::item:selected { 
+    background-color: #e0e0e0;
+    color: #000000; 
+}
+
+QMenu::item:disabled {
+    color: #a0a0a0;  /* Gray out disabled items */
+}
+
+
+
+/* ToolBar */
+QToolBar {
+    background-color: #ffffff;
+    border: 1px solid #cccccc; /* Optional border */
+}
+
+QPushButton {
+    background-color: #ffffff;
+    color: #000000;
+    border: 2px solid #cccccc;
+    padding: 5px;
+    height: 10px;
+    border-radius: 10px;      /* Rounded corners with 10px radius */
+}
+
+QPushButton:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+QPushButton:checked {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+QPushButton:disabled {
+    background-color: #ffffff; /* Same white as menu items */
+    color: #a0a0a0;  /* Gray out disabled items */
+}
+
+
+
+
+QLabel {
+    background-color: #ffffff; /* White background */
+    color: #000000;            /* Black text */
+}
+
+
+
+
+
+QSpinBox {
+    background-color: #ffffff;  /* White background */
+    color: #000000;             /* Black text */
+    border: 2px solid #cccccc;
+    padding: 1px;
+    height: 20px;
+    border-radius: 10px;      /* Rounded corners with 10px radius */
+}
+
+/* SpinBox Arrow Buttons */
+QSpinBox::up-button {
+    width: 15px;
+    height: 8px;      
+    margin-right: 1px;                /* Move further to the right */
+    margin-top: 0px;                   /* Position at the top */
+}
+
+QSpinBox::down-button {
+    width: 15px;
+    height: 8px;      
+    margin-right: 1px;               
+    margin-bottom: 0px;               
+}
+
+
+/* Hover effect */
+QSpinBox:hover {
+    background-color: #f5f5f5;  /* Slightly lighter background */
+}
+
+/* Disabled state */
+QSpinBox:disabled {
+    background-color: #f0f0f0;  /* Light gray background */
+    color: #a0a0a0;             /* Gray text */
+}

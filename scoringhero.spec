@@ -5,7 +5,7 @@ a = Analysis(
     ['scoringhero.py'],
     pathex=['./.venv/Lib/site-packages'],
     binaries=[],
-    datas=[('./.venv/Lib/site-packages/mne', 'mne'), ('./help/images/selection_box.png', 'help/images')],
+    datas=[('./.venv/Lib/site-packages/mne', 'mne'), ('./help/images/selection_box.png', 'help/images'), ('./themes/light_theme.qss', 'themes')],
     hiddenimports=['decorator'],
     hookspath=[],
     hooksconfig={},

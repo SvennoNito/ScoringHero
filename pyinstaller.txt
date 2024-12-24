@@ -1,28 +1,5 @@
 pyinstaller --onefile --icon=icon.ico --paths=./.venv/Lib/site-packages scoringhero.py `
     --add-data "./.venv/Lib/site-packages/mne;mne" `
     --add-data "./help/images/selection_box.png;help/images" `
+    --add-data "./themes/light_theme.qss;themes" `
     --hidden-import=decorator
-
-
-
-
-
-
-
-
-
-
-1) pyinstaller --onefile --icon=icon.ico scoringhero.py
-   pyinstaller --onefile --icon=icon.ico --paths=./.venv/Lib/site-packages scoringhero.py
-
-2) go into scoringhero.spec and replace 
-
-datas=[],
-hiddenimports=[], 
-
-with
-
-datas=[("C:/PhDScripts/Sides/ScoringHero/.venv/Lib/site-packages/mne", "mne"), ("c:/PhDScripts/Sides/ScoringHero/help/images/selection_box.png", "help/images")],
-hiddenimports=['decorator'],
-
-3) pyinstaller scoringhero.spec
