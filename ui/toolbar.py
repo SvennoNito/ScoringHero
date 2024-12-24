@@ -8,7 +8,7 @@ from PySide6.QtWidgets import (
     QSizePolicy,
 )
 from utilities.jump_to_epoch import jump_to_epoch
-from utilities.epoch_unscored import first_unscored_epoch
+from utilities.epoch_unscored import next_unscored_epoch
 from utilities.epoch_uncertain import next_uncertain_stage
 from utilities.epoch_transition import stage_transition
 from utilities.jump_to_event import jump_to_event
@@ -50,7 +50,7 @@ def setup_toolbar(ui, MainWindow):
     toolbar.addWidget(spacer)
 
     ui.tool_nextunscored = QPushButton("unscored")
-    ui.tool_nextunscored.clicked.connect(lambda: [first_unscored_epoch(ui), ui.tool_nextunscored.clearFocus()])
+    ui.tool_nextunscored.clicked.connect(lambda: [next_unscored_epoch(ui), ui.tool_nextunscored.clearFocus()])
     ui.tool_nextunscored.setEnabled(False) 
     toolbar.addWidget(ui.tool_nextunscored)
 
