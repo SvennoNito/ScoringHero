@@ -75,9 +75,17 @@ class Ui_MainWindow(QMainWindow):
         super().__init__()
         self.devmode = 0
         self.this_epoch = 0
-        self.default_data_path = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), "example_data"
-        )
+
+        # Default paths
+        if getattr(sys, 'frozen', False):  
+            # Check if running as a frozen executable
+            # Path for a PyInstaller bundled app
+            self.app_path = sys._MEIPASS
+            self.default_data_path = os.path.dirname(sys.executable)
+        else:
+            # Path for running as a script
+            self.app_path = os.path.dirname(os.path.abspath(__file__))        
+            self.default_data_path = os.path.join(self.app_path, "example_data")
 
     def keyPressEvent(self, event):
         # print(event.key())
@@ -101,7 +109,7 @@ if __name__ == "__main__":
         load_wrapper(ui, 'eeglab')
 
     app.setStyle("Fusion")
-    with open(fr"{ui.default_data_path}\..\themes\light_theme.qss", "r") as file:
+    with open(fr"{ui.app_path}\themes\light_theme.qss", "r") as file:
         stylesheet = file.read()
     app.setStyleSheet(stylesheet)
     MainWindow.toolbar.setStyleSheet(stylesheet)
