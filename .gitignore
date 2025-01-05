@@ -5,3 +5,4 @@ __pycache__/
 **.exe
 scoringhero.spec
 example_data
+.DS_Store
