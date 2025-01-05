@@ -35,15 +35,15 @@ jobs:
       run: |
         source .venv_arm/bin/activate
         export VENV_PATH='.venv_arm'
-        export TARGET_ARCH='x86_64'
+        export TARGET_ARCH='arm64'
         export FINAL_FILE_NAME='scoringhero_arm'
         ./release-mac.sh
     - name: Build (x86)
       shell: bash
       run: |
         source .venv_x86/bin/activate
-        export VENV_PATH='.venv_arm'
-        export TARGET_ARCH='arm64'
+        export VENV_PATH='.venv_x86'
+        export TARGET_ARCH='x86_64'
         export FINAL_FILE_NAME='scoringhero_x86'
         ./release-mac.sh
     - name: Upload macOS binary to release (arm)
