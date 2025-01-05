@@ -1,5 +1,8 @@
 name: Builds for MacOS on Release
 
+permissions:
+  contents: write
+
 on:
   release:
     types: [published]
