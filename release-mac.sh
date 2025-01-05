@@ -3,6 +3,7 @@
 set -euo pipefail
 
 pyinstaller --onefile \
+--target-arch=universal2 \
 --icon='icon.icns' \
 --paths='./.venv/lib/python3.13/site-packages' scoringhero.py \
 --add-data='./.venv/lib/python3.13/site-packages/mne:mne' \
