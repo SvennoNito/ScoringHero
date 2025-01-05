@@ -22,7 +22,8 @@ jobs:
       shell: bash
       run: |
         source .venv/bin/activate
-        ARCHFLAGS="-arch x86_64" pip install -r requirements.txt
+        export ARCHFLAGS="-arch x86_64" 
+        pip install -r requirements.txt
     - name: Build
       shell: bash
       run: |
