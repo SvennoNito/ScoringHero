@@ -11,6 +11,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-
+    - name: Install Python
+      run: brew install python@3.13
+    - name: Install Python requirements
+      run: pip install -r requirements.txt
     - name: Run bash script
       run: ./release-mac.sh
