@@ -18,10 +18,10 @@ jobs:
     - name: Install Python requirements
       shell: bash
       run: |
-      source .venv/bin/activate
-      pip install -r requirements.txt
+        source .venv/bin/activate
+        pip install -r requirements.txt
     - name: Run bash script
       shell: bash
       run: |
-      source .venv/bin/activate
-      ./release-mac.sh
+        source .venv/bin/activate
+        ./release-mac.sh
