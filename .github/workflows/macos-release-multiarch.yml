@@ -1,0 +1,66 @@
+name: Builds for MacOS on Release
+
+permissions:
+  contents: write
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  run-bash-script:
+    runs-on: macos-latest
+
+    steps:
+    - name: Install Python
+      run: brew install python@3.13
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Build virtual environment (arm)
+      run: python -m venv .venv_arm
+    - name: Build virtual environment (x86)
+      run: python -m venv .venv_x86
+    - name: Install Python requirements (arm)
+      shell: bash
+      run: |
+        source .venv_arm/bin/activate
+        arch -arm64 pip install -r requirements.txt
+    - name: Install Python requirements (x86)
+      shell: bash
+      run: |
+        source .venv_x86/bin/activate
+        arch -x86_64 pip install -r requirements.txt
+    - name: Build (arm)
+      shell: bash
+      run: |
+        source .venv_arm/bin/activate
+        export VENV_PATH='.venv_arm'
+        export TARGET_ARCH='x86_64'
+        export FINAL_FILE_NAME='scoringhero_arm'
+        ./release-mac.sh
+    - name: Build (x86)
+      shell: bash
+      run: |
+        source .venv_x86/bin/activate
+        export VENV_PATH='.venv_arm'
+        export TARGET_ARCH='arm64'
+        export FINAL_FILE_NAME='scoringhero_x86'
+        ./release-mac.sh
+    - name: Upload macOS binary to release (arm)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: dist/scoringhero_arm
+        asset_name: scoringero_mac_arm
+        asset_content_type: application/octet-stream
+    - name: Upload macOS binary to release (x86)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: dist/scoringhero_x86
+        asset_name: scoringero_mac_x86
+        asset_content_type: application/octet-stream
