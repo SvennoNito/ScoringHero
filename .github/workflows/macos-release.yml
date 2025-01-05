@@ -20,7 +20,7 @@ jobs:
       run: |
         source .venv/bin/activate
         pip install -r requirements.txt
-    - name: Run bash script
+    - name: Build
       shell: bash
       run: |
         source .venv/bin/activate
