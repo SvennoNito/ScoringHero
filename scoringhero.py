@@ -81,7 +81,7 @@ class Ui_MainWindow(QMainWindow):
             # Check if running as a frozen executable
             # Path for a PyInstaller bundled app
             self.app_path = sys._MEIPASS
-            self.default_data_path = os.path.dirname(sys.executable)
+            self.default_data_path = os.path.abspath(os.path.dirname(sys.executable))
         else:
             # Path for running as a script
             self.app_path = os.path.dirname(os.path.abspath(__file__))        
@@ -103,13 +103,13 @@ if __name__ == "__main__":
     
     setup_ui(ui, MainWindow)
     if ui.devmode == 1:
-        name_of_eegfile = fr"{ui.default_data_path}\example_data.mat"
+        name_of_eegfile = os.path.join(ui.default_data_path, "example_data.mat")
         ui.filename, suffix = os.path.splitext(name_of_eegfile)
         MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({os.path.basename(name_of_eegfile)})")
         load_wrapper(ui, 'eeglab')
 
     app.setStyle("Fusion")
-    with open(fr"{ui.app_path}\themes\light_theme.qss", "r") as file:
+    with open(os.path.join(ui.app_path, "themes", "light_theme.qss"), "r") as file:
         stylesheet = file.read()
     app.setStyleSheet(stylesheet)
     MainWindow.toolbar.setStyleSheet(stylesheet)
