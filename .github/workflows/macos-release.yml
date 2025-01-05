@@ -1,0 +1,16 @@
+name: Builds for MacOS on Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  run-bash-script:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Run bash script
+      run: ./release-mac.sh
