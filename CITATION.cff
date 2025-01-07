@@ -1,0 +1,32 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Scoring Hero
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file. Make sure to use the correct
+  version number and release date, which you can find in
+  the respective release on GitHub.
+type: software
+authors:
+  - given-names: Sven
+    family-names: Leach
+    email: leach.sven@gmail.com
+    affiliation: >-
+      University Children's Hospital Zurich, Zurich,
+      Switzerland
+    orcid: 'https://orcid.org/0000-0001-7425-4589'
+repository-code: 'https://github.com/SvennoNito/ScoringHeroRelease'
+abstract: >-
+  Sleep scoring and event labeling software implemented in
+  Python.
+keywords:
+  - Sleep
+  - Sleep scoring
+  - Event labels
+  - EEG
+license: CC-BY-4.0
+commit: 7c8427ad2ac1f9f7f35d3f04b78aa55f4a30283a
+version: 0.0.5
+date-released: '2025-01-08'
