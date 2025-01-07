@@ -1,0 +1,55 @@
+name: Builds for MacOS on Release
+
+permissions:
+  contents: write
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        arch: [arm64, x86_64]  # Define architectures
+
+    steps:
+    - name: Install Python
+      run: brew install python@3.13
+
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set environment variables
+      run: |
+        ARCH=${{ matrix.arch }}
+        echo "VENV_PATH=.venv_${ARCH}" >> $GITHUB_ENV
+        echo "FINAL_FILE_NAME=scoringhero_${ARCH}" >> $GITHUB_ENV
+        echo "ASSET_NAME=scoringhero_mac_${ARCH}" >> $GITHUB_ENV
+
+    - name: Build virtual environment
+      run: python -m venv ${{ env.VENV_PATH }}
+
+    - name: Install Python requirements
+      run: |
+        source ${{ env.VENV_PATH }}/bin/activate
+        arch -${{ matrix.arch }} pip install -r requirements.txt
+
+    - name: Build binary
+      run: |
+        source ${{ env.VENV_PATH }}/bin/activate
+        export VENV_PATH=${{ env.VENV_PATH }}
+        export TARGET_ARCH=${{ matrix.arch }}
+        export FINAL_FILE_NAME=${{ env.FINAL_FILE_NAME }}
+        arch -${{ matrix.arch }} ./release-mac.sh
+
+    - name: Upload macOS binary to release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: dist/${{ env.FINAL_FILE_NAME }}
+        asset_name: ${{ env.ASSET_NAME }}
+        asset_content_type: application/octet-stream
