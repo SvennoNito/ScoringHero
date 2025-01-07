@@ -30,6 +30,7 @@ from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 from cache.load_cache import load_cache
 from scoring.write_scoring import write_scoring
 from style.appstyler import appstyler
+from style.apply_app_theme import apply_app_theme
 
 class MyMainWindow(QtWidgets.QMainWindow):
     def __init__(self, ui):
@@ -109,6 +110,7 @@ if __name__ == "__main__":
         load_wrapper(ui, 'eeglab')
 
     appstyler(app)
+    apply_app_theme(MainWindow, app, ui.app_path, "modern_theme.qss")
 
     MainWindow.activateWindow()  # Add this line to make the window active
     MainWindow.show()
