@@ -17,7 +17,7 @@ authors:
       University Children's Hospital Zurich, Zurich,
       Switzerland
     orcid: 'https://orcid.org/0000-0001-7425-4589'
-repository-code: 'https://github.com/SvennoNito/ScoringHeroRelease'
+repository-code: 'https://github.com/SvennoNito/ScoringHero'
 abstract: >-
   Sleep scoring and event labeling software implemented in
   Python.
@@ -28,5 +28,5 @@ keywords:
   - EEG
 license: CC-BY-4.0
 commit: 7c8427ad2ac1f9f7f35d3f04b78aa55f4a30283a
-version: 0.0.5
+version: 0.1.0
 date-released: '2025-01-08'
