@@ -1,5 +1,5 @@
 # ScoringHero - The Open-Source Sleep EEG Scoring Software
-Welcome to **ScoringHero**, an open-source project designed to assist you in EEG sleep scoring. After being tested and used by multiple labs for over a year, **ScoringHero** has now reached its beta stage and  supports cross-platform compatibility 🚀
+Welcome to **ScoringHero**, an open-source project designed to assist you in EEG sleep scoring! After being tested and used by multiple labs for over a year, **ScoringHero** has now reached its beta stage and  supports cross-platform compatibility 🚀
 
 #### 🔍 About
 **ScoringHero** is an open-source tool for visualizing long-term EEG recordings, marking events (such as sleep spindles, artefacts, or anything really), and performing sleep scoring.
@@ -20,13 +20,19 @@ No installation is required. Simply go to the Releases section on the right of t
 #### 📚 How to cite
 If you use **ScoringHero** in your work, please cite this software using the metadata found under *"Cite this repository"* on the top right of the page.
 
+#### ❤️ Love this project?
+[Buy me a coffee](https://ko-fi.com/Svennonito) ☕️ or [sponsor me on GitHub](https://github.com/sponsors/SvennoNito) ⭐️  to help keep updates coming! <br>
+Every little bit fuels late-night coding sessions, thanks for being awesome! ✨
+
 #### 📸 Impressions
 Here are some screenshots of ScoringHero in action:
 
 ![image](https://github.com/user-attachments/assets/64c659d6-ee63-456f-894b-f20b446c931c)
 
 <div style="display: flex; justify-content: space-around;"> 
-  <img src="https://github.com/user-attachments/assets/5668a86b-276c-470a-852c-80e62c2d9a78" width="30%" /> 
-  <img src="https://github.com/user-attachments/assets/f22a1a92-1872-4e7f-a72e-cff0a347d8e7" width="30%" /> 
-  <img src="https://github.com/user-attachments/assets/059ca1e9-1c3f-4b05-9278-f91909de4583" width="30%" />
+  <img src="https://github.com/user-attachments/assets/5668a86b-276c-470a-852c-80e62c2d9a78" width="33%" /> 
+  <img src="https://github.com/user-attachments/assets/f22a1a92-1872-4e7f-a72e-cff0a347d8e7" width="33%" /> 
+  <img src="https://github.com/user-attachments/assets/059ca1e9-1c3f-4b05-9278-f91909de4583" width="33%" />
 </div>
+
+
