@@ -29,10 +29,11 @@ Here are some screenshots of ScoringHero in action:
 
 ![image](https://github.com/user-attachments/assets/64c659d6-ee63-456f-894b-f20b446c931c)
 
-<div style="display: flex; justify-content: space-around;"> 
-  <img src="https://github.com/user-attachments/assets/5668a86b-276c-470a-852c-80e62c2d9a78" width="33%" /> 
-  <img src="https://github.com/user-attachments/assets/f22a1a92-1872-4e7f-a72e-cff0a347d8e7" width="33%" /> 
-  <img src="https://github.com/user-attachments/assets/059ca1e9-1c3f-4b05-9278-f91909de4583" width="33%" />
-</div>
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/5668a86b-276c-470a-852c-80e62c2d9a78" width="32%" /> 
+    <img src="https://github.com/user-attachments/assets/f22a1a92-1872-4e7f-a72e-cff0a347d8e7" width="32%" /> 
+    <img src="https://github.com/user-attachments/assets/059ca1e9-1c3f-4b05-9278-f91909de4583" width="32%" />
+</p>
+
 
 
