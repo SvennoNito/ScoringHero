@@ -12,6 +12,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QColorDialog,
     QPushButton,
+    QScrollArea,
 )
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QColor, QFont
@@ -253,12 +254,21 @@ class ChannelConfiguration(QDialog):
     def __init__(self, channel_config, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout(self)
-        form_layout = QFormLayout()
         self.scale = []
         self.display = []
         self.color = []
         self.label = []
         self.shift = []
+
+        # Create a scroll area
+        scroll_area = QScrollArea(self)
+        scroll_area.setWidgetResizable(True)  # Allow the widget to resize within the scroll area
+        layout.addWidget(scroll_area) 
+
+        # Create a widget to hold the form layout
+        form_widget = QWidget()
+        form_layout = QFormLayout(form_widget)  # Set the form layout on the widget
+        scroll_area.setWidget(form_widget)     # Set the widget as the scroll area's content
 
         # Channel name width
         channel_name_widget_width = max(len(chaninfo["Channel_name"]) for chaninfo in channel_config) * 8 + 10
