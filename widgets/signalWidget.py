@@ -41,6 +41,12 @@ class SignalWidget(QWidget):
         self.pen_grid = pg.mkPen(color=(100, 149, 237), style=Qt.DotLine)
         self.transparent_numbers = pg.mkPen(color=(255, 255, 255, 0))
 
+        # Create a pen with a custom dash pattern
+        self.penCustomDash = pg.mkPen(color=(0, 0, 0, 80), width=1)
+        self.penCustomDash.setStyle(Qt.CustomDashLine)
+        self.penCustomDash.setDashPattern([10, 30])  # Example: 10 pixels dash, 5 pixels gap
+
+
     @timing_decorator
     def draw_signal(self, config, eeg_data, times_and_indices, this_epoch):
         # Indices of visible channels
@@ -210,7 +216,10 @@ class SignalWidget(QWidget):
         font = QFont()
         font.setPixelSize(12)
         self.text_amplitude_signal.setFont(font)
-        self.axes.addItem(self.text_amplitude_signal)        
+        self.axes.addItem(self.text_amplitude_signal)    
+
+        # Thicker vertical line in the middle
+        self.divide_center_line(borders)               
 
     @timing_decorator
     def update_signal(self, config, eeg_data, times_and_indices, this_epoch):
@@ -224,6 +233,9 @@ class SignalWidget(QWidget):
         times = times_and_indices[this_epoch][0]
         index_times = times_and_indices[this_epoch][1]
         borders = times_and_indices[this_epoch][2]
+
+        # Thicker vertical line in the middle
+        self.divide_center_line(borders)        
 
         for chan_counter, visible_counter in enumerate(index_visible_chans):
             pen = pg.mkPen(
@@ -269,3 +281,14 @@ class SignalWidget(QWidget):
          
         self.axes.getAxis("bottom").setTicks([ticklabels])
         self.axes.setXRange(times[0], times[-1], padding=0)
+
+    def divide_center_line(self, borders):
+
+        # Thicker vertical line in the middle
+        center_time = (borders[0] + borders[1]) / 2
+        center_line = pg.InfiniteLine(
+            pos=center_time,
+            angle=90,
+            pen=self.penCustomDash
+        )
+        self.axes.addItem(center_line)              
