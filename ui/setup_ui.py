@@ -126,6 +126,11 @@ def setup_ui(ui, MainWindow):
     ui.action_load_edf.setObjectName("action_load_edf")
     ui.action_load_edf.triggered.connect(lambda: eeg_import_window(ui, MainWindow, datatype="edf"))
     ui.submenu_load_eeg.addAction(ui.action_load_edf)        
+    ui.action_load_edf_volt = QAction("Load EDF file (.edf) - scaled from V to \u03BCV", ui)
+    ui.action_load_edf_volt.setObjectName("action_load_edf_volt")
+    ui.action_load_edf_volt.triggered.connect(lambda: eeg_import_window(ui, MainWindow, datatype="edfvolt"))
+    ui.submenu_load_eeg.addAction(ui.action_load_edf_volt)        
+
 
     ui.submenu_scoring = QMenu("Load Scoring", ui.menu_file)
     ui.submenu_scoring.setObjectName("submenu_scoring")

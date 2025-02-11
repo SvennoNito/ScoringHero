@@ -5,6 +5,7 @@ from utilities.timing_decorator import timing_decorator
 from .load_eeglab import load_eeglab
 from .load_r09 import load_r09
 from .load_edf import load_edf
+from .load_edf_volt import load_edf_volt
 from .number_of_epochs import number_of_epochs
 from cache.load_cache import load_cache
 from signal_processing.times_vector import times_vector
@@ -20,6 +21,8 @@ def load_wrapper(ui, datatype):
         ui.eeg_data, srate, channel_names = load_r09(ui.filename)    
     if datatype == "edf":
         ui.eeg_data, srate, channel_names = load_edf(ui.filename)    
+    if datatype == "edfvolt":
+        ui.eeg_data, srate, channel_names = load_edf_volt(ui.filename)    
 
     try:
         numchans = ui.eeg_data.shape[0]
