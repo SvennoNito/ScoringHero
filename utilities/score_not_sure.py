@@ -1,3 +1,5 @@
+from scoring.write_scoring import write_scoring
+
 def score_not_sure(ui):
     # Change uncertainty
     ui.stages[ui.this_epoch]["confidence"] = change_value(ui.stages[ui.this_epoch]["confidence"])
@@ -9,6 +11,8 @@ def score_not_sure(ui):
 
     # Update hypnpgram
     # ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
+
+    write_scoring(ui)
 
 
 def change_value(value):
