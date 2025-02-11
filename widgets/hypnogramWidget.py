@@ -30,6 +30,7 @@ class HypnogramWidget(QWidget):
             -1: "#aabcce",
             0: "#56bf8b",
             1: "#8bbf56",
+            2: "#000000",
         }
 
         # Y axis

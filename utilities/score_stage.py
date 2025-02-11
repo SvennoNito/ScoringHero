@@ -11,6 +11,7 @@ def score_stage(value, ui):
         "Wake": 1,
         "REM": 0,
         "NREM": -1,
+        "Inconclusive": 2,
         None: None,
     }
 
