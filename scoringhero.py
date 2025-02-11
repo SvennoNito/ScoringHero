@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 
 # To do
+# Make dotted line configurable
+# Allow mat file to be imported outside of EEGLAB structure
 # Automatic scoring
 # Ability to overlay two scorings
 # Read different scoring formats
-# Read EDF files
-
 # Option to randomize files
 # Hypnogram on top of spectogram
-# Scoring should save channels on which it was scored
-# Start import where last import stopped
 
 
 from PySide6 import QtCore, QtWidgets, QtGui
@@ -39,7 +37,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.resize(800, 600)
         self.setStyleSheet("background-color: white;")
         self.ui = ui
-        self.ui.version = [0, 1, 0]      
+        self.ui.version = [0, 1, 1]      
         self.setWindowTitle(f"Scoring Hero v.{self.ui.version[0]}.{self.ui.version[1]}.{self.ui.version[2]}")
 
     def closeEvent(self, event):
