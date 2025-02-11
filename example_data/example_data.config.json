@@ -16,7 +16,8 @@
       4,
       26
     ],
-    "EEG_panel_time_unit": "Hours"
+    "EEG_panel_time_unit": "Hours",
+    "Reference_amplitude_line_muV": 40
   },
   [
     {

@@ -90,7 +90,7 @@ class SignalWidget(QWidget):
                 pos=0
                 - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
                 + config[1][visible_counter]["Vertical_shift"]
-                + 37.5 * config[1][visible_counter]["Scaling_factor"] / 100,
+                + config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
                 pen=self.pen_amplines,
             )
             self.axes.addItem(amplitude_line)
@@ -99,7 +99,7 @@ class SignalWidget(QWidget):
                 pos=0
                 - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
                 + config[1][visible_counter]["Vertical_shift"]
-                - 37.5 * config[1][visible_counter]["Scaling_factor"] / 100,
+                - config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
                 pen=self.pen_amplines,
             )
             self.axes.addItem(amplitude_line)
@@ -115,8 +115,8 @@ class SignalWidget(QWidget):
 
             # Add +37.5 muV text on the first channel
             if chan_counter == 0 and this_epoch == 1:
-                text1 = pg.TextItem(text="+37.5 \u03BCV", color=(150, 150, 150), anchor=(0, 0.5))
-                text2 = pg.TextItem(text="-37.5 \u03BCV", color=(150, 150, 150), anchor=(0, 0.5))
+                text1 = pg.TextItem(text=f"+{config[0]["Reference_amplitude_line_muV"]} \u03BCV", color=(150, 150, 150), anchor=(0, 0.5))
+                text2 = pg.TextItem(text=f"-{config[0]["Reference_amplitude_line_muV"]} \u03BCV", color=(150, 150, 150), anchor=(0, 0.5))
                 text1.setPos(
                     times[0],
                     0
@@ -124,7 +124,7 @@ class SignalWidget(QWidget):
                     + config[1][visible_counter]["Vertical_shift"]
                     * numchans_visible
                     * chan_counter
-                    + 37.5 * config[1][visible_counter]["Scaling_factor"] / 100,
+                    + config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
                 )
                 text2.setPos(
                     times[0],
@@ -133,7 +133,7 @@ class SignalWidget(QWidget):
                     + config[1][visible_counter]["Vertical_shift"]
                     * numchans_visible
                     * chan_counter
-                    - 37.5 * config[1][visible_counter]["Scaling_factor"] / 100,
+                    - config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
                 )
                 font = QFont()
                 font.setPixelSize(18)

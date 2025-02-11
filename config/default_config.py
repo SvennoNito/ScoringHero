@@ -4,6 +4,7 @@ def default_configuration(number_of_channels, srate, channel_names):
         "Sampling_rate_hz": srate,
         "Epoch_length_s": 30,
         "Distance_between_channels_muV": 25,
+        "Reference_amplitude_line_muV": 37.5,
         "Channel_for_spectogram": 1,
         "Extension_epoch_s": [5, 5],
         "Spectogram_limit_hz": [0, 20],

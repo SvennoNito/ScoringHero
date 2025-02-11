@@ -127,6 +127,7 @@ class GeneralConfiguration(QDialog):
                 "label": "Vertical distance between channels",
                 "unit": " \u03BCV",
             },
+            "Reference_amplitude_line_muV": {"label": "Reference amplitude line", "unit": " \u03BCV"},
             "Channel_for_spectogram": {"label": "Channel for spectogram", "unit": ""},
             "Extension_epoch_s": {"label": "Extent epoch", "unit": " s"},
             "Spectogram_limit_hz": {"label": "Spectogram limits", "unit": " Hz"},
