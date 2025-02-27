@@ -190,6 +190,7 @@ def setup_ui(ui, MainWindow):
     ui.action_REM.setObjectName("action_REM")
     ui.action_REM.triggered.connect(partial(score_stage, "REM", ui))
     ui.action_REM.setShortcut("R")
+    ui.menu_stages.addAction(ui.action_REM)
     ui.action_inconclusive = QAction("Inconclusive", MainWindow)
     ui.action_inconclusive.setObjectName("action_inconclusive")
     ui.action_inconclusive.triggered.connect(partial(score_stage, "Inconclusive", ui))
