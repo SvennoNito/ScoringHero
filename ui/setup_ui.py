@@ -148,6 +148,10 @@ def setup_ui(ui, MainWindow):
     ui.action_load_yasa.setObjectName("action_load_yasa")
     ui.action_load_yasa.triggered.connect(lambda: scoring_import_window(ui, filetype="yasa"))
     ui.submenu_scoring.addAction(ui.action_load_yasa)
+    ui.action_load_sleeptrip = QAction("Load Sleeptrip Scoring (.csv)", ui)
+    ui.action_load_sleeptrip.setObjectName("action_load_sleeptrip")
+    ui.action_load_sleeptrip.triggered.connect(lambda: scoring_import_window(ui, filetype="sleeptrip"))
+    ui.submenu_scoring.addAction(ui.action_load_sleeptrip)
 
     ui.action_save_scoring = QAction("Save to", MainWindow)
     ui.action_save_scoring.setObjectName("action_save_scoring")

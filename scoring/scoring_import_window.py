@@ -12,6 +12,8 @@ def scoring_import_window(ui, filetype):
         datatype = "*.vis"
     if filetype == "yasa":
         datatype = "*.txt"
+    if filetype == "sleeptrip":
+        datatype = "*.csv"
 
     name_of_scoringfile, _ = QFileDialog.getOpenFileName(
         None, "Open Scoring File", ui.default_data_path, datatype
