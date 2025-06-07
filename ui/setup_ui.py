@@ -152,6 +152,11 @@ def setup_ui(ui, MainWindow):
     ui.action_load_sleeptrip.setObjectName("action_load_sleeptrip")
     ui.action_load_sleeptrip.triggered.connect(lambda: scoring_import_window(ui, filetype="sleeptrip"))
     ui.submenu_scoring.addAction(ui.action_load_sleeptrip)
+    ui.action_load_sleepyland = QAction("Load Sleepyland Scoring (.annot)", ui)
+    ui.action_load_sleepyland.setObjectName("action_load_sleepyland")
+    ui.action_load_sleepyland.triggered.connect(lambda: scoring_import_window(ui, filetype="sleepyland"))
+    ui.submenu_scoring.addAction(ui.action_load_sleepyland)
+
 
     ui.action_save_scoring = QAction("Save to", MainWindow)
     ui.action_save_scoring.setObjectName("action_save_scoring")

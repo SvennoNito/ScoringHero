@@ -14,6 +14,8 @@ def scoring_import_window(ui, filetype):
         datatype = "*.txt"
     if filetype == "sleeptrip":
         datatype = "*.csv"
+    if filetype == "sleepyland":
+        datatype = "*.annot"
 
     name_of_scoringfile, _ = QFileDialog.getOpenFileName(
         None, "Open Scoring File", ui.default_data_path, datatype
