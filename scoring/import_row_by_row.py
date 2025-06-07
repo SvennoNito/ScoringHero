@@ -12,7 +12,7 @@ def import_row_by_row(string_to_check, lines, mapping_str, mapping_num, numepo):
 
     for row, item in enumerate(lines):
         item            = item.strip()
-        found_chars     = re.findall(string_to_check, item)
+        found_chars     = re.match(string_to_check, item, re.IGNORECASE)
 
         if not found_chars:  # skip rows
             print(f"Row {row} in scoringfile reads '{item}. None of the specified strings '{string_to_check}' was found. Skipping this row.")

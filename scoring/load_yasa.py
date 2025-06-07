@@ -34,7 +34,7 @@ def load_yasa(scoring_filename, epolen, numepo):
         with open(scoring_filename, "r") as file:
             lines = file.readlines()       
  
-            [scoring_str, scoring_num] = import_row_by_row(r'N[123]|NREM[123]|WAKE|REM|W|R|[01234]', lines, mapping_str, mapping_num, numepo)        
+            [scoring_str, scoring_num] = import_row_by_row(r'^\s*(N[123]|NREM[123]|WAKE|REM|W|R|[01234])\s*$', lines, mapping_str, mapping_num, numepo)        
 
             scoring_data = default_scoring(epolen, numepo)
 

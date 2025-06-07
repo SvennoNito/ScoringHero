@@ -21,7 +21,7 @@ def load_sleeptrip(scoring_filename, epolen, numepo):
             lines = list(csv.reader(csvfile))
             lines = [row[0] for row in lines] # Extract first column only
 
-            [scoring_str, scoring_num] = import_row_by_row(r'[01235]', lines, mapping_str, mapping_num, numepo)
+            [scoring_str, scoring_num] = import_row_by_row(r'^[01235]$', lines, mapping_str, mapping_num, numepo)
                  
             scoring_data = default_scoring(epolen, numepo)
 
