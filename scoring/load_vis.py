@@ -39,8 +39,8 @@ def load_vis(scoring_filename, epolen, numepo, track=1):
         df = pd.DataFrame(visdata, columns=['Epoch', 'SleepStage'])
         df.set_index('Epoch', inplace=True)
         df = df.reindex(range(1, visdata[-1][0] + 1))  # Assuming you want to include the last epoch as well
-        df.fillna(method='bfill', inplace=True)
-        df.fillna(method='ffill', inplace=True)
+        #df.fillna(method='bfill', inplace=True)
+        df.ffill(inplace=True)
         df = df['SleepStage'].values
         annotations = []
 
