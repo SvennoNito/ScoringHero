@@ -41,10 +41,15 @@ def load_eeglab(filename_prefix):
         nbchans = eeg_data.shape[0]
 
         try:
-            chanlocs = loaded_file["EEG"]["chanlocs"][0][0][0]['labels']
-            if len(chanlocs) != nbchans:  # Check channel count
-                raise ValueError(f"Number of channels in chanlocs ({len(chanlocs)}) does not match EEG.data ({nbchans}).") #Raise ValueError to use except block
-            channel_names = [chanloc[0] for chanloc in chanlocs]
+            chanlocs    = loaded_file["EEG"]["chanlocs"][0][0][0]['labels']
+            chanlocs2   = loaded_file["EEG"]["chanlocs"][0][0]['labels'] # Matlab 2025b saves the data differently somehow
+            if len(chanlocs) == nbchans:  # Check channel count
+                channel_names = [chanloc[0] for chanloc in chanlocs]
+            else:
+                if len(chanlocs2) == nbchans: 
+                    channel_names = [chanloc[0][0] for chanloc in chanlocs2]
+                else:
+                    raise ValueError(f"Number of channels in chanlocs ({len(chanlocs)}) does not match EEG.data ({nbchans}).") #Raise ValueError to use except block
         except (KeyError, IndexError, ValueError) as e: #chanlocs might be missing or wrongly sized
             channel_names = [f"CH{i+1}" for i in range(nbchans)]
             print(f"*** Warning: {e}")
