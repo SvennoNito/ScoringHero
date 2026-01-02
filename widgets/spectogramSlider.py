@@ -13,7 +13,7 @@ class SpectogramSlider(QWidget):
         labelbox = QLabel("MAX")
         labelbox.setAlignment(Qt.AlignHCenter)  # Align the title to the center horizontally
         # Rotate the label by 90 degrees
-        labelbox.setStyleSheet("transform: rotate(90deg);")
+        # labelbox.setStyleSheet("transform: rotate(90deg);")
         labelbox.setAlignment(Qt.AlignTop | Qt.AlignCenter)  # Align the label to the top
 
         # Create the vertical slider

@@ -11,7 +11,7 @@ class HypnogramSlider(QWidget):
         labelbox = QLabel("SWA")
 
         # Rotate the label by 90 degrees
-        labelbox.setStyleSheet("transform: rotate(90deg);")
+        # labelbox.setStyleSheet("transform: rotate(90deg);")
         labelbox.setAlignment(Qt.AlignTop | Qt.AlignCenter)  # Align the label to the top
 
         # Create the vertical slider
