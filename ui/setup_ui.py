@@ -156,6 +156,10 @@ def setup_ui(ui, MainWindow):
     ui.action_load_sleepyland.setObjectName("action_load_sleepyland")
     ui.action_load_sleepyland.triggered.connect(lambda: scoring_import_window(ui, filetype="sleepyland"))
     ui.submenu_scoring.addAction(ui.action_load_sleepyland)
+    ui.action_load_gssc = QAction("Load Greifswald Sleep Stage Classifier (GSSC) Scoring (.csv)", ui)
+    ui.action_load_gssc.setObjectName("action_load_gssc")
+    ui.action_load_gssc.triggered.connect(lambda: scoring_import_window(ui, filetype="gssc"))
+    ui.submenu_scoring.addAction(ui.action_load_gssc)    
 
 
     ui.action_save_scoring = QAction("Save to", MainWindow)

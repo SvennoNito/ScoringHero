@@ -34,7 +34,8 @@ def load_vis(scoring_filename, epolen, numepo, track=1):
 
         # Convert to a NumPy array for consistency with MATLAB's matrix format
         visdata = np.array(visdata, dtype=object)
-        visdata[-1][1] = visdata[-2][1]
+        if visdata[-1][1] == 'e':
+            visdata[-1][1] = visdata[-2][1]
 
         df = pd.DataFrame(visdata, columns=['Epoch', 'SleepStage'])
         df.set_index('Epoch', inplace=True)

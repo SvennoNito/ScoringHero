@@ -4,6 +4,7 @@ from .load_vis import load_vis
 from .load_yasa import load_yasa
 from .load_sleeptrip import load_sleeptrip
 from .load_sleepyland import load_sleepyland
+from .load_gssc import load_gssc
 
 def load_scoring(scoring_filename, epolen, numepo, filetype):
 
@@ -20,6 +21,9 @@ def load_scoring(scoring_filename, epolen, numepo, filetype):
         scoring_data, annotations = load_sleeptrip(scoring_filename, epolen, numepo)        
 
     if filetype == "sleepyland":
-        scoring_data, annotations = load_sleepyland(scoring_filename, epolen, numepo)        
+        scoring_data, annotations = load_sleepyland(scoring_filename, epolen, numepo)  
+
+    if filetype == "gssc":
+        scoring_data, annotations = load_gssc(scoring_filename, epolen, numepo)        
 
     return scoring_data, annotations
