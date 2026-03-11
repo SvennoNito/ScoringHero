@@ -1,3 +1,4 @@
+import numpy as np
 from signal_processing.trim_power import trim_power
 from signal_processing.min_max_scale import min_max_scale
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
@@ -31,6 +32,13 @@ def refresh_gui(ui):
     )
     power = min_max_scale(power)
     ui.RectanglePower.update_powerline(freqs, power)
+
+    # Update time-frequency panel
+    srate = ui.config[0]["Sampling_rate_hz"]
+    max_freq = min(45.0, srate / 2 - 0.25)
+    tf_freqs = np.arange(0.25, max_freq + 0.25, 0.25)
+    ui.TFWidget.update_tf(ui.eeg_data, ui.times, ui.this_epoch, srate, tf_freqs,
+                          ui.tf_norm_median, ui.tf_norm_iqr)
 
     # Draw annotations
     for container in ui.AnnotationContainer:

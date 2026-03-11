@@ -52,6 +52,7 @@ def setup_ui(ui, MainWindow):
     ui.HypnogramSlider = HypnogramSlider(ui.centralwidget)
     ui.RectanglePower = RectanglePower(ui.centralwidget)
     ui.PaintEventWidget = PaintEventWidget()
+    ui.TFWidget = TFWidget(ui.centralwidget, ui.app_path)
     ui.AnnotationContainer = [
         AnnotationContainer(colorindex=counter, label=f"F{counter}")
         for counter in range(10)
@@ -73,15 +74,17 @@ def setup_ui(ui, MainWindow):
     ui.PaintEventWidget.changesMade.connect(lambda ui=ui: paint_event_handler(ui))
 
     # Layout
-    layout.addWidget(ui.SignalWidget.axes, 10, 0, 85, 101)
-    #layout.addWidget(ui.SignalWidget.axes, 10, 0, 75, 101)
-    layout.addWidget(ui.PaintEventWidget, 10, 0, 85, 101)
+    # Rows 10-69  (60 rows): main EEG signal panel
+    layout.addWidget(ui.SignalWidget.axes, 10, 0, 60, 101)
+    layout.addWidget(ui.PaintEventWidget, 10, 0, 60, 101)
+    # Rows 70-94  (25 rows): time-frequency panel
+    layout.addWidget(ui.TFWidget.graphics, 70, 0, 25, 101)
+    # Rows 0-9: top panels (unchanged)
     layout.addWidget(ui.SpectogramWidget.graphics, 0, 0, 10, 55)
     layout.addWidget(ui.SpectogramSlider, 1, 55, 8, 1)
     layout.addWidget(ui.HypnogramWidget.axes, 0, 56, 10, 30)
     layout.addWidget(ui.HypnogramSlider, 1, 86, 8, 1)
     layout.addWidget(ui.RectanglePower.axes, 0, 87, 10, 13)
-    #layout.addWidget(ui.HypnogramWidget.axes, 85, 0, 10, 101)
 
     # Statusbar
     ui.statusbar = QStatusBar(MainWindow)

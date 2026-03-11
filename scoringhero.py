@@ -72,7 +72,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.devmode = 0
+        self.devmode = 1
         self.this_epoch = 0
 
         # Default paths
