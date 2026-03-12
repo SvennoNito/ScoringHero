@@ -57,9 +57,9 @@ def apply_changes(config_parameter_name, ui):
         power = min_max_scale(power)
         ui.RectanglePower.update_powerline(freqs, power)
 
-    if "TF_frequency_limits_hz" in config_parameter_name:
+    if "Wavelet_frequency_limits_hz" in config_parameter_name:
         srate = ui.config[0]["Sampling_rate_hz"]
-        tf_limits = ui.config[0]["TF_frequency_limits_hz"]
+        tf_limits = ui.config[0]["Wavelet_frequency_limits_hz"]
         min_freq = max(float(tf_limits[0]), 0.1)
         max_freq = min(float(tf_limits[1]), srate / 2 - 0.25)
         ui.tf_freqs = np.geomspace(min_freq, max_freq, 120)

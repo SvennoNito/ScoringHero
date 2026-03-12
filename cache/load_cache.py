@@ -34,7 +34,7 @@ def load_cache(ui):
     # The Morlet grid (0.25 … 45 Hz) is interpolated from the Welch grid so
     # that both arrays align without any additional caching or computation.
     srate    = ui.config[0]["Sampling_rate_hz"]
-    tf_limits = ui.config[0].get("TF_frequency_limits_hz", [0.25, 45])
+    tf_limits = ui.config[0].get("Wavelet_frequency_limits_hz", [0.25, 45])
     min_freq = max(float(tf_limits[0]), 0.1)
     max_freq = min(float(tf_limits[1]), srate / 2 - 0.25)
     tf_freqs = np.geomspace(min_freq, max_freq, 120)

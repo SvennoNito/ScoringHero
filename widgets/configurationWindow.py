@@ -35,16 +35,18 @@ class ConfigurationWindow(QDialog):
         self.channel_page = ChannelConfiguration(config[1])
         self.general_page = GeneralConfiguration(config[0], allow_staging, channel_labels or [])
         self.events_page = EventConfiguration(AnnotationContainer)
+        self.wavelet_page = WaveletConfiguration(config[0], channel_labels or [])
         # self.layout_page = PanelLayout(config[0])
 
         # Add the pages to the tabs
         self.tabs.addTab(self.general_page, "Configuration")
         self.tabs.addTab(self.channel_page, "Channels")
         self.tabs.addTab(self.events_page, "Events")
+        self.tabs.addTab(self.wavelet_page, "Wavelet Panel")
         # self.tabs.addTab(self.events_page, "Layout")
 
     def return_page(self):
-        return self.channel_page, self.general_page, self.events_page
+        return self.channel_page, self.general_page, self.events_page, self.wavelet_page
     
 
 """ class PanelLayout(QDialog):
@@ -133,7 +135,6 @@ class GeneralConfiguration(QDialog):
             "Extension_epoch_s": {"label": "Extent epoch", "unit": " s"},
             "Spectogram_limit_hz": {"label": "Spectogram limits", "unit": " Hz"},
             "Periodogram_limit_hz": {"label": "Periodogram limits", "unit": " Hz"},
-            "TF_frequency_limits_hz": {"label": "TF frequency limits", "unit": " Hz"},
         }
 
         for config_parameter_name, specs in legend.items():
@@ -157,7 +158,7 @@ class GeneralConfiguration(QDialog):
                 spinbox.setMinimum(0)
                 spinbox.setMaximum(10000)
                 # Use decimals for TF frequency limits, integers for others
-                if config_parameter_name == "TF_frequency_limits_hz":
+                if config_parameter_name == "Wavelet_frequency_limits_hz":
                     spinbox.setDecimals(2)
                 else:
                     spinbox.setDecimals(0)
@@ -182,9 +183,7 @@ class GeneralConfiguration(QDialog):
         ### Configuration paramters that have options
         box_options = {
             "EEG_panel_time_unit": {"label": "EEG time unit in", "options": ["Seconds", "Minutes", "Hours"]},
-            "TF_display_mode": {"label": "Time-frequency display", "options": ["Raw Power", "L2-Normalized Power", "Z-Standardized Power"]},
-            "TF_frequency_scale": {"label": "TF frequency scale", "options": ["Logarithmic", "Linear"]},
-        }    
+        }
 
         for config_parameter_name, specs in box_options.items():
             self.optionboxes[config_parameter_name] = []
@@ -200,42 +199,12 @@ class GeneralConfiguration(QDialog):
             optionbox = QComboBox(self)
 
             for option in specs["options"]:
-                optionbox.addItem(option)      
+                optionbox.addItem(option)
             optionbox.setCurrentText(general_config[config_parameter_name])
             self.optionboxes[config_parameter_name].append(optionbox)
 
             row_layout.addWidget(optionbox)
             form_layout.addRow(row_layout)
-
-        # TF channel selector (dynamic options from loaded channel labels)
-        if channel_labels:
-            labelbox = QLabel("TF channel")
-            labelbox.setAlignment(Qt.AlignRight)
-            labelbox.setFixedWidth(self.width_label)
-
-            row_layout = QHBoxLayout()
-            row_layout.addWidget(labelbox)
-
-            tf_channel_box = QComboBox(self)
-            for label in channel_labels:
-                tf_channel_box.addItem(label)
-            tf_channel_box.setCurrentText(general_config.get("TF_channel", channel_labels[0]))
-            self.optionboxes["TF_channel"] = [tf_channel_box]
-
-            row_layout.addWidget(tf_channel_box)
-            form_layout.addRow(row_layout)
-
-        # TF panel visibility checkbox
-        labelbox = QLabel("Show TF panel")
-        labelbox.setAlignment(Qt.AlignRight)
-        labelbox.setFixedWidth(self.width_label)
-        tf_visible_checkbox = QCheckBox(self)
-        tf_visible_checkbox.setChecked(general_config.get("TF_panel_visible", True))
-        self.checkboxes["TF_panel_visible"] = tf_visible_checkbox
-        row_layout = QHBoxLayout()
-        row_layout.addWidget(labelbox)
-        row_layout.addWidget(tf_visible_checkbox)
-        form_layout.addRow(row_layout)
 
         # Apply button
         apply_button = QPushButton("Apply")
@@ -259,7 +228,7 @@ class GeneralConfiguration(QDialog):
             for index, spinbox in enumerate(spinbox_list):
                 # Use float for TF frequency limits, int for others
                 value = spinbox.value()
-                if id == "TF_frequency_limits_hz":
+                if id == "Wavelet_frequency_limits_hz":
                     value = float(value)
                 else:
                     value = int(value)
@@ -294,6 +263,136 @@ class GeneralConfiguration(QDialog):
                 else:
                     general_config[id] = int(spinbox.value())
         self.changesMade.emit(config_parameter_name)
+
+
+class WaveletConfiguration(QDialog):
+    changesMade = Signal(list)
+
+    def __init__(self, general_config, channel_labels=None, parent=None):
+        super().__init__(parent)
+        layout = QVBoxLayout(self)
+        self.width_label = 200
+        self.spinboxes = {}
+        self.optionboxes = {}
+        self.checkboxes = {}
+
+        # Description
+        description = QLabel(
+            "\u24d8 " \
+            "A wavelet decomposition is computed for a given epoch and displayed in the " \
+            "time-frequency panel at the bottom. Configure available Morlet wavelet time-frequency " \
+            "decomposition parameters here." \
+        )
+        description.setWordWrap(True)
+        layout.addWidget(description)
+
+        form_layout = QFormLayout()
+
+        # Channel selector
+        if channel_labels:
+            labelbox = QLabel("Channel")
+            labelbox.setAlignment(Qt.AlignRight)
+            labelbox.setFixedWidth(self.width_label)
+            row_layout = QHBoxLayout()
+            row_layout.addWidget(labelbox)
+            tf_channel_box = QComboBox(self)
+            for label in channel_labels:
+                tf_channel_box.addItem(label)
+            tf_channel_box.setCurrentText(general_config.get("Wavelet_channel", channel_labels[0]))
+            tf_channel_box.currentIndexChanged.connect(lambda: self.apply_changes(general_config))
+            self.optionboxes["Wavelet_channel"] = [tf_channel_box]
+            row_layout.addWidget(tf_channel_box)
+            form_layout.addRow(row_layout)
+
+        # Frequency scale
+        scale_label = QLabel("Frequency scale")
+        scale_label.setAlignment(Qt.AlignRight)
+        scale_label.setFixedWidth(self.width_label)
+        row_layout = QHBoxLayout()
+        row_layout.addWidget(scale_label)
+        scale_box = QComboBox(self)
+        for option in ["Logarithmic", "Linear"]:
+            scale_box.addItem(option)
+        scale_box.setCurrentText(general_config["Wavelet_frequency_scale"])
+        scale_box.currentIndexChanged.connect(lambda: self.apply_changes(general_config))
+        self.optionboxes["Wavelet_frequency_scale"] = [scale_box]
+        row_layout.addWidget(scale_box)
+        form_layout.addRow(row_layout)
+
+        # Frequency limits spinboxes
+        freq_label = QLabel("Frequency limits")
+        freq_label.setAlignment(Qt.AlignRight)
+        freq_label.setFixedWidth(self.width_label)
+        row_layout = QHBoxLayout()
+        row_layout.addWidget(freq_label)
+        self.spinboxes["Wavelet_frequency_limits_hz"] = []
+        value_in_list = general_config["Wavelet_frequency_limits_hz"] if isinstance(general_config["Wavelet_frequency_limits_hz"], list) else [general_config["Wavelet_frequency_limits_hz"]]
+        for value in value_in_list:
+            spinbox = QDoubleSpinBox(self)
+            spinbox.setMinimum(0)
+            spinbox.setMaximum(10000)
+            spinbox.setDecimals(2)
+            spinbox.setValue(value)
+            spinbox.setSuffix(" Hz")
+            spinbox.editingFinished.connect(lambda: self.apply_changes(general_config))
+            self.spinboxes["Wavelet_frequency_limits_hz"].append(spinbox)
+            row_layout.addWidget(spinbox)
+        form_layout.addRow(row_layout)
+
+        # Normalization
+        norm_label = QLabel("Normalization")
+        norm_label.setAlignment(Qt.AlignRight)
+        norm_label.setFixedWidth(self.width_label)
+        row_layout = QHBoxLayout()
+        row_layout.addWidget(norm_label)
+        norm_box = QComboBox(self)
+        for option in ["Raw Power", "L2-Normalized Power", "Z-Standardized Power"]:
+            norm_box.addItem(option)
+        norm_box.setCurrentText(general_config["Wavelet_display_mode"])
+        norm_box.currentIndexChanged.connect(lambda: self.apply_changes(general_config))
+        self.optionboxes["Wavelet_display_mode"] = [norm_box]
+        row_layout.addWidget(norm_box)
+        form_layout.addRow(row_layout)
+
+        # Visibility checkbox
+        labelbox = QLabel("Show wavelet decomposition")
+        labelbox.setAlignment(Qt.AlignRight)
+        labelbox.setFixedWidth(self.width_label)
+        tf_visible_checkbox = QCheckBox(self)
+        tf_visible_checkbox.setChecked(general_config.get("Wavelet_panel_visible", True))
+        tf_visible_checkbox.stateChanged.connect(lambda: self.apply_changes(general_config))
+        self.checkboxes["Wavelet_panel_visible"] = tf_visible_checkbox
+        row_layout = QHBoxLayout()
+        row_layout.addWidget(labelbox)
+        row_layout.addWidget(tf_visible_checkbox)
+        form_layout.addRow(row_layout)
+
+        layout.addLayout(form_layout)
+        layout.addStretch(1)
+
+    def apply_changes(self, general_config):
+        old_config = copy.deepcopy(general_config)
+        for id, spinbox_list in self.spinboxes.items():
+            for index, spinbox in enumerate(spinbox_list):
+                value = float(spinbox.value())
+                if isinstance(general_config[id], list):
+                    general_config[id][index] = value
+                else:
+                    general_config[id] = value
+        for id, optionbox_list in self.optionboxes.items():
+            for optionbox in optionbox_list:
+                general_config[id] = optionbox.currentText()
+        for id, checkbox in self.checkboxes.items():
+            general_config[id] = checkbox.isChecked()
+        changed_config_settings = self.config_keys_which_changed(old_config, general_config)
+        self.changesMade.emit(changed_config_settings)
+
+    def config_keys_which_changed(self, config1, config2):
+        differing_keys = []
+        for key in config1.keys():
+            if config1[key] != config2[key]:
+                differing_keys.append(key)
+        return differing_keys
 
 
 class ChannelConfiguration(QDialog):

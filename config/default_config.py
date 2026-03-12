@@ -7,16 +7,14 @@ def default_configuration(number_of_channels, srate, channel_names):
         "Reference_amplitude_line_muV": 37.5,
         "Channel_for_spectogram": 1,
         "Extension_epoch_s": [5, 5],
-        "Spectogram_limit_hz": [0, 20],
-        "Periodogram_limit_hz": [4, 26],
+        "Spectogram_limit_hz": [0, 30],
+        "Periodogram_limit_hz": [4, 35],
         "EEG_panel_time_unit": "Seconds",
-        "TF_display_mode": "Z-scored Power",
-        "TF_frequency_scale": "Logarithmic",
-        "TF_frequency_limits_hz": [0.25, 45],
-        "TF_y_axis_scale": "Logarithmic",
-        "TF_y_axis_limits": [None, None],
-        "TF_channel": channel_names[0] if len(channel_names) > 0 else "Channel 1",
-        "TF_panel_visible": True,
+        "Wavelet_display_mode": "Raw Power",
+        "Wavelet_frequency_scale": "Linear",
+        "Wavelet_frequency_limits_hz": [1, 45],
+        "Wavelet_channel": channel_names[0] if len(channel_names) > 0 else "Channel 1",
+        "Wavelet_panel_visible": True,
     }
 
     configuration_settings[1] = [
