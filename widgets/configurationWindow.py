@@ -35,6 +35,7 @@ class ConfigurationWindow(QDialog):
         self.channel_page = ChannelConfiguration(config[1])
         self.general_page = GeneralConfiguration(config[0], allow_staging, channel_labels or [])
         self.events_page = EventConfiguration(AnnotationContainer)
+        self.spectrogram_page = SpectrogramConfiguration(config[0], channel_labels or [])
         self.wavelet_page = WaveletConfiguration(config[0], channel_labels or [])
         # self.layout_page = PanelLayout(config[0])
 
@@ -42,11 +43,12 @@ class ConfigurationWindow(QDialog):
         self.tabs.addTab(self.general_page, "Configuration")
         self.tabs.addTab(self.channel_page, "Channels")
         self.tabs.addTab(self.events_page, "Events")
-        self.tabs.addTab(self.wavelet_page, "Wavelet Panel")
+        self.tabs.addTab(self.spectrogram_page, "Spectrogram")
+        self.tabs.addTab(self.wavelet_page, "Wavelet")
         # self.tabs.addTab(self.events_page, "Layout")
 
     def return_page(self):
-        return self.channel_page, self.general_page, self.events_page, self.wavelet_page
+        return self.channel_page, self.general_page, self.events_page, self.wavelet_page, self.spectrogram_page
     
 
 """ class PanelLayout(QDialog):
@@ -131,9 +133,7 @@ class GeneralConfiguration(QDialog):
                 "unit": " \u03BCV",
             },
             "Reference_amplitude_line_muV": {"label": "Reference amplitude line", "unit": " \u03BCV"},
-            "Channel_for_spectogram": {"label": "Channel for spectogram", "unit": ""},
             "Extension_epoch_s": {"label": "Extent epoch", "unit": " s"},
-            "Spectogram_limit_hz": {"label": "Spectogram limits", "unit": " Hz"},
             "Periodogram_limit_hz": {"label": "Periodogram limits", "unit": " Hz"},
         }
 
@@ -263,6 +263,93 @@ class GeneralConfiguration(QDialog):
                 else:
                     general_config[id] = int(spinbox.value())
         self.changesMade.emit(config_parameter_name)
+
+
+class SpectrogramConfiguration(QDialog):
+    changesMade = Signal(list)
+
+    def __init__(self, general_config, channel_labels=None, parent=None):
+        super().__init__(parent)
+        layout = QVBoxLayout(self)
+        self.width_label = 200
+        self.spinboxes = {}
+        self.optionboxes = {}
+
+        # Description
+        description = QLabel(
+            "\u24d8 " \
+            "Pwelch is computed for every epoch and displayed in the spectrogram panel " \
+            "at the top left. Configure spectrogram parameters here." \
+        )
+        description.setWordWrap(True)
+        layout.addWidget(description)
+
+        form_layout = QFormLayout()
+
+        # Channel selector (label dropdown)
+        if channel_labels:
+            chan_label = QLabel("Channel")
+            chan_label.setAlignment(Qt.AlignRight)
+            chan_label.setFixedWidth(self.width_label)
+            row_layout = QHBoxLayout()
+            row_layout.addWidget(chan_label)
+            chan_box = QComboBox(self)
+            for label in channel_labels:
+                chan_box.addItem(label)
+            chan_box.setCurrentText(general_config.get("Channel_for_spectogram", channel_labels[0]))
+            chan_box.currentIndexChanged.connect(lambda: self.apply_changes(general_config))
+            self.optionboxes["Channel_for_spectogram"] = [chan_box]
+            row_layout.addWidget(chan_box)
+            form_layout.addRow(row_layout)
+
+        # Frequency limits spinboxes
+        freq_label = QLabel("Frequency limits")
+        freq_label.setAlignment(Qt.AlignRight)
+        freq_label.setFixedWidth(self.width_label)
+        row_layout = QHBoxLayout()
+        row_layout.addWidget(freq_label)
+        self.spinboxes["Spectogram_limit_hz"] = []
+        value_in_list = (
+            general_config["Spectogram_limit_hz"]
+            if isinstance(general_config["Spectogram_limit_hz"], list)
+            else [general_config["Spectogram_limit_hz"]]
+        )
+        for value in value_in_list:
+            spinbox = QDoubleSpinBox(self)
+            spinbox.setMinimum(0)
+            spinbox.setMaximum(10000)
+            spinbox.setDecimals(0)
+            spinbox.setValue(value)
+            spinbox.setSuffix(" Hz")
+            spinbox.editingFinished.connect(lambda: self.apply_changes(general_config))
+            self.spinboxes["Spectogram_limit_hz"].append(spinbox)
+            row_layout.addWidget(spinbox)
+        form_layout.addRow(row_layout)
+
+        layout.addLayout(form_layout)
+        layout.addStretch(1)
+
+    def apply_changes(self, general_config):
+        old_config = copy.deepcopy(general_config)
+        for id, spinbox_list in self.spinboxes.items():
+            for index, spinbox in enumerate(spinbox_list):
+                value = int(spinbox.value())
+                if isinstance(general_config[id], list):
+                    general_config[id][index] = value
+                else:
+                    general_config[id] = value
+        for id, optionbox_list in self.optionboxes.items():
+            for optionbox in optionbox_list:
+                general_config[id] = optionbox.currentText()
+        changed_config_settings = self.config_keys_which_changed(old_config, general_config)
+        self.changesMade.emit(changed_config_settings)
+
+    def config_keys_which_changed(self, config1, config2):
+        differing_keys = []
+        for key in config1.keys():
+            if config1[key] != config2[key]:
+                differing_keys.append(key)
+        return differing_keys
 
 
 class WaveletConfiguration(QDialog):

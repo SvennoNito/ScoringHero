@@ -9,12 +9,15 @@ def open_config_window(ui):
 
     channel_labels = [ch["Channel_name"] for ch in ui.config[1]]
     ui.ConfigurationWindow = ConfigurationWindow(ui.config, ui.AnnotationContainer, allow_staging, channel_labels)
-    ui.ChannelPage, ui.GeneralPage, ui.EventPage, ui.WaveletPage = ui.ConfigurationWindow.return_page()
+    ui.ChannelPage, ui.GeneralPage, ui.EventPage, ui.WaveletPage, ui.SpectrogramPage = ui.ConfigurationWindow.return_page()
     ui.ChannelPage.changesMade.connect(lambda: apply_changes([], ui))
     ui.GeneralPage.changesMade.connect(
         lambda config_parameter_name, ui=ui: apply_changes(config_parameter_name, ui)
     )
     ui.WaveletPage.changesMade.connect(
+        lambda config_parameter_name, ui=ui: apply_changes(config_parameter_name, ui)
+    )
+    ui.SpectrogramPage.changesMade.connect(
         lambda config_parameter_name, ui=ui: apply_changes(config_parameter_name, ui)
     )
     ui.EventPage.changesMade.connect(lambda: write_scoring(ui))

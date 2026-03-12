@@ -80,8 +80,13 @@ class HypnogramWidget(QWidget):
         )
         self.axes.addItem(self.epoch_indicator_line)
 
-        # Remove x ticks
-        self.axes.getAxis("bottom").setTicks([])
+        # X axis hour ticks: 1h, 2h, ..., up to largest full integer hour
+        max_hour = int(self.times[-1])
+        if max_hour >= 1:
+            hour_ticks = [(h, f"{h}h") for h in range(1, max_hour + 1)]
+            self.axes.getAxis("bottom").setTicks([hour_ticks])
+        else:
+            self.axes.getAxis("bottom").setTicks([])
 
         # Draw SWA
         # SWA[SWA > np.median(SWA) + 1 * np.std(SWA)] = np.nan

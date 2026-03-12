@@ -5,7 +5,7 @@ def default_configuration(number_of_channels, srate, channel_names):
         "Epoch_length_s": 30,
         "Distance_between_channels_muV": 25,
         "Reference_amplitude_line_muV": 37.5,
-        "Channel_for_spectogram": 1,
+        "Channel_for_spectogram": channel_names[0] if len(channel_names) > 0 else "Channel 1",
         "Extension_epoch_s": [5, 5],
         "Spectogram_limit_hz": [0, 30],
         "Periodogram_limit_hz": [4, 35],
