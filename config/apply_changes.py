@@ -1,3 +1,4 @@
+import numpy as np
 from .write_configuration import write_configuration
 from eeg.number_of_epochs import number_of_epochs
 from scoring.default_scoring import default_scoring
@@ -9,6 +10,7 @@ from signal_processing.times_vector import times_vector
 from signal_processing.spectogram_to_ui import spectogram_to_ui
 from signal_processing.freqs_of_interest import freqs_of_interest
 from utilities.redraw_gui import redraw_gui
+from utilities.apply_tf_visibility import apply_tf_visibility
 from scoring.default_scoring import default_scoring
 
 
@@ -54,6 +56,25 @@ def apply_changes(config_parameter_name, ui):
         )
         power = min_max_scale(power)
         ui.RectanglePower.update_powerline(freqs, power)
+
+    if "TF_frequency_limits_hz" in config_parameter_name:
+        srate = ui.config[0]["Sampling_rate_hz"]
+        tf_limits = ui.config[0]["TF_frequency_limits_hz"]
+        min_freq = max(float(tf_limits[0]), 0.1)
+        max_freq = min(float(tf_limits[1]), srate / 2 - 0.25)
+        ui.tf_freqs = np.geomspace(min_freq, max_freq, 120)
+        log_power = np.log10(np.maximum(ui.power, 1e-30))
+        median_welch = np.median(log_power, axis=0)
+        iqr_welch = np.percentile(log_power, 75, axis=0) - np.percentile(log_power, 25, axis=0)
+        iqr_welch = np.maximum(iqr_welch, 1e-6)
+        rms_welch = np.sqrt(np.mean(log_power ** 2, axis=0))
+        rms_welch = np.maximum(rms_welch, 1e-6)
+        ui.tf_norm_median = np.interp(ui.tf_freqs, ui.freqs, median_welch)
+        ui.tf_norm_iqr = np.interp(ui.tf_freqs, ui.freqs, iqr_welch)
+        ui.tf_norm_rms = np.interp(ui.tf_freqs, ui.freqs, rms_welch)
+
+    # Apply TF panel visibility
+    apply_tf_visibility(ui)
 
     # Redraw EEG
     redraw_gui(ui)

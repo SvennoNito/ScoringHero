@@ -22,7 +22,7 @@ import copy
 class ConfigurationWindow(QDialog):
     changesMade = Signal()
 
-    def __init__(self, config, AnnotationContainer, allow_staging):
+    def __init__(self, config, AnnotationContainer, allow_staging, channel_labels=None):
         super().__init__()
         self.setWindowTitle("Configuration Window")
         self.resize(500, 400)
@@ -33,7 +33,7 @@ class ConfigurationWindow(QDialog):
 
         # Create the pages
         self.channel_page = ChannelConfiguration(config[1])
-        self.general_page = GeneralConfiguration(config[0], allow_staging)
+        self.general_page = GeneralConfiguration(config[0], allow_staging, channel_labels or [])
         self.events_page = EventConfiguration(AnnotationContainer)
         # self.layout_page = PanelLayout(config[0])
 
@@ -112,13 +112,14 @@ class EventConfiguration(QDialog):
 class GeneralConfiguration(QDialog):
     changesMade = Signal(list)
 
-    def __init__(self, general_config, allow_staging, parent=None):
+    def __init__(self, general_config, allow_staging, channel_labels=None, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout(self)
         form_layout = QFormLayout()
         self.width_label = 200
         self.spinboxes = {}
         self.optionboxes = {}
+        self.checkboxes = {}
 
         legend = {
             "Sampling_rate_hz": {"label": "Sampling rate", "unit": " Hz"},
@@ -132,6 +133,7 @@ class GeneralConfiguration(QDialog):
             "Extension_epoch_s": {"label": "Extent epoch", "unit": " s"},
             "Spectogram_limit_hz": {"label": "Spectogram limits", "unit": " Hz"},
             "Periodogram_limit_hz": {"label": "Periodogram limits", "unit": " Hz"},
+            "TF_frequency_limits_hz": {"label": "TF frequency limits", "unit": " Hz"},
         }
 
         for config_parameter_name, specs in legend.items():
@@ -154,7 +156,11 @@ class GeneralConfiguration(QDialog):
                 spinbox = QDoubleSpinBox(self)
                 spinbox.setMinimum(0)
                 spinbox.setMaximum(10000)
-                spinbox.setDecimals(0)
+                # Use decimals for TF frequency limits, integers for others
+                if config_parameter_name == "TF_frequency_limits_hz":
+                    spinbox.setDecimals(2)
+                else:
+                    spinbox.setDecimals(0)
                 spinbox.setValue(value)
                 spinbox.setSuffix(specs["unit"])
                 print(config_parameter_name)
@@ -176,6 +182,8 @@ class GeneralConfiguration(QDialog):
         ### Configuration paramters that have options
         box_options = {
             "EEG_panel_time_unit": {"label": "EEG time unit in", "options": ["Seconds", "Minutes", "Hours"]},
+            "TF_display_mode": {"label": "Time-frequency display", "options": ["Raw Power", "L2-Normalized Power", "Z-Standardized Power"]},
+            "TF_frequency_scale": {"label": "TF frequency scale", "options": ["Logarithmic", "Linear"]},
         }    
 
         for config_parameter_name, specs in box_options.items():
@@ -198,7 +206,36 @@ class GeneralConfiguration(QDialog):
 
             row_layout.addWidget(optionbox)
             form_layout.addRow(row_layout)
-        
+
+        # TF channel selector (dynamic options from loaded channel labels)
+        if channel_labels:
+            labelbox = QLabel("TF channel")
+            labelbox.setAlignment(Qt.AlignRight)
+            labelbox.setFixedWidth(self.width_label)
+
+            row_layout = QHBoxLayout()
+            row_layout.addWidget(labelbox)
+
+            tf_channel_box = QComboBox(self)
+            for label in channel_labels:
+                tf_channel_box.addItem(label)
+            tf_channel_box.setCurrentText(general_config.get("TF_channel", channel_labels[0]))
+            self.optionboxes["TF_channel"] = [tf_channel_box]
+
+            row_layout.addWidget(tf_channel_box)
+            form_layout.addRow(row_layout)
+
+        # TF panel visibility checkbox
+        labelbox = QLabel("Show TF panel")
+        labelbox.setAlignment(Qt.AlignRight)
+        labelbox.setFixedWidth(self.width_label)
+        tf_visible_checkbox = QCheckBox(self)
+        tf_visible_checkbox.setChecked(general_config.get("TF_panel_visible", True))
+        self.checkboxes["TF_panel_visible"] = tf_visible_checkbox
+        row_layout = QHBoxLayout()
+        row_layout.addWidget(labelbox)
+        row_layout.addWidget(tf_visible_checkbox)
+        form_layout.addRow(row_layout)
 
         # Apply button
         apply_button = QPushButton("Apply")
@@ -220,15 +257,25 @@ class GeneralConfiguration(QDialog):
         # old_config = general_config.deepcopy()
         for id, spinbox_list in self.spinboxes.items():
             for index, spinbox in enumerate(spinbox_list):
-                if isinstance(general_config[id], list):
-                    general_config[id][index] = int(spinbox.value())
+                # Use float for TF frequency limits, int for others
+                value = spinbox.value()
+                if id == "TF_frequency_limits_hz":
+                    value = float(value)
                 else:
-                    general_config[id] = int(spinbox.value())
+                    value = int(value)
+
+                if isinstance(general_config[id], list):
+                    general_config[id][index] = value
+                else:
+                    general_config[id] = value
 
         for id, optionbox_list in self.optionboxes.items():
               for index, optionbox in enumerate(optionbox_list):
                   general_config[id] = optionbox.currentText()
-          
+
+        for id, checkbox in self.checkboxes.items():
+            general_config[id] = checkbox.isChecked()
+
         changed_config_settings = self.config_keys_which_changed(old_config, general_config)
         self.changesMade.emit(changed_config_settings)
 

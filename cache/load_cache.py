@@ -34,17 +34,23 @@ def load_cache(ui):
     # The Morlet grid (0.25 … 45 Hz) is interpolated from the Welch grid so
     # that both arrays align without any additional caching or computation.
     srate    = ui.config[0]["Sampling_rate_hz"]
-    max_freq = min(45.0, srate / 2 - 0.25)
-    tf_freqs = np.arange(0.25, max_freq + 0.25, 0.25)
+    tf_limits = ui.config[0].get("TF_frequency_limits_hz", [0.25, 45])
+    min_freq = max(float(tf_limits[0]), 0.1)
+    max_freq = min(float(tf_limits[1]), srate / 2 - 0.25)
+    tf_freqs = np.geomspace(min_freq, max_freq, 120)
+    ui.tf_freqs = tf_freqs
 
     log_power   = np.log10(np.maximum(ui.power, 1e-30))          # (n_epochs, n_freqs_welch)
     median_welch = np.median(log_power, axis=0)                   # (n_freqs_welch,)
     iqr_welch    = (np.percentile(log_power, 75, axis=0)
                     - np.percentile(log_power, 25, axis=0))       # (n_freqs_welch,)
     iqr_welch    = np.maximum(iqr_welch, 1e-6)
+    rms_welch    = np.sqrt(np.mean(log_power ** 2, axis=0))         # (n_freqs_welch,)
+    rms_welch    = np.maximum(rms_welch, 1e-6)
 
     ui.tf_norm_median = np.interp(tf_freqs, ui.freqs, median_welch)
     ui.tf_norm_iqr    = np.interp(tf_freqs, ui.freqs, iqr_welch)
+    ui.tf_norm_rms    = np.interp(tf_freqs, ui.freqs, rms_welch)
 
     # Write cache
     write_cache(ui, cache)

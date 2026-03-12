@@ -10,6 +10,13 @@ def default_configuration(number_of_channels, srate, channel_names):
         "Spectogram_limit_hz": [0, 20],
         "Periodogram_limit_hz": [4, 26],
         "EEG_panel_time_unit": "Seconds",
+        "TF_display_mode": "Z-scored Power",
+        "TF_frequency_scale": "Logarithmic",
+        "TF_frequency_limits_hz": [0.25, 45],
+        "TF_y_axis_scale": "Logarithmic",
+        "TF_y_axis_limits": [None, None],
+        "TF_channel": channel_names[0] if len(channel_names) > 0 else "Channel 1",
+        "TF_panel_visible": True,
     }
 
     configuration_settings[1] = [

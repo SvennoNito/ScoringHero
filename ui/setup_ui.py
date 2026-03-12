@@ -42,6 +42,7 @@ def setup_ui(ui, MainWindow):
     # set the grid layout
     layout = QGridLayout()
     ui.centralwidget.setLayout(layout)
+    ui.central_layout = layout
 
     # Build widgets
     ui.SignalWidget = SignalWidget(ui.centralwidget)
@@ -74,11 +75,11 @@ def setup_ui(ui, MainWindow):
     ui.PaintEventWidget.changesMade.connect(lambda ui=ui: paint_event_handler(ui))
 
     # Layout
-    # Rows 10-69  (60 rows): main EEG signal panel
-    layout.addWidget(ui.SignalWidget.axes, 10, 0, 60, 101)
-    layout.addWidget(ui.PaintEventWidget, 10, 0, 60, 101)
-    # Rows 70-94  (25 rows): time-frequency panel
-    layout.addWidget(ui.TFWidget.graphics, 70, 0, 25, 101)
+    # Rows 10-77  (68 rows): main EEG signal panel
+    layout.addWidget(ui.SignalWidget.axes, 10, 0, 68, 101)
+    layout.addWidget(ui.PaintEventWidget, 10, 0, 68, 101)
+    # Rows 78-94  (17 rows): time-frequency panel
+    layout.addWidget(ui.TFWidget.graphics, 78, 0, 17, 101)
     # Rows 0-9: top panels (unchanged)
     layout.addWidget(ui.SpectogramWidget.graphics, 0, 0, 10, 55)
     layout.addWidget(ui.SpectogramSlider, 1, 55, 8, 1)

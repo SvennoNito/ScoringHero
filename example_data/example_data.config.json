@@ -17,7 +17,20 @@
       26
     ],
     "EEG_panel_time_unit": "Hours",
-    "Reference_amplitude_line_muV": 40
+    "Reference_amplitude_line_muV": 40,
+    "TF_display_mode": "L2-Normalized Power",
+    "TF_frequency_scale": "Logarithmic",
+    "TF_frequency_limits_hz": [
+      1.0,
+      45.0
+    ],
+    "TF_y_axis_scale": "Logarithmic",
+    "TF_y_axis_limits": [
+      null,
+      null
+    ],
+    "TF_channel": "C3-A2",
+    "TF_panel_visible": true
   },
   [
     {

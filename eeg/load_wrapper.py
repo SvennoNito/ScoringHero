@@ -10,6 +10,7 @@ from .number_of_epochs import number_of_epochs
 from cache.load_cache import load_cache
 from signal_processing.times_vector import times_vector
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
+from utilities.apply_tf_visibility import apply_tf_visibility
 
 
 @timing_decorator
@@ -48,5 +49,20 @@ def load_wrapper(ui, datatype):
     load_cache(ui)
     ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
     ui.HypnogramWidget.draw_hypnogram(ui)
+    srate = ui.config[0]["Sampling_rate_hz"]
+    display_mode = ui.config[0].get("TF_display_mode", "Z-scored Power")
+    freq_scale = ui.config[0].get("TF_frequency_scale", "Logarithmic")
+    freq_limits = ui.config[0].get("TF_frequency_limits_hz", None)
+    y_axis_scale = ui.config[0].get("TF_y_axis_scale", "Logarithmic")
+    y_axis_limits = ui.config[0].get("TF_y_axis_limits", None)
+    time_unit = ui.config[0].get("EEG_panel_time_unit", "Seconds")
+    epoch_length = ui.config[0]["Epoch_length_s"]
+    tf_channel_label = ui.config[0].get("TF_channel", "")
+    channel_labels = [ch["Channel_name"] for ch in ui.config[1]]
+    tf_channel_idx = channel_labels.index(tf_channel_label) if tf_channel_label in channel_labels else 0
+    ui.TFWidget.draw_tf(ui.eeg_data, ui.times, ui.this_epoch, srate, ui.tf_freqs,
+                        ui.tf_norm_median, ui.tf_norm_iqr, ui.tf_norm_rms, display_mode, freq_scale, freq_limits,
+                        y_axis_scale, y_axis_limits, time_unit, epoch_length, tf_channel_idx)
+    apply_tf_visibility(ui)
     for container in ui.AnnotationContainer:
         draw_event_in_this_epoch(ui, container)
