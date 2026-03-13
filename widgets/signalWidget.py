@@ -27,6 +27,8 @@ class SignalWidget(QWidget):
             "Blue": (100, 149, 237),
             "Magenta": (233, 30, 99),
             "Green": (0, 128, 64),
+            "Orange": (255, 140, 0),
+            "Cyan": (0, 200, 200),
         }
 
         self.x_unit_format = {

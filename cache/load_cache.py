@@ -52,5 +52,9 @@ def load_cache(ui):
     ui.tf_norm_iqr    = np.interp(tf_freqs, ui.freqs, iqr_welch)
     ui.tf_norm_rms    = np.interp(tf_freqs, ui.freqs, rms_welch)
 
+    median_linear_welch = np.median(ui.power, axis=0)            # (n_freqs_welch,) linear scale
+    median_linear_welch = np.maximum(median_linear_welch, 1e-30)
+    ui.tf_norm_median_linear = np.interp(tf_freqs, ui.freqs, median_linear_welch)
+
     # Write cache
     write_cache(ui, cache)

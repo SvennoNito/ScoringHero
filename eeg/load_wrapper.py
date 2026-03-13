@@ -59,7 +59,8 @@ def load_wrapper(ui, datatype):
     channel_labels = [ch["Channel_name"] for ch in ui.config[1]]
     tf_channel_idx = channel_labels.index(tf_channel_label) if tf_channel_label in channel_labels else 0
     ui.TFWidget.draw_tf(ui.eeg_data, ui.times, ui.this_epoch, srate, ui.tf_freqs,
-                        ui.tf_norm_median, ui.tf_norm_iqr, ui.tf_norm_rms, display_mode, freq_scale, freq_limits,
+                        ui.tf_norm_median, ui.tf_norm_iqr, ui.tf_norm_rms, ui.tf_norm_median_linear,
+                        display_mode, freq_scale, freq_limits,
                         time_unit, epoch_length, tf_channel_idx, tf_channel_label)
     apply_tf_visibility(ui)
     for container in ui.AnnotationContainer:

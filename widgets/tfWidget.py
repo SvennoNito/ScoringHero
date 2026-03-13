@@ -91,7 +91,7 @@ class TFWidget(QWidget):
     }
 
     def _render(self, eeg_data, times_and_indices, this_epoch, srate, freqs,
-                norm_median, norm_iqr, norm_rms, display_mode="Z-scored Power",
+                norm_median, norm_iqr, norm_rms, norm_median_linear=None, display_mode="Z-scored Power",
                 freq_scale="Logarithmic", freq_limits=None,
                 time_unit="Seconds", epoch_length=30, tf_channel_idx=0, channel_label=""):
         """Compute Morlet power for this_epoch and update the ImageItem.
@@ -122,6 +122,8 @@ class TFWidget(QWidget):
             norm_med = np.interp(freqs_for_compute, freqs, norm_median)
             norm_iq = np.interp(freqs_for_compute, freqs, norm_iqr)
             norm_rms = np.interp(freqs_for_compute, freqs, norm_rms)
+            if norm_median_linear is not None:
+                norm_median_linear = np.interp(freqs_for_compute, freqs, norm_median_linear)
 
         # --- compute power on the full extended epoch signal -----------
         signal    = eeg_data[tf_channel_idx][epoch_indices].astype(np.float64)
@@ -146,6 +148,13 @@ class TFWidget(QWidget):
             # robust z-score using night-wide log-power median/IQR per frequency
             power_display = (power_transformed - norm_med[:, np.newaxis]) / norm_iq[:, np.newaxis]
             levels = [-3, 3]
+
+        elif display_mode == "Morales":
+            # dB relative to median baseline: 10 * log10(power / baseline)
+            # = 10 * (log10(power) - log10(baseline))
+            baseline_log = np.log10(np.maximum(norm_median_linear, 1e-30))
+            power_display = 10 * (power_transformed - baseline_log[:, np.newaxis])
+            levels = [0, 20]
 
         # --- filter to frequency limits if specified -------------------
         if freq_limits is not None:
@@ -243,19 +252,19 @@ class TFWidget(QWidget):
 
     # ------------------------------------------------------------------
     def draw_tf(self, eeg_data, times_and_indices, this_epoch, srate, freqs,
-                norm_median, norm_iqr, norm_rms, display_mode="Z-scored Power",
+                norm_median, norm_iqr, norm_rms, norm_median_linear=None, display_mode="Z-scored Power",
                 freq_scale="Logarithmic", freq_limits=None,
                 time_unit="Seconds", epoch_length=30, tf_channel_idx=0, channel_label=""):
         """First-time draw (called from redraw_gui)."""
         self._render(eeg_data, times_and_indices, this_epoch, srate, freqs,
-                     norm_median, norm_iqr, norm_rms, display_mode, freq_scale, freq_limits,
+                     norm_median, norm_iqr, norm_rms, norm_median_linear, display_mode, freq_scale, freq_limits,
                      time_unit, epoch_length, tf_channel_idx, channel_label)
 
     def update_tf(self, eeg_data, times_and_indices, this_epoch, srate, freqs,
-                  norm_median, norm_iqr, norm_rms, display_mode="Z-scored Power",
+                  norm_median, norm_iqr, norm_rms, norm_median_linear=None, display_mode="Z-scored Power",
                   freq_scale="Logarithmic", freq_limits=None,
                   time_unit="Seconds", epoch_length=30, tf_channel_idx=0, channel_label=""):
         """Lightweight update on every epoch change (called from refresh_gui)."""
         self._render(eeg_data, times_and_indices, this_epoch, srate, freqs,
-                     norm_median, norm_iqr, norm_rms, display_mode, freq_scale, freq_limits,
+                     norm_median, norm_iqr, norm_rms, norm_median_linear, display_mode, freq_scale, freq_limits,
                      time_unit, epoch_length, tf_channel_idx, channel_label)

@@ -433,7 +433,7 @@ class WaveletConfiguration(QDialog):
         row_layout = QHBoxLayout()
         row_layout.addWidget(norm_label)
         norm_box = QComboBox(self)
-        for option in ["Raw Power", "L2-Normalized Power", "Z-Standardized Power"]:
+        for option in ["Raw Power", "L2-Normalized Power", "Z-Standardized Power", "Morales"]:
             norm_box.addItem(option)
         norm_box.setCurrentText(general_config["Wavelet_display_mode"])
         norm_box.currentIndexChanged.connect(lambda: self.apply_changes(general_config))
@@ -584,6 +584,8 @@ class ChannelConfiguration(QDialog):
             colorbox.addItem("Blue")
             colorbox.addItem("Green")
             colorbox.addItem("Magenta")
+            colorbox.addItem("Orange")
+            colorbox.addItem("Cyan")
             colorbox.setCurrentText(chaninfo["Channel_color"])
             colorbox.currentIndexChanged.connect(lambda: self.change_event(channel_config))
 

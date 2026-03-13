@@ -4,7 +4,7 @@
     "Epoch_length_s": 30,
     "Distance_between_channels_muV": 25,
     "Reference_amplitude_line_muV": 37.5,
-    "Channel_for_spectogram": 1,
+    "Channel_for_spectogram": "F3-A2",
     "Extension_epoch_s": [
       5,
       5
@@ -18,13 +18,13 @@
       26
     ],
     "EEG_panel_time_unit": "Seconds",
-    "Wavelet_display_mode": "Raw Power",
+    "Wavelet_display_mode": "Morales",
     "Wavelet_frequency_scale": "Logarithmic",
     "Wavelet_frequency_limits_hz": [
       1.0,
-      35.0
+      45.0
     ],
-    "Wavelet_channel": "F3-A2",
+    "Wavelet_channel": "C3-A2",
     "Wavelet_panel_visible": true
   },
   [

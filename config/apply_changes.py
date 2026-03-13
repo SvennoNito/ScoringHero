@@ -72,6 +72,9 @@ def apply_changes(config_parameter_name, ui):
         ui.tf_norm_median = np.interp(ui.tf_freqs, ui.freqs, median_welch)
         ui.tf_norm_iqr = np.interp(ui.tf_freqs, ui.freqs, iqr_welch)
         ui.tf_norm_rms = np.interp(ui.tf_freqs, ui.freqs, rms_welch)
+        median_linear_welch = np.median(ui.power, axis=0)
+        median_linear_welch = np.maximum(median_linear_welch, 1e-30)
+        ui.tf_norm_median_linear = np.interp(ui.tf_freqs, ui.freqs, median_linear_welch)
 
     # Apply TF panel visibility
     apply_tf_visibility(ui)
