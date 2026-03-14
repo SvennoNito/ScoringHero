@@ -118,35 +118,6 @@ class SignalWidget(QWidget):
             # )
             # self.axes.addItem(amplitude_line)
 
-            # Add +37.5 muV text on the first channel
-            if chan_counter == 0 and this_epoch == 1:
-                text1 = pg.TextItem(text=f"+{config[0]["Reference_amplitude_line_muV"]} \u03BCV", color=(150, 150, 150), anchor=(0, 0.5))
-                text2 = pg.TextItem(text=f"-{config[0]["Reference_amplitude_line_muV"]} \u03BCV", color=(150, 150, 150), anchor=(0, 0.5))
-                text1.setPos(
-                    times[0],
-                    0
-                    - config[0]["Distance_between_channels_muV"]
-                    + config[1][visible_counter]["Vertical_shift"]
-                    * numchans_visible
-                    * chan_counter
-                    + config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
-                )
-                text2.setPos(
-                    times[0],
-                    0
-                    - config[0]["Distance_between_channels_muV"]
-                    + config[1][visible_counter]["Vertical_shift"]
-                    * numchans_visible
-                    * chan_counter
-                    - config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
-                )
-                font = QFont()
-                font.setPixelSize(18)
-                text1.setFont(font)
-                text2.setFont(font)
-                self.axes.addItem(text1)
-                self.axes.addItem(text2)
-
             # Add channel labels
             channel_label = pg.TextItem(
                 text=config[1][visible_counter]["Channel_name"],
@@ -162,6 +133,22 @@ class SignalWidget(QWidget):
             channel_label.setFont(font)
             self.axes.addItem(channel_label)
             self.written_channel_labels.append(channel_label)
+
+        # µV tick labels on left axis for the first visible channel
+        vc0 = index_visible_chans[0]
+        ref_amp = config[0]["Reference_amplitude_line_muV"]
+        scaling = config[1][vc0]["Scaling_factor"]
+        vshift  = config[1][vc0]["Vertical_shift"]
+        base    = vshift
+        top_pos = base + ref_amp * scaling / 100
+        bot_pos = base - ref_amp * scaling / 100
+        ref_label = int(ref_amp) if ref_amp == int(ref_amp) else ref_amp
+        left_axis = self.axes.getAxis("left")
+        left_axis.setTicks([[(top_pos, f"+{ref_label}"), (base, "0"), (bot_pos, f"-{ref_label}")]])
+        tick_font = QFont()
+        tick_font.setPixelSize(8)
+        left_axis.setTickFont(tick_font)
+        left_axis.setStyle(tickTextOffset=2, tickLength=0)
 
         # Draw background and adjust axes
         self.adjust_time_axis(config, times)

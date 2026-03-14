@@ -29,19 +29,33 @@ class TFWidget(QWidget):
         self.axes.setLabel("left", "")
         self.axes.setLabel("bottom", "")
         left_ax = self.axes.getAxis("left")
-        left_ax.setStyle(showValues=False, tickLength=-8)
-        left_ax.setWidth(0)
+        left_ax.setStyle(showValues=True, tickLength=8)
+        left_ax.setWidth(35)
+        tick_font = QFont()
+        tick_font.setPixelSize(8)
+        left_ax.setTickFont(tick_font)
         self.axes.getAxis("bottom").setStyle(tickLength=-8)
 
         self._colormap = self._load_colormap(app_path)
         self.img = pg.ImageItem()
         self.img.setColorMap(self._colormap)
         self.axes.addItem(self.img)
-        self._freq_labels = []  # TextItems drawn inside the plot
+        self._freq_labels = []  # kept for cleanup; no longer drawn inside the plot
+        #self._hz_label = pg.TextItem(text="Hz", color=(150, 150, 150), anchor=(0.5, 0))
+        #self._hz_label.setParentItem(left_ax)
+        #self._hz_label.setPos(17, 2)
         self._freq_scale = "Logarithmic"  # default frequency scale
         self._freqs_filtered = None  # current filtered frequencies
         self._ref_lines = []  # horizontal reference lines at fixed Hz values
         self._prev_n_times = None  # tracks n_times to detect image size changes
+
+        self.axes.setLabel("left", "Hz", units=None)
+        left_ax = self.axes.getAxis("left")
+        left_ax.setLabel(text="Hz", **{"font-size": "6pt", "color": "#999"})
+        left_ax.setStyle(tickTextOffset=6)        
+        left_ax.setLabel(text="[Hz]")
+        #left_ax.label.setFixedWidth(20)   # important: fixed geometry
+        left_ax.setWidth(35)              # keep same as before        
 
         # Internal colorbar: narrow ImageItem + two TextItem labels
         self._cbar_img = pg.ImageItem()
@@ -61,6 +75,7 @@ class TFWidget(QWidget):
         font = QFont()
         font.setBold(True)
         self._channel_label.setFont(font)
+        self._channel_label.setStyleSheet("color: white;")
         self._channel_label.setAttribute(Qt.WA_TranslucentBackground)
         self._channel_label.setObjectName("tf_channel_label")
         channel_layout = QVBoxLayout(self.graphics)
@@ -253,17 +268,12 @@ class TFWidget(QWidget):
             desired_hz = [f for f in desired_hz if f <= hi]
 
         freq_ticks = []
-        x_offset = n_times * 0.003
         ref_pen = pg.mkPen(color=(255, 255, 255, 160), width=1.0,
                            style=Qt.PenStyle.DotLine)
         for f in desired_hz:
             if freqs_filtered[0] <= f <= freqs_filtered[-1]:
                 idx = int(np.argmin(np.abs(freqs_filtered - f)))
-                freq_ticks.append((idx, ""))
-                lbl = pg.TextItem(text=f"{f:g} Hz", color=(0, 0, 0), anchor=(0, 0.5))
-                lbl.setPos(x_offset, idx)
-                self.axes.addItem(lbl)
-                self._freq_labels.append(lbl)
+                freq_ticks.append((idx, f"{f:g}"))
                 ref_idx = float(np.interp(f, freqs_filtered, np.arange(n_freqs)))
                 line = pg.InfiniteLine(pos=ref_idx, angle=0, pen=ref_pen)
                 line.setZValue(9)
