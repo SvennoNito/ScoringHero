@@ -23,6 +23,7 @@ class SpectogramWidget(QtWidgets.QWidget):
         font.setBold(True)
         self._channel_label.setFont(font)
         self._channel_label.setAttribute(Qt.WA_TranslucentBackground)
+        self._channel_label.setAttribute(Qt.WA_TransparentForMouseEvents)
         self._channel_label.setStyleSheet("color: white;")
         self._channel_label.setObjectName("spectogram_channel_label")
         channel_layout = QVBoxLayout(self.graphics)
@@ -181,12 +182,11 @@ class SpectogramWidget(QtWidgets.QWidget):
         self.epoch_indicator_line.setPos(this_epoch + 0.5)
 
     def coordinates_upon_mousclick(self, event):
-        mouse_pos = self.graphics.mapFromScene(event.scenePos())
-        image_pos = self.axes.mapFromParent(mouse_pos)
-        mouse_click_coordinates = self.axes.mapToView(image_pos)
-        x_axis_range = self.axes.getViewBox().viewRange()[0]
-        if (
-            mouse_click_coordinates.x() >= x_axis_range[0]
-            and mouse_click_coordinates.x() < x_axis_range[1]
-        ):
-            return np.floor(mouse_click_coordinates.x()).astype(int)
+        if self.axes.getViewBox().sceneBoundingRect().contains(event.scenePos()):
+            mouse_click_coordinates = self.axes.getViewBox().mapSceneToView(event.scenePos())
+            x_axis_range = self.axes.getViewBox().viewRange()[0]
+            if (
+                mouse_click_coordinates.x() >= x_axis_range[0]
+                and mouse_click_coordinates.x() < x_axis_range[1]
+            ):
+                return np.floor(mouse_click_coordinates.x()).astype(int)

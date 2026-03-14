@@ -585,7 +585,7 @@ class ChannelConfiguration(QDialog):
             general_config.get("Stack_channels", False) if general_config is not None else False
         )
         self.stack_channels_checkbox.stateChanged.connect(self._on_stack_changed)
-        self.z_standardize_checkbox = QCheckBox("Robust z-standardize channels")
+        self.z_standardize_checkbox = QCheckBox("Robustly z-standardize channels")
         self.z_standardize_checkbox.setChecked(
             general_config.get("Robust_z_standardize", False) if general_config is not None else False
         )

@@ -24,6 +24,8 @@ class TFWidget(QWidget):
         self.graphics = pg.GraphicsLayoutWidget(centralWidget)
         self.graphics.setObjectName("TFWidget")
         self.graphics.setBackground("w")
+        self.graphics.ci.layout.setContentsMargins(0, 0, 0, 0)
+        self.graphics.ci.layout.setSpacing(0)
 
         self.axes = self.graphics.addPlot()
         self.axes.setLabel("left", "")
@@ -32,7 +34,7 @@ class TFWidget(QWidget):
         left_ax.setStyle(showValues=True, tickLength=0)
         left_ax.setWidth(35)
         tick_font = QFont()
-        tick_font.setPixelSize(8)
+        tick_font.setPixelSize(10)
         left_ax.setTickFont(tick_font)
         self.axes.getAxis("bottom").setStyle(tickLength=-8)
 
@@ -49,13 +51,12 @@ class TFWidget(QWidget):
         self._ref_lines = []  # horizontal reference lines at fixed Hz values
         self._prev_n_times = None  # tracks n_times to detect image size changes
 
-        self.axes.setLabel("left", "Hz", units=None)
+        # self.axes.setLabel("left", "Hz", units=None)
         left_ax = self.axes.getAxis("left")
-        left_ax.setLabel(text="Hz", **{"font-size": "6pt", "color": "#999"})
-        left_ax.setStyle(tickTextOffset=6)        
-        left_ax.setLabel(text="[Hz]")
+        # left_ax.setLabel(text="Hz", **{"font-size": "8pt", "color": "#999"})
+        # left_ax.setStyle(tickTextOffset=2)        
         #left_ax.label.setFixedWidth(20)   # important: fixed geometry
-        left_ax.setWidth(35)              # keep same as before        
+        # left_ax.setWidth(30)              # keep same as before        
 
         # Internal colorbar: narrow ImageItem + two TextItem labels
         self._cbar_img = pg.ImageItem()
@@ -273,7 +274,7 @@ class TFWidget(QWidget):
         for f in desired_hz:
             if freqs_filtered[0] <= f <= freqs_filtered[-1]:
                 idx = int(np.argmin(np.abs(freqs_filtered - f)))
-                freq_ticks.append((idx, f"{f:g}"))
+                freq_ticks.append((idx, f"{f:g}Hz"))
                 ref_idx = float(np.interp(f, freqs_filtered, np.arange(n_freqs)))
                 line = pg.InfiniteLine(pos=ref_idx, angle=0, pen=ref_pen)
                 line.setZValue(9)

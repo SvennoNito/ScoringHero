@@ -177,9 +177,10 @@ class SignalWidget(QWidget):
             ref_label = int(ref_amp) if ref_amp == int(ref_amp) else ref_amp
             left_axis.setTicks([[(top_pos, f"+{ref_label}"), (base, "0"), (bot_pos, f"-{ref_label}")]])
         tick_font = QFont()
-        tick_font.setPixelSize(8)
+        tick_font.setPixelSize(10)
         left_axis.setTickFont(tick_font)
         left_axis.setStyle(tickTextOffset=2, tickLength=0)
+        left_axis.setWidth(35)
 
         # Draw background and adjust axes
         self.adjust_time_axis(config, times)
