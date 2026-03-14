@@ -18,76 +18,94 @@
       26
     ],
     "EEG_panel_time_unit": "Seconds",
-    "Wavelet_display_mode": "Morales",
-    "Wavelet_frequency_scale": "Logarithmic",
+    "Wavelet_display_mode": "L2-Normalized Power",
+    "Wavelet_frequency_scale": "Linear",
     "Wavelet_frequency_limits_hz": [
       1.0,
       45.0
     ],
-    "Wavelet_channel": "C3-A2",
-    "Wavelet_panel_visible": true
+    "Wavelet_channel": "F4-A1",
+    "Wavelet_panel_visible": true,
+    "Wavelet_power_limits": {
+      "Raw Power": [
+        -1,
+        3
+      ],
+      "L2-Normalized Power": [
+        -1.0,
+        3.0
+      ],
+      "Z-Standardized Power": [
+        -3,
+        3
+      ],
+      "Morales": [
+        0,
+        20
+      ]
+    }
   },
   [
     {
       "Channel_name": "F3-A2",
       "Channel_color": "Black",
-      "Display_on_screen": 1,
+      "Display_on_screen": true,
       "Scaling_factor": 100,
       "Vertical_shift": 0
     },
     {
       "Channel_name": "F4-A1",
       "Channel_color": "Black",
-      "Display_on_screen": 0,
+      "Display_on_screen": true,
       "Scaling_factor": 100,
       "Vertical_shift": 0
     },
     {
       "Channel_name": "C3-A2",
       "Channel_color": "Black",
-      "Display_on_screen": 1,
+      "Display_on_screen": true,
       "Scaling_factor": 100,
       "Vertical_shift": 0
     },
     {
       "Channel_name": "C4-A1",
       "Channel_color": "Black",
-      "Display_on_screen": 0,
+      "Display_on_screen": false,
       "Scaling_factor": 100,
       "Vertical_shift": 0
     },
     {
       "Channel_name": "O1-A2",
       "Channel_color": "Black",
-      "Display_on_screen": 1,
+      "Display_on_screen": true,
       "Scaling_factor": 100,
       "Vertical_shift": 0
     },
     {
       "Channel_name": "O2-A1",
       "Channel_color": "Black",
-      "Display_on_screen": 0,
+      "Display_on_screen": false,
       "Scaling_factor": 100,
       "Vertical_shift": 0
     },
     {
       "Channel_name": "EOG1",
       "Channel_color": "Blue",
-      "Display_on_screen": 1,
+      "Display_on_screen": true,
       "Scaling_factor": 100,
       "Vertical_shift": 0
     },
     {
       "Channel_name": "EOG2",
       "Channel_color": "Blue",
-      "Display_on_screen": 1,
+      "Display_on_screen": true,
       "Scaling_factor": 100,
       "Vertical_shift": 0
     },
     {
       "Channel_name": "EMG",
       "Channel_color": "Magenta",
-      "Display_on_screen": 1,
+      "Display_on_screen": true,
       "Scaling_factor": 100,
       "Vertical_shift": 0
     }

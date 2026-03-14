@@ -18,10 +18,12 @@ def redraw_gui(ui):
     tf_channel_label = ui.config[0].get("Wavelet_channel", "")
     channel_labels = [ch["Channel_name"] for ch in ui.config[1]]
     tf_channel_idx = channel_labels.index(tf_channel_label) if tf_channel_label in channel_labels else 0
+    power_limits = ui.config[0].get("Wavelet_power_limits", None)
     ui.TFWidget.draw_tf(ui.eeg_data, ui.times, ui.this_epoch, srate, ui.tf_freqs,
                         ui.tf_norm_median, ui.tf_norm_iqr, ui.tf_norm_rms, ui.tf_norm_median_linear,
                         display_mode, freq_scale, freq_limits,
-                        time_unit, epoch_length, tf_channel_idx, tf_channel_label)
+                        time_unit, epoch_length, tf_channel_idx, tf_channel_label,
+                        power_limits)
 
     # Draw annotations
     for container in ui.AnnotationContainer:

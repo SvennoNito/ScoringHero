@@ -436,10 +436,40 @@ class WaveletConfiguration(QDialog):
         for option in ["Raw Power", "L2-Normalized Power", "Z-Standardized Power", "Morales"]:
             norm_box.addItem(option)
         norm_box.setCurrentText(general_config["Wavelet_display_mode"])
-        norm_box.currentIndexChanged.connect(lambda: self.apply_changes(general_config))
         self.optionboxes["Wavelet_display_mode"] = [norm_box]
         row_layout.addWidget(norm_box)
         form_layout.addRow(row_layout)
+
+        # Colorbar limits (one row; values update when normalization changes)
+        power_label = QLabel("Colorbar limits")
+        power_label.setAlignment(Qt.AlignRight)
+        power_label.setFixedWidth(self.width_label)
+        row_layout = QHBoxLayout()
+        row_layout.addWidget(power_label)
+        current_norm = general_config.get("Wavelet_display_mode", "Raw Power")
+        power_limits_dict = general_config.get("Wavelet_power_limits", {})
+        _fallback = {"Raw Power": [-1, 3], "L2-Normalized Power": [-1, 3],
+                     "Z-Standardized Power": [-3, 3], "Morales": [0, 20]}
+        current_limits = power_limits_dict.get(current_norm, _fallback.get(current_norm, [-1, 3]))
+        self._power_min_spin = QDoubleSpinBox(self)
+        self._power_min_spin.setMinimum(-1000)
+        self._power_min_spin.setMaximum(1000)
+        self._power_min_spin.setDecimals(1)
+        self._power_min_spin.setValue(current_limits[0])
+        self._power_min_spin.editingFinished.connect(lambda: self._on_power_limits_changed(general_config))
+        self._power_max_spin = QDoubleSpinBox(self)
+        self._power_max_spin.setMinimum(-1000)
+        self._power_max_spin.setMaximum(1000)
+        self._power_max_spin.setDecimals(1)
+        self._power_max_spin.setValue(current_limits[1])
+        self._power_max_spin.editingFinished.connect(lambda: self._on_power_limits_changed(general_config))
+        row_layout.addWidget(self._power_min_spin)
+        row_layout.addWidget(self._power_max_spin)
+        form_layout.addRow(row_layout)
+
+        # Connect normalization dropdown after power spinboxes are created
+        self._norm_box = norm_box
+        norm_box.currentIndexChanged.connect(lambda: self._on_norm_changed(general_config))
 
         # Visibility checkbox
         labelbox = QLabel("Show wavelet decomposition")
@@ -456,6 +486,35 @@ class WaveletConfiguration(QDialog):
 
         layout.addLayout(form_layout)
         layout.addStretch(1)
+
+    def _on_norm_changed(self, general_config):
+        """Normalization dropdown changed: save current spinbox values under old mode, then switch."""
+        old_norm = general_config.get("Wavelet_display_mode", "Raw Power")
+        general_config.setdefault("Wavelet_power_limits", {})[old_norm] = [
+            float(self._power_min_spin.value()),
+            float(self._power_max_spin.value()),
+        ]
+        self.apply_changes(general_config)
+        new_norm = self._norm_box.currentText()
+        _fallback = {"Raw Power": [-1, 3], "L2-Normalized Power": [-1, 3],
+                     "Z-Standardized Power": [-3, 3], "Morales": [0, 20]}
+        limits = general_config.get("Wavelet_power_limits", {}).get(
+            new_norm, _fallback.get(new_norm, [-1, 3]))
+        self._power_min_spin.blockSignals(True)
+        self._power_max_spin.blockSignals(True)
+        self._power_min_spin.setValue(limits[0])
+        self._power_max_spin.setValue(limits[1])
+        self._power_min_spin.blockSignals(False)
+        self._power_max_spin.blockSignals(False)
+
+    def _on_power_limits_changed(self, general_config):
+        """Power limit spinbox edited: save under current normalization mode."""
+        current_norm = self._norm_box.currentText()
+        general_config.setdefault("Wavelet_power_limits", {})[current_norm] = [
+            float(self._power_min_spin.value()),
+            float(self._power_max_spin.value()),
+        ]
+        self.apply_changes(general_config)
 
     def apply_changes(self, general_config):
         old_config = copy.deepcopy(general_config)
