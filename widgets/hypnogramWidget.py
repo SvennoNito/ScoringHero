@@ -53,7 +53,8 @@ class HypnogramWidget(QWidget):
     @timing_decorator
     def draw_hypnogram(self, ui):
         self.axes.clear()
-        # self.stage_items = []
+        self.stage_items = {}
+        self.event_items = []
         self.times = np.arange(0, ui.numepo) * ui.config[0]["Epoch_length_s"] / 3600
         times = np.repeat(self.times, 2)
         stages = np.array([stage["digit"] for stage in ui.stages])
@@ -63,14 +64,13 @@ class HypnogramWidget(QWidget):
             data[stages == stage] = stage
             data = np.concatenate(np.column_stack((data, data - 1)))
             pen = pg.mkPen(color=color, width=1)
-            self.axes.plot(times, data, pen=pen)
-            # item = pg.PlotDataItem(times, data, pen=pen)
-            # self.stage_items.append(item)
-            # self.axes.addItem(item)    
+            item = pg.PlotDataItem(times, data, pen=pen)
+            self.axes.addItem(item)
+            self.stage_items[stage] = item
 
         # Draw events
         self.draw_events(ui)
-            
+
         # Axis limits
         self.axes.setXRange(times[0], times[-1], padding=0)
 
@@ -89,24 +89,27 @@ class HypnogramWidget(QWidget):
             self.axes.getAxis("bottom").setTicks([])
 
         # Draw SWA
-        # SWA[SWA > np.median(SWA) + 1 * np.std(SWA)] = np.nan
         self.draw_swa_in_time(ui.swa)
-        # self.axes.plot(self.times, SWA * (1 - (-4)) + (-4), pen=pg.mkPen(color=(11, 28, 44, 20)), width=.1, style=Qt.DotLine)
 
     def draw_events(self, ui):
-        # self.times = np.arange(0, ui.numepo) * ui.config[0]["Epoch_length_s"] / 3600
-        times = np.repeat(self.times, 2)        
-        
-        # Draw events
+        times = np.repeat(self.times, 2)
         for container in ui.AnnotationContainer:
             epochs = np.array(list(set(chain.from_iterable(container.epochs)))) - 1
             if len(epochs) > 0:
                 data = np.zeros(ui.numepo)
-                data[:] = np.nan                
+                data[:] = np.nan
                 data[epochs] = 2
                 data = np.concatenate(np.column_stack((data, data - 1)))
                 pen = pg.mkPen(color=container.facecolor[0:3], width=2)
-                self.axes.plot(times, data, pen=pen)        
+                item = pg.PlotDataItem(times, data, pen=pen)
+                self.axes.addItem(item)
+                self.event_items.append(item)
+
+    def update_events(self, ui):
+        for item in self.event_items:
+            self.axes.removeItem(item)
+        self.event_items = []
+        self.draw_events(ui)
 
 
 
@@ -148,15 +151,15 @@ class HypnogramWidget(QWidget):
 
 
     @timing_decorator
-    def update_hypnogram(self, scoring, numepo, this_epoch):
-        return
-        # this_stage   = scoring[this_epoch]['digit']
-        # stages       = np.array([stage['digit'] for stage in scoring])
-        # data         = np.zeros(numepo)
-        # data[:]      = np.nan
-        # data[stages == this_stage] = this_stage
-        # data         = np.concatenate(np.column_stack((data, data-1)))
-        # self.stage_items[this_stage + 4].setData(x=np.repeat(self.times, 2), y=data)
+    def update_hypnogram(self, ui):
+        stages = np.array([stage["digit"] for stage in ui.stages])
+        times = np.repeat(self.times, 2)
+        for stage, item in self.stage_items.items():
+            data = np.zeros(ui.numepo)
+            data[:] = np.nan
+            data[stages == stage] = stage
+            data = np.concatenate(np.column_stack((data, data - 1)))
+            item.setData(times, data)
 
     def update_epoch_indicator(self, this_epoch):
         self.epoch_indicator_line.setPos(self.times[this_epoch])

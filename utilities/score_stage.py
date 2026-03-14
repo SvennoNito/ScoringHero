@@ -21,9 +21,8 @@ def score_stage(value, ui):
     ui.stages[ui.this_epoch]["confidence"] = None
     ui.stages[ui.this_epoch]["channels"] = [config["Channel_name"] for config in ui.config[1] if config["Display_on_screen"] == 1] if value != None else None
 
-    # Update hypnpgram
-    ui.HypnogramWidget.draw_hypnogram(ui)
-    # ui.HypnogramWidget.update_hypnogram(ui.stages, ui.numepo, ui.this_epoch)
+    # Update hypnogram
+    ui.HypnogramWidget.update_hypnogram(ui)
 
     write_scoring(ui)
     next_epoch(ui)
