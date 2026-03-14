@@ -1,4 +1,7 @@
 from PySide6 import QtWidgets, QtGui
+from PySide6.QtWidgets import QLabel, QVBoxLayout
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont
 import pyqtgraph as pg
 import numpy as np
 from scipy.signal import welch, find_peaks
@@ -11,7 +14,17 @@ class SpectogramWidget(QtWidgets.QWidget):
         self.graphics = pg.GraphicsLayoutWidget(centralWidget)
         self.graphics.setObjectName("spectogram")
         self.graphics.setBackground("w")
-        self.axes = self.graphics.addPlot()       
+        self.axes = self.graphics.addPlot()
+
+        self._channel_label = QLabel(self.graphics)
+        self._channel_label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
+        font = QFont()
+        font.setBold(True)
+        self._channel_label.setFont(font)
+        self._channel_label.setAttribute(Qt.WA_TranslucentBackground)
+        self._channel_label.setObjectName("spectogram_channel_label")
+        channel_layout = QVBoxLayout(self.graphics)
+        channel_layout.addWidget(self._channel_label)
 
     def draw_spectogram(self, power, freqs, freqsOI, config):
         power = np.log10(power)[:, freqsOI]
@@ -53,6 +66,10 @@ class SpectogramWidget(QtWidgets.QWidget):
 
         # xticks
         self.adjust_time_axis(config, times)
+
+        # Channel label
+        channel_label = config[0].get("Channel_for_spectogram", "")
+        self._channel_label.setText(channel_label)
 
         # Initialize epoch indicator line
         self.epoch_indicator_line = pg.InfiniteLine(
