@@ -47,6 +47,9 @@ def apply_changes(config_parameter_name, ui):
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
         write_cache(ui, ui_to_cache(ui))
 
+    if "Spectrogram_power_limits" in config_parameter_name:
+        ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
+
     if "Periodogram_limit_hz" in config_parameter_name:
         power, freqs = trim_power(
             ui.power[ui.this_epoch],

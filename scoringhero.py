@@ -72,7 +72,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.devmode = 0
+        self.devmode = 1
         self.this_epoch = 0
 
         # Default paths
@@ -118,7 +118,6 @@ if __name__ == "__main__":
         ui.tool_nexttransition.setEnabled(True)
         ui.tool_nextevent.setEnabled(True)
         ui.HypnogramSlider.enable_slider()
-        ui.SpectogramSlider.enable_slider()
 
     appstyler(app)
     apply_app_theme(MainWindow, app, ui.app_path, "modern_theme.qss")

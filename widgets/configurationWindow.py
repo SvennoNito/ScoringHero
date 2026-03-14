@@ -326,6 +326,25 @@ class SpectrogramConfiguration(QDialog):
             row_layout.addWidget(spinbox)
         form_layout.addRow(row_layout)
 
+        # Colorbar limits
+        power_label = QLabel("Colorbar limits")
+        power_label.setAlignment(Qt.AlignRight)
+        power_label.setFixedWidth(self.width_label)
+        row_layout = QHBoxLayout()
+        row_layout.addWidget(power_label)
+        current_limits = general_config.get("Spectrogram_power_limits", [-1, 3])
+        self.spinboxes["Spectrogram_power_limits"] = []
+        for value in current_limits:
+            spinbox = QDoubleSpinBox(self)
+            spinbox.setMinimum(-1000)
+            spinbox.setMaximum(1000)
+            spinbox.setDecimals(1)
+            spinbox.setValue(value)
+            spinbox.editingFinished.connect(lambda: self.apply_changes(general_config))
+            self.spinboxes["Spectrogram_power_limits"].append(spinbox)
+            row_layout.addWidget(spinbox)
+        form_layout.addRow(row_layout)
+
         layout.addLayout(form_layout)
         layout.addStretch(1)
 
@@ -333,7 +352,7 @@ class SpectrogramConfiguration(QDialog):
         old_config = copy.deepcopy(general_config)
         for id, spinbox_list in self.spinboxes.items():
             for index, spinbox in enumerate(spinbox_list):
-                value = int(spinbox.value())
+                value = float(spinbox.value()) if id == "Spectrogram_power_limits" else int(spinbox.value())
                 if isinstance(general_config[id], list):
                     general_config[id][index] = value
                 else:

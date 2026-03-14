@@ -41,6 +41,5 @@ def eeg_import_window(ui, MainWindow, datatype):
 
     # Enable sliders
     ui.HypnogramSlider.enable_slider()
-    ui.SpectogramSlider.enable_slider()
 
     

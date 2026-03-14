@@ -16,7 +16,6 @@ from utilities.score_stage import score_stage
 from scoring.scoring_export_window import scoring_export_window
 from mouse_click.click_on_hypnogram import click_on_hypnogram
 from mouse_click.click_on_spectogram import click_on_spectogram
-from mouse_click.move_spectogram_slider import move_spectogram_slider
 from mouse_click.move_swa_slider import move_swa_slider
 from paint_event.paint_event_handler import paint_event_handler
 from utilities.zoom_on_selected_eeg import zoom_on_selected_eeg
@@ -47,9 +46,8 @@ def setup_ui(ui, MainWindow):
     # Build widgets
     ui.SignalWidget = SignalWidget(ui.centralwidget)
     ui.DisplayedEpochWidget = DisplayedEpochWidget(ui.SignalWidget.axes)
-    ui.SpectogramWidget = SpectogramWidget(ui.centralwidget)
+    ui.SpectogramWidget = SpectogramWidget(ui.centralwidget, ui.app_path)
     ui.HypnogramWidget = HypnogramWidget(ui.centralwidget)
-    ui.SpectogramSlider = SpectogramSlider(ui.centralwidget)
     ui.HypnogramSlider = HypnogramSlider(ui.centralwidget)
     ui.RectanglePower = RectanglePower(ui.centralwidget)
     ui.PaintEventWidget = PaintEventWidget()
@@ -66,9 +64,6 @@ def setup_ui(ui, MainWindow):
     ui.HypnogramWidget.axes.scene().sigMouseClicked.connect(
         lambda event, ui=ui: click_on_hypnogram(event, ui)
     )
-    ui.SpectogramSlider.slider.valueChanged.connect(
-        lambda value, ui=ui: move_spectogram_slider(value, ui)
-    )
     ui.HypnogramSlider.slider.valueChanged.connect(
         lambda value, ui=ui: move_swa_slider(value, ui)
     )
@@ -81,8 +76,7 @@ def setup_ui(ui, MainWindow):
     # Rows 78-94  (17 rows): time-frequency panel
     layout.addWidget(ui.TFWidget.graphics, 78, 0, 17, 101)
     # Rows 0-9: top panels (unchanged)
-    layout.addWidget(ui.SpectogramWidget.graphics, 0, 0, 10, 55)
-    layout.addWidget(ui.SpectogramSlider, 1, 55, 8, 1)
+    layout.addWidget(ui.SpectogramWidget.graphics, 0, 0, 10, 56)
     layout.addWidget(ui.HypnogramWidget.axes, 0, 56, 10, 30)
     layout.addWidget(ui.HypnogramSlider, 1, 86, 8, 1)
     layout.addWidget(ui.RectanglePower.axes, 0, 87, 10, 13)
