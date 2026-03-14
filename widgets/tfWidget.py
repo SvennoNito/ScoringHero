@@ -41,6 +41,7 @@ class TFWidget(QWidget):
         self._freq_scale = "Logarithmic"  # default frequency scale
         self._freqs_filtered = None  # current filtered frequencies
         self._ref_lines = []  # horizontal reference lines at fixed Hz values
+        self._prev_n_times = None  # tracks n_times to detect image size changes
 
         # Internal colorbar: narrow ImageItem + two TextItem labels
         self._cbar_img = pg.ImageItem()
@@ -183,8 +184,6 @@ class TFWidget(QWidget):
         self.img.setImage(power_display.T)
         self.img.setLevels(levels)
         self._channel_label.setText(channel_label)
-        self._freq_scale = freq_scale
-        self._freqs_filtered = freqs_filtered
 
         # --- axis ticks -----------------------------------------------
         n_times = power_ext.shape[1]
@@ -203,48 +202,19 @@ class TFWidget(QWidget):
                 time_ticks.append((int(pos), unit_fmt["format"].format(t / unit_fmt["div"])))
         self.axes.getAxis("bottom").setTicks([time_ticks])
 
-        # Frequency labels drawn inside the plot as TextItems
-        for lbl in self._freq_labels:
-            self.axes.removeItem(lbl)
-        self._freq_labels = []
+        freqs_changed = (
+            self._freqs_filtered is None
+            or len(freqs_filtered) != len(self._freqs_filtered)
+            or not np.array_equal(freqs_filtered, self._freqs_filtered)
+            or self._freq_scale != freq_scale
+            or self._prev_n_times != n_times
+        )
+        self._freq_scale = freq_scale
+        self._freqs_filtered = freqs_filtered
+        self._prev_n_times = n_times
 
-        hi = freqs_filtered[-1]
-        if freq_scale == "Logarithmic":
-            desired_hz = [1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0, 128.0, 256.0]
-        elif hi <= 30:
-            desired_hz = [5.0, 10.0, 15.0, 20.0, 25.0, 30.0]
-        else:
-            desired_hz = list(np.arange(10.0, hi + 1, 10.0))
-            desired_hz = [f for f in desired_hz if f <= hi]
-
-        freq_ticks = []
-        x_offset = n_times * 0.003
-        for f in desired_hz:
-            if freqs_filtered[0] <= f <= freqs_filtered[-1]:
-                idx = int(np.argmin(np.abs(freqs_filtered - f)))
-                freq_ticks.append((idx, ""))
-                lbl = pg.TextItem(text=f"{f:g} Hz", color=(0, 0, 0), anchor=(0, 0.5))
-                lbl.setPos(x_offset, idx)
-                self.axes.addItem(lbl)
-                self._freq_labels.append(lbl)
-        self.axes.getAxis("left").setTicks([freq_ticks])
-
-        self.axes.setXRange(0, n_times, padding=0)
-        self.axes.setYRange(0, n_freqs, padding=0)
-
-        # --- reference lines at displayed y-tick frequencies ----------------
-        for line in self._ref_lines:
-            self.axes.removeItem(line)
-        self._ref_lines = []
-        ref_pen = pg.mkPen(color=(255, 255, 255, 160), width=1.0,
-                           style=Qt.PenStyle.DotLine)
-        for ref_hz in desired_hz:
-            if freqs_filtered[0] <= ref_hz <= freqs_filtered[-1]:
-                idx = float(np.interp(ref_hz, freqs_filtered, np.arange(n_freqs)))
-                line = pg.InfiniteLine(pos=idx, angle=0, pen=ref_pen)
-                line.setZValue(9)
-                self.axes.addItem(line)
-                self._ref_lines.append(line)
+        if freqs_changed:
+            self._update_freq_decorations(freqs_filtered, freq_scale, n_times, n_freqs)
 
         # --- internal colorbar -------------------------------------------
         cbar_width = max(1, int(n_times * 0.012))
@@ -262,6 +232,46 @@ class TFWidget(QWidget):
         cbar_center_x = cbar_x + cbar_width / 2
         self._cbar_min_label.setPos(cbar_center_x, cbar_y)
         self._cbar_max_label.setPos(cbar_center_x, cbar_y + cbar_height)
+
+    # ------------------------------------------------------------------
+    def _update_freq_decorations(self, freqs_filtered, freq_scale, n_times, n_freqs):
+        """Rebuild freq labels and ref lines. Only called when the frequency axis changes."""
+        for lbl in self._freq_labels:
+            self.axes.removeItem(lbl)
+        self._freq_labels = []
+        for line in self._ref_lines:
+            self.axes.removeItem(line)
+        self._ref_lines = []
+
+        hi = freqs_filtered[-1]
+        if freq_scale == "Logarithmic":
+            desired_hz = [1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0, 128.0, 256.0]
+        elif hi <= 30:
+            desired_hz = [5.0, 10.0, 15.0, 20.0, 25.0, 30.0]
+        else:
+            desired_hz = list(np.arange(10.0, hi + 1, 10.0))
+            desired_hz = [f for f in desired_hz if f <= hi]
+
+        freq_ticks = []
+        x_offset = n_times * 0.003
+        ref_pen = pg.mkPen(color=(255, 255, 255, 160), width=1.0,
+                           style=Qt.PenStyle.DotLine)
+        for f in desired_hz:
+            if freqs_filtered[0] <= f <= freqs_filtered[-1]:
+                idx = int(np.argmin(np.abs(freqs_filtered - f)))
+                freq_ticks.append((idx, ""))
+                lbl = pg.TextItem(text=f"{f:g} Hz", color=(0, 0, 0), anchor=(0, 0.5))
+                lbl.setPos(x_offset, idx)
+                self.axes.addItem(lbl)
+                self._freq_labels.append(lbl)
+                ref_idx = float(np.interp(f, freqs_filtered, np.arange(n_freqs)))
+                line = pg.InfiniteLine(pos=ref_idx, angle=0, pen=ref_pen)
+                line.setZValue(9)
+                self.axes.addItem(line)
+                self._ref_lines.append(line)
+        self.axes.getAxis("left").setTicks([freq_ticks])
+        self.axes.setXRange(0, n_times, padding=0)
+        self.axes.setYRange(0, n_freqs, padding=0)
 
     # ------------------------------------------------------------------
     def draw_tf(self, eeg_data, times_and_indices, this_epoch, srate, freqs,
