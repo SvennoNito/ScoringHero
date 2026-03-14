@@ -48,6 +48,8 @@ class SignalWidget(QWidget):
         self.penCustomDash.setStyle(Qt.CustomDashLine)
         self.penCustomDash.setDashPattern([10, 30])  # Example: 10 pixels dash, 5 pixels gap
 
+        self._center_line = None
+
 
     @timing_decorator
     def draw_signal(self, config, eeg_data, times_and_indices, this_epoch):
@@ -68,6 +70,7 @@ class SignalWidget(QWidget):
 
         # Loop through channels
         self.axes.clear()
+        self._center_line = None
         for chan_counter, visible_counter in enumerate(index_visible_chans):
             pen = pg.mkPen(
                 color=self.channelColorPalette[config[1][visible_counter]["Channel_color"]]
@@ -285,12 +288,12 @@ class SignalWidget(QWidget):
         self.axes.setXRange(times[0], times[-1], padding=0)
 
     def divide_center_line(self, borders):
-
-        # Thicker vertical line in the middle
+        if self._center_line is not None:
+            self.axes.removeItem(self._center_line)
         center_time = (borders[0] + borders[1]) / 2
-        center_line = pg.InfiniteLine(
+        self._center_line = pg.InfiniteLine(
             pos=center_time,
             angle=90,
             pen=self.penCustomDash
         )
-        self.axes.addItem(center_line)              
+        self.axes.addItem(self._center_line)              
