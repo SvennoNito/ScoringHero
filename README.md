@@ -2,13 +2,7 @@
 
 Welcome to **ScoringHero**, an open-source project designed to assist you in EEG sleep scoring! After being tested and used by multiple labs for over a year, **ScoringHero** has now reached its beta stage and supports cross-platform compatibility.
 
-![image](https://github.com/user-attachments/assets/64c659d6-ee63-456f-894b-f20b446c931c)
-
-<p align="center">
-    <img src="https://github.com/user-attachments/assets/5668a86b-276c-470a-852c-80e62c2d9a78" width="32%" />
-    <img src="https://github.com/user-attachments/assets/f22a1a92-1872-4e7f-a72e-cff0a347d8e7" width="32%" />
-    <img src="https://github.com/user-attachments/assets/059ca1e9-1c3f-4b05-9278-f91909de4583" width="32%" />
-</p>
+![ScoringHero Main Window](screenshots/main.png)
 
 ---
 
@@ -104,6 +98,11 @@ arch -arm64 ./release-mac.sh
 - Double-click on an existing event to remove it
 - Overlapping events of the same type are automatically merged
 - Events are displayed on both the signal view and the hypnogram
+
+<p align="center">
+    <img src="screenshots/artefact.png" width="49%" alt="Artefact event marked on signal" />
+    <img src="screenshots/arousal.png" width="49%" alt="Arousal event marked on signal" />
+</p>
 
 ### Smart Navigation
 | Button / Action | Description |
@@ -225,6 +224,8 @@ arch -arm64 ./release-mac.sh
 Open the configuration window with `Ctrl+C`. Settings are saved per-file as `{filename}.config.json` alongside the EEG data.
 
 ### General Tab
+
+![Configuration Window — General Tab](screenshots/general_config.png)
 - Sampling rate (Hz)
 - Epoch length (seconds)
 - Distance between channels (µV)
@@ -234,6 +235,9 @@ Open the configuration window with `Ctrl+C`. Settings are saved per-file as `{fi
 - EEG panel time unit (Seconds / Minutes / Hours)
 
 ### Channels Tab
+
+![Configuration Window — Channels Tab](screenshots/channel_config.png)
+
 - Per-channel: name, visibility toggle, color, scaling factor (%), vertical shift (µV)
 - Apply changes to all channels at once
 - Select / deselect all channels
@@ -241,6 +245,8 @@ Open the configuration window with `Ctrl+C`. Settings are saved per-file as `{fi
 - Robust z-standardize channels
 
 ### Events Tab
+
+![Configuration Window — Events Tab](screenshots/event_config.png)
 - Custom label for each of the 12 event types
 - Custom color assignment from a 13-color palette
 
@@ -250,6 +256,9 @@ Open the configuration window with `Ctrl+C`. Settings are saved per-file as `{fi
 - Colorbar power limits
 
 ### Wavelet Tab
+
+![Configuration Window — Wavelet Tab](screenshots/wavelet_config.png)
+
 - Channel selection for wavelet computation
 - Frequency scale: Linear or Logarithmic
 - Frequency display limits (Hz)
