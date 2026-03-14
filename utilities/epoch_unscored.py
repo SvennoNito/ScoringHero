@@ -10,14 +10,15 @@ def first_unscored_epoch(ui):
 
 
 def next_unscored_epoch(ui):
-    stages          = [stage["stage"] for stage in ui.stages]
-    unscored_epochs = [epoch for epoch, stage in enumerate(stages) if stage is None]
-    next_epoch      = min([epoch for epoch in unscored_epochs if epoch > ui.this_epoch], default=None)
-
-    if next_epoch is None:
-        next_epoch = min([epoch for epoch in unscored_epochs if epoch <= ui.this_epoch], default=None)
-
-    if next_epoch is not None:
-        ui.this_epoch = next_epoch
+    target = next(
+        (e for e in range(ui.this_epoch + 1, ui.numepo) if ui.stages[e]["stage"] is None),
+        None
+    )
+    if target is None:
+        target = next(
+            (e for e in range(0, ui.this_epoch + 1) if ui.stages[e]["stage"] is None),
+            None
+        )
+    if target is not None:
+        ui.this_epoch = target
         refresh_gui(ui)
-    return        

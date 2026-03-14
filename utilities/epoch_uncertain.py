@@ -11,17 +11,18 @@ def first_uncertain_stage(ui):
 
 
 def next_uncertain_stage(ui):
-    uncertain_epochs = [
-        epoch for epoch, stage in enumerate(ui.stages)
-        if stage["confidence"] is not None and stage["confidence"] < 0.5
-    ]
-    next_epoch = min([epoch for epoch in uncertain_epochs if epoch > ui.this_epoch], default=None)
-
-    if next_epoch is None:
-        next_epoch = min([epoch for epoch in uncertain_epochs if epoch <= ui.this_epoch], default=None)
-
-    if next_epoch is not None:
-        ui.this_epoch = next_epoch
+    target = next(
+        (e for e in range(ui.this_epoch + 1, ui.numepo)
+         if ui.stages[e]["confidence"] is not None and ui.stages[e]["confidence"] < 0.5),
+        None
+    )
+    if target is None:
+        target = next(
+            (e for e in range(0, ui.this_epoch + 1)
+             if ui.stages[e]["confidence"] is not None and ui.stages[e]["confidence"] < 0.5),
+            None
+        )
+    if target is not None:
+        ui.this_epoch = target
         refresh_gui(ui)
-    return
 
