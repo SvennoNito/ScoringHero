@@ -22,6 +22,7 @@ def default_configuration(number_of_channels, srate, channel_names):
             "Z-Standardized Power": [-3, 3],
             "Morales": [0, 20],
         },
+        "Stack_channels": False,
     }
 
     configuration_settings[1] = [

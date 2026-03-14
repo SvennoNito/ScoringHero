@@ -32,7 +32,7 @@ class ConfigurationWindow(QDialog):
         self.layout.addWidget(self.tabs)
 
         # Create the pages
-        self.channel_page = ChannelConfiguration(config[1])
+        self.channel_page = ChannelConfiguration(config[1], config[0])
         self.general_page = GeneralConfiguration(config[0], allow_staging, channel_labels or [])
         self.events_page = EventConfiguration(AnnotationContainer)
         self.spectrogram_page = SpectrogramConfiguration(config[0], channel_labels or [])
@@ -563,8 +563,9 @@ class WaveletConfiguration(QDialog):
 class ChannelConfiguration(QDialog):
     changesMade = Signal()
 
-    def __init__(self, channel_config, parent=None):
+    def __init__(self, channel_config, general_config=None, parent=None):
         super().__init__(parent)
+        self.general_config = general_config
         layout = QVBoxLayout(self)
         self.scale = []
         self.display = []
@@ -572,10 +573,22 @@ class ChannelConfiguration(QDialog):
         self.label = []
         self.shift = []
 
+        # Top checkboxes in 2-column layout
+        top_checkbox_layout = QHBoxLayout()
+        self.apply_all_checkbox = QCheckBox("Apply changes to all channels")
+        self.stack_channels_checkbox = QCheckBox("Stack channels")
+        self.stack_channels_checkbox.setChecked(
+            general_config.get("Stack_channels", False) if general_config is not None else False
+        )
+        self.stack_channels_checkbox.stateChanged.connect(self._on_stack_changed)
+        top_checkbox_layout.addWidget(self.apply_all_checkbox)
+        top_checkbox_layout.addWidget(self.stack_channels_checkbox)
+        layout.addLayout(top_checkbox_layout)
+
         # Create a scroll area
         scroll_area = QScrollArea(self)
         scroll_area.setWidgetResizable(True)  # Allow the widget to resize within the scroll area
-        layout.addWidget(scroll_area) 
+        layout.addWidget(scroll_area)
 
         # Create a widget to hold the form layout
         form_widget = QWidget()
@@ -631,7 +644,7 @@ class ChannelConfiguration(QDialog):
             labelbox = QLineEdit(chaninfo["Channel_name"])
             labelbox.setAlignment(Qt.AlignLeft)
             labelbox.setFixedWidth(channel_name_widget_width)
-            labelbox.textChanged.connect(lambda: self.change_event(channel_config))
+            labelbox.textChanged.connect(lambda text, i=count: self.change_event(channel_config, i, "label"))
 
             # Value by which EEG is multiplied
             spinbox = QDoubleSpinBox(self)
@@ -640,21 +653,21 @@ class ChannelConfiguration(QDialog):
             spinbox.setDecimals(0)
             spinbox.setValue(chaninfo["Scaling_factor"])
             spinbox.setSuffix(" %")
-            spinbox.valueChanged.connect(lambda: self.change_event(channel_config))
+            spinbox.valueChanged.connect(lambda val, i=count: self.change_event(channel_config, i, "scale"))
 
-            # Value by which EEG is multiplied
+            # Vertical shift
             shiftbox = QDoubleSpinBox(self)
             shiftbox.setMinimum(0)
             shiftbox.setMaximum(10000)
             shiftbox.setDecimals(0)
             shiftbox.setValue(chaninfo["Vertical_shift"])
-            shiftbox.valueChanged.connect(lambda: self.change_event(channel_config))
+            shiftbox.valueChanged.connect(lambda val, i=count: self.change_event(channel_config, i, "shift"))
 
             # Whether channel is displayed or not
             checkbox = QCheckBox(self)
             checkbox.setChecked(chaninfo["Display_on_screen"])
             checkbox.setMaximumWidth(checkbox.sizeHint().width())
-            checkbox.clicked.connect(lambda: self.change_event(channel_config))
+            checkbox.clicked.connect(lambda checked, i=count: self.change_event(channel_config, i, "display"))
 
             # Channel color
             colorbox = QComboBox(self)
@@ -665,7 +678,7 @@ class ChannelConfiguration(QDialog):
             colorbox.addItem("Orange")
             colorbox.addItem("Cyan")
             colorbox.setCurrentText(chaninfo["Channel_color"])
-            colorbox.currentIndexChanged.connect(lambda: self.change_event(channel_config))
+            colorbox.currentIndexChanged.connect(lambda idx, i=count: self.change_event(channel_config, i, "color"))
 
             # Layout
             row_layout = QHBoxLayout()
@@ -685,7 +698,32 @@ class ChannelConfiguration(QDialog):
 
         layout.addLayout(form_layout)
 
-    def change_event(self, channel_config):
+    def _on_stack_changed(self):
+        if self.general_config is not None:
+            self.general_config["Stack_channels"] = self.stack_channels_checkbox.isChecked()
+        self.changesMade.emit()
+
+    def change_event(self, channel_config, chan_idx=None, prop=None):
+        if self.apply_all_checkbox.isChecked() and chan_idx is not None and prop is not None:
+            if prop == "scale":
+                val = self.scale[chan_idx].value()
+                for s in self.scale:
+                    s.blockSignals(True)
+                    s.setValue(val)
+                    s.blockSignals(False)
+            elif prop == "shift":
+                val = self.shift[chan_idx].value()
+                for s in self.shift:
+                    s.blockSignals(True)
+                    s.setValue(val)
+                    s.blockSignals(False)
+            elif prop == "color":
+                val = self.color[chan_idx].currentText()
+                for c in self.color:
+                    c.blockSignals(True)
+                    c.setCurrentText(val)
+                    c.blockSignals(False)
+
         for counter, chaninfo in enumerate(channel_config):
             chaninfo["Channel_name"] = self.label[counter].text()
             chaninfo["Channel_color"] = self.color[counter].currentText()

@@ -68,6 +68,8 @@ class SignalWidget(QWidget):
         self.drawn_signals = []
         self.written_channel_labels  = []
 
+        stack = config[0].get("Stack_channels", False)
+
         # Loop through channels
         self.axes.clear()
         self._center_line = None
@@ -79,12 +81,14 @@ class SignalWidget(QWidget):
             # Extract data
             data = eeg_data[visible_counter][index_times]
 
+            chan_y_offset = 0 if stack else config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
+
             # Plot EEG
             drawn_signal = self.axes.plot(
                 times,
                 data * config[1][visible_counter]["Scaling_factor"] / 100
                 + config[1][visible_counter]["Vertical_shift"]
-                - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter,
+                - chan_y_offset,
                 pen=pen,
             )
             self.drawn_signals.append(drawn_signal)
@@ -93,7 +97,7 @@ class SignalWidget(QWidget):
             amplitude_line = pg.InfiniteLine(
                 angle=0,
                 pos=0
-                - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
+                - chan_y_offset
                 + config[1][visible_counter]["Vertical_shift"]
                 + config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
                 pen=self.pen_amplines,
@@ -102,21 +106,12 @@ class SignalWidget(QWidget):
             amplitude_line = pg.InfiniteLine(
                 angle=0,
                 pos=0
-                - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
+                - chan_y_offset
                 + config[1][visible_counter]["Vertical_shift"]
                 - config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
                 pen=self.pen_amplines,
             )
             self.axes.addItem(amplitude_line)
-            # amplitude_line = pg.InfiniteLine(
-            #     angle=0,
-            #     pos=0
-            #     - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
-            #     + config[1][visible_counter]["Vertical_shift"]
-            #     + 0 * config[1][visible_counter]["Scaling_factor"] / 100,
-            #     pen=self.pen_amplines,
-            # )
-            # self.axes.addItem(amplitude_line)
 
             # Add channel labels
             channel_label = pg.TextItem(
@@ -126,7 +121,7 @@ class SignalWidget(QWidget):
             )
             channel_label.setPos(
                 times[0],
-                0 - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter,
+                0 - chan_y_offset,
             )
             font = QFont()
             font.setPixelSize(20)
@@ -152,18 +147,24 @@ class SignalWidget(QWidget):
 
         # Draw background and adjust axes
         self.adjust_time_axis(config, times)
-        self.axes.setYRange(
-            -config[0]["Distance_between_channels_muV"]
-            * (chan_counter)
-            * (numchans_visible)
-            - 40 - 12*numchans_visible,
-            + 40 + 12*numchans_visible,
-            padding=0,
-        )
+        if stack:
+            ref_amp = config[0]["Reference_amplitude_line_muV"] * config[1][index_visible_chans[0]]["Scaling_factor"] / 100
+            y_half = max(ref_amp * 2, 40)
+            self.axes.setYRange(-y_half, y_half, padding=0)
+        else:
+            self.axes.setYRange(
+                -config[0]["Distance_between_channels_muV"]
+                * (chan_counter)
+                * (numchans_visible)
+                - 40 - 12*numchans_visible,
+                + 40 + 12*numchans_visible,
+                padding=0,
+            )
 
         # Add grid lines using pg.GridItem
         grid_item = pg.GridItem()
-        grid_item.setTickSpacing(x=[1], y=[config[0]["Distance_between_channels_muV"] * numchans_visible if numchans_visible > 1 else 10000])  # This could be a problem if you have few channels
+        grid_y_spacing = 10000 if stack else (config[0]["Distance_between_channels_muV"] * numchans_visible if numchans_visible > 1 else 10000)
+        grid_item.setTickSpacing(x=[1], y=[grid_y_spacing])
         grid_item.setTextPen(self.transparent_numbers)
         self.axes.addItem(grid_item)
 
@@ -229,6 +230,8 @@ class SignalWidget(QWidget):
         # Thicker vertical line in the middle
         self.divide_center_line(borders)        
 
+        stack = config[0].get("Stack_channels", False)
+
         for chan_counter, visible_counter in enumerate(index_visible_chans):
             pen = pg.mkPen(
                 color=self.channelColorPalette[config[1][visible_counter]["Channel_color"]]
@@ -237,19 +240,21 @@ class SignalWidget(QWidget):
             # Extract data
             data = eeg_data[visible_counter][index_times]
 
+            chan_y_offset = 0 if stack else config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
+
             # Update signal
             self.drawn_signals[chan_counter].setData(
                 times,
                 data * config[1][visible_counter]["Scaling_factor"] / 100
                 + config[1][visible_counter]["Vertical_shift"]
-                - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter,
+                - chan_y_offset,
                 pen=pen,
             )
 
             # Update position of label
             self.written_channel_labels[chan_counter].setPos(
                 times[0],
-                0 - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter,
+                0 - chan_y_offset,
             )
 
         # Draw background and adjust axes
