@@ -9,12 +9,14 @@ def compute_spectogram(eeg_data, times, srate, channel, epolen, winlen=4):
         np.arange(start, start + srate * winlen)
         for start in range(0, epolen * srate + 2 * srate, 2 * srate)
     ]
-    power = np.empty((len(times), len(indices_window), int(winlen * srate / 2 + 1)))
+    n_windows = len(indices_window)
+    n_freqs = int(winlen * srate / 2 + 1)
+    power = np.zeros((len(times), n_freqs))
     for i_epoch, times_indices_epoch in enumerate(times):
         indices_epoch = times_indices_epoch[1]
         for i_window, index_window in enumerate(indices_window):
             indices = indices_epoch[index_window]
-            freqs, power[i_epoch, i_window, :] = welch(
+            freqs, psd = welch(
                 eeg_data[channel][indices],
                 fs=srate,
                 window="hann",
@@ -24,8 +26,7 @@ def compute_spectogram(eeg_data, times, srate, channel, epolen, winlen=4):
                 scaling="density",
                 average="mean",
             )
-
-    # Mean over 4s windows
-    power = np.mean(power, axis=1)
+            power[i_epoch, :] += psd
+    power /= n_windows
 
     return power, freqs
