@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
     QColorDialog,
     QPushButton,
     QScrollArea,
+    QGridLayout,
 )
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QColor, QFont
@@ -573,16 +574,26 @@ class ChannelConfiguration(QDialog):
         self.label = []
         self.shift = []
 
-        # Top checkboxes in 2-column layout
-        top_checkbox_layout = QHBoxLayout()
+        # Top checkboxes in 2x2 grid layout
+        top_checkbox_layout = QGridLayout()
         self.apply_all_checkbox = QCheckBox("Apply changes to all channels")
+        self.select_all_checkbox = QCheckBox("Select/deselect all channels")
+        self.select_all_checkbox.setChecked(True)
+        self.select_all_checkbox.stateChanged.connect(lambda: self._on_select_all_changed(channel_config))
         self.stack_channels_checkbox = QCheckBox("Stack channels")
         self.stack_channels_checkbox.setChecked(
             general_config.get("Stack_channels", False) if general_config is not None else False
         )
         self.stack_channels_checkbox.stateChanged.connect(self._on_stack_changed)
-        top_checkbox_layout.addWidget(self.apply_all_checkbox)
-        top_checkbox_layout.addWidget(self.stack_channels_checkbox)
+        self.z_standardize_checkbox = QCheckBox("Robust z-standardize channels")
+        self.z_standardize_checkbox.setChecked(
+            general_config.get("Robust_z_standardize", False) if general_config is not None else False
+        )
+        self.z_standardize_checkbox.stateChanged.connect(self._on_z_standardize_changed)
+        top_checkbox_layout.addWidget(self.apply_all_checkbox, 0, 0)
+        top_checkbox_layout.addWidget(self.stack_channels_checkbox, 0, 1)
+        top_checkbox_layout.addWidget(self.select_all_checkbox, 1, 0)
+        top_checkbox_layout.addWidget(self.z_standardize_checkbox, 1, 1)
         layout.addLayout(top_checkbox_layout)
 
         # Create a scroll area
@@ -698,9 +709,23 @@ class ChannelConfiguration(QDialog):
 
         layout.addLayout(form_layout)
 
+    def _on_select_all_changed(self, channel_config):
+        checked = self.select_all_checkbox.isChecked()
+        for i, cb in enumerate(self.display):
+            cb.blockSignals(True)
+            cb.setChecked(checked)
+            cb.blockSignals(False)
+            channel_config[i]["Display_on_screen"] = checked
+        self.changesMade.emit()
+
     def _on_stack_changed(self):
         if self.general_config is not None:
             self.general_config["Stack_channels"] = self.stack_channels_checkbox.isChecked()
+        self.changesMade.emit()
+
+    def _on_z_standardize_changed(self):
+        if self.general_config is not None:
+            self.general_config["Robust_z_standardize"] = self.z_standardize_checkbox.isChecked()
         self.changesMade.emit()
 
     def change_event(self, channel_config, chan_idx=None, prop=None):

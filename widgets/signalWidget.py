@@ -69,6 +69,7 @@ class SignalWidget(QWidget):
         self.written_channel_labels  = []
 
         stack = config[0].get("Stack_channels", False)
+        z_standardize = config[0].get("Robust_z_standardize", False)
 
         # Loop through channels
         self.axes.clear()
@@ -81,37 +82,69 @@ class SignalWidget(QWidget):
             # Extract data
             data = eeg_data[visible_counter][index_times]
 
-            chan_y_offset = 0 if stack else config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
+            # Robust z-standardize: (data - median) / IQR
+            if z_standardize:
+                median_val = np.median(data)
+                q75, q25 = np.percentile(data, [75, 25])
+                iqr = q75 - q25
+                if iqr > 0:
+                    data = (data - median_val) / iqr
+                else:
+                    data = data - median_val
+
+            if stack:
+                chan_y_offset = 0
+            elif z_standardize:
+                chan_y_offset = 8 * chan_counter
+            else:
+                chan_y_offset = config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
 
             # Plot EEG
-            drawn_signal = self.axes.plot(
-                times,
-                data * config[1][visible_counter]["Scaling_factor"] / 100
-                + config[1][visible_counter]["Vertical_shift"]
-                - chan_y_offset,
-                pen=pen,
-            )
+            if z_standardize:
+                drawn_signal = self.axes.plot(
+                    times,
+                    data - chan_y_offset,
+                    pen=pen,
+                )
+            else:
+                drawn_signal = self.axes.plot(
+                    times,
+                    data * config[1][visible_counter]["Scaling_factor"] / 100
+                    + config[1][visible_counter]["Vertical_shift"]
+                    - chan_y_offset,
+                    pen=pen,
+                )
             self.drawn_signals.append(drawn_signal)
 
             # Amplitude lines
-            amplitude_line = pg.InfiniteLine(
-                angle=0,
-                pos=0
-                - chan_y_offset
-                + config[1][visible_counter]["Vertical_shift"]
-                + config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
-                pen=self.pen_amplines,
-            )
-            self.axes.addItem(amplitude_line)
-            amplitude_line = pg.InfiniteLine(
-                angle=0,
-                pos=0
-                - chan_y_offset
-                + config[1][visible_counter]["Vertical_shift"]
-                - config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
-                pen=self.pen_amplines,
-            )
-            self.axes.addItem(amplitude_line)
+            if z_standardize:
+                # Show lines at z = +3 and z = -3
+                for z_val in [3, -3]:
+                    amplitude_line = pg.InfiniteLine(
+                        angle=0,
+                        pos=z_val - chan_y_offset,
+                        pen=self.pen_amplines,
+                    )
+                    self.axes.addItem(amplitude_line)
+            else:
+                amplitude_line = pg.InfiniteLine(
+                    angle=0,
+                    pos=0
+                    - chan_y_offset
+                    + config[1][visible_counter]["Vertical_shift"]
+                    + config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
+                    pen=self.pen_amplines,
+                )
+                self.axes.addItem(amplitude_line)
+                amplitude_line = pg.InfiniteLine(
+                    angle=0,
+                    pos=0
+                    - chan_y_offset
+                    + config[1][visible_counter]["Vertical_shift"]
+                    - config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
+                    pen=self.pen_amplines,
+                )
+                self.axes.addItem(amplitude_line)
 
             # Add channel labels
             channel_label = pg.TextItem(
@@ -130,16 +163,19 @@ class SignalWidget(QWidget):
             self.written_channel_labels.append(channel_label)
 
         # µV tick labels on left axis for the first visible channel
-        vc0 = index_visible_chans[0]
-        ref_amp = config[0]["Reference_amplitude_line_muV"]
-        scaling = config[1][vc0]["Scaling_factor"]
-        vshift  = config[1][vc0]["Vertical_shift"]
-        base    = vshift
-        top_pos = base + ref_amp * scaling / 100
-        bot_pos = base - ref_amp * scaling / 100
-        ref_label = int(ref_amp) if ref_amp == int(ref_amp) else ref_amp
         left_axis = self.axes.getAxis("left")
-        left_axis.setTicks([[(top_pos, f"+{ref_label}"), (base, "0"), (bot_pos, f"-{ref_label}")]])
+        if z_standardize:
+            left_axis.setTicks([[( 3, "+3"), (0, "0"), (-3, "-3")]])
+        else:
+            vc0 = index_visible_chans[0]
+            ref_amp = config[0]["Reference_amplitude_line_muV"]
+            scaling = config[1][vc0]["Scaling_factor"]
+            vshift  = config[1][vc0]["Vertical_shift"]
+            base    = vshift
+            top_pos = base + ref_amp * scaling / 100
+            bot_pos = base - ref_amp * scaling / 100
+            ref_label = int(ref_amp) if ref_amp == int(ref_amp) else ref_amp
+            left_axis.setTicks([[(top_pos, f"+{ref_label}"), (base, "0"), (bot_pos, f"-{ref_label}")]])
         tick_font = QFont()
         tick_font.setPixelSize(8)
         left_axis.setTickFont(tick_font)
@@ -147,7 +183,15 @@ class SignalWidget(QWidget):
 
         # Draw background and adjust axes
         self.adjust_time_axis(config, times)
-        if stack:
+        if z_standardize and stack:
+            self.axes.setYRange(-6, 6, padding=0)
+        elif z_standardize:
+            self.axes.setYRange(
+                -8 * chan_counter - 6,
+                6,
+                padding=0,
+            )
+        elif stack:
             ref_amp = config[0]["Reference_amplitude_line_muV"] * config[1][index_visible_chans[0]]["Scaling_factor"] / 100
             y_half = max(ref_amp * 2, 40)
             self.axes.setYRange(-y_half, y_half, padding=0)
@@ -231,6 +275,7 @@ class SignalWidget(QWidget):
         self.divide_center_line(borders)        
 
         stack = config[0].get("Stack_channels", False)
+        z_standardize = config[0].get("Robust_z_standardize", False)
 
         for chan_counter, visible_counter in enumerate(index_visible_chans):
             pen = pg.mkPen(
@@ -240,16 +285,38 @@ class SignalWidget(QWidget):
             # Extract data
             data = eeg_data[visible_counter][index_times]
 
-            chan_y_offset = 0 if stack else config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
+            # Robust z-standardize: (data - median) / IQR
+            if z_standardize:
+                median_val = np.median(data)
+                q75, q25 = np.percentile(data, [75, 25])
+                iqr = q75 - q25
+                if iqr > 0:
+                    data = (data - median_val) / iqr
+                else:
+                    data = data - median_val
+
+            if stack:
+                chan_y_offset = 0
+            elif z_standardize:
+                chan_y_offset = 8 * chan_counter
+            else:
+                chan_y_offset = config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
 
             # Update signal
-            self.drawn_signals[chan_counter].setData(
-                times,
-                data * config[1][visible_counter]["Scaling_factor"] / 100
-                + config[1][visible_counter]["Vertical_shift"]
-                - chan_y_offset,
-                pen=pen,
-            )
+            if z_standardize:
+                self.drawn_signals[chan_counter].setData(
+                    times,
+                    data - chan_y_offset,
+                    pen=pen,
+                )
+            else:
+                self.drawn_signals[chan_counter].setData(
+                    times,
+                    data * config[1][visible_counter]["Scaling_factor"] / 100
+                    + config[1][visible_counter]["Vertical_shift"]
+                    - chan_y_offset,
+                    pen=pen,
+                )
 
             # Update position of label
             self.written_channel_labels[chan_counter].setPos(

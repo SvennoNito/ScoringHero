@@ -29,7 +29,7 @@ class TFWidget(QWidget):
         self.axes.setLabel("left", "")
         self.axes.setLabel("bottom", "")
         left_ax = self.axes.getAxis("left")
-        left_ax.setStyle(showValues=True, tickLength=8)
+        left_ax.setStyle(showValues=True, tickLength=0)
         left_ax.setWidth(35)
         tick_font = QFont()
         tick_font.setPixelSize(8)

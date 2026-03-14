@@ -23,6 +23,7 @@ def default_configuration(number_of_channels, srate, channel_names):
             "Morales": [0, 20],
         },
         "Stack_channels": False,
+        "Robust_z_standardize": False,
     }
 
     configuration_settings[1] = [
