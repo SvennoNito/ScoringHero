@@ -42,10 +42,12 @@ jobs:
       run: |
         source ${{ env.VENV_PATH }}/bin/activate
         python3 -c "
-import codecs, sys
-lines = codecs.open('requirements.txt', 'r', 'utf-16').readlines()
+raw = open('requirements.txt', 'rb').read()
+text = raw.decode('utf-16') if raw[:2] in (b'\xff\xfe', b'\xfe\xff') else raw.decode('utf-8')
+lines = text.splitlines(keepends=True)
 filtered = [l for l in lines if 'pyinstaller' not in l and 'pywin32' not in l]
-open('/tmp/mac_requirements.txt', 'w').writelines(filtered)
+open('/tmp/mac_requirements.txt', 'w').write(''.join(filtered))
+print('Filtered requirements written. Lines kept:', len(filtered))
 "
         arch -${{ matrix.arch }} pip install -r /tmp/mac_requirements.txt
         arch -${{ matrix.arch }} pip install pyinstaller==6.19.0 pyinstaller-hooks-contrib==2025.3
