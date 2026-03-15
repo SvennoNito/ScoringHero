@@ -42,18 +42,19 @@ def load_vis(scoring_filename, epolen, numepo, track=1):
         df = df.reindex(range(1, visdata[-1][0] + 1))  # Assuming you want to include the last epoch as well
         #df.fillna(method='bfill', inplace=True)
         df.ffill(inplace=True)
+        df.bfill(inplace=True)
         df = df['SleepStage'].values
         annotations = []
 
         mapping = {'0': 'Wake', '1': 'N1', '2': 'N2', '3': 'N3', 'r': 'REM', 'e': 'Wake'}
         vissymb = np.vectorize(mapping.get)(df)
         mapping_numeric = {'Wake': 1, 'N1': -1, 'N2': -2, 'N3': -3, 'REM': 0, }
-        visnum = np.vectorize(mapping_numeric.get)(vissymb)      
+        visnum = np.vectorize(mapping_numeric.get)(vissymb)
 
         scoring_data = default_scoring(epolen, numepo)
 
-        for counter, (str, num) in enumerate(zip(vissymb, visnum)):
-            scoring_data[counter]["digit"]  = int(num)
-            scoring_data[counter]["stage"]  = str             
+        for counter, (stage, num) in enumerate(zip(vissymb, visnum)):
+            scoring_data[counter]["digit"]  = int(num) if num is not None else None
+            scoring_data[counter]["stage"]  = stage if stage is not None else None
 
     return scoring_data, annotations
