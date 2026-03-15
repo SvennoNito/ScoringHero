@@ -602,7 +602,6 @@ source = { editable = "." }
 dependencies = [
     { name = "decorator" },
     { name = "h5py" },
-    { name = "matplotlib" },
     { name = "mne" },
     { name = "numpy" },
     { name = "pandas" },
@@ -627,7 +626,6 @@ build-win = [
 requires-dist = [
     { name = "decorator", specifier = ">=5.1.1" },
     { name = "h5py", specifier = ">=3.12.1" },
-    { name = "matplotlib", specifier = ">=3.9.3" },
     { name = "mne", specifier = ">=1.8.0" },
     { name = "nuitka", extras = ["onefile"], marker = "extra == 'build-mac'", specifier = ">=4.0.5" },
     { name = "nuitka", extras = ["onefile"], marker = "extra == 'build-win'", specifier = ">=4.0.5" },

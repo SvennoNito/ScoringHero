@@ -6,7 +6,7 @@ python -m nuitka \
     --onefile \
     --macos-app-icon=icon.icns \
     --enable-plugin=pyside6 \
-    --include-package=mne \
+    --include-package=mne.io \
     --include-module=decorator \
     --include-data-files=./help/images/selection_box.png=help/images/selection_box.png \
     --include-data-files=./style/modern_theme.qss=style/modern_theme.qss \

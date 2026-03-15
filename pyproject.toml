@@ -7,7 +7,6 @@ dependencies = [
     "PySide6>=6.8.1",
     "numpy>=2.2.0",
     "scipy>=1.14.1",
-    "matplotlib>=3.9.3",
     "mne>=1.8.0",
     "h5py>=3.12.1",
     "pyqtgraph>=0.13.7",
