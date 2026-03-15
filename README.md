@@ -165,6 +165,42 @@ arch -arm64 ./release-mac.sh
 | EDF (Volt-scaled) | `.edf` | For EDF files recorded in Volts — auto-converts to µV |
 | Zurich R09 | `.r09` | Legacy format support |
 
+#### EEGLAB `.mat` — Required Structure
+
+ScoringHero expects the file to contain a top-level `EEG` struct with the following fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `EEG.data` | numeric array `(n_channels × n_samples)` | Raw EEG signal (µV typical, any unit accepted) |
+| `EEG.srate` | scalar | Sampling rate in Hz |
+| `EEG.chanlocs` | struct array | Channel metadata — only the `labels` field is read |
+| `EEG.chanlocs(i).labels` | string | Channel name for channel `i` |
+
+Both **MATLAB v7 and earlier** (via `scipy.io.loadmat`) and **MATLAB v7.3+ / HDF5** (via `h5py`) are supported. The loader auto-detects which format applies.
+
+Robustness notes:
+- If `data` is stored transposed `(n_samples × n_channels)`, it is automatically corrected.
+- If `chanlocs` is missing or has the wrong number of entries, names fall back to `CH1, CH2, …, CHn` with a console warning.
+
+**Minimal working example (MATLAB):**
+```matlab
+EEG.data              = randn(2, 125 * 30 * 100);  % 2 channels, 100 × 30 s epochs @ 125 Hz
+EEG.srate             = 125;
+EEG.chanlocs(1).labels = 'C3-A2';
+EEG.chanlocs(2).labels = 'C4-A1';
+save('myrecording.mat', 'EEG', '-v7.3');            % -v7.3 required for files > 2 GB
+```
+
+#### EDF (`.edf`)
+
+Standard European Data Format, loaded with MNE-Python (`mne.io.read_raw_edf`). No special structure beyond a valid EDF file. A second loader variant auto-converts Volt-scaled signals to µV.
+
+#### Zurich R09 (`.r09`)
+
+Legacy binary format. Fixed 9-channel layout at 128 Hz with hardcoded channel names: `F3-A2, F4-A1, C3-A2, C4-A1, O1-A2, O2-A1, EOG1, EOG2, EMG`. Samples stored as `int16`.
+
+---
+
 ### Scoring Import
 
 | Format | Extension | Source | Notes |
@@ -176,11 +212,119 @@ arch -arm64 ./release-mac.sh
 | GSSC | `.csv` | Greifswald Sleep Stage Classifier | Includes per-stage confidence |
 | Zurich VIS | `.vis` | Zurich scoring format | 20-second epoch standard |
 
-### Scoring Export
+#### YASA (`.txt`)
 
-- **ScoringHero JSON** — two-part format containing:
-  - **Stages**: one entry per epoch with `stage`, `digit`, `source`, `confidence`, and `channels`
-  - **Events**: each annotation with `key`, `event` label, `epoch` indices, and `start`/`end` times in seconds
+Plain text, one stage label per line (one line = one epoch). Lines that do not match a known token are skipped.
+
+| Accepted token(s) | Stage |
+|-------------------|-------|
+| `W`, `WAKE` | Wake |
+| `N1`, `NREM1`, `1` | N1 |
+| `N2`, `NREM2`, `2` | N2 |
+| `N3`, `NREM3`, `3` | N3 |
+| `R`, `REM`, `Rem`, `4` | REM |
+
+#### Sleeptrip (`.csv`)
+
+CSV with one numeric code per row (first column used, header optional).
+
+| Value | Stage |
+|-------|-------|
+| `0` | Wake |
+| `1` | N1 |
+| `2` | N2 |
+| `3` | N3 |
+| `5` | REM |
+
+#### SleepyLand (`.annot`)
+
+Tab-separated file with a header row. Column 1 contains the stage label (`W`, `N1`, `N2`, `N3`, `R`). Column 5 (meta) contains semicolon-separated probabilities used as confidence:
+
+```
+pW=0.10;pN1=0.05;pN2=0.75;pN3=0.08;pR=0.02
+```
+
+#### GSSC (`.csv`)
+
+CSV with header: `Epoch, Time, Stage, Conf_W, Conf_N1, Conf_N2, Conf_N3, Conf_R`.
+
+| Stage value | Stage |
+|-------------|-------|
+| `0` | Wake |
+| `1` | N1 |
+| `2` | N2 |
+| `3` | N3 |
+| `4` | REM |
+
+Confidence for the assigned stage is read from the corresponding `Conf_*` column.
+
+#### Zurich VIS (`.vis`)
+
+Space-separated text. First line is an epoch offset (usually `0`). Each subsequent line: `<epoch_number> <stage_code> [optional comment]`.
+
+| Code | Stage |
+|------|-------|
+| `0` | Wake |
+| `1` | N1 |
+| `2` | N2 |
+| `3` | N3 |
+| `r` | REM |
+| `e` | End marker — replaced by the previous epoch's stage |
+
+Default epoch length assumed: 20 s. Missing epochs are forward-filled.
+
+---
+
+### Scoring Export & Native JSON Format
+
+ScoringHero saves scoring to `{filename}.json` next to the EEG file. The file is a JSON array with exactly two elements:
+
+```
+[ <stages>, <annotations> ]
+```
+
+**Element 0 — stages:** one dict per epoch:
+
+```json
+{
+  "epoch":      1,       // 1-indexed epoch number
+  "start":      0,       // epoch start time in seconds
+  "end":        30,      // epoch end time in seconds
+  "stage":      "N2",    // human-readable label (see encoding table)
+  "digit":      -2,      // numeric code (see encoding table)
+  "confidence": 0.85,    // model confidence 0–1, or null
+  "channels":   [],      // reserved, always []
+  "clean":      1,       // 1 = clean, 0 = artifact
+  "source":     "YASA"   // originating tool, or null
+}
+```
+
+**Stage encoding:**
+
+| `stage` | `digit` |
+|---------|:-------:|
+| `"Wake"` | `1` |
+| `"N1"` | `-1` |
+| `"N2"` | `-2` |
+| `"N3"` | `-3` |
+| `"REM"` | `0` |
+| `null` (unscored) | `null` |
+
+**Element 1 — annotations:** one dict per marked event:
+
+```json
+{
+  "key":     "A",      // shortcut key assigned to this event type
+  "event":   "Spindle", // human-readable event label
+  "digit":   0,         // annotation type index (0–12; 0 = Artefact, 1–12 = F1–F12)
+  "counter": 3,         // sequential index within this event type
+  "epoch":   7,         // epoch where the event occurs
+  "start":   195.2,     // absolute start time in seconds
+  "end":     196.8      // absolute end time in seconds
+}
+```
+
+Up to 13 annotation types are supported (indices 0–12).
 
 ---
 
