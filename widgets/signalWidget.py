@@ -74,6 +74,8 @@ class SignalWidget(QWidget):
         # Loop through channels
         self.axes.clear()
         self._center_line = None
+        if numchans_visible == 0:
+            return
         for chan_counter, visible_counter in enumerate(index_visible_chans):
             pen = pg.mkPen(
                 color=self.channelColorPalette[config[1][visible_counter]["Channel_color"]]
