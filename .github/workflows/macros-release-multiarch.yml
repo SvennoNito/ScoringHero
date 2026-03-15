@@ -15,11 +15,13 @@ jobs:
         arch: [arm64, x86_64]  # Define architectures
 
     steps:
-    - name: Install Python
-      run: brew install python@3.13
-
     - name: Checkout code
       uses: actions/checkout@v3
+
+    - name: Set up Python 3.13
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
 
     - name: Set environment variables
       run: |
