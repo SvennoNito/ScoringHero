@@ -33,8 +33,8 @@ jobs:
 
     - name: Create venv and install dependencies
       run: |
-        uv venv ${{ env.VENV_PATH }}
-        uv sync --extra build-mac
+        uv venv ${{ env.VENV_PATH }} --python 3.14
+        uv sync --extra build-mac --python 3.14
 
     - name: Build binary
       run: |
