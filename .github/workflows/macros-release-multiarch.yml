@@ -34,7 +34,7 @@ jobs:
     - name: Install Python requirements
       run: |
         source ${{ env.VENV_PATH }}/bin/activate
-        arch -${{ matrix.arch }} pip install -r requirements.txt
+        CFLAGS="-Wno-error=incompatible-pointer-types" arch -${{ matrix.arch }} pip install -r requirements.txt
 
     - name: Build binary
       run: |
