@@ -20,7 +20,7 @@ def default_configuration(number_of_channels, srate, channel_names):
             "Raw Power": [-1, 3],
             "L2-Normalized Power": [-1, 3],
             "Z-Standardized Power": [-3, 3],
-            "Morales": [0, 20],
+            "dB (median baseline)": [0, 20],
         },
         "Stack_channels": False,
         "Robust_z_standardize": False,

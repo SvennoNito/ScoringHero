@@ -111,7 +111,7 @@ class TFWidget(QWidget):
         "Raw Power": [-1, 3],
         "L2-Normalized Power": [-1, 3],
         "Z-Standardized Power": [-3, 3],
-        "Morales": [0, 20],
+        "dB (median baseline)": [0, 20],
     }
 
     def _render(self, eeg_data, times_and_indices, this_epoch, srate, freqs,
@@ -171,7 +171,7 @@ class TFWidget(QWidget):
             # robust z-score using night-wide log-power median/IQR per frequency
             power_display = (power_transformed - norm_med[:, np.newaxis]) / norm_iq[:, np.newaxis]
 
-        elif display_mode == "Morales":
+        elif display_mode == "dB (median baseline)":
             # dB relative to median baseline: 10 * log10(power / baseline)
             # = 10 * (log10(power) - log10(baseline))
             baseline_log = np.log10(np.maximum(norm_median_linear, 1e-30))

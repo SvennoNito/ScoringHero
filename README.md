@@ -136,7 +136,7 @@ arch -arm64 ./release-mac.sh
   - Raw Power
   - L2-Normalized Power (unit energy wavelets)
   - Z-Standardized Power (zero-mean, unit variance)
-  - Morales normalization
+  - dB (median baseline) normalization
 - Linear or logarithmic frequency scale
 - Configurable frequency range (default: 1–45 Hz)
 - Extended epoch padding to minimize edge artifacts
@@ -262,7 +262,7 @@ Open the configuration window with `Ctrl+C`. Settings are saved per-file as `{fi
 - Channel selection for wavelet computation
 - Frequency scale: Linear or Logarithmic
 - Frequency display limits (Hz)
-- Normalization mode: Raw Power, L2-Normalized, Z-Standardized, or Morales
+- Normalization mode: Raw Power, L2-Normalized, Z-Standardized, or dB (median baseline)
 - Per-mode colorbar power limits
 - Toggle wavelet panel visibility
 

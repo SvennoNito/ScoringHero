@@ -453,7 +453,7 @@ class WaveletConfiguration(QDialog):
         row_layout = QHBoxLayout()
         row_layout.addWidget(norm_label)
         norm_box = QComboBox(self)
-        for option in ["Raw Power", "L2-Normalized Power", "Z-Standardized Power", "Morales"]:
+        for option in ["Raw Power", "L2-Normalized Power", "Z-Standardized Power", "dB (median baseline)"]:
             norm_box.addItem(option)
         norm_box.setCurrentText(general_config["Wavelet_display_mode"])
         self.optionboxes["Wavelet_display_mode"] = [norm_box]
@@ -469,7 +469,7 @@ class WaveletConfiguration(QDialog):
         current_norm = general_config.get("Wavelet_display_mode", "Raw Power")
         power_limits_dict = general_config.get("Wavelet_power_limits", {})
         _fallback = {"Raw Power": [-1, 3], "L2-Normalized Power": [-1, 3],
-                     "Z-Standardized Power": [-3, 3], "Morales": [0, 20]}
+                     "Z-Standardized Power": [-3, 3], "dB (median baseline)": [0, 20]}
         current_limits = power_limits_dict.get(current_norm, _fallback.get(current_norm, [-1, 3]))
         self._power_min_spin = QDoubleSpinBox(self)
         self._power_min_spin.setMinimum(-1000)
@@ -517,7 +517,7 @@ class WaveletConfiguration(QDialog):
         self.apply_changes(general_config)
         new_norm = self._norm_box.currentText()
         _fallback = {"Raw Power": [-1, 3], "L2-Normalized Power": [-1, 3],
-                     "Z-Standardized Power": [-3, 3], "Morales": [0, 20]}
+                     "Z-Standardized Power": [-3, 3], "dB (median baseline)": [0, 20]}
         limits = general_config.get("Wavelet_power_limits", {}).get(
             new_norm, _fallback.get(new_norm, [-1, 3]))
         self._power_min_spin.blockSignals(True)
