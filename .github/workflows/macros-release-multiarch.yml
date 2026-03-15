@@ -18,10 +18,8 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
+    - name: Install Python
+      run: brew install python@3.13
 
     - name: Set environment variables
       run: |
@@ -36,7 +34,8 @@ jobs:
     - name: Install Python requirements
       run: |
         source ${{ env.VENV_PATH }}/bin/activate
-        arch -${{ matrix.arch }} pip install -r requirements.txt
+        pip install --upgrade pip
+        pip install -r requirements.txt
 
     - name: Build binary
       run: |
