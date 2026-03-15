@@ -41,7 +41,12 @@ jobs:
     - name: Install Python requirements
       run: |
         source ${{ env.VENV_PATH }}/bin/activate
-        grep -Ev 'pyinstaller|pywin32' requirements.txt > /tmp/mac_requirements.txt
+        python3 -c "
+import codecs, sys
+lines = codecs.open('requirements.txt', 'r', 'utf-16').readlines()
+filtered = [l for l in lines if 'pyinstaller' not in l and 'pywin32' not in l]
+open('/tmp/mac_requirements.txt', 'w').writelines(filtered)
+"
         arch -${{ matrix.arch }} pip install -r /tmp/mac_requirements.txt
         arch -${{ matrix.arch }} pip install pyinstaller==6.19.0 pyinstaller-hooks-contrib==2025.3
 
