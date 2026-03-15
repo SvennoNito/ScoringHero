@@ -1,5 +1,6 @@
 @echo off
-uv run python -m nuitka ^
+set UV_PROJECT_ENVIRONMENT=.venv_build
+uv run --python 3.13 --extra build-win python -m nuitka ^
     --onefile ^
     --jobs=8 ^
     --windows-icon-from-ico=icon.ico ^

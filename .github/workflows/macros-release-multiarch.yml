@@ -21,8 +21,8 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@v4
 
-    - name: Install Python 3.14
-      run: uv python install 3.14
+    - name: Install Python 3.13
+      run: uv python install 3.13
 
     - name: Set environment variables
       run: |
@@ -33,8 +33,8 @@ jobs:
 
     - name: Create venv and install dependencies
       run: |
-        uv venv ${{ env.VENV_PATH }} --python 3.14
-        uv sync --extra build-mac --python 3.14
+        uv venv ${{ env.VENV_PATH }} --python 3.13
+        UV_PROJECT_ENVIRONMENT=${{ env.VENV_PATH }} uv sync --extra build-mac --python 3.13
 
     - name: Build binary
       run: |
