@@ -1,6 +1,0 @@
-pyinstaller --onefile --icon=icon.ico --paths=./.venv/Lib/site-packages scoringhero.py `
-    --add-data "./.venv/Lib/site-packages/mne;mne" `
-    --add-data "./help/images/selection_box.png;help/images" `
-    --add-data "./style/modern_theme.qss;style" `
-    --add-data "./spectral.txt;." `
-    --hidden-import=decorator

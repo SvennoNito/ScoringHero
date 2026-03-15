@@ -28,7 +28,7 @@ def load_eeglab(filename_prefix):
                 print(f"*** Warning: {e}")
                 print(f"*** Using default channel names instead.")
 
-            return eeg_data, int(srate), channel_names
+            return eeg_data, int(np.asarray(srate).flat[0]), channel_names
 
     except (OSError, KeyError):
         # If it fails to open as HDF5, fallback to standard MATLAB v7 or earlier
@@ -55,4 +55,4 @@ def load_eeglab(filename_prefix):
             print(f"*** Warning: {e}")
             print(f"*** Using default channel names instead.")
 
-        return eeg_data, int(srate), channel_names
+        return eeg_data, int(np.asarray(srate).flat[0]), channel_names

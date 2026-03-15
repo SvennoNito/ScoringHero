@@ -2,13 +2,15 @@
 
 set -euo pipefail
 
-pyinstaller --onefile \
---target-arch="$TARGET_ARCH" \
---icon='icon.icns' \
---paths="$VENV_PATH/lib/python3.13/site-packages" scoringhero.py \
---add-data="$VENV_PATH/lib/python3.13/site-packages/mne:mne" \
---add-data='./help/images/selection_box.png:help/images' \
---add-data="./style/modern_theme.qss:style" \
---name="$FINAL_FILE_NAME" \
---hidden-import=decorator
-
+python -m nuitka \
+    --onefile \
+    --macos-app-icon=icon.icns \
+    --enable-plugin=pyside6 \
+    --include-package=mne \
+    --include-module=decorator \
+    --include-data-files=./help/images/selection_box.png=help/images/selection_box.png \
+    --include-data-files=./style/modern_theme.qss=style/modern_theme.qss \
+    --include-data-files=./spectral.txt=spectral.txt \
+    --output-filename="$FINAL_FILE_NAME" \
+    --output-dir=dist \
+    scoringhero.py

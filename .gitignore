@@ -6,3 +6,5 @@ __pycache__/
 scoringhero.spec
 example_data
 .DS_Store
+.venv/
+.venv_*/

@@ -15,11 +15,14 @@ jobs:
         arch: [arm64, x86_64]  # Define architectures
 
     steps:
-    - name: Install Python
-      run: brew install python@3.13
-
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v4
+
+    - name: Install Python 3.14
+      run: uv python install 3.14
 
     - name: Set environment variables
       run: |
@@ -28,20 +31,10 @@ jobs:
         echo "FINAL_FILE_NAME=scoringhero_${ARCH}" >> $GITHUB_ENV
         echo "ASSET_NAME=scoringhero_mac_${ARCH}" >> $GITHUB_ENV
 
-    - name: Build virtual environment
-      run: python -m venv ${{ env.VENV_PATH }}
-
-    - name: Debug Python environment
+    - name: Create venv and install dependencies
       run: |
-        source ${{ env.VENV_PATH }}/bin/activate
-        python --version
-        python -c "import sysconfig; print(sysconfig.get_platform())"
-        pip debug --verbose
-
-    - name: Install Python requirements
-      run: |
-        source ${{ env.VENV_PATH }}/bin/activate
-        arch -${{ matrix.arch }} pip install -r requirements-mac.txt
+        uv venv ${{ env.VENV_PATH }}
+        uv sync --extra build-mac
 
     - name: Build binary
       run: |

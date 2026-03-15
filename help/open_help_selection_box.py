@@ -40,4 +40,4 @@ def open_help_selection_box(ui):
     dialog.setLayout(layout)
     
     # Show the dialog
-    dialog.exec_()
+    dialog.exec()

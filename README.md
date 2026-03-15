@@ -32,40 +32,32 @@ No installation is required. Simply go to the **Releases** section on the right 
 
 ### Running from Source
 
+Requires [uv](https://docs.astral.sh/uv/getting-started/installation/) and Python 3.14.3.
+
 ```bash
 # Clone the repository
 git clone https://github.com/SvennoNito/ScoringHero.git
 cd ScoringHero
 
-# Create and activate a virtual environment
-python -m venv .venv
-# Windows
-.venv\Scripts\activate
-# macOS/Linux
-source .venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run
-python scoringhero.py
+# Install dependencies and run
+uv sync
+uv run scoringhero.py
 ```
 
 ### Building Standalone Binaries
 
 **Windows:**
 ```bash
-pip install -r requirements.txt
-pyinstaller scoringhero.spec
+uv sync --extra build-win
+./build-win.bat
 # Output: dist/scoringhero.exe
 ```
 
 **macOS** (both architectures, via GitHub Actions on release):
 ```bash
-python -m venv .venv_arm64
-source .venv_arm64/bin/activate
-arch -arm64 pip install -r requirements.txt
-arch -arm64 ./release-mac.sh
+uv sync --extra build-mac
+arch -arm64 ./release-mac.sh   # ARM64
+arch -x86_64 ./release-mac.sh  # x86_64
 ```
 
 ---
@@ -474,7 +466,7 @@ Key libraries:
 - **PyQtGraph** — Fast interactive plotting
 - **PyWavelets** — Wavelet transforms
 
-See [requirements.txt](requirements.txt) for the complete list with pinned versions.
+See [pyproject.toml](pyproject.toml) for the full dependency list and [uv.lock](uv.lock) for pinned versions.
 
 ---
 

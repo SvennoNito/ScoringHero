@@ -707,8 +707,6 @@ class ChannelConfiguration(QDialog):
             self.color.append(colorbox)
             self.shift.append(shiftbox)
 
-        layout.addLayout(form_layout)
-
     def _on_select_all_changed(self, channel_config):
         checked = self.select_all_checkbox.isChecked()
         for i, cb in enumerate(self.display):

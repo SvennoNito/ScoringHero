@@ -6,10 +6,18 @@
    "end": 30,
    "stage": "Wake",
    "digit": 1,
-   "confidence": 0.9672,
-   "channels": [],
+   "confidence": null,
+   "channels": [
+    "F3-A2",
+    "F4-A1",
+    "C3-A2",
+    "O1-A2",
+    "EOG1",
+    "EOG2",
+    "EMG"
+   ],
    "clean": 1,
-   "source": "YASA"
+   "source": "human"
   },
   {
    "epoch": 2,
@@ -17,10 +25,18 @@
    "end": 60,
    "stage": "Wake",
    "digit": 1,
-   "confidence": 0.9523,
-   "channels": [],
+   "confidence": null,
+   "channels": [
+    "F3-A2",
+    "F4-A1",
+    "C3-A2",
+    "O1-A2",
+    "EOG1",
+    "EOG2",
+    "EMG"
+   ],
    "clean": 1,
-   "source": "YASA"
+   "source": "human"
   },
   {
    "epoch": 3,
@@ -28,10 +44,18 @@
    "end": 90,
    "stage": "Wake",
    "digit": 1,
-   "confidence": 0.9262,
-   "channels": [],
+   "confidence": null,
+   "channels": [
+    "F3-A2",
+    "F4-A1",
+    "C3-A2",
+    "O1-A2",
+    "EOG1",
+    "EOG2",
+    "EMG"
+   ],
    "clean": 1,
-   "source": "YASA"
+   "source": "human"
   },
   {
    "epoch": 4,
@@ -39,10 +63,18 @@
    "end": 120,
    "stage": "Wake",
    "digit": 1,
-   "confidence": 0.9381,
-   "channels": [],
+   "confidence": null,
+   "channels": [
+    "F3-A2",
+    "F4-A1",
+    "C3-A2",
+    "O1-A2",
+    "EOG1",
+    "EOG2",
+    "EMG"
+   ],
    "clean": 1,
-   "source": "YASA"
+   "source": "human"
   },
   {
    "epoch": 5,
@@ -50,10 +82,18 @@
    "end": 150,
    "stage": "Wake",
    "digit": 1,
-   "confidence": 0.8606,
-   "channels": [],
+   "confidence": null,
+   "channels": [
+    "F3-A2",
+    "F4-A1",
+    "C3-A2",
+    "O1-A2",
+    "EOG1",
+    "EOG2",
+    "EMG"
+   ],
    "clean": 1,
-   "source": "YASA"
+   "source": "human"
   },
   {
    "epoch": 6,
@@ -61,10 +101,18 @@
    "end": 180,
    "stage": "Wake",
    "digit": 1,
-   "confidence": 0.9259,
-   "channels": [],
+   "confidence": null,
+   "channels": [
+    "F3-A2",
+    "F4-A1",
+    "C3-A2",
+    "O1-A2",
+    "EOG1",
+    "EOG2",
+    "EMG"
+   ],
    "clean": 1,
-   "source": "YASA"
+   "source": "human"
   },
   {
    "epoch": 7,
@@ -72,10 +120,18 @@
    "end": 210,
    "stage": "Wake",
    "digit": 1,
-   "confidence": 0.8881,
-   "channels": [],
+   "confidence": null,
+   "channels": [
+    "F3-A2",
+    "F4-A1",
+    "C3-A2",
+    "O1-A2",
+    "EOG1",
+    "EOG2",
+    "EMG"
+   ],
    "clean": 1,
-   "source": "YASA"
+   "source": "human"
   },
   {
    "epoch": 8,
@@ -83,10 +139,18 @@
    "end": 240,
    "stage": "Wake",
    "digit": 1,
-   "confidence": 0.8979,
-   "channels": [],
+   "confidence": null,
+   "channels": [
+    "F3-A2",
+    "F4-A1",
+    "C3-A2",
+    "O1-A2",
+    "EOG1",
+    "EOG2",
+    "EMG"
+   ],
    "clean": 1,
-   "source": "YASA"
+   "source": "human"
   },
   {
    "epoch": 9,
@@ -94,10 +158,18 @@
    "end": 270,
    "stage": "Wake",
    "digit": 1,
-   "confidence": 0.9922,
-   "channels": [],
+   "confidence": null,
+   "channels": [
+    "F3-A2",
+    "F4-A1",
+    "C3-A2",
+    "O1-A2",
+    "EOG1",
+    "EOG2",
+    "EMG"
+   ],
    "clean": 1,
-   "source": "YASA"
+   "source": "human"
   },
   {
    "epoch": 10,
@@ -974,10 +1046,18 @@
    "end": 2670,
    "stage": "N3",
    "digit": -3,
-   "confidence": 0.9389,
-   "channels": [],
+   "confidence": null,
+   "channels": [
+    "F3-A2",
+    "F4-A1",
+    "C3-A2",
+    "O1-A2",
+    "EOG1",
+    "EOG2",
+    "EMG"
+   ],
    "clean": 1,
-   "source": "YASA"
+   "source": "human"
   },
   {
    "epoch": 90,
@@ -985,10 +1065,18 @@
    "end": 2700,
    "stage": "N3",
    "digit": -3,
-   "confidence": 0.9629,
-   "channels": [],
+   "confidence": null,
+   "channels": [
+    "F3-A2",
+    "F4-A1",
+    "C3-A2",
+    "O1-A2",
+    "EOG1",
+    "EOG2",
+    "EMG"
+   ],
    "clean": 1,
-   "source": "YASA"
+   "source": "human"
   },
   {
    "epoch": 91,
@@ -996,10 +1084,18 @@
    "end": 2730,
    "stage": "N3",
    "digit": -3,
-   "confidence": 0.9678,
-   "channels": [],
+   "confidence": null,
+   "channels": [
+    "F3-A2",
+    "F4-A1",
+    "C3-A2",
+    "O1-A2",
+    "EOG1",
+    "EOG2",
+    "EMG"
+   ],
    "clean": 1,
-   "source": "YASA"
+   "source": "human"
   },
   {
    "epoch": 92,
@@ -1073,10 +1169,10 @@
    "end": 2940,
    "stage": "N3",
    "digit": -3,
-   "confidence": 0.9809,
+   "confidence": null,
    "channels": [],
    "clean": 1,
-   "source": "YASA"
+   "source": "human"
   },
   {
    "epoch": 99,

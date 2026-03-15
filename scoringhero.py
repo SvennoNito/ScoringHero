@@ -60,7 +60,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
             messagebox.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
             messagebox.setDefaultButton(QMessageBox.Cancel)
 
-            response = messagebox.exec_()
+            response = messagebox.exec()
             if response == QMessageBox.Cancel:
                 event.ignore()
                 return

@@ -15,11 +15,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Development Mode
 ```bash
-# Activate virtual environment
-./.venv/Scripts/activate  # Windows
-source ./.venv/bin/activate  # macOS/Linux
+# Install uv (one-time): https://docs.astral.sh/uv/getting-started/installation/
 
-# Run directly from source
+# Setup and run
+uv sync                    # Creates .venv and installs all deps
+uv run scoringhero.py      # Run the application
+
+# Or activate manually
+./.venv/Scripts/activate   # Windows
+source ./.venv/bin/activate  # macOS/Linux
 python scoringhero.py
 ```
 - Starts with example data from `example_data/example_data.mat` (`devmode=1` in `Ui_MainWindow.__init__`) when self.devmode = 1 in scoringhero.py
@@ -29,17 +33,16 @@ python scoringhero.py
 
 **macOS** (via GitHub Actions on release):
 ```bash
-python -m venv .venv_arm64
-source .venv_arm64/bin/activate
-arch -arm64 pip install -r requirements.txt
+uv venv .venv_arm64
+uv sync --extra build-mac
 arch -arm64 ./release-mac.sh
 ```
 Builds for both arm64 and x86_64 architectures.
 
 **Windows/Other**:
 ```bash
-pip install -r requirements.txt
-pyinstaller scoringhero.spec
+uv sync --extra build-win
+uv run pyinstaller scoringhero.spec
 ```
 Generates `dist/scoringhero.exe`. The spec file bundles:
 - MNE library data (required for channel location info)
