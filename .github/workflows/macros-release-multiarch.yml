@@ -41,7 +41,9 @@ jobs:
     - name: Install Python requirements
       run: |
         source ${{ env.VENV_PATH }}/bin/activate
-        arch -${{ matrix.arch }} pip install -r requirements.txt
+        grep -Ev 'pyinstaller|pywin32' requirements.txt > /tmp/mac_requirements.txt
+        arch -${{ matrix.arch }} pip install -r /tmp/mac_requirements.txt
+        arch -${{ matrix.arch }} pip install pyinstaller==6.19.0 pyinstaller-hooks-contrib==2025.3
 
     - name: Build binary
       run: |
