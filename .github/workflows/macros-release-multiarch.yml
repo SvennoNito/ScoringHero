@@ -31,10 +31,17 @@ jobs:
     - name: Build virtual environment
       run: python -m venv ${{ env.VENV_PATH }}
 
+    - name: Debug Python environment
+      run: |
+        source ${{ env.VENV_PATH }}/bin/activate
+        python --version
+        python -c "import sysconfig; print(sysconfig.get_platform())"
+        pip debug --verbose
+
     - name: Install Python requirements
       run: |
         source ${{ env.VENV_PATH }}/bin/activate
-        CFLAGS="-Wno-error=incompatible-pointer-types" arch -${{ matrix.arch }} pip install -r requirements.txt
+        arch -${{ matrix.arch }} pip install -r requirements.txt
 
     - name: Build binary
       run: |
