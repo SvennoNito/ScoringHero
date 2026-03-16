@@ -76,14 +76,18 @@ class Ui_MainWindow(QMainWindow):
         self.this_epoch = 0
 
         # Default paths
-        if getattr(sys, 'frozen', False):  
-            # Check if running as a frozen executable
-            # Path for a PyInstaller bundled app
+        if hasattr(sys, '_MEIPASS'):
+            # PyInstaller: resources in temp extraction dir, exe is the real location
             self.app_path = sys._MEIPASS
-            self.default_data_path = os.path.abspath(os.path.dirname(sys.executable))
+            self.default_data_path = os.path.dirname(os.path.abspath(sys.executable))
+        elif os.environ.get('NUITKA_ONEFILE_PARENT'):
+            # Nuitka onefile: __file__ is the temp extraction dir (where resources are)
+            # sys.executable is the actual .exe path
+            self.app_path = os.path.dirname(os.path.abspath(__file__))
+            self.default_data_path = os.path.dirname(os.path.abspath(sys.executable))
         else:
-            # Path for running as a script
-            self.app_path = os.path.dirname(os.path.abspath(__file__))        
+            # Running as a script
+            self.app_path = os.path.dirname(os.path.abspath(__file__))
             self.default_data_path = os.path.join(self.app_path, "example_data")
 
     def keyPressEvent(self, event):
