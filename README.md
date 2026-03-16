@@ -153,7 +153,7 @@ arch -x86_64 ./release-mac.sh  # x86_64
 | Format | Extension | Notes |
 |--------|-----------|-------|
 | EEGLAB | `.mat` | MATLAB v5 and v7.3+ (HDF5). Reads `EEG.data`, `EEG.srate`, and `EEG.chanlocs` |
-| EDF | `.edf` | European Data Format, read via MNE-Python |
+| EDF | `.edf` | European Data Format, read via pyedflib |
 | EDF (Volt-scaled) | `.edf` | For EDF files recorded in Volts — auto-converts to µV |
 | Zurich R09 | `.r09` | Legacy format support |
 
@@ -185,7 +185,7 @@ save('myrecording.mat', 'EEG', '-v7.3');            % -v7.3 required for files >
 
 #### EDF (`.edf`)
 
-Standard European Data Format, loaded with MNE-Python (`mne.io.read_raw_edf`). No special structure beyond a valid EDF file. A second loader variant auto-converts Volt-scaled signals to µV.
+Standard European Data Format, loaded with pyedflib (`pyedflib.EdfReader`). No special structure beyond a valid EDF file. A second loader variant auto-converts Volt-scaled signals to µV.
 
 #### Zurich R09 (`.r09`)
 
@@ -461,7 +461,7 @@ Key libraries:
 - **PySide6** — Qt6 Python bindings (GUI framework)
 - **NumPy** / **SciPy** — Numerical computing and signal processing
 - **Matplotlib** — Plotting backend for signal and spectral displays
-- **MNE-Python** — EEG/MEG file I/O (EDF reading, channel locations)
+- **pyedflib** — EDF file reading
 - **h5py** — HDF5 support for MATLAB v7.3+ files
 - **PyQtGraph** — Fast interactive plotting
 - **PyWavelets** — Wavelet transforms
