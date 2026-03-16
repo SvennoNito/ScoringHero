@@ -1,6 +1,5 @@
 import os, json, sys
 import numpy as np
-import pandas as pd
 from PySide6.QtWidgets import QApplication, QMessageBox,QPushButton
 from .default_scoring import default_scoring
 
@@ -37,13 +36,25 @@ def load_vis(scoring_filename, epolen, numepo, track=1):
         if visdata[-1][1] == 'e':
             visdata[-1][1] = visdata[-2][1]
 
-        df = pd.DataFrame(visdata, columns=['Epoch', 'SleepStage'])
-        df.set_index('Epoch', inplace=True)
-        df = df.reindex(range(1, visdata[-1][0] + 1))  # Assuming you want to include the last epoch as well
-        #df.fillna(method='bfill', inplace=True)
-        df.ffill(inplace=True)
-        df.bfill(inplace=True)
-        df = df['SleepStage'].values
+        last_epoch = visdata[-1][0]
+        filled = np.full(last_epoch, None, dtype=object)
+        for epoch, stage in visdata:
+            filled[int(epoch) - 1] = stage
+        # forward-fill
+        last = None
+        for i in range(len(filled)):
+            if filled[i] is not None:
+                last = filled[i]
+            elif last is not None:
+                filled[i] = last
+        # backward-fill
+        last = None
+        for i in range(len(filled) - 1, -1, -1):
+            if filled[i] is not None:
+                last = filled[i]
+            elif last is not None:
+                filled[i] = last
+        df = filled
         annotations = []
 
         mapping = {'0': 'Wake', '1': 'N1', '2': 'N2', '3': 'N3', 'r': 'REM', 'e': 'Wake'}

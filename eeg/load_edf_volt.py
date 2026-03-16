@@ -1,19 +1,17 @@
 import numpy as np
-import mne
+import pyedflib
 
 def load_edf_volt(filename_prefix):
-    file            = f'{filename_prefix}.edf'
-    data            = mne.io.read_raw_edf(file, preload=True) 
-
-    if data.info['chs'][0]['unit'] == 107:
-        print("Convert to microvolt ...")
-        data.apply_function(lambda x: x * 1e6)
-
-    eeg_data        = data.get_data()
-    srate           = data.info['sfreq']
-    channel_names   = data.info['ch_names']
-    for ch in data.info['chs']:
-        print(f"Channel: {ch['ch_name']}, Unit: {ch['unit']}")
+    file = f'{filename_prefix}.edf'
+    with pyedflib.EdfReader(file) as f:
+        srate         = int(f.getSampleFrequency(0))
+        channel_names = f.getSignalLabels()
+        units         = [f.getPhysicalDimension(i) for i in range(f.signals_in_file)]
+        eeg_data      = np.array([f.readSignal(i) for i in range(f.signals_in_file)])
+    for ch, unit in zip(channel_names, units):
+        print(f"Channel: {ch}, Unit: {unit}")
+    #if units[0].strip() == 'V':
+    print("Convert to microvolt ...")
+    eeg_data = eeg_data * 1e6
     print(f"Min amplitude: {eeg_data[0].min()}, Max amplitude: {eeg_data[0].max()}")
-  
-    return eeg_data, int(srate), channel_names
+    return eeg_data, srate, channel_names
