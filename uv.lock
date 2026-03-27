@@ -79,6 +79,18 @@ wheels = [
 ]
 
 [[package]]
+name = "edfio"
+version = "0.4.13"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/2f/84/68b9cffe050757f2399ce85801c813eaa016f1a690234c0d091b34aca911/edfio-0.4.13.tar.gz", hash = "sha256:1744a7e7fc354d4e39082edcd4cac72ec1fa13414ca8a07c630d35f78da6c4dd", size = 27367, upload-time = "2026-02-11T10:01:47.766Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/51/2e/4c3ef336aa46144d5c166d25357d78de94049787a0afb7824e7c9dc44ec0/edfio-0.4.13-py3-none-any.whl", hash = "sha256:d70a1e50f7eb89f3af8c74d96a4daa7a0a7f74b82a8ee2fd01992267396afa23", size = 30359, upload-time = "2026-02-11T10:01:48.92Z" },
+]
+
+[[package]]
 name = "h5py"
 version = "3.15.1"
 source = { registry = "https://pypi.org/simple" }
@@ -231,18 +243,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/01/4a/9202e8d11714c1fc5951f2e1ef362f2d7fbc595e1f6717971d5dd750e969/pillow-12.1.1-cp314-cp314t-win32.whl", hash = "sha256:d2912fd8114fc5545aa3a4b5576512f64c55a03f3ebcca4c10194d593d43ea36", size = 6438736, upload-time = "2026-02-11T04:22:46.347Z" },
     { url = "https://files.pythonhosted.org/packages/f3/ca/cbce2327eb9885476b3957b2e82eb12c866a8b16ad77392864ad601022ce/pillow-12.1.1-cp314-cp314t-win_amd64.whl", hash = "sha256:4ceb838d4bd9dab43e06c363cab2eebf63846d6a4aeaea283bbdfd8f1a8ed58b", size = 7182894, upload-time = "2026-02-11T04:22:48.114Z" },
     { url = "https://files.pythonhosted.org/packages/ec/d2/de599c95ba0a973b94410477f8bf0b6f0b5e67360eb89bcb1ad365258beb/pillow-12.1.1-cp314-cp314t-win_arm64.whl", hash = "sha256:7b03048319bfc6170e93bd60728a1af51d3dd7704935feb228c4d4faab35d334", size = 2546446, upload-time = "2026-02-11T04:22:50.342Z" },
-]
-
-[[package]]
-name = "pyedflib"
-version = "0.1.42"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "numpy" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/8b/29/5080bc311a9f0f3802fb2919f3a7ff790f1ddbf352b21c282a479b895e10/pyedflib-0.1.42.tar.gz", hash = "sha256:39f35c60ce213f23ee954f89117f79b2adb5ef4894500fd9bf0f9298fb240efc", size = 2262626, upload-time = "2025-06-26T18:38:23.931Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/bd/71/432dc85d346d0a168ef75e56b8a60043f64cdf60a75856559ce888c00e51/pyedflib-0.1.42-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:4a00c11bcd4ca65c298fd5934cad5e4660a7e9493a6d0d0089536b6174b71b0b", size = 2856992, upload-time = "2025-06-26T18:37:59.642Z" },
 ]
 
 [[package]]
@@ -420,10 +420,10 @@ version = "0.2.0"
 source = { editable = "." }
 dependencies = [
     { name = "decorator" },
+    { name = "edfio" },
     { name = "h5py" },
     { name = "numpy" },
     { name = "pillow" },
-    { name = "pyedflib" },
     { name = "pyqtgraph" },
     { name = "pyside6" },
     { name = "pywavelets" },
@@ -443,12 +443,12 @@ build-win = [
 [package.metadata]
 requires-dist = [
     { name = "decorator", specifier = ">=5.1.1" },
+    { name = "edfio", specifier = ">=0.4.0" },
     { name = "h5py", specifier = ">=3.12.1,<3.16.0" },
     { name = "nuitka", extras = ["onefile"], marker = "extra == 'build-mac'", specifier = ">=4.0.5" },
     { name = "nuitka", extras = ["onefile"], marker = "extra == 'build-win'", specifier = ">=4.0.5" },
     { name = "numpy", specifier = ">=2.2.0" },
     { name = "pillow", specifier = ">=11.0.0" },
-    { name = "pyedflib", specifier = ">=0.1.22" },
     { name = "pyqtgraph", specifier = ">=0.13.7" },
     { name = "pyside6", specifier = ">=6.8.1" },
     { name = "pywavelets", specifier = ">=1.8.0" },

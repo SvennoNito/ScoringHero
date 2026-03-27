@@ -1,14 +1,13 @@
 import numpy as np
-import pyedflib
+from edfio import read_edf as _read_edf
 
-def load_edf(filename_prefix):
+
+def load_edf(filename_prefix, scale_to_uv=False):
     file = f'{filename_prefix}.edf'
-    with pyedflib.EdfReader(file) as f:
-        srate         = int(f.getSampleFrequency(0))
-        channel_names = f.getSignalLabels()
-        units         = [f.getPhysicalDimension(i) for i in range(f.signals_in_file)]
-        eeg_data      = np.array([f.readSignal(i) for i in range(f.signals_in_file)])
-    for ch, unit in zip(channel_names, units):
-        print(f"Channel: {ch}, Unit: {unit}")
-    print(f"Min amplitude: {eeg_data[0].min()}, Max amplitude: {eeg_data[0].max()}")
+    edf = _read_edf(file)
+    srate = int(edf.signals[0].sampling_frequency)
+    channel_names = [s.label for s in edf.signals]
+    eeg_data = np.array([s.data for s in edf.signals])
+    if scale_to_uv:
+        eeg_data = eeg_data * 1e6
     return eeg_data, srate, channel_names

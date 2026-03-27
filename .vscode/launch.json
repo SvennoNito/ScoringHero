@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "Python: Fixed Debugger",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "python": "${workspaceFolder}/.venv/Scripts/python.exe", // Hardcode the venv path

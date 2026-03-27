@@ -4,7 +4,6 @@
       "Bash(find . -name \"*.py\" -not -path \"./.venv/*\" -type f -exec wc -l {} +)",
       "Bash(xxd \"c:/Postdoc/Scripts/ScoringHero/requirements.txt\")",
       "Bash(gh auth:*)",
-      "Bash(python -c \":*)",
       "Bash(python -c \"import sys; print\\(sys.executable\\)\")",
       "Bash(uv --version)",
       "Bash(python -c \"with open\\(''scoringhero.py'',''r''\\) as f: print\\(''''.join\\(f.readlines\\(\\)[:50]\\)\\)\")",
@@ -19,7 +18,12 @@
       "Bash(uv python:*)",
       "Bash(uv sync:*)",
       "Bash(find c:/Postdoc/Scripts/ScoringHero/.venv/Lib/site-packages/nuitka/build -name *.h)",
-      "Bash(uv pip:*)"
+      "Bash(uv pip:*)",
+      "WebSearch",
+      "WebFetch(domain:mne.discourse.group)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.teuniz.net)",
+      "WebFetch(domain:pypi.org)"
     ]
   }
 }
