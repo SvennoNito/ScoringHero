@@ -53,7 +53,9 @@
       3.0
     ],
     "Stack_channels": false,
-    "Robust_z_standardize": false
+    "Robust_z_standardize": false,
+    "Periodogram_channel": "F3-A2",
+    "Periodogram_display_mode": "1/f Removed"
   },
   [
     {

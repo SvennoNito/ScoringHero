@@ -8,4 +8,5 @@ from .paintEventWidget import PaintEventWidget
 from .rectanglePower import RectanglePower
 from .annotationContainer import AnnotationContainer
 from .configurationWindow import ConfigurationWindow
+from .filterWindow import FilterWindow
 from .tfWidget import TFWidget

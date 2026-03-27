@@ -24,6 +24,9 @@ def load_wrapper(ui, datatype):
     if datatype == "edfvolt":
         ui.eeg_data, srate, channel_names = load_edf(ui.filename, scale_to_uv=True)
 
+    # Display copy starts as the raw data (no filter applied yet)
+    ui.eeg_data_display = ui.eeg_data
+
     try:
         numchans = ui.eeg_data.shape[0]
     except:
@@ -43,7 +46,7 @@ def load_wrapper(ui, datatype):
 
     times_vector(ui)
     ui.toolbar_jump_to_epoch.setMaximum(ui.numepo)
-    ui.SignalWidget.draw_signal(ui.config, ui.eeg_data, ui.times, ui.this_epoch)
+    ui.SignalWidget.draw_signal(ui.config, ui.eeg_data_display, ui.times, ui.this_epoch)
     ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
     load_cache(ui)
     ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)

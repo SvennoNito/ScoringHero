@@ -22,6 +22,7 @@ from utilities.zoom_on_selected_eeg import zoom_on_selected_eeg
 from events.event_handler import event_handler
 from utilities.score_not_sure import score_not_sure
 from config.open_config_window import open_config_window
+from filter.open_filter_window import open_filter_window
 from scoring.scoring_import_window import scoring_import_window
 # from scoring.score_yasa import score_yasa
 from eeg.eeg_import_window import eeg_import_window
@@ -333,6 +334,12 @@ def setup_ui(ui, MainWindow):
     ui.action_zoom.triggered.connect(lambda: zoom_on_selected_eeg(ui))
     ui.action_zoom.setShortcut("Z")
     ui.menu_utils.addAction(ui.action_zoom)
+
+    ui.action_filter = QAction("Filter", MainWindow)
+    ui.action_filter.setObjectName("action_filter")
+    ui.action_filter.triggered.connect(lambda: open_filter_window(ui))
+    ui.action_filter.setShortcut("Ctrl+F")
+    ui.menu_utils.addAction(ui.action_filter)
 
     # Options menu
     ui.menu_config = QMenu("Configuration", ui.menu)
