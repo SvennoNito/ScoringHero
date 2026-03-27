@@ -58,7 +58,8 @@ def apply_changes(config_parameter_name, ui):
             ui.config[0]["Periodogram_limit_hz"][1],
         )
         power = min_max_scale(power)
-        ui.RectanglePower.update_powerline(freqs, power)
+        channel_name = ui.config[0].get("Channel_for_spectogram", "")
+        ui.RectanglePower.update_powerline(freqs, power, channel_name)
 
     if "Wavelet_frequency_limits_hz" in config_parameter_name:
         srate = ui.config[0]["Sampling_rate_hz"]

@@ -39,7 +39,8 @@ def paint_event_handler(ui):
                 # Display length and amplitude of rectangles
                 rectangle_size(ui, data, channel, converted_corners, converted_shape)
 
-                # Compute power           
+                # Compute power
                 freqs, power = compute_periodogram(ui, data, times)
-                ui.RectanglePower.update_powerline(freqs, power)
+                channel_name = ui.config[1][channel]["Channel_name"]
+                ui.RectanglePower.update_powerline(freqs, power, channel_name)
 

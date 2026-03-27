@@ -31,7 +31,8 @@ def refresh_gui(ui):
         ui.config[0]["Periodogram_limit_hz"][1],
     )
     power = min_max_scale(power)
-    ui.RectanglePower.update_powerline(freqs, power)
+    channel_name = ui.config[0].get("Channel_for_spectogram", "")
+    ui.RectanglePower.update_powerline(freqs, power, channel_name)
 
     # Update time-frequency panel
     call_tf_widget(ui)
