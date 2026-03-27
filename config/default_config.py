@@ -7,12 +7,12 @@ def default_configuration(number_of_channels, srate, channel_names):
         "Reference_amplitude_line_muV": 37.5,
         "Channel_for_spectogram": channel_names[0] if len(channel_names) > 0 else "Channel 1",
         "Extension_epoch_s": [5, 5],
-        "Spectogram_limit_hz": [0, 30],
-        "Periodogram_limit_hz": [4, 35],
+        "Spectogram_limit_hz": [0, 45],
+        "Periodogram_limit_hz": [4, 45],
         "EEG_panel_time_unit": "Seconds",
-        "Wavelet_display_mode": "Raw Power",
+        "Wavelet_display_mode": "dB (median baseline)",
         "Wavelet_frequency_scale": "Linear",
-        "Wavelet_frequency_limits_hz": [1, 45],
+        "Wavelet_frequency_limits_hz": [0, 45],
         "Wavelet_channel": channel_names[0] if len(channel_names) > 0 else "Channel 1",
         "Wavelet_panel_visible": True,
         "Spectrogram_power_limits": [-1, 3],
@@ -38,15 +38,19 @@ def default_configuration(number_of_channels, srate, channel_names):
     ]
 
     if number_of_channels == 9:
-        configuration_settings[1][1]["Display_on_screen"] = 0     
-        configuration_settings[1][3]["Display_on_screen"] = 0        
-        configuration_settings[1][5]["Display_on_screen"] = 0        
-        configuration_settings[1][6]["Channel_color"] = "Blue"
-        configuration_settings[1][7]["Channel_color"] = "Blue"
-        configuration_settings[1][8]["Channel_color"] = "Magenta"
+        configuration_settings[1][1]["Display_on_screen"] = 0
+        configuration_settings[1][3]["Display_on_screen"] = 0
+        configuration_settings[1][5]["Display_on_screen"] = 0
 
     if len(channel_names) > 0:
         for row, channel_name in enumerate(channel_names):
             configuration_settings[1][row]["Channel_name"] = channel_name
+            name_upper = channel_name.upper()
+            if "EOG" in name_upper:
+                configuration_settings[1][row]["Channel_color"] = "Blue"
+            elif "ECG" in name_upper:
+                configuration_settings[1][row]["Channel_color"] = "Magenta"
+            elif "EMG" in name_upper:
+                configuration_settings[1][row]["Channel_color"] = "Orange"
 
     return configuration_settings
