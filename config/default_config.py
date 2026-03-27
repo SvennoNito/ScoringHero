@@ -9,6 +9,8 @@ def default_configuration(number_of_channels, srate, channel_names):
         "Extension_epoch_s": [5, 5],
         "Spectogram_limit_hz": [0, 45],
         "Periodogram_limit_hz": [4, 45],
+        "Periodogram_channel": channel_names[0] if len(channel_names) > 0 else "Channel 1",
+        "Periodogram_display_mode": "1/f Removed",
         "EEG_panel_time_unit": "Seconds",
         "Wavelet_display_mode": "dB (median baseline)",
         "Wavelet_frequency_scale": "Linear",

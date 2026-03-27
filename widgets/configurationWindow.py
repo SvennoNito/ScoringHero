@@ -26,7 +26,7 @@ class ConfigurationWindow(QDialog):
     def __init__(self, config, AnnotationContainer, allow_staging, channel_labels=None):
         super().__init__()
         self.setWindowTitle("Configuration Window")
-        self.resize(500, 400)
+        self.resize(575, 460)
 
         self.layout = QVBoxLayout(self)
         self.tabs = QTabWidget()
@@ -38,6 +38,7 @@ class ConfigurationWindow(QDialog):
         self.events_page = EventConfiguration(AnnotationContainer)
         self.spectrogram_page = SpectrogramConfiguration(config[0], channel_labels or [])
         self.wavelet_page = WaveletConfiguration(config[0], channel_labels or [])
+        self.periodogram_page = PeriodogramConfiguration(config[0], channel_labels or [])
         # self.layout_page = PanelLayout(config[0])
 
         # Add the pages to the tabs
@@ -45,11 +46,12 @@ class ConfigurationWindow(QDialog):
         self.tabs.addTab(self.channel_page, "Channels")
         self.tabs.addTab(self.events_page, "Events")
         self.tabs.addTab(self.spectrogram_page, "Spectrogram")
+        self.tabs.addTab(self.periodogram_page, "Periodogram")
         self.tabs.addTab(self.wavelet_page, "Wavelet")
         # self.tabs.addTab(self.events_page, "Layout")
 
     def return_page(self):
-        return self.channel_page, self.general_page, self.events_page, self.wavelet_page, self.spectrogram_page
+        return self.channel_page, self.general_page, self.events_page, self.wavelet_page, self.spectrogram_page, self.periodogram_page
     
 
 """ class PanelLayout(QDialog):
@@ -135,7 +137,6 @@ class GeneralConfiguration(QDialog):
             },
             "Reference_amplitude_line_muV": {"label": "Reference amplitude line", "unit": " \u03BCV"},
             "Extension_epoch_s": {"label": "Extent epoch", "unit": " s"},
-            "Periodogram_limit_hz": {"label": "Periodogram limits", "unit": " Hz"},
         }
 
         for config_parameter_name, specs in legend.items():
@@ -354,6 +355,109 @@ class SpectrogramConfiguration(QDialog):
         for id, spinbox_list in self.spinboxes.items():
             for index, spinbox in enumerate(spinbox_list):
                 value = float(spinbox.value()) if id == "Spectrogram_power_limits" else int(spinbox.value())
+                if isinstance(general_config[id], list):
+                    general_config[id][index] = value
+                else:
+                    general_config[id] = value
+        for id, optionbox_list in self.optionboxes.items():
+            for optionbox in optionbox_list:
+                general_config[id] = optionbox.currentText()
+        changed_config_settings = self.config_keys_which_changed(old_config, general_config)
+        self.changesMade.emit(changed_config_settings)
+
+    def config_keys_which_changed(self, config1, config2):
+        differing_keys = []
+        for key in config1.keys():
+            if config1[key] != config2[key]:
+                differing_keys.append(key)
+        return differing_keys
+
+
+class PeriodogramConfiguration(QDialog):
+    changesMade = Signal(list)
+
+    def __init__(self, general_config, channel_labels=None, parent=None):
+        super().__init__(parent)
+        layout = QVBoxLayout(self)
+        self.width_label = 200
+        self.spinboxes = {}
+        self.optionboxes = {}
+
+        # Description
+        description = QLabel(
+            "\u24d8 "
+            "Pwelch is computed on a given epoch or on selected parts of an EEG signal "
+            "and displayed in the Periodogram panel on the top right. "
+            "Configure periodogram parameters here."
+        )
+        description.setWordWrap(True)
+        layout.addWidget(description)
+
+        form_layout = QFormLayout()
+
+        # Channel selector
+        if channel_labels:
+            chan_label = QLabel("Channel")
+            chan_label.setAlignment(Qt.AlignRight)
+            chan_label.setFixedWidth(self.width_label)
+            row_layout = QHBoxLayout()
+            row_layout.addWidget(chan_label)
+            chan_box = QComboBox(self)
+            for label in channel_labels:
+                chan_box.addItem(label)
+            chan_box.setCurrentText(general_config.get("Periodogram_channel", channel_labels[0]))
+            chan_box.currentIndexChanged.connect(lambda: self.apply_changes(general_config))
+            self.optionboxes["Periodogram_channel"] = [chan_box]
+            row_layout.addWidget(chan_box)
+            form_layout.addRow(row_layout)
+
+        # Frequency limits spinboxes
+        freq_label = QLabel("Frequency limits")
+        freq_label.setAlignment(Qt.AlignRight)
+        freq_label.setFixedWidth(self.width_label)
+        row_layout = QHBoxLayout()
+        row_layout.addWidget(freq_label)
+        self.spinboxes["Periodogram_limit_hz"] = []
+        value_in_list = (
+            general_config["Periodogram_limit_hz"]
+            if isinstance(general_config["Periodogram_limit_hz"], list)
+            else [general_config["Periodogram_limit_hz"]]
+        )
+        for value in value_in_list:
+            spinbox = QDoubleSpinBox(self)
+            spinbox.setMinimum(0)
+            spinbox.setMaximum(10000)
+            spinbox.setDecimals(0)
+            spinbox.setValue(value)
+            spinbox.setSuffix(" Hz")
+            spinbox.editingFinished.connect(lambda: self.apply_changes(general_config))
+            self.spinboxes["Periodogram_limit_hz"].append(spinbox)
+            row_layout.addWidget(spinbox)
+        form_layout.addRow(row_layout)
+
+        # Display mode
+        mode_label = QLabel("Display mode")
+        mode_label.setAlignment(Qt.AlignRight)
+        mode_label.setFixedWidth(self.width_label)
+        row_layout = QHBoxLayout()
+        row_layout.addWidget(mode_label)
+        mode_box = QComboBox(self)
+        for option in ["Raw Power", "dB", "1/f Removed"]:
+            mode_box.addItem(option)
+        mode_box.setCurrentText(general_config.get("Periodogram_display_mode", "1/f Removed"))
+        mode_box.currentIndexChanged.connect(lambda: self.apply_changes(general_config))
+        self.optionboxes["Periodogram_display_mode"] = [mode_box]
+        row_layout.addWidget(mode_box)
+        form_layout.addRow(row_layout)
+
+        layout.addLayout(form_layout)
+        layout.addStretch(1)
+
+    def apply_changes(self, general_config):
+        old_config = copy.deepcopy(general_config)
+        for id, spinbox_list in self.spinboxes.items():
+            for index, spinbox in enumerate(spinbox_list):
+                value = int(spinbox.value())
                 if isinstance(general_config[id], list):
                     general_config[id][index] = value
                 else:

@@ -1,5 +1,4 @@
-from signal_processing.trim_power import trim_power
-from signal_processing.min_max_scale import min_max_scale
+from signal_processing.compute_epoch_periodogram import compute_epoch_periodogram
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 from utilities.tf_config_helper import call_tf_widget
 
@@ -24,14 +23,7 @@ def refresh_gui(ui):
     ui.SignalWidget.text_period.setText("")
 
     # Show power line of epoch
-    power, freqs = trim_power(
-        ui.power[ui.this_epoch],
-        ui.freqs,
-        ui.config[0]["Periodogram_limit_hz"][0],
-        ui.config[0]["Periodogram_limit_hz"][1],
-    )
-    power = min_max_scale(power)
-    channel_name = ui.config[0].get("Channel_for_spectogram", "")
+    freqs, power, channel_name = compute_epoch_periodogram(ui, ui.this_epoch)
     ui.RectanglePower.update_powerline(freqs, power, channel_name)
 
     # Update time-frequency panel

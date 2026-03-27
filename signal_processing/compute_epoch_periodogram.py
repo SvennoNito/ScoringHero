@@ -1,28 +1,37 @@
 from scipy.signal import welch
 from scipy.ndimage import uniform_filter1d
 import numpy as np
-
-from .sample_from_selection import sample_from_selection
-from .channel_from_selection import channel_from_selection
-from signal_processing.trim_power import trim_power
-from signal_processing.min_max_scale import min_max_scale
+from .trim_power import trim_power
+from .min_max_scale import min_max_scale
 
 
-def compute_periodogram(ui, data, times):
+def compute_epoch_periodogram(ui, epoch_idx):
+    """Compute the periodogram for a given epoch using the configured periodogram channel and display mode."""
+    channel_names = [ch["Channel_name"] for ch in ui.config[1]]
+    periodogram_channel_name = ui.config[0].get(
+        "Periodogram_channel", channel_names[0] if channel_names else ""
+    )
+    channel_idx = (
+        channel_names.index(periodogram_channel_name)
+        if periodogram_channel_name in channel_names
+        else 0
+    )
 
-    # Compute power
+    _, epoch_indices, _ = ui.times[epoch_idx]
+    data = ui.eeg_data[channel_idx][epoch_indices].astype(float)
+
+    srate = int(ui.config[0]["Sampling_rate_hz"])
     freqs, power = welch(
         data,
-        fs=ui.config[0]["Sampling_rate_hz"],
+        fs=srate,
         window="hann",
-        nperseg=min(len(data), 2 * ui.config[0]["Sampling_rate_hz"]),
+        nperseg=min(len(data), 2 * srate),
         detrend="constant",
         return_onesided=True,
         scaling="density",
         average="mean",
     )
 
-    # Trim to frequencies of interest
     power, freqs = trim_power(
         power,
         freqs,
@@ -30,7 +39,6 @@ def compute_periodogram(ui, data, times):
         ui.config[0]["Periodogram_limit_hz"][1],
     )
 
-    # Apply display mode
     display_mode = ui.config[0].get("Periodogram_display_mode", "1/f Removed")
     if display_mode == "1/f Removed":
         power_smooth = uniform_filter1d(power, size=20)
@@ -42,6 +50,4 @@ def compute_periodogram(ui, data, times):
     else:  # Raw Power
         power = min_max_scale(power)
 
-    # Also store selected data in ui
-    ui.PaintEventWidget.selected_data = (data, times)
-    return freqs, power
+    return freqs, power, periodogram_channel_name

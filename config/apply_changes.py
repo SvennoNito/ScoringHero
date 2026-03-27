@@ -4,8 +4,7 @@ from eeg.number_of_epochs import number_of_epochs
 from scoring.default_scoring import default_scoring
 from cache.ui_to_cache import ui_to_cache
 from cache.write_cache import write_cache
-from signal_processing.trim_power import trim_power
-from signal_processing.min_max_scale import min_max_scale
+from signal_processing.compute_epoch_periodogram import compute_epoch_periodogram
 from signal_processing.times_vector import times_vector
 from signal_processing.spectogram_to_ui import spectogram_to_ui
 from signal_processing.freqs_of_interest import freqs_of_interest
@@ -50,15 +49,12 @@ def apply_changes(config_parameter_name, ui):
     if "Spectrogram_power_limits" in config_parameter_name:
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
 
-    if "Periodogram_limit_hz" in config_parameter_name:
-        power, freqs = trim_power(
-            ui.power[ui.this_epoch],
-            ui.freqs,
-            ui.config[0]["Periodogram_limit_hz"][0],
-            ui.config[0]["Periodogram_limit_hz"][1],
-        )
-        power = min_max_scale(power)
-        channel_name = ui.config[0].get("Channel_for_spectogram", "")
+    if (
+        "Periodogram_limit_hz" in config_parameter_name
+        or "Periodogram_channel" in config_parameter_name
+        or "Periodogram_display_mode" in config_parameter_name
+    ):
+        freqs, power, channel_name = compute_epoch_periodogram(ui, ui.this_epoch)
         ui.RectanglePower.update_powerline(freqs, power, channel_name)
 
     if "Wavelet_frequency_limits_hz" in config_parameter_name:
