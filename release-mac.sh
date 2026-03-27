@@ -11,6 +11,7 @@ python -m nuitka \
     --include-data-files=./help/images/selection_box.png=help/images/selection_box.png \
     --include-data-files=./style/modern_theme.qss=style/modern_theme.qss \
     --include-data-files=./spectral.txt=spectral.txt \
+    --include-distribution-info=scoringhero \
     --output-filename="$FINAL_FILE_NAME" \
     --output-dir=dist \
     scoringhero.py

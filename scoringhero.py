@@ -15,6 +15,7 @@ from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 import scipy.io, os, sys, json, re, h5py, datetime
 import numpy as np
+from importlib.metadata import version as _pkg_version
 
 from ui.setup_ui import setup_ui
 from utilities.timing_decorator import timing_decorator
@@ -37,7 +38,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.resize(800, 600)
         self.setStyleSheet("background-color: white;")
         self.ui = ui
-        self.ui.version = [0, 2, 0]      
+        self.ui.version = [int(x) for x in _pkg_version("scoringhero").split(".")]
         self.setWindowTitle(f"Scoring Hero v.{self.ui.version[0]}.{self.ui.version[1]}.{self.ui.version[2]}")
 
     def closeEvent(self, event):
