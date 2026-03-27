@@ -39,7 +39,7 @@ class RectanglePower(QWidget):
         # Axes
         self.axes.setYRange(0, 1, padding=0)
         self.axes.getAxis('left').setTicks([])
-        # self.axes.getAxis('left').setTicks([[(-4.5, "N4"), (-3.5, "N3"), (-2.5, "N2"), (-1.5, "N1"), (-0.5, "R"), (0.5, "W")]])
+        self.axes.showGrid(x=True, y=False, alpha=0.3)
 
         # Initiate
         self.powerline = self.axes.plot([0], [0], pen=self.pen)
@@ -49,19 +49,13 @@ class RectanglePower(QWidget):
         self.axes.setXRange(freqs[0], freqs[-1], padding=0)
         self._channel_label.setText(channel_name)
 
-        """         # Get the current axis range
-        axis = self.axes.getAxis('bottom')
-        start, end = 5, int(freqs[-1])
-        
-        # Calculate reasonable tick positions (mimic PyQtGraph's auto-ticks)
-        tick_positions = np.arange(start, end-5, 5, dtype=int)
-        tick_count = len(tick_positions)  # Number of ticks you want
-
-        # Create tick labels, adding "Hz" to the last one
-        ticks = []
-        for i, pos in enumerate(tick_positions):
-            label = f"{pos:.0f}" if i < tick_count - 1 else f"Hz"
-            ticks.append((pos, label))
-        
-        # Set the modified ticks
-        axis.setTicks([ticks]) """
+        # Build x ticks with "Hz" suffix on the last label
+        step = 5 if freqs[-1] <= 30 else 10
+        tick_positions = np.arange(
+            np.ceil(freqs[0] / step) * step, freqs[-1] + 1e-6, step, dtype=float
+        )
+        ticks = [
+            (pos, f"{int(pos)} Hz" if i == len(tick_positions) - 1 else f"{int(pos)}")
+            for i, pos in enumerate(tick_positions)
+        ]
+        self.axes.getAxis('bottom').setTicks([ticks, []])
