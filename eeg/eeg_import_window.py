@@ -37,7 +37,8 @@ def eeg_import_window(ui, MainWindow, datatype):
     ui.tool_nextunscored.setEnabled(True)
     ui.tool_nextuncertain.setEnabled(True)
     ui.tool_nexttransition.setEnabled(True)
-    ui.tool_nextevent.setEnabled(True)    
+    ui.tool_nextevent.setEnabled(True)
+    ui.tool_nexthuman.setEnabled(True)
 
     # Enable sliders
     ui.HypnogramSlider.enable_slider()

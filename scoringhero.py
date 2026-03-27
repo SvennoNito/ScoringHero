@@ -121,6 +121,7 @@ if __name__ == "__main__":
         ui.tool_nextuncertain.setEnabled(True)
         ui.tool_nexttransition.setEnabled(True)
         ui.tool_nextevent.setEnabled(True)
+        ui.tool_nexthuman.setEnabled(True)
         ui.HypnogramSlider.enable_slider()
 
     appstyler(app)
