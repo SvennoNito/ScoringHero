@@ -62,21 +62,28 @@ class FilterWindow(QDialog):
             lbl.setAlignment(align)
             return lbl
 
-        # Column indices
+        # Column indices — "All" is second from left; within each filter group: [Cutoff, Order, Enable]
         C_CHAN = 0
-        C_HP_EN, C_HP_CUT, C_HP_ORD = 1, 2, 3
-        C_LP_EN, C_LP_CUT, C_LP_ORD = 4, 5, 6
-        C_NT_EN, C_NT_CUT, C_NT_ORD = 7, 8, 9
-        LAST_COL = 9
+        C_ALL = 1
+        C_HP_CUT, C_HP_ORD, C_HP_EN = 2, 3, 4
+        C_SEP1 = 5
+        C_LP_CUT, C_LP_ORD, C_LP_EN = 6, 7, 8
+        C_SEP2 = 9
+        C_NT_CUT, C_NT_ORD, C_NT_EN = 10, 11, 12
+        LAST_COL = 12
+
+        # Visual spacing between filter groups
+        grid.setColumnMinimumWidth(C_SEP1, 18)
+        grid.setColumnMinimumWidth(C_SEP2, 18)
 
         # Row 0: filter-group super-headers (spanning 3 columns each)
-        grid.addWidget(_hdr("High-pass filter"), 0, C_HP_EN, 1, 3, Qt.AlignCenter)
-        grid.addWidget(_hdr("Low-pass filter"),  0, C_LP_EN, 1, 3, Qt.AlignCenter)
-        grid.addWidget(_hdr("Notch filter"),     0, C_NT_EN, 1, 3, Qt.AlignCenter)
+        grid.addWidget(_hdr("All"),              0, C_ALL,   1, 1, Qt.AlignCenter)
+        grid.addWidget(_hdr("High-pass filter"), 0, C_HP_CUT, 1, 3, Qt.AlignCenter)
+        grid.addWidget(_hdr("Low-pass filter"),  0, C_LP_CUT, 1, 3, Qt.AlignCenter)
+        grid.addWidget(_hdr("Notch filter"),     0, C_NT_CUT, 1, 3, Qt.AlignCenter)
 
         # Row 1: column sub-headers
         grid.addWidget(_hdr("Channel", Qt.AlignLeft), 1, C_CHAN)
-        # Enable columns: no text (the super-header names the group)
         grid.addWidget(_hdr("Cutoff"), 1, C_HP_CUT)
         grid.addWidget(_hdr("Order"),  1, C_HP_ORD)
         grid.addWidget(_hdr("Cutoff"), 1, C_LP_CUT)
@@ -84,17 +91,10 @@ class FilterWindow(QDialog):
         grid.addWidget(_hdr("Cutoff"), 1, C_NT_CUT)
         grid.addWidget(_hdr("Order"),  1, C_NT_ORD)
 
-        # Row 2: "Apply to all channels" — column-wise enable toggles
-        apply_row_label = QLabel("Apply to all channels")
-        grid.addWidget(apply_row_label, 2, C_CHAN, Qt.AlignLeft | Qt.AlignVCenter)
-
         self._col_hp    = QCheckBox()
         self._col_lp    = QCheckBox()
         self._col_notch = QCheckBox()
-
-        grid.addWidget(self._col_hp,    2, C_HP_EN, Qt.AlignCenter)
-        grid.addWidget(self._col_lp,    2, C_LP_EN, Qt.AlignCenter)
-        grid.addWidget(self._col_notch, 2, C_NT_EN, Qt.AlignCenter)
+        self._col_all   = QCheckBox()
 
         # Per-channel widget lists
         self._hp_enabled    = []
@@ -106,11 +106,12 @@ class FilterWindow(QDialog):
         self._notch_enabled = []
         self._notch_cutoff  = []
         self._notch_order   = []
+        self._all_enabled   = []
 
         nyquist = sampling_rate / 2.0
 
         for ch_idx, chaninfo in enumerate(channel_config):
-            row = ch_idx + 3  # rows 0-2 are super-header, sub-header, "apply all"
+            row = ch_idx + 2  # rows 0-1 are super-header and sub-header
 
             name_lbl = QLabel(chaninfo["Channel_name"])
 
@@ -156,6 +157,8 @@ class FilterWindow(QDialog):
             nt_ord.setDecimals(0)
             nt_ord.setValue(4)
 
+            all_cb = QCheckBox()
+
             # Propagate changes to all channels when checkbox is ticked
             hp_cb.stateChanged.connect( lambda _, i=ch_idx: self._propagate(i, "hp_enabled"))
             hp_cut.valueChanged.connect(lambda _, i=ch_idx: self._propagate(i, "hp_cutoff"))
@@ -166,17 +169,19 @@ class FilterWindow(QDialog):
             nt_cb.stateChanged.connect( lambda _, i=ch_idx: self._propagate(i, "notch_enabled"))
             nt_cut.valueChanged.connect(lambda _, i=ch_idx: self._propagate(i, "notch_cutoff"))
             nt_ord.valueChanged.connect(lambda _, i=ch_idx: self._propagate(i, "notch_order"))
+            all_cb.stateChanged.connect(lambda state, i=ch_idx: self._set_all_row(i, state))
 
             grid.addWidget(name_lbl, row, C_CHAN,   Qt.AlignLeft | Qt.AlignVCenter)
-            grid.addWidget(hp_cb,    row, C_HP_EN,  Qt.AlignCenter)
+            grid.addWidget(all_cb,   row, C_ALL,    Qt.AlignCenter)
             grid.addWidget(hp_cut,   row, C_HP_CUT)
             grid.addWidget(hp_ord,   row, C_HP_ORD)
-            grid.addWidget(lp_cb,    row, C_LP_EN,  Qt.AlignCenter)
+            grid.addWidget(hp_cb,    row, C_HP_EN,  Qt.AlignCenter)
             grid.addWidget(lp_cut,   row, C_LP_CUT)
             grid.addWidget(lp_ord,   row, C_LP_ORD)
-            grid.addWidget(nt_cb,    row, C_NT_EN,  Qt.AlignCenter)
+            grid.addWidget(lp_cb,    row, C_LP_EN,  Qt.AlignCenter)
             grid.addWidget(nt_cut,   row, C_NT_CUT)
             grid.addWidget(nt_ord,   row, C_NT_ORD)
+            grid.addWidget(nt_cb,    row, C_NT_EN,  Qt.AlignCenter)
 
             self._hp_enabled.append(hp_cb)
             self._hp_cutoff.append(hp_cut)
@@ -187,6 +192,16 @@ class FilterWindow(QDialog):
             self._notch_enabled.append(nt_cb)
             self._notch_cutoff.append(nt_cut)
             self._notch_order.append(nt_ord)
+            self._all_enabled.append(all_cb)
+
+        # "Apply to all channels" — column-wise enable toggles (last row)
+        apply_row = len(channel_config) + 2
+        apply_row_label = QLabel("Apply to all channels")
+        grid.addWidget(apply_row_label, apply_row, C_CHAN, Qt.AlignLeft | Qt.AlignVCenter)
+        grid.addWidget(self._col_all,   apply_row, C_ALL,   Qt.AlignCenter)
+        grid.addWidget(self._col_hp,    apply_row, C_HP_EN, Qt.AlignCenter)
+        grid.addWidget(self._col_lp,    apply_row, C_LP_EN, Qt.AlignCenter)
+        grid.addWidget(self._col_notch, apply_row, C_NT_EN, Qt.AlignCenter)
 
         # Push content to the top — sink all spare vertical space into an empty last row
         grid.setRowStretch(len(channel_config) + 3, 1)
@@ -197,6 +212,11 @@ class FilterWindow(QDialog):
         self._col_hp.stateChanged.connect(   lambda s: self._set_all_column(self._hp_enabled,    s))
         self._col_lp.stateChanged.connect(   lambda s: self._set_all_column(self._lp_enabled,    s))
         self._col_notch.stateChanged.connect(lambda s: self._set_all_column(self._notch_enabled, s))
+        self._col_all.stateChanged.connect(  lambda s: (
+            self._set_all_column(self._hp_enabled,    s),
+            self._set_all_column(self._lp_enabled,    s),
+            self._set_all_column(self._notch_enabled, s),
+        ))
 
         # Apply button
         apply_button = QPushButton("Apply")
@@ -207,6 +227,20 @@ class FilterWindow(QDialog):
         button_layout.addStretch(1)
         button_layout.addWidget(apply_button)
         layout.addLayout(button_layout)
+
+    def _set_all_row(self, ch_idx, state):
+        checked = bool(state)
+        targets = (
+            [self._hp_enabled, self._lp_enabled, self._notch_enabled]
+            if self.apply_all_checkbox.isChecked()
+            else None
+        )
+        for filter_list in [self._hp_enabled, self._lp_enabled, self._notch_enabled]:
+            rows = range(len(filter_list)) if targets is not None else [ch_idx]
+            for i in rows:
+                filter_list[i].blockSignals(True)
+                filter_list[i].setChecked(checked)
+                filter_list[i].blockSignals(False)
 
     def _set_all_column(self, checkbox_list, state):
         checked = bool(state)
