@@ -140,6 +140,26 @@ arch -x86_64 ./release-mac.sh  # x86_64
 - Configurable frequency band display
 - Updates automatically when a selection is drawn or modified
 
+### Signal Filtering
+
+![Filter Window](screenshots/filter.png)
+
+- Apply **high-pass**, **low-pass**, and/or **notch** filters to each EEG channel independently
+- Uses a Chebyshev Type 2 filter (zero-phase via forward-backward pass)
+- Configurable **cutoff frequency** and **filter order** per channel
+- The specified cutoff is the −40 dB stopband attenuation point
+- Filters affect only the **displayed EEG signal** — power computations (spectrogram, wavelet, SWA) are unaffected
+- **Apply to all channels** checkbox to propagate settings across all channels at once
+
+### Automatic Sleep Scoring (GSSC)
+
+![Auto Score (GSSC) Window](screenshots/GSSC.png)
+
+- One-click automatic sleep scoring via the **Greifswald Sleep Stage Classifier (GSSC)**
+- Select which channels to pass as **EEG** and **EOG** inputs (both optional)
+- Option to apply GSSC's internal bandpass filter (0.3–30 Hz) before scoring
+- Predicted stages are imported directly into ScoringHero and can be reviewed, corrected, and exported like any other scoring
+
 ### Zoom
 - Draw a rectangle on the signal and press `Z` to zoom into that region
 - Inspect fine-grained signal details at any scale
