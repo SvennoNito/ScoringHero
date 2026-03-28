@@ -18,6 +18,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+gssc = ["gssc"]
 build-win = ["nuitka[onefile]>=4.0.5"]
 build-mac = ["nuitka[onefile]>=4.0.5"]
 

@@ -23,6 +23,7 @@ from events.event_handler import event_handler
 from utilities.score_not_sure import score_not_sure
 from config.open_config_window import open_config_window
 from filter.open_filter_window import open_filter_window
+from scoring.open_gssc_window import open_gssc_window
 from scoring.scoring_import_window import scoring_import_window
 # from scoring.score_yasa import score_yasa
 from eeg.eeg_import_window import eeg_import_window
@@ -340,6 +341,12 @@ def setup_ui(ui, MainWindow):
     ui.action_filter.triggered.connect(lambda: open_filter_window(ui))
     ui.action_filter.setShortcut("Ctrl+F")
     ui.menu_utils.addAction(ui.action_filter)
+
+    ui.action_gssc = QAction("Auto Score (GSSC)", MainWindow)
+    ui.action_gssc.setObjectName("action_gssc")
+    ui.action_gssc.setShortcut("Ctrl+G")
+    ui.action_gssc.triggered.connect(lambda: open_gssc_window(ui))
+    ui.menu_utils.addAction(ui.action_gssc)
 
     # Options menu
     ui.menu_config = QMenu("Configuration", ui.menu)
