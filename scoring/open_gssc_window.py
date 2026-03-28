@@ -15,6 +15,7 @@ except ImportError:
 
 from widgets import GsscWindow
 from .write_scoring import write_scoring
+from utilities.refresh_gui import refresh_gui
 
 
 def open_gssc_window(ui):
@@ -48,9 +49,10 @@ def _after_gssc_settings(ui, settings):
             "You can adjust the epoch length in the Configuration panel "
             "if you prefer 30s epochs."
         )
-        msg.addButton("Continue", QMessageBox.AcceptRole)
+        btn_continue = msg.addButton("Continue", QMessageBox.AcceptRole)
         msg.addButton("Cancel", QMessageBox.RejectRole)
-        if msg.exec() != 0:  # 0 = first button (Continue)
+        msg.exec()
+        if msg.clickedButton() != btn_continue:
             return
 
     # Step B: Existing scores check
@@ -171,6 +173,7 @@ def _execute_gssc(ui, settings, mode, overwrite_stages, progress):
         import gssc.infer as _gssc_infer_mod
         _orig_loudest_vote = _gssc_infer_mod.loudest_vote
         _gssc_infer_mod.loudest_vote = _patched_loudest_vote
+        _patched_loudest_vote._last_probs = None
         try:
             gssc_stages, _ = eeginfer.mne_infer(
                 raw,
@@ -229,12 +232,9 @@ def _execute_gssc(ui, settings, mode, overwrite_stages, progress):
         progress.setLabelText("Finished")
         QApplication.processEvents()
 
-        # Refresh GUI
-        ui.DisplayedEpochWidget.update_text(
-            ui.this_epoch, ui.numepo, ui.stages
-        )
-        ui.HypnogramWidget.draw_hypnogram(ui)
         write_scoring(ui)
+        ui.HypnogramWidget.draw_hypnogram(ui)
+        refresh_gui(ui)
 
         QTimer.singleShot(1500, progress.close)
 
