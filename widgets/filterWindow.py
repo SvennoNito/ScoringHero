@@ -13,15 +13,19 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont
 
-class FilterWindow(QDialog):
-    filterApplied = Signal(list)
+from filter.apply_filter import apply_filter
 
-    def __init__(self, channel_config, sampling_rate, parent=None):
+
+class FilterWindow(QDialog):
+    filterApplied = Signal()
+
+    def __init__(self, channel_config, sampling_rate, eeg_data, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Filter")
         self.resize(820, 500)
         self._channel_config = channel_config
         self._sampling_rate = sampling_rate
+        self._eeg_data = eeg_data
 
         layout = QVBoxLayout(self)
 
@@ -30,8 +34,8 @@ class FilterWindow(QDialog):
             "\u24d8 "
             "High-pass, low-pass, or notch-filter a given EEG channel using a"
             "Chebyshev Type 2 filter. The specified cutoff frequency is the "
-            "\u221240\u202fdB stopband edge, not the \u22123\u202fdB point."
-            "Filters affect only the displayed EEG signal, not any power computations."
+            "\u221240\u202fdB stopband edge, not the \u22123\u202fdB point. "
+            "Filters affect only the displayed EEG signal, not any power computations. "
             "Change filter parameters here. "
         )
         description.setWordWrap(True)
@@ -64,34 +68,37 @@ class FilterWindow(QDialog):
 
         # Column indices
         C_CHAN = 0
-        C_HP_CUT, C_HP_ORD, C_HP_EN = 1, 2, 3
-        C_SEP1 = 4
-        C_LP_CUT, C_LP_ORD, C_LP_EN = 5, 6, 7
-        C_SEP2 = 8
-        C_NT_CUT, C_NT_ORD, C_NT_EN = 9, 10, 11
-        LAST_COL = 11
-
-        grid.setColumnMinimumWidth(C_SEP1, 20)
-        grid.setColumnMinimumWidth(C_SEP2, 20)
+        C_HP_EN, C_HP_CUT, C_HP_ORD = 1, 2, 3
+        C_LP_EN, C_LP_CUT, C_LP_ORD = 4, 5, 6
+        C_NT_EN, C_NT_CUT, C_NT_ORD = 7, 8, 9
+        LAST_COL = 9
 
         # Row 0: filter-group super-headers (spanning 3 columns each)
-        grid.addWidget(_hdr("High-pass filter", Qt.AlignLeft), 0, C_HP_CUT, 1, 2)
-        grid.addWidget(_hdr("Low-pass filter",  Qt.AlignLeft), 0, C_LP_CUT, 1, 2)
-        grid.addWidget(_hdr("Notch filter",     Qt.AlignLeft), 0, C_NT_CUT, 1, 2)
+        grid.addWidget(_hdr("High-pass filter"), 0, C_HP_EN, 1, 3, Qt.AlignCenter)
+        grid.addWidget(_hdr("Low-pass filter"),  0, C_LP_EN, 1, 3, Qt.AlignCenter)
+        grid.addWidget(_hdr("Notch filter"),     0, C_NT_EN, 1, 3, Qt.AlignCenter)
 
         # Row 1: column sub-headers
         grid.addWidget(_hdr("Channel", Qt.AlignLeft), 1, C_CHAN)
         # Enable columns: no text (the super-header names the group)
-        grid.addWidget(_hdr("Cutoff", Qt.AlignLeft), 1, C_HP_CUT)
-        grid.addWidget(_hdr("Order",  Qt.AlignLeft), 1, C_HP_ORD)
-        grid.addWidget(_hdr("Cutoff", Qt.AlignLeft), 1, C_LP_CUT)
-        grid.addWidget(_hdr("Order",  Qt.AlignLeft), 1, C_LP_ORD)
-        grid.addWidget(_hdr("Cutoff", Qt.AlignLeft), 1, C_NT_CUT)
-        grid.addWidget(_hdr("Order",  Qt.AlignLeft), 1, C_NT_ORD)
+        grid.addWidget(_hdr("Cutoff"), 1, C_HP_CUT)
+        grid.addWidget(_hdr("Order"),  1, C_HP_ORD)
+        grid.addWidget(_hdr("Cutoff"), 1, C_LP_CUT)
+        grid.addWidget(_hdr("Order"),  1, C_LP_ORD)
+        grid.addWidget(_hdr("Cutoff"), 1, C_NT_CUT)
+        grid.addWidget(_hdr("Order"),  1, C_NT_ORD)
+
+        # Row 2: "Apply to all channels" — column-wise enable toggles
+        apply_row_label = QLabel("Apply to all channels")
+        grid.addWidget(apply_row_label, 2, C_CHAN, Qt.AlignLeft | Qt.AlignVCenter)
 
         self._col_hp    = QCheckBox()
         self._col_lp    = QCheckBox()
         self._col_notch = QCheckBox()
+
+        grid.addWidget(self._col_hp,    2, C_HP_EN, Qt.AlignCenter)
+        grid.addWidget(self._col_lp,    2, C_LP_EN, Qt.AlignCenter)
+        grid.addWidget(self._col_notch, 2, C_NT_EN, Qt.AlignCenter)
 
         # Per-channel widget lists
         self._hp_enabled    = []
@@ -107,7 +114,7 @@ class FilterWindow(QDialog):
         nyquist = sampling_rate / 2.0
 
         for ch_idx, chaninfo in enumerate(channel_config):
-            row = ch_idx + 2  # rows 0-1 are super-header and sub-header
+            row = ch_idx + 3  # rows 0-2 are super-header, sub-header, "apply all"
 
             name_lbl = QLabel(chaninfo["Channel_name"])
 
@@ -185,14 +192,6 @@ class FilterWindow(QDialog):
             self._notch_cutoff.append(nt_cut)
             self._notch_order.append(nt_ord)
 
-        # Last row: "Apply to all channels" — column-wise enable toggles
-        apply_row = len(channel_config) + 2
-        apply_row_label = QLabel("Apply to all channels")
-        grid.addWidget(apply_row_label,    apply_row, C_CHAN,  Qt.AlignLeft | Qt.AlignVCenter)
-        grid.addWidget(self._col_hp,       apply_row, C_HP_EN, Qt.AlignCenter)
-        grid.addWidget(self._col_lp,       apply_row, C_LP_EN, Qt.AlignCenter)
-        grid.addWidget(self._col_notch,    apply_row, C_NT_EN, Qt.AlignCenter)
-
         # Push content to the top — sink all spare vertical space into an empty last row
         grid.setRowStretch(len(channel_config) + 3, 1)
         # Push content to the left
@@ -259,4 +258,5 @@ class FilterWindow(QDialog):
                 "notch_cutoff":  self._notch_cutoff[i].value(),
                 "notch_order":   int(self._notch_order[i].value()),
             })
-        self.filterApplied.emit(filter_settings)
+        apply_filter(self._eeg_data, self._sampling_rate, filter_settings)
+        self.filterApplied.emit()
