@@ -13,19 +13,15 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont
 
-from filter.apply_filter import apply_filter
-
-
 class FilterWindow(QDialog):
-    filterApplied = Signal()
+    filterApplied = Signal(list)
 
-    def __init__(self, channel_config, sampling_rate, eeg_data, parent=None):
+    def __init__(self, channel_config, sampling_rate, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Filter")
         self.resize(820, 500)
         self._channel_config = channel_config
         self._sampling_rate = sampling_rate
-        self._eeg_data = eeg_data
 
         layout = QVBoxLayout(self)
 
@@ -258,5 +254,4 @@ class FilterWindow(QDialog):
                 "notch_cutoff":  self._notch_cutoff[i].value(),
                 "notch_order":   int(self._notch_order[i].value()),
             })
-        apply_filter(self._eeg_data, self._sampling_rate, filter_settings)
-        self.filterApplied.emit()
+        self.filterApplied.emit(filter_settings)

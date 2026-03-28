@@ -4,12 +4,14 @@ from filter.apply_filter import apply_filter
 
 
 def open_filter_window(ui):
-    ui.FilterWindow = FilterWindow(
-        ui.config[1],
-        ui.config[0]["Sampling_rate_hz"],
-    )
-    ui.FilterWindow.filterApplied.connect(lambda settings: _after_filter(ui, settings))
+    if not hasattr(ui, "FilterWindow") or ui.FilterWindow is None:
+        ui.FilterWindow = FilterWindow(
+            ui.config[1],
+            ui.config[0]["Sampling_rate_hz"],
+        )
+        ui.FilterWindow.filterApplied.connect(lambda settings: _after_filter(ui, settings))
     ui.FilterWindow.show()
+    ui.FilterWindow.raise_()
 
 
 def _after_filter(ui, filter_settings):

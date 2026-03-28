@@ -27,6 +27,9 @@ def load_wrapper(ui, datatype):
     # Display copy starts as the raw data (no filter applied yet)
     ui.eeg_data_display = ui.eeg_data
 
+    # Reset filter window so it is recreated with the new channel configuration
+    ui.FilterWindow = None
+
     try:
         numchans = ui.eeg_data.shape[0]
     except:
