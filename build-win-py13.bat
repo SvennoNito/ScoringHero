@@ -1,5 +1,6 @@
 @echo off
 set UV_PROJECT_ENVIRONMENT=.venv_build
+uv sync --python 3.13 --extra build-win
 uv run --python 3.13 --extra build-win python -m nuitka ^
     --onefile ^
     --jobs=8 ^
