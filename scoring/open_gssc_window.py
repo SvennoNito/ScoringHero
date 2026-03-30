@@ -155,15 +155,28 @@ def _execute_gssc(ui, settings, mode, overwrite_stages, progress):
         ch_names = [ch["Channel_name"] for ch in ui.config[1]]
         sfreq = ui.config[0]["Sampling_rate_hz"]
         info = create_info(ch_names=ch_names, sfreq=sfreq, ch_types="eeg")
-        raw = RawArray(ui.eeg_data, info, verbose=False)
+
+        # Nuitka-compiled frames omit 'self' from f_locals, which crashes
+        # MNE's _get_argvalues (frame introspection). Patch it to return
+        # None instead — _init_kwargs is only used for repr, not inference.
+        import mne.utils.misc as _mne_misc
+        _orig_get_argvalues = _mne_misc._get_argvalues
+        _mne_misc._get_argvalues = lambda: None
+        try:
+            raw = RawArray(ui.eeg_data, info, verbose=False)
+        finally:
+            _mne_misc._get_argvalues = _orig_get_argvalues
 
         # Run GSSC inference
         # PyTorch 2.6 changed the default of weights_only to True, but GSSC's
         # model files require weights_only=False to load. Patch torch.load
         # temporarily while EEGInfer loads its networks.
-        import torch, functools
+        import torch
         _orig_torch_load = torch.load
-        torch.load = functools.partial(_orig_torch_load, weights_only=False)
+        def _torch_load_compat(*args, **kwargs):
+            kwargs.setdefault("weights_only", False)
+            return _orig_torch_load(*args, **kwargs)
+        torch.load = _torch_load_compat
         try:
             eeginfer = EEGInfer(use_cuda=False)
         finally:
@@ -239,9 +252,13 @@ def _execute_gssc(ui, settings, mode, overwrite_stages, progress):
         QTimer.singleShot(1500, progress.close)
 
     except Exception as e:
+        import traceback
+        tb_str = traceback.format_exc()
         progress.close()
         QMessageBox.critical(
             None,
             "GSSC Error",
-            f"An error occurred while running GSSC:\n\n{str(e)}",
+            f"An error occurred while running GSSC:\n\n"
+            f"{type(e).__name__}: {e}\n\n"
+            f"Traceback:\n{tb_str}",
         )
