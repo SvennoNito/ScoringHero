@@ -44,6 +44,7 @@ def compute_morlet_tf(signal, srate, freqs, n_cycles=None, L2normalize=False):
         n_cycles_arr = np.asarray(n_cycles, dtype=float)
 
     n_samples = len(signal)
+    signal = signal - np.mean(signal)  # remove DC offset to avoid leakage into low-frequency wavelets
     signal_fft = np.fft.fft(signal)
     fft_freqs = np.fft.fftfreq(n_samples, d=1.0 / srate)
 
