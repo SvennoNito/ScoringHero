@@ -17,6 +17,7 @@ def default_configuration(number_of_channels, srate, channel_names):
         "Wavelet_frequency_limits_hz": [0, 45],
         "Wavelet_channel": channel_names[0] if len(channel_names) > 0 else "Channel 1",
         "Wavelet_panel_visible": True,
+        "Wavelet_show_ridge": False,
         "Spectrogram_power_limits": [-1, 3],
         "Wavelet_power_limits": {
             "Raw Power": [-1, 3],

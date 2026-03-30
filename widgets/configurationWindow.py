@@ -595,6 +595,19 @@ class WaveletConfiguration(QDialog):
         self._norm_box = norm_box
         norm_box.currentIndexChanged.connect(lambda: self._on_norm_changed(general_config))
 
+        # Ridge checkbox
+        ridge_label = QLabel("Show ridge")
+        ridge_label.setAlignment(Qt.AlignRight)
+        ridge_label.setFixedWidth(self.width_label)
+        ridge_checkbox = QCheckBox(self)
+        ridge_checkbox.setChecked(general_config.get("Wavelet_show_ridge", False))
+        ridge_checkbox.stateChanged.connect(lambda: self.apply_changes(general_config))
+        self.checkboxes["Wavelet_show_ridge"] = ridge_checkbox
+        row_layout = QHBoxLayout()
+        row_layout.addWidget(ridge_label)
+        row_layout.addWidget(ridge_checkbox)
+        form_layout.addRow(row_layout)
+
         # Visibility checkbox
         labelbox = QLabel("Show wavelet decomposition")
         labelbox.setAlignment(Qt.AlignRight)

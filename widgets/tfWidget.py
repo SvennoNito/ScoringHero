@@ -51,6 +51,11 @@ class TFWidget(QWidget):
         self._ref_lines = []  # horizontal reference lines at fixed Hz values
         self._prev_n_times = None  # tracks n_times to detect image size changes
 
+        # Ridge line: black line tracing the frequency with maximum power at each sample
+        self._ridge_line = pg.PlotDataItem(pen=pg.mkPen(color=(0, 0, 0), width=3))
+        self._ridge_line.setZValue(8)  # above image, below colorbar
+        self.axes.addItem(self._ridge_line)
+
         # self.axes.setLabel("left", "Hz", units=None)
         left_ax = self.axes.getAxis("left")
         # left_ax.setLabel(text="Hz", **{"font-size": "8pt", "color": "#999"})
@@ -118,7 +123,7 @@ class TFWidget(QWidget):
                 norm_median, norm_iqr, norm_rms, norm_median_linear=None, display_mode="Z-scored Power",
                 freq_scale="Logarithmic", freq_limits=None,
                 time_unit="Seconds", epoch_length=30, tf_channel_idx=0, channel_label="",
-                power_limits=None):
+                power_limits=None, show_ridge=False):
         """Compute Morlet power for this_epoch and update the ImageItem.
 
         Parameters
@@ -195,6 +200,15 @@ class TFWidget(QWidget):
         else:
             freqs_filtered = freqs_for_compute
 
+        # --- ridge: frequency index of max power at each time sample -----
+        n_times = power_display.shape[1]
+        if show_ridge:
+            ridge_indices = np.argmax(power_display, axis=0).astype(float)
+            self._ridge_line.setData(x=np.arange(n_times), y=ridge_indices + 0.5)
+            self._ridge_line.setVisible(True)
+        else:
+            self._ridge_line.setVisible(False)
+
         # --- update ImageItem (col-major: first axis = x = time) ------
         # Transpose so shape becomes (n_ext, n_freqs): x=time, y=freq.
         self.img.setImage(power_display.T)
@@ -202,7 +216,6 @@ class TFWidget(QWidget):
         self._channel_label.setText(channel_label)
 
         # --- axis ticks -----------------------------------------------
-        n_times = power_ext.shape[1]
         n_freqs = len(freqs_filtered)
 
         # Time axis: same tick positions and labels as the main signal panel
@@ -289,18 +302,18 @@ class TFWidget(QWidget):
                 norm_median, norm_iqr, norm_rms, norm_median_linear=None, display_mode="Z-scored Power",
                 freq_scale="Logarithmic", freq_limits=None,
                 time_unit="Seconds", epoch_length=30, tf_channel_idx=0, channel_label="",
-                power_limits=None):
+                power_limits=None, show_ridge=False):
         """First-time draw (called from redraw_gui)."""
         self._render(eeg_data, times_and_indices, this_epoch, srate, freqs,
                      norm_median, norm_iqr, norm_rms, norm_median_linear, display_mode, freq_scale, freq_limits,
-                     time_unit, epoch_length, tf_channel_idx, channel_label, power_limits)
+                     time_unit, epoch_length, tf_channel_idx, channel_label, power_limits, show_ridge)
 
     def update_tf(self, eeg_data, times_and_indices, this_epoch, srate, freqs,
                   norm_median, norm_iqr, norm_rms, norm_median_linear=None, display_mode="Z-scored Power",
                   freq_scale="Logarithmic", freq_limits=None,
                   time_unit="Seconds", epoch_length=30, tf_channel_idx=0, channel_label="",
-                  power_limits=None):
+                  power_limits=None, show_ridge=False):
         """Lightweight update on every epoch change (called from refresh_gui)."""
         self._render(eeg_data, times_and_indices, this_epoch, srate, freqs,
                      norm_median, norm_iqr, norm_rms, norm_median_linear, display_mode, freq_scale, freq_limits,
-                     time_unit, epoch_length, tf_channel_idx, channel_label, power_limits)
+                     time_unit, epoch_length, tf_channel_idx, channel_label, power_limits, show_ridge)
