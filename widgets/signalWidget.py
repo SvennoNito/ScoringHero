@@ -84,6 +84,17 @@ class SignalWidget(QWidget):
             # Extract data
             data = eeg_data[visible_counter][index_times]
 
+            # Re-reference: subtract another channel's signal
+            reref = config[1][visible_counter].get("Re_reference", "None")
+            if reref != "None":
+                ref_idx = next((i for i, ch in enumerate(config[1]) if ch["Channel_name"] == reref), None)
+                if ref_idx is not None:
+                    data = data - eeg_data[ref_idx][index_times]
+
+            # Flip polarity
+            if config[1][visible_counter].get("Flip_polarity", False):
+                data = -data
+
             # Robust z-standardize: (data - median) / IQR
             if z_standardize:
                 median_val = np.median(data)
@@ -287,6 +298,17 @@ class SignalWidget(QWidget):
 
             # Extract data
             data = eeg_data[visible_counter][index_times]
+
+            # Re-reference: subtract another channel's signal
+            reref = config[1][visible_counter].get("Re_reference", "None")
+            if reref != "None":
+                ref_idx = next((i for i, ch in enumerate(config[1]) if ch["Channel_name"] == reref), None)
+                if ref_idx is not None:
+                    data = data - eeg_data[ref_idx][index_times]
+
+            # Flip polarity
+            if config[1][visible_counter].get("Flip_polarity", False):
+                data = -data
 
             # Robust z-standardize: (data - median) / IQR
             if z_standardize:

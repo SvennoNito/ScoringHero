@@ -26,7 +26,7 @@ class ConfigurationWindow(QDialog):
     def __init__(self, config, AnnotationContainer, allow_staging, channel_labels=None):
         super().__init__()
         self.setWindowTitle("Configuration Window")
-        self.resize(575, 460)
+        self.resize(630, 500)
 
         self.layout = QVBoxLayout(self)
         self.tabs = QTabWidget()
@@ -595,19 +595,6 @@ class WaveletConfiguration(QDialog):
         self._norm_box = norm_box
         norm_box.currentIndexChanged.connect(lambda: self._on_norm_changed(general_config))
 
-        # Ridge checkbox
-        ridge_label = QLabel("Show ridge")
-        ridge_label.setAlignment(Qt.AlignRight)
-        ridge_label.setFixedWidth(self.width_label)
-        ridge_checkbox = QCheckBox(self)
-        ridge_checkbox.setChecked(general_config.get("Wavelet_show_ridge", False))
-        ridge_checkbox.stateChanged.connect(lambda: self.apply_changes(general_config))
-        self.checkboxes["Wavelet_show_ridge"] = ridge_checkbox
-        row_layout = QHBoxLayout()
-        row_layout.addWidget(ridge_label)
-        row_layout.addWidget(ridge_checkbox)
-        form_layout.addRow(row_layout)
-
         # Visibility checkbox
         labelbox = QLabel("Show wavelet decomposition")
         labelbox.setAlignment(Qt.AlignRight)
@@ -619,6 +606,26 @@ class WaveletConfiguration(QDialog):
         row_layout = QHBoxLayout()
         row_layout.addWidget(labelbox)
         row_layout.addWidget(tf_visible_checkbox)
+        form_layout.addRow(row_layout)
+
+        # Ridge checkbox
+        ridge_label = QLabel("Show ridge")
+        ridge_label.setAlignment(Qt.AlignRight)
+        ridge_label.setFixedWidth(self.width_label)
+        ridge_checkbox = QCheckBox(self)
+        ridge_checkbox.setChecked(general_config.get("Wavelet_show_ridge", False))
+        wavelet_visible = general_config.get("Wavelet_panel_visible", True)
+        ridge_checkbox.setEnabled(wavelet_visible)
+        ridge_label.setEnabled(wavelet_visible)
+        ridge_checkbox.stateChanged.connect(lambda: self.apply_changes(general_config))
+        self.checkboxes["Wavelet_show_ridge"] = ridge_checkbox
+        tf_visible_checkbox.stateChanged.connect(lambda state: (
+            ridge_checkbox.setEnabled(bool(state)),
+            ridge_label.setEnabled(bool(state)),
+        ))
+        row_layout = QHBoxLayout()
+        row_layout.addWidget(ridge_label)
+        row_layout.addWidget(ridge_checkbox)
         form_layout.addRow(row_layout)
 
         layout.addLayout(form_layout)
@@ -690,6 +697,8 @@ class ChannelConfiguration(QDialog):
         self.color = []
         self.label = []
         self.shift = []
+        self.reref = []
+        self.flip = []
 
         # Top checkboxes in 2x2 grid layout
         top_checkbox_layout = QGridLayout()
@@ -727,28 +736,51 @@ class ChannelConfiguration(QDialog):
         channel_name_widget_width = max(len(chaninfo["Channel_name"]) for chaninfo in channel_config) * 8 + 10
         channel_number_widget_width = len(str(len(channel_config))) * 6 *2
 
+        # All channel names (for re-reference dropdown)
+        all_channel_names = [ch["Channel_name"] for ch in channel_config]
+
+        # Fixed widths for each column so header labels align with data widgets
+        _dummy_spinbox = QDoubleSpinBox()
+        _dummy_spinbox.setSuffix(" %")
+        spinbox_w = _dummy_spinbox.sizeHint().width()
+        _dummy_colorbox = QComboBox()
+        for _c in ["Black", "Blue", "Green", "Magenta", "Orange", "Cyan"]:
+            _dummy_colorbox.addItem(_c)
+        colorbox_w = _dummy_colorbox.sizeHint().width()
+        rerefbox_w = max(len(n) for n in all_channel_names + ["None"]) * 8 + 35
+
         # Bold font
         bold_font = QFont()
         bold_font.setBold(True)
 
-        # Create header 
+        # Create header
         placeholder0 = QLabel("#")
-        placeholder0.setFixedWidth(channel_number_widget_width)      
+        placeholder0.setFixedWidth(channel_number_widget_width)
         placeholder0.setFont(bold_font)
-        placeholder0.setAlignment(Qt.AlignRight)   
+        placeholder0.setAlignment(Qt.AlignRight)
         placeholder1 = QLabel("")
         placeholder1.setFixedWidth(channel_name_widget_width)
         placeholder2 = QLabel("")
         placeholder2.setFixedWidth(QCheckBox().sizeHint().width())  # Set width of the placeholder to match the checkbox below
         labelbox1 = QLabel("Scaling factor")
-        labelbox1.setAlignment(Qt.AlignLeft) 
-        labelbox1.setFont(bold_font)           
+        labelbox1.setFixedWidth(spinbox_w)
+        labelbox1.setAlignment(Qt.AlignLeft)
+        labelbox1.setFont(bold_font)
         labelbox2 = QLabel("Vertical shift")
-        labelbox2.setAlignment(Qt.AlignLeft)  
-        labelbox2.setFont(bold_font)          
+        labelbox2.setFixedWidth(spinbox_w)
+        labelbox2.setAlignment(Qt.AlignLeft)
+        labelbox2.setFont(bold_font)
         labelbox3 = QLabel("Channel color")
-        labelbox3.setAlignment(Qt.AlignLeft)   
+        labelbox3.setFixedWidth(colorbox_w)
+        labelbox3.setAlignment(Qt.AlignLeft)
         labelbox3.setFont(bold_font)
+        labelbox4 = QLabel("Re-reference")
+        labelbox4.setFixedWidth(rerefbox_w)
+        labelbox4.setAlignment(Qt.AlignLeft)
+        labelbox4.setFont(bold_font)
+        labelbox5 = QLabel("Flip")
+        labelbox5.setAlignment(Qt.AlignLeft)
+        labelbox5.setFont(bold_font)
 
         row_layout = QHBoxLayout()
         row_layout.addWidget(placeholder0)
@@ -757,8 +789,11 @@ class ChannelConfiguration(QDialog):
         row_layout.addWidget(labelbox1)
         row_layout.addWidget(labelbox2)
         row_layout.addWidget(labelbox3)
+        row_layout.addWidget(labelbox4)
+        row_layout.addWidget(labelbox5)
+        row_layout.addStretch()
         form_layout.addRow(row_layout)
-        
+
         # Loop through channels
         for count, chaninfo in enumerate(channel_config):
 
@@ -781,6 +816,7 @@ class ChannelConfiguration(QDialog):
             spinbox.setDecimals(0)
             spinbox.setValue(chaninfo["Scaling_factor"])
             spinbox.setSuffix(" %")
+            spinbox.setFixedWidth(spinbox_w)
             spinbox.valueChanged.connect(lambda val, i=count: self.change_event(channel_config, i, "scale"))
 
             # Vertical shift
@@ -789,6 +825,7 @@ class ChannelConfiguration(QDialog):
             shiftbox.setMaximum(10000)
             shiftbox.setDecimals(0)
             shiftbox.setValue(chaninfo["Vertical_shift"])
+            shiftbox.setFixedWidth(spinbox_w)
             shiftbox.valueChanged.connect(lambda val, i=count: self.change_event(channel_config, i, "shift"))
 
             # Whether channel is displayed or not
@@ -806,7 +843,23 @@ class ChannelConfiguration(QDialog):
             colorbox.addItem("Orange")
             colorbox.addItem("Cyan")
             colorbox.setCurrentText(chaninfo["Channel_color"])
+            colorbox.setFixedWidth(colorbox_w)
             colorbox.currentIndexChanged.connect(lambda idx, i=count: self.change_event(channel_config, i, "color"))
+
+            # Re-reference dropdown
+            rerefbox = QComboBox(self)
+            rerefbox.addItem("None")
+            for name in all_channel_names:
+                if name != chaninfo["Channel_name"]:
+                    rerefbox.addItem(name)
+            rerefbox.setCurrentText(chaninfo.get("Re_reference", "None"))
+            rerefbox.setFixedWidth(rerefbox_w)
+            rerefbox.currentIndexChanged.connect(lambda idx, i=count: self.change_event(channel_config, i, "reref"))
+
+            # Flip polarity checkbox
+            flipbox = QCheckBox(self)
+            flipbox.setChecked(chaninfo.get("Flip_polarity", False))
+            flipbox.clicked.connect(lambda checked, i=count: self.change_event(channel_config, i, "flip"))
 
             # Layout
             row_layout = QHBoxLayout()
@@ -816,6 +869,9 @@ class ChannelConfiguration(QDialog):
             row_layout.addWidget(spinbox)
             row_layout.addWidget(shiftbox)
             row_layout.addWidget(colorbox)
+            row_layout.addWidget(rerefbox)
+            row_layout.addWidget(flipbox)
+            row_layout.addStretch()
             form_layout.addRow(row_layout)
 
             self.label.append(labelbox)
@@ -823,6 +879,8 @@ class ChannelConfiguration(QDialog):
             self.display.append(checkbox)
             self.color.append(colorbox)
             self.shift.append(shiftbox)
+            self.reref.append(rerefbox)
+            self.flip.append(flipbox)
 
     def _on_select_all_changed(self, channel_config):
         checked = self.select_all_checkbox.isChecked()
@@ -870,4 +928,6 @@ class ChannelConfiguration(QDialog):
             chaninfo["Display_on_screen"] = self.display[counter].isChecked()
             chaninfo["Scaling_factor"] = int(self.scale[counter].value())
             chaninfo["Vertical_shift"] = int(self.shift[counter].value())
+            chaninfo["Re_reference"] = self.reref[counter].currentText()
+            chaninfo["Flip_polarity"] = self.flip[counter].isChecked()
         self.changesMade.emit()

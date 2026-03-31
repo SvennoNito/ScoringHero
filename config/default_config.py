@@ -36,6 +36,8 @@ def default_configuration(number_of_channels, srate, channel_names):
             "Display_on_screen": 1 if chan < 9 else 0,
             "Scaling_factor": 100,
             "Vertical_shift": 0,
+            "Re_reference": "None",
+            "Flip_polarity": False,
         }
         for chan in range(number_of_channels)
     ]
