@@ -3,6 +3,7 @@ set UV_PROJECT_ENVIRONMENT=.venv_build
 uv sync --python 3.13 --extra build-win
 uv run --python 3.13 --extra build-win python -m nuitka ^
     --onefile ^
+    --lto=no ^
     --jobs=8 ^
     --windows-icon-from-ico=icon.ico ^
     --enable-plugin=pyside6 ^
