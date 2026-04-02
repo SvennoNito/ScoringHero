@@ -12,8 +12,10 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QColorDialog,
     QPushButton,
-    QScrollArea,
     QGridLayout,
+    QListWidget,
+    QListWidgetItem,
+    QAbstractItemView,
 )
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QColor, QFont
@@ -685,8 +687,21 @@ class WaveletConfiguration(QDialog):
         return differing_keys
 
 
+class _DraggableList(QListWidget):
+    """QListWidget that selects the item under the cursor on mouse-press so that
+    drag starts immediately on the first click+drag (no prior selection needed)."""
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            item = self.itemAt(event.pos())
+            if item is not None:
+                self.setCurrentItem(item)
+        super().mousePressEvent(event)
+
+
 class ChannelConfiguration(QDialog):
     changesMade = Signal()
+    channelMoved = Signal(int, int)  # (from_index, to_index)
 
     def __init__(self, channel_config, general_config=None, parent=None):
         super().__init__(parent)
@@ -699,6 +714,7 @@ class ChannelConfiguration(QDialog):
         self.shift = []
         self.reref = []
         self.flip = []
+        self.number_labels = []
 
         # Top checkboxes in 2x2 grid layout
         top_checkbox_layout = QGridLayout()
@@ -722,19 +738,9 @@ class ChannelConfiguration(QDialog):
         top_checkbox_layout.addWidget(self.z_standardize_checkbox, 1, 1)
         layout.addLayout(top_checkbox_layout)
 
-        # Create a scroll area
-        scroll_area = QScrollArea(self)
-        scroll_area.setWidgetResizable(True)  # Allow the widget to resize within the scroll area
-        layout.addWidget(scroll_area)
-
-        # Create a widget to hold the form layout
-        form_widget = QWidget()
-        form_layout = QFormLayout(form_widget)  # Set the form layout on the widget
-        scroll_area.setWidget(form_widget)     # Set the widget as the scroll area's content
-
         # Channel name width
         channel_name_widget_width = max(len(chaninfo["Channel_name"]) for chaninfo in channel_config) * 8 + 10
-        channel_number_widget_width = len(str(len(channel_config))) * 6 *2
+        channel_number_widget_width = len(str(len(channel_config))) * 6 * 2
 
         # All channel names (for re-reference dropdown)
         all_channel_names = [ch["Channel_name"] for ch in channel_config]
@@ -748,60 +754,72 @@ class ChannelConfiguration(QDialog):
             _dummy_colorbox.addItem(_c)
         colorbox_w = _dummy_colorbox.sizeHint().width()
         rerefbox_w = max(len(n) for n in all_channel_names + ["None"]) * 8 + 35
+        grip_w = 20  # width for drag handle column
 
         # Bold font
         bold_font = QFont()
         bold_font.setBold(True)
 
-        # Create header
-        placeholder0 = QLabel("#")
-        placeholder0.setFixedWidth(channel_number_widget_width)
-        placeholder0.setFont(bold_font)
-        placeholder0.setAlignment(Qt.AlignRight)
-        placeholder1 = QLabel("")
-        placeholder1.setFixedWidth(channel_name_widget_width)
-        placeholder2 = QLabel("")
-        placeholder2.setFixedWidth(QCheckBox().sizeHint().width())  # Set width of the placeholder to match the checkbox below
-        labelbox1 = QLabel("Scaling factor")
-        labelbox1.setFixedWidth(spinbox_w)
-        labelbox1.setAlignment(Qt.AlignLeft)
-        labelbox1.setFont(bold_font)
-        labelbox2 = QLabel("Vertical shift")
-        labelbox2.setFixedWidth(spinbox_w)
-        labelbox2.setAlignment(Qt.AlignLeft)
-        labelbox2.setFont(bold_font)
-        labelbox3 = QLabel("Channel color")
-        labelbox3.setFixedWidth(colorbox_w)
-        labelbox3.setAlignment(Qt.AlignLeft)
-        labelbox3.setFont(bold_font)
-        labelbox4 = QLabel("Re-reference")
-        labelbox4.setFixedWidth(rerefbox_w)
-        labelbox4.setAlignment(Qt.AlignLeft)
-        labelbox4.setFont(bold_font)
-        labelbox5 = QLabel("Flip")
-        labelbox5.setAlignment(Qt.AlignLeft)
-        labelbox5.setFont(bold_font)
+        # Fixed header row (sits above the list, not draggable)
+        header_widget = QWidget()
+        header_layout = QHBoxLayout(header_widget)
+        header_layout.setContentsMargins(6, 2, 6, 2)
+        header_layout.setSpacing(6)
+        h0 = QLabel("#")
+        h0.setFixedWidth(channel_number_widget_width)
+        h0.setFont(bold_font)
+        h0.setAlignment(Qt.AlignRight)
+        h_grip = QLabel("")
+        h_grip.setFixedWidth(grip_w)
+        h1 = QLabel("")
+        h1.setFixedWidth(channel_name_widget_width)
+        h2 = QLabel("")
+        h2.setFixedWidth(QCheckBox().sizeHint().width())
+        h3 = QLabel("Scaling factor")
+        h3.setFixedWidth(spinbox_w)
+        h3.setFont(bold_font)
+        h4 = QLabel("Vertical shift")
+        h4.setFixedWidth(spinbox_w)
+        h4.setFont(bold_font)
+        h5 = QLabel("Channel color")
+        h5.setFixedWidth(colorbox_w)
+        h5.setFont(bold_font)
+        h6 = QLabel("Re-reference")
+        h6.setFixedWidth(rerefbox_w)
+        h6.setFont(bold_font)
+        h7 = QLabel("Flip")
+        h7.setFont(bold_font)
+        for hw in [h0, h_grip, h1, h2, h3, h4, h5, h6, h7]:
+            header_layout.addWidget(hw)
+        header_layout.addStretch()
+        layout.addWidget(header_widget)
 
-        row_layout = QHBoxLayout()
-        row_layout.addWidget(placeholder0)
-        row_layout.addWidget(placeholder1)
-        row_layout.addWidget(placeholder2)
-        row_layout.addWidget(labelbox1)
-        row_layout.addWidget(labelbox2)
-        row_layout.addWidget(labelbox3)
-        row_layout.addWidget(labelbox4)
-        row_layout.addWidget(labelbox5)
-        row_layout.addStretch()
-        form_layout.addRow(row_layout)
+        # Draggable channel list
+        self.channel_list = _DraggableList()
+        self.channel_list.setDragDropMode(QAbstractItemView.InternalMove)
+        self.channel_list.setDefaultDropAction(Qt.MoveAction)
+        self.channel_list.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.channel_list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.channel_list.model().rowsMoved.connect(
+            lambda src_parent, src_start, src_end, dst_parent, dst_row:
+                self._on_rows_moved(channel_config, src_start, dst_row)
+        )
+        layout.addWidget(self.channel_list)
 
         # Loop through channels
         for count, chaninfo in enumerate(channel_config):
 
             # Channel number
-            numberbox = QLabel(str(count+1))
-            numberbox.setAlignment(Qt.AlignRight)             
+            numberbox = QLabel(str(count + 1))
+            numberbox.setAlignment(Qt.AlignRight)
             numberbox.setFixedWidth(channel_number_widget_width)
-            numberbox.setFont(bold_font)   
+            numberbox.setFont(bold_font)
+
+            # Drag handle — QLabel passes mouse events to the QListWidget, initiating drag
+            grip = QLabel("⠿")
+            grip.setFixedWidth(grip_w)
+            grip.setAlignment(Qt.AlignCenter)
+            grip.setToolTip("Drag to reorder")
 
             # Channel label
             labelbox = QLineEdit(chaninfo["Channel_name"])
@@ -810,7 +828,7 @@ class ChannelConfiguration(QDialog):
             labelbox.textChanged.connect(lambda text, i=count: self.change_event(channel_config, i, "label"))
 
             # Value by which EEG is multiplied
-            spinbox = QDoubleSpinBox(self)
+            spinbox = QDoubleSpinBox()
             spinbox.setMinimum(0)
             spinbox.setMaximum(10000)
             spinbox.setDecimals(0)
@@ -820,7 +838,7 @@ class ChannelConfiguration(QDialog):
             spinbox.valueChanged.connect(lambda val, i=count: self.change_event(channel_config, i, "scale"))
 
             # Vertical shift
-            shiftbox = QDoubleSpinBox(self)
+            shiftbox = QDoubleSpinBox()
             shiftbox.setMinimum(0)
             shiftbox.setMaximum(10000)
             shiftbox.setDecimals(0)
@@ -829,13 +847,13 @@ class ChannelConfiguration(QDialog):
             shiftbox.valueChanged.connect(lambda val, i=count: self.change_event(channel_config, i, "shift"))
 
             # Whether channel is displayed or not
-            checkbox = QCheckBox(self)
+            checkbox = QCheckBox()
             checkbox.setChecked(chaninfo["Display_on_screen"])
             checkbox.setMaximumWidth(checkbox.sizeHint().width())
             checkbox.clicked.connect(lambda checked, i=count: self.change_event(channel_config, i, "display"))
 
             # Channel color
-            colorbox = QComboBox(self)
+            colorbox = QComboBox()
             colorbox.addItem("Black")
             colorbox.addItem("Blue")
             colorbox.addItem("Green")
@@ -847,7 +865,7 @@ class ChannelConfiguration(QDialog):
             colorbox.currentIndexChanged.connect(lambda idx, i=count: self.change_event(channel_config, i, "color"))
 
             # Re-reference dropdown
-            rerefbox = QComboBox(self)
+            rerefbox = QComboBox()
             rerefbox.addItem("None")
             for name in all_channel_names:
                 if name != chaninfo["Channel_name"]:
@@ -857,13 +875,17 @@ class ChannelConfiguration(QDialog):
             rerefbox.currentIndexChanged.connect(lambda idx, i=count: self.change_event(channel_config, i, "reref"))
 
             # Flip polarity checkbox
-            flipbox = QCheckBox(self)
+            flipbox = QCheckBox()
             flipbox.setChecked(chaninfo.get("Flip_polarity", False))
             flipbox.clicked.connect(lambda checked, i=count: self.change_event(channel_config, i, "flip"))
 
-            # Layout
-            row_layout = QHBoxLayout()
+            # Row widget (becomes the list item's widget)
+            row_widget = QWidget()
+            row_layout = QHBoxLayout(row_widget)
+            row_layout.setContentsMargins(2, 1, 2, 1)
+            row_layout.setSpacing(6)
             row_layout.addWidget(numberbox)
+            row_layout.addWidget(grip)
             row_layout.addWidget(labelbox)
             row_layout.addWidget(checkbox)
             row_layout.addWidget(spinbox)
@@ -872,7 +894,10 @@ class ChannelConfiguration(QDialog):
             row_layout.addWidget(rerefbox)
             row_layout.addWidget(flipbox)
             row_layout.addStretch()
-            form_layout.addRow(row_layout)
+
+            item = QListWidgetItem(self.channel_list)
+            item.setSizeHint(row_widget.sizeHint())
+            self.channel_list.setItemWidget(item, row_widget)
 
             self.label.append(labelbox)
             self.scale.append(spinbox)
@@ -881,6 +906,7 @@ class ChannelConfiguration(QDialog):
             self.shift.append(shiftbox)
             self.reref.append(rerefbox)
             self.flip.append(flipbox)
+            self.number_labels.append(numberbox)
 
     def _on_select_all_changed(self, channel_config):
         checked = self.select_all_checkbox.isChecked()
@@ -931,3 +957,51 @@ class ChannelConfiguration(QDialog):
             chaninfo["Re_reference"] = self.reref[counter].currentText()
             chaninfo["Flip_polarity"] = self.flip[counter].isChecked()
         self.changesMade.emit()
+
+    def _on_rows_moved(self, channel_config, src_start, dst_row):
+        """Called when a channel row is drag-dropped to a new position.
+
+        Qt rowsMoved semantics: the item at src_start is inserted before dst_row
+        in the destination. After the removal of src_start, the final index is:
+          - dst_row - 1  if dst_row > src_start
+          - dst_row      otherwise
+        """
+        new_pos = dst_row - 1 if dst_row > src_start else dst_row
+
+        # Update config list to match the new visual order
+        moved_config = channel_config.pop(src_start)
+        channel_config.insert(new_pos, moved_config)
+
+        # Keep our widget reference lists in sync with the new order so that
+        # change_event's enumerate(channel_config) loop stays correct.
+        for widget_list in [self.label, self.scale, self.shift,
+                             self.display, self.color, self.reref, self.flip,
+                             self.number_labels]:
+            moved_widget = widget_list.pop(src_start)
+            widget_list.insert(new_pos, moved_widget)
+
+        # Update the displayed position numbers to reflect the new order
+        for i, lbl in enumerate(self.number_labels):
+            lbl.setText(str(i + 1))
+
+        # Rebuild all reref dropdowns (channel positions have changed)
+        all_names = [self.label[k].text() for k in range(len(self.label))]
+        for k in range(len(self.label)):
+            current_reref = self.reref[k].currentText()
+            self.reref[k].blockSignals(True)
+            self._rebuild_reref_combo(k, all_names)
+            self.reref[k].setCurrentText(current_reref)
+            self.reref[k].blockSignals(False)
+
+        # Notify connection layer to move the eeg_data row and do a lightweight redraw.
+        # changesMade is intentionally NOT emitted here — reordering channels does not
+        # require recomputing spectrograms; the connection layer handles everything.
+        self.channelMoved.emit(src_start, new_pos)
+
+    def _rebuild_reref_combo(self, idx, all_channel_names):
+        """Rebuild the re-reference combobox items for channel idx."""
+        self.reref[idx].clear()
+        self.reref[idx].addItem("None")
+        for k, name in enumerate(all_channel_names):
+            if k != idx:
+                self.reref[idx].addItem(name)
