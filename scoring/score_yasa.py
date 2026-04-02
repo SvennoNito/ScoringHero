@@ -8,7 +8,7 @@ from .write_scoring import write_scoring
 def score_yasa(ui):
 
     info = create_info(ch_names=[channel["Channel_name"] for channel in ui.config[1]], sfreq=125)
-    raw  = RawArray(ui.eeg_data, info)
+    raw  = RawArray(ui.eeg_data_display, info)
 
     # if raw.tmax/60 > 5:
     model = SleepStaging(raw, eeg_name=ui.config[1][0]["Channel_name"], eog_name="EOG1", emg_name="EMG")

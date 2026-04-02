@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
     QPushButton,
     QScrollArea,
     QWidget,
+    QFrame,
 )
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont
@@ -37,8 +38,8 @@ class FilterWindow(QDialog):
         description.setWordWrap(True)
         layout.addWidget(description)
 
-        # "Apply changes to all channels" checkbox
-        self.apply_all_checkbox = QCheckBox("Apply changes to all channels")
+        # "Apply" checkbox — when checked, changing any parameter on one channel propagates to all
+        self.apply_all_checkbox = QCheckBox("Apply")
         layout.addWidget(self.apply_all_checkbox)
 
         # Scroll area — QGridLayout ensures all columns align automatically
@@ -62,25 +63,34 @@ class FilterWindow(QDialog):
             lbl.setAlignment(align)
             return lbl
 
-        # Column indices — "All" is second from left; within each filter group: [Cutoff, Order, Enable]
+        def _vsep():
+            sep = QFrame()
+            sep.setFrameShape(QFrame.VLine)
+            sep.setFrameShadow(QFrame.Sunken)
+            return sep
+
+        # Column layout: Channel | HP cut/ord/en | sep | LP cut/ord/en | sep | Notch cut/ord/en | vsep | All
         C_CHAN = 0
-        C_ALL = 1
-        C_HP_CUT, C_HP_ORD, C_HP_EN = 2, 3, 4
-        C_SEP1 = 5
-        C_LP_CUT, C_LP_ORD, C_LP_EN = 6, 7, 8
-        C_SEP2 = 9
-        C_NT_CUT, C_NT_ORD, C_NT_EN = 10, 11, 12
-        LAST_COL = 12
+        C_HP_CUT, C_HP_ORD, C_HP_EN = 1, 2, 3
+        C_SEP1 = 4
+        C_LP_CUT, C_LP_ORD, C_LP_EN = 5, 6, 7
+        C_SEP2 = 8
+        C_NT_CUT, C_NT_ORD, C_NT_EN = 9, 10, 11
+        C_SEP3 = 12
+        C_ALL = 13
+        LAST_COL = 13
 
         # Visual spacing between filter groups
         grid.setColumnMinimumWidth(C_SEP1, 18)
         grid.setColumnMinimumWidth(C_SEP2, 18)
+        grid.setColumnMinimumWidth(C_SEP3, 18)
 
         # Row 0: filter-group super-headers (spanning 3 columns each)
-        grid.addWidget(_hdr("All"),              0, C_ALL,   1, 1, Qt.AlignCenter)
         grid.addWidget(_hdr("High-pass filter"), 0, C_HP_CUT, 1, 3, Qt.AlignCenter)
         grid.addWidget(_hdr("Low-pass filter"),  0, C_LP_CUT, 1, 3, Qt.AlignCenter)
         grid.addWidget(_hdr("Notch filter"),     0, C_NT_CUT, 1, 3, Qt.AlignCenter)
+        grid.addWidget(_hdr("All"),              0, C_ALL,    1, 1, Qt.AlignCenter)
+
 
         # Row 1: column sub-headers
         grid.addWidget(_hdr("Channel", Qt.AlignLeft), 1, C_CHAN)
@@ -90,11 +100,6 @@ class FilterWindow(QDialog):
         grid.addWidget(_hdr("Order"),  1, C_LP_ORD)
         grid.addWidget(_hdr("Cutoff"), 1, C_NT_CUT)
         grid.addWidget(_hdr("Order"),  1, C_NT_ORD)
-
-        self._col_hp    = QCheckBox()
-        self._col_lp    = QCheckBox()
-        self._col_notch = QCheckBox()
-        self._col_all   = QCheckBox()
 
         # Per-channel widget lists
         self._hp_enabled    = []
@@ -134,7 +139,7 @@ class FilterWindow(QDialog):
             lp_cut.setMinimum(0.01)
             lp_cut.setMaximum(nyquist - 0.01)
             lp_cut.setDecimals(2)
-            lp_cut.setValue(35.0)
+            lp_cut.setValue(50.0)
             lp_cut.setSuffix(" Hz")
 
             lp_ord = QDoubleSpinBox()
@@ -172,7 +177,6 @@ class FilterWindow(QDialog):
             all_cb.stateChanged.connect(lambda state, i=ch_idx: self._set_all_row(i, state))
 
             grid.addWidget(name_lbl, row, C_CHAN,   Qt.AlignLeft | Qt.AlignVCenter)
-            grid.addWidget(all_cb,   row, C_ALL,    Qt.AlignCenter)
             grid.addWidget(hp_cut,   row, C_HP_CUT)
             grid.addWidget(hp_ord,   row, C_HP_ORD)
             grid.addWidget(hp_cb,    row, C_HP_EN,  Qt.AlignCenter)
@@ -182,6 +186,8 @@ class FilterWindow(QDialog):
             grid.addWidget(nt_cut,   row, C_NT_CUT)
             grid.addWidget(nt_ord,   row, C_NT_ORD)
             grid.addWidget(nt_cb,    row, C_NT_EN,  Qt.AlignCenter)
+            grid.addWidget(_vsep(),  row, C_SEP3,  Qt.AlignHCenter)
+            grid.addWidget(all_cb,   row, C_ALL,    Qt.AlignCenter)
 
             self._hp_enabled.append(hp_cb)
             self._hp_cutoff.append(hp_cut)
@@ -194,29 +200,10 @@ class FilterWindow(QDialog):
             self._notch_order.append(nt_ord)
             self._all_enabled.append(all_cb)
 
-        # "Apply to all channels" — column-wise enable toggles (last row)
-        apply_row = len(channel_config) + 2
-        apply_row_label = QLabel("Apply to all channels")
-        grid.addWidget(apply_row_label, apply_row, C_CHAN, Qt.AlignLeft | Qt.AlignVCenter)
-        grid.addWidget(self._col_all,   apply_row, C_ALL,   Qt.AlignCenter)
-        grid.addWidget(self._col_hp,    apply_row, C_HP_EN, Qt.AlignCenter)
-        grid.addWidget(self._col_lp,    apply_row, C_LP_EN, Qt.AlignCenter)
-        grid.addWidget(self._col_notch, apply_row, C_NT_EN, Qt.AlignCenter)
-
         # Push content to the top — sink all spare vertical space into an empty last row
-        grid.setRowStretch(len(channel_config) + 3, 1)
+        grid.setRowStretch(len(channel_config) + 2, 1)
         # Push content to the left
         grid.setColumnStretch(LAST_COL + 1, 1)
-
-        # Column-wise "apply to all" toggles
-        self._col_hp.stateChanged.connect(   lambda s: self._set_all_column(self._hp_enabled,    s))
-        self._col_lp.stateChanged.connect(   lambda s: self._set_all_column(self._lp_enabled,    s))
-        self._col_notch.stateChanged.connect(lambda s: self._set_all_column(self._notch_enabled, s))
-        self._col_all.stateChanged.connect(  lambda s: (
-            self._set_all_column(self._hp_enabled,    s),
-            self._set_all_column(self._lp_enabled,    s),
-            self._set_all_column(self._notch_enabled, s),
-        ))
 
         # Apply button
         apply_button = QPushButton("Apply")
@@ -227,6 +214,27 @@ class FilterWindow(QDialog):
         button_layout.addStretch(1)
         button_layout.addWidget(apply_button)
         layout.addLayout(button_layout)
+
+    def load_settings(self, channel_config):
+        for i, chaninfo in enumerate(channel_config):
+            widgets = [
+                self._hp_cutoff[i], self._hp_order[i], self._hp_enabled[i],
+                self._lp_cutoff[i], self._lp_order[i], self._lp_enabled[i],
+                self._notch_cutoff[i], self._notch_order[i], self._notch_enabled[i],
+            ]
+            for w in widgets:
+                w.blockSignals(True)
+            self._hp_cutoff[i].setValue(chaninfo.get("Filter_hp_cutoff", 0.3))
+            self._hp_order[i].setValue(chaninfo.get("Filter_hp_order", 4))
+            self._hp_enabled[i].setChecked(chaninfo.get("Filter_hp_enabled", False))
+            self._lp_cutoff[i].setValue(chaninfo.get("Filter_lp_cutoff", 50.0))
+            self._lp_order[i].setValue(chaninfo.get("Filter_lp_order", 4))
+            self._lp_enabled[i].setChecked(chaninfo.get("Filter_lp_enabled", False))
+            self._notch_cutoff[i].setValue(chaninfo.get("Filter_notch_cutoff", 50.0))
+            self._notch_order[i].setValue(chaninfo.get("Filter_notch_order", 4))
+            self._notch_enabled[i].setChecked(chaninfo.get("Filter_notch_enabled", False))
+            for w in widgets:
+                w.blockSignals(False)
 
     def _set_all_row(self, ch_idx, state):
         checked = bool(state)

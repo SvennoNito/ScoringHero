@@ -18,7 +18,7 @@ def compute_epoch_periodogram(ui, epoch_idx):
     )
 
     _, epoch_indices, _ = ui.times[epoch_idx]
-    data = ui.eeg_data[channel_idx][epoch_indices].astype(float)
+    data = ui.eeg_data_display[channel_idx][epoch_indices].astype(float)
 
     srate = int(ui.config[0]["Sampling_rate_hz"])
     freqs, power = welch(

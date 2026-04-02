@@ -10,6 +10,7 @@ from cache.load_cache import load_cache
 from signal_processing.times_vector import times_vector
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 from utilities.apply_tf_visibility import apply_tf_visibility
+from .rebuild_display import rebuild_eeg_data_display
 
 
 @timing_decorator
@@ -24,8 +25,8 @@ def load_wrapper(ui, datatype):
     if datatype == "edfvolt":
         ui.eeg_data, srate, channel_names = load_edf(ui.filename, scale_to_uv=True)
 
-    # Display copy starts as the raw data (no filter applied yet)
-    ui.eeg_data_display = ui.eeg_data
+    # Keep the original data immutable; display copy is rebuilt after config loads
+    ui.eeg_data_display = ui.eeg_data.copy()
 
     # Reset filter window so it is recreated with the new channel configuration
     ui.FilterWindow = None
@@ -36,6 +37,10 @@ def load_wrapper(ui, datatype):
         numchans = 6
 
     ui.config = load_configuration(f"{ui.filename}.config.json", numchans, srate, channel_names)
+
+    # Apply all saved manipulations (filter + re-reference + flip) from config
+    rebuild_eeg_data_display(ui)
+
     ui.numepo = number_of_epochs(
         ui.eeg_data.shape[1],
         ui.config[0]["Sampling_rate_hz"],
@@ -63,7 +68,7 @@ def load_wrapper(ui, datatype):
     tf_channel_label = ui.config[0].get("Wavelet_channel", "")
     channel_labels = [ch["Channel_name"] for ch in ui.config[1]]
     tf_channel_idx = channel_labels.index(tf_channel_label) if tf_channel_label in channel_labels else 0
-    ui.TFWidget.draw_tf(ui.eeg_data, ui.times, ui.this_epoch, srate, ui.tf_freqs,
+    ui.TFWidget.draw_tf(ui.eeg_data_display, ui.times, ui.this_epoch, srate, ui.tf_freqs,
                         ui.tf_norm_median, ui.tf_norm_iqr, ui.tf_norm_rms, ui.tf_norm_median_linear,
                         display_mode, freq_scale, freq_limits,
                         time_unit, epoch_length, tf_channel_idx, tf_channel_label)

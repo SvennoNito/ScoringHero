@@ -2,15 +2,13 @@ import numpy as np
 from .write_configuration import write_configuration
 from eeg.number_of_epochs import number_of_epochs
 from scoring.default_scoring import default_scoring
-from cache.ui_to_cache import ui_to_cache
-from cache.write_cache import write_cache
 from signal_processing.compute_epoch_periodogram import compute_epoch_periodogram
 from signal_processing.times_vector import times_vector
-from signal_processing.spectogram_to_ui import spectogram_to_ui
 from signal_processing.freqs_of_interest import freqs_of_interest
+from signal_processing.recompute_derived import recompute_derived
 from utilities.redraw_gui import redraw_gui
 from utilities.apply_tf_visibility import apply_tf_visibility
-from scoring.default_scoring import default_scoring
+from eeg.rebuild_display import rebuild_eeg_data_display
 
 
 def apply_changes(config_parameter_name, ui):
@@ -32,19 +30,23 @@ def apply_changes(config_parameter_name, ui):
         times_vector(ui)
         ui.this_epoch = 0
 
-    if (
-        ("Channel_for_spectogram" in config_parameter_name)
-        or ("Sampling_rate_hz" in config_parameter_name)
-        or ("Epoch_length_s" in config_parameter_name)
-    ):
-        ui.power, ui.freqs, ui.freqsOI, ui.swa = spectogram_to_ui(ui)
+    # Channel-level settings changed (re-reference, flip, filter, display toggles) or
+    # spectrogram channel / sampling rate / epoch length changed → rebuild display data
+    # and recompute all derived spectral data.
+    channel_settings_changed = config_parameter_name == []
+    spectrogram_params_changed = (
+        "Channel_for_spectogram" in config_parameter_name
+        or "Sampling_rate_hz" in config_parameter_name
+        or "Epoch_length_s" in config_parameter_name
+    )
+    if channel_settings_changed or spectrogram_params_changed:
+        rebuild_eeg_data_display(ui)
+        recompute_derived(ui)
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
-        write_cache(ui, ui_to_cache(ui))
 
     if "Spectogram_limit_hz" in config_parameter_name:
         ui.freqsOI = freqs_of_interest(ui.freqs, ui.config)
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
-        write_cache(ui, ui_to_cache(ui))
 
     if "Spectrogram_power_limits" in config_parameter_name:
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
@@ -86,7 +88,7 @@ def apply_changes(config_parameter_name, ui):
     if (
         ("Sampling_rate_hz" in config_parameter_name)
         or ("Epoch_length_s" in config_parameter_name)
-    ):    
+    ):
         ui.HypnogramWidget.draw_hypnogram(ui)
         ui.stages = default_scoring(ui.config[0]["Epoch_length_s"], ui.numepo)
 

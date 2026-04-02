@@ -38,6 +38,15 @@ def default_configuration(number_of_channels, srate, channel_names):
             "Vertical_shift": 0,
             "Re_reference": "None",
             "Flip_polarity": False,
+            "Filter_hp_enabled": False,
+            "Filter_hp_cutoff": 0.3,
+            "Filter_hp_order": 4,
+            "Filter_lp_enabled": False,
+            "Filter_lp_cutoff": 50.0,
+            "Filter_lp_order": 4,
+            "Filter_notch_enabled": False,
+            "Filter_notch_cutoff": 50.0,
+            "Filter_notch_order": 4,
         }
         for chan in range(number_of_channels)
     ]

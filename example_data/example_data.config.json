@@ -66,7 +66,16 @@
       "Scaling_factor": 100,
       "Vertical_shift": 0,
       "Re_reference": "None",
-      "Flip_polarity": false
+      "Flip_polarity": false,
+      "Filter_hp_enabled": false,
+      "Filter_hp_cutoff": 0.3,
+      "Filter_hp_order": 4,
+      "Filter_lp_enabled": false,
+      "Filter_lp_cutoff": 50.0,
+      "Filter_lp_order": 4,
+      "Filter_notch_enabled": false,
+      "Filter_notch_cutoff": 50.0,
+      "Filter_notch_order": 4
     },
     {
       "Channel_name": "F4-A1",
@@ -75,7 +84,16 @@
       "Scaling_factor": 100,
       "Vertical_shift": 0,
       "Re_reference": "None",
-      "Flip_polarity": false
+      "Flip_polarity": false,
+      "Filter_hp_enabled": false,
+      "Filter_hp_cutoff": 0.3,
+      "Filter_hp_order": 4,
+      "Filter_lp_enabled": false,
+      "Filter_lp_cutoff": 50.0,
+      "Filter_lp_order": 4,
+      "Filter_notch_enabled": false,
+      "Filter_notch_cutoff": 50.0,
+      "Filter_notch_order": 4
     },
     {
       "Channel_name": "C3-A2",
@@ -84,7 +102,16 @@
       "Scaling_factor": 100,
       "Vertical_shift": 0,
       "Re_reference": "None",
-      "Flip_polarity": false
+      "Flip_polarity": false,
+      "Filter_hp_enabled": false,
+      "Filter_hp_cutoff": 0.3,
+      "Filter_hp_order": 4,
+      "Filter_lp_enabled": false,
+      "Filter_lp_cutoff": 50.0,
+      "Filter_lp_order": 4,
+      "Filter_notch_enabled": false,
+      "Filter_notch_cutoff": 50.0,
+      "Filter_notch_order": 4
     },
     {
       "Channel_name": "C4-A1",
@@ -93,7 +120,16 @@
       "Scaling_factor": 100,
       "Vertical_shift": 0,
       "Re_reference": "None",
-      "Flip_polarity": false
+      "Flip_polarity": false,
+      "Filter_hp_enabled": false,
+      "Filter_hp_cutoff": 0.3,
+      "Filter_hp_order": 4,
+      "Filter_lp_enabled": false,
+      "Filter_lp_cutoff": 50.0,
+      "Filter_lp_order": 4,
+      "Filter_notch_enabled": false,
+      "Filter_notch_cutoff": 50.0,
+      "Filter_notch_order": 4
     },
     {
       "Channel_name": "O1-A2",
@@ -102,7 +138,16 @@
       "Scaling_factor": 100,
       "Vertical_shift": 0,
       "Re_reference": "None",
-      "Flip_polarity": false
+      "Flip_polarity": false,
+      "Filter_hp_enabled": false,
+      "Filter_hp_cutoff": 0.3,
+      "Filter_hp_order": 4,
+      "Filter_lp_enabled": false,
+      "Filter_lp_cutoff": 50.0,
+      "Filter_lp_order": 4,
+      "Filter_notch_enabled": false,
+      "Filter_notch_cutoff": 50.0,
+      "Filter_notch_order": 4
     },
     {
       "Channel_name": "O2-A1",
@@ -111,7 +156,16 @@
       "Scaling_factor": 100,
       "Vertical_shift": 0,
       "Re_reference": "None",
-      "Flip_polarity": false
+      "Flip_polarity": false,
+      "Filter_hp_enabled": false,
+      "Filter_hp_cutoff": 0.3,
+      "Filter_hp_order": 4,
+      "Filter_lp_enabled": false,
+      "Filter_lp_cutoff": 50.0,
+      "Filter_lp_order": 4,
+      "Filter_notch_enabled": false,
+      "Filter_notch_cutoff": 50.0,
+      "Filter_notch_order": 4
     },
     {
       "Channel_name": "EOG1",
@@ -120,7 +174,16 @@
       "Scaling_factor": 100,
       "Vertical_shift": 0,
       "Re_reference": "None",
-      "Flip_polarity": false
+      "Flip_polarity": false,
+      "Filter_hp_enabled": false,
+      "Filter_hp_cutoff": 0.3,
+      "Filter_hp_order": 4,
+      "Filter_lp_enabled": false,
+      "Filter_lp_cutoff": 50.0,
+      "Filter_lp_order": 4,
+      "Filter_notch_enabled": false,
+      "Filter_notch_cutoff": 50.0,
+      "Filter_notch_order": 4
     },
     {
       "Channel_name": "EOG2",
@@ -129,7 +192,16 @@
       "Scaling_factor": 100,
       "Vertical_shift": 0,
       "Re_reference": "None",
-      "Flip_polarity": false
+      "Flip_polarity": false,
+      "Filter_hp_enabled": false,
+      "Filter_hp_cutoff": 0.3,
+      "Filter_hp_order": 4,
+      "Filter_lp_enabled": false,
+      "Filter_lp_cutoff": 50.0,
+      "Filter_lp_order": 4,
+      "Filter_notch_enabled": false,
+      "Filter_notch_cutoff": 50.0,
+      "Filter_notch_order": 4
     },
     {
       "Channel_name": "EMG",
@@ -138,7 +210,16 @@
       "Scaling_factor": 100,
       "Vertical_shift": 0,
       "Re_reference": "None",
-      "Flip_polarity": false
+      "Flip_polarity": false,
+      "Filter_hp_enabled": false,
+      "Filter_hp_cutoff": 0.3,
+      "Filter_hp_order": 4,
+      "Filter_lp_enabled": false,
+      "Filter_lp_cutoff": 50.0,
+      "Filter_lp_order": 4,
+      "Filter_notch_enabled": false,
+      "Filter_notch_cutoff": 50.0,
+      "Filter_notch_order": 4
     }
   ]
 ]

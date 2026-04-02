@@ -11,6 +11,6 @@ def eeg_from_rectangle(ui, converted_corners, converted_shape):
     print(f'Drawn rectangle selected EEG data of {ui.config[1][channel]["Channel_name"]} (visible channel no. {displayed_channel+1}) in the time between {times[0]} and {times[-1]}s')
 
     # Compute power
-    data = ui.eeg_data[channel][samples]      
+    data = ui.eeg_data_display[channel][samples]
 
     return data, times, channel

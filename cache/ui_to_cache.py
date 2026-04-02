@@ -1,3 +1,17 @@
+def _manipulation_fingerprint(ui):
+    """Tuple capturing all per-channel settings that affect eeg_data_display."""
+    return tuple(
+        (
+            ch.get("Filter_hp_enabled", False), ch.get("Filter_hp_cutoff", 0.3), ch.get("Filter_hp_order", 4),
+            ch.get("Filter_lp_enabled", False), ch.get("Filter_lp_cutoff", 50.0), ch.get("Filter_lp_order", 4),
+            ch.get("Filter_notch_enabled", False), ch.get("Filter_notch_cutoff", 50.0), ch.get("Filter_notch_order", 4),
+            ch.get("Re_reference", "None"),
+            ch.get("Flip_polarity", False),
+        )
+        for ch in ui.config[1]
+    )
+
+
 def ui_to_cache(ui, cache=None):
     if cache is None:
         cache = {}
@@ -10,6 +24,7 @@ def ui_to_cache(ui, cache=None):
     cache["Sampling_rate_hz"] = ui.config[0]["Sampling_rate_hz"]
     cache["Epoch_length_s"] = ui.config[0]["Epoch_length_s"]
     cache["Channel_for_spectogram"] = ui.config[0]["Channel_for_spectogram"]
+    cache["manipulation_fingerprint"] = _manipulation_fingerprint(ui)
 
     if hasattr(ui, "tf_freqs"):
         cache["tf_norm"] = {

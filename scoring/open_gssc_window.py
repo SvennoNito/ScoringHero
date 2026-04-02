@@ -162,7 +162,7 @@ if _GSSC_AVAILABLE:
             _orig_get_argvalues = _mne_misc._get_argvalues
             _mne_misc._get_argvalues = lambda: None
             try:
-                raw = RawArray(ui.eeg_data, info, verbose=False)
+                raw = RawArray(ui.eeg_data_display, info, verbose=False)
             finally:
                 _mne_misc._get_argvalues = _orig_get_argvalues
 
