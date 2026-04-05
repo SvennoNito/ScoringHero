@@ -15,6 +15,10 @@ from utilities.timing_decorator import timing_decorator
 from utilities.score_stage import score_stage
 from scoring.scoring_export_window import scoring_export_window
 from scoring.write_sleeptrip import write_sleeptrip
+from scoring.write_vis import write_vis
+from scoring.write_yasa import write_yasa
+from scoring.write_sleepyland import write_sleepyland
+from scoring.write_gssc import write_gssc
 from mouse_click.click_on_hypnogram import click_on_hypnogram
 from mouse_click.click_on_spectogram import click_on_spectogram
 from mouse_click.move_swa_slider import move_swa_slider
@@ -173,10 +177,26 @@ def setup_ui(ui, MainWindow):
     ui.submenu_export = QMenu("Export as", ui.menu_file)
     ui.submenu_export.setObjectName("submenu_export")
     ui.menu_file.addMenu(ui.submenu_export)
+    ui.action_export_vis = QAction("Zurich Scoring (.vis)", ui)
+    ui.action_export_vis.setObjectName("action_export_vis")
+    ui.action_export_vis.triggered.connect(lambda: write_vis(ui))
+    ui.submenu_export.addAction(ui.action_export_vis)
+    ui.action_export_yasa = QAction("YASA Scoring (.txt)", ui)
+    ui.action_export_yasa.setObjectName("action_export_yasa")
+    ui.action_export_yasa.triggered.connect(lambda: write_yasa(ui))
+    ui.submenu_export.addAction(ui.action_export_yasa)
     ui.action_export_sleeptrip = QAction("Sleeptrip (.csv)", ui)
     ui.action_export_sleeptrip.setObjectName("action_export_sleeptrip")
     ui.action_export_sleeptrip.triggered.connect(lambda: write_sleeptrip(ui))
     ui.submenu_export.addAction(ui.action_export_sleeptrip)
+    ui.action_export_sleepyland = QAction("Sleepyland (.annot)", ui)
+    ui.action_export_sleepyland.setObjectName("action_export_sleepyland")
+    ui.action_export_sleepyland.triggered.connect(lambda: write_sleepyland(ui))
+    ui.submenu_export.addAction(ui.action_export_sleepyland)
+    ui.action_export_gssc = QAction("Greifswald Sleep Stage Classifier / GSSC (.csv)", ui)
+    ui.action_export_gssc.setObjectName("action_export_gssc")
+    ui.action_export_gssc.triggered.connect(lambda: write_gssc(ui))
+    ui.submenu_export.addAction(ui.action_export_gssc)
 
     # Sleep stages menu
     ui.menu_stages = QMenu("Stages", ui.menu)
