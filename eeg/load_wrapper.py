@@ -1,3 +1,5 @@
+import os
+import numpy as np
 from config.load_configuration import load_configuration
 from scoring.load_scoring import load_scoring
 from scoring.events_to_ui import events_to_ui
@@ -13,20 +15,40 @@ from utilities.apply_tf_visibility import apply_tf_visibility
 from .rebuild_display import rebuild_eeg_data_display
 
 
-@timing_decorator
-def load_wrapper(ui, datatype):
-    ui.this_epoch = 0
+def _load_single(filename_prefix, datatype):
+    """Load a single EEG file and return (eeg_data, srate, channel_names)."""
     if datatype == "eeglab":
-        ui.eeg_data, srate, channel_names = load_eeglab(ui.filename)
+        return load_eeglab(filename_prefix)
     if datatype == "r09":
-        ui.eeg_data, srate, channel_names = load_r09(ui.filename)    
+        return load_r09(filename_prefix)
     if datatype == "edf":
-        ui.eeg_data, srate, channel_names = load_edf(ui.filename)
+        return load_edf(filename_prefix)
     if datatype == "edfvolt":
-        ui.eeg_data, srate, channel_names = load_edf(ui.filename, scale_to_uv=True)
+        return load_edf(filename_prefix, scale_to_uv=True)
 
-    # Keep the original data immutable; display copy is rebuilt after config loads
-    ui.eeg_data_display = ui.eeg_data.copy()
+
+@timing_decorator
+def load_wrapper(ui, datatype, extra_files=None):
+    ui.this_epoch = 0
+    ui.eeg_data, srate, channel_names = _load_single(ui.filename, datatype)
+
+    if extra_files:
+        for filepath in extra_files:
+            prefix, _ = os.path.splitext(filepath)
+            extra_data, extra_srate, extra_channel_names = _load_single(prefix, datatype)
+            if extra_srate != srate:
+                raise ValueError(
+                    f"Sampling rate mismatch: primary file has {srate} Hz, "
+                    f"but '{os.path.basename(filepath)}' has {extra_srate} Hz."
+                )
+            if extra_data.shape[1] != ui.eeg_data.shape[1]:
+                raise ValueError(
+                    f"Sample count mismatch: primary file has {ui.eeg_data.shape[1]} samples, "
+                    f"but '{os.path.basename(filepath)}' has {extra_data.shape[1]} samples. "
+                    f"All files must have the same number of samples."
+                )
+            ui.eeg_data = np.vstack([ui.eeg_data, extra_data])
+            channel_names = channel_names + extra_channel_names
 
     # Reset filter window so it is recreated with the new channel configuration
     ui.FilterWindow = None
@@ -37,6 +59,26 @@ def load_wrapper(ui, datatype):
         numchans = 6
 
     ui.config = load_configuration(f"{ui.filename}.config.json", numchans, srate, channel_names)
+
+    # Reconstruct derived channels (added via re-reference) that are not stored in the
+    # EEG file. For each derived channel, find its source channel among the non-derived
+    # entries and append a copy of that raw signal row to eeg_data so that the channel
+    # count matches config before rebuild_eeg_data_display applies the re-reference.
+    for ch_config in ui.config[1]:
+        if ch_config.get("derived", False):
+            src_name = ch_config.get("source_channel", ch_config["Channel_name"])
+            src_idx = next(
+                (i for i, c in enumerate(ui.config[1])
+                 if c["Channel_name"] == src_name and not c.get("derived", False)),
+                None,
+            )
+            if src_idx is not None and src_idx < ui.eeg_data.shape[0]:
+                ui.eeg_data = np.vstack([ui.eeg_data, ui.eeg_data[src_idx:src_idx + 1]])
+            else:
+                ui.eeg_data = np.vstack([ui.eeg_data, np.zeros((1, ui.eeg_data.shape[1]))])
+
+    # Keep the original-plus-derived data immutable; display copy is rebuilt below
+    ui.eeg_data_display = ui.eeg_data.copy()
 
     # Apply all saved manipulations (filter + re-reference + flip) from config
     rebuild_eeg_data_display(ui)

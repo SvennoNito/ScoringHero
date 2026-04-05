@@ -32,21 +32,26 @@ def rebuild_eeg_data_display(ui):
     # 2. Apply re-referencing
     # Use pre-reref snapshot so every channel's reference is the filtered-only signal,
     # matching the previous display-time behaviour in signalWidget.
+    n_data_channels = result.shape[0]
     any_reref = any(ch.get("Re_reference", "None") != "None" for ch in ui.config[1])
     if any_reref:
         pre_reref = result.copy()
         for ch_idx, ch_config in enumerate(ui.config[1]):
+            if ch_idx >= n_data_channels:
+                break
             reref = ch_config.get("Re_reference", "None")
             if reref != "None":
                 ref_idx = next(
                     (i for i, c in enumerate(ui.config[1]) if c["Channel_name"] == reref),
                     None,
                 )
-                if ref_idx is not None:
+                if ref_idx is not None and ref_idx < n_data_channels:
                     result[ch_idx] = pre_reref[ch_idx] - pre_reref[ref_idx]
 
     # 3. Apply polarity flip
     for ch_idx, ch_config in enumerate(ui.config[1]):
+        if ch_idx >= n_data_channels:
+            break
         if ch_config.get("Flip_polarity", False):
             result[ch_idx] = -result[ch_idx]
 

@@ -67,6 +67,8 @@ def _add_channel(ui, channel_a_name, channel_b_name):
     new_name = channel_a_name
     new_chan_config = {
         "Channel_name": new_name,
+        "derived": True,
+        "source_channel": channel_a_name,
         "Channel_color": "Black",
         "Display_on_screen": 1,
         "Scaling_factor": 100,
