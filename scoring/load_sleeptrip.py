@@ -18,11 +18,25 @@ def load_sleeptrip(scoring_filename, epolen, numepo):
 
     if os.path.exists(scoring_filename):
         with open(scoring_filename, "r", newline='') as csvfile:
-            lines = list(csv.reader(csvfile))
-            lines = [row[0] for row in lines] # Extract first column only
+            all_lines = list(csv.reader(csvfile))
 
-            [scoring_str, scoring_num] = import_row_by_row(r'^[01235]$', lines, mapping_str, mapping_num, numepo)
-                 
+            # Extract first column for scoring
+            first_col = [row[0] for row in all_lines if row]
+
+            # Extract second column (per-epoch event) if present
+            epoch_event_col = []
+            if all_lines and any(len(row) >= 2 for row in all_lines):
+                for row in all_lines:
+                    if len(row) >= 2:
+                        try:
+                            epoch_event_col.append(int(row[1]))
+                        except (ValueError, IndexError):
+                            epoch_event_col.append(0)
+                    else:
+                        epoch_event_col.append(0)
+
+            [scoring_str, scoring_num] = import_row_by_row(r'^[01235]$', first_col, mapping_str, mapping_num, numepo)
+
             scoring_data = default_scoring(epolen, numepo)
 
             for counter, (str, num) in enumerate(zip(scoring_str, scoring_num)):
@@ -33,6 +47,6 @@ def load_sleeptrip(scoring_filename, epolen, numepo):
     else:
         print("Could not find scoring file")
 
-    return scoring_data, []
+    return scoring_data, epoch_event_col
 
         
