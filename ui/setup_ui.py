@@ -14,6 +14,7 @@ from widgets import *
 from utilities.timing_decorator import timing_decorator
 from utilities.score_stage import score_stage
 from scoring.scoring_export_window import scoring_export_window
+from scoring.write_sleeptrip import write_sleeptrip
 from mouse_click.click_on_hypnogram import click_on_hypnogram
 from mouse_click.click_on_spectogram import click_on_spectogram
 from mouse_click.move_swa_slider import move_swa_slider
@@ -167,6 +168,15 @@ def setup_ui(ui, MainWindow):
     ui.action_save_scoring.triggered.connect(lambda: scoring_export_window(ui))
     ui.action_save_scoring.setShortcut("Ctrl+S")
     ui.menu_file.addAction(ui.action_save_scoring)
+
+    # Export as submenu
+    ui.submenu_export = QMenu("Export as", ui.menu_file)
+    ui.submenu_export.setObjectName("submenu_export")
+    ui.menu_file.addMenu(ui.submenu_export)
+    ui.action_export_sleeptrip = QAction("Sleeptrip (.csv)", ui)
+    ui.action_export_sleeptrip.setObjectName("action_export_sleeptrip")
+    ui.action_export_sleeptrip.triggered.connect(lambda: write_sleeptrip(ui))
+    ui.submenu_export.addAction(ui.action_export_sleeptrip)
 
     # Sleep stages menu
     ui.menu_stages = QMenu("Stages", ui.menu)
