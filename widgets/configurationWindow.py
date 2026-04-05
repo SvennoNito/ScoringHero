@@ -16,6 +16,7 @@ from PySide6.QtWidgets import (
     QListWidget,
     QListWidgetItem,
     QAbstractItemView,
+    QMessageBox,
 )
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QColor, QFont
@@ -701,11 +702,17 @@ class _DraggableList(QListWidget):
 
 class ChannelConfiguration(QDialog):
     changesMade = Signal()
-    channelMoved = Signal(int, int)  # (from_index, to_index)
+    displayOnlyChanged = Signal()       # visibility/color/scale/shift — no signal rebuild needed
+    signalRebuildNeeded = Signal(int)   # reref/flip/label changed — rebuild display; chan_idx passed
+                                        # so caller can skip spectrogram recompute if unrelated channel
+    channelMoved = Signal(int, int)     # (from_index, to_index)
+    channelAdded = Signal(str, str)     # (channel_a_name, channel_b_name)
+    channelDeleted = Signal(int)        # channel index to delete
 
     def __init__(self, channel_config, general_config=None, parent=None):
         super().__init__(parent)
         self.general_config = general_config
+        self.channel_config = channel_config
         layout = QVBoxLayout(self)
         self.scale = []
         self.display = []
@@ -715,6 +722,7 @@ class ChannelConfiguration(QDialog):
         self.reref = []
         self.flip = []
         self.number_labels = []
+        self.trash_buttons = []
 
         # Top checkboxes in 2x2 grid layout
         top_checkbox_layout = QGridLayout()
@@ -755,6 +763,11 @@ class ChannelConfiguration(QDialog):
         colorbox_w = _dummy_colorbox.sizeHint().width()
         rerefbox_w = max(len(n) for n in all_channel_names + ["None"]) * 8 + 35
         grip_w = 20  # width for drag handle column
+        trash_w = 28  # width for trash button column
+        # flip column: wide enough to show bold "Flip" label AND the bare checkbox
+        _dummy_flip_label = QLabel("Flip")
+        _dummy_flip_label.setFont(QFont())
+        flip_col_w = max(_dummy_flip_label.sizeHint().width() + 4, QCheckBox().sizeHint().width())
 
         # Bold font
         bold_font = QFont()
@@ -788,8 +801,11 @@ class ChannelConfiguration(QDialog):
         h6.setFixedWidth(rerefbox_w)
         h6.setFont(bold_font)
         h7 = QLabel("Flip")
+        h7.setFixedWidth(flip_col_w)
         h7.setFont(bold_font)
-        for hw in [h0, h_grip, h1, h2, h3, h4, h5, h6, h7]:
+        h8 = QLabel("")
+        h8.setFixedWidth(trash_w)
+        for hw in [h0, h_grip, h1, h2, h3, h4, h5, h6, h7, h8]:
             header_layout.addWidget(hw)
         header_layout.addStretch()
         layout.addWidget(header_widget)
@@ -805,6 +821,19 @@ class ChannelConfiguration(QDialog):
                 self._on_rows_moved(channel_config, src_start, dst_row)
         )
         layout.addWidget(self.channel_list)
+
+        # "+" add-channel row below the list
+        add_row_widget = QWidget()
+        add_row_layout = QHBoxLayout(add_row_widget)
+        add_row_layout.setContentsMargins(6, 2, 6, 2)
+        add_row_layout.setSpacing(6)
+        add_btn = QPushButton("+")
+        add_btn.setFixedWidth(28)
+        add_btn.setToolTip("Add re-referenced channel")
+        add_btn.clicked.connect(self._on_add_channel)
+        add_row_layout.addWidget(add_btn)
+        add_row_layout.addStretch()
+        layout.addWidget(add_row_widget)
 
         # Loop through channels
         for count, chaninfo in enumerate(channel_config):
@@ -876,8 +905,21 @@ class ChannelConfiguration(QDialog):
 
             # Flip polarity checkbox
             flipbox = QCheckBox()
+            flipbox.setFixedWidth(flip_col_w)
             flipbox.setChecked(chaninfo.get("Flip_polarity", False))
             flipbox.clicked.connect(lambda checked, i=count: self.change_event(channel_config, i, "flip"))
+
+            # Trash button (delete channel)
+            trash_btn = QPushButton("🗑")
+            trash_btn.setFixedWidth(trash_w)
+            trash_btn.setToolTip("Delete channel")
+            trash_btn.setStyleSheet(
+                "QPushButton { color: #c0392b; border: none; background: transparent; font-size: 14px; }"
+                "QPushButton:hover { background-color: rgba(192, 57, 43, 40); border-radius: 3px; }"
+                "QPushButton:pressed { background-color: rgba(192, 57, 43, 80); }"
+            )
+            self.trash_buttons.append(trash_btn)
+            trash_btn.clicked.connect(lambda checked, b=trash_btn: self._on_delete_channel_btn(b))
 
             # Row widget (becomes the list item's widget)
             row_widget = QWidget()
@@ -893,6 +935,7 @@ class ChannelConfiguration(QDialog):
             row_layout.addWidget(colorbox)
             row_layout.addWidget(rerefbox)
             row_layout.addWidget(flipbox)
+            row_layout.addWidget(trash_btn)
             row_layout.addStretch()
 
             item = QListWidgetItem(self.channel_list)
@@ -915,17 +958,17 @@ class ChannelConfiguration(QDialog):
             cb.setChecked(checked)
             cb.blockSignals(False)
             channel_config[i]["Display_on_screen"] = checked
-        self.changesMade.emit()
+        self.displayOnlyChanged.emit()
 
     def _on_stack_changed(self):
         if self.general_config is not None:
             self.general_config["Stack_channels"] = self.stack_channels_checkbox.isChecked()
-        self.changesMade.emit()
+        self.displayOnlyChanged.emit()
 
     def _on_z_standardize_changed(self):
         if self.general_config is not None:
             self.general_config["Robust_z_standardize"] = self.z_standardize_checkbox.isChecked()
-        self.changesMade.emit()
+        self.displayOnlyChanged.emit()
 
     def change_event(self, channel_config, chan_idx=None, prop=None):
         if self.apply_all_checkbox.isChecked() and chan_idx is not None and prop is not None:
@@ -956,7 +999,18 @@ class ChannelConfiguration(QDialog):
             chaninfo["Vertical_shift"] = int(self.shift[counter].value())
             chaninfo["Re_reference"] = self.reref[counter].currentText()
             chaninfo["Flip_polarity"] = self.flip[counter].isChecked()
-        self.changesMade.emit()
+        # Display-only props: only a cheap redraw needed.
+        # Signal props (reref, flip, label): need to rebuild eeg_data_display, but
+        # spectrogram recomputation is only needed if this channel feeds the spectrogram
+        # or wavelet panel — caller decides via the emitted index.
+        display_only_props = {"display", "color", "scale", "shift"}
+        signal_rebuild_props = {"reref", "flip", "label"}
+        if prop in display_only_props:
+            self.displayOnlyChanged.emit()
+        elif prop in signal_rebuild_props:
+            self.signalRebuildNeeded.emit(chan_idx if chan_idx is not None else -1)
+        else:
+            self.changesMade.emit()
 
     def _on_rows_moved(self, channel_config, src_start, dst_row):
         """Called when a channel row is drag-dropped to a new position.
@@ -976,7 +1030,7 @@ class ChannelConfiguration(QDialog):
         # change_event's enumerate(channel_config) loop stays correct.
         for widget_list in [self.label, self.scale, self.shift,
                              self.display, self.color, self.reref, self.flip,
-                             self.number_labels]:
+                             self.number_labels, self.trash_buttons]:
             moved_widget = widget_list.pop(src_start)
             widget_list.insert(new_pos, moved_widget)
 
@@ -1005,3 +1059,61 @@ class ChannelConfiguration(QDialog):
         for k, name in enumerate(all_channel_names):
             if k != idx:
                 self.reref[idx].addItem(name)
+
+    def _on_add_channel(self):
+        """Show a popup to select two channels whose difference becomes a new channel."""
+        all_names = [lb.text() for lb in self.label]
+        if len(all_names) < 2:
+            return
+
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Add Re-referenced Channel")
+        dlayout = QVBoxLayout(dialog)
+
+        desc = QLabel("Create a new channel as:  Channel A \u2212 Channel B")
+        dlayout.addWidget(desc)
+
+        form = QFormLayout()
+        combo_a = QComboBox()
+        combo_b = QComboBox()
+        for name in all_names:
+            combo_a.addItem(name)
+            combo_b.addItem(name)
+        combo_a.setCurrentIndex(0)
+        combo_b.setCurrentIndex(1)
+        form.addRow("Channel A:", combo_a)
+        form.addRow("Channel B:", combo_b)
+        dlayout.addLayout(form)
+
+        btn_layout = QHBoxLayout()
+        ok_btn = QPushButton("Add Channel")
+        cancel_btn = QPushButton("Cancel")
+        ok_btn.clicked.connect(dialog.accept)
+        cancel_btn.clicked.connect(dialog.reject)
+        btn_layout.addStretch()
+        btn_layout.addWidget(ok_btn)
+        btn_layout.addWidget(cancel_btn)
+        dlayout.addLayout(btn_layout)
+
+        if dialog.exec() == QDialog.Accepted:
+            a = combo_a.currentText()
+            b = combo_b.currentText()
+            self.channelAdded.emit(a, b)
+
+    def _on_delete_channel_btn(self, btn):
+        """Called when a trash button is clicked — resolve current index then confirm."""
+        idx = self.trash_buttons.index(btn)
+        self._on_delete_channel(idx)
+
+    def _on_delete_channel(self, idx):
+        """Show a confirmation dialog and emit channelDeleted if confirmed."""
+        channel_name = self.label[idx].text()
+        msg = QMessageBox(self)
+        msg.setIcon(QMessageBox.Warning)
+        msg.setWindowTitle("Delete Channel")
+        msg.setText(f"Delete channel \u2018{channel_name}\u2019?")
+        msg.setInformativeText("This action cannot be reversed.")
+        msg.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        msg.setDefaultButton(QMessageBox.Cancel)
+        if msg.exec() == QMessageBox.Yes:
+            self.channelDeleted.emit(idx)
