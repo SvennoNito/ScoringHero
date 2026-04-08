@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 
 # To do
-# Make dotted line configurable
-# Allow mat file to be imported outside of EEGLAB structure
-# Automatic scoring
-# Ability to overlay two scorings
-# Read different scoring formats
-# Option to randomize files
-# Hypnogram on top of spectogram
+# - also show the .json file scoringhero writes into
+# add export tab to eport sleep scoring in different formats
+# ability to overlay two scorings
 
 
 from PySide6 import QtCore, QtWidgets, QtGui
