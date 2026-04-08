@@ -54,6 +54,16 @@ def load_gssc(scoring_filename, epolen, numepo):
                 scoring_data[counter]["source"] = "GSSC"
                 scoring_data[counter]["confidence"] = conf_val
 
+        # If GSSC did not score the last epoch(s), copy the second-to-last scored epoch
+        n_scored = len(scoring_str)
+        if 0 < n_scored < numepo:
+            last = scoring_data[n_scored - 1]
+            for i in range(n_scored, numepo):
+                scoring_data[i]["digit"] = last["digit"]
+                scoring_data[i]["stage"] = last["stage"]
+                scoring_data[i]["source"] = last["source"]
+                scoring_data[i]["confidence"] = last["confidence"]
+
     else:
         print("Could not find scoring file")
         return None, []
