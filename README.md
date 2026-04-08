@@ -18,7 +18,7 @@ Welcome to **ScoringHero**, an open-source project designed to assist you in EEG
 
 **ScoringHero** is available for **Windows** and **macOS**. For Windows, it is packaged as a standalone executable (`.exe`). For macOS, it comes in versions for older (`x86_64 architecture`) and newer Mac laptops (`arm64 architecture`).
 
-No installation is required. Simply go to the [**Releases**]([https://link-url-here.org](https://github.com/SvennoNito/ScoringHero/releases)) section on the right of this page, download the appropriate file for your operating system, and execute the file to start **ScoringHero**.
+No installation is required. Simply go to the [**Releases**](https://github.com/SvennoNito/ScoringHero/releases) section on the right of this page, download the appropriate file for your operating system, and execute the file to start **ScoringHero**.
 
 ### For Mac Users
 
