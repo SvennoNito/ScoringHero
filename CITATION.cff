@@ -27,6 +27,6 @@ keywords:
   - Event labels
   - EEG
 license: CC-BY-4.0
-commit: 5f69d5a6aa898157ec31b1e251a70a1c0dd9f89a
-version: 0.2.2
-date-released: '2026-04-08'
+commit: c228a3b5a426a2823ce503c13956b9491b5c9bae
+version: 0.2.3
+date-released: '2026-04-22'
