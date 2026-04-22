@@ -1,10 +1,16 @@
 import numpy as np
+from concurrent.futures import ThreadPoolExecutor
 from scipy.signal import cheby2, sosfiltfilt
 
 
 def apply_filter(eeg_data, sampling_rate, filter_settings):
     """
     Applies Chebyshev Type 2 filters to a copy of eeg_data and returns it.
+
+    All active filters for each channel are merged into a single SOS chain so
+    that sosfiltfilt is called at most once per channel (instead of once per
+    filter type). Channels are processed in parallel via ThreadPoolExecutor;
+    sosfiltfilt releases the GIL, so threads give real parallelism.
 
     Parameters
     ----------
@@ -22,41 +28,51 @@ def apply_filter(eeg_data, sampling_rate, filter_settings):
         New array with filters applied; eeg_data is not modified.
     """
     nyquist = sampling_rate / 2.0
-    result = eeg_data.copy()
 
-    for ch_idx, settings in enumerate(filter_settings):
-        data = eeg_data[ch_idx].astype(np.float64)
-        changed = False
+    # Build one combined SOS array per channel (None if no filter active)
+    channel_sos = []
+    for settings in filter_settings:
+        sections = []
 
-        # High-pass
         if settings["hp_enabled"]:
             cutoff = settings["hp_cutoff"]
             order = int(settings["hp_order"])
             if 0 < cutoff < nyquist:
-                sos = cheby2(order, 40, cutoff, btype="highpass", fs=sampling_rate, output="sos")
-                data = sosfiltfilt(sos, data)
-                changed = True
+                sections.append(
+                    cheby2(order, 60, cutoff, btype="highpass", fs=sampling_rate, output="sos")
+                )
 
-        # Low-pass
         if settings["lp_enabled"]:
             cutoff = settings["lp_cutoff"]
             order = int(settings["lp_order"])
             if 0 < cutoff < nyquist:
-                sos = cheby2(order, 40, cutoff, btype="lowpass", fs=sampling_rate, output="sos")
-                data = sosfiltfilt(sos, data)
-                changed = True
+                sections.append(
+                    cheby2(order, 60, cutoff, btype="lowpass", fs=sampling_rate, output="sos")
+                )
 
-        # Notch (bandstop ±1 Hz around the cutoff frequency)
         if settings["notch_enabled"]:
             cutoff = settings["notch_cutoff"]
             order = int(settings["notch_order"])
             low, high = cutoff - 1.0, cutoff + 1.0
             if low > 0 and high < nyquist:
-                sos = cheby2(order, 40, [low, high], btype="bandstop", fs=sampling_rate, output="sos")
-                data = sosfiltfilt(sos, data)
-                changed = True
+                sections.append(
+                    cheby2(order, 60, [low, high], btype="bandstop", fs=sampling_rate, output="sos")
+                )
 
-        if changed:
-            result[ch_idx] = data
+        channel_sos.append(np.vstack(sections) if sections else None)
+
+    result = eeg_data.copy()
+
+    def _filter_channel(ch_idx):
+        sos = channel_sos[ch_idx]
+        if sos is None:
+            return ch_idx, None
+        filtered = sosfiltfilt(sos, eeg_data[ch_idx].astype(np.float64))
+        return ch_idx, filtered
+
+    with ThreadPoolExecutor() as executor:
+        for ch_idx, filtered in executor.map(_filter_channel, range(len(filter_settings))):
+            if filtered is not None:
+                result[ch_idx] = filtered
 
     return result
