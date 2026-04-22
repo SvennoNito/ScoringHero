@@ -1,4 +1,6 @@
 def call_tf_widget(ui):
+    if not ui.config[0].get("Wavelet_panel_visible", True):
+        return
     srate = ui.config[0]["Sampling_rate_hz"]
     display_mode = ui.config[0].get("Wavelet_display_mode", "Z-scored Power")
     freq_scale = ui.config[0].get("Wavelet_frequency_scale", "Logarithmic")
