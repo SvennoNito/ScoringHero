@@ -1,3 +1,8 @@
+import numpy as np
+from scipy.signal import cheby2, sosfreqz
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
+from matplotlib.figure import Figure
+
 from PySide6.QtWidgets import (
     QDialog,
     QVBoxLayout,
@@ -14,13 +19,14 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont
 
+
 class FilterWindow(QDialog):
     filterApplied = Signal(list)
 
     def __init__(self, channel_config, sampling_rate, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Filter")
-        self.resize(820, 500)
+        self.resize(920, 500)
         self._channel_config = channel_config
         self._sampling_rate = sampling_rate
 
@@ -29,17 +35,17 @@ class FilterWindow(QDialog):
         # Info label
         description = QLabel(
             "\u24d8 "
-            "High-pass, low-pass, or notch-filter a given EEG channel using a"
+            "High-pass, low-pass, or notch-filter a given EEG channel using a "
             "Chebyshev Type 2 filter. The specified cutoff frequency is the "
-            "\u221240\u202fdB stopband edge, not the \u22123\u202fdB point. "
+            "\u221260\u202fdB stopband edge, not the \u22123\u202fdB point. "
             "Filters affect only the displayed EEG signal, not any power computations. "
-            "Change filter parameters here. "
+            "Click \u223f to plot the magnitude response of a filter."
         )
         description.setWordWrap(True)
         layout.addWidget(description)
 
         # "Apply" checkbox — when checked, changing any parameter on one channel propagates to all
-        self.apply_all_checkbox = QCheckBox("Apply")
+        self.apply_all_checkbox = QCheckBox("Apply changes to all channels")
         layout.addWidget(self.apply_all_checkbox)
 
         # Scroll area — QGridLayout ensures all columns align automatically
@@ -66,40 +72,40 @@ class FilterWindow(QDialog):
         def _vsep():
             sep = QFrame()
             sep.setFrameShape(QFrame.VLine)
-            sep.setFrameShadow(QFrame.Sunken)
+            sep.setFrameShadow(QFrame.Plain)
+            sep.setFixedWidth(1)
             return sep
 
-        # Column layout: Channel | HP cut/ord/en | sep | LP cut/ord/en | sep | Notch cut/ord/en | vsep | All
+        # Column layout: Channel | HP cut/ord/en/plt | sep | LP cut/ord/en/plt | sep | Notch cut/ord/en/plt | vsep | All
         C_CHAN = 0
-        C_HP_CUT, C_HP_ORD, C_HP_EN = 1, 2, 3
-        C_SEP1 = 4
-        C_LP_CUT, C_LP_ORD, C_LP_EN = 5, 6, 7
-        C_SEP2 = 8
-        C_NT_CUT, C_NT_ORD, C_NT_EN = 9, 10, 11
-        C_SEP3 = 12
-        C_ALL = 13
-        LAST_COL = 13
+        C_HP_CUT, C_HP_ORD, C_HP_EN, C_HP_PLT = 1, 2, 3, 4
+        C_SEP1 = 5
+        C_LP_CUT, C_LP_ORD, C_LP_EN, C_LP_PLT = 6, 7, 8, 9
+        C_SEP2 = 10
+        C_NT_CUT, C_NT_ORD, C_NT_EN, C_NT_PLT = 11, 12, 13, 14
+        C_SEP3 = 15
+        C_ALL = 16
+        LAST_COL = 16
 
         # Visual spacing between filter groups
-        grid.setColumnMinimumWidth(C_SEP1, 18)
-        grid.setColumnMinimumWidth(C_SEP2, 18)
-        grid.setColumnMinimumWidth(C_SEP3, 18)
+        grid.setColumnMinimumWidth(C_SEP1, 22)
+        grid.setColumnMinimumWidth(C_SEP2, 22)
+        grid.setColumnMinimumWidth(C_SEP3, 22)
 
-        # Row 0: filter-group super-headers (spanning 3 columns each)
-        grid.addWidget(_hdr("High-pass filter"), 0, C_HP_CUT, 1, 3, Qt.AlignCenter)
-        grid.addWidget(_hdr("Low-pass filter"),  0, C_LP_CUT, 1, 3, Qt.AlignCenter)
-        grid.addWidget(_hdr("Notch filter"),     0, C_NT_CUT, 1, 3, Qt.AlignCenter)
-        grid.addWidget(_hdr("All"),              0, C_ALL,    1, 1, Qt.AlignCenter)
-
+        # Row 0: filter-group super-headers (spanning 4 columns each)
+        grid.addWidget(_hdr("High-pass filter"), 0, C_HP_CUT, 1, 4, Qt.AlignCenter)
+        grid.addWidget(_hdr("Low-pass filter"),  0, C_LP_CUT, 1, 4, Qt.AlignCenter)
+        grid.addWidget(_hdr("Notch filter"),     0, C_NT_CUT, 1, 4, Qt.AlignCenter)
+        grid.addWidget(_hdr("Select all\nfilters"), 0, C_ALL, 2, 1, Qt.AlignCenter)
 
         # Row 1: column sub-headers
         grid.addWidget(_hdr("Channel", Qt.AlignLeft), 1, C_CHAN)
-        grid.addWidget(_hdr("Cutoff"), 1, C_HP_CUT)
-        grid.addWidget(_hdr("Order"),  1, C_HP_ORD)
-        grid.addWidget(_hdr("Cutoff"), 1, C_LP_CUT)
-        grid.addWidget(_hdr("Order"),  1, C_LP_ORD)
-        grid.addWidget(_hdr("Cutoff"), 1, C_NT_CUT)
-        grid.addWidget(_hdr("Order"),  1, C_NT_ORD)
+        grid.addWidget(_hdr("Cutoff", Qt.AlignLeft), 1, C_HP_CUT)
+        grid.addWidget(_hdr("Order",  Qt.AlignLeft), 1, C_HP_ORD)
+        grid.addWidget(_hdr("Cutoff", Qt.AlignLeft), 1, C_LP_CUT)
+        grid.addWidget(_hdr("Order",  Qt.AlignLeft), 1, C_LP_ORD)
+        grid.addWidget(_hdr("Cutoff", Qt.AlignLeft), 1, C_NT_CUT)
+        grid.addWidget(_hdr("Order",  Qt.AlignLeft), 1, C_NT_ORD)
 
         # Per-channel widget lists
         self._hp_enabled    = []
@@ -133,6 +139,11 @@ class FilterWindow(QDialog):
             hp_ord.setMaximum(10)
             hp_ord.setDecimals(0)
             hp_ord.setValue(4)
+            hp_ord.setMaximumWidth(60)
+
+            hp_plt = QPushButton("\u223f")
+            hp_plt.setFixedSize(20, 20)
+            hp_plt.setToolTip("Plot high-pass frequency response")
 
             lp_cb  = QCheckBox()
             lp_cut = QDoubleSpinBox()
@@ -147,6 +158,11 @@ class FilterWindow(QDialog):
             lp_ord.setMaximum(10)
             lp_ord.setDecimals(0)
             lp_ord.setValue(4)
+            lp_ord.setMaximumWidth(60)
+
+            lp_plt = QPushButton("\u223f")
+            lp_plt.setFixedSize(20, 20)
+            lp_plt.setToolTip("Plot low-pass frequency response")
 
             nt_cb  = QCheckBox()
             nt_cut = QDoubleSpinBox()
@@ -161,6 +177,11 @@ class FilterWindow(QDialog):
             nt_ord.setMaximum(10)
             nt_ord.setDecimals(0)
             nt_ord.setValue(4)
+            nt_ord.setMaximumWidth(60)
+
+            nt_plt = QPushButton("\u223f")
+            nt_plt.setFixedSize(20, 20)
+            nt_plt.setToolTip("Plot notch frequency response")
 
             all_cb = QCheckBox()
 
@@ -176,17 +197,24 @@ class FilterWindow(QDialog):
             nt_ord.valueChanged.connect(lambda _, i=ch_idx: self._propagate(i, "notch_order"))
             all_cb.stateChanged.connect(lambda state, i=ch_idx: self._set_all_row(i, state))
 
+            hp_plt.clicked.connect(lambda _, i=ch_idx: self._plot_filter_response("hp", i))
+            lp_plt.clicked.connect(lambda _, i=ch_idx: self._plot_filter_response("lp", i))
+            nt_plt.clicked.connect(lambda _, i=ch_idx: self._plot_filter_response("notch", i))
+
             grid.addWidget(name_lbl, row, C_CHAN,   Qt.AlignLeft | Qt.AlignVCenter)
             grid.addWidget(hp_cut,   row, C_HP_CUT)
             grid.addWidget(hp_ord,   row, C_HP_ORD)
             grid.addWidget(hp_cb,    row, C_HP_EN,  Qt.AlignCenter)
+            grid.addWidget(hp_plt,   row, C_HP_PLT, Qt.AlignCenter)
             grid.addWidget(lp_cut,   row, C_LP_CUT)
             grid.addWidget(lp_ord,   row, C_LP_ORD)
             grid.addWidget(lp_cb,    row, C_LP_EN,  Qt.AlignCenter)
+            grid.addWidget(lp_plt,   row, C_LP_PLT, Qt.AlignCenter)
             grid.addWidget(nt_cut,   row, C_NT_CUT)
             grid.addWidget(nt_ord,   row, C_NT_ORD)
             grid.addWidget(nt_cb,    row, C_NT_EN,  Qt.AlignCenter)
-            grid.addWidget(_vsep(),  row, C_SEP3,  Qt.AlignHCenter)
+            grid.addWidget(nt_plt,   row, C_NT_PLT, Qt.AlignCenter)
+            grid.addWidget(_vsep(),  row, C_SEP3,   Qt.AlignCenter)
             grid.addWidget(all_cb,   row, C_ALL,    Qt.AlignCenter)
 
             self._hp_enabled.append(hp_cb)
@@ -281,6 +309,85 @@ class FilterWindow(QDialog):
             else:
                 w.setValue(src_widget.value())
             w.blockSignals(False)
+
+    def _plot_filter_response(self, filter_type, ch_idx):
+        fs = self._sampling_rate
+        nyquist = fs / 2.0
+        ch_name = self._channel_config[ch_idx]["Channel_name"]
+
+        if filter_type == "hp":
+            cutoff = self._hp_cutoff[ch_idx].value()
+            order  = int(self._hp_order[ch_idx].value())
+            if not (0 < cutoff < nyquist):
+                return
+            sos = cheby2(order, 60, cutoff, btype="highpass", fs=fs, output="sos")
+            title = f"High-pass  |  {ch_name}  |  Cutoff: {cutoff} Hz, Order: {order}"
+            vlines = [cutoff]
+        elif filter_type == "lp":
+            cutoff = self._lp_cutoff[ch_idx].value()
+            order  = int(self._lp_order[ch_idx].value())
+            if not (0 < cutoff < nyquist):
+                return
+            sos = cheby2(order, 60, cutoff, btype="lowpass", fs=fs, output="sos")
+            title = f"Low-pass  |  {ch_name}  |  Cutoff: {cutoff} Hz, Order: {order}"
+            vlines = [cutoff]
+        else:  # notch
+            cutoff = self._notch_cutoff[ch_idx].value()
+            order  = int(self._notch_order[ch_idx].value())
+            low, high = cutoff - 1.0, cutoff + 1.0
+            if not (low > 0 and high < nyquist):
+                return
+            sos = cheby2(order, 60, [low, high], btype="bandstop", fs=fs, output="sos")
+            title = f"Notch  |  {ch_name}  |  Cutoff: {cutoff} Hz, Order: {order}"
+            vlines = [low, high]
+
+        w, h = sosfreqz(sos, worN=8192, fs=fs)
+
+        # sosfiltfilt applies the filter forward then backward, which squares the magnitude
+        mag     = np.abs(h) ** 2
+        mag_db  = 20.0 * np.log10(np.maximum(mag, 1e-12))
+        mag_pct = mag * 100.0
+
+        ref_3db_pct  = 100.0 * 10 ** (-3.0  / 20.0)   # ≈ 70.8 %
+        ref_60db_pct = 100.0 * 10 ** (-60.0 / 20.0)   # = 0.1 %
+
+        fig = Figure(figsize=(8, 5), tight_layout=True)
+        ax_db  = fig.add_subplot(2, 1, 1)
+        ax_pct = fig.add_subplot(2, 1, 2)
+
+        ax_db.plot(w, mag_db, lw=1.5)
+        for vl in vlines:
+            ax_db.axvline(vl, color="red", lw=1, ls="--", alpha=0.7)
+        ax_db.axhline(-3,  color="orange", lw=1, ls=":", label="\u22123 dB")
+        ax_db.axhline(-60, color="red",    lw=1, ls=":", label="\u221260 dB")
+        ax_db.set_ylabel("Magnitude (dB)")
+        ax_db.set_xlabel("Frequency (Hz)")
+        ax_db.set_xlim(left=0)
+        ax_db.legend(fontsize=8, loc="best")
+        ax_db.grid(True, alpha=0.3)
+        ax_db.set_title(title, fontsize=9)
+
+        ax_pct.plot(w, mag_pct, lw=1.5)
+        for vl in vlines:
+            ax_pct.axvline(vl, color="red", lw=1, ls="--", alpha=0.7)
+        ax_pct.axhline(ref_3db_pct,  color="orange", lw=1, ls=":",
+                       label=f"{ref_3db_pct:.1f}% (\u22123 dB)")
+        ax_pct.axhline(ref_60db_pct, color="red",    lw=1, ls=":",
+                       label=f"{ref_60db_pct:.2f}% (\u221260 dB)")
+        ax_pct.set_ylabel("Magnitude (%)")
+        ax_pct.set_xlabel("Frequency (Hz)")
+        ax_pct.set_xlim(left=0)
+        ax_pct.legend(fontsize=8, loc="best")
+        ax_pct.grid(True, alpha=0.3)
+
+        dlg = QDialog(self)
+        dlg.setWindowTitle("Filter frequency response")
+        dlg.resize(700, 520)
+        canvas = FigureCanvasQTAgg(fig)
+        v = QVBoxLayout(dlg)
+        v.setContentsMargins(4, 4, 4, 4)
+        v.addWidget(canvas)
+        dlg.show()
 
     def _on_apply(self):
         filter_settings = []
