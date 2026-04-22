@@ -60,6 +60,18 @@ def load_wrapper(ui, datatype, extra_files=None):
 
     ui.config = load_configuration(f"{ui.filename}.config.json", numchans, srate, channel_names)
 
+    # Reorder eeg_data rows to match the saved channel order in config.
+    # When the user reorders channels in the config window, config[1] is saved in
+    # the new order but the EEG file always loads channels in the original file order.
+    # We must permute eeg_data so that eeg_data[i] corresponds to config[1][i].
+    non_derived_configs = [ch for ch in ui.config[1] if not ch.get("derived", False)]
+    name_to_file_idx = {name: i for i, name in enumerate(channel_names)}
+    config_names = [ch["Channel_name"] for ch in non_derived_configs]
+    if (len(config_names) == len(channel_names)
+            and all(n in name_to_file_idx for n in config_names)):
+        new_order = [name_to_file_idx[n] for n in config_names]
+        ui.eeg_data = ui.eeg_data[new_order]
+
     # Reconstruct derived channels (added via re-reference) that are not stored in the
     # EEG file. For each derived channel, find its source channel among the non-derived
     # entries and append a copy of that raw signal row to eeg_data so that the channel
