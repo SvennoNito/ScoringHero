@@ -5,6 +5,7 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QMenuBar,
     QMenu,
+    QMessageBox,
     QStatusBar,
     QSizePolicy,
     )
@@ -33,6 +34,9 @@ from scoring.scoring_import_window import scoring_import_window
 # from scoring.score_yasa import score_yasa
 from eeg.eeg_import_window import eeg_import_window
 from help.open_help_selection_box import open_help_selection_box
+from scoring.clean_epochs_to_uistages import clean_epochs_to_uiscoring
+from scoring.write_scoring import write_scoring
+from utilities.refresh_gui import refresh_gui
 from functools import partial
 
 @timing_decorator
@@ -353,6 +357,13 @@ def setup_ui(ui, MainWindow):
     ui.action_F12.setShortcut("F12")
     ui.menu_labels.addAction(ui.action_F12)
 
+    ui.menu_labels.addSeparator()
+
+    ui.action_delete_all_events = QAction("Delete all events", MainWindow)
+    ui.action_delete_all_events.setObjectName("action_delete_all_events")
+    ui.action_delete_all_events.triggered.connect(lambda: _delete_all_events(ui))
+    ui.menu_labels.addAction(ui.action_delete_all_events)
+
 
     # Utilities menu
     ui.menu_utils = QMenu("Utilities", ui.menu)
@@ -363,12 +374,6 @@ def setup_ui(ui, MainWindow):
     ui.action_yasa.setObjectName("action_yasa")
     ui.action_yasa.triggered.connect(lambda: score_yasa(ui))
     ui.menu_utils.addAction(ui.action_yasa)  """   
-
-    ui.action_zoom = QAction("Zoom on selected EEG", MainWindow)
-    ui.action_zoom.setObjectName("action_zoom")
-    ui.action_zoom.triggered.connect(lambda: zoom_on_selected_eeg(ui))
-    ui.action_zoom.setShortcut("Z")
-    ui.menu_utils.addAction(ui.action_zoom)
 
     ui.action_filter = QAction("Filter", MainWindow)
     ui.action_filter.setObjectName("action_filter")
@@ -381,6 +386,12 @@ def setup_ui(ui, MainWindow):
     ui.action_gssc.setShortcut("Ctrl+G")
     ui.action_gssc.triggered.connect(lambda: open_gssc_window(ui))
     ui.menu_utils.addAction(ui.action_gssc)
+
+    ui.action_zoom = QAction("Zoom on selected EEG", MainWindow)
+    ui.action_zoom.setObjectName("action_zoom")
+    ui.action_zoom.triggered.connect(lambda: zoom_on_selected_eeg(ui))
+    ui.action_zoom.setShortcut("Z")
+    ui.menu_utils.addAction(ui.action_zoom)
 
     # Options menu
     ui.menu_config = QMenu("Configuration", ui.menu)
@@ -422,3 +433,26 @@ def setup_ui(ui, MainWindow):
 
     # Makes GUI listen to key strokes
     MainWindow.keyPressEvent = ui.keyPressEvent
+
+
+def _delete_all_events(ui):
+    msg = QMessageBox()
+    msg.setWindowTitle("Delete all events")
+    msg.setText(
+        "Are you sure you want to delete all events? This is irreversible."
+    )
+    btn_delete = msg.addButton("Delete all events", QMessageBox.ButtonRole.DestructiveRole)
+    btn_specific = msg.addButton("Delete specific events only", QMessageBox.ButtonRole.ActionRole)
+    msg.addButton("Cancel", QMessageBox.ButtonRole.RejectRole)
+    msg.exec()
+
+    if msg.clickedButton() is btn_delete:
+        for container in ui.AnnotationContainer:
+            container.borders.clear()
+            container.epochs.clear()
+            clean_epochs_to_uiscoring(ui, container)
+        write_scoring(ui)
+        refresh_gui(ui)
+    elif msg.clickedButton() is btn_specific:
+        open_config_window(ui)
+        ui.ConfigurationWindow.tabs.setCurrentIndex(2)

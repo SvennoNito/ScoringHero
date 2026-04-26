@@ -70,19 +70,43 @@ class ConfigurationWindow(QDialog):
 
 class EventConfiguration(QDialog):
     changesMade = Signal()
+    eventDeleted = Signal(int)
 
     def __init__(self, AnnotationContainer, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout(self)
-        form_layout = QFormLayout()
-        self.scale = []
-        self.display = []
-        self.color = []
         self.label = []
+        self.remove_buttons = []
 
-        # Loop through channels
+        color_w  = 24
+        count_w  = 60
+        dur_w    = 80
+        remove_w = 28
+
+        bold_font = QFont()
+        bold_font.setBold(True)
+
+        # Header row
+        header_layout = QHBoxLayout()
+        h_label = QLabel("Label")
+        h_label.setFont(bold_font)
+        h_label.setAlignment(Qt.AlignLeft)
+        header_layout.addWidget(h_label, 1)  # stretch=1: takes remaining space
+        for text, width, align in [
+            ("",           color_w,  Qt.AlignLeft),
+            ("# events",   count_w,  Qt.AlignRight),
+            ("Total dur.", dur_w,    Qt.AlignRight),
+            ("",           remove_w, Qt.AlignLeft),
+        ]:
+            h = QLabel(text)
+            h.setFont(bold_font)
+            h.setAlignment(align)
+            h.setFixedWidth(width)
+            header_layout.addWidget(h)
+        layout.addLayout(header_layout)
+
+        # Data rows
         for count, container in enumerate(AnnotationContainer):
-            # QColor
             qcolor = QColor(
                 container.facecolor[0],
                 container.facecolor[1],
@@ -90,28 +114,62 @@ class EventConfiguration(QDialog):
                 container.facecolor[3],
             )
 
-            # Channe label
+            # Label
             labelbox = QLineEdit(container.label)
             labelbox.setAlignment(Qt.AlignRight)
-            # labelbox.setFixedWidth(max(len(container.label) for container in AnnotationContainer)*8 + 10)
-            # labelbox.setStyleSheet(f"background: {qcolor.name()};") # {container.facecolor};
             labelbox.textChanged.connect(lambda: self.change_event(AnnotationContainer))
 
-            # Pushbutton
+            # Color swatch
             colorbutton = QPushButton()
-            colorbutton.setStyleSheet(
-                f"background-color: {qcolor.name()};"
-            )  # {container.facecolor};
+            colorbutton.setFixedWidth(color_w)
+            colorbutton.setStyleSheet(f"background-color: {qcolor.name()};")
 
-            # Layout
+            # Event count
+            count_label = QLabel(str(len(container.borders)))
+            count_label.setFixedWidth(count_w)
+            count_label.setAlignment(Qt.AlignRight)
+
+            # Total duration
+            total_s = sum(b[1] - b[0] for b in container.borders)
+            dur_label = QLabel(f"{total_s:.1f} s")
+            dur_label.setFixedWidth(dur_w)
+            dur_label.setAlignment(Qt.AlignRight)
+
+            # Remove button
+            remove_btn = QPushButton("🗑")
+            remove_btn.setFixedWidth(remove_w)
+            remove_btn.setToolTip("Remove all events of this type")
+            remove_btn.setStyleSheet(
+                "QPushButton { color: #c0392b; border: none; background: transparent; font-size: 14px; }"
+                "QPushButton:hover { background-color: rgba(192, 57, 43, 40); border-radius: 3px; }"
+                "QPushButton:pressed { background-color: rgba(192, 57, 43, 80); }"
+            )
+            remove_btn.clicked.connect(lambda checked, b=remove_btn: self._on_remove_event_btn(b))
+            self.remove_buttons.append(remove_btn)
+
             row_layout = QHBoxLayout()
-            row_layout.addWidget(labelbox)
+            row_layout.addWidget(labelbox, 1)  # stretch=1: takes remaining space
             row_layout.addWidget(colorbutton)
-            form_layout.addRow(row_layout)
+            row_layout.addWidget(count_label)
+            row_layout.addWidget(dur_label)
+            row_layout.addWidget(remove_btn)
+            layout.addLayout(row_layout)
 
             self.label.append(labelbox)
 
-        layout.addLayout(form_layout)
+        layout.addStretch()
+
+    def _on_remove_event_btn(self, btn):
+        idx = self.remove_buttons.index(btn)
+        label = self.label[idx].text()
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Remove events")
+        msg.setText(f"Are you sure you want to remove all \"{label}\" events? This action is irreversible.")
+        btn_continue = msg.addButton("Continue", QMessageBox.ButtonRole.DestructiveRole)
+        msg.addButton("Cancel", QMessageBox.ButtonRole.RejectRole)
+        msg.exec()
+        if msg.clickedButton() is btn_continue:
+            self.eventDeleted.emit(idx)
 
     def change_event(self, AnnotationContainer):
         for counter, container in enumerate(AnnotationContainer):
