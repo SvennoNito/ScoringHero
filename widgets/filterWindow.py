@@ -1,7 +1,6 @@
 import numpy as np
+import pyqtgraph as pg
 from scipy.signal import cheby2, sosfreqz
-from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
-from matplotlib.figure import Figure
 
 from PySide6.QtWidgets import (
     QDialog,
@@ -351,42 +350,49 @@ class FilterWindow(QDialog):
         ref_3db_pct  = 100.0 * 10 ** (-3.0  / 20.0)   # ≈ 70.8 %
         ref_60db_pct = 100.0 * 10 ** (-60.0 / 20.0)   # = 0.1 %
 
-        fig = Figure(figsize=(8, 5), tight_layout=True)
-        ax_db  = fig.add_subplot(2, 1, 1)
-        ax_pct = fig.add_subplot(2, 1, 2)
+        dash = Qt.PenStyle.DashLine
+        dot  = Qt.PenStyle.DotLine
+        orange = (255, 165, 0)
 
-        ax_db.plot(w, mag_db, lw=1.5)
-        for vl in vlines:
-            ax_db.axvline(vl, color="red", lw=1, ls="--", alpha=0.7)
-        ax_db.axhline(-3,  color="orange", lw=1, ls=":", label="\u22123 dB")
-        ax_db.axhline(-60, color="red",    lw=1, ls=":", label="\u221260 dB")
-        ax_db.set_ylabel("Magnitude (dB)")
-        ax_db.set_xlabel("Frequency (Hz)")
-        ax_db.set_xlim(left=0)
-        ax_db.legend(fontsize=8, loc="best")
-        ax_db.grid(True, alpha=0.3)
-        ax_db.set_title(title, fontsize=9)
+        win = pg.GraphicsLayoutWidget()
+        win.setBackground("w")
 
-        ax_pct.plot(w, mag_pct, lw=1.5)
+        p1 = win.addPlot(title=title)
+        p1.setLabel("left", "Magnitude (dB)")
+        p1.setLabel("bottom", "Frequency (Hz)")
+        p1.setXRange(0, nyquist, padding=0)
+        p1.showGrid(x=True, y=True, alpha=0.3)
+        p1.plot(w, mag_db, pen=pg.mkPen("k", width=1.5))
         for vl in vlines:
-            ax_pct.axvline(vl, color="red", lw=1, ls="--", alpha=0.7)
-        ax_pct.axhline(ref_3db_pct,  color="orange", lw=1, ls=":",
-                       label=f"{ref_3db_pct:.1f}% (\u22123 dB)")
-        ax_pct.axhline(ref_60db_pct, color="red",    lw=1, ls=":",
-                       label=f"{ref_60db_pct:.2f}% (\u221260 dB)")
-        ax_pct.set_ylabel("Magnitude (%)")
-        ax_pct.set_xlabel("Frequency (Hz)")
-        ax_pct.set_xlim(left=0)
-        ax_pct.legend(fontsize=8, loc="best")
-        ax_pct.grid(True, alpha=0.3)
+            p1.addItem(pg.InfiniteLine(pos=vl, angle=90, pen=pg.mkPen("r", width=1, style=dash)))
+        p1.addItem(pg.InfiniteLine(pos=-3,  angle=0, pen=pg.mkPen(orange, width=1, style=dot),
+                                   label="\u22123 dB", labelOpts={"color": orange, "position": 0.95}))
+        p1.addItem(pg.InfiniteLine(pos=-60, angle=0, pen=pg.mkPen("r", width=1, style=dot),
+                                   label="\u221260 dB", labelOpts={"color": "r", "position": 0.95}))
+
+        win.nextRow()
+
+        p2 = win.addPlot()
+        p2.setLabel("left", "Magnitude (%)")
+        p2.setLabel("bottom", "Frequency (Hz)")
+        p2.setXRange(0, nyquist, padding=0)
+        p2.showGrid(x=True, y=True, alpha=0.3)
+        p2.plot(w, mag_pct, pen=pg.mkPen("k", width=1.5))
+        for vl in vlines:
+            p2.addItem(pg.InfiniteLine(pos=vl, angle=90, pen=pg.mkPen("r", width=1, style=dash)))
+        p2.addItem(pg.InfiniteLine(pos=ref_3db_pct,  angle=0, pen=pg.mkPen(orange, width=1, style=dot),
+                                   label=f"{ref_3db_pct:.1f}% (\u22123 dB)",
+                                   labelOpts={"color": orange, "position": 0.95}))
+        p2.addItem(pg.InfiniteLine(pos=ref_60db_pct, angle=0, pen=pg.mkPen("r", width=1, style=dot),
+                                   label=f"{ref_60db_pct:.2f}% (\u221260 dB)",
+                                   labelOpts={"color": "r", "position": 0.95}))
 
         dlg = QDialog(self)
         dlg.setWindowTitle("Filter frequency response")
         dlg.resize(700, 520)
-        canvas = FigureCanvasQTAgg(fig)
         v = QVBoxLayout(dlg)
         v.setContentsMargins(4, 4, 4, 4)
-        v.addWidget(canvas)
+        v.addWidget(win)
         dlg.show()
 
     def _on_apply(self):
