@@ -30,6 +30,8 @@ from utilities.score_not_sure import score_not_sure
 from config.open_config_window import open_config_window
 from filter.open_filter_window import open_filter_window
 from scoring.open_gssc_window import open_gssc_window
+from scoring.open_seed_window import open_seed_window
+from scoring.open_mt_kcd_window import open_mt_kcd_window
 from scoring.scoring_import_window import scoring_import_window
 # from scoring.score_yasa import score_yasa
 from eeg.eeg_import_window import eeg_import_window
@@ -386,6 +388,17 @@ def setup_ui(ui, MainWindow):
     ui.action_gssc.setShortcut("Ctrl+G")
     ui.action_gssc.triggered.connect(lambda: open_gssc_window(ui))
     ui.menu_utils.addAction(ui.action_gssc)
+
+    # ui.action_seed = QAction("K-Complex / Spindle Detection (SEED)", MainWindow)
+    # ui.action_seed.setObjectName("action_seed")
+    # ui.action_seed.triggered.connect(lambda: open_seed_window(ui))
+    # ui.menu_utils.addAction(ui.action_seed)
+
+    ui.action_mt_kcd = QAction("K-Complex Detection (MT-KCD)", MainWindow)
+    ui.action_mt_kcd.setObjectName("action_mt_kcd")
+    ui.action_mt_kcd.setShortcut("Ctrl+K")
+    ui.action_mt_kcd.triggered.connect(lambda: open_mt_kcd_window(ui))
+    ui.menu_utils.addAction(ui.action_mt_kcd)
 
     ui.action_zoom = QAction("Zoom on selected EEG", MainWindow)
     ui.action_zoom.setObjectName("action_zoom")

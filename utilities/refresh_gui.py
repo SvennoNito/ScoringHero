@@ -12,6 +12,7 @@ def refresh_gui(ui):
 
     # Update epoch indicator lines
     ui.SpectogramWidget.update_epoch_indicator(ui.this_epoch)
+    ui.HypnogramWidget.update_events(ui)
     ui.HypnogramWidget.update_epoch_indicator(ui.this_epoch)
 
     # Remove green rectangles

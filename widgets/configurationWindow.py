@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
 )
 from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QColor, QFont
+from PySide6.QtGui import QColor, QFont, QFontMetrics
 import copy
 
 
@@ -79,12 +79,13 @@ class EventConfiguration(QDialog):
         self.remove_buttons = []
 
         color_w  = 24
-        count_w  = 60
-        dur_w    = 80
         remove_w = 28
 
         bold_font = QFont()
         bold_font.setBold(True)
+        fm = QFontMetrics(bold_font)
+        count_w  = fm.horizontalAdvance("# events") + 4
+        dur_w    = max(fm.horizontalAdvance("Total dur."), fm.horizontalAdvance("9999.9 s")) + 4
 
         # Header row
         header_layout = QHBoxLayout()

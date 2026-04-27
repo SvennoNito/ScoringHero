@@ -11,3 +11,5 @@ from .configurationWindow import ConfigurationWindow
 from .filterWindow import FilterWindow
 from .tfWidget import TFWidget
 from .gsscWindow import GsscWindow
+from .seedWindow import SeedWindow
+from .mtKcdWindow import MtKcdWindow
