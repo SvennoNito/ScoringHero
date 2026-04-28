@@ -90,6 +90,9 @@ arch -x86_64 ./release-mac.sh  # x86_64
 - Double-click on an existing event to remove it
 - Overlapping events of the same type are automatically merged
 - Events are displayed on both the signal view and the hypnogram
+- **Relabel events**: hold an event key (`A`, `F1`–`F12`) and click on an existing event to reassign it to a different type
+- **Erase events in selection**: draw one or more rectangles and press `Backspace` to delete all events inside the drawn region
+- **Delete all events**: via the Labels menu — choose to delete all events, events in the current epoch only, or events of a specific type (via the Events config tab)
 
 <p align="center">
     <img src="screenshots/artefact.png" width="49%" alt="Artefact event marked on signal" />
@@ -148,8 +151,17 @@ arch -x86_64 ./release-mac.sh  # x86_64
 - Uses a Chebyshev Type 2 filter (zero-phase via forward-backward pass)
 - Configurable **cutoff frequency** and **filter order** per channel
 - The specified cutoff is the −40 dB stopband attenuation point
+- **Live magnitude response plot** — the frequency response curve updates in real time as you adjust filter parameters
 - Filters affect only the **displayed EEG signal** — power computations (spectrogram, wavelet, SWA) are unaffected
 - **Apply to all channels** checkbox to propagate settings across all channels at once
+
+### Automatic K-Complex Detection (MT-KCD)
+
+- One-click K-complex detection via the **MT-KCD algorithm** (Oliveira et al. 2020) — accessible from the Utilities menu or `Ctrl+K`
+- Select which EEG channel to analyse and which event type to store detections in
+- Configurable detection thresholds and frequency parameters
+- Limit detection to specific sleep stages (e.g., N2 only) when a scoring is loaded
+- Detections are imported as events and can be reviewed, corrected, and exported like any manually drawn event
 
 ### Automatic Sleep Scoring (GSSC)
 
@@ -361,6 +373,8 @@ Up to 13 annotation types are supported (indices 0–12).
 |-----|--------|
 | `A` | Mark drawn region as Artefact |
 | `F1`–`F12` | Mark drawn region as Event 1–12 (labels customizable in config) |
+| Hold `A`/`F1`–`F12` + click | Relabel an existing event to that type |
+| `Backspace` | Erase all events inside the drawn selection |
 
 ### Navigation & Tools
 
@@ -371,6 +385,9 @@ Up to 13 annotation types are supported (indices 0–12).
 | `Z` | Zoom on selected EEG region |
 | `Ctrl+S` | Save scoring |
 | `Ctrl+C` | Open configuration window |
+| `Ctrl+F` | Open filter window |
+| `Ctrl+G` | Open Auto Score (GSSC) window |
+| `Ctrl+K` | Open K-Complex Detection (MT-KCD) window |
 | `Ctrl+H` | Show help |
 
 ---
@@ -405,6 +422,8 @@ Open the configuration window with `Ctrl+C`. Settings are saved per-file as `{fi
 ![Configuration Window — Events Tab](screenshots/event_config.png)
 - Custom label for each of the 12 event types
 - Custom color assignment from a 13-color palette
+- Displays event count and total duration per event type
+- Per-type delete button to remove all events of that type
 
 ### Spectrogram Tab
 - Channel selection for spectrogram computation
