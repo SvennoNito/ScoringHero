@@ -444,6 +444,7 @@ def _delete_all_events(ui):
         "Are you sure you want to delete all events? This is irreversible."
     )
     btn_delete = msg.addButton("Delete all events", QMessageBox.ButtonRole.DestructiveRole)
+    btn_epoch = msg.addButton("Delete events on current epoch only", QMessageBox.ButtonRole.DestructiveRole)
     btn_specific = msg.addButton("Delete specific events only", QMessageBox.ButtonRole.ActionRole)
     msg.addButton("Cancel", QMessageBox.ButtonRole.RejectRole)
     msg.exec()
@@ -455,6 +456,33 @@ def _delete_all_events(ui):
             clean_epochs_to_uiscoring(ui, container)
         write_scoring(ui)
         refresh_gui(ui)
+    elif msg.clickedButton() is btn_epoch:
+        _delete_events_in_current_epoch(ui)
     elif msg.clickedButton() is btn_specific:
         open_config_window(ui)
         ui.ConfigurationWindow.tabs.setCurrentIndex(2)
+
+
+def _delete_events_in_current_epoch(ui):
+    epoch_length = ui.config[0]["Epoch_length_s"]
+    e_start = ui.this_epoch * epoch_length
+    e_end = (ui.this_epoch + 1) * epoch_length
+
+    for container in ui.AnnotationContainer:
+        new_borders = []
+        for border in container.borders:
+            b_start, b_end = border[0], border[1]
+            if b_end <= e_start or b_start >= e_end:
+                new_borders.append(border)
+            else:
+                if b_start < e_start:
+                    new_borders.append([b_start, e_start])
+                if b_end > e_end:
+                    new_borders.append([e_end, b_end])
+        container.borders = new_borders
+        container.epochs = event_epoch(container.borders, epoch_length, ui.numepo)
+        clean_epochs_to_uiscoring(ui, container)
+        draw_event_in_this_epoch(ui, container)
+
+    write_scoring(ui)
+    refresh_gui(ui)
