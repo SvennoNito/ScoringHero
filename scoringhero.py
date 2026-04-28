@@ -23,6 +23,7 @@ from widgets import *
 from signal_processing.times_vector import times_vector
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 from events.event_handler import event_handler
+from events.erase_events_in_rectangles import erase_events_in_rectangles
 from cache.load_cache import load_cache
 from scoring.write_scoring import write_scoring
 from style.appstyler import appstyler
@@ -71,6 +72,9 @@ class GlobalKeyFilter(QObject):
                     return True
                 if key == Qt.Key_Left:
                     prev_epoch(self._ui)
+                    return True
+                if key == Qt.Key_Backspace:
+                    erase_events_in_rectangles(self._ui)
                     return True
                 if key in _EVENT_KEY_MAP:
                     self._ui.held_event_key = _EVENT_KEY_MAP[key]

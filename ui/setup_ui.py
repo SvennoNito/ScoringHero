@@ -41,6 +41,7 @@ from scoring.write_scoring import write_scoring
 from utilities.refresh_gui import refresh_gui
 from events.event_epoch import event_epoch
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
+from events.erase_events_in_rectangles import erase_events_in_rectangles
 from functools import partial
 
 @timing_decorator
@@ -349,6 +350,11 @@ def setup_ui(ui, MainWindow):
     ui.menu_labels.addAction(ui.action_F12)
 
     ui.menu_labels.addSeparator()
+
+    ui.action_erase_selection = QAction("Erase events in drawn selection [Backspace]", MainWindow)
+    ui.action_erase_selection.setObjectName("action_erase_selection")
+    ui.action_erase_selection.triggered.connect(lambda: erase_events_in_rectangles(ui))
+    ui.menu_labels.addAction(ui.action_erase_selection)
 
     ui.action_delete_all_events = QAction("Delete all events", MainWindow)
     ui.action_delete_all_events.setObjectName("action_delete_all_events")
