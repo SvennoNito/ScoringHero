@@ -1,4 +1,5 @@
 from events.drop_event import drop_event
+from events.relabel_event import relabel_event
 
 
 def drop_clicked_rectangle(ui, converted_corners, rectangle_sizes):
@@ -20,8 +21,11 @@ def drop_clicked_rectangle(ui, converted_corners, rectangle_sizes):
                 rectangle_sizes.pop(index)
                 converted_corners.pop(index)
 
-        # Also drop events
-        drop_event(ui, converted_corners[-1])
+        held_key = getattr(ui, 'held_event_key', None)
+        if held_key is not None and relabel_event(ui, converted_corners[-1], held_key):
+            ui.relabeled_event = True
+        else:
+            drop_event(ui, converted_corners[-1])
 
         # Drop zero size rectangle
         ui.PaintEventWidget.stored_corners.pop(-1)
@@ -29,6 +33,6 @@ def drop_clicked_rectangle(ui, converted_corners, rectangle_sizes):
         converted_corners.pop(-1)
 
         # Update Hypnogram
-        ui.HypnogramWidget.draw_hypnogram(ui)        
+        ui.HypnogramWidget.draw_hypnogram(ui)
 
     return ui.PaintEventWidget.stored_corners, converted_corners, rectangle_sizes

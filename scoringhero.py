@@ -22,14 +22,77 @@ from eeg.eeg_import_window import eeg_import_window
 from widgets import *
 from signal_processing.times_vector import times_vector
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
+from events.event_handler import event_handler
 from cache.load_cache import load_cache
 from scoring.write_scoring import write_scoring
 from style.appstyler import appstyler
 from style.apply_app_theme import apply_app_theme
 
+_EVENT_KEY_MAP = {
+    Qt.Key_A: 0,
+    Qt.Key_F1: 1,
+    Qt.Key_F2: 2,
+    Qt.Key_F3: 3,
+    Qt.Key_F4: 4,
+    Qt.Key_F5: 5,
+    Qt.Key_F6: 6,
+    Qt.Key_F7: 7,
+    Qt.Key_F8: 8,
+    Qt.Key_F9: 9,
+    Qt.Key_F10: 10,
+    Qt.Key_F11: 11,
+    Qt.Key_F12: 12,
+}
+
+
+class GlobalKeyFilter(QObject):
+    """Application-level event filter for event-label and epoch-navigation keys.
+
+    Installed on QApplication so it fires regardless of which widget has focus.
+    pyqtgraph's GraphicsView accepts key events without propagating them, so
+    a widget-level keyPressEvent on MyMainWindow would never be reached.
+    """
+
+    def __init__(self, ui, parent=None):
+        super().__init__(parent)
+        self._ui = ui
+
+    def eventFilter(self, obj, event):
+        event_type = event.type()
+
+        if event_type == QEvent.Type.KeyPress and not event.isAutoRepeat():
+            key = event.key()
+            focused = QApplication.focusWidget()
+            in_text = isinstance(focused, (QLineEdit, QTextEdit, QPlainTextEdit, QAbstractSpinBox))
+
+            if not in_text:
+                if key == Qt.Key_Right:
+                    next_epoch(self._ui)
+                    return True
+                if key == Qt.Key_Left:
+                    prev_epoch(self._ui)
+                    return True
+                if key in _EVENT_KEY_MAP:
+                    self._ui.held_event_key = _EVENT_KEY_MAP[key]
+                    return True
+
+        elif event_type == QEvent.Type.KeyRelease and not event.isAutoRepeat():
+            key = event.key()
+            if key in _EVENT_KEY_MAP and self._ui.held_event_key is not None:
+                box_index = _EVENT_KEY_MAP[key]
+                if self._ui.relabeled_event:
+                    self._ui.relabeled_event = False
+                elif box_index < len(self._ui.AnnotationContainer):
+                    event_handler(box_index, self._ui)
+                self._ui.held_event_key = None
+                return True
+
+        return False
+
+
 class MyMainWindow(QtWidgets.QMainWindow):
     def __init__(self, ui):
-        super().__init__()        
+        super().__init__()
         self.setObjectName("ScoringHero")
         self.resize(800, 600)
         self.setStyleSheet("background-color: white;")
@@ -71,6 +134,8 @@ class Ui_MainWindow(QMainWindow):
         super().__init__()
         self.devmode = 0
         self.this_epoch = 0
+        self.held_event_key = None
+        self.relabeled_event = False
 
         # Default paths
         if hasattr(sys, '_MEIPASS'):
@@ -100,7 +165,10 @@ if __name__ == "__main__":
 
     ui = Ui_MainWindow()
     MainWindow = MyMainWindow(ui)
-    
+
+    key_filter = GlobalKeyFilter(ui, app)
+    app.installEventFilter(key_filter)
+
     setup_ui(ui, MainWindow)
     if ui.devmode == 1:
         name_of_eegfile = os.path.join(ui.default_data_path, "example_data.mat")
