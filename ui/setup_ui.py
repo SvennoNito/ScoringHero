@@ -41,6 +41,7 @@ from scoring.write_scoring import write_scoring
 from utilities.refresh_gui import refresh_gui
 from events.event_epoch import event_epoch
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
+from events.clip_borders import clip_borders
 from events.erase_events_in_rectangles import erase_events_in_rectangles
 from functools import partial
 
@@ -475,17 +476,7 @@ def _delete_events_in_current_epoch(ui):
     e_end = (ui.this_epoch + 1) * epoch_length
 
     for container in ui.AnnotationContainer:
-        new_borders = []
-        for border in container.borders:
-            b_start, b_end = border[0], border[1]
-            if b_end <= e_start or b_start >= e_end:
-                new_borders.append(border)
-            else:
-                if b_start < e_start:
-                    new_borders.append([b_start, e_start])
-                if b_end > e_end:
-                    new_borders.append([e_end, b_end])
-        container.borders = new_borders
+        container.borders = clip_borders(container.borders, [(e_start, e_end)])
         container.epochs = event_epoch(container.borders, epoch_length, ui.numepo)
         clean_epochs_to_uiscoring(ui, container)
         draw_event_in_this_epoch(ui, container)

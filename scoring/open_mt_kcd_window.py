@@ -4,10 +4,7 @@ from PySide6.QtCore import Qt, QTimer
 
 from widgets import MtKcdWindow
 from scoring.mt_kcd import detect_kc
-from events.merge_events import merge_events
-from events.event_epoch import event_epoch
-from events.draw_event_in_this_epoch import draw_event_in_this_epoch
-from scoring.clean_epochs_to_uistages import clean_epochs_to_uiscoring
+from events.add_events_to_container import add_events_to_container
 from scoring.write_scoring import write_scoring
 from utilities.refresh_gui import refresh_gui
 
@@ -64,7 +61,7 @@ def _execute(ui, settings, progress):
 
         marker_label = settings["marker"]
         container = next(c for c in ui.AnnotationContainer if c.label == marker_label)
-        _add_events(ui, events_sec, container)
+        add_events_to_container(ui, events_sec, container)
 
         progress.setLabelText(f"Done — {len(events_sec)} KC(s) detected.")
         QApplication.processEvents()
@@ -99,18 +96,3 @@ def _filter_by_stages(events_sec, stages, epoch_len, filter_stages):
     return kept
 
 
-def _add_events(ui, events_sec, container):
-    for start, end in events_sec:
-        if end > start:
-            container.borders.append([start, end])
-
-    container.borders = merge_events(container.borders)
-    container.epochs  = event_epoch(
-        container.borders,
-        ui.config[0]["Epoch_length_s"],
-        ui.numepo,
-    )
-    clean_epochs_to_uiscoring(ui, container)
-    draw_event_in_this_epoch(ui, container)
-    ui.HypnogramWidget.update_hypnogram(ui)
-    ui.HypnogramWidget.update_events(ui)
