@@ -19,6 +19,9 @@ dependencies = [
 
 [project.optional-dependencies]
 gssc = ["gssc"]
+sumo = ["torch>=2.0.0", "appdirs>=1.4.4"]
+yasa = ["yasa>=0.6.0"]
+auto = ["yasa>=0.6.0", "gssc"]
 build-win = ["nuitka[onefile]>=4.0.5"]
 build-mac = ["nuitka[onefile]>=4.0.5"]
 

@@ -32,6 +32,8 @@ from filter.open_filter_window import open_filter_window
 from scoring.open_gssc_window import open_gssc_window
 from scoring.open_seed_window import open_seed_window
 from scoring.open_mt_kcd_window import open_mt_kcd_window
+from scoring.open_yasa_window import open_yasa_window
+# from scoring.open_sumo_window import open_sumo_window  # TODO: SUMO needs debugging
 from scoring.scoring_import_window import scoring_import_window
 # from scoring.score_yasa import score_yasa
 from eeg.eeg_import_window import eeg_import_window
@@ -395,6 +397,19 @@ def setup_ui(ui, MainWindow):
     ui.action_mt_kcd.setShortcut("Ctrl+K")
     ui.action_mt_kcd.triggered.connect(lambda: open_mt_kcd_window(ui))
     ui.menu_utils.addAction(ui.action_mt_kcd)
+
+    ui.action_yasa = QAction("Spindle Detection (YASA)", MainWindow)
+    ui.action_yasa.setObjectName("action_yasa")
+    ui.action_yasa.setShortcut("Ctrl+Shift+Y")
+    ui.action_yasa.triggered.connect(lambda: open_yasa_window(ui))
+    ui.menu_utils.addAction(ui.action_yasa)
+
+    # TODO: SUMO spindle detection needs debugging - disabled for now
+    # ui.action_sumo = QAction("Spindle Detection (SUMO)", MainWindow)
+    # ui.action_sumo.setObjectName("action_sumo")
+    # ui.action_sumo.setShortcut("Ctrl+Shift+S")
+    # ui.action_sumo.triggered.connect(lambda: open_sumo_window(ui))
+    # ui.menu_utils.addAction(ui.action_sumo)
 
     ui.action_zoom = QAction("Zoom on selected EEG", MainWindow)
     ui.action_zoom.setObjectName("action_zoom")

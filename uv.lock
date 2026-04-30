@@ -11,6 +11,15 @@ resolution-markers = [
 ]
 
 [[package]]
+name = "appdirs"
+version = "1.4.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d7/d8/05696357e0311f5b5c316d7b95f46c669dd9c15aaeecbb48c7d0aeb88c40/appdirs-1.4.4.tar.gz", hash = "sha256:7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41", size = 13470, upload-time = "2020-05-11T07:59:51.037Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3b/00/2344469e2084fb287c2e0b57b72910309874c3245463acd6cf5e3db69324/appdirs-1.4.4-py2.py3-none-any.whl", hash = "sha256:a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128", size = 9566, upload-time = "2020-05-11T07:59:49.499Z" },
+]
+
+[[package]]
 name = "certifi"
 version = "2026.2.25"
 source = { registry = "https://pypi.org/simple" }
@@ -1122,9 +1131,14 @@ build-win = [
 gssc = [
     { name = "gssc" },
 ]
+sumo = [
+    { name = "appdirs" },
+    { name = "torch" },
+]
 
 [package.metadata]
 requires-dist = [
+    { name = "appdirs", marker = "extra == 'sumo'", specifier = ">=1.4.4" },
     { name = "decorator", specifier = ">=5.1.1" },
     { name = "edfio", specifier = ">=0.4.0" },
     { name = "gssc", marker = "extra == 'gssc'" },
@@ -1138,9 +1152,10 @@ requires-dist = [
     { name = "pywavelets", specifier = ">=1.8.0" },
     { name = "requests", specifier = ">=2.32.3" },
     { name = "scipy", specifier = ">=1.14.1" },
+    { name = "torch", marker = "extra == 'sumo'", specifier = ">=2.0.0" },
     { name = "tqdm", specifier = ">=4.67.1" },
 ]
-provides-extras = ["gssc", "build-win", "build-mac"]
+provides-extras = ["gssc", "sumo", "build-win", "build-mac"]
 
 [[package]]
 name = "setuptools"
