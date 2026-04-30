@@ -49,7 +49,9 @@ def apply_changes(config_parameter_name, ui):
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
 
     if "Spectrogram_power_limits" in config_parameter_name:
-        ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
+        # Fast-path: only update colorbar levels, don't redraw spectrogram
+        levels = ui.config[0].get("Spectrogram_power_limits", [-1, 3])
+        ui.SpectogramWidget.update_levels_only(levels)
 
     if (
         "Periodogram_limit_hz" in config_parameter_name
