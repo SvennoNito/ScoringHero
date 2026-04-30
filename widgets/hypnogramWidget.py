@@ -2,7 +2,6 @@ from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont
 from scipy.signal import medfilt
-from itertools import chain
 import pyqtgraph as pg
 import numpy as np
 from utilities.timing_decorator import timing_decorator
@@ -94,7 +93,7 @@ class HypnogramWidget(QWidget):
     def draw_events(self, ui):
         times = np.repeat(self.times, 2)
         for container in ui.AnnotationContainer:
-            epochs = np.array(list(set(chain.from_iterable(container.epochs)))) - 1
+            epochs = np.unique(np.concatenate(container.epochs)).astype(int) - 1 if container.epochs else np.array([], dtype=int)
             if len(epochs) > 0:
                 data = np.zeros(ui.numepo)
                 data[:] = np.nan
