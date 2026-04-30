@@ -4,6 +4,7 @@ from config.load_configuration import load_configuration
 from scoring.load_scoring import load_scoring
 from scoring.events_to_ui import events_to_ui
 from utilities.timing_decorator import timing_decorator
+from utilities.channel_index import rebuild_channel_index
 from .load_eeglab import load_eeglab
 from .load_r09 import load_r09
 from .load_edf import load_edf
@@ -59,6 +60,7 @@ def load_wrapper(ui, datatype, extra_files=None):
         numchans = 6
 
     ui.config = load_configuration(f"{ui.filename}.config.json", numchans, srate, channel_names)
+    rebuild_channel_index(ui)
 
     # Reorder eeg_data rows to match the saved channel order in config.
     # When the user reorders channels in the config window, config[1] is saved in
@@ -120,8 +122,7 @@ def load_wrapper(ui, datatype, extra_files=None):
     time_unit = ui.config[0].get("EEG_panel_time_unit", "Seconds")
     epoch_length = ui.config[0]["Epoch_length_s"]
     tf_channel_label = ui.config[0].get("Wavelet_channel", "")
-    channel_labels = [ch["Channel_name"] for ch in ui.config[1]]
-    tf_channel_idx = channel_labels.index(tf_channel_label) if tf_channel_label in channel_labels else 0
+    tf_channel_idx = ui.channel_name_to_idx.get(tf_channel_label, 0)
     ui.TFWidget.draw_tf(ui.eeg_data_display, ui.times, ui.this_epoch, srate, ui.tf_freqs,
                         ui.tf_norm_median, ui.tf_norm_iqr, ui.tf_norm_rms, ui.tf_norm_median_linear,
                         display_mode, freq_scale, freq_limits,

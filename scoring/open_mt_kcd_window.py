@@ -39,8 +39,7 @@ def _after_settings(ui, settings):
 
 def _execute(ui, settings, progress):
     try:
-        channel_labels = [ch["Channel_name"] for ch in ui.config[1]]
-        ch_idx    = channel_labels.index(settings["channel"])
+        ch_idx    = ui.channel_name_to_idx.get(settings["channel"], 0)
         sfreq     = float(ui.config[0]["Sampling_rate_hz"])
         signal_1d = ui.eeg_data_display[ch_idx].copy().astype(np.float64)
 

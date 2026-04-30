@@ -1,0 +1,271 @@
+Here is Claude's plan:
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+ Plan: ScoringHero per-epoch performance optimizations
+
+ Context
+
+ Arrow-key navigation in ScoringHero is currently slower than it should be because several panels redo expensive work on
+ every epoch change even though their inputs (ui.eeg_data_display, the event annotations, the channel configuration) have
+  not changed since load. A previous review surfaced 10 hot spots; the user added an 11th (changing the Morlet TF
+ colorbar limits forces a full wavelet recompute when it only needs setLevels()).
+
+ The fix is to cache results that are constant per session and add fast-paths that skip recomputation when only display
+ attributes (color levels, normalization mode) change. The user has chosen a lazy in-memory cache strategy for the Morlet
+  TF (raw power memoised by epoch on first visit, normalisation applied on the fly so mode switching stays fast). E2E
+ verification is a smoke launch with devmode=1.
+
+ Key findings from exploration
+
+ - Cache file: cache/load_cache.py validates {filename}.cache.pkl against a manipulation_fingerprint (filter / re-ref /
+ flip per channel) plus sampling rate, epoch length, spectrogram channel. Spectrogram and TF norm stats are already
+ persisted there. recompute_derived.py is the single orchestrator that recomputes everything when eeg_data_display
+ changes.
+ - Morlet TF call site: widgets/tfWidget.py:_render (called via update_tf from utilities/tf_config_helper.py) runs
+ compute_morlet_tf() on every navigation. The L2normalize=True path is enabled only for the "Z-Standardized Power"
+ display mode (line 161). The L2 scale factor depends only on (srate, freqs, n_samples_per_extended_epoch) — all
+ session-constant — so it can be precomputed once and applied on the fly.
+ - Hypnogram: widgets/hypnogramWidget.py:update_events is called from utilities/refresh_gui.py:15 on every navigation but
+  the only event mutators (events/event_handler.py, add_events_to_container.py, erase_events_in_rectangles.py,
+ relabel_event.py, drop_event.py) already call it themselves. The navigation call is redundant.
+ - Welch periodogram: signal_processing/compute_epoch_periodogram.py:welch() is the most expensive non-TF per-navigation
+ cost. Cache size for all epochs of one channel is small (~8 MB for an 8h recording).
+ - Channel-name → index: 6 call sites use channel_names.index() (load_wrapper.py, tf_config_helper.py,
+ compute_epoch_periodogram.py, spectogram_to_ui.py, open_seed_window.py, open_mt_kcd_window.py) and rebuild the list
+ every call.
+ - Visible channels: filtered by Display_on_screen in signalWidget.py:58, signalWidget.py:268, score_stage.py:22, and
+ channel_from_selection.py.
+ - Event-in-epoch: container.epochs is a list-of-lists. events/draw_event_in_this_epoch.py:8 does an O(k) in test per
+ border per navigation. Mutators that rebuild it: event_handler.py:39, add_events_to_container.py:13,
+ erase_events_in_rectangles.py:33, relabel_event.py:31, drop_event.py:10, setup_ui.py:480, events_to_ui.py:20.
+ clean_epochs_to_uistages.py:4 also has a variable-shadowing bug (uses container as both the param and the loop var).
+ - Colorbar: both widgets/spectogramWidget.py:113-122 and widgets/tfWidget.py:248-263 rebuild the gradient
+ np.linspace(...).reshape(-1,1) + np.repeat(...) on every render. Spectrogram changes also funnel through
+ apply_changes.py:51-52 which calls draw_spectogram (full redraw) for Spectrogram_power_limits change; same shape for the
+  TF (apply_changes.py does not have an explicit Wavelet_power_limits clause, so it falls through to redraw_gui which
+ calls draw_tf — full Morlet recompute).
+
+ Conflict-prone shared files (workers must rebase carefully)
+
+ - signal_processing/recompute_derived.py — units 1, 4
+ - cache/load_cache.py, cache/ui_to_cache.py — units 1, 4
+ - utilities/refresh_gui.py — units 3, 4
+ - config/apply_changes.py — units 1, 2, 6, 7
+ - eeg/load_wrapper.py — units 1, 6, 7
+ - signal_processing/compute_epoch_periodogram.py — units 4, 6
+ - utilities/tf_config_helper.py — units 1, 6
+
+ These conflicts are mostly localised additions to separate sections; git's 3-way merge should handle them but the user
+ (or a follow-up agent) may need to resolve a few.
+
+ Work units
+
+ Unit 1 — Morlet TF lazy cache + normalization split + colorbar fast-paths
+
+ Files: widgets/tfWidget.py, signal_processing/compute_morlet_tf.py, signal_processing/recompute_derived.py,
+ config/apply_changes.py, eeg/load_wrapper.py, utilities/tf_config_helper.py
+
+ Changes:
+ - Drop the L2normalize parameter from compute_morlet_tf — always return the unnormalised power.
+ - In recompute_derived.py, precompute and store on ui:
+   - ui.tf_l2_scale_sq — (n_freqs,) array. For each freq build the same wavelet kernel, compute np.sum(wavelet_fft**2),
+ store it. Used by Z-Standardized mode to divide the cached raw power.
+   - ui.tf_norm_median_lin_grid, ui.tf_norm_iqr_lin_grid, ui.tf_norm_rms_lin_grid — the linear-frequency-axis
+ interpolations that tfWidget._render lines 150-156 currently rebuild every epoch. Compute alongside the existing
+ log-axis stats.
+ - Add ui.tf_cache = {} at the top of recompute_derived.py (after the array recomputes). This both initialises and clears
+  it.
+ - In tfWidget._render:
+   - Look up ui.tf_cache[this_epoch] for raw (n_freqs, n_ext) float32 power. On miss, compute via
+ compute_morlet_tf(signal, srate, freqs) (no L2 flag) and store float32-cast result.
+   - Apply L2 normalisation in-place by dividing by ui.tf_l2_scale_sq[:, None] only when display_mode == "Z-Standardized
+ Power".
+   - When freq_scale == "Linear", use the precomputed linear-grid norm stats from ui instead of np.interp per call.
+   - Cache the colorbar gradient: store self._cbar_gradient_cache = (cbar_height_int, cbar_width, gradient) and rebuild
+ only when shape or levels changes.
+   - Add a public update_levels_only(levels) method that calls self.img.setLevels(levels),
+ self._cbar_img.setLevels(levels), and refreshes the cbar labels — no Morlet recompute, no reslice.
+ - The _render should accept the cache and call update_levels_only internally on the cbar image when the gradient cache
+ is reused.
+ - Pass ui into _render (or pass tf_cache + tf_l2_scale_sq + linear-grid norms explicitly). Update draw_tf / update_tf
+ signatures and the call sites in tf_config_helper.py:call_tf_widget and eeg/load_wrapper.py:125.
+ - In config/apply_changes.py:
+   - Add an explicit "Wavelet_power_limits" clause that calls ui.TFWidget.update_levels_only(...) and skips redraw_gui.
+   - In the existing "Wavelet_frequency_limits_hz" clause, also clear ui.tf_cache and recompute ui.tf_l2_scale_sq and the
+  linear-grid norm stats.
+   - On channel_settings_changed, after recompute_derived, no extra work is needed (recompute_derived clears the cache).
+   - Add a "Wavelet_channel" clause that just clears ui.tf_cache and calls redraw_gui (no full recompute_derived needed
+ since the spectrogram channel is independent).
+
+ Why: addresses items 1, 9, 10-tf, and the new colorbar-limits complaint. Switching display modes is now a few-µs
+ broadcast op against cached float32 power; switching colorbar limits skips the wavelet path entirely.
+
+ ---
+ Unit 2 — Spectrogram colorbar fast-path + gradient cache
+
+ Files: widgets/spectogramWidget.py, config/apply_changes.py
+
+ Changes:
+ - Add update_levels_only(levels) to SpectogramWidget that calls self.img.setLevels, self._cbar_img.setLevels, updates
+ the min/max text, and recomputes the gradient only if levels changed.
+ - Cache the gradient on the widget (same pattern as Unit 1): rebuild only when (cbar_height, cbar_width, levels)
+ differs.
+ - In apply_changes.py:51-52, when only "Spectrogram_power_limits" changed (no other config keys), call
+ ui.SpectogramWidget.update_levels_only(...) instead of draw_spectogram (which clears and rebuilds the entire ImageItem).
+
+ Why: addresses item 10-spec.
+
+ ---
+ Unit 3 — Hypnogram event redraw decoupling + np.unique flatten
+
+ Files: widgets/hypnogramWidget.py, utilities/refresh_gui.py
+
+ Changes:
+ - Remove the ui.HypnogramWidget.update_events(ui) call from utilities/refresh_gui.py:15. All event mutators already call
+  update_events themselves (events/event_handler.py:49, events/add_events_to_container.py:21, events/relabel_event.py:45,
+  events/erase_events_in_rectangles.py:39); navigation does not change event data.
+ - Replace np.array(list(set(chain.from_iterable(container.epochs)))) - 1 at hypnogramWidget.py:97 with
+ np.unique(np.concatenate(container.epochs)).astype(int) - 1, guarded by if container.epochs else np.array([], dtype=int)
+  to handle empty containers.
+ - Remove the now-unused from itertools import chain import.
+
+ Why: addresses items 2 and 7.
+
+ ---
+ Unit 4 — Welch periodogram precompute and dict lookup
+
+ Files: signal_processing/compute_epoch_periodogram.py, signal_processing/recompute_derived.py, cache/ui_to_cache.py,
+ cache/load_cache.py, utilities/refresh_gui.py, config/apply_changes.py
+
+ Changes:
+ - Split compute_epoch_periodogram into:
+   - precompute_all_epoch_periodograms(ui) — runs welch per epoch for the periodogram channel, stores raw (n_epochs,
+ n_freqs) power and the freq vector on ui.epoch_periodogram_power and ui.epoch_periodogram_freqs. Called from
+ recompute_derived.py.
+   - compute_epoch_periodogram(ui, epoch_idx) keeps its current return signature (freqs, power, channel_name) but reads
+ from ui.epoch_periodogram_power[epoch_idx], then applies the display-mode trim/scale (1/f-removed, dB, Raw) on the fly.
+ The trim and display-mode steps stay per-call because Periodogram_limit_hz and Periodogram_display_mode can change
+ without re-running welch.
+ - Persist the precomputed array to {filename}.cache.pkl via cache/ui_to_cache.py under key "epoch_periodogram"
+ ({"power": ..., "freqs": ..., "channel": ..., "Sampling_rate_hz": ...}). Validate in cache/load_cache.py against
+ sampling rate, channel, and the manipulation fingerprint; recompute via precompute_all_epoch_periodograms if invalid.
+ - In apply_changes.py, when "Periodogram_channel" or "Sampling_rate_hz" changes, call precompute_all_epoch_periodograms.
+  When only "Periodogram_limit_hz" or "Periodogram_display_mode" changes, the existing compute_epoch_periodogram(ui,
+ ui.this_epoch) call already covers it (it now does just trim + scale, fast).
+ - Refresh path in utilities/refresh_gui.py:27 is unchanged in shape — it still calls compute_epoch_periodogram(ui,
+ ui.this_epoch) — but the call is now O(n_freqs) display-mode work, not a Welch.
+
+ Why: addresses item 3.
+
+ ---
+ Unit 5 — AnnotationContainer epoch sets
+
+ Files: widgets/annotationContainer.py, events/event_epoch.py, events/draw_event_in_this_epoch.py,
+ events/event_handler.py, events/add_events_to_container.py, events/erase_events_in_rectangles.py,
+ events/relabel_event.py, events/drop_event.py, ui/setup_ui.py, scoring/events_to_ui.py,
+ scoring/clean_epochs_to_uistages.py
+
+ Changes:
+ - Add self.epochs_set: list[set[int]] = [] next to self.epochs in AnnotationContainer.__init__.
+ - Refactor event_epoch to also return epoch_set_array = [set(lst) for lst in epoch_array], OR keep event_epoch as-is and
+  have every mutator call container.epochs_set = [set(lst) for lst in container.epochs] after the assignment. The latter
+ is less invasive — apply at every site that writes to container.epochs.
+ - For drop_event.py:10 and relabel_event.py:31 (which use pop), pop the same index from epochs_set.
+ - For events_to_ui.py:20 (epochs.append(container["epoch"])), also append set(container["epoch"]).
+ - Replace draw_event_in_this_epoch.py:7-10 to test (ui.this_epoch + 1) in epoch_set against container.epochs_set.
+ - Fix the variable shadowing in clean_epochs_to_uistages.py:4 (any(epoch+1 in container for container in
+ container.epochs) rebinds container) and use the new epochs_set for O(1) membership.
+
+ Why: addresses item 6 and incidentally fixes a latent bug.
+
+ ---
+ Unit 6 — Cached channel-name → index map
+
+ Files: eeg/load_wrapper.py, config/apply_changes.py, utilities/tf_config_helper.py,
+ signal_processing/compute_epoch_periodogram.py, signal_processing/spectogram_to_ui.py, scoring/open_seed_window.py,
+ scoring/open_mt_kcd_window.py
+
+ Changes:
+ - Add a tiny helper utilities/channel_index.py:rebuild_channel_index(ui) that sets ui.channel_name_to_idx =
+ {ch["Channel_name"]: i for i, ch in enumerate(ui.config[1])}.
+ - Call it from eeg/load_wrapper.py after ui.config = load_configuration(...) and after any channel reorder, and from
+ config/apply_changes.py whenever config_parameter_name == [] (channel-config-changed branch) or after channel
+ reordering.
+ - Replace channel_names.index(...) patterns at the listed call sites with ui.channel_name_to_idx.get(name, 0).
+
+ Why: addresses item 4. Conflict-friendly because each call site is a one-line swap that another unit can integrate
+ easily.
+
+ ---
+ Unit 7 — Cached visible-channel index list
+
+ Files: widgets/signalWidget.py, eeg/load_wrapper.py, config/apply_changes.py, widgets/configurationWindow.py
+
+ Changes:
+ - Add a helper (next to Unit 6's, e.g., utilities/channel_index.py:rebuild_visible_channels(ui)) that sets
+ ui.visible_channel_idx = [i for i, ch in enumerate(ui.config[1]) if ch["Display_on_screen"]].
+ - Call it from load_wrapper.py after config load and from apply_changes.py whenever channel settings change. Also call
+ it inside configurationWindow.py at the points where Display_on_screen is mutated (lines 1019 and 1056) so the cache
+ reflects user toggles immediately.
+ - In signalWidget.draw_signal (line 58) and signalWidget.update_signal (line 268), read index_visible_chans from ui
+ (passed in) instead of recomputing. Update the two callers (load_wrapper.py:111 for draw_signal and refresh_gui.py:8 for
+  update_signal) to pass ui (or the cached list).
+
+ Why: addresses item 5.
+
+ ---
+ Unit 8 — min_max_scale numpy-vectorise + zero-range guard
+
+ Files: signal_processing/min_max_scale.py
+
+ Changes:
+ - Rewrite as lo = np.min(values); span = np.ptp(values); return (values - lo) / span if span > 0 else
+ np.zeros_like(values, dtype=float).
+
+ Why: addresses item 8. Single-file change with no shared dependencies.
+
+ End-to-end test recipe (smoke launch)
+
+ The project has no automated tests (per CLAUDE.md). Each worker performs a smoke launch on the example data:
+
+ 1. In the worktree, ensure dependencies are installed: uv sync (no-op if .venv already exists).
+ 2. Edit scoringhero.py:139 and set self.devmode = 1 (revert before commit; do not commit this line).
+ 3. Launch with a wall-clock timeout: timeout 30 uv run scoringhero.py 2>&1 | tee /tmp/scoringhero_smoke.log (or platform
+  equivalent — on Windows bash, timeout 30 may not exist; use uv run scoringhero.py & sleep 25 && kill $!).
+ 4. Verify:
+   - The process exited from the timeout (not a Python traceback).
+   - The log shows @timing_decorator lines for setup_ui, draw_signal, draw_hypnogram, etc., with no Traceback / Error
+ text.
+ 5. Revert devmode back to 0.
+
+ If the launch crashes, inspect the traceback and fix.
+
+ Worker prompt template
+
+ Each worker will receive a prompt of this shape (filled in per-unit):
+
+ You are implementing one unit of a multi-unit performance optimization for ScoringHero, a PySide6 sleep-EEG GUI at
+ C:\Postdoc\Scripts\ScoringHero. The full background and other units are in
+ C:\Users\info\.claude\plans\abundant-whistling-yao.md — read it for context, but only modify files for YOUR unit.
+
+ ## Your unit
+ <title, file list, change description copied verbatim from the plan>
+
+ ## Project conventions
+ - No automated tests. Verify by smoke-launching with devmode=1 (see e2e recipe below).
+ - The codebase consistently uses "spectogram" (one r) — preserve that spelling.
+ - Cache is at {filename}.cache.pkl with a manipulation_fingerprint covering filter/re-ref/flip per channel; spectrogram
+ + tf_norm already live there. recompute_derived.py is the single orchestrator for derived data.
+ - Follow existing patterns: `@timing_decorator` on hot functions; per-channel data shape is (n_channels, n_samples);
+ ui.config = [general_dict, [per_channel_dicts]].
+ - Don't add comments unless the why is non-obvious. Don't add error handling beyond what already exists.
+
+ ## E2E test recipe
+ <recipe from the plan>
+
+ ## Worker instructions
+ After you finish implementing the change:
+ 1. **Simplify** — Invoke the `Skill` tool with `skill: "simplify"` to review and clean up your changes.
+ 2. **Run unit tests** — There are none; skip.
+ 3. **Test end-to-end** — Follow the smoke-launch recipe above. If launch fails, fix the traceback before continuing.
+ 4. **Report** — End with a single line: `PR: <url>` so the coordinator can track it. If no PR was created, end with `PR:
+  none — <reason>`.

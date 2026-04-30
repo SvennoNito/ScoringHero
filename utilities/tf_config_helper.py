@@ -8,8 +8,7 @@ def call_tf_widget(ui):
     time_unit = ui.config[0].get("EEG_panel_time_unit", "Seconds")
     epoch_length = ui.config[0]["Epoch_length_s"]
     tf_channel_label = ui.config[0].get("Wavelet_channel", "")
-    channel_labels = [ch["Channel_name"] for ch in ui.config[1]]
-    tf_channel_idx = channel_labels.index(tf_channel_label) if tf_channel_label in channel_labels else 0
+    tf_channel_idx = ui.channel_name_to_idx.get(tf_channel_label, 0)
     power_limits = ui.config[0].get("Wavelet_power_limits", None)
     show_ridge = ui.config[0].get("Wavelet_show_ridge", False)
     ui.TFWidget.update_tf(ui.eeg_data_display, ui.times, ui.this_epoch, srate, ui.tf_freqs,

@@ -5,8 +5,7 @@ from .compute_spectogram import compute_spectogram
 
 def spectogram_to_ui(ui):
     channel_label = ui.config[0]["Channel_for_spectogram"]
-    channel_names = [ch["Channel_name"] for ch in ui.config[1]]
-    channel_idx = channel_names.index(channel_label) if channel_label in channel_names else 0
+    channel_idx = ui.channel_name_to_idx.get(channel_label, 0)
     power, freqs = compute_spectogram(
         ui.eeg_data_display,
         ui.times,
