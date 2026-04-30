@@ -4,7 +4,7 @@ from utilities.tf_config_helper import call_tf_widget
 
 def redraw_gui(ui):
     # Redraw EEG data
-    ui.SignalWidget.draw_signal(ui.config, ui.eeg_data_display, ui.times, ui.this_epoch)
+    ui.SignalWidget.draw_signal(ui.config, ui.eeg_data_display, ui.times, ui.this_epoch, ui)
 
     # Update display text
     ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)

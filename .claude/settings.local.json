@@ -1,6 +1,10 @@
 {
   "permissions": {
     "allow": [
+      "Bash",
+      "Read",
+      "Edit",
+      "Write",
       "Bash(find . -name \"*.py\" -not -path \"./.venv/*\" -type f -exec wc -l {} +)",
       "Bash(xxd \"c:/Postdoc/Scripts/ScoringHero/requirements.txt\")",
       "Bash(gh auth:*)",

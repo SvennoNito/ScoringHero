@@ -52,11 +52,14 @@ class SignalWidget(QWidget):
 
 
     @timing_decorator
-    def draw_signal(self, config, eeg_data, times_and_indices, this_epoch):
-        # Indices of visible channels
-        index_visible_chans = [
-            counter for counter, info in enumerate(config[1]) if info["Display_on_screen"]
-        ]
+    def draw_signal(self, config, eeg_data, times_and_indices, this_epoch, ui=None):
+        # Indices of visible channels (use cached list if available)
+        if ui and hasattr(ui, 'visible_channel_idx'):
+            index_visible_chans = ui.visible_channel_idx
+        else:
+            index_visible_chans = [
+                counter for counter, info in enumerate(config[1]) if info["Display_on_screen"]
+            ]
         numchans_visible = len(index_visible_chans)
 
         ## Extract times vector
@@ -262,11 +265,14 @@ class SignalWidget(QWidget):
         self.divide_center_line(borders)               
 
     @timing_decorator
-    def update_signal(self, config, eeg_data, times_and_indices, this_epoch):
-        # Indices of visible channels
-        index_visible_chans = [
-            counter for counter, info in enumerate(config[1]) if info["Display_on_screen"]
-        ]
+    def update_signal(self, config, eeg_data, times_and_indices, this_epoch, ui=None):
+        # Indices of visible channels (use cached list if available)
+        if ui and hasattr(ui, 'visible_channel_idx'):
+            index_visible_chans = ui.visible_channel_idx
+        else:
+            index_visible_chans = [
+                counter for counter, info in enumerate(config[1]) if info["Display_on_screen"]
+            ]
         numchans_visible = len(index_visible_chans)
 
         # Extract times and indices

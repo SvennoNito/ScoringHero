@@ -5,7 +5,7 @@ from utilities.tf_config_helper import call_tf_widget
 
 def refresh_gui(ui):
     # Update EEG signal
-    ui.SignalWidget.update_signal(ui.config, ui.eeg_data_display, ui.times, ui.this_epoch)
+    ui.SignalWidget.update_signal(ui.config, ui.eeg_data_display, ui.times, ui.this_epoch, ui)
 
     # Update display text
     ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)

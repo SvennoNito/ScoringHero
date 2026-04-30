@@ -8,6 +8,7 @@ from signal_processing.freqs_of_interest import freqs_of_interest
 from signal_processing.recompute_derived import recompute_derived
 from utilities.redraw_gui import redraw_gui
 from utilities.apply_tf_visibility import apply_tf_visibility
+from utilities.channel_index import rebuild_visible_channels
 from eeg.rebuild_display import rebuild_eeg_data_display
 
 
@@ -41,6 +42,7 @@ def apply_changes(config_parameter_name, ui):
     )
     if channel_settings_changed or spectrogram_params_changed:
         rebuild_eeg_data_display(ui)
+        rebuild_visible_channels(ui)
         recompute_derived(ui)
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
 

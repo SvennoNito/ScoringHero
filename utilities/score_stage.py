@@ -19,7 +19,15 @@ def score_stage(value, ui):
     ui.stages[ui.this_epoch]["digit"] = stages_notation[value]
     ui.stages[ui.this_epoch]["source"] = "human" if value != None else None
     ui.stages[ui.this_epoch]["confidence"] = None
-    ui.stages[ui.this_epoch]["channels"] = [config["Channel_name"] for config in ui.config[1] if config["Display_on_screen"] == 1] if value != None else None
+    # Use cached visible channel indices to get channel names
+    if value != None:
+        visible_idx = getattr(ui, 'visible_channel_idx', None)
+        if visible_idx is None:
+            # Fallback to inline filtering if cache not available
+            visible_idx = [i for i, ch in enumerate(ui.config[1]) if ch["Display_on_screen"]]
+        ui.stages[ui.this_epoch]["channels"] = [ui.config[1][i]["Channel_name"] for i in visible_idx]
+    else:
+        ui.stages[ui.this_epoch]["channels"] = None
 
     # Update hypnogram
     ui.HypnogramWidget.update_hypnogram(ui)

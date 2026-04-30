@@ -4,6 +4,7 @@ from config.load_configuration import load_configuration
 from scoring.load_scoring import load_scoring
 from scoring.events_to_ui import events_to_ui
 from utilities.timing_decorator import timing_decorator
+from utilities.channel_index import rebuild_visible_channels
 from .load_eeglab import load_eeglab
 from .load_r09 import load_r09
 from .load_edf import load_edf
@@ -95,6 +96,9 @@ def load_wrapper(ui, datatype, extra_files=None):
     # Apply all saved manipulations (filter + re-reference + flip) from config
     rebuild_eeg_data_display(ui)
 
+    # Build cached list of visible channel indices
+    rebuild_visible_channels(ui)
+
     ui.numepo = number_of_epochs(
         ui.eeg_data.shape[1],
         ui.config[0]["Sampling_rate_hz"],
@@ -108,7 +112,7 @@ def load_wrapper(ui, datatype, extra_files=None):
 
     times_vector(ui)
     ui.toolbar_jump_to_epoch.setMaximum(ui.numepo)
-    ui.SignalWidget.draw_signal(ui.config, ui.eeg_data_display, ui.times, ui.this_epoch)
+    ui.SignalWidget.draw_signal(ui.config, ui.eeg_data_display, ui.times, ui.this_epoch, ui)
     ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
     load_cache(ui)
     ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
