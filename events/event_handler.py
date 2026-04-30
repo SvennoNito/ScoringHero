@@ -29,8 +29,15 @@ def event_handler(box_index, ui):
             container.borders.remove(converted_corners)
 
     else:
-        # Rectangle was drawn
-        [container.borders.append([corner[0].x(), corner[1].x()]) for corner in converted_corners]
+        # Rectangle was drawn - clip to displayed data range
+        times = ui.times[int(ui.this_epoch)][0]
+        display_start = times[0]
+        display_end = times[-1]
+        for corner in converted_corners:
+            start = max(corner[0].x(), display_start)
+            end = min(corner[1].x(), display_end)
+            if start < end:
+                container.borders.append([start, end])
 
     # Merge borders
     container.borders = merge_events(container.borders)
