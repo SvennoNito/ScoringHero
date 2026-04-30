@@ -22,7 +22,7 @@ class AnnotationContainer(QObject):
             (188, 189, 34, 100),
             (255, 165, 0, 100),
             (75, 0, 130, 100),
-            (255, 105, 180, 100)            
+            (255, 105, 180, 100)
         ]
 
         self.facecolor = self.colorpalette[colorindex]
@@ -32,3 +32,4 @@ class AnnotationContainer(QObject):
         self.borders = []
         self.drawn_boxes = []
         self.epochs = []
+        self.epochs_set = []  # Parallel list: set of epoch indices for each border

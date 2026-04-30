@@ -475,6 +475,7 @@ def _delete_all_events(ui):
         for container in ui.AnnotationContainer:
             container.borders.clear()
             container.epochs.clear()
+            container.epochs_set.clear()
             clean_epochs_to_uiscoring(ui, container)
         write_scoring(ui)
         refresh_gui(ui)
@@ -493,6 +494,7 @@ def _delete_events_in_current_epoch(ui):
     for container in ui.AnnotationContainer:
         container.borders = clip_borders(container.borders, [(e_start, e_end)])
         container.epochs = event_epoch(container.borders, epoch_length, ui.numepo)
+        container.epochs_set = [set(lst) for lst in container.epochs]
         clean_epochs_to_uiscoring(ui, container)
         draw_event_in_this_epoch(ui, container)
 

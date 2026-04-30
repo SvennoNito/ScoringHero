@@ -3,10 +3,10 @@ import pyqtgraph as pg
 
 
 def draw_event_in_this_epoch(ui, container):
-    # Epochs in this epoch
+    # Epochs in this epoch (O(1) set lookup instead of O(k) list lookup)
     box_in_this_epoch = [
-        True if (ui.this_epoch + 1 in epoch) else False
-        for epoch in container.epochs
+        True if (ui.this_epoch + 1 in epoch_set) else False
+        for epoch_set in container.epochs_set
     ]
 
     # Remove all items

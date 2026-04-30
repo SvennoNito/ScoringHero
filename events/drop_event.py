@@ -8,9 +8,10 @@ def drop_event(ui, converted_corners):
             if border[0] <= converted_corners[0].x() <= border[1]:
                 container.borders.pop(index)
                 container.epochs.pop(index)
+                container.epochs_set.pop(index)
 
         # Update clean epochs in scoring structure
-        clean_epochs_to_uiscoring(ui, container)                
+        clean_epochs_to_uiscoring(ui, container)
 
         # Draw rectangle
         draw_event_in_this_epoch(ui, container)

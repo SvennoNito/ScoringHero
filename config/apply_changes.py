@@ -2,12 +2,16 @@ import numpy as np
 from .write_configuration import write_configuration
 from eeg.number_of_epochs import number_of_epochs
 from scoring.default_scoring import default_scoring
-from signal_processing.compute_epoch_periodogram import compute_epoch_periodogram
+from signal_processing.compute_epoch_periodogram import (
+    compute_epoch_periodogram,
+    precompute_all_epoch_periodograms,
+)
 from signal_processing.times_vector import times_vector
 from signal_processing.freqs_of_interest import freqs_of_interest
 from signal_processing.recompute_derived import recompute_derived
 from utilities.redraw_gui import redraw_gui
 from utilities.apply_tf_visibility import apply_tf_visibility
+from utilities.channel_index import rebuild_channel_index
 from eeg.rebuild_display import rebuild_eeg_data_display
 
 
@@ -53,13 +57,28 @@ def apply_changes(config_parameter_name, ui):
         levels = ui.config[0].get("Spectrogram_power_limits", [-1, 3])
         ui.SpectogramWidget.update_levels_only(levels)
 
-    if (
-        "Periodogram_limit_hz" in config_parameter_name
-        or "Periodogram_channel" in config_parameter_name
-        or "Periodogram_display_mode" in config_parameter_name
-    ):
+    if "Periodogram_channel" in config_parameter_name:
+        # Recompute all epoch periodograms for the new channel
+        precompute_all_epoch_periodograms(ui)
         freqs, power, channel_name = compute_epoch_periodogram(ui, ui.this_epoch)
         ui.RectanglePower.update_powerline(freqs, power, channel_name)
+    elif (
+        "Periodogram_limit_hz" in config_parameter_name
+        or "Periodogram_display_mode" in config_parameter_name
+    ):
+        # Fast-path: only update display trim/scale, no need to recompute
+        freqs, power, channel_name = compute_epoch_periodogram(ui, ui.this_epoch)
+        ui.RectanglePower.update_powerline(freqs, power, channel_name)
+
+    # Fast-path for colorbar limit changes: no Morlet recompute, no reslice
+    if "Wavelet_power_limits" in config_parameter_name and len(config_parameter_name) == 1:
+        power_limits = ui.config[0].get("Wavelet_power_limits", None)
+        if power_limits:
+            display_mode = ui.config[0].get("Wavelet_display_mode", "Z-scored Power")
+            if display_mode in power_limits:
+                ui.TFWidget.update_levels_only(power_limits[display_mode])
+        write_configuration(f"{ui.filename}.config.json", ui.config)
+        return
 
     if "Wavelet_frequency_limits_hz" in config_parameter_name:
         srate = ui.config[0]["Sampling_rate_hz"]
@@ -79,6 +98,15 @@ def apply_changes(config_parameter_name, ui):
         median_linear_welch = np.median(ui.power, axis=0)
         median_linear_welch = np.maximum(median_linear_welch, 1e-30)
         ui.tf_norm_median_linear = np.interp(ui.tf_freqs, ui.freqs, median_linear_welch)
+
+        # Clear the per-epoch Morlet cache since frequency range changed
+        if hasattr(ui, 'tf_cache'):
+            ui.tf_cache = {}
+
+    if "Wavelet_channel" in config_parameter_name:
+        # Clear cache when channel changes (raw power will differ)
+        if hasattr(ui, 'tf_cache'):
+            ui.tf_cache = {}
 
     # Apply TF panel visibility
     apply_tf_visibility(ui)

@@ -29,6 +29,7 @@ def relabel_event(ui, converted_corners, target_box_index):
 
     border_to_move = best_container.borders.pop(best_index)
     best_container.epochs.pop(best_index)
+    best_container.epochs_set.pop(best_index)
     clean_epochs_to_uiscoring(ui, best_container)
     draw_event_in_this_epoch(ui, best_container)
 
@@ -38,6 +39,7 @@ def relabel_event(ui, converted_corners, target_box_index):
     target.epochs = event_epoch(
         target.borders, ui.config[0]["Epoch_length_s"], ui.numepo
     )
+    target.epochs_set = [set(lst) for lst in target.epochs]
     clean_epochs_to_uiscoring(ui, target)
     draw_event_in_this_epoch(ui, target)
 

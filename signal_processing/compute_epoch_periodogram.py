@@ -5,33 +5,65 @@ from .trim_power import trim_power
 from .min_max_scale import min_max_scale
 
 
-def compute_epoch_periodogram(ui, epoch_idx):
-    """Compute the periodogram for a given epoch using the configured periodogram channel and display mode."""
+def precompute_all_epoch_periodograms(ui):
+    """Precompute Welch periodograms for all epochs on the configured periodogram channel.
+
+    Stores raw (untrimmed) power and frequencies in ui.epoch_periodogram_power and
+    ui.epoch_periodogram_freqs for fast lookup during navigation.
+
+    Called from recompute_derived() and apply_changes() when periodogram settings change.
+    """
     channel_names = [ch["Channel_name"] for ch in ui.config[1]]
     periodogram_channel_name = ui.config[0].get(
         "Periodogram_channel", channel_names[0] if channel_names else ""
     )
-    channel_idx = (
-        channel_names.index(periodogram_channel_name)
-        if periodogram_channel_name in channel_names
-        else 0
-    )
+    channel_idx = ui.channel_name_to_idx.get(periodogram_channel_name, 0)
 
-    _, epoch_indices, _ = ui.times[epoch_idx]
-    data = ui.eeg_data_display[channel_idx][epoch_indices].astype(float)
-
+    signal = ui.eeg_data_display[channel_idx, :]
     srate = int(ui.config[0]["Sampling_rate_hz"])
-    freqs, power = welch(
-        data,
-        fs=srate,
-        window="hann",
-        nperseg=min(len(data), 2 * srate),
-        detrend="constant",
-        return_onesided=True,
-        scaling="density",
-        average="mean",
+
+    power_list = []
+    freqs = None
+
+    for epoch_idx in range(ui.numepo):
+        _, epoch_indices, _ = ui.times[epoch_idx]
+        epoch_signal = signal[epoch_indices].astype(float)
+
+        freqs_epoch, power_epoch = welch(
+            epoch_signal,
+            fs=srate,
+            window="hann",
+            nperseg=min(len(epoch_signal), 2 * srate),
+            detrend="constant",
+            return_onesided=True,
+            scaling="density",
+            average="mean",
+        )
+
+        if freqs is None:
+            freqs = freqs_epoch
+        power_list.append(power_epoch)
+
+    ui.epoch_periodogram_freqs = freqs  # (n_freqs,)
+    ui.epoch_periodogram_power = np.array(power_list)  # (n_epochs, n_freqs)
+
+
+def compute_epoch_periodogram(ui, epoch_idx):
+    """Return the periodogram for a given epoch using cached power and display-mode trim/scale.
+
+    Looks up precomputed power in ui.epoch_periodogram_power[epoch_idx] and applies
+    display-mode trim and scaling transformations.
+    """
+    channel_names = [ch["Channel_name"] for ch in ui.config[1]]
+    periodogram_channel_name = ui.config[0].get(
+        "Periodogram_channel", channel_names[0] if channel_names else ""
     )
 
+    # Look up precomputed raw power from cache
+    freqs = ui.epoch_periodogram_freqs
+    power = ui.epoch_periodogram_power[epoch_idx].copy()
+
+    # Apply trim to configured frequency limits
     power, freqs = trim_power(
         power,
         freqs,
@@ -39,6 +71,7 @@ def compute_epoch_periodogram(ui, epoch_idx):
         ui.config[0]["Periodogram_limit_hz"][1],
     )
 
+    # Apply display-mode scaling/transform
     display_mode = ui.config[0].get("Periodogram_display_mode", "1/f Removed")
     if display_mode == "1/f Removed":
         power_smooth = uniform_filter1d(power, size=20)

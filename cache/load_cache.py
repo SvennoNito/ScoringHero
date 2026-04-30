@@ -27,8 +27,16 @@ def load_cache(ui):
         and cache["tf_norm"]["Wavelet_frequency_limits_hz"] == tf_limits_config
     )
 
-    if not cache_valid or not tf_norm_valid:
-        # Recompute spectrogram + TF norms from current eeg_data_display
+    periodogram_valid = (
+        cache_valid
+        and "epoch_periodogram" in cache
+        and cache["epoch_periodogram"]["channel"] == ui.config[0].get("Periodogram_channel", "")
+        and cache["epoch_periodogram"]["Sampling_rate_hz"] == ui.config[0]["Sampling_rate_hz"]
+        and cache.get("manipulation_fingerprint") == _manipulation_fingerprint(ui)
+    )
+
+    if not cache_valid or not tf_norm_valid or not periodogram_valid:
+        # Recompute spectrogram + TF norms + epoch periodograms from current eeg_data_display
         recompute_derived(ui)
     else:
         ui.power, ui.freqs, ui.freqsOI, ui.swa = cache["spectogram"].values()
@@ -37,5 +45,7 @@ def load_cache(ui):
         ui.tf_norm_iqr           = cache["tf_norm"]["tf_norm_iqr"]
         ui.tf_norm_rms           = cache["tf_norm"]["tf_norm_rms"]
         ui.tf_norm_median_linear = cache["tf_norm"]["tf_norm_median_linear"]
+        ui.epoch_periodogram_freqs = cache["epoch_periodogram"]["freqs"]
+        ui.epoch_periodogram_power = cache["epoch_periodogram"]["power"]
         # Refresh cache file with current ui state (updates fingerprint etc.)
         write_cache(ui, ui_to_cache(ui))

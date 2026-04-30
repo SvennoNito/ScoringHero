@@ -26,6 +26,14 @@ def ui_to_cache(ui, cache=None):
     cache["Channel_for_spectogram"] = ui.config[0]["Channel_for_spectogram"]
     cache["manipulation_fingerprint"] = _manipulation_fingerprint(ui)
 
+    if hasattr(ui, "epoch_periodogram_power") and hasattr(ui, "epoch_periodogram_freqs"):
+        cache["epoch_periodogram"] = {
+            "power": ui.epoch_periodogram_power,
+            "freqs": ui.epoch_periodogram_freqs,
+            "channel": ui.config[0].get("Periodogram_channel", ""),
+            "Sampling_rate_hz": ui.config[0]["Sampling_rate_hz"],
+        }
+
     if hasattr(ui, "tf_freqs"):
         cache["tf_norm"] = {
             "tf_freqs": ui.tf_freqs,

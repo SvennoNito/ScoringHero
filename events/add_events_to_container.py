@@ -15,6 +15,7 @@ def add_events_to_container(ui, events_sec, container):
         ui.config[0]["Epoch_length_s"],
         ui.numepo,
     )
+    container.epochs_set = [set(lst) for lst in container.epochs]
     clean_epochs_to_uiscoring(ui, container)
     draw_event_in_this_epoch(ui, container)
     ui.HypnogramWidget.update_hypnogram(ui)

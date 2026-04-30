@@ -31,6 +31,7 @@ def erase_events_in_rectangles(ui):
     for container in ui.AnnotationContainer:
         container.borders = clip_borders(container.borders, erase_ranges)
         container.epochs = event_epoch(container.borders, epoch_length, ui.numepo)
+        container.epochs_set = [set(lst) for lst in container.epochs]
         clean_epochs_to_uiscoring(ui, container)
         draw_event_in_this_epoch(ui, container)
 

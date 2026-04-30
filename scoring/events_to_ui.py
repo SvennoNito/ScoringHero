@@ -6,7 +6,7 @@ def events_to_ui(ui, events):
     ui.AnnotationContainer = [
         AnnotationContainer(colorindex=counter, label=f"F{counter}")
         for counter in range(13)
-    ]   
+    ]
 
     if len(events) > 0:
         event_digits = [item["digit"] for item in events]
@@ -17,4 +17,6 @@ def events_to_ui(ui, events):
                 ui.AnnotationContainer[event_digit].borders.append(
                     [container["start"], container["end"]]
                 )
-                ui.AnnotationContainer[event_digit].epochs.append(container["epoch"])     
+                epoch_list = container["epoch"]
+                ui.AnnotationContainer[event_digit].epochs.append(epoch_list)
+                ui.AnnotationContainer[event_digit].epochs_set.append(set(epoch_list))
