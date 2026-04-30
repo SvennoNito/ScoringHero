@@ -50,8 +50,12 @@ def recompute_derived(ui):
     # Precompute L2 normalization scale factors (per-frequency constant for normalization)
     n_cycles_arr = np.maximum(3.0, tf_freqs / 2.0)
     epoch_len = ui.config[0]["Epoch_length_s"]
-    ext_len = ui.config[0].get("Extension_epoch_s", 1)
-    signal_len = int((epoch_len + 2 * ext_len) * srate)
+    ext_lens = ui.config[0].get("Extension_epoch_s", [1, 1])
+    if isinstance(ext_lens, (int, float)):
+        ext_total = 2 * ext_lens
+    else:
+        ext_total = sum(ext_lens)
+    signal_len = int((epoch_len + ext_total) * srate)
     fft_freqs = np.fft.fftfreq(signal_len, d=1.0 / srate)
     tf_l2_scale_sq = np.zeros(len(tf_freqs), dtype=np.float32)
     for i, freq in enumerate(tf_freqs):
