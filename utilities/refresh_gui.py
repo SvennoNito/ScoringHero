@@ -32,3 +32,13 @@ def refresh_gui(ui):
     # Draw annotations
     for container in ui.AnnotationContainer:
         draw_event_in_this_epoch(ui, container)
+
+    # Update export menu state based on scoring
+    _update_export_menu_state(ui)
+
+
+def _update_export_menu_state(ui):
+    """Enable/disable sleep report export based on scoring availability."""
+    has_scores = ui.stages and any(stage.get("digit") is not None for stage in ui.stages)
+    if hasattr(ui, "action_export_sleep_report"):
+        ui.action_export_sleep_report.setEnabled(has_scores)

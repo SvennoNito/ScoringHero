@@ -45,6 +45,7 @@ from events.event_epoch import event_epoch
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 from events.clip_borders import clip_borders
 from events.erase_events_in_rectangles import erase_events_in_rectangles
+from export.export_sleep_report import export_sleep_report
 from functools import partial
 
 @timing_decorator
@@ -213,6 +214,16 @@ def setup_ui(ui, MainWindow):
     ui.action_export_gssc.setObjectName("action_export_gssc")
     ui.action_export_gssc.triggered.connect(lambda: write_gssc(ui))
     ui.submenu_export.addAction(ui.action_export_gssc)
+
+    # Export submenu for reports
+    ui.submenu_export_reports = QMenu("Export Report", ui.menu_file)
+    ui.submenu_export_reports.setObjectName("submenu_export_reports")
+    ui.menu_file.addMenu(ui.submenu_export_reports)
+    ui.action_export_sleep_report = QAction("Sleep Report (PDF)", ui)
+    ui.action_export_sleep_report.setObjectName("action_export_sleep_report")
+    ui.action_export_sleep_report.triggered.connect(lambda: export_sleep_report(ui))
+    ui.submenu_export_reports.addAction(ui.action_export_sleep_report)
+    ui.action_export_sleep_report.setEnabled(False)
 
     # Sleep stages menu
     ui.menu_stages = QMenu("Stages", ui.menu)
