@@ -68,7 +68,7 @@ def _create_hypnogram(ui):
         -3: 0,  # N3
     }
 
-    fig, ax = plt.subplots(figsize=(12, 3.5), dpi=100)
+    fig, ax = plt.subplots(figsize=(12, 2.5), dpi=100)
 
     # Draw colored rectangles for each stage
     for i, stage_value in enumerate(stages):
@@ -91,14 +91,14 @@ def _create_hypnogram(ui):
     # Set y-axis
     ax.set_ylim(-0.5, 4.5)
     ax.set_yticks([0, 1, 2, 3, 4])
-    ax.set_yticklabels(["N3", "N2", "N1", "REM", "Wake"], fontsize=11)
+    ax.set_yticklabels(["N3", "N2", "N1", "REM", "Wake"], fontsize=12)
 
     # Set x-axis
     total_hours = ui.numepo * ui.config[0]["Epoch_length_s"] / 3600
     ax.set_xlim(0, total_hours)
     ax.set_xlabel("Time (0h = lights off)", fontsize=11)
     ax.set_xticks(range(int(total_hours) + 1))
-    ax.set_xticklabels([f"{h}h" for h in range(int(total_hours) + 1)], fontsize=10)
+    ax.set_xticklabels([f"{h}h" for h in range(int(total_hours) + 1)], fontsize=11)
 
     ax.grid(axis="x", alpha=0.3)
     ax.set_axisbelow(True)
@@ -134,7 +134,11 @@ def _create_whole_night_spectrogram(ui):
     # Normalize to [-1, 3] range
     power = np.clip(power, -1, 3)
 
-    fig, ax = plt.subplots(figsize=(12, 3.5), dpi=100)
+    # Create figure with GridSpec to control colorbar separately
+    fig = plt.figure(figsize=(13.5, 2.5), dpi=100)
+    gs = fig.add_gridspec(1, 2, width_ratios=[12, 0.4], hspace=0.3, wspace=0.3)
+    ax = fig.add_subplot(gs[0, 0])
+    cbar_ax = fig.add_subplot(gs[0, 1])
 
     # Create spectrogram plot
     n_epochs = ui.numepo
@@ -149,14 +153,15 @@ def _create_whole_night_spectrogram(ui):
     freq_max = min(freqs[-1], 50)
     ax.set_ylim(freqs[0], freq_max)
 
-    # Add colorbar
-    cbar = plt.colorbar(im, ax=ax)
-    cbar.set_label("Power (dB)", fontsize=10)
-
-    # Format x-axis
+    # Format x-axis with larger ticks
     total_hours = n_epochs * ui.config[0]["Epoch_length_s"] / 3600
     ax.set_xticks(range(int(total_hours) + 1))
-    ax.set_xticklabels([f"{h}h" for h in range(int(total_hours) + 1)], fontsize=10)
+    ax.set_xticklabels([f"{h}h" for h in range(int(total_hours) + 1)], fontsize=11)
+    ax.tick_params(axis='y', labelsize=11)
+
+    # Add colorbar to separate axis
+    cbar = plt.colorbar(im, cax=cbar_ax)
+    cbar.set_label("Power (dB)", fontsize=10)
 
     plt.tight_layout()
 
@@ -222,10 +227,6 @@ def _calculate_sleep_statistics(ui):
 
     # Build text report
     lines = [
-        "=" * 50,
-        "SLEEP REPORT",
-        "=" * 50,
-        "",
         "SLEEP STATISTICS",
         "-" * 50,
         f"Total Sleep Time (TST):        {tst_min:.1f} min ({tst_min/60:.1f} h)",
@@ -274,10 +275,6 @@ def _calculate_sleep_statistics(ui):
         lines.append(f"REM latency:                   {rem_latency_min:.1f} min")
     else:
         lines.append(f"REM latency:                   N/A")
-
-    lines.extend([
-        "=" * 50,
-    ])
 
     return "\n".join(lines)
 
