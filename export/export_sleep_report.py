@@ -6,7 +6,8 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
 import tempfile
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
+import sys
 
 
 def export_sleep_report(ui):
@@ -51,7 +52,7 @@ def _create_hypnogram(ui):
 
     # Image dimensions
     width, height = 1200, 450
-    margin_left, margin_right = 80, 40
+    margin_left, margin_right = 100, 40
     margin_top, margin_bottom = 50, 80
 
     img = Image.new("RGB", (width, height), color="white")
@@ -65,29 +66,30 @@ def _create_hypnogram(ui):
     plot_width = plot_right - plot_left
     plot_height = plot_bottom - plot_top
 
-    # Stage colors and positions
+    # Stage colors and positions - Order: Wake, REM, N1, N2, N3
     stage_colors = {
         1: (139, 191, 86),      # Wake - yellow-green
         -1: (170, 188, 206),    # N1 - light blue
         -2: (64, 92, 121),      # N2 - blue
         -3: (11, 28, 44),       # N3 - dark blue
-        0: (86, 191, 139),      # REM - green
+        0: (220, 80, 80),       # REM - red
     }
 
     stage_labels = {
         1: "Wake",
+        0: "REM",
         -1: "N1",
         -2: "N2",
         -3: "N3",
-        0: "REM",
     }
 
+    # Positions from top to bottom: Wake, REM, N1, N2, N3
     stage_positions = {
-        1: 0.8,
-        -1: 0.6,
-        -2: 0.4,
-        -3: 0.2,
-        0: 0.0,
+        1: 0.8,     # Wake
+        0: 0.6,     # REM
+        -1: 0.4,    # N1
+        -2: 0.2,    # N2
+        -3: 0.0,    # N3
     }
 
     # Draw outer box
@@ -98,19 +100,17 @@ def _create_hypnogram(ui):
         x = plot_left + (h / total_hours) * plot_width
         draw.line([(x, plot_top), (x, plot_bottom)], fill=(220, 220, 220), width=1)
 
-    # Draw REM areas and sleep stage blocks
+    # Draw REM areas
     for i, stage_value in enumerate(stages):
-        if stage_value is not None:
+        if stage_value == 0:  # REM
             x_start = plot_left + (i / n_epochs) * plot_width
             x_end = plot_left + ((i + 1) / n_epochs) * plot_width
-            y_pos = stage_positions.get(stage_value, 0.5)
+            y_pos = stage_positions[0]
             y_center = plot_top + y_pos * plot_height + 0.075 * plot_height
             y_top = y_center - 0.06 * plot_height
             y_bottom = y_center + 0.06 * plot_height
-
-            # For REM, fill with red
-            if stage_value == 0:
-                draw.rectangle([(x_start, y_top), (x_end, y_bottom)], fill=(220, 100, 100), outline=None)
+            # Solid red fill for REM
+            draw.rectangle([(x_start, y_top), (x_end, y_bottom)], fill=(220, 80, 80), outline=None)
 
     # Draw black line following sleep stages
     line_points = []
@@ -124,20 +124,20 @@ def _create_hypnogram(ui):
     if len(line_points) > 1:
         draw.line(line_points, fill="black", width=3)
 
-    # Draw y-axis labels (stage names) on the left
-    for stage in [1, -1, -2, -3, 0]:
+    # Draw y-axis labels (stage names) on the left - in order: Wake, REM, N1, N2, N3
+    for stage in [1, 0, -1, -2, -3]:
         y_norm = stage_positions[stage]
         y = plot_top + y_norm * plot_height + 0.075 * plot_height
         label = stage_labels[stage]
-        draw.text((10, int(y - 8)), label, fill="black")
+        draw.text((8, int(y - 10)), label, fill="black")
 
-    # Draw x-axis labels (hours)
+    # Draw x-axis labels (hours) with larger font
     for h in range(int(total_hours) + 1):
         x = plot_left + (h / total_hours) * plot_width
-        draw.text((int(x - 8), plot_bottom + 8), f"{h}h", fill="black")
+        draw.text((int(x - 8), plot_bottom + 12), f"{h}h", fill="black")
 
     # Draw x-axis label
-    draw.text((plot_left, plot_top - 35), "Time (0h = lights off)", fill="black")
+    draw.text((plot_left, plot_top - 40), "Time (0h = lights off)", fill="black")
 
     return img
 
@@ -166,9 +166,10 @@ def _create_whole_night_spectrogram(ui):
     pixel_scale = 3  # pixels per epoch/frequency
     img_width = n_epochs * pixel_scale
     img_height = n_freqs * pixel_scale
-    margin_left, margin_right = 80, 50
+    cbar_width = 30  # colorbar width
+    margin_left, margin_right = 90, 60
     margin_top, margin_bottom = 50, 80
-    total_width = img_width + margin_left + margin_right
+    total_width = img_width + margin_left + margin_right + cbar_width
     total_height = img_height + margin_top + margin_bottom
 
     # Create spectrogram image data
@@ -204,24 +205,41 @@ def _create_whole_night_spectrogram(ui):
     plot_right = margin_left + img_width
     plot_top = margin_top
     plot_bottom = margin_top + img_height
+    cbar_left = plot_right + 15
+    cbar_right = cbar_left + cbar_width
 
     draw.rectangle([(plot_left, plot_top), (plot_right, plot_bottom)], outline="black", width=2)
+
+    # Draw colorbar
+    cbar_height = img_height
+    for i in range(cbar_height):
+        norm_val = 1.0 - (i / cbar_height)  # invert for visualization
+        colormap_idx = int(np.clip(norm_val * (len(rgb) - 1), 0, len(rgb) - 1))
+        color = tuple((rgb[colormap_idx] * 255).astype(int))
+        draw.line([(cbar_left, plot_top + i), (cbar_right, plot_top + i)], fill=color, width=1)
+
+    # Draw colorbar box
+    draw.rectangle([(cbar_left, plot_top), (cbar_right, plot_bottom)], outline="black", width=1)
+
+    # Draw colorbar labels
+    draw.text((cbar_right + 5, plot_top - 5), "3", fill="black")
+    draw.text((cbar_right + 5, plot_bottom - 12), "-1", fill="black")
 
     # Draw time axis labels
     total_hours = n_epochs * ui.config[0]["Epoch_length_s"] / 3600
     for h in range(int(total_hours) + 1):
         x = plot_left + (h / total_hours) * img_width
-        draw.text((int(x - 8), plot_bottom + 8), f"{h}h", fill="black")
+        draw.text((int(x - 8), plot_bottom + 12), f"{h}h", fill="black")
 
     # Draw frequency axis labels
     freq_step = max(1, int(n_freqs / 8))
     for i in range(0, n_freqs, freq_step):
         y = plot_bottom - (i / n_freqs) * img_height
         freq_label = f"{int(freqs[i])} Hz"
-        draw.text((int(plot_left - 65), int(y - 8)), freq_label, fill="black")
+        draw.text((int(plot_left - 75), int(y - 8)), freq_label, fill="black")
 
     # Draw axis label for time
-    draw.text((plot_left, plot_top - 35), "Time (0h = lights off)", fill="black")
+    draw.text((plot_left, plot_top - 40), "Time (0h = lights off)", fill="black")
 
     # Draw frequency label
     draw.text((10, int(plot_top + img_height // 2 - 40)), "Frequency", fill="black")
@@ -307,11 +325,11 @@ def _calculate_sleep_statistics(ui):
     rem_h = rem_min / 60
 
     lines.extend([
-        f"Wake:     {wake_epochs * epoch_length_min:5.1f} min ({wake_h:.1f} h) - {wake_pct:5.1f}%",
-        f"N1:       {n1_min:5.1f} min ({n1_h:.1f} h) - {n1_pct:5.1f}%",
-        f"N2:       {n2_min:5.1f} min ({n2_h:.1f} h) - {n2_pct:5.1f}%",
-        f"N3:       {n3_min:5.1f} min ({n3_h:.1f} h) - {n3_pct:5.1f}%",
-        f"REM:      {rem_min:5.1f} min ({rem_h:.1f} h) - {rem_pct:5.1f}%",
+        f"Wake:    {wake_epochs * epoch_length_min:6.1f} min ({wake_h:4.1f} h) - {wake_pct:5.1f}%",
+        f"REM:     {rem_min:6.1f} min ({rem_h:4.1f} h) - {rem_pct:5.1f}%",
+        f"N1:      {n1_min:6.1f} min ({n1_h:4.1f} h) - {n1_pct:5.1f}%",
+        f"N2:      {n2_min:6.1f} min ({n2_h:4.1f} h) - {n2_pct:5.1f}%",
+        f"N3:      {n3_min:6.1f} min ({n3_h:4.1f} h) - {n3_pct:5.1f}%",
         "",
         "LATENCIES",
         "-" * 50,

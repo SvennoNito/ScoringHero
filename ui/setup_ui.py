@@ -216,7 +216,7 @@ def setup_ui(ui, MainWindow):
     ui.submenu_export.addAction(ui.action_export_gssc)
 
     # Export submenu for reports
-    ui.submenu_export_reports = QMenu("Export Report", ui.menu_file)
+    ui.submenu_export_reports = QMenu("Export", ui.menu_file)
     ui.submenu_export_reports.setObjectName("submenu_export_reports")
     ui.menu_file.addMenu(ui.submenu_export_reports)
     ui.action_export_sleep_report = QAction("Sleep Report (PDF)", ui)
