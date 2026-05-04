@@ -13,5 +13,6 @@ from .tfWidget import TFWidget
 from .gsscWindow import GsscWindow
 from .seedWindow import SeedWindow
 from .mtKcdWindow import MtKcdWindow
+from .mtSpindleWindow import MtSpindleWindow
 # from .sumoWindow import SumoWindow  # TODO: SUMO needs debugging
 from .yasaWindow import YasaWindow

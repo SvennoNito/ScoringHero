@@ -48,7 +48,7 @@ def _execute(ui, settings, progress):
             sfreq,
             fmin=settings["fmin"],
             fmax=settings["fmax"],
-            amin_db=settings["amin_db"],
+            amin=settings["amin"],
             dmin_s=settings["dmin_s"],
             dmax_s=settings["dmax_s"],
             q=settings["q"],

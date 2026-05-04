@@ -32,7 +32,8 @@ from filter.open_filter_window import open_filter_window
 from scoring.open_gssc_window import open_gssc_window
 from scoring.open_seed_window import open_seed_window
 from scoring.open_mt_kcd_window import open_mt_kcd_window
-from scoring.open_yasa_window import open_yasa_window
+from scoring.open_mt_spindle_window import open_mt_spindle_window
+# from scoring.open_yasa_window import open_yasa_window  # YASA disabled — keep scripts for later
 # from scoring.open_sumo_window import open_sumo_window  # TODO: SUMO needs debugging
 from scoring.scoring_import_window import scoring_import_window
 # from scoring.score_yasa import score_yasa
@@ -409,11 +410,17 @@ def setup_ui(ui, MainWindow):
     ui.action_mt_kcd.triggered.connect(lambda: open_mt_kcd_window(ui))
     ui.menu_utils.addAction(ui.action_mt_kcd)
 
-    ui.action_yasa = QAction("Spindle Detection (YASA)", MainWindow)
-    ui.action_yasa.setObjectName("action_yasa")
-    ui.action_yasa.setShortcut("Ctrl+Shift+Y")
-    ui.action_yasa.triggered.connect(lambda: open_yasa_window(ui))
-    ui.menu_utils.addAction(ui.action_yasa)
+    ui.action_mt_spindle = QAction("Spindle Detection (MT-Spindle)", MainWindow)
+    ui.action_mt_spindle.setObjectName("action_mt_spindle")
+    ui.action_mt_spindle.setShortcut("Ctrl+Shift+S")
+    ui.action_mt_spindle.triggered.connect(lambda: open_mt_spindle_window(ui))
+    ui.menu_utils.addAction(ui.action_mt_spindle)
+
+    # YASA spindle detection disabled — scripts kept in scoring/ for later re-enabling
+    # ui.action_yasa = QAction("Spindle Detection (YASA)", MainWindow)
+    # ui.action_yasa.setShortcut("Ctrl+Shift+Y")
+    # ui.action_yasa.triggered.connect(lambda: open_yasa_window(ui))
+    # ui.menu_utils.addAction(ui.action_yasa)
 
     # TODO: SUMO spindle detection needs debugging - disabled for now
     # ui.action_sumo = QAction("Spindle Detection (SUMO)", MainWindow)

@@ -117,22 +117,23 @@ class MtSpindleWindow(QDialog):
             self._fmax,
         )
 
-        # Min. amplitude (dB above baseline)
-        self._amin_db = QDoubleSpinBox()
-        self._amin_db.setRange(0.5, 10.0)
-        self._amin_db.setSingleStep(0.5)
-        self._amin_db.setDecimals(1)
-        self._amin_db.setValue(3.0)
-        self._amin_db.setSuffix(" dB")
+        # Min. amplitude (µV envelope)
+        self._amin = QDoubleSpinBox()
+        self._amin.setRange(1.0, 100.0)
+        self._amin.setSingleStep(1.0)
+        self._amin.setDecimals(1)
+        self._amin.setValue(10.0)
+        self._amin.setSuffix(" µV")
         thresh_layout.addRow(
             _info_label(
-                "Min. power elevation (Amin_dB):",
-                "Minimum power elevation above median baseline (dB).\n\n"
-                "dB normalization makes spindles stand out clearly.\n"
+                "Min. amplitude (Amin):",
+                "Minimum peak envelope amplitude (µV) of the\n"
+                "sigma-band filtered signal within a spindle.\n\n"
                 "Lower values are more sensitive (more detections).\n"
-                "Default: 3.0 dB.",
+                "Typical spindle envelope: 10–30 µV.\n"
+                "Default: 10.0 µV.",
             ),
-            self._amin_db,
+            self._amin,
         )
 
         # Min. duration
@@ -171,9 +172,9 @@ class MtSpindleWindow(QDialog):
 
         # Candidate-region percentile
         self._q = QSpinBox()
-        self._q.setRange(70, 99)
+        self._q.setRange(50, 99)
         self._q.setSingleStep(1)
-        self._q.setValue(90)
+        self._q.setValue(95)
         self._q.setSuffix(" %")
         thresh_layout.addRow(
             _info_label(
@@ -235,21 +236,23 @@ class MtSpindleWindow(QDialog):
         procedure_icon.setToolTip(
             "MT-Spindle procedure\n"
             "─────────────────────────────────────────\n"
-            "1. Bandpass filter to spindle band (fmin-fmax Hz)\n"
+            "1. Broadband bandpass filter (0.3–35 Hz)\n"
             "\n"
-            "2. Compute envelope via Hilbert transform\n"
+            "2. Multitaper spectrogram\n"
+            "   (same as MT-KCD)\n"
             "\n"
-            "3. Multitaper spectrogram of filtered signal\n"
-            "   to identify time-frequency power bursts\n"
+            "3. Candidate region identification\n"
+            "   Median-normalized sigma-band power;\n"
+            "   percentile threshold q (same as MT-KCD)\n"
             "\n"
-            "4. Candidate region identification\n"
-            "   based on sigma-band power concentration\n"
+            "4. Sigma-band envelope via Hilbert transform\n"
+            "   (bandpass fmin–fmax Hz)\n"
             "\n"
-            "5. Candidate spindle marking\n"
-            "   via envelope transitions\n"
+            "5. Spindle boundary detection\n"
+            "   envelope > local background within region\n"
             "\n"
-            "6. Elimination\n"
-            "   Filter by RMS amplitude and duration"
+            "6. Duration & amplitude filter\n"
+            "   dmin ≤ duration < dmax AND peak ≥ amin"
         )
         note_layout.addWidget(procedure_icon, alignment=Qt.AlignTop)
 
@@ -304,7 +307,7 @@ class MtSpindleWindow(QDialog):
             "marker":        self._marker.currentText(),
             "fmin":          self._fmin.value(),
             "fmax":          self._fmax.value(),
-            "amin_db":       self._amin_db.value(),
+            "amin":          self._amin.value(),
             "dmin_s":        self._dmin.value(),
             "dmax_s":        self._dmax.value(),
             "q":             float(self._q.value()),
