@@ -89,7 +89,7 @@ class MtKcdWindow(QDialog):
         self._amin.setRange(1.0, 500.0)
         self._amin.setSingleStep(5.0)
         self._amin.setDecimals(1)
-        self._amin.setValue(75.0)
+        self._amin.setValue(125.0)
         self._amin.setSuffix(" µV")
         thresh_layout.addRow(
             _info_label(
@@ -126,7 +126,7 @@ class MtKcdWindow(QDialog):
         self._q = QSpinBox()
         self._q.setRange(50, 99)
         self._q.setSingleStep(1)
-        self._q.setValue(95)
+        self._q.setValue(90)
         self._q.setSuffix(" %")
         thresh_layout.addRow(
             _info_label(
