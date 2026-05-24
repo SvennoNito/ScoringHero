@@ -48,12 +48,14 @@ class HypnogramWidget(QWidget):
             ]
         )
         self.kernel = 100
+        self.comparison_items = []
 
     @timing_decorator
     def draw_hypnogram(self, ui):
         self.axes.clear()
         self.stage_items = {}
         self.event_items = []
+        self.comparison_items = []
         self.times = np.arange(0, ui.numepo) * ui.config[0]["Epoch_length_s"] / 3600
         times = np.repeat(self.times, 2)
         stages = np.array([stage["digit"] for stage in ui.stages])
@@ -87,6 +89,10 @@ class HypnogramWidget(QWidget):
         else:
             self.axes.getAxis("bottom").setTicks([])
 
+        # Draw comparison overlay (disagreement epochs in red)
+        if getattr(ui, "stages_ref", None) is not None:
+            self._draw_comparison_overlay(ui)
+
         # Draw SWA
         self.draw_swa_in_time(ui.swa)
 
@@ -109,6 +115,36 @@ class HypnogramWidget(QWidget):
             self.axes.removeItem(item)
         self.event_items = []
         self.draw_events(ui)
+
+    def _draw_comparison_overlay(self, ui):
+        """Overlay disagreement epochs in red, showing the reference scoring's stage."""
+        if not ui.disagreement_epochs:
+            return
+
+        times = np.repeat(self.times, 2)
+        ref_digits = [s["digit"] for s in ui.stages_ref]
+
+        # Collect (epoch, digit) pairs for disagreement epochs that have a digit
+        ep_digit_pairs = [
+            (ep, ref_digits[ep])
+            for ep in ui.disagreement_epochs
+            if ep < len(ref_digits) and ref_digits[ep] is not None
+        ]
+        if not ep_digit_pairs:
+            return
+
+        unique_vals = set(digit for _, digit in ep_digit_pairs)
+        red_pen = pg.mkPen(color=(210, 40, 40), width=3)
+
+        for stage_val in unique_vals:
+            data = np.full(ui.numepo, np.nan)
+            for ep, digit in ep_digit_pairs:
+                if digit == stage_val:
+                    data[ep] = stage_val
+            data = np.concatenate(np.column_stack((data, data - 1)))
+            item = pg.PlotDataItem(times, data, pen=red_pen)
+            self.axes.addItem(item)
+            self.comparison_items.append(item)
 
 
 

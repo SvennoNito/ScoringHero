@@ -36,6 +36,8 @@ from scoring.open_mt_spindle_window import open_mt_spindle_window
 # from scoring.open_yasa_window import open_yasa_window  # YASA disabled — keep scripts for later
 # from scoring.open_sumo_window import open_sumo_window  # TODO: SUMO needs debugging
 from scoring.scoring_import_window import scoring_import_window
+from scoring.scoring_import_comparison import scoring_import_comparison, remove_comparison_scoring
+from scoring.comparison_stats_window import comparison_stats_window
 # from scoring.score_yasa import score_yasa
 from eeg.eeg_import_window import eeg_import_window
 from help.open_help_selection_box import open_help_selection_box
@@ -434,6 +436,30 @@ def setup_ui(ui, MainWindow):
     ui.action_zoom.triggered.connect(lambda: zoom_on_selected_eeg(ui))
     ui.action_zoom.setShortcut("Z")
     ui.menu_utils.addAction(ui.action_zoom)
+
+    # Compare Scoring menu
+    ui.menu_compare = QMenu("Compare", ui.menu)
+    ui.menu_compare.setObjectName("menu_compare")
+    ui.menu.addAction(ui.menu_compare.menuAction())
+
+    ui.action_import_comparison = QAction("Import scoring for comparison", MainWindow)
+    ui.action_import_comparison.setObjectName("action_import_comparison")
+    ui.action_import_comparison.triggered.connect(lambda: scoring_import_comparison(ui))
+    ui.menu_compare.addAction(ui.action_import_comparison)
+
+    ui.action_remove_comparison = QAction("Remove comparison scoring", MainWindow)
+    ui.action_remove_comparison.setObjectName("action_remove_comparison")
+    ui.action_remove_comparison.triggered.connect(lambda: remove_comparison_scoring(ui))
+    ui.action_remove_comparison.setEnabled(False)
+    ui.menu_compare.addAction(ui.action_remove_comparison)
+
+    ui.menu_compare.addSeparator()
+
+    ui.action_comparison_stats = QAction("Show summary statistics", MainWindow)
+    ui.action_comparison_stats.setObjectName("action_comparison_stats")
+    ui.action_comparison_stats.triggered.connect(lambda: comparison_stats_window(ui))
+    ui.action_comparison_stats.setEnabled(False)
+    ui.menu_compare.addAction(ui.action_comparison_stats)
 
     # Options menu
     ui.menu_config = QMenu("Configuration", ui.menu)

@@ -8,7 +8,8 @@ def refresh_gui(ui):
     ui.SignalWidget.update_signal(ui.config, ui.eeg_data_display, ui.times, ui.this_epoch)
 
     # Update display text
-    ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
+    stages_ref = getattr(ui, "stages_ref", None)
+    ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages, stages_ref)
 
     # Update epoch indicator lines
     ui.SpectogramWidget.update_epoch_indicator(ui.this_epoch)

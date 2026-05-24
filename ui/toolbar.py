@@ -13,6 +13,7 @@ from utilities.epoch_uncertain import next_uncertain_stage
 from utilities.epoch_transition import stage_transition
 from utilities.jump_to_event import jump_to_event
 from utilities.epoch_human import next_human_epoch
+from utilities.epoch_disagreement import next_disagreement_epoch
 
 
 def setup_toolbar(ui, MainWindow):
@@ -98,3 +99,16 @@ def setup_toolbar(ui, MainWindow):
     ui.tool_nexthuman.clicked.connect(lambda: [next_human_epoch(ui), ui.tool_nexthuman.clearFocus()])
     ui.tool_nexthuman.setEnabled(False)
     toolbar.addWidget(ui.tool_nexthuman)
+
+    spacer = QWidget()
+    spacer.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+    spacer.setFixedWidth(2)
+    toolbar.addWidget(spacer)
+
+    # Next disagreement epoch button (enabled only when comparison scoring is loaded)
+    ui.tool_nextdisagreement = QPushButton("disagreement")
+    ui.tool_nextdisagreement.clicked.connect(
+        lambda: [next_disagreement_epoch(ui), ui.tool_nextdisagreement.clearFocus()]
+    )
+    ui.tool_nextdisagreement.setEnabled(False)
+    toolbar.addWidget(ui.tool_nextdisagreement)

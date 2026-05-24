@@ -140,6 +140,9 @@ class Ui_MainWindow(QMainWindow):
         self.this_epoch = 0
         self.held_event_key = None
         self.relabeled_event = False
+        self.stages_ref = None
+        self.disagreement_epochs = []
+        self.disagreement_index = 0
 
         # Default paths
         if hasattr(sys, '_MEIPASS'):
