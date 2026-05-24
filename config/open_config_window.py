@@ -47,11 +47,14 @@ def _move_eeg_row(ui, from_idx, to_idx):
     channel's processed signal moves with its config entry — so we just reindex
     both arrays and redraw.
     """
+    from utilities.channel_index import rebuild_channel_index
+
     order = list(range(ui.eeg_data.shape[0]))
     order.pop(from_idx)
     order.insert(to_idx, from_idx)
     ui.eeg_data = ui.eeg_data[order]
     ui.eeg_data_display = ui.eeg_data_display[order]
+    rebuild_channel_index(ui)
     redraw_gui(ui)
     write_configuration(f"{ui.filename}.config.json", ui.config)
 
