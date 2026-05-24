@@ -10,6 +10,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Score sleep stages (W, N1, N2, N3, REM, Inconclusive)
 - Import/export scoring from various formats (YASA, Sleeptrip, SleepyLand, GSSC, VIS)
 - View spectrograms, hypnograms, and time-frequency representations
+- Compare two scorings side-by-side (File → Compare Scoring); disagreeing epochs highlighted in hypnogram
+- Export a multi-page PDF sleep report (File → Export Report → Sleep Report): hypnogram, spectrogram, example trace, sleep stats, latencies
+- Automatic K-complex & spindle detection via MT-KCD (Utilities menu, Ctrl+K); configurable amplitude/slope thresholds
 
 ## Running the Application
 

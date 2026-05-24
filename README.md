@@ -81,6 +81,14 @@ arch -x86_64 ./release-mac.sh  # x86_64
 - Track scoring progress with an on-screen epoch counter
 - Automatic save prompt on close if epochs remain unscored
 
+### Compare Scoring
+
+![Compare Scoring Window](screenshots/compare_scoring.png)
+
+- Load a second scoring file (**File → Compare Scoring**) to compare it against the current scoring
+- Epochs where the two scorings disagree are highlighted directly in the hypnogram
+- A summary statistics window shows agreement metrics (e.g., Cohen's kappa, per-stage agreement) between the two scorings
+
 ### Event Annotation
 - **13 event types**: Artefact (`A`) + 12 fully customizable events (`F1`–`F12`)
 - Label each event type with a custom name (e.g., "Sleep spindle", "K-complex", "Slow wave")
@@ -155,11 +163,11 @@ arch -x86_64 ./release-mac.sh  # x86_64
 - Filters affect only the **displayed EEG signal** — power computations (spectrogram, wavelet, SWA) are unaffected
 - **Apply to all channels** checkbox to propagate settings across all channels at once
 
-### Automatic K-Complex Detection (MT-KCD)
+### Automatic K-Complex & Spindle Detection (MT-KCD)
 
-- One-click K-complex detection via the **MT-KCD algorithm** (Oliveira et al. 2020) — accessible from the Utilities menu or `Ctrl+K`
+- One-click K-complex and spindle detection via the **MT-KCD algorithm** (multitaper-based) — accessible from the Utilities menu or `Ctrl+K`
 - Select which EEG channel to analyse and which event type to store detections in
-- Configurable detection thresholds and frequency parameters
+- Configurable amplitude and slope thresholds and frequency parameters
 - Limit detection to specific sleep stages (e.g., N2 only) when a scoring is loaded
 - Detections are imported as events and can be reviewed, corrected, and exported like any manually drawn event
 
@@ -171,6 +179,16 @@ arch -x86_64 ./release-mac.sh  # x86_64
 - Select which channels to pass as **EEG** and **EOG** inputs (both optional)
 - Option to apply GSSC's internal bandpass filter (0.3–30 Hz) before scoring
 - Predicted stages are imported directly into ScoringHero and can be reviewed, corrected, and exported like any other scoring
+
+### Sleep Report (PDF Export)
+
+- Generate a multi-page PDF sleep report via **File → Export Report → Sleep Report**
+- The report includes:
+  - Hypnogram with stage-specific colors
+  - Whole-night spectrogram (using cached Welch data)
+  - Example EEG trace with channel headers
+  - Sleep statistics: TST, TRT, sleep efficiency, and stage distribution
+  - Sleep latencies: time to first N2/N3 and REM latency
 
 ### Zoom
 - Draw a rectangle on the signal and press `Z` to zoom into that region
