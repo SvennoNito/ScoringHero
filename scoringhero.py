@@ -136,7 +136,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.devmode = 1
+        self.devmode = 0
         self.this_epoch = 0
         self.held_event_key = None
         self.relabeled_event = False
