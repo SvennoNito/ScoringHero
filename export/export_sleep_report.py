@@ -4,6 +4,7 @@ from datetime import datetime
 from PySide6.QtWidgets import (
     QFileDialog, QMessageBox, QDialog, QVBoxLayout, QHBoxLayout,
     QGroupBox, QCheckBox, QPushButton, QRadioButton, QButtonGroup, QLabel, QLineEdit,
+    QListWidget, QListWidgetItem,
 )
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtCore import QUrl
@@ -102,6 +103,47 @@ class _ReportOptionsDialog(QDialog):
         stats_group.setLayout(stats_layout)
         layout.addWidget(stats_group)
 
+        trace_group = QGroupBox("EEG Trace")
+        trace_layout = QVBoxLayout()
+
+        self.cb_trace = QCheckBox("Include EEG trace")
+        self.cb_trace.setChecked(False)
+        trace_layout.addWidget(self.cb_trace)
+
+        trace_sub = QVBoxLayout()
+        trace_sub.setContentsMargins(20, 0, 0, 0)
+
+        epoch_row = QHBoxLayout()
+        epoch_row.addWidget(QLabel("Epochs:"))
+        self.le_trace_epochs = QLineEdit()
+        default_epoch = str(ui.this_epoch + 1) if hasattr(ui, "this_epoch") else "1"
+        self.le_trace_epochs.setText(default_epoch)
+        self.le_trace_epochs.setPlaceholderText("e.g. 5  or  3-5  or  3,4,5")
+        epoch_row.addWidget(self.le_trace_epochs)
+        trace_sub.addLayout(epoch_row)
+
+        trace_sub.addWidget(QLabel("Channels:"))
+        self.lw_trace_channels = QListWidget()
+        self.lw_trace_channels.setSelectionMode(QListWidget.MultiSelection)
+        self.lw_trace_channels.setMaximumHeight(120)
+        if hasattr(ui, "config") and len(ui.config) > 1:
+            for i, ch_cfg in enumerate(ui.config[1]):
+                item = QListWidgetItem(ch_cfg["Channel_name"])
+                self.lw_trace_channels.addItem(item)
+                item.setSelected(i == 0)
+        trace_sub.addWidget(self.lw_trace_channels)
+
+        trace_layout.addLayout(trace_sub)
+        trace_group.setLayout(trace_layout)
+        layout.addWidget(trace_group)
+
+        self._trace_widgets = [self.le_trace_epochs, self.lw_trace_channels]
+        self.cb_trace.toggled.connect(
+            lambda checked: [w.setEnabled(checked) for w in self._trace_widgets]
+        )
+        for w in self._trace_widgets:
+            w.setEnabled(False)
+
         btn_layout = QHBoxLayout()
         btn_preview = QPushButton("Preview")
         btn_preview.clicked.connect(self._show_preview)
@@ -124,6 +166,18 @@ class _ReportOptionsDialog(QDialog):
             hyp_colors = "none"
         else:
             hyp_colors = "all"
+
+        max_epoch = self.lw_trace_channels.count() and getattr(self._ui, "numepo", 9999)
+        try:
+            trace_epochs = _parse_epochs(self.le_trace_epochs.text(), max_epoch)
+        except Exception:
+            trace_epochs = []
+
+        trace_channels = [
+            i for i in range(self.lw_trace_channels.count())
+            if self.lw_trace_channels.item(i).isSelected()
+        ]
+
         return {
             "filename": self.le_filename.text().strip(),
             "hypnogram": self.cb_hypnogram.isChecked(),
@@ -135,6 +189,9 @@ class _ReportOptionsDialog(QDialog):
             "latencies": self.cb_latencies.isChecked(),
             "awakenings": self.cb_awakenings.isChecked(),
             "arousals": self.cb_arousals.isChecked(),
+            "trace": self.cb_trace.isChecked(),
+            "trace_epochs": trace_epochs,
+            "trace_channels": trace_channels,
         }
 
     def _show_preview(self):
@@ -143,6 +200,7 @@ class _ReportOptionsDialog(QDialog):
             ui = self._ui
             hypnogram_img = _create_hypnogram(ui, options) if options["hypnogram"] else None
             spectrogram_img = _create_whole_night_spectrogram(ui) if options["spectrogram"] else None
+            trace_img = _create_eeg_trace(ui, options) if options["trace"] else None
             any_stats = options["sleep_stats"] or options["stage_distribution"] or options["latencies"] or options["awakenings"] or options["arousals"]
             stats_text = _calculate_sleep_statistics(ui, options) if any_stats else None
             report_filename = options["filename"] or None
@@ -150,7 +208,7 @@ class _ReportOptionsDialog(QDialog):
             tmp = tempfile.NamedTemporaryFile(suffix=".pdf", delete=False)
             tmp.close()
             self._preview_files.append(tmp.name)
-            _create_pdf_report(tmp.name, hypnogram_img, spectrogram_img, stats_text, report_filename)
+            _create_pdf_report(tmp.name, hypnogram_img, spectrogram_img, trace_img, stats_text, report_filename)
             QDesktopServices.openUrl(QUrl.fromLocalFile(tmp.name))
         except Exception as e:
             QMessageBox.critical(self, "Preview Error", f"Failed to generate preview:\n{str(e)}")
@@ -196,12 +254,13 @@ def export_sleep_report(ui):
     try:
         hypnogram_img = _create_hypnogram(ui, options) if options["hypnogram"] else None
         spectrogram_img = _create_whole_night_spectrogram(ui) if options["spectrogram"] else None
+        trace_img = _create_eeg_trace(ui, options) if options["trace"] else None
 
         any_stats = options["sleep_stats"] or options["stage_distribution"] or options["latencies"] or options["awakenings"] or options["arousals"]
         stats_text = _calculate_sleep_statistics(ui, options) if any_stats else None
 
-        report_filename = os.path.basename(ui.filename) if options["filename"] else None
-        _create_pdf_report(filepath, hypnogram_img, spectrogram_img, stats_text, report_filename)
+        report_filename = options["filename"] or None
+        _create_pdf_report(filepath, hypnogram_img, spectrogram_img, trace_img, stats_text, report_filename)
         QMessageBox.information(ui, "Success", f"Sleep report saved to:\n{filepath}")
     except Exception as e:
         QMessageBox.critical(ui, "Error", f"Failed to generate report:\n{str(e)}")
@@ -214,6 +273,16 @@ _PLOT_RIGHT = 0.87
 _PLOT_BOTTOM = 0.22
 _PLOT_TOP = 0.96
 _CBAR_WIDTH = 0.025
+
+# Exact RGB colours from signalWidget.channelColorPalette, normalised to [0,1]
+_CH_COLORS = {
+    "Black":   (0/255,   0/255,   0/255),
+    "Blue":    (100/255, 149/255, 237/255),
+    "Magenta": (233/255,  30/255,  99/255),
+    "Green":   (0/255,  128/255,  64/255),
+    "Orange":  (255/255, 140/255,   0/255),
+    "Cyan":    (0/255,  200/255, 200/255),
+}
 
 
 def _create_hypnogram(ui, options):
@@ -266,8 +335,11 @@ def _create_hypnogram(ui, options):
     ax.set_xticklabels([f"{h}h" for h in range(int(total_hours) + 1)], fontsize=11)
     ax.grid(axis="x", alpha=0.3)
     ax.set_axisbelow(True)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.set_title("Hypnogram", loc='left', fontsize=11, fontweight='bold', pad=4)
 
-    fig.subplots_adjust(left=_PLOT_LEFT, right=_PLOT_RIGHT, bottom=_PLOT_BOTTOM, top=_PLOT_TOP)
+    fig.subplots_adjust(left=_PLOT_LEFT, right=_PLOT_RIGHT, bottom=_PLOT_BOTTOM, top=0.88)
 
     buf = io.BytesIO()
     plt.savefig(buf, format="png", dpi=_REPORT_DPI)
@@ -291,9 +363,10 @@ def _create_whole_night_spectrogram(ui):
     freqs = ui.freqs
     power = np.clip(power, -1, 3)
 
+    _spec_plot_top = 0.88
     fig = plt.figure(figsize=_REPORT_FIG_SIZE, dpi=_REPORT_DPI)
     ax_w = _PLOT_RIGHT - _PLOT_LEFT
-    ax_h = _PLOT_TOP - _PLOT_BOTTOM
+    ax_h = _spec_plot_top - _PLOT_BOTTOM
     ax = fig.add_axes([_PLOT_LEFT, _PLOT_BOTTOM, ax_w, ax_h])
     cbar_ax = fig.add_axes([_PLOT_RIGHT + 0.015, _PLOT_BOTTOM, _CBAR_WIDTH, ax_h])
 
@@ -312,6 +385,9 @@ def _create_whole_night_spectrogram(ui):
 
     cbar = plt.colorbar(im, cax=cbar_ax)
     cbar.set_label("Power (dB)", fontsize=10)
+
+    spec_channel = ui.config[0].get("Channel_for_spectogram", "")
+    ax.set_title(f"Spectrogram ({spec_channel})", loc='left', fontsize=11, fontweight='bold', pad=4)
 
     buf = io.BytesIO()
     plt.savefig(buf, format="png", dpi=_REPORT_DPI)
@@ -462,7 +538,7 @@ def _calculate_sleep_statistics(ui, options):
         if lines:
             lines.append("")
         lines += [
-            "AROUSALS",
+            "AROUSALS WITH STAGE TRANSITIONS",
             "-" * 50,
             f"{'N3 -> N1:':<31}{n3_to_n1}",
             f"{'N2 -> N1:':<31}{n2_to_n1}",
@@ -473,16 +549,146 @@ def _calculate_sleep_statistics(ui, options):
     return "\n".join(lines)
 
 
-def _create_pdf_report(filepath, hypnogram_img, spectrogram_img, stats_text, report_filename=None):
+def _parse_epochs(text, max_epoch):
+    """Parse '5', '3-5', '3,4,5' or combinations into a sorted list of 1-indexed epoch numbers."""
+    epochs = []
+    for part in text.replace(";", ",").split(","):
+        part = part.strip()
+        if not part:
+            continue
+        if "-" in part:
+            lo, hi = part.split("-", 1)
+            epochs.extend(range(int(lo.strip()), int(hi.strip()) + 1))
+        else:
+            epochs.append(int(part))
+    return sorted(set(ep for ep in epochs if 1 <= ep <= max_epoch))
+
+
+def _create_eeg_trace(ui, options):
+    """Create a stacked multichannel EEG trace for the selected epochs and channels."""
+    epoch_numbers = options.get("trace_epochs", [])
+    channel_indices = options.get("trace_channels", [])
+
+    if not epoch_numbers or not channel_indices:
+        return None
+
+    srate = int(ui.config[0]["Sampling_rate_hz"])
+    epoch_length_s = ui.config[0]["Epoch_length_s"]
+    epoch_length_samples = int(epoch_length_s * srate)
+    n_total_samples = ui.eeg_data_display.shape[1]
+
+    # Concatenate raw signal segments for each epoch
+    segments = []
+    for ep_num in epoch_numbers:
+        ep_idx = ep_num - 1
+        start = ep_idx * epoch_length_samples
+        end = min(start + epoch_length_samples, n_total_samples)
+        segments.append(ui.eeg_data_display[:, start:end])
+    signal = np.concatenate(segments, axis=1)
+
+    n_samples = signal.shape[1]
+    times_sec = np.arange(n_samples) / srate
+
+    n_sel = len(channel_indices)
+    spacing = 200  # µV between channel centres
+
+    # Figure height scales with channel count; width fixed at 12 to match other plots
+    fig_height = max(2.5, 1.0 + 0.65 * n_sel)
+    # Absolute margins in inches → fractional for this figure height
+    bottom_frac = 0.55 / fig_height
+    top_frac = 1.0 - 0.35 / fig_height
+
+    fig, ax = plt.subplots(figsize=(12, fig_height), dpi=_REPORT_DPI)
+
+    # Top-to-bottom: first channel gets the highest offset
+    channel_offsets = [(n_sel - 1 - plot_idx) * spacing for plot_idx in range(n_sel)]
+
+    ref_amp_muV = ui.config[0].get("Reference_amplitude_line_muV", 100)
+
+    # Per-channel scaled reference amplitude (what the dashed lines represent in plot units)
+    scaled_refs = []
+    for plot_idx, ch_idx in enumerate(channel_indices):
+        ch_cfg = ui.config[1][ch_idx]
+        ch_color = _CH_COLORS.get(ch_cfg["Channel_color"], (0, 0, 0))
+        scale = ch_cfg.get("Scaling_factor", 100)
+        offset = channel_offsets[plot_idx]
+        scaled_ref = ref_amp_muV * scale / 100
+        scaled_refs.append(scaled_ref)
+        ax.plot(times_sec, signal[ch_idx] * scale / 100 + offset, color=ch_color, linewidth=0.7)
+
+    # Left y-axis: channel names centred at each channel's 0 µV position
+    ch_names = [ui.config[1][ch_idx]["Channel_name"] for ch_idx in channel_indices]
+    ax.set_yticks(channel_offsets)
+    ax.set_yticklabels(ch_names, fontsize=10)
+    top_margin = scaled_refs[0] + 50
+    bottom_margin = scaled_refs[-1] + 50
+    ax.set_ylim(-bottom_margin, (n_sel - 1) * spacing + top_margin)
+
+    # X-axis in seconds
+    ax.set_xlabel("Time (s)", fontsize=11)
+    ax.set_xlim(0, times_sec[-1] if len(times_sec) else 1)
+    ax.tick_params(axis='x', labelsize=11)
+    ax.grid(axis='x', alpha=0.3)
+    ax.set_axisbelow(True)
+
+    # Dashed reference lines scaled per channel
+    for offset, scaled_ref in zip(channel_offsets, scaled_refs):
+        ax.axhline(offset - scaled_ref, color='gray', linewidth=0.3, linestyle='--', alpha=0.4)
+        ax.axhline(offset + scaled_ref, color='gray', linewidth=0.3, linestyle='--', alpha=0.4)
+
+    # Right y-axis: ±ref_amp µV labels at the dashed lines of every channel, no zero
+    ref_label = f'{ref_amp_muV:.0f}'
+    all_ticks = []
+    all_labels = []
+    for offset, scaled_ref in zip(channel_offsets, scaled_refs):
+        all_ticks.extend([offset + scaled_ref, offset - scaled_ref])
+        all_labels.extend([f'+{ref_label} µV', f'-{ref_label} µV'])
+
+    ax2 = ax.twinx()
+    ax2.set_ylim(ax.get_ylim())
+    ax2.set_yticks(all_ticks)
+    ax2.set_yticklabels(all_labels, fontsize=9)
+
+    # Title: derive sleep stage from first selected epoch
+    stage_name = "Unscored"
+    if epoch_numbers and hasattr(ui, "stages") and ui.stages:
+        first_ep_idx = epoch_numbers[0] - 1
+        if 0 <= first_ep_idx < len(ui.stages):
+            s = ui.stages[first_ep_idx].get("stage")
+            if s:
+                stage_name = s
+    ax.set_title(f"Example trace ({stage_name})", loc='left', fontsize=11, fontweight='bold', pad=4)
+
+    fig.subplots_adjust(left=_PLOT_LEFT, right=_PLOT_RIGHT, bottom=bottom_frac, top=top_frac)
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png", dpi=_REPORT_DPI)
+    buf.seek(0)
+    img = Image.open(buf)
+    img.load()
+    buf.close()
+    plt.close(fig)
+    return img
+
+
+def _create_pdf_report(filepath, hypnogram_img, spectrogram_img, trace_img, stats_text, report_filename=None):
     page_width, page_height = letter
     c = canvas.Canvas(filepath, pagesize=letter)
 
     left_x = 0.5 * inch
+    bottom_margin = 0.5 * inch
     plot_width = page_width - 2 * left_x  # 7.5 inch for letter with 0.5 inch margins
     plot_height = plot_width * _REPORT_FIG_SIZE[1] / _REPORT_FIG_SIZE[0]
 
+    current_y = page_height - 0.75 * inch
+
+    def new_page():
+        nonlocal current_y
+        c.showPage()
+        current_y = page_height - bottom_margin
+
     tmp_files = []
-    hypno_path = spec_path = None
+    hypno_path = spec_path = trace_path = None
 
     try:
         if hypnogram_img is not None:
@@ -497,10 +703,14 @@ def _create_pdf_report(filepath, hypnogram_img, spectrogram_img, stats_text, rep
                 spec_path = f.name
                 tmp_files.append(f.name)
 
+        if trace_img is not None:
+            with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as f:
+                trace_img.save(f.name)
+                trace_path = f.name
+                tmp_files.append(f.name)
+
         c.setFont("Helvetica-Bold", 16)
         c.drawString(left_x, page_height - 0.55 * inch, "Sleep Report")
-
-        current_y = page_height - 0.75 * inch
 
         if report_filename:
             c.setFont("Helvetica", 10)
@@ -510,21 +720,35 @@ def _create_pdf_report(filepath, hypnogram_img, spectrogram_img, stats_text, rep
         current_y -= 0.1 * inch
 
         if hypno_path:
-            hypno_y = current_y - plot_height
-            c.drawImage(hypno_path, left_x, hypno_y, width=plot_width, height=plot_height)
-            current_y = hypno_y - 0.15 * inch
+            if current_y - plot_height < bottom_margin:
+                new_page()
+            img_y = current_y - plot_height
+            c.drawImage(hypno_path, left_x, img_y, width=plot_width, height=plot_height)
+            current_y = img_y - 0.15 * inch
 
         if spec_path:
-            spec_y = current_y - plot_height
-            c.drawImage(spec_path, left_x, spec_y, width=plot_width, height=plot_height)
-            current_y = spec_y - 0.15 * inch
+            if current_y - plot_height < bottom_margin:
+                new_page()
+            img_y = current_y - plot_height
+            c.drawImage(spec_path, left_x, img_y, width=plot_width, height=plot_height)
+            current_y = img_y - 0.15 * inch
+
+        if trace_path:
+            trace_height = plot_width * (trace_img.height / trace_img.width)
+            if current_y - trace_height < bottom_margin:
+                new_page()
+            img_y = current_y - trace_height
+            c.drawImage(trace_path, left_x, img_y, width=plot_width, height=trace_height)
+            current_y = img_y - 0.15 * inch
 
         if stats_text:
             c.setFont("Courier", 9)
             text_y = current_y - 0.25 * inch
             for line in stats_text.split("\n"):
-                if text_y < 0.5 * inch:
-                    break
+                if text_y < bottom_margin:
+                    new_page()
+                    c.setFont("Courier", 9)
+                    text_y = current_y
                 c.drawString(left_x, text_y, line)
                 text_y -= 0.12 * inch
 
