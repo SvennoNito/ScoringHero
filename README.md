@@ -1,4 +1,4 @@
-# ScoringHero - The Open-Source Sleep EEG Scoring Software
+# ScoringHero - The Open-Source Sleep EEG Visualization, Annotation & Scoring Software
 
 Welcome to **ScoringHero**, an open-source project designed to assist you in EEG sleep scoring! After being tested and used by multiple labs for over a year, **ScoringHero** has now reached its beta stage and supports cross-platform compatibility.
 
