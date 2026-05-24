@@ -13,6 +13,7 @@ from cache.load_cache import load_cache
 from signal_processing.times_vector import times_vector
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 from utilities.apply_tf_visibility import apply_tf_visibility
+from utilities.refresh_gui import _update_export_menu_state
 from .rebuild_display import rebuild_eeg_data_display
 
 
@@ -130,3 +131,4 @@ def load_wrapper(ui, datatype, extra_files=None):
     apply_tf_visibility(ui)
     for container in ui.AnnotationContainer:
         draw_event_in_this_epoch(ui, container)
+    _update_export_menu_state(ui)

@@ -4,6 +4,7 @@ from PySide6.QtWidgets import (
     QLabel, QComboBox, QPushButton, QScrollArea, QWidget
 )
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
+from utilities.refresh_gui import _update_export_menu_state
 from .load_scoring import load_scoring
 from .load_sleeptrip import load_sleeptrip
 from .load_sleeptrip_events import load_sleeptrip_events
@@ -200,3 +201,4 @@ def scoring_import_window(ui, filetype):
 
     ui.HypnogramWidget.draw_hypnogram(ui)
     ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
+    _update_export_menu_state(ui)

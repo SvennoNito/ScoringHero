@@ -29,7 +29,7 @@ class _ReportOptionsDialog(QDialog):
 
         general_group = QGroupBox("General")
         general_layout = QHBoxLayout()
-        general_layout.addWidget(QLabel("File name:"))
+        general_layout.addWidget(QLabel("Name:"))
         self.le_filename = QLineEdit()
         self.le_filename.setText(os.path.basename(ui.filename) if ui.filename else "")
         general_layout.addWidget(self.le_filename)
@@ -48,7 +48,7 @@ class _ReportOptionsDialog(QDialog):
         hyp_sub.setContentsMargins(20, 0, 0, 0)
 
         self.cb_hyp_line = QCheckBox("Show stage line")
-        self.cb_hyp_line.setChecked(True)
+        self.cb_hyp_line.setChecked(False)
         hyp_sub.addWidget(self.cb_hyp_line)
 
         color_row = QHBoxLayout()
@@ -253,7 +253,7 @@ def _create_hypnogram(ui, options):
                 line_x.append(times[i] + epoch_length / 2)
                 line_y.append(stage_y_positions[stage_value])
         if line_x:
-            ax.plot(line_x, line_y, color="black", linewidth=2.5, zorder=5)
+            ax.plot(line_x, line_y, color="black", linewidth=1.5, zorder=5)
 
     ax.set_ylim(-0.5, 4.5)
     ax.set_yticks([0, 1, 2, 3, 4])
