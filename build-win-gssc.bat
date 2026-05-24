@@ -11,6 +11,13 @@ uv run --python 3.13 python -m nuitka ^
     --include-module=PySide6.QtOpenGLWidgets ^
     --include-module=widgets.filterWindow ^
     --include-module=widgets.gsscWindow ^
+    --include-module=utilities.epoch_disagreement ^
+    --include-module=utilities.epoch_human ^
+    --include-module=utilities.epoch_transition ^
+    --include-module=utilities.epoch_uncertain ^
+    --include-module=utilities.epoch_unscored ^
+    --include-module=utilities.jump_to_epoch ^
+    --include-module=utilities.jump_to_event ^
     --include-module=numpy.core.multiarray ^
     --include-package=gssc ^
     --include-data-files=.venv_gssc/Lib/site-packages/gssc/nets/sig_net_v1.pt=gssc/nets/sig_net_v1.pt ^
