@@ -1,4 +1,4 @@
-function events = detect_kc(eegData, sfreq, options)
+function events = detect_kc(eegData, sfreq, opts)
     % DETECT_KC Detect K-complexes in EEG signals using multitaper spectral analysis.
     %
     % Implementation of the method described in:
@@ -13,7 +13,7 @@ function events = detect_kc(eegData, sfreq, options)
     % INPUT:
     %   eegData      : [n_channels x n_samples] EEG signal matrix (in µV)
     %   sfreq        : Sampling frequency (Hz)
-    %   options      : Name-value pairs (see below)
+    %   opts      : Name-value pairs (see below)
     %
     % NAME-VALUE PAIRS:
     %   'amin'       : Minimum peak-to-peak amplitude (µV). Default: 75.0
@@ -45,14 +45,17 @@ function events = detect_kc(eegData, sfreq, options)
     arguments
         eegData (:,:) {mustBeNumeric}
         sfreq (1,1) {mustBePositive}
-        options.amin (1,1) {mustBePositive} = 75.0
-        options.dmax_s (1,1) {mustBePositive} = 2.0
-        options.q (1,1) {mustBeInRange(options.q, 0, 100)} = 95.0
-        options.fmax (1,1) {mustBePositive} = 3.0
-        options.stages (:,1) {mustBeInteger} = []
-        options.stageFilter (:,1) {mustBeInteger} = []
-        options.epochLen (1,1) {mustBePositive} = 30
-        options.outFormat char {mustBeMember(options.outFormat, {'seconds', 'samples'})} = 'seconds'
+        opts.amin (1,1) {mustBePositive} = 75.0
+        opts.dmax_s (1,1) {mustBePositive} = 2.0
+        opts.q (1,1) {mustBeInRange(opts.q, 0, 100)} = 95.0
+        opts.fmax (1,1) {mustBePositive} = 3.0
+        opts.stages (:,1) {mustBeInteger} = []
+        opts.stageFilter (:,1) {mustBeInteger} = []
+        opts.epochLen (1,1) {mustBePositive} = 30
+        opts.outFormat char {mustBeMember(opts.outFormat, {'seconds', 'samples'})} = 'seconds'
+        opts.plotFlag (1,1) logical = false
+        opts.ampUpper (1,1) double = Infs
+        opts.ampLower (1,1) double = -Inf
     end
 
     % Transpose if needed (ensure channels x samples)
@@ -65,15 +68,16 @@ function events = detect_kc(eegData, sfreq, options)
 
     % Initialize output
     allEvents = [];
+    allSignals = {};  % store per-event signal segment for artifact check
 
     % Process each channel
     for ch = 1:n_channels
         signal = double(eegData(ch, :));
 
         % Apply stage filtering if provided
-        if ~isempty(options.stages)
-            signal = filterByStages(signal, options.stages, options.stageFilter, ...
-                                   options.epochLen, sfreq);
+        if ~isempty(opts.stages)
+            signal = filterByStages(signal, opts.stages, opts.stageFilter, ...
+                                   opts.epochLen, sfreq);
             if isempty(signal)
                 continue;
             end
@@ -81,14 +85,37 @@ function events = detect_kc(eegData, sfreq, options)
 
         % Detect KCs in this channel
         events_ch = detectKC_singleChannel(signal, sfreq, ...
-                                          options.amin, options.dmax_s, ...
-                                          options.q, options.fmax);
+                                          opts.amin, opts.dmax_s, ...
+                                          opts.q, opts.fmax);
 
-        allEvents = [allEvents; events_ch];
+        if ~isempty(events_ch)
+            for i = 1:size(events_ch, 1)
+                n1 = max(1, round(events_ch(i,1) * sfreq));
+                n2 = min(length(signal), round(events_ch(i,2) * sfreq));
+                allSignals{end+1} = signal(n1:n2);
+            end
+            allEvents = [allEvents; events_ch];
+        end
+    end
+
+    % Artifact rejection: remove events with any sample outside [ampLower, ampUpper]
+    rejEvents = [];
+    if ~isempty(allEvents)
+        keep = cellfun(@(s) max(s) <= opts.ampUpper && min(s) >= opts.ampLower, allSignals)';
+        n_removed = sum(~keep);
+        fprintf('Artifact rejection: removed %d / %d KC events (amp outside [%.0f, %.0f] µV)\n', ...
+                n_removed, numel(keep), opts.ampLower, opts.ampUpper);
+        rejEvents = allEvents(~keep, :);
+        allEvents  = allEvents(keep,  :);
+    end
+
+    % Plot overlaid waveforms (kept in dark, rejected in red)
+    if opts.plotFlag
+        plotKCEvents(eegData, allEvents, rejEvents, sfreq, opts.ampUpper, opts.ampLower);
     end
 
     % Convert to output format
-    if strcmp(options.outFormat, 'samples')
+    if strcmp(opts.outFormat, 'samples')
         allEvents = round(allEvents .* sfreq);
     end
 
@@ -110,8 +137,9 @@ function signalFiltered = filterByStages(signal, stages, stageFilter, epochLen, 
     n_samples_epoch = round(epochLen * sfreq);
     n_samples_total = n_epochs * n_samples_epoch;
 
-    % Create mask for included epochs
-    mask = false(1, n_samples_epoch * n_epochs);
+    % Create mask for included epochs (signal may be longer than n_epochs*n_samples_epoch
+    % due to a trailing partial epoch)
+    mask = false(1, length(signal));
     for e = 1:n_epochs
         if ismember(stages(e), stageFilter)
             idx_start = (e - 1) * n_samples_epoch + 1;
@@ -383,4 +411,55 @@ end
 function p = ptp(x)
     % Peak-to-peak amplitude
     p = max(x) - min(x);
+end
+
+%% =========================================================================
+% Stacked plot of detected KC events
+% =========================================================================
+
+function plotKCEvents(eegData, events_s, rejEvents_s, sfreq, ampUpper, ampLower)
+    n_samples = size(eegData, 2);
+    signal    = double(eegData(1, :));
+    pad_s     = 0.5;
+
+    figure('Name', 'Detected K-complexes');
+    ax = axes;
+    hold(ax, 'on');
+
+    function plotGroup(evts, color)
+        for i = 1:size(evts, 1)
+            n_start = max(1, round((evts(i,1) - pad_s) * sfreq));
+            n_end   = min(n_samples, round((evts(i,2) + pad_s) * sfreq));
+            seg     = signal(n_start:n_end);
+            t       = (0:length(seg)-1) / sfreq - pad_s;
+            h = plot(ax, t, seg, 'Color', color, 'LineWidth', 0.8);
+            h.Color(4) = 0.3;
+        end
+    end
+
+    plotGroup(rejEvents_s, [0.85 0.15 0.15]);  % red  = rejected
+    plotGroup(events_s,    [0.15 0.15 0.15]);  % dark = kept
+
+    all_events = [events_s; rejEvents_s];
+    max_dur = 0;
+    if ~isempty(all_events)
+        max_dur = max(all_events(:,2) - all_events(:,1));
+    end
+
+    xline(ax, 0, 'b--', 'KC onset');
+    if isfinite(ampUpper)
+        yline(ax, ampUpper, 'r:', sprintf('%.0f µV', ampUpper));
+    end
+    if isfinite(ampLower)
+        yline(ax, ampLower, 'r:', sprintf('%.0f µV', ampLower));
+    end
+    xlabel(ax, 'Time relative to KC onset (s)');
+    ylabel(ax, 'Amplitude (\muV)');
+    title(ax, sprintf('K-complexes: %d kept (dark), %d rejected (red) — ch 1', ...
+                      size(events_s, 1), size(rejEvents_s, 1)));
+    if max_dur > 0
+        xlim(ax, [-pad_s, max_dur + pad_s]);
+    end
+    box(ax, 'off');
+    hold(ax, 'off');
 end

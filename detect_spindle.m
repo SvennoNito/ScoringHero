@@ -58,6 +58,9 @@ function events = detect_spindle(eegData, sfreq, options)
         options.stageFilter (:,1) {mustBeInteger} = []
         options.epochLen (1,1) {mustBePositive} = 30
         options.outFormat char {mustBeMember(options.outFormat, {'seconds', 'samples'})} = 'seconds'
+        options.plotFlag (1,1) logical = false
+        options.ampUpper (1,1) double = Inf
+        options.ampLower (1,1) double = -Inf
     end
 
     % Transpose if needed (ensure channels x samples)
@@ -68,7 +71,8 @@ function events = detect_spindle(eegData, sfreq, options)
     n_channels = size(eegData, 1);
 
     % Initialize output
-    allEvents = [];
+    allEvents  = [];
+    allSignals = {};
 
     % Process each channel
     for ch = 1:n_channels
@@ -89,7 +93,30 @@ function events = detect_spindle(eegData, sfreq, options)
                                                options.amin, options.dmin_s, options.dmax_s, ...
                                                options.q);
 
-        allEvents = [allEvents; events_ch];
+        if ~isempty(events_ch)
+            for i = 1:size(events_ch, 1)
+                n1 = max(1, round(events_ch(i,1) * sfreq));
+                n2 = min(length(signal), round(events_ch(i,2) * sfreq));
+                allSignals{end+1} = signal(n1:n2);
+            end
+            allEvents = [allEvents; events_ch];
+        end
+    end
+
+    % Artifact rejection: remove events with any sample outside [ampLower, ampUpper]
+    rejEvents = [];
+    if ~isempty(allEvents)
+        keep = cellfun(@(s) max(s) <= options.ampUpper && min(s) >= options.ampLower, allSignals)';
+        n_removed = sum(~keep);
+        fprintf('Artifact rejection: removed %d / %d spindle events (amp outside [%.0f, %.0f] µV)\n', ...
+                n_removed, numel(keep), options.ampLower, options.ampUpper);
+        rejEvents = allEvents(~keep, :);
+        allEvents  = allEvents(keep,  :);
+    end
+
+    % Plot overlaid waveforms
+    if options.plotFlag
+        plotSpindleEvents(eegData, allEvents, rejEvents, sfreq, options.amin, options.ampUpper, options.ampLower);
     end
 
     % Convert to output format
@@ -113,7 +140,7 @@ function signalFiltered = filterByStages(signal, stages, stageFilter, epochLen, 
     n_epochs = length(stages);
     n_samples_epoch = round(epochLen * sfreq);
 
-    mask = false(1, n_samples_epoch * n_epochs);
+    mask = false(1, length(signal));
     for e = 1:n_epochs
         if ismember(stages(e), stageFilter)
             idx_start = (e - 1) * n_samples_epoch + 1;
@@ -309,4 +336,65 @@ function regions = identifyCandidateRegions(SG, J, R, sfreq, fmin, fmax, Ishort,
     if in_region
         regions = [regions; j1, J];
     end
+end
+
+%% =========================================================================
+% Stacked plot of detected spindle events
+% =========================================================================
+
+function plotSpindleEvents(eegData, events_s, rejEvents_s, sfreq, amin, ampUpper, ampLower)
+    n_samples = size(eegData, 2);
+    signal    = double(eegData(1, :));
+    pad_s     = 0.5;
+
+    figure('Name', 'Detected Sleep Spindles');
+    ax = axes;
+    hold(ax, 'on');
+
+    for i = 1:size(rejEvents_s, 1)
+        mid_s   = (rejEvents_s(i,1) + rejEvents_s(i,2)) / 2;
+        half_s  = (rejEvents_s(i,2) - rejEvents_s(i,1)) / 2;
+        n_start = max(1, round((mid_s - half_s - pad_s) * sfreq));
+        n_end   = min(n_samples, round((mid_s + half_s + pad_s) * sfreq));
+        seg     = signal(n_start:n_end);
+        t       = (0:length(seg)-1) / sfreq - (half_s + pad_s);
+        h = plot(ax, t, seg, 'Color', [0.85 0.15 0.15], 'LineWidth', 0.8);
+        h.Color(4) = 0.1;
+    end
+
+    for i = 1:size(events_s, 1)
+        mid_s   = (events_s(i,1) + events_s(i,2)) / 2;
+        half_s  = (events_s(i,2) - events_s(i,1)) / 2;
+        n_start = max(1, round((mid_s - half_s - pad_s) * sfreq));
+        n_end   = min(n_samples, round((mid_s + half_s + pad_s) * sfreq));
+        seg     = signal(n_start:n_end);
+        t       = (0:length(seg)-1) / sfreq - (half_s + pad_s);
+        h = plot(ax, t, seg, 'Color', [0.15 0.15 0.15], 'LineWidth', 0.8);
+        h.Color(4) = 0.1;
+    end
+
+    all_events = [events_s; rejEvents_s];
+    max_dur = 0;
+    if ~isempty(all_events)
+        max_dur = max(all_events(:,2) - all_events(:,1));
+    end
+
+    xline(ax, 0, 'b--', 'Spindle centre');
+    yline(ax,  amin, 'b:', sprintf('%.0f µV (amin)', amin));
+    yline(ax, -amin, 'b:', sprintf('-%.0f µV', amin));
+    if isfinite(ampUpper)
+        yline(ax, ampUpper, 'r:', sprintf('%.0f µV', ampUpper));
+    end
+    if isfinite(ampLower)
+        yline(ax, ampLower, 'r:', sprintf('%.0f µV', ampLower));
+    end
+    xlabel(ax, 'Time relative to spindle onset (s)');
+    ylabel(ax, 'Amplitude (\muV)');
+    title(ax, sprintf('Sleep spindles: %d kept (dark), %d rejected (red) — ch 1', ...
+                      size(events_s, 1), size(rejEvents_s, 1)));
+    if max_dur > 0
+        xlim(ax, [-(max_dur/2 + pad_s), max_dur/2 + pad_s]);
+    end
+    box(ax, 'off');
+    hold(ax, 'off');
 end
