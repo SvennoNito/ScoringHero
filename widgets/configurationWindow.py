@@ -17,8 +17,9 @@ from PySide6.QtWidgets import (
     QListWidgetItem,
     QAbstractItemView,
     QMessageBox,
+    QTimeEdit,
 )
-from PySide6.QtCore import Signal, Qt
+from PySide6.QtCore import Signal, Qt, QTime
 from PySide6.QtGui import QColor, QFont, QFontMetrics
 import copy
 
@@ -246,7 +247,7 @@ class GeneralConfiguration(QDialog):
 
         ### Configuration paramters that have options
         box_options = {
-            "EEG_panel_time_unit": {"label": "EEG time unit in", "options": ["Seconds", "Minutes", "Hours"]},
+            "EEG_panel_time_unit": {"label": "EEG time unit in", "options": ["Seconds", "Minutes", "Hours", "Clock Time"]},
         }
 
         for config_parameter_name, specs in box_options.items():
@@ -269,6 +270,33 @@ class GeneralConfiguration(QDialog):
 
             row_layout.addWidget(optionbox)
             form_layout.addRow(row_layout)
+
+        # Recording start time field (active only when "Clock Time" is selected)
+        start_label = QLabel("Recording start time")
+        start_label.setAlignment(Qt.AlignRight)
+        start_label.setFixedWidth(self.width_label)
+        self.start_time_edit = QTimeEdit(self)
+        self.start_time_edit.setDisplayFormat("HH:mm")
+        start_str = general_config.get("Recording_start_time", "00:00")
+        try:
+            h, m = map(int, start_str.split(":"))
+            self.start_time_edit.setTime(QTime(h, m))
+        except Exception:
+            self.start_time_edit.setTime(QTime(0, 0))
+        is_clock_mode = general_config.get("EEG_panel_time_unit", "Seconds") == "Clock Time"
+        self.start_time_edit.setEnabled(is_clock_mode)
+        start_label.setEnabled(is_clock_mode)
+        time_unit_combo = self.optionboxes["EEG_panel_time_unit"][0]
+        time_unit_combo.currentTextChanged.connect(
+            lambda text, lbl=start_label: (
+                self.start_time_edit.setEnabled(text == "Clock Time"),
+                lbl.setEnabled(text == "Clock Time"),
+            )
+        )
+        start_row = QHBoxLayout()
+        start_row.addWidget(start_label)
+        start_row.addWidget(self.start_time_edit)
+        form_layout.addRow(start_row)
 
         # Apply button
         apply_button = QPushButton("Apply")
@@ -308,6 +336,8 @@ class GeneralConfiguration(QDialog):
 
         for id, checkbox in self.checkboxes.items():
             general_config[id] = checkbox.isChecked()
+
+        general_config["Recording_start_time"] = self.start_time_edit.time().toString("HH:mm")
 
         changed_config_settings = self.config_keys_which_changed(old_config, general_config)
         self.changesMade.emit(changed_config_settings)

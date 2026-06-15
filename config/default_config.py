@@ -12,6 +12,7 @@ def default_configuration(number_of_channels, srate, channel_names):
         "Periodogram_channel": channel_names[0] if len(channel_names) > 0 else "Channel 1",
         "Periodogram_display_mode": "1/f Removed",
         "EEG_panel_time_unit": "Seconds",
+        "Recording_start_time": "00:00",
         "Wavelet_display_mode": "dB (median baseline)",
         "Wavelet_frequency_scale": "Linear",
         "Wavelet_frequency_limits_hz": [0, 45],

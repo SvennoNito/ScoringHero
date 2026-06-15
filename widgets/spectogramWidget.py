@@ -6,6 +6,7 @@ from PySide6.QtGui import QFont
 import pyqtgraph as pg
 import numpy as np
 from scipy.signal import welch, find_peaks
+from utilities.clock_time_format import parse_start_time, format_clock_time
 
 
 class SpectogramWidget(QtWidgets.QWidget):
@@ -55,6 +56,7 @@ class SpectogramWidget(QtWidgets.QWidget):
         power = np.log10(power)[:, freqsOI]
         freqs = freqs[freqsOI]
         times = np.arange(0, power.shape[0]) * config[0]["Epoch_length_s"] / 60 / 60
+        self._times = times
         levels = config[0].get("Spectrogram_power_limits", [-1, 3])
 
         # https://github.com/epeters13/pyqtspecgram/blob/main/src/pyqtspecgram/pyqtspecgram.py
@@ -132,54 +134,55 @@ class SpectogramWidget(QtWidgets.QWidget):
 
     def adjust_time_axis(self, config, times):
         # xticks
+        time_unit = config[0].get("EEG_panel_time_unit", "Seconds")
 
         if times[-1] >= 4:
-            # every 60 minutes
             desired_tick_values = np.round(np.arange(0, max(times), 1/60*60), 4)
             unit_format = {'format': '{:.0f}h', 'mult': 1}
         elif times[-1] >= 2:
-            # every 30 minutes
             desired_tick_values = np.round(np.arange(0, max(times), 1/60*30), 4)
             unit_format = {'format': '{:.1f}h', 'mult': 1}
         elif times[-1] >= 1:
-            # every 15 minutes
             desired_tick_values = np.round(np.arange(0, max(times), 1/60*15), 4)
             unit_format = {'format': '{:.0f}m', 'mult': 60}
         elif times[-1]*60 > 45:
-            # every 10 minutes
             desired_tick_values = np.round(np.arange(0, max(times), 1/60*10), 4)
-            unit_format = {'format': '{:.0f}m', 'mult': 60}            
+            unit_format = {'format': '{:.0f}m', 'mult': 60}
         elif times[-1]*60 > 30:
-            # every 5 minutes
             desired_tick_values = np.round(np.arange(0, max(times), 1/60*5), 4)
             unit_format = {'format': '{:.0f}m', 'mult': 60}
         elif times[-1]*60 > 18:
-            # every 3 minutes
             desired_tick_values = np.round(np.arange(0, max(times), 1/60*3), 4)
             unit_format = {'format': '{:.0f}m', 'mult': 60}
         elif times[-1]*60 > 10:
-            # every 2 minutes
             desired_tick_values = np.round(np.arange(0, max(times), 1/60*2), 4)
-            unit_format = {'format': '{:.0f}m', 'mult': 60}            
+            unit_format = {'format': '{:.0f}m', 'mult': 60}
         else:
-            # every minute
             desired_tick_values = np.round(np.arange(0, max(times), 1/60), 4)
             unit_format = {'format': '{:.0f}m', 'mult': 60}
-
 
         index_of_desired_tick_values_in_times = np.unique(
             [(np.abs(times - tick_value)).argmin() for tick_value in desired_tick_values]
         )
-       
-        ticklabels = [
-            (tick, unit_format["format"].format(label * unit_format["mult"]))
-            for tick, label in zip(index_of_desired_tick_values_in_times, desired_tick_values)
-        ]
 
-        # Remove .0
-        ticklabels = [(hour, label.replace('.0', '')) for hour, label in ticklabels]
+        if time_unit == "Clock Time":
+            start_s = parse_start_time(config[0].get("Recording_start_time", "00:00"))
+            ticklabels = [
+                (tick, format_clock_time(start_s + label * 3600))
+                for tick, label in zip(index_of_desired_tick_values_in_times, desired_tick_values)
+            ]
+        else:
+            ticklabels = [
+                (tick, unit_format["format"].format(label * unit_format["mult"]))
+                for tick, label in zip(index_of_desired_tick_values_in_times, desired_tick_values)
+            ]
+            ticklabels = [(hour, label.replace('.0', '')) for hour, label in ticklabels]
 
-        self.axes.getAxis("bottom").setTicks([ticklabels, []])        
+        self.axes.getAxis("bottom").setTicks([ticklabels, []])
+
+    def update_time_axis_only(self, config):
+        if hasattr(self, '_times'):
+            self.adjust_time_axis(config, self._times)        
 
     def update_epoch_indicator(self, this_epoch):
         self.epoch_indicator_line.setPos(this_epoch + 0.5)

@@ -6,6 +6,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 
 from signal_processing.compute_morlet_tf import compute_morlet_tf
+from utilities.clock_time_format import parse_start_time, format_clock_time
 
 
 class TFWidget(QWidget):
@@ -123,7 +124,7 @@ class TFWidget(QWidget):
                 norm_median, norm_iqr, norm_rms, norm_median_linear=None, display_mode="Z-scored Power",
                 freq_scale="Logarithmic", freq_limits=None,
                 time_unit="Seconds", epoch_length=30, tf_channel_idx=0, channel_label="",
-                power_limits=None, show_ridge=False):
+                power_limits=None, show_ridge=False, recording_start_time="00:00"):
         """Compute Morlet power for this_epoch and update the ImageItem.
 
         Parameters
@@ -219,16 +220,22 @@ class TFWidget(QWidget):
         n_freqs = len(freqs_filtered)
 
         # Time axis: same tick positions and labels as the main signal panel
-        unit_fmt = self._x_unit_format[time_unit]
         t_start, t_end = epoch_times[0], epoch_times[-1]
         tick_step = epoch_length / 5
         tick_seconds = np.round(np.arange(0, t_end, tick_step), 1)
-        # Map real-time seconds to image pixel positions
         time_ticks = []
-        for t in tick_seconds:
-            if t_start <= t <= t_end:
-                pos = (t - t_start) / (t_end - t_start) * n_times
-                time_ticks.append((int(pos), unit_fmt["format"].format(t / unit_fmt["div"])))
+        if time_unit == "Clock Time":
+            start_s = parse_start_time(recording_start_time)
+            for t in tick_seconds:
+                if t_start <= t <= t_end:
+                    pos = (t - t_start) / (t_end - t_start) * n_times
+                    time_ticks.append((int(pos), format_clock_time(start_s + t)))
+        else:
+            unit_fmt = self._x_unit_format[time_unit]
+            for t in tick_seconds:
+                if t_start <= t <= t_end:
+                    pos = (t - t_start) / (t_end - t_start) * n_times
+                    time_ticks.append((int(pos), unit_fmt["format"].format(t / unit_fmt["div"])))
         self.axes.getAxis("bottom").setTicks([time_ticks])
 
         freqs_changed = (
@@ -302,18 +309,20 @@ class TFWidget(QWidget):
                 norm_median, norm_iqr, norm_rms, norm_median_linear=None, display_mode="Z-scored Power",
                 freq_scale="Logarithmic", freq_limits=None,
                 time_unit="Seconds", epoch_length=30, tf_channel_idx=0, channel_label="",
-                power_limits=None, show_ridge=False):
+                power_limits=None, show_ridge=False, recording_start_time="00:00"):
         """First-time draw (called from redraw_gui)."""
         self._render(eeg_data, times_and_indices, this_epoch, srate, freqs,
                      norm_median, norm_iqr, norm_rms, norm_median_linear, display_mode, freq_scale, freq_limits,
-                     time_unit, epoch_length, tf_channel_idx, channel_label, power_limits, show_ridge)
+                     time_unit, epoch_length, tf_channel_idx, channel_label, power_limits, show_ridge,
+                     recording_start_time)
 
     def update_tf(self, eeg_data, times_and_indices, this_epoch, srate, freqs,
                   norm_median, norm_iqr, norm_rms, norm_median_linear=None, display_mode="Z-scored Power",
                   freq_scale="Logarithmic", freq_limits=None,
                   time_unit="Seconds", epoch_length=30, tf_channel_idx=0, channel_label="",
-                  power_limits=None, show_ridge=False):
+                  power_limits=None, show_ridge=False, recording_start_time="00:00"):
         """Lightweight update on every epoch change (called from refresh_gui)."""
         self._render(eeg_data, times_and_indices, this_epoch, srate, freqs,
                      norm_median, norm_iqr, norm_rms, norm_median_linear, display_mode, freq_scale, freq_limits,
-                     time_unit, epoch_length, tf_channel_idx, channel_label, power_limits, show_ridge)
+                     time_unit, epoch_length, tf_channel_idx, channel_label, power_limits, show_ridge,
+                     recording_start_time)

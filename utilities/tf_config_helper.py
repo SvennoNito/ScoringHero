@@ -6,6 +6,7 @@ def call_tf_widget(ui):
     freq_scale = ui.config[0].get("Wavelet_frequency_scale", "Logarithmic")
     freq_limits = ui.config[0].get("Wavelet_frequency_limits_hz", None)
     time_unit = ui.config[0].get("EEG_panel_time_unit", "Seconds")
+    recording_start_time = ui.config[0].get("Recording_start_time", "00:00")
     epoch_length = ui.config[0]["Epoch_length_s"]
     tf_channel_label = ui.config[0].get("Wavelet_channel", "")
     tf_channel_idx = ui.channel_name_to_idx.get(tf_channel_label, 0)
@@ -15,4 +16,4 @@ def call_tf_widget(ui):
                           ui.tf_norm_median, ui.tf_norm_iqr, ui.tf_norm_rms, ui.tf_norm_median_linear,
                           display_mode, freq_scale, freq_limits,
                           time_unit, epoch_length, tf_channel_idx, tf_channel_label,
-                          power_limits, show_ridge)
+                          power_limits, show_ridge, recording_start_time)

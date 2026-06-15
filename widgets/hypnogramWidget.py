@@ -5,6 +5,7 @@ from scipy.signal import medfilt
 import pyqtgraph as pg
 import numpy as np
 from utilities.timing_decorator import timing_decorator
+from utilities.clock_time_format import parse_start_time, format_clock_time
 from signal_processing import *
 
 
@@ -81,13 +82,8 @@ class HypnogramWidget(QWidget):
         )
         self.axes.addItem(self.epoch_indicator_line)
 
-        # X axis hour ticks: 1h, 2h, ..., up to largest full integer hour
-        max_hour = int(self.times[-1])
-        if max_hour >= 1:
-            hour_ticks = [(h, f"{h}h") for h in range(1, max_hour + 1)]
-            self.axes.getAxis("bottom").setTicks([hour_ticks])
-        else:
-            self.axes.getAxis("bottom").setTicks([])
+        # X axis ticks
+        self._update_time_ticks(ui)
 
         # Draw comparison overlay (disagreement epochs in red)
         if getattr(ui, "stages_ref", None) is not None:
@@ -115,6 +111,22 @@ class HypnogramWidget(QWidget):
             self.axes.removeItem(item)
         self.event_items = []
         self.draw_events(ui)
+
+    def _update_time_ticks(self, ui):
+        max_hour = int(self.times[-1])
+        if max_hour < 1:
+            self.axes.getAxis("bottom").setTicks([])
+            return
+        time_unit = ui.config[0].get("EEG_panel_time_unit", "Seconds")
+        if time_unit == "Clock Time":
+            start_s = parse_start_time(ui.config[0].get("Recording_start_time", "00:00"))
+            hour_ticks = [(h, format_clock_time(start_s + h * 3600)) for h in range(1, max_hour + 1)]
+        else:
+            hour_ticks = [(h, f"{h}h") for h in range(1, max_hour + 1)]
+        self.axes.getAxis("bottom").setTicks([hour_ticks])
+
+    def update_time_axis(self, ui):
+        self._update_time_ticks(ui)
 
     def _draw_comparison_overlay(self, ui):
         """Overlay disagreement epochs in red, showing the reference scoring's stage."""

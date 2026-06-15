@@ -123,5 +123,13 @@ def apply_changes(config_parameter_name, ui):
         ui.HypnogramWidget.draw_hypnogram(ui)
         ui.stages = default_scoring(ui.config[0]["Epoch_length_s"], ui.numepo)
 
+    # Update time axis labels on all panels when time unit or start time changes
+    if (
+        "EEG_panel_time_unit" in config_parameter_name
+        or "Recording_start_time" in config_parameter_name
+    ):
+        ui.SpectogramWidget.update_time_axis_only(ui.config)
+        ui.HypnogramWidget.update_time_axis(ui)
+
     # Write configuration file
     write_configuration(f"{ui.filename}.config.json", ui.config)

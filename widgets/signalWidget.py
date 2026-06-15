@@ -4,6 +4,7 @@ from PySide6.QtGui import QFont, QColor, QBrush, QPen
 import pyqtgraph as pg
 import numpy as np
 from utilities.timing_decorator import timing_decorator
+from utilities.clock_time_format import parse_start_time, format_clock_time
 from signal_processing import *
 
 
@@ -336,16 +337,22 @@ class SignalWidget(QWidget):
         self.dark_area[1].setRect(borders[1], top, config[0]["Extension_epoch_s"][1] if this_epoch < len(times_and_indices)-1 else 0, bottom-top)
 
     def adjust_time_axis(self, config, times):
+        time_unit = config[0]["EEG_panel_time_unit"]
+        tick_positions = np.round(np.arange(0, times[-1], config[0]["Epoch_length_s"] / 5), 1)
 
-        # Determine the format string based on the unit
-        unit_format = self.x_unit_format[config[0]["EEG_panel_time_unit"]]
+        if time_unit == "Clock Time":
+            start_s = parse_start_time(config[0].get("Recording_start_time", "00:00"))
+            ticklabels = [
+                (tick, format_clock_time(start_s + tick))
+                for tick in tick_positions
+            ]
+        else:
+            unit_format = self.x_unit_format[time_unit]
+            ticklabels = [
+                (tick, unit_format["format"].format(tick / unit_format["div"]))
+                for tick in tick_positions
+            ]
 
-        # Generate the tick labels using list comprehension
-        ticklabels = [
-            (tick, unit_format["format"].format(tick / unit_format["div"]))
-            for tick in np.round(np.arange(0, times[-1], config[0]["Epoch_length_s"] / 5), 1)
-        ]
-         
         self.axes.getAxis("bottom").setTicks([ticklabels])
         self.axes.setXRange(times[0], times[-1], padding=0)
 
