@@ -239,7 +239,7 @@ def create_hypnogram(stages, n_epochs, epoch_length_s, options, awakening_times_
     ax.set_xlim(0, total_hours)
     ax.set_xticks(range(int(total_hours) + 1))
     ax.set_xticklabels([f'{h}h' for h in range(int(total_hours) + 1)], fontsize=11)
-    ax.set_xlabel('Time (0h = lights off)', fontsize=11)
+    ax.set_xlabel('Time (0h = recording start)', fontsize=11)
     ax.grid(axis='x', alpha=0.3)
     ax.set_axisbelow(True)
     ax.spines['top'].set_visible(False)
@@ -263,7 +263,7 @@ def create_spectrogram(power_mat, freqs, n_epochs, epoch_length_s, channel_name)
     cbar_ax  = fig.add_axes([_PLT_RIGHT + 0.015, _PLT_BOTTOM, _CBAR_W, ax_h])
 
     im = ax.pcolormesh(times, freqs, power.T, cmap=cmap, shading='auto', vmin=-1, vmax=3)
-    ax.set_xlabel('Time (0h = lights off)', fontsize=11)
+    ax.set_xlabel('Time (0h = recording start)', fontsize=11)
     ax.set_ylabel('Frequency (Hz)', fontsize=11)
     ax.set_ylim(1, 30)
     total_hours = n_epochs * epoch_length_s / 3600

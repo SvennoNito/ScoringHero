@@ -1,6 +1,7 @@
 import os
 import numpy as np
 from datetime import datetime
+from utilities.clock_time_format import parse_start_time, format_clock_time
 from PySide6.QtWidgets import (
     QFileDialog, QMessageBox, QDialog, QVBoxLayout, QHBoxLayout,
     QGroupBox, QCheckBox, QPushButton, QRadioButton, QButtonGroup, QLabel, QLineEdit,
@@ -330,9 +331,17 @@ def _create_hypnogram(ui, options):
 
     total_hours = ui.numepo * ui.config[0]["Epoch_length_s"] / 3600
     ax.set_xlim(0, total_hours)
-    ax.set_xlabel("Time (0h = lights off)", fontsize=11)
-    ax.set_xticks(range(int(total_hours) + 1))
-    ax.set_xticklabels([f"{h}h" for h in range(int(total_hours) + 1)], fontsize=11)
+    tick_positions = list(range(int(total_hours) + 1))
+    use_clock_time = ui.config[0].get("EEG_panel_time_unit") == "Clock Time"
+    if use_clock_time:
+        start_s = parse_start_time(ui.config[0].get("Recording_start_time", "00:00"))
+        ax.set_xlabel("Clock time", fontsize=11)
+        ax.set_xticks(tick_positions)
+        ax.set_xticklabels([format_clock_time(start_s + h * 3600) for h in tick_positions], fontsize=11)
+    else:
+        ax.set_xlabel("Time (0h = recording start)", fontsize=11)
+        ax.set_xticks(tick_positions)
+        ax.set_xticklabels([f"{h}h" for h in tick_positions], fontsize=11)
     ax.grid(axis="x", alpha=0.3)
     ax.set_axisbelow(True)
     ax.spines['top'].set_visible(False)
@@ -374,13 +383,21 @@ def _create_whole_night_spectrogram(ui):
     times = np.arange(n_epochs) * ui.config[0]["Epoch_length_s"] / 3600
     im = ax.pcolormesh(times, freqs, power.T, cmap=cmap, shading="auto", vmin=-1, vmax=3)
 
-    ax.set_xlabel("Time (0h = lights off)", fontsize=11)
     ax.set_ylabel("Frequency (Hz)", fontsize=11)
     ax.set_ylim(1, 30)
 
     total_hours = n_epochs * ui.config[0]["Epoch_length_s"] / 3600
-    ax.set_xticks(range(int(total_hours) + 1))
-    ax.set_xticklabels([f"{h}h" for h in range(int(total_hours) + 1)], fontsize=11)
+    tick_positions = list(range(int(total_hours) + 1))
+    use_clock_time = ui.config[0].get("EEG_panel_time_unit") == "Clock Time"
+    if use_clock_time:
+        start_s = parse_start_time(ui.config[0].get("Recording_start_time", "00:00"))
+        ax.set_xlabel("Clock time", fontsize=11)
+        ax.set_xticks(tick_positions)
+        ax.set_xticklabels([format_clock_time(start_s + h * 3600) for h in tick_positions], fontsize=11)
+    else:
+        ax.set_xlabel("Time (0h = recording start)", fontsize=11)
+        ax.set_xticks(tick_positions)
+        ax.set_xticklabels([f"{h}h" for h in tick_positions], fontsize=11)
     ax.tick_params(axis="y", labelsize=11)
 
     cbar = plt.colorbar(im, cax=cbar_ax)
