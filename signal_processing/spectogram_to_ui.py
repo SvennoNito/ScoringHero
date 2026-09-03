@@ -1,13 +1,14 @@
 from .compute_swa import compute_swa
 from .freqs_of_interest import freqs_of_interest
 from .compute_spectogram import compute_spectogram
+from utilities.overlay_state import get_active_analysis_data
 
 
 def spectogram_to_ui(ui):
     channel_label = ui.config[0]["Channel_for_spectogram"]
     channel_idx = ui.channel_name_to_idx.get(channel_label, 0)
     power, freqs = compute_spectogram(
-        ui.eeg_data_display,
+        get_active_analysis_data(ui),
         ui.times,
         ui.config[0]["Sampling_rate_hz"],
         channel_idx,

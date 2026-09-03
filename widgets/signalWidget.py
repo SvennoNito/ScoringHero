@@ -52,8 +52,29 @@ class SignalWidget(QWidget):
         self._center_line = None
 
 
+    def _overlay_pen(self, config, visible_counter):
+        base_color = self.channelColorPalette[config[1][visible_counter]["Channel_color"]]
+        pen = pg.mkPen(color=(*base_color, 150), style=Qt.DashLine, width=1)
+        return pen
+
+    def _standardize_or_scale(self, data, config, visible_counter, chan_y_offset, z_standardize):
+        if z_standardize:
+            median_val = np.median(data)
+            q75, q25 = np.percentile(data, [75, 25])
+            iqr = q75 - q25
+            if iqr > 0:
+                data = (data - median_val) / iqr
+            else:
+                data = data - median_val
+            return data - chan_y_offset
+        return (
+            data * config[1][visible_counter]["Scaling_factor"] / 100
+            + config[1][visible_counter]["Vertical_shift"]
+            - chan_y_offset
+        )
+
     @timing_decorator
-    def draw_signal(self, config, eeg_data, times_and_indices, this_epoch):
+    def draw_signal(self, config, eeg_data, times_and_indices, this_epoch, eeg_data_overlay=None):
         # Indices of visible channels
         index_visible_chans = [
             counter for counter, info in enumerate(config[1]) if info["Display_on_screen"]
@@ -67,6 +88,7 @@ class SignalWidget(QWidget):
 
         # Initiate list
         self.drawn_signals = []
+        self.drawn_overlay_signals = []
         self.written_channel_labels  = []
 
         stack = config[0].get("Stack_channels", False)
@@ -85,16 +107,6 @@ class SignalWidget(QWidget):
             # Extract data (re-referencing and flip are already baked into eeg_data)
             data = eeg_data[visible_counter][index_times]
 
-            # Robust z-standardize: (data - median) / IQR
-            if z_standardize:
-                median_val = np.median(data)
-                q75, q25 = np.percentile(data, [75, 25])
-                iqr = q75 - q25
-                if iqr > 0:
-                    data = (data - median_val) / iqr
-                else:
-                    data = data - median_val
-
             if stack:
                 chan_y_offset = 0
             elif z_standardize:
@@ -103,21 +115,22 @@ class SignalWidget(QWidget):
                 chan_y_offset = config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
 
             # Plot EEG
-            if z_standardize:
-                drawn_signal = self.axes.plot(
-                    times,
-                    data - chan_y_offset,
-                    pen=pen,
-                )
-            else:
-                drawn_signal = self.axes.plot(
-                    times,
-                    data * config[1][visible_counter]["Scaling_factor"] / 100
-                    + config[1][visible_counter]["Vertical_shift"]
-                    - chan_y_offset,
-                    pen=pen,
-                )
+            drawn_signal = self.axes.plot(
+                times,
+                self._standardize_or_scale(data, config, visible_counter, chan_y_offset, z_standardize),
+                pen=pen,
+            )
             self.drawn_signals.append(drawn_signal)
+
+            # Plot overlay comparison signal on top of the same channel, if loaded
+            if eeg_data_overlay is not None:
+                overlay_data = eeg_data_overlay[visible_counter][index_times]
+                drawn_overlay = self.axes.plot(
+                    times,
+                    self._standardize_or_scale(overlay_data, config, visible_counter, chan_y_offset, z_standardize),
+                    pen=self._overlay_pen(config, visible_counter),
+                )
+                self.drawn_overlay_signals.append(drawn_overlay)
 
             # Amplitude lines
             if z_standardize:
@@ -263,7 +276,7 @@ class SignalWidget(QWidget):
         self.divide_center_line(borders)               
 
     @timing_decorator
-    def update_signal(self, config, eeg_data, times_and_indices, this_epoch):
+    def update_signal(self, config, eeg_data, times_and_indices, this_epoch, eeg_data_overlay=None):
         # Indices of visible channels
         index_visible_chans = [
             counter for counter, info in enumerate(config[1]) if info["Display_on_screen"]
@@ -276,10 +289,12 @@ class SignalWidget(QWidget):
         borders = times_and_indices[this_epoch][2]
 
         # Thicker vertical line in the middle
-        self.divide_center_line(borders)        
+        self.divide_center_line(borders)
 
         stack = config[0].get("Stack_channels", False)
         z_standardize = config[0].get("Robust_z_standardize", False)
+
+        has_overlay = eeg_data_overlay is not None and len(self.drawn_overlay_signals) == numchans_visible
 
         for chan_counter, visible_counter in enumerate(index_visible_chans):
             pen = pg.mkPen(
@@ -289,16 +304,6 @@ class SignalWidget(QWidget):
             # Extract data (re-referencing and flip are already baked into eeg_data)
             data = eeg_data[visible_counter][index_times]
 
-            # Robust z-standardize: (data - median) / IQR
-            if z_standardize:
-                median_val = np.median(data)
-                q75, q25 = np.percentile(data, [75, 25])
-                iqr = q75 - q25
-                if iqr > 0:
-                    data = (data - median_val) / iqr
-                else:
-                    data = data - median_val
-
             if stack:
                 chan_y_offset = 0
             elif z_standardize:
@@ -307,19 +312,19 @@ class SignalWidget(QWidget):
                 chan_y_offset = config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
 
             # Update signal
-            if z_standardize:
-                self.drawn_signals[chan_counter].setData(
+            self.drawn_signals[chan_counter].setData(
+                times,
+                self._standardize_or_scale(data, config, visible_counter, chan_y_offset, z_standardize),
+                pen=pen,
+            )
+
+            # Update overlay comparison signal
+            if has_overlay:
+                overlay_data = eeg_data_overlay[visible_counter][index_times]
+                self.drawn_overlay_signals[chan_counter].setData(
                     times,
-                    data - chan_y_offset,
-                    pen=pen,
-                )
-            else:
-                self.drawn_signals[chan_counter].setData(
-                    times,
-                    data * config[1][visible_counter]["Scaling_factor"] / 100
-                    + config[1][visible_counter]["Vertical_shift"]
-                    - chan_y_offset,
-                    pen=pen,
+                    self._standardize_or_scale(overlay_data, config, visible_counter, chan_y_offset, z_standardize),
+                    pen=self._overlay_pen(config, visible_counter),
                 )
 
             # Update position of label

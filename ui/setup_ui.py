@@ -1,4 +1,4 @@
-from PySide6.QtGui import QAction
+from PySide6.QtGui import QAction, QActionGroup
 from PySide6.QtCore import QRect, QMetaObject
 from PySide6.QtWidgets import (
     QWidget,
@@ -38,6 +38,8 @@ from scoring.open_mt_spindle_window import open_mt_spindle_window
 from scoring.scoring_import_window import scoring_import_window
 from scoring.scoring_import_comparison import scoring_import_comparison, remove_comparison_scoring
 from scoring.comparison_stats_window import comparison_stats_window
+from eeg.eeg_import_overlay import import_overlay_signal, remove_overlay_signal
+from utilities.overlay_state import toggle_show_overlay, set_analysis_source
 # from scoring.score_yasa import score_yasa
 from eeg.eeg_import_window import eeg_import_window
 from help.open_help_selection_box import open_help_selection_box
@@ -437,29 +439,105 @@ def setup_ui(ui, MainWindow):
     ui.action_zoom.setShortcut("Z")
     ui.menu_utils.addAction(ui.action_zoom)
 
-    # Compare Scoring menu
+    # Compare menu
     ui.menu_compare = QMenu("Compare", ui.menu)
     ui.menu_compare.setObjectName("menu_compare")
     ui.menu.addAction(ui.menu_compare.menuAction())
 
+    # Compare > Scoring submenu
+    ui.menu_compare_scoring = QMenu("Scoring", ui.menu_compare)
+    ui.menu_compare_scoring.setObjectName("menu_compare_scoring")
+    ui.menu_compare.addMenu(ui.menu_compare_scoring)
+
     ui.action_import_comparison = QAction("Import scoring for comparison", MainWindow)
     ui.action_import_comparison.setObjectName("action_import_comparison")
     ui.action_import_comparison.triggered.connect(lambda: scoring_import_comparison(ui))
-    ui.menu_compare.addAction(ui.action_import_comparison)
+    ui.menu_compare_scoring.addAction(ui.action_import_comparison)
 
     ui.action_remove_comparison = QAction("Remove comparison scoring", MainWindow)
     ui.action_remove_comparison.setObjectName("action_remove_comparison")
     ui.action_remove_comparison.triggered.connect(lambda: remove_comparison_scoring(ui))
     ui.action_remove_comparison.setEnabled(False)
-    ui.menu_compare.addAction(ui.action_remove_comparison)
+    ui.menu_compare_scoring.addAction(ui.action_remove_comparison)
 
-    ui.menu_compare.addSeparator()
+    ui.menu_compare_scoring.addSeparator()
 
     ui.action_comparison_stats = QAction("Show summary statistics", MainWindow)
     ui.action_comparison_stats.setObjectName("action_comparison_stats")
     ui.action_comparison_stats.triggered.connect(lambda: comparison_stats_window(ui))
     ui.action_comparison_stats.setEnabled(False)
-    ui.menu_compare.addAction(ui.action_comparison_stats)
+    ui.menu_compare_scoring.addAction(ui.action_comparison_stats)
+
+    # Compare > EEG submenu
+    ui.menu_compare_eeg = QMenu("EEG", ui.menu_compare)
+    ui.menu_compare_eeg.setObjectName("menu_compare_eeg")
+    ui.menu_compare.addMenu(ui.menu_compare_eeg)
+
+    ui.submenu_import_overlay = QMenu("Import signal for overlay", ui.menu_compare_eeg)
+    ui.submenu_import_overlay.setObjectName("submenu_import_overlay")
+    ui.menu_compare_eeg.addMenu(ui.submenu_import_overlay)
+
+    ui.action_import_overlay_eeglab = QAction("Load EEGLAB structure (.mat)", MainWindow)
+    ui.action_import_overlay_eeglab.setObjectName("action_import_overlay_eeglab")
+    ui.action_import_overlay_eeglab.triggered.connect(lambda: import_overlay_signal(ui, "eeglab"))
+    ui.submenu_import_overlay.addAction(ui.action_import_overlay_eeglab)
+
+    ui.action_import_overlay_r09 = QAction("Load zurich scoring file (.r09)", MainWindow)
+    ui.action_import_overlay_r09.setObjectName("action_import_overlay_r09")
+    ui.action_import_overlay_r09.triggered.connect(lambda: import_overlay_signal(ui, "r09"))
+    ui.submenu_import_overlay.addAction(ui.action_import_overlay_r09)
+
+    ui.action_import_overlay_edf = QAction("Load EDF file (.edf)", MainWindow)
+    ui.action_import_overlay_edf.setObjectName("action_import_overlay_edf")
+    ui.action_import_overlay_edf.triggered.connect(lambda: import_overlay_signal(ui, "edf"))
+    ui.submenu_import_overlay.addAction(ui.action_import_overlay_edf)
+
+    ui.action_import_overlay_edf_volt = QAction("Load EDF file (.edf) - scaled from V to μV", MainWindow)
+    ui.action_import_overlay_edf_volt.setObjectName("action_import_overlay_edf_volt")
+    ui.action_import_overlay_edf_volt.triggered.connect(lambda: import_overlay_signal(ui, "edfvolt"))
+    ui.submenu_import_overlay.addAction(ui.action_import_overlay_edf_volt)
+
+    ui.action_remove_overlay = QAction("Remove signal overlay", MainWindow)
+    ui.action_remove_overlay.setObjectName("action_remove_overlay")
+    ui.action_remove_overlay.triggered.connect(lambda: remove_overlay_signal(ui))
+    ui.action_remove_overlay.setEnabled(False)
+    ui.menu_compare_eeg.addAction(ui.action_remove_overlay)
+
+    ui.menu_compare_eeg.addSeparator()
+
+    ui.action_show_overlay = QAction("Show overlay", MainWindow)
+    ui.action_show_overlay.setObjectName("action_show_overlay")
+    ui.action_show_overlay.setCheckable(True)
+    ui.action_show_overlay.setEnabled(False)
+    ui.action_show_overlay.toggled.connect(lambda checked: toggle_show_overlay(ui, checked))
+    ui.menu_compare_eeg.addAction(ui.action_show_overlay)
+
+    ui.menu_compare_eeg.addSeparator()
+
+    # Compare > EEG > Analyze submenu: choose which signal feeds the
+    # spectrogram, wavelet (TF) panel, and PSD.
+    ui.menu_analyze_source = QMenu("Analyze", ui.menu_compare_eeg)
+    ui.menu_analyze_source.setObjectName("menu_analyze_source")
+    ui.menu_analyze_source.setEnabled(False)
+    ui.menu_compare_eeg.addMenu(ui.menu_analyze_source)
+
+    ui.analyze_source_group = QActionGroup(MainWindow)
+    ui.analyze_source_group.setExclusive(True)
+
+    ui.action_analyze_original = QAction("Original signal", MainWindow)
+    ui.action_analyze_original.setObjectName("action_analyze_original")
+    ui.action_analyze_original.setCheckable(True)
+    ui.action_analyze_original.setChecked(True)
+    ui.action_analyze_original.toggled.connect(lambda checked: set_analysis_source(ui, "original", checked))
+    ui.analyze_source_group.addAction(ui.action_analyze_original)
+    ui.menu_analyze_source.addAction(ui.action_analyze_original)
+
+    ui.action_analyze_overlay = QAction("Overlay signal", MainWindow)
+    ui.action_analyze_overlay.setObjectName("action_analyze_overlay")
+    ui.action_analyze_overlay.setCheckable(True)
+    ui.action_analyze_overlay.toggled.connect(lambda checked: set_analysis_source(ui, "overlay", checked))
+    ui.analyze_source_group.addAction(ui.action_analyze_overlay)
+    ui.menu_analyze_source.addAction(ui.action_analyze_overlay)
 
     # Options menu
     ui.menu_config = QMenu("Configuration", ui.menu)

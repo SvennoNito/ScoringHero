@@ -1,11 +1,13 @@
 from signal_processing.compute_epoch_periodogram import compute_epoch_periodogram
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 from utilities.tf_config_helper import call_tf_widget
+from utilities.overlay_state import get_overlay_signal_for_display
 
 
 def refresh_gui(ui):
     # Update EEG signal
-    ui.SignalWidget.update_signal(ui.config, ui.eeg_data_display, ui.times, ui.this_epoch)
+    ui.SignalWidget.update_signal(ui.config, ui.eeg_data_display, ui.times, ui.this_epoch,
+                                   get_overlay_signal_for_display(ui))
 
     # Update display text
     stages_ref = getattr(ui, "stages_ref", None)

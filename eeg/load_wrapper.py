@@ -14,10 +14,12 @@ from signal_processing.times_vector import times_vector
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 from utilities.apply_tf_visibility import apply_tf_visibility
 from utilities.refresh_gui import _update_export_menu_state
+from utilities.overlay_state import get_active_analysis_data, get_overlay_signal_for_display
 from .rebuild_display import rebuild_eeg_data_display
+from .align_channels import align_channels_to_config
 
 
-def _load_single(filename_prefix, datatype):
+def load_single(filename_prefix, datatype):
     """Load a single EEG file and return (eeg_data, srate, channel_names)."""
     if datatype == "eeglab":
         return load_eeglab(filename_prefix)
@@ -32,12 +34,33 @@ def _load_single(filename_prefix, datatype):
 @timing_decorator
 def load_wrapper(ui, datatype, extra_files=None):
     ui.this_epoch = 0
-    ui.eeg_data, srate, channel_names = _load_single(ui.filename, datatype)
+
+    # A newly loaded primary recording invalidates any loaded overlay signal
+    # (different duration/channels), so drop it and reset the related menu state.
+    ui.eeg_data_ref = None
+    ui.eeg_data_display_ref = None
+    ui.show_overlay = False
+    ui.analysis_source = "original"
+    if hasattr(ui, "action_remove_overlay"):
+        ui.action_remove_overlay.setEnabled(False)
+        ui.action_show_overlay.blockSignals(True)
+        ui.action_show_overlay.setChecked(False)
+        ui.action_show_overlay.blockSignals(False)
+        ui.action_show_overlay.setEnabled(False)
+        ui.menu_analyze_source.setEnabled(False)
+        ui.action_analyze_original.blockSignals(True)
+        ui.action_analyze_original.setChecked(True)
+        ui.action_analyze_original.blockSignals(False)
+        ui.action_analyze_overlay.blockSignals(True)
+        ui.action_analyze_overlay.setChecked(False)
+        ui.action_analyze_overlay.blockSignals(False)
+
+    ui.eeg_data, srate, channel_names = load_single(ui.filename, datatype)
 
     if extra_files:
         for filepath in extra_files:
             prefix, _ = os.path.splitext(filepath)
-            extra_data, extra_srate, extra_channel_names = _load_single(prefix, datatype)
+            extra_data, extra_srate, extra_channel_names = load_single(prefix, datatype)
             if extra_srate != srate:
                 raise ValueError(
                     f"Sampling rate mismatch: primary file has {srate} Hz, "
@@ -63,34 +86,11 @@ def load_wrapper(ui, datatype, extra_files=None):
     ui.config = load_configuration(f"{ui.filename}.config.json", numchans, srate, channel_names)
     rebuild_channel_index(ui)
 
-    # Reorder eeg_data rows to match the saved channel order in config.
-    # When the user reorders channels in the config window, config[1] is saved in
-    # the new order but the EEG file always loads channels in the original file order.
-    # We must permute eeg_data so that eeg_data[i] corresponds to config[1][i].
-    non_derived_configs = [ch for ch in ui.config[1] if not ch.get("derived", False)]
-    name_to_file_idx = {name: i for i, name in enumerate(channel_names)}
-    config_names = [ch["Channel_name"] for ch in non_derived_configs]
-    if (len(config_names) == len(channel_names)
-            and all(n in name_to_file_idx for n in config_names)):
-        new_order = [name_to_file_idx[n] for n in config_names]
-        ui.eeg_data = ui.eeg_data[new_order]
-
-    # Reconstruct derived channels (added via re-reference) that are not stored in the
-    # EEG file. For each derived channel, find its source channel among the non-derived
-    # entries and append a copy of that raw signal row to eeg_data so that the channel
-    # count matches config before rebuild_eeg_data_display applies the re-reference.
-    for ch_config in ui.config[1]:
-        if ch_config.get("derived", False):
-            src_name = ch_config.get("source_channel", ch_config["Channel_name"])
-            src_idx = next(
-                (i for i, c in enumerate(ui.config[1])
-                 if c["Channel_name"] == src_name and not c.get("derived", False)),
-                None,
-            )
-            if src_idx is not None and src_idx < ui.eeg_data.shape[0]:
-                ui.eeg_data = np.vstack([ui.eeg_data, ui.eeg_data[src_idx:src_idx + 1]])
-            else:
-                ui.eeg_data = np.vstack([ui.eeg_data, np.zeros((1, ui.eeg_data.shape[1]))])
+    # Reorder eeg_data rows to match the saved channel order in config, and
+    # reconstruct derived channels (added via re-reference) that are not stored
+    # in the EEG file, so the channel count/order matches config before
+    # rebuild_eeg_data_display applies the re-reference.
+    ui.eeg_data = align_channels_to_config(ui.eeg_data, channel_names, ui.config)
 
     # Keep the original-plus-derived data immutable; display copy is rebuilt below
     ui.eeg_data_display = ui.eeg_data.copy()
@@ -111,7 +111,8 @@ def load_wrapper(ui, datatype, extra_files=None):
 
     times_vector(ui)
     ui.toolbar_jump_to_epoch.setMaximum(ui.numepo)
-    ui.SignalWidget.draw_signal(ui.config, ui.eeg_data_display, ui.times, ui.this_epoch)
+    ui.SignalWidget.draw_signal(ui.config, ui.eeg_data_display, ui.times, ui.this_epoch,
+                                 get_overlay_signal_for_display(ui))
     ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
     load_cache(ui)
     ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
@@ -125,7 +126,7 @@ def load_wrapper(ui, datatype, extra_files=None):
     epoch_length = ui.config[0]["Epoch_length_s"]
     tf_channel_label = ui.config[0].get("Wavelet_channel", "")
     tf_channel_idx = ui.channel_name_to_idx.get(tf_channel_label, 0)
-    ui.TFWidget.draw_tf(ui.eeg_data_display, ui.times, ui.this_epoch, srate, ui.tf_freqs,
+    ui.TFWidget.draw_tf(get_active_analysis_data(ui), ui.times, ui.this_epoch, srate, ui.tf_freqs,
                         ui.tf_norm_median, ui.tf_norm_iqr, ui.tf_norm_rms, ui.tf_norm_median_linear,
                         display_mode, freq_scale, freq_limits,
                         time_unit, epoch_length, tf_channel_idx, tf_channel_label,

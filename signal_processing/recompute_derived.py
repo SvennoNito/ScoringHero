@@ -67,4 +67,7 @@ def recompute_derived(ui):
     # Initialize in-memory cache for raw Morlet power by epoch (cleared on channel/freq changes)
     ui.tf_cache = {}
 
-    write_cache(ui, ui_to_cache(ui))
+    # The on-disk cache is keyed to the primary recording only -- never persist
+    # results computed from the overlay signal into it.
+    if getattr(ui, "analysis_source", "original") != "overlay":
+        write_cache(ui, ui_to_cache(ui))

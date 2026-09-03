@@ -3,6 +3,7 @@ from scipy.ndimage import uniform_filter1d
 import numpy as np
 from .trim_power import trim_power
 from .min_max_scale import min_max_scale
+from utilities.overlay_state import get_active_analysis_data
 
 
 def precompute_all_epoch_periodograms(ui):
@@ -19,7 +20,7 @@ def precompute_all_epoch_periodograms(ui):
     )
     channel_idx = ui.channel_name_to_idx.get(periodogram_channel_name, 0)
 
-    signal = ui.eeg_data_display[channel_idx, :]
+    signal = get_active_analysis_data(ui)[channel_idx, :]
     srate = int(ui.config[0]["Sampling_rate_hz"])
 
     power_list = []

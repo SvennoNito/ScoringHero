@@ -2,16 +2,17 @@ import numpy as np
 from filter.apply_filter import apply_filter
 
 
-def rebuild_eeg_data_display(ui):
-    """Rebuild ui.eeg_data_display from ui.eeg_data by applying all active manipulations:
-    filter → re-reference → polarity flip.
+def _apply_manipulations(source, config):
+    """Apply filter -> re-reference -> polarity flip to a raw (channels x samples)
+    array, using the per-channel settings stored in config[1].
     """
-    result = ui.eeg_data.copy()
+    result = source.copy()
+    n_data_channels = result.shape[0]
 
     # 1. Apply per-channel filter settings (stored in config)
     filter_settings = []
     any_filter_active = False
-    for chan in ui.config[1]:
+    for chan in config[1]:
         fs = {
             "hp_enabled":    chan.get("Filter_hp_enabled", False),
             "hp_cutoff":     chan.get("Filter_hp_cutoff", 0.3),
@@ -27,32 +28,47 @@ def rebuild_eeg_data_display(ui):
             any_filter_active = True
         filter_settings.append(fs)
     if any_filter_active:
-        result = apply_filter(result, ui.config[0]["Sampling_rate_hz"], filter_settings)
+        result = apply_filter(result, config[0]["Sampling_rate_hz"], filter_settings)
 
     # 2. Apply re-referencing
     # Use pre-reref snapshot so every channel's reference is the filtered-only signal,
     # matching the previous display-time behaviour in signalWidget.
-    n_data_channels = result.shape[0]
-    any_reref = any(ch.get("Re_reference", "None") != "None" for ch in ui.config[1])
+    any_reref = any(ch.get("Re_reference", "None") != "None" for ch in config[1])
     if any_reref:
         pre_reref = result.copy()
-        for ch_idx, ch_config in enumerate(ui.config[1]):
+        for ch_idx, ch_config in enumerate(config[1]):
             if ch_idx >= n_data_channels:
                 break
             reref = ch_config.get("Re_reference", "None")
             if reref != "None":
                 ref_idx = next(
-                    (i for i, c in enumerate(ui.config[1]) if c["Channel_name"] == reref),
+                    (i for i, c in enumerate(config[1]) if c["Channel_name"] == reref),
                     None,
                 )
                 if ref_idx is not None and ref_idx < n_data_channels:
                     result[ch_idx] = pre_reref[ch_idx] - pre_reref[ref_idx]
 
     # 3. Apply polarity flip
-    for ch_idx, ch_config in enumerate(ui.config[1]):
+    for ch_idx, ch_config in enumerate(config[1]):
         if ch_idx >= n_data_channels:
             break
         if ch_config.get("Flip_polarity", False):
             result[ch_idx] = -result[ch_idx]
 
-    ui.eeg_data_display = result
+    return result
+
+
+def rebuild_eeg_data_display(ui):
+    """Rebuild ui.eeg_data_display from ui.eeg_data by applying all active manipulations:
+    filter -> re-reference -> polarity flip.
+
+    If an overlay signal is loaded (ui.eeg_data_ref), the same manipulations are
+    applied to it too, producing ui.eeg_data_display_ref, so that filtering,
+    re-referencing, and polarity flips always stay in sync between the two signal sets.
+    """
+    ui.eeg_data_display = _apply_manipulations(ui.eeg_data, ui.config)
+
+    if getattr(ui, "eeg_data_ref", None) is not None:
+        ui.eeg_data_display_ref = _apply_manipulations(ui.eeg_data_ref, ui.config)
+    else:
+        ui.eeg_data_display_ref = None

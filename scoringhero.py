@@ -144,6 +144,11 @@ class Ui_MainWindow(QMainWindow):
         self.disagreement_epochs = []
         self.disagreement_index = 0
 
+        self.eeg_data_ref = None
+        self.eeg_data_display_ref = None
+        self.show_overlay = False
+        self.analysis_source = "original"
+
         # Default paths
         if hasattr(sys, '_MEIPASS'):
             # PyInstaller: resources in temp extraction dir, exe is the real location
