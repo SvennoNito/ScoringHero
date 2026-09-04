@@ -95,7 +95,7 @@ def load_wrapper(ui, datatype, extra_files=None):
     # Keep the original-plus-derived data immutable; display copy is rebuilt below
     ui.eeg_data_display = ui.eeg_data.copy()
 
-    # Apply all saved manipulations (filter + re-reference + flip) from config
+    # Apply all saved manipulations (re-reference + filter + flip) from config
     rebuild_eeg_data_display(ui)
 
     ui.numepo = number_of_epochs(

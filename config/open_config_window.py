@@ -18,7 +18,7 @@ def _display_only_change(ui):
 def _signal_rebuild_change(ui, chan_idx):
     """Channel config change that modifies the signal (reref, flip, label rename).
 
-    Always rebuilds eeg_data_display (filtering + reref + flip).  Only recomputes
+    Always rebuilds eeg_data_display (reref + filtering + flip).  Only recomputes
     the spectrogram/wavelet if the changed channel is the one currently feeding
     those panels — otherwise the spectrogram data is still valid.
     """

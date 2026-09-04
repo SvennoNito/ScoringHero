@@ -3,16 +3,43 @@ from filter.apply_filter import apply_filter
 
 
 def _apply_manipulations(source, config):
-    """Apply filter -> re-reference -> polarity flip to a raw (channels x samples)
+    """Apply re-reference -> filter -> polarity flip to a raw (channels x samples)
     array, using the per-channel settings stored in config[1].
+
+    Re-referencing comes first so that each channel's filter settings act on
+    exactly the signal that is displayed.  Filtering is linear, so for a channel
+    A referenced to B this only matters when A and B carry different filter
+    settings -- but they are configured independently (and a derived channel
+    added in the config window starts out with no filter at all), so forming
+    A - B from the *raw* signals is the only order that makes the Ctrl+F
+    settings of a re-referenced channel behave as the user expects.  Filtering
+    first would leave the reference channel's unfiltered content in the
+    difference.
     """
     result = source.copy()
     n_data_channels = result.shape[0]
 
-    # 1. Apply per-channel filter settings (stored in config)
+    # 1. Apply re-referencing
+    # Reference against the raw (unfiltered, un-rereferenced, unflipped) signal so
+    # that the reference channel's own settings never leak into this channel.
+    any_reref = any(ch.get("Re_reference", "None") != "None" for ch in config[1])
+    if any_reref:
+        for ch_idx, ch_config in enumerate(config[1]):
+            if ch_idx >= n_data_channels:
+                break
+            reref = ch_config.get("Re_reference", "None")
+            if reref != "None":
+                ref_idx = next(
+                    (i for i, c in enumerate(config[1]) if c["Channel_name"] == reref),
+                    None,
+                )
+                if ref_idx is not None and ref_idx < n_data_channels:
+                    result[ch_idx] = source[ch_idx] - source[ref_idx]
+
+    # 2. Apply per-channel filter settings (stored in config)
     filter_settings = []
     any_filter_active = False
-    for chan in config[1]:
+    for chan in config[1][:n_data_channels]:
         fs = {
             "hp_enabled":    chan.get("Filter_hp_enabled", False),
             "hp_cutoff":     chan.get("Filter_hp_cutoff", 0.3),
@@ -30,24 +57,6 @@ def _apply_manipulations(source, config):
     if any_filter_active:
         result = apply_filter(result, config[0]["Sampling_rate_hz"], filter_settings)
 
-    # 2. Apply re-referencing
-    # Use pre-reref snapshot so every channel's reference is the filtered-only signal,
-    # matching the previous display-time behaviour in signalWidget.
-    any_reref = any(ch.get("Re_reference", "None") != "None" for ch in config[1])
-    if any_reref:
-        pre_reref = result.copy()
-        for ch_idx, ch_config in enumerate(config[1]):
-            if ch_idx >= n_data_channels:
-                break
-            reref = ch_config.get("Re_reference", "None")
-            if reref != "None":
-                ref_idx = next(
-                    (i for i, c in enumerate(config[1]) if c["Channel_name"] == reref),
-                    None,
-                )
-                if ref_idx is not None and ref_idx < n_data_channels:
-                    result[ch_idx] = pre_reref[ch_idx] - pre_reref[ref_idx]
-
     # 3. Apply polarity flip
     for ch_idx, ch_config in enumerate(config[1]):
         if ch_idx >= n_data_channels:
@@ -60,7 +69,7 @@ def _apply_manipulations(source, config):
 
 def rebuild_eeg_data_display(ui):
     """Rebuild ui.eeg_data_display from ui.eeg_data by applying all active manipulations:
-    filter -> re-reference -> polarity flip.
+    re-reference -> filter -> polarity flip.
 
     If an overlay signal is loaded (ui.eeg_data_ref), the same manipulations are
     applied to it too, producing ui.eeg_data_display_ref, so that filtering,
