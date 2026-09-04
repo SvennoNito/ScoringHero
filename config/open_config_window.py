@@ -5,14 +5,14 @@ from utilities.refresh_gui import refresh_gui
 from scoring.write_scoring import write_scoring
 from scoring.clean_epochs_to_uistages import clean_epochs_to_uiscoring
 from .apply_changes import apply_changes
-from .write_configuration import write_configuration
+from .write_configuration import save_configuration
 
 
 def _display_only_change(ui):
     """Channel config change that only affects rendering (visibility, color, scale, shift).
     No signal rebuild or spectrogram recomputation needed."""
     redraw_gui(ui)
-    write_configuration(f"{ui.filename}.config.json", ui.config)
+    save_configuration(ui)
 
 
 def _signal_rebuild_change(ui, chan_idx):
@@ -36,7 +36,31 @@ def _signal_rebuild_change(ui, chan_idx):
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
 
     redraw_gui(ui)
-    write_configuration(f"{ui.filename}.config.json", ui.config)
+    save_configuration(ui)
+
+
+def _rename_change(ui):
+    """Channel rename: labels only — no filtering, no spectrogram recompute.
+
+    Renaming leaves every sample untouched, and ChannelPage has already re-pointed
+    the config entries that store a channel *name* (other channels' Re_reference
+    and the spectrogram/wavelet/periodogram selectors).  So only the cached
+    name->index map and the names drawn on the panels need refreshing.
+    """
+    from utilities.channel_index import rebuild_channel_index
+    from signal_processing.compute_epoch_periodogram import compute_epoch_periodogram
+
+    rebuild_channel_index(ui)
+    redraw_gui(ui)
+
+    freqs, power, channel_name = compute_epoch_periodogram(ui, ui.this_epoch)
+    ui.RectanglePower.update_powerline(freqs, power, channel_name)
+
+    # Filter window caches the channel names in its row labels — rebuild it next
+    # time it is opened so it shows the new ones.
+    ui.FilterWindow = None
+
+    save_configuration(ui)
 
 
 def _move_eeg_row(ui, from_idx, to_idx):
@@ -56,7 +80,7 @@ def _move_eeg_row(ui, from_idx, to_idx):
     ui.eeg_data_display = ui.eeg_data_display[order]
     rebuild_channel_index(ui)
     redraw_gui(ui)
-    write_configuration(f"{ui.filename}.config.json", ui.config)
+    save_configuration(ui)
 
 
 def _add_channel(ui, channel_a_name, channel_b_name):
@@ -157,6 +181,7 @@ def open_config_window(ui):
     ui.ChannelPage.changesMade.connect(lambda: apply_changes([], ui))
     ui.ChannelPage.displayOnlyChanged.connect(lambda: _display_only_change(ui))
     ui.ChannelPage.signalRebuildNeeded.connect(lambda idx: _signal_rebuild_change(ui, idx))
+    ui.ChannelPage.channelRenamed.connect(lambda: _rename_change(ui))
     ui.ChannelPage.channelAdded.connect(lambda a, b, ui=ui: _add_channel(ui, a, b))
     ui.ChannelPage.channelDeleted.connect(lambda idx, ui=ui: _delete_channel(ui, idx))
     ui.GeneralPage.changesMade.connect(
@@ -173,5 +198,5 @@ def open_config_window(ui):
     )
     ui.EventPage.changesMade.connect(lambda: write_scoring(ui))
     ui.EventPage.eventDeleted.connect(lambda idx, ui=ui: _delete_event(ui, idx))
-    # ui.ConfigurationWindow.finished.connect(lambda: write_configuration(f"{ui.filename}.config.json", ui.config))
+    # ui.ConfigurationWindow.finished.connect(lambda: save_configuration(ui))
     ui.ConfigurationWindow.show()

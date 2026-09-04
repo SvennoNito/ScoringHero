@@ -1,6 +1,6 @@
 from widgets import FilterWindow
 from utilities.redraw_gui import redraw_gui
-from config.write_configuration import write_configuration
+from config.write_configuration import save_configuration
 from eeg.rebuild_display import rebuild_eeg_data_display
 from signal_processing.recompute_derived import recompute_derived
 
@@ -28,7 +28,7 @@ def _after_filter(ui, filter_settings):
         ui.config[1][i]["Filter_notch_enabled"]    = settings["notch_enabled"]
         ui.config[1][i]["Filter_notch_cutoff"]      = settings["notch_cutoff"]
         ui.config[1][i]["Filter_notch_order"]        = settings["notch_order"]
-    write_configuration(f"{ui.filename}.config.json", ui.config)
+    save_configuration(ui)
 
     rebuild_eeg_data_display(ui)
     recompute_derived(ui)

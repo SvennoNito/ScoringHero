@@ -83,7 +83,7 @@ def load_wrapper(ui, datatype, extra_files=None):
     except:
         numchans = 6
 
-    ui.config = load_configuration(f"{ui.filename}.config.json", numchans, srate, channel_names)
+    ui.config = load_configuration(f"{ui.filename}.config.json", numchans, srate, channel_names, ui.app_path)
     rebuild_channel_index(ui)
 
     # Reorder eeg_data rows to match the saved channel order in config, and

@@ -1,5 +1,5 @@
 import numpy as np
-from .write_configuration import write_configuration
+from .write_configuration import save_configuration
 from eeg.number_of_epochs import number_of_epochs
 from scoring.default_scoring import default_scoring
 from signal_processing.compute_epoch_periodogram import (
@@ -78,7 +78,7 @@ def apply_changes(config_parameter_name, ui):
             display_mode = ui.config[0].get("Wavelet_display_mode", "Z-scored Power")
             if display_mode in power_limits:
                 ui.TFWidget.update_levels_only(power_limits[display_mode])
-        write_configuration(f"{ui.filename}.config.json", ui.config)
+        save_configuration(ui)
         return
 
     if "Wavelet_frequency_limits_hz" in config_parameter_name:
@@ -132,4 +132,4 @@ def apply_changes(config_parameter_name, ui):
         ui.HypnogramWidget.update_time_axis(ui)
 
     # Write configuration file
-    write_configuration(f"{ui.filename}.config.json", ui.config)
+    save_configuration(ui)
