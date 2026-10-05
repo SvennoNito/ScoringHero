@@ -32,3 +32,17 @@ build-mac = ["nuitka[onefile]>=4.0.5"]
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+extend-exclude = ["sumo_lib", "build", "dist", "example_data"]
+
+[tool.ruff.lint]
+# real bugs only (undefined names, redefinitions, syntax); unused-import noise excluded
+select = ["F821", "F811", "F63", "F7", "F82", "E9"]

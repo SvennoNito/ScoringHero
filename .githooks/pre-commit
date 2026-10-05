@@ -1,0 +1,27 @@
+#!/bin/sh
+# Checks: ruff + pytest must pass. Enable once per clone: git config core.hooksPath .githooks
+uv run ruff check . || exit 1
+uv run pytest -q || exit 1
+
+# Auto-update CITATION.cff when pyproject.toml version changes.
+
+# Check if pyproject.toml is staged with a version change
+if ! git diff --cached --name-only | grep -q "^pyproject.toml$"; then
+    exit 0
+fi
+if ! git diff --cached pyproject.toml | grep -q "^+version"; then
+    exit 0
+fi
+
+echo "pyproject.toml version changed — updating CITATION.cff..."
+
+VERSION=$(grep '^version' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+COMMIT=$(git rev-parse HEAD)
+TODAY=$(date +%Y-%m-%d)
+
+sed -i "s/^commit: .*/commit: $COMMIT/" CITATION.cff
+sed -i "s/^version: .*/version: $VERSION/" CITATION.cff
+sed -i "s/^date-released: .*/date-released: '$TODAY'/" CITATION.cff
+
+git add CITATION.cff
+echo "Updated CITATION.cff → version $VERSION, commit ${COMMIT:0:7}, date $TODAY"

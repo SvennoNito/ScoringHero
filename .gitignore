@@ -12,3 +12,6 @@ example_data
 
 channel_template.json
 nidra_settings.json
+
+*.bak
+%TEMP%*/
