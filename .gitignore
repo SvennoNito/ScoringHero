@@ -11,3 +11,4 @@ example_data
 .claude/worktrees/
 
 channel_template.json
+nidra_settings.json
