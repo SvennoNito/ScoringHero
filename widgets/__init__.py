@@ -11,6 +11,9 @@ from .configurationWindow import ConfigurationWindow
 from .filterWindow import FilterWindow
 from .tfWidget import TFWidget
 from .gsscWindow import GsscWindow
+from .summaryImageWindow import SummaryImageWindow
+from .ezscoreWindow import EzscoreWindow, EzscoreSummaryWindow
+from .nidraWindow import NidraWindow, NidraSummaryWindow
 from .seedWindow import SeedWindow
 from .mtKcdWindow import MtKcdWindow
 from .mtSpindleWindow import MtSpindleWindow

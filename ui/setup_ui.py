@@ -20,6 +20,7 @@ from scoring.write_vis import write_vis
 from scoring.write_yasa import write_yasa
 from scoring.write_sleepyland import write_sleepyland
 from scoring.write_gssc import write_gssc
+from scoring.write_ezscore import write_ezscore
 from mouse_click.click_on_hypnogram import click_on_hypnogram
 from mouse_click.click_on_spectogram import click_on_spectogram
 from mouse_click.move_swa_slider import move_swa_slider
@@ -30,6 +31,8 @@ from utilities.score_not_sure import score_not_sure
 from config.open_config_window import open_config_window
 from filter.open_filter_window import open_filter_window
 from scoring.open_gssc_window import open_gssc_window
+from scoring.open_ezscore_window import open_ezscore_window
+from scoring.open_nidra_window import open_nidra_window
 from scoring.open_seed_window import open_seed_window
 from scoring.open_mt_kcd_window import open_mt_kcd_window
 from scoring.open_mt_spindle_window import open_mt_spindle_window
@@ -186,7 +189,11 @@ def setup_ui(ui, MainWindow):
     ui.action_load_gssc = QAction("Load Greifswald Sleep Stage Classifier (GSSC) Scoring (.csv)", ui)
     ui.action_load_gssc.setObjectName("action_load_gssc")
     ui.action_load_gssc.triggered.connect(lambda: scoring_import_window(ui, filetype="gssc"))
-    ui.submenu_scoring.addAction(ui.action_load_gssc)    
+    ui.submenu_scoring.addAction(ui.action_load_gssc)
+    ui.action_load_ezscore = QAction("Load ezscore-f Scoring (.csv)", ui)
+    ui.action_load_ezscore.setObjectName("action_load_ezscore")
+    ui.action_load_ezscore.triggered.connect(lambda: scoring_import_window(ui, filetype="ezscore"))
+    ui.submenu_scoring.addAction(ui.action_load_ezscore)
 
 
     ui.action_save_scoring = QAction("Save to", MainWindow)
@@ -219,6 +226,10 @@ def setup_ui(ui, MainWindow):
     ui.action_export_gssc.setObjectName("action_export_gssc")
     ui.action_export_gssc.triggered.connect(lambda: write_gssc(ui))
     ui.submenu_export.addAction(ui.action_export_gssc)
+    ui.action_export_ezscore = QAction("ezscore-f (.csv)", ui)
+    ui.action_export_ezscore.setObjectName("action_export_ezscore")
+    ui.action_export_ezscore.triggered.connect(lambda: write_ezscore(ui))
+    ui.submenu_export.addAction(ui.action_export_ezscore)
 
     # Export submenu for reports
     ui.submenu_export_reports = QMenu("Export", ui.menu_file)
@@ -381,6 +392,37 @@ def setup_ui(ui, MainWindow):
     ui.menu_labels.addAction(ui.action_delete_all_events)
 
 
+    # Autoscore menu — automatic sleep stage classifiers
+    ui.menu_autoscore = QMenu("Autoscore", ui.menu)
+    ui.menu_autoscore.setObjectName("menu_autoscore")
+    ui.menu.addAction(ui.menu_autoscore.menuAction())
+
+    ui.action_gssc = QAction("Greifswald Sleep Stage Classifier (GSSC)", MainWindow)
+    ui.action_gssc.setObjectName("action_gssc")
+    ui.action_gssc.setShortcut("Ctrl+G")
+    ui.action_gssc.setStatusTip("Auto score scalp EEG/EOG with GSSC")
+    ui.action_gssc.triggered.connect(lambda: open_gssc_window(ui))
+    ui.menu_autoscore.addAction(ui.action_gssc)
+
+    ui.action_ezscore = QAction("Forehead EEG Classifier (ezscore-f)", MainWindow)
+    ui.action_ezscore.setObjectName("action_ezscore")
+    ui.action_ezscore.setShortcut("Ctrl+E")
+    ui.action_ezscore.setStatusTip(
+        "Auto score two-channel forehead EEG with ezscore-f, including an artifact class"
+    )
+    ui.action_ezscore.triggered.connect(lambda: open_ezscore_window(ui))
+    ui.menu_autoscore.addAction(ui.action_ezscore)
+
+    ui.action_nidra = QAction("NIDRA (U-Sleep 2.0 / ezscore-f)", MainWindow)
+    ui.action_nidra.setObjectName("action_nidra")
+    ui.action_nidra.setShortcut("Ctrl+N")
+    ui.action_nidra.setStatusTip(
+        "Auto score full PSG with U-Sleep 2.0 or forehead EEG with ezscore-f, "
+        "using NIDRA's ONNX models"
+    )
+    ui.action_nidra.triggered.connect(lambda: open_nidra_window(ui))
+    ui.menu_autoscore.addAction(ui.action_nidra)
+
     # Utilities menu
     ui.menu_utils = QMenu("Utilities", ui.menu)
     ui.menu_utils.setObjectName("menu_utils")
@@ -396,12 +438,6 @@ def setup_ui(ui, MainWindow):
     ui.action_filter.triggered.connect(lambda: open_filter_window(ui))
     ui.action_filter.setShortcut("Ctrl+F")
     ui.menu_utils.addAction(ui.action_filter)
-
-    ui.action_gssc = QAction("Auto Score (GSSC)", MainWindow)
-    ui.action_gssc.setObjectName("action_gssc")
-    ui.action_gssc.setShortcut("Ctrl+G")
-    ui.action_gssc.triggered.connect(lambda: open_gssc_window(ui))
-    ui.menu_utils.addAction(ui.action_gssc)
 
     # ui.action_seed = QAction("K-Complex / Spindle Detection (SEED)", MainWindow)
     # ui.action_seed.setObjectName("action_seed")
@@ -563,11 +599,12 @@ def setup_ui(ui, MainWindow):
     ui.action_help_selection_box.setShortcut("Ctrl+H")
     ui.menu_help.addAction(ui.action_help_selection_box)    
 
-    # Disable the stages, events, utilities, and configuration menu items initially
+    # Disable the stages, events, autoscore, utilities, and configuration menus initially
     ui.menu_stages.setEnabled(False)
     ui.menu_labels.setEnabled(False)
     ui.menu_utils.setEnabled(False)
-    ui.menu_config.setEnabled(False)    
+    ui.menu_autoscore.setEnabled(False)
+    ui.menu_config.setEnabled(False)
 
     # Bring together
     MainWindow.setMenuBar(ui.menu)

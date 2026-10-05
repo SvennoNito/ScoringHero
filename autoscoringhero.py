@@ -79,6 +79,7 @@ if __name__ == "__main__":
         ui.menu_stages.setEnabled(True)
         ui.menu_labels.setEnabled(True)
         ui.menu_utils.setEnabled(True)
+        ui.menu_autoscore.setEnabled(True)
         ui.menu_config.setEnabled(True)
         ui.toolbar_jump_to_epoch.setEnabled(True)
         ui.tool_nextunscored.setEnabled(True)

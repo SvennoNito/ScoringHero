@@ -43,7 +43,8 @@ def eeg_import_window(ui, MainWindow, datatype):
     ui.menu_stages.setEnabled(True)
     ui.menu_labels.setEnabled(True)
     ui.menu_utils.setEnabled(True)
-    ui.menu_config.setEnabled(True) 
+    ui.menu_autoscore.setEnabled(True)
+    ui.menu_config.setEnabled(True)
 
     # Enable toolbar once the data is loaded
     ui.toolbar_jump_to_epoch.setEnabled(True)

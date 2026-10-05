@@ -1,6 +1,6 @@
 @echo off
 set UV_PROJECT_ENVIRONMENT=.venv_gssc
-uv sync --python 3.13 --extra build-win --extra gssc
+uv sync --python 3.13 --extra build-win --extra gssc --extra nidra
 uv run --python 3.13 python -m nuitka ^
     --standalone ^
     --lto=no ^
@@ -12,15 +12,21 @@ uv run --python 3.13 python -m nuitka ^
     --include-module=PySide6.QtOpenGLWidgets ^
     --include-module=widgets.filterWindow ^
     --include-module=widgets.gsscWindow ^
+    --include-module=widgets.ezscoreWindow ^
+    --include-module=widgets.nidraWindow ^
+    --include-module=widgets.summaryImageWindow ^
     --include-module=numpy.core.multiarray ^
     --include-package=gssc ^
     --include-data-files=.venv_gssc/Lib/site-packages/gssc/nets/sig_net_v1.pt=gssc/nets/sig_net_v1.pt ^
     --include-data-files=.venv_gssc/Lib/site-packages/gssc/nets/gru_net_v1.pt=gssc/nets/gru_net_v1.pt ^
     --include-package=mne ^
+    --include-package=onnxruntime ^
+    --include-package-data=onnxruntime ^
     --include-package=torch ^
     --include-data-files=./help/images/selection_box.png=help/images/selection_box.png ^
     --include-data-files=./style/modern_theme.qss=style/modern_theme.qss ^
     --include-data-files=./spectral.txt=spectral.txt ^
+    --include-data-files=./scoring/ezscore_worker.py=scoring/ezscore_worker.py ^
     --output-filename=auto-scoringhero_windows.exe ^
     --output-dir=dist ^
     scoringhero.py

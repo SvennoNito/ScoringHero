@@ -9,3 +9,5 @@ example_data
 .venv/
 .venv_*/
 .claude/worktrees/
+ezscore_settings.json
+
