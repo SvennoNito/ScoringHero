@@ -1,4 +1,26 @@
-def default_configuration(number_of_channels, srate, channel_names):
+def default_scaling_factor(number_of_signals):
+    """Default Scaling_factor (%) by number of signals in the file."""
+    if number_of_signals <= 3:
+        return 50
+    if number_of_signals <= 7:
+        return 75
+    return 100
+
+
+_VOLTAGE_UNITS = {"v", "mv", "uv", "µv", "μv"}
+
+
+def default_subtract_median(unit):
+    """True for a known non-voltage unit (e.g. 'g'); False for voltage or unknown."""
+    if unit is None or not str(unit).strip():
+        return False
+    return str(unit).strip().lower() not in _VOLTAGE_UNITS
+
+
+def default_configuration(number_of_channels, srate, channel_names, units=None):
+    # number_of_channels = number of signals in the file. units = per-signal
+    # unit strings; None means unknown (treated as voltage).
+    scaling_factor = default_scaling_factor(number_of_channels)
     configuration_settings = [[] for x in range(2)]
     configuration_settings[0] = {
         "Sampling_rate_hz": srate,
@@ -35,10 +57,12 @@ def default_configuration(number_of_channels, srate, channel_names):
             "Channel_name": f"Channel {chan+1}",
             "Channel_color": "Black",
             "Display_on_screen": 1 if chan < 9 else 0,
-            "Scaling_factor": 100,
+            "Scaling_factor": scaling_factor,
             "Vertical_shift": 0,
             "Re_reference": "None",
             "Flip_polarity": False,
+            "Subtract_median": default_subtract_median(units[chan] if units is not None and chan < len(units) else None),
+            "Line_width": 1.0,
             "Filter_hp_enabled": False,
             "Filter_hp_cutoff": 0.3,
             "Filter_hp_order": 4,

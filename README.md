@@ -158,9 +158,9 @@ arch -x86_64 ./release-mac.sh  # x86_64
 - Apply **high-pass**, **low-pass**, and/or **notch** filters to each EEG channel independently
 - Uses a Chebyshev Type 2 filter (zero-phase via forward-backward pass)
 - Configurable **cutoff frequency** and **filter order** per channel
-- The specified cutoff is the −40 dB stopband attenuation point
+- The specified cutoff is the −3 dB point of the displayed signal (high-/low-pass); the notch filter is deepest at the notch frequency and −3 dB at ±1 Hz. Filter order only sets the roll-off steepness
 - **Live magnitude response plot** — the frequency response curve updates in real time as you adjust filter parameters
-- Filters affect only the **displayed EEG signal** — power computations (spectrogram, wavelet, SWA) are unaffected
+- Filters change the **displayed signal** and therefore also the spectrogram, periodogram and time-frequency power
 - **Apply to all channels** checkbox to propagate settings across all channels at once
 
 ### Automatic K-Complex & Spindle Detection (MT-KCD)

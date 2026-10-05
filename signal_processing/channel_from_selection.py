@@ -2,13 +2,12 @@ import numpy as np
 
 
 def channel_from_selection(config, converted_corner, converted_shape):
-    numchans_visible = len(
-        [counter for counter, info in enumerate(config[1]) if info["Display_on_screen"]]
-    )
+    visible = [counter for counter, info in enumerate(config[1]) if info["Display_on_screen"]]
+    numchans_visible = len(visible)
     channel_anchors = np.array(
         [
-            config[1][chan_counter]["Vertical_shift"] - config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
-            for chan_counter in range(numchans_visible)
+            config[1][chan]["Vertical_shift"] - config[0]["Distance_between_channels_muV"] * numchans_visible * pos
+            for pos, chan in enumerate(visible)
         ]
     )
     rectangle_midpoint_in_amp = (

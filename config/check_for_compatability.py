@@ -1,9 +1,9 @@
 from .default_config import default_configuration
 from .write_configuration import write_configuration
 
-def check_for_compatability(configuration_settings, configuration_filename, number_of_channels, srate, channel_names):
+def check_for_compatability(configuration_settings, configuration_filename, number_of_channels, srate, channel_names, units=None):
 
-    default_settings = default_configuration(number_of_channels, srate, channel_names)
+    default_settings = default_configuration(number_of_channels, srate, channel_names, units)
 
     for unit, value in default_settings[0].items():
         if unit not in configuration_settings[0]:
@@ -29,7 +29,7 @@ def check_for_compatability(configuration_settings, configuration_filename, numb
         for chan_settings in derived:
             for key, value in default_template.items():
                 if key not in chan_settings:
-                    chan_settings[key] = value
+                    chan_settings[key] = False if key == "Subtract_median" else value
 
     # Reconcile non-derived channel count only
     saved_non_derived_n = len(non_derived)

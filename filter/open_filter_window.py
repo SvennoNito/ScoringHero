@@ -1,8 +1,9 @@
 from widgets import FilterWindow
-from utilities.redraw_gui import redraw_gui
+from utilities.redraw_gui import redraw_all
 from config.write_configuration import save_configuration
 from eeg.rebuild_display import rebuild_eeg_data_display
 from signal_processing.recompute_derived import recompute_derived
+from utilities.busy_indicator import run_busy
 
 
 def open_filter_window(ui):
@@ -30,6 +31,8 @@ def _after_filter(ui, filter_settings):
         ui.config[1][i]["Filter_notch_order"]        = settings["notch_order"]
     save_configuration(ui)
 
-    rebuild_eeg_data_display(ui)
-    recompute_derived(ui)
-    redraw_gui(ui)
+    def work():
+        rebuild_eeg_data_display(ui)
+        recompute_derived(ui)
+
+    run_busy(ui, "Filtering…", work, lambda _: redraw_all(ui))

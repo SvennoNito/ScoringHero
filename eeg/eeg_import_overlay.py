@@ -2,8 +2,10 @@ import os
 from PySide6.QtWidgets import QFileDialog, QMessageBox
 
 from .load_wrapper import load_single
+from .resample import resample_to_rate
 from .align_channels import align_channels_to_config
 from .rebuild_display import rebuild_eeg_data_display
+from utilities.busy_indicator import run_busy
 
 
 _DATATYPE_FILTER = {
@@ -26,46 +28,38 @@ def import_overlay_signal(ui, datatype):
     ui.default_data_path = os.path.dirname(filepath)
 
     prefix, _ = os.path.splitext(filepath)
-    try:
-        eeg_data_ovl, srate_ovl, channel_names_ovl = load_single(prefix, datatype)
-    except Exception as e:
+
+    def work():
+        eeg_data_ovl, srate_ovl, channel_names_ovl, _ = load_single(prefix, datatype)
+        # Bring the overlay to the primary recording's rate before validation
+        eeg_data_ovl = resample_to_rate(eeg_data_ovl, srate_ovl, ui.config[0]["Sampling_rate_hz"])
+
+        if eeg_data_ovl.shape[1] != ui.eeg_data.shape[1]:
+            raise ValueError(
+                f"Sample count mismatch: the primary recording has {ui.eeg_data.shape[1]} samples, "
+                f"but '{os.path.basename(filepath)}' has {eeg_data_ovl.shape[1]} samples. Both "
+                f"recordings must have the same number of samples to be overlaid."
+            )
+
+        non_derived_names = {ch["Channel_name"] for ch in ui.config[1] if not ch.get("derived", False)}
+        if set(channel_names_ovl) != non_derived_names:
+            raise ValueError(
+                "The channel names in the overlay file do not match the primary recording's channels."
+            )
+
+        ui.eeg_data_ref = align_channels_to_config(eeg_data_ovl, channel_names_ovl, ui.config)
+        rebuild_eeg_data_display(ui)
+
+    def done(_):
+        ui.action_remove_overlay.setEnabled(True)
+        ui.menu_analyze_source.setEnabled(True)
+        ui.action_show_overlay.setEnabled(True)
+        ui.action_show_overlay.setChecked(True)  # triggers redraw with the overlay visible
+
+    def failed(e):
         QMessageBox.critical(None, "Overlay loading error", str(e))
-        return
 
-    srate = ui.config[0]["Sampling_rate_hz"]
-    if srate_ovl != srate:
-        QMessageBox.critical(
-            None, "Overlay loading error",
-            f"Sampling rate mismatch: the primary recording is {srate} Hz, "
-            f"but '{os.path.basename(filepath)}' is {srate_ovl} Hz. Both recordings "
-            f"must share the same sampling rate to be overlaid.",
-        )
-        return
-
-    if eeg_data_ovl.shape[1] != ui.eeg_data.shape[1]:
-        QMessageBox.critical(
-            None, "Overlay loading error",
-            f"Sample count mismatch: the primary recording has {ui.eeg_data.shape[1]} samples, "
-            f"but '{os.path.basename(filepath)}' has {eeg_data_ovl.shape[1]} samples. Both "
-            f"recordings must have the same number of samples to be overlaid.",
-        )
-        return
-
-    non_derived_names = {ch["Channel_name"] for ch in ui.config[1] if not ch.get("derived", False)}
-    if set(channel_names_ovl) != non_derived_names:
-        QMessageBox.critical(
-            None, "Overlay loading error",
-            "The channel names in the overlay file do not match the primary recording's channels.",
-        )
-        return
-
-    ui.eeg_data_ref = align_channels_to_config(eeg_data_ovl, channel_names_ovl, ui.config)
-    rebuild_eeg_data_display(ui)
-
-    ui.action_remove_overlay.setEnabled(True)
-    ui.menu_analyze_source.setEnabled(True)
-    ui.action_show_overlay.setEnabled(True)
-    ui.action_show_overlay.setChecked(True)  # triggers redraw with the overlay visible
+    run_busy(ui, "Importing overlay…", work, done, failed)
 
 
 def remove_overlay_signal(ui):

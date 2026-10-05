@@ -1,6 +1,7 @@
 import numpy as np
 import pyqtgraph as pg
-from scipy.signal import cheby2, sosfreqz
+
+from filter.apply_filter import design_filter, zero_phase_gain
 
 from PySide6.QtWidgets import (
     QDialog,
@@ -35,9 +36,13 @@ class FilterWindow(QDialog):
         description = QLabel(
             "\u24d8 "
             "High-pass, low-pass, or notch-filter a given EEG channel using a "
-            "Chebyshev Type 2 filter. The specified cutoff frequency is the "
-            "\u221260\u202fdB stopband edge, not the \u22123\u202fdB point. "
-            "Filters affect only the displayed EEG signal, not any power computations. "
+            "Chebyshev Type 2 filter (zero-phase, 60\u202fdB stopband). The cutoff "
+            "frequency of a high-pass or low-pass filter is the frequency where the "
+            "displayed signal is attenuated by 3\u202fdB. The notch frequency is where a "
+            "notch filter attenuates most; it is 3\u202fdB down at the notch frequency "
+            "\u00b11\u202fHz. A higher order gives a steeper roll-off without moving "
+            "these points. Filters change the displayed signal and therefore also the "
+            "spectrogram, periodogram and time-frequency power. "
             "Click \u223f to plot the magnitude response of a filter."
         )
         description.setWordWrap(True)
@@ -317,33 +322,27 @@ class FilterWindow(QDialog):
         if filter_type == "hp":
             cutoff = self._hp_cutoff[ch_idx].value()
             order  = int(self._hp_order[ch_idx].value())
-            if not (0 < cutoff < nyquist):
-                return
-            sos = cheby2(order, 60, cutoff, btype="highpass", fs=fs, output="sos")
             title = f"High-pass  |  {ch_name}  |  Cutoff: {cutoff} Hz, Order: {order}"
             vlines = [cutoff]
         elif filter_type == "lp":
             cutoff = self._lp_cutoff[ch_idx].value()
             order  = int(self._lp_order[ch_idx].value())
-            if not (0 < cutoff < nyquist):
-                return
-            sos = cheby2(order, 60, cutoff, btype="lowpass", fs=fs, output="sos")
             title = f"Low-pass  |  {ch_name}  |  Cutoff: {cutoff} Hz, Order: {order}"
             vlines = [cutoff]
         else:  # notch
             cutoff = self._notch_cutoff[ch_idx].value()
             order  = int(self._notch_order[ch_idx].value())
-            low, high = cutoff - 1.0, cutoff + 1.0
-            if not (low > 0 and high < nyquist):
-                return
-            sos = cheby2(order, 60, [low, high], btype="bandstop", fs=fs, output="sos")
-            title = f"Notch  |  {ch_name}  |  Cutoff: {cutoff} Hz, Order: {order}"
-            vlines = [low, high]
+            title = f"Notch  |  {ch_name}  |  Notch: {cutoff} Hz, Order: {order}"
+            vlines = [cutoff - 1.0, cutoff + 1.0]
 
-        w, h = sosfreqz(sos, worN=8192, fs=fs)
+        # Same design routine as the applied filter; None = invalid cutoff
+        sos = design_filter(filter_type, float(cutoff), order, float(fs))
+        if sos is None:
+            return
 
+        w = np.linspace(0.0, nyquist, 8192)
         # sosfiltfilt applies the filter forward then backward, which squares the magnitude
-        mag     = np.abs(h) ** 2
+        mag     = zero_phase_gain(sos, w, fs)
         mag_db  = 20.0 * np.log10(np.maximum(mag, 1e-12))
         mag_pct = mag * 100.0
 

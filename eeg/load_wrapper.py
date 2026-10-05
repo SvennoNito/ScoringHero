@@ -1,5 +1,6 @@
 import os
 import numpy as np
+from config.write_configuration import write_configuration
 from config.load_configuration import load_configuration
 from scoring.load_scoring import load_scoring
 from scoring.events_to_ui import events_to_ui
@@ -17,10 +18,14 @@ from utilities.refresh_gui import _update_export_menu_state
 from utilities.overlay_state import get_active_analysis_data, get_overlay_signal_for_display
 from .rebuild_display import rebuild_eeg_data_display
 from .align_channels import align_channels_to_config
+from utilities.busy_indicator import run_busy
 
 
 def load_single(filename_prefix, datatype):
-    """Load a single EEG file and return (eeg_data, srate, channel_names)."""
+    """Load a single EEG file and return (eeg_data, srate, channel_names, units).
+
+    All signals are at the common (highest native) sampling rate srate.
+    """
     if datatype == "eeglab":
         return load_eeglab(filename_prefix)
     if datatype == "r09":
@@ -31,8 +36,20 @@ def load_single(filename_prefix, datatype):
         return load_edf(filename_prefix, scale_to_uv=True)
 
 
-@timing_decorator
-def load_wrapper(ui, datatype, extra_files=None):
+def _repair_stored_sampling_rate(ui, srate):
+    """A recording saved by an older loader may store a different sampling rate than
+    the loader now reports. Refresh the stored rate (other settings are kept) and
+    drop the cached derived data so it is rebuilt."""
+    if ui.config[0]["Sampling_rate_hz"] == srate:
+        return
+    ui.config[0]["Sampling_rate_hz"] = srate
+    write_configuration(f"{ui.filename}.config.json", ui.config)
+    cache_file = f"{ui.filename}.cache.pkl"
+    if os.path.exists(cache_file):
+        os.remove(cache_file)
+
+
+def _reset_for_new_recording(ui):
     ui.this_epoch = 0
 
     # A newly loaded primary recording invalidates any loaded overlay signal
@@ -55,12 +72,38 @@ def load_wrapper(ui, datatype, extra_files=None):
         ui.action_analyze_overlay.setChecked(False)
         ui.action_analyze_overlay.blockSignals(False)
 
-    ui.eeg_data, srate, channel_names = load_single(ui.filename, datatype)
+    # Reset filter window so it is recreated with the new channel configuration
+    ui.FilterWindow = None
+
+
+@timing_decorator
+def load_wrapper(ui, datatype, extra_files=None):
+    """Synchronous load (used at startup, before the window is shown)."""
+    _reset_for_new_recording(ui)
+    events = _load_heavy(ui, datatype, extra_files)
+    _show_loaded(ui, events)
+
+
+def load_wrapper_busy(ui, datatype, extra_files, on_done, on_error):
+    """Load with the heavy step off the GUI thread and a busy indicator on top."""
+    _reset_for_new_recording(ui)
+
+    def done(events):
+        _show_loaded(ui, events)
+        on_done()
+
+    run_busy(ui, "Loading recording…",
+             lambda: _load_heavy(ui, datatype, extra_files), done, on_error)
+
+
+def _load_heavy(ui, datatype, extra_files):
+    """Pure-compute half of loading (no GUI objects). Returns the scoring events."""
+    ui.eeg_data, srate, channel_names, units = load_single(ui.filename, datatype)
 
     if extra_files:
         for filepath in extra_files:
             prefix, _ = os.path.splitext(filepath)
-            extra_data, extra_srate, extra_channel_names = load_single(prefix, datatype)
+            extra_data, extra_srate, extra_channel_names, extra_units = load_single(prefix, datatype)
             if extra_srate != srate:
                 raise ValueError(
                     f"Sampling rate mismatch: primary file has {srate} Hz, "
@@ -74,16 +117,15 @@ def load_wrapper(ui, datatype, extra_files=None):
                 )
             ui.eeg_data = np.vstack([ui.eeg_data, extra_data])
             channel_names = channel_names + extra_channel_names
-
-    # Reset filter window so it is recreated with the new channel configuration
-    ui.FilterWindow = None
+            units = units + extra_units
 
     try:
         numchans = ui.eeg_data.shape[0]
     except:
         numchans = 6
 
-    ui.config = load_configuration(f"{ui.filename}.config.json", numchans, srate, channel_names, ui.app_path)
+    ui.config = load_configuration(f"{ui.filename}.config.json", numchans, srate, channel_names, ui.app_path, units=units)
+    _repair_stored_sampling_rate(ui, srate)
     rebuild_channel_index(ui)
 
     # Reorder eeg_data rows to match the saved channel order in config, and
@@ -107,14 +149,18 @@ def load_wrapper(ui, datatype, extra_files=None):
         f"{ui.filename}.json", ui.config[0]["Epoch_length_s"], ui.numepo, "scoringhero"
     )
 
-    events_to_ui(ui, events)
-
     times_vector(ui)
+    load_cache(ui)
+    return events
+
+
+def _show_loaded(ui, events):
+    """GUI-thread half of loading: build annotation objects and draw every panel."""
+    events_to_ui(ui, events)
     ui.toolbar_jump_to_epoch.setMaximum(ui.numepo)
     ui.SignalWidget.draw_signal(ui.config, ui.eeg_data_display, ui.times, ui.this_epoch,
                                  get_overlay_signal_for_display(ui))
     ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
-    load_cache(ui)
     ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
     ui.HypnogramWidget.draw_hypnogram(ui)
     srate = ui.config[0]["Sampling_rate_hz"]

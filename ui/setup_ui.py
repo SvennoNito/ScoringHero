@@ -612,12 +612,15 @@ def _delete_all_events(ui):
     msg.exec()
 
     if msg.clickedButton() is btn_delete:
+        epoch_length = ui.config[0]["Epoch_length_s"]
         for container in ui.AnnotationContainer:
             container.borders.clear()
-            container.epochs.clear()
-            container.epochs_set.clear()
+            container.epochs = event_epoch(container.borders, epoch_length, ui.numepo)
+            container.epochs_set = [set(lst) for lst in container.epochs]
             clean_epochs_to_uiscoring(ui, container)
         write_scoring(ui)
+        ui.HypnogramWidget.update_hypnogram(ui)
+        ui.HypnogramWidget.update_events(ui)
         refresh_gui(ui)
     elif msg.clickedButton() is btn_epoch:
         _delete_events_in_current_epoch(ui)
@@ -639,4 +642,6 @@ def _delete_events_in_current_epoch(ui):
         draw_event_in_this_epoch(ui, container)
 
     write_scoring(ui)
+    ui.HypnogramWidget.update_hypnogram(ui)
+    ui.HypnogramWidget.update_events(ui)
     refresh_gui(ui)

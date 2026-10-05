@@ -91,7 +91,8 @@ def apply_channel_template(configuration_settings, template, channel_names):
     for chan in configuration_settings[1]:
         saved = by_name.get(chan["Channel_name"])
         if saved and not saved.get("derived", False):
-            merged = dict(saved)
+            # Defaults underneath so keys added after the template was saved are present.
+            merged = {**chan, **saved}
             merged["Channel_name"] = chan["Channel_name"]
             updated_non_derived.append(merged)
         else:

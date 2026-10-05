@@ -58,6 +58,9 @@ class SignalWidget(QWidget):
         return pen
 
     def _standardize_or_scale(self, data, config, visible_counter, chan_y_offset, z_standardize):
+        chan = config[1][visible_counter]
+        if chan.get("Subtract_median", False):
+            data = data - np.median(data)
         if z_standardize:
             median_val = np.median(data)
             q75, q25 = np.percentile(data, [75, 25])
@@ -66,12 +69,7 @@ class SignalWidget(QWidget):
                 data = (data - median_val) / iqr
             else:
                 data = data - median_val
-            return data - chan_y_offset
-        return (
-            data * config[1][visible_counter]["Scaling_factor"] / 100
-            + config[1][visible_counter]["Vertical_shift"]
-            - chan_y_offset
-        )
+        return data * chan["Scaling_factor"] / 100 + chan["Vertical_shift"] - chan_y_offset
 
     @timing_decorator
     def draw_signal(self, config, eeg_data, times_and_indices, this_epoch, eeg_data_overlay=None):
@@ -101,7 +99,8 @@ class SignalWidget(QWidget):
             return
         for chan_counter, visible_counter in enumerate(index_visible_chans):
             pen = pg.mkPen(
-                color=self.channelColorPalette[config[1][visible_counter]["Channel_color"]]
+                color=self.channelColorPalette[config[1][visible_counter]["Channel_color"]],
+                width=config[1][visible_counter].get("Line_width", 1.0),
             )
 
             # Extract data (re-referencing and flip are already baked into eeg_data)
@@ -138,7 +137,9 @@ class SignalWidget(QWidget):
                 for z_val in [3, -3]:
                     amplitude_line = pg.InfiniteLine(
                         angle=0,
-                        pos=z_val - chan_y_offset,
+                        pos=z_val * config[1][visible_counter]["Scaling_factor"] / 100
+                        + config[1][visible_counter]["Vertical_shift"]
+                        - chan_y_offset,
                         pen=self.pen_amplines,
                     )
                     self.axes.addItem(amplitude_line)
@@ -181,7 +182,9 @@ class SignalWidget(QWidget):
         # µV tick labels on left axis for the first visible channel
         left_axis = self.axes.getAxis("left")
         if z_standardize:
-            left_axis.setTicks([[( 3, "+3"), (0, "0"), (-3, "-3")]])
+            sc0 = config[1][index_visible_chans[0]]["Scaling_factor"] / 100
+            sh0 = config[1][index_visible_chans[0]]["Vertical_shift"]
+            left_axis.setTicks([[(sh0 + 3 * sc0, "+3"), (sh0, "0"), (sh0 - 3 * sc0, "-3")]])
         else:
             vc0 = index_visible_chans[0]
             ref_amp = config[0]["Reference_amplitude_line_muV"]
@@ -298,7 +301,8 @@ class SignalWidget(QWidget):
 
         for chan_counter, visible_counter in enumerate(index_visible_chans):
             pen = pg.mkPen(
-                color=self.channelColorPalette[config[1][visible_counter]["Channel_color"]]
+                color=self.channelColorPalette[config[1][visible_counter]["Channel_color"]],
+                width=config[1][visible_counter].get("Line_width", 1.0),
             )
 
             # Extract data (re-referencing and flip are already baked into eeg_data)

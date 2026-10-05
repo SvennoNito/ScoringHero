@@ -18,7 +18,7 @@ from eeg.load_eeglab import load_eeglab
 data_path = Path(__file__).parent / "example_data" / "example_data"
 print(f"Loading EEG data from: {data_path}.mat")
 
-eeg_data, srate, channel_names = load_eeglab(str(data_path))
+eeg_data, srate, channel_names, units = load_eeglab(str(data_path))
 print(f"  Shape: {eeg_data.shape}")
 print(f"  Sampling rate: {srate} Hz")
 print(f"  Channels: {channel_names}")

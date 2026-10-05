@@ -1,11 +1,12 @@
 import numpy as np
 from widgets import ConfigurationWindow
-from utilities.redraw_gui import redraw_gui
+from utilities.redraw_gui import redraw_gui, redraw_all
 from utilities.refresh_gui import refresh_gui
 from scoring.write_scoring import write_scoring
 from scoring.clean_epochs_to_uistages import clean_epochs_to_uiscoring
 from .apply_changes import apply_changes
 from .write_configuration import save_configuration
+from utilities.busy_indicator import run_busy
 
 
 def _display_only_change(ui):
@@ -25,18 +26,21 @@ def _signal_rebuild_change(ui, chan_idx):
     from eeg.rebuild_display import rebuild_eeg_data_display
     from signal_processing.recompute_derived import recompute_derived
 
-    rebuild_eeg_data_display(ui)
-
     spec_chan = ui.config[0].get("Channel_for_spectogram", "")
     wav_chan  = ui.config[0].get("Wavelet_channel", "")
     chan_name = ui.config[1][chan_idx]["Channel_name"] if 0 <= chan_idx < len(ui.config[1]) else ""
+    recompute = chan_name in (spec_chan, wav_chan)
 
-    if chan_name in (spec_chan, wav_chan):
-        recompute_derived(ui)
-        ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
+    def work():
+        rebuild_eeg_data_display(ui)
+        if recompute:
+            recompute_derived(ui)
 
-    redraw_gui(ui)
-    save_configuration(ui)
+    def done(_):
+        redraw_all(ui)
+        save_configuration(ui)
+
+    run_busy(ui, "Filtering…", work, done)
 
 
 def _rename_change(ui):
@@ -104,6 +108,8 @@ def _add_channel(ui, channel_a_name, channel_b_name):
         "Vertical_shift": 0,
         "Re_reference": channel_b_name,
         "Flip_polarity": False,
+        "Subtract_median": False,
+        "Line_width": 1.0,
         "Filter_hp_enabled": False,
         "Filter_hp_cutoff": 0.3,
         "Filter_hp_order": 4,
@@ -123,6 +129,7 @@ def _add_channel(ui, channel_a_name, channel_b_name):
     ui.FilterWindow = None
 
     # Close the current config window and reopen on the Channels tab
+    ui.ConfigurationWindow.discard_pending()
     ui.ConfigurationWindow.close()
     open_config_window(ui)
     ui.ConfigurationWindow.tabs.setCurrentIndex(1)
@@ -157,6 +164,7 @@ def _delete_channel(ui, idx):
     ui.FilterWindow = None
 
     # Close the current config window and reopen on the Channels tab
+    ui.ConfigurationWindow.discard_pending()
     ui.ConfigurationWindow.close()
     open_config_window(ui)
     ui.ConfigurationWindow.tabs.setCurrentIndex(1)
@@ -164,10 +172,14 @@ def _delete_channel(ui, idx):
 
 def _delete_event(ui, idx):
     container = ui.AnnotationContainer[idx]
+    from events.event_epoch import event_epoch
     container.borders.clear()
-    container.epochs.clear()
+    container.epochs = event_epoch(container.borders, ui.config[0]["Epoch_length_s"], ui.numepo)
+    container.epochs_set = [set(lst) for lst in container.epochs]
     clean_epochs_to_uiscoring(ui, container)
     write_scoring(ui)
+    ui.HypnogramWidget.update_hypnogram(ui)
+    ui.HypnogramWidget.update_events(ui)
     refresh_gui(ui)
 
 
@@ -184,17 +196,8 @@ def open_config_window(ui):
     ui.ChannelPage.channelRenamed.connect(lambda: _rename_change(ui))
     ui.ChannelPage.channelAdded.connect(lambda a, b, ui=ui: _add_channel(ui, a, b))
     ui.ChannelPage.channelDeleted.connect(lambda idx, ui=ui: _delete_channel(ui, idx))
-    ui.GeneralPage.changesMade.connect(
-        lambda config_parameter_name, ui=ui: apply_changes(config_parameter_name, ui)
-    )
-    ui.WaveletPage.changesMade.connect(
-        lambda config_parameter_name, ui=ui: apply_changes(config_parameter_name, ui)
-    )
-    ui.SpectrogramPage.changesMade.connect(
-        lambda config_parameter_name, ui=ui: apply_changes(config_parameter_name, ui)
-    )
-    ui.PeriodogramPage.changesMade.connect(
-        lambda config_parameter_name, ui=ui: apply_changes(config_parameter_name, ui)
+    ui.ConfigurationWindow.settingsApplied.connect(
+        lambda keys, ui=ui: apply_changes(keys, ui)
     )
     ui.EventPage.changesMade.connect(lambda: write_scoring(ui))
     ui.EventPage.eventDeleted.connect(lambda idx, ui=ui: _delete_event(ui, idx))

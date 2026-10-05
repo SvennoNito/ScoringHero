@@ -26,11 +26,18 @@ import copy
 
 class ConfigurationWindow(QDialog):
     changesMade = Signal()
+    settingsApplied = Signal(list)
 
     def __init__(self, config, AnnotationContainer, allow_staging, channel_labels=None):
         super().__init__()
         self.setWindowTitle("Configuration Window")
         self.resize(630, 500)
+
+        # General/Spectrogram/Periodogram/Wavelet pages edit `pending`; Channels and
+        # Events pages edit the live config directly.
+        self.live = config[0]
+        self.base = copy.deepcopy(config[0])  # snapshot of what was last applied
+        self.pending = copy.deepcopy(config[0])
 
         self.layout = QVBoxLayout(self)
         self.tabs = QTabWidget()
@@ -38,11 +45,22 @@ class ConfigurationWindow(QDialog):
 
         # Create the pages
         self.channel_page = ChannelConfiguration(config[1], config[0])
-        self.general_page = GeneralConfiguration(config[0], allow_staging, channel_labels or [])
+        self.general_page = GeneralConfiguration(self.pending, allow_staging, channel_labels or [])
         self.events_page = EventConfiguration(AnnotationContainer)
-        self.spectrogram_page = SpectrogramConfiguration(config[0], channel_labels or [])
-        self.wavelet_page = WaveletConfiguration(config[0], channel_labels or [])
-        self.periodogram_page = PeriodogramConfiguration(config[0], channel_labels or [])
+        self.spectrogram_page = SpectrogramConfiguration(self.pending, channel_labels or [])
+        self.wavelet_page = WaveletConfiguration(self.pending, channel_labels or [])
+        self.periodogram_page = PeriodogramConfiguration(self.pending, channel_labels or [])
+        for page in (self.general_page, self.spectrogram_page, self.wavelet_page, self.periodogram_page):
+            page.changesMade.connect(self._update_apply_state)
+
+        self.apply_button = QPushButton("Apply")
+        self.apply_button.setFixedWidth(100)
+        self.apply_button.setEnabled(False)
+        self.apply_button.clicked.connect(self.apply_pending)
+        button_row = QHBoxLayout()
+        button_row.addStretch(1)
+        button_row.addWidget(self.apply_button)
+        self.layout.addLayout(button_row)
         # self.layout_page = PanelLayout(config[0])
 
         # Add the pages to the tabs
@@ -57,12 +75,48 @@ class ConfigurationWindow(QDialog):
     def return_page(self):
         return self.channel_page, self.general_page, self.events_page, self.wavelet_page, self.spectrogram_page, self.periodogram_page
 
-    def closeEvent(self, event):
+    def reject(self):
+        # Esc and the close button both end up here (QDialog.closeEvent calls reject).
         # A channel rename that is still sitting in the debounce timer would
         # otherwise be dropped when the window closes, leaving
         # ui.channel_name_to_idx pointing at the pre-rename name.
         self.channel_page.flush_pending_rename()
-        super().closeEvent(event)
+        if self._changed_keys():
+            box = QMessageBox(self)
+            box.setWindowTitle("Unapplied changes")
+            box.setText("There are pending changes. Apply them before closing?")
+            apply_btn = box.addButton("Apply", QMessageBox.AcceptRole)
+            discard_btn = box.addButton("Discard", QMessageBox.DestructiveRole)
+            box.addButton("Cancel", QMessageBox.RejectRole)
+            box.exec()
+            clicked = box.clickedButton()
+            if clicked is apply_btn:
+                self.apply_pending()
+            elif clicked is not discard_btn:
+                return  # Cancel: keep window open with edits intact
+        super().reject()
+
+    def discard_pending(self):
+        """Drop unapplied General/Spectrogram/Periodogram/Wavelet edits so close() won't prompt."""
+        for k in self._changed_keys():
+            self.pending[k] = copy.deepcopy(self.base[k])
+
+    def _changed_keys(self):
+        return [k for k in self.pending if self.pending[k] != self.base.get(k)]
+
+    def _update_apply_state(self, *_):
+        self.apply_button.setEnabled(bool(self._changed_keys()))
+
+    def apply_pending(self):
+        """Commit pending edits into the live config; one settingsApplied emit for all keys."""
+        keys = self._changed_keys()
+        if not keys:
+            return
+        for k in keys:
+            self.live[k] = copy.deepcopy(self.pending[k])
+            self.base[k] = copy.deepcopy(self.pending[k])
+        self._update_apply_state()
+        self.settingsApplied.emit(keys)
     
 
 """ class PanelLayout(QDialog):
@@ -305,18 +359,17 @@ class GeneralConfiguration(QDialog):
         start_row.addWidget(self.start_time_edit)
         form_layout.addRow(start_row)
 
-        # Apply button
-        apply_button = QPushButton("Apply")
-        apply_button.setFixedWidth(100)
-        apply_button.clicked.connect(lambda: self.apply_changes(general_config))
-
-        button_layout = QHBoxLayout()
-        button_layout.addStretch(1)  # Add stretch to push the button to the right
-        button_layout.addWidget(apply_button)
+        # Edits write into the pending config; the window-level Apply commits them.
+        for spinbox_list in self.spinboxes.values():
+            for spinbox in spinbox_list:
+                spinbox.valueChanged.connect(lambda _=None: self.apply_changes(general_config))
+        for optionbox_list in self.optionboxes.values():
+            for optionbox in optionbox_list:
+                optionbox.currentTextChanged.connect(lambda _=None: self.apply_changes(general_config))
+        self.start_time_edit.timeChanged.connect(lambda _=None: self.apply_changes(general_config))
 
         # Final layout
         layout.addLayout(form_layout)
-        layout.addLayout(button_layout)
 
 
 
@@ -818,6 +871,8 @@ class ChannelConfiguration(QDialog):
         self.shift = []
         self.reref = []
         self.flip = []
+        self.subtract_median = []
+        self.line_width = []
         self.number_labels = []
         self.trash_buttons = []
 
@@ -879,6 +934,12 @@ class ChannelConfiguration(QDialog):
         _dummy_flip_label = QLabel("Flip")
         _dummy_flip_label.setFont(QFont())
         flip_col_w = max(_dummy_flip_label.sizeHint().width() + 4, QCheckBox().sizeHint().width())
+        _dummy_submed_label = QLabel("Subtract median")
+        _bold = QFont()
+        _bold.setBold(True)
+        _dummy_submed_label.setFont(_bold)
+        submed_col_w = _dummy_submed_label.sizeHint().width() + 4
+        linewidth_col_w = spinbox_w
 
         # Bold font
         bold_font = QFont()
@@ -914,9 +975,15 @@ class ChannelConfiguration(QDialog):
         h7 = QLabel("Flip")
         h7.setFixedWidth(flip_col_w)
         h7.setFont(bold_font)
+        h7b = QLabel("Subtract median")
+        h7b.setFixedWidth(submed_col_w)
+        h7b.setFont(bold_font)
         h8 = QLabel("")
         h8.setFixedWidth(trash_w)
-        for hw in [h0, h_grip, h1, h2, h3, h4, h5, h6, h7, h8]:
+        h7c = QLabel("Line width")
+        h7c.setFixedWidth(linewidth_col_w)
+        h7c.setFont(bold_font)
+        for hw in [h0, h_grip, h1, h2, h3, h4, h5, h6, h7, h7b, h7c, h8]:
             header_layout.addWidget(hw)
         header_layout.addStretch()
         layout.addWidget(header_widget)
@@ -970,7 +1037,7 @@ class ChannelConfiguration(QDialog):
             # Value by which EEG is multiplied
             spinbox = QDoubleSpinBox()
             spinbox.setMinimum(0)
-            spinbox.setMaximum(10000)
+            spinbox.setMaximum(1000000)
             spinbox.setDecimals(0)
             spinbox.setValue(chaninfo["Scaling_factor"])
             spinbox.setSuffix(" %")
@@ -979,7 +1046,7 @@ class ChannelConfiguration(QDialog):
 
             # Vertical shift
             shiftbox = QDoubleSpinBox()
-            shiftbox.setMinimum(0)
+            shiftbox.setMinimum(-10000)
             shiftbox.setMaximum(10000)
             shiftbox.setDecimals(0)
             shiftbox.setValue(chaninfo["Vertical_shift"])
@@ -1020,6 +1087,22 @@ class ChannelConfiguration(QDialog):
             flipbox.setChecked(chaninfo.get("Flip_polarity", False))
             flipbox.clicked.connect(lambda checked, i=count: self.change_event(channel_config, i, "flip"))
 
+            # Subtract median checkbox
+            submedbox = QCheckBox()
+            submedbox.setFixedWidth(submed_col_w)
+            submedbox.setChecked(chaninfo.get("Subtract_median", False))
+            submedbox.clicked.connect(lambda checked, i=count: self.change_event(channel_config, i, "submedian"))
+            # Line width
+            linewidthbox = QDoubleSpinBox()
+            linewidthbox.setMinimum(0.5)
+            linewidthbox.setMaximum(5)
+            linewidthbox.setSingleStep(0.5)
+            linewidthbox.setDecimals(1)
+            linewidthbox.setSuffix(" px")
+            linewidthbox.setValue(chaninfo.get("Line_width", 1.0))
+            linewidthbox.setFixedWidth(linewidth_col_w)
+            linewidthbox.valueChanged.connect(lambda val, i=count: self.change_event(channel_config, i, "linewidth"))
+
             # Trash button (delete channel)
             trash_btn = QPushButton("🗑")
             trash_btn.setFixedWidth(trash_w)
@@ -1046,6 +1129,8 @@ class ChannelConfiguration(QDialog):
             row_layout.addWidget(colorbox)
             row_layout.addWidget(rerefbox)
             row_layout.addWidget(flipbox)
+            row_layout.addWidget(submedbox)
+            row_layout.addWidget(linewidthbox)
             row_layout.addWidget(trash_btn)
             row_layout.addStretch()
 
@@ -1060,6 +1145,8 @@ class ChannelConfiguration(QDialog):
             self.shift.append(shiftbox)
             self.reref.append(rerefbox)
             self.flip.append(flipbox)
+            self.subtract_median.append(submedbox)
+            self.line_width.append(linewidthbox)
             self.number_labels.append(numberbox)
 
     def _on_select_all_changed(self, channel_config):
@@ -1172,12 +1259,14 @@ class ChannelConfiguration(QDialog):
             chaninfo["Vertical_shift"] = int(self.shift[counter].value())
             chaninfo["Re_reference"] = self.reref[counter].currentText()
             chaninfo["Flip_polarity"] = self.flip[counter].isChecked()
+            chaninfo["Subtract_median"] = self.subtract_median[counter].isChecked()
+            chaninfo["Line_width"] = self.line_width[counter].value()
         # Display-only props: only a cheap redraw needed.
         # Signal props (reref, flip): need to rebuild eeg_data_display, but
         # spectrogram recomputation is only needed if this channel feeds the spectrogram
         # or wavelet panel — caller decides via the emitted index.
         # Renames never reach here; they go through _on_label_edited instead.
-        display_only_props = {"display", "color", "scale", "shift"}
+        display_only_props = {"display", "color", "scale", "shift", "submedian", "linewidth"}
         signal_rebuild_props = {"reref", "flip"}
         if prop in display_only_props:
             self.displayOnlyChanged.emit()
@@ -1204,7 +1293,7 @@ class ChannelConfiguration(QDialog):
         # change_event's enumerate(channel_config) loop stays correct.
         for widget_list in [self.label, self.scale, self.shift,
                              self.display, self.color, self.reref, self.flip,
-                             self.number_labels, self.trash_buttons]:
+                             self.subtract_median, self.line_width, self.number_labels, self.trash_buttons]:
             moved_widget = widget_list.pop(src_start)
             widget_list.insert(new_pos, moved_widget)
 

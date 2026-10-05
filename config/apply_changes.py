@@ -9,10 +9,11 @@ from signal_processing.compute_epoch_periodogram import (
 from signal_processing.times_vector import times_vector
 from signal_processing.freqs_of_interest import freqs_of_interest
 from signal_processing.recompute_derived import recompute_derived
-from utilities.redraw_gui import redraw_gui
+from utilities.redraw_gui import redraw_gui, redraw_all
 from utilities.apply_tf_visibility import apply_tf_visibility
 from utilities.channel_index import rebuild_channel_index
 from eeg.rebuild_display import rebuild_eeg_data_display
+from utilities.busy_indicator import run_busy
 
 
 def apply_changes(config_parameter_name, ui):
@@ -43,12 +44,21 @@ def apply_changes(config_parameter_name, ui):
         or "Sampling_rate_hz" in config_parameter_name
         or "Epoch_length_s" in config_parameter_name
     )
-    if channel_settings_changed or spectrogram_params_changed:
-        rebuild_eeg_data_display(ui)
+    rebuilt = channel_settings_changed or spectrogram_params_changed
+    if rebuilt:
         rebuild_channel_index(ui)
-        recompute_derived(ui)
-        ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
 
+        def work():
+            rebuild_eeg_data_display(ui)
+            recompute_derived(ui)
+
+        run_busy(ui, "Filtering…", work,
+                 lambda _: _finish_changes(config_parameter_name, ui, rebuilt))
+        return
+    _finish_changes(config_parameter_name, ui, rebuilt)
+
+
+def _finish_changes(config_parameter_name, ui, rebuilt):
     if "Spectogram_limit_hz" in config_parameter_name:
         ui.freqsOI = freqs_of_interest(ui.freqs, ui.config)
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
@@ -112,16 +122,11 @@ def apply_changes(config_parameter_name, ui):
     # Apply TF panel visibility
     apply_tf_visibility(ui)
 
-    # Redraw EEG
-    redraw_gui(ui)
-
-    # Hypnogram has it's own time scale
-    if (
-        ("Sampling_rate_hz" in config_parameter_name)
-        or ("Epoch_length_s" in config_parameter_name)
-    ):
-        ui.HypnogramWidget.draw_hypnogram(ui)
-        ui.stages = default_scoring(ui.config[0]["Epoch_length_s"], ui.numepo)
+    # Redraw: everything after a signal rebuild, otherwise just the signal panel
+    if rebuilt:
+        redraw_all(ui)
+    else:
+        redraw_gui(ui)
 
     # Update time axis labels on all panels when time unit or start time changes
     if (
