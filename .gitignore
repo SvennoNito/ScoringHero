@@ -10,3 +10,4 @@ example_data
 .venv_*/
 .claude/worktrees/
 
+channel_template.json
