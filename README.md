@@ -185,40 +185,24 @@ and exported like any other scoring.
 - Select which channels to pass as **EEG** and **EOG** inputs (both optional)
 - Option to apply GSSC's internal bandpass filter (0.3–30 Hz) before scoring
 
-#### ezscore-f — forehead EEG (`Ctrl+E`)
+#### NIDRA — ezscore-f forehead EEG (`Ctrl+N`)
 
-- Artifact-aware classifiers for **two-channel forehead EEG** (ZMax, DCM, CGX
-  PatchEEG and comparable montages), from
-  [Coon et al. 2025](https://doi.org/10.1101/2025.06.02.657451)
-- Select the **left** and **right** forehead derivation, and one of three model
-  variants (`ez6` offline, `ez6rt` real-time, `ez6moe` mixture of experts).
-  Weights are downloaded on first use
+- Artifact-aware **ezscore-f** classifiers for **two-channel forehead EEG** (ZMax,
+  DCM, CGX PatchEEG and comparable montages), from
+  [Coon et al. 2025](https://doi.org/10.1101/2025.06.02.657451), run from the
+  ONNX exports [NIDRA](https://github.com/paulzerr/nidra) publishes — inside
+  ScoringHero, no second Python environment
+- Select the **left** and **right** forehead derivation, and one of two model
+  variants (`ez6`, `ez6moe` mixture of experts). Weights are downloaded on
+  first use
 - A sixth **artifact** class keeps unusable epochs out of the sleep statistics:
   they are left unscored (or scored *Inconclusive*), flagged as unclean, and can
   be marked with an event marker
 - Optionally stores the per-epoch class probabilities (hypnodensity) in the
-  scoring file and shows ezscore's summary figure when finished
-- ezscore needs Python 3.9–3.11, so it runs in a separate environment. Create it
-  once with the *Set up ezscore environment...* button in the dialog, or by
-  running `python setup_ezscore.py`; see [EZSCORE_SETUP.md](EZSCORE_SETUP.md)
-
-#### NIDRA — full PSG and forehead EEG (`Ctrl+N`)
-
-- Runs the models [NIDRA](https://github.com/paulzerr/nidra) publishes as ONNX
-  graphs, inside ScoringHero — no second Python environment:
-  - **U-Sleep 2.0** for full polysomnography ([Perslev et al. 2021](https://www.nature.com/articles/s41746-021-00440-5),
-    weights re-trained by Rossi et al. for SLEEPYLAND)
-  - **ez6 / ez6moe** for two-channel forehead EEG, the same weights as the
-    ezscore-f entry above
-- For PSG, select the **EEG** and (optionally) **EOG** channels: every EEG × EOG
-  combination is scored and the class probabilities are averaged. Without EOG,
-  the EEG-only graph scores each EEG channel on its own
-- Artifact epochs of the forehead models are handled exactly as in the ezscore-f
-  entry; U-Sleep always assigns one of the five sleep stages
-- Optionally stores the hypnodensity in the scoring file and shows a summary
-  figure (hypnodensity + hypnogram) when finished
-- Needs `onnxruntime` and `mne` (`uv sync --extra nidra`); weights are
-  downloaded on first use. See [NIDRA_SETUP.md](NIDRA_SETUP.md)
+  scoring file and shows a summary figure (hypnodensity + hypnogram) when
+  finished
+- Needs `onnxruntime` and `mne` (`uv sync --extra nidra`). See
+  [NIDRA_SETUP.md](NIDRA_SETUP.md)
 
 ### Sleep Report (PDF Export)
 
@@ -292,7 +276,6 @@ Legacy binary format. Fixed 9-channel layout at 128 Hz with hardcoded channel na
 | Sleeptrip | `.csv` | MATLAB Sleeptrip toolbox | Single column, numeric encoding |
 | Sleepyland | `.annot` | Sleepyland | Includes per-stage confidence scores |
 | GSSC | `.csv` | Greifswald Sleep Stage Classifier | Includes per-stage confidence |
-| ezscore-f | `.csv` | ezscore-f forehead EEG classifier | Single column, includes an artifact class |
 | Zurich VIS | `.vis` | Zurich scoring format | 20-second epoch standard |
 
 #### YASA (`.txt`)
@@ -338,22 +321,6 @@ CSV with header: `Epoch, Time, Stage, Conf_W, Conf_N1, Conf_N2, Conf_N3, Conf_R`
 | `2` | N2 |
 | `3` | N3 |
 | `4` | REM |
-
-#### ezscore-f (`.csv`)
-
-Single column of integer codes, one per 30-second epoch, without a header — the
-format written by `ezscore_demo.py`.
-
-| Stage value | Stage |
-|-------------|-------|
-| `1` | N1 |
-| `2` | N2 |
-| `3` | N3 |
-| `4` | REM |
-| `5` | Wake |
-| `6` | Artifact (imported unscored and flagged as unclean) |
-
-Confidence for the assigned stage is read from the corresponding `Conf_*` column.
 
 #### Zurich VIS (`.vis`)
 
@@ -460,8 +427,7 @@ Up to 13 annotation types are supported (indices 0–12).
 | `Ctrl+C` | Open configuration window |
 | `Ctrl+F` | Open filter window |
 | `Ctrl+G` | Open Auto Score (GSSC) window |
-| `Ctrl+E` | Open Auto Score (ezscore-f) window |
-| `Ctrl+N` | Open Auto Score (NIDRA) window |
+| `Ctrl+N` | Open Auto Score (NIDRA, ezscore-f) window |
 | `Ctrl+K` | Open K-Complex Detection (MT-KCD) window |
 | `Ctrl+H` | Show help |
 

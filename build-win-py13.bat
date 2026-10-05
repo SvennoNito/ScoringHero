@@ -12,7 +12,6 @@ uv run --python 3.13 --extra build-win python -m nuitka ^
     --include-module=PySide6.QtOpenGLWidgets ^
     --include-module=widgets.filterWindow ^
     --include-module=widgets.gsscWindow ^
-    --include-module=widgets.ezscoreWindow ^
     --include-module=widgets.nidraWindow ^
     --include-module=widgets.summaryImageWindow ^
     --include-module=utilities.epoch_disagreement ^
@@ -25,7 +24,6 @@ uv run --python 3.13 --extra build-win python -m nuitka ^
     --include-data-files=./help/images/selection_box.png=help/images/selection_box.png ^
     --include-data-files=./style/modern_theme.qss=style/modern_theme.qss ^
     --include-data-files=./spectral.txt=spectral.txt ^
-    --include-data-files=./scoring/ezscore_worker.py=scoring/ezscore_worker.py ^
     --output-filename=scoringhero_windows.exe ^
     --output-dir=dist ^
     scoringhero.py

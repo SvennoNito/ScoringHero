@@ -5,7 +5,6 @@ from .load_yasa import load_yasa
 from .load_sleeptrip import load_sleeptrip
 from .load_sleepyland import load_sleepyland
 from .load_gssc import load_gssc
-from .load_ezscore import load_ezscore
 
 def load_scoring(scoring_filename, epolen, numepo, filetype):
 
@@ -26,8 +25,5 @@ def load_scoring(scoring_filename, epolen, numepo, filetype):
 
     if filetype == "gssc":
         scoring_data, annotations = load_gssc(scoring_filename, epolen, numepo)
-
-    if filetype == "ezscore":
-        scoring_data, annotations = load_ezscore(scoring_filename, epolen, numepo)
 
     return scoring_data, annotations

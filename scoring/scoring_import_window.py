@@ -125,8 +125,6 @@ def scoring_import_window(ui, filetype):
         datatype = "*.annot"
     if filetype == "gssc":
         datatype = "*.csv"
-    if filetype == "ezscore":
-        datatype = "*.csv"
 
     name_of_scoringfile, _ = QFileDialog.getOpenFileName(
         None, "Open Scoring File", ui.default_data_path, datatype

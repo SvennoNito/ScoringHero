@@ -2,16 +2,11 @@
 nidra_env.py — model management for the NIDRA classifiers.
 
 NIDRA (Zerr 2025, https://github.com/paulzerr/nidra) publishes ONNX exports of
-two model families:
-
-* **U-Sleep 2.0** (`u-sleep-nsrr-2024`, weights re-trained by Rossi et al. for
-  SLEEPYLAND) for full polysomnography — scalp EEG with optional EOG.
-* **ezscore-f** (`ez6`, `ez6moe`, Coon et al. 2025) for two-channel forehead
-  EEG, with a sixth artifact class.
+the **ezscore-f** models (`ez6`, `ez6moe`, Coon et al. 2025) for two-channel
+forehead EEG, with a sixth artifact class.
 
 Because the weights are ONNX rather than TensorFlow SavedModels, ScoringHero
-runs them in its own interpreter with `onnxruntime` — no sidecar environment,
-unlike `ezscore_env.py`.
+runs them in its own interpreter with `onnxruntime` — no sidecar environment.
 
 This module holds only plain-Python helpers: the model registry, locating and
 downloading the weights, and reporting which optional packages are missing.
@@ -23,41 +18,18 @@ import sys
 # --------------------------------------------------------------------------
 # Model registry
 # --------------------------------------------------------------------------
-# "mode" decides which runner is used and which channel selection the dialog
-# shows. U-Sleep ships as two graphs: one taking EEG + EOG, one EEG only; the
-# runner picks by whether the user assigned any EOG channel.
-
 MODELS = {
-    "u-sleep-nsrr-2024": {
-        "label":       "U-Sleep 2.0 — full PSG (scalp EEG ± EOG)",
-        "mode":        "psg",
-        "files":       {
-            "eeg_eog": "u-sleep-nsrr-2024.onnx",
-            "eeg":     "u-sleep-nsrr-2024_eeg.onnx",
-        },
-        "size_mb":     24,
-        "description": (
-            "U-Sleep 2.0 for standard polysomnography, as shipped by NIDRA.\n"
-            "Every EEG x EOG channel combination is scored separately and the\n"
-            "class probabilities are averaged. Without an EOG channel the\n"
-            "EEG-only graph is used and each EEG channel forms its own group."
-        ),
-    },
     "ez6": {
         "label":       "ez6 — two-channel forehead EEG",
-        "mode":        "forehead",
         "files":       {"default": "ez6.onnx"},
         "size_mb":     12,
         "description": (
             "Artifact-aware 6-class model for forehead montages (ZMax, DCM,\n"
-            "CGX PatchEEG). The same weights as the ez6 model behind the\n"
-            "ezscore-f menu entry, but exported to ONNX, so no TensorFlow\n"
-            "environment is needed. Input is median/IQR normalized."
+            "CGX PatchEEG). Input is median/IQR normalized."
         ),
     },
     "ez6moe": {
         "label":       "ez6moe — forehead EEG, mixture of experts",
-        "mode":        "forehead",
         "files":       {"default": "ez6moe.onnx"},
         "size_mb":     117,
         "description": (
@@ -68,20 +40,25 @@ MODELS = {
     },
 }
 
-DEFAULT_MODEL = "u-sleep-nsrr-2024"
+DEFAULT_MODEL = "ez6"
 
 # NIDRA's own weight repository
 _HF_BASE = "https://huggingface.co/pzerr/NIDRA_models/resolve/main"
 
 
-def models_for_mode(mode):
-    """Model keys belonging to 'psg' or 'forehead', in registry order."""
-    return [key for key, spec in MODELS.items() if spec["mode"] == mode]
-
-
 def model_files(model_key):
     """Every weight file a model may need, as a list of file names."""
     return list(MODELS[model_key]["files"].values())
+
+
+def is_frozen():
+    """True when running from a packaged build rather than from source."""
+    return bool(
+        getattr(sys, "frozen", False)
+        or hasattr(sys, "_MEIPASS")
+        or os.environ.get("NUITKA_ONEFILE_PARENT")
+        or "__compiled__" in globals()
+    )
 
 
 # --------------------------------------------------------------------------

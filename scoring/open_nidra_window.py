@@ -1,12 +1,11 @@
 """
 open_nidra_window.py — GUI flow for automatic sleep staging with NIDRA.
 
-NIDRA (Zerr 2025, https://github.com/paulzerr/nidra) bundles two validated
-classifier families as ONNX models: U-Sleep 2.0 (Perslev et al., weights
-re-trained by Rossi et al. for SLEEPYLAND) for full polysomnography, and the
-ezscore-f models (Coon et al. 2025) for two-channel forehead EEG. The models
-run with onnxruntime inside ScoringHero — see nidra_runner.py. This module
-collects the settings, applies the result to ui.stages and reports progress.
+NIDRA (Zerr 2025, https://github.com/paulzerr/nidra) bundles the ezscore-f
+models (Coon et al. 2025) for two-channel forehead EEG as ONNX files. The
+models run with onnxruntime inside ScoringHero — see nidra_runner.py. This
+module collects the settings, applies the result to ui.stages and reports
+progress.
 """
 
 import json
@@ -30,10 +29,8 @@ from .nidra_env import (
     find_model_file,
     download_model_file,
     missing_requirements,
+    is_frozen,
 )
-# Shared with the ezscore feature: both need to know whether they run from a
-# packaged build, where ui.app_path is a temporary extraction directory.
-from .ezscore_env import is_frozen
 from .write_scoring import write_scoring
 
 _SETTINGS_FILE = "nidra_settings.json"
@@ -218,21 +215,9 @@ def _after_nidra_settings(ui, settings):
 # Model weights
 # --------------------------------------------------------------------------
 
-def _required_model_file(settings, model_key):
-    """The single .onnx file this run needs.
-
-    U-Sleep ships two graphs; which one applies depends on whether the user
-    assigned any EOG channel.
-    """
-    files = MODELS[model_key]["files"]
-    if MODELS[model_key]["mode"] == "psg":
-        return files["eeg_eog"] if settings.get("eog_channels") else files["eeg"]
-    return files["default"]
-
-
 def _ensure_model(settings, model_key):
-    """Return the path of the needed .onnx file, downloading it if the user agrees."""
-    filename = _required_model_file(settings, model_key)
+    """Return the path of the model's .onnx file, downloading it if the user agrees."""
+    filename = MODELS[model_key]["files"]["default"]
     extra_root = settings.get("model_dir", "").strip()
 
     found = find_model_file(filename, extra_root)
@@ -307,11 +292,9 @@ def _channel_index(ui, name):
 def _execute_nidra(ui, settings, model_path, mode, overwrite_stages, progress):
     from .nidra_runner import (
         FOREHEAD_CLASSES,
-        PSG_CLASSES,
         NidraCancelled,
         render_summary_figure,
         run_forehead,
-        run_psg,
     )
 
     summary_png = None
@@ -324,53 +307,25 @@ def _execute_nidra(ui, settings, model_path, mode, overwrite_stages, progress):
             QApplication.processEvents()
             return not progress.wasCanceled()
 
-        if settings["mode"] == "psg":
-            eeg_names = list(settings["eeg_channels"])
-            eog_names = list(settings.get("eog_channels") or [])
-            used_names = eeg_names + eog_names
-            position = {name: index for index, name in enumerate(used_names)}
-
-            # ScoringHero keeps its signals in microvolts; the models were
-            # trained on volts. U-Sleep's robust scaling makes this a no-op,
-            # but keeping the convention avoids surprises.
-            data_volts = np.vstack(
-                [ui.eeg_data_display[_channel_index(ui, name)] for name in used_names]
-            ).astype(np.float64) / 1e6
-
-            if eog_names:
-                groups = [
-                    (position[eeg], position[eog])
-                    for eeg in eeg_names for eog in eog_names
-                ]
-            else:
-                groups = [(position[eeg],) for eeg in eeg_names]
-
-            hypnogram, probabilities = run_psg(
-                data_volts, sfreq, model_path, groups, tick=tick
-            )
-            class_names = PSG_CLASSES
-            channels_used = used_names
-
+        left_name = settings["left_channel"]
+        left_index = _channel_index(ui, left_name)
+        if settings["duplicate_left"]:
+            right_index = left_index
+            channels_used = [left_name]
         else:
-            left_name = settings["left_channel"]
-            left_index = _channel_index(ui, left_name)
-            if settings["duplicate_left"]:
-                right_index = left_index
-                channels_used = [left_name]
-            else:
-                right_name = settings["right_channel"]
-                right_index = _channel_index(ui, right_name)
-                channels_used = [left_name, right_name]
+            right_name = settings["right_channel"]
+            right_index = _channel_index(ui, right_name)
+            channels_used = [left_name, right_name]
 
-            data_volts = np.vstack([
-                ui.eeg_data_display[left_index],
-                ui.eeg_data_display[right_index],
-            ]).astype(np.float64) / 1e6
+        data_volts = np.vstack([
+            ui.eeg_data_display[left_index],
+            ui.eeg_data_display[right_index],
+        ]).astype(np.float64) / 1e6
 
-            hypnogram, probabilities = run_forehead(
-                data_volts, sfreq, model_path, tick=tick
-            )
-            class_names = FOREHEAD_CLASSES
+        hypnogram, probabilities = run_forehead(
+            data_volts, sfreq, model_path, tick=tick
+        )
+        class_names = FOREHEAD_CLASSES
 
         n_artifact = _apply_scores(
             ui, settings, hypnogram, probabilities, class_names,
