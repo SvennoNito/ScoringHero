@@ -1,5 +1,7 @@
 from eeg.units import is_voltage_unit, normalize_unit
 
+DEFAULT_LINE_WIDTH = 2.0  # px, per-channel trace width on the signal panel
+
 
 def default_scaling_factor(number_of_signals):
     """Default Scaling_factor (%) by number of signals in the file."""
@@ -66,7 +68,7 @@ def default_configuration(number_of_signals, srate, channel_names, units=None):
             "Re_reference": "None",
             "Flip_polarity": False,
             "Subtract_median": default_subtract_median(units[chan] if units is not None and chan < len(units) else None),
-            "Line_width": 1.0,
+            "Line_width": DEFAULT_LINE_WIDTH,
             "Filter_hp_enabled": False,
             "Filter_hp_cutoff": 0.3,
             "Filter_hp_order": 4,

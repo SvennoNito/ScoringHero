@@ -121,19 +121,19 @@ def test_is_voltage_unit():
 def test_line_width_default_template_and_filler():
     names = ["EEG", "ACC"]
     config = default_configuration(2, 100, names, None)
-    assert [c["Line_width"] for c in config[1]] == [1.0, 1.0]
+    assert [c["Line_width"] for c in config[1]] == [2.0, 2.0]
     template = [dict(config[1][0], Channel_name="EEG", Line_width=3.5)]
     config = apply_channel_template(config, template, names)
     assert config[1][0]["Line_width"] == 3.5
-    assert config[1][1]["Line_width"] == 1.0
-    # Older configuration without the key gets 1.0
+    assert config[1][1]["Line_width"] == 2.0
+    # Older configuration without the key gets 2.0
     config = default_configuration(2, 100, names, None)
     for c in config[1]:
         del c["Line_width"]
     with tempfile.TemporaryDirectory() as d:
         path = os.path.join(d, "x.config.json")
         config = check_for_compatability(config, path, 2, 100, names, None)
-    assert [c["Line_width"] for c in config[1]] == [1.0, 1.0]
+    assert [c["Line_width"] for c in config[1]] == [2.0, 2.0]
     print("[OK] line width default, template, compatibility filler")
 
 

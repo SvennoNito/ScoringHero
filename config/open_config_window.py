@@ -5,6 +5,7 @@ from scoring.write_scoring import write_scoring
 from events.event_deletion import rebuild_event_epochs, refresh_after_event_deletion
 from .apply_changes import apply_changes
 from .write_configuration import save_configuration
+from .default_config import DEFAULT_LINE_WIDTH
 from utilities.busy_indicator import run_busy
 
 
@@ -114,7 +115,7 @@ def _add_channel(ui, channel_a_name, channel_b_name):
         "Re_reference": channel_b_name,
         "Flip_polarity": False,
         "Subtract_median": False,
-        "Line_width": 1.0,
+        "Line_width": DEFAULT_LINE_WIDTH,
         "Filter_hp_enabled": False,
         "Filter_hp_cutoff": 0.3,
         "Filter_hp_order": 4,

@@ -5,6 +5,7 @@ import pyqtgraph as pg
 import numpy as np
 from utilities.timing_decorator import timing_decorator
 from utilities.clock_time_format import parse_start_time, format_clock_time
+from config.default_config import DEFAULT_LINE_WIDTH
 from signal_processing import *
 
 
@@ -100,7 +101,7 @@ class SignalWidget(QWidget):
         for chan_counter, visible_counter in enumerate(index_visible_chans):
             pen = pg.mkPen(
                 color=self.channelColorPalette[config[1][visible_counter]["Channel_color"]],
-                width=config[1][visible_counter].get("Line_width", 1.0),
+                width=config[1][visible_counter].get("Line_width", DEFAULT_LINE_WIDTH),
             )
 
             # Extract data (re-referencing and flip are already baked into eeg_data)
@@ -302,7 +303,7 @@ class SignalWidget(QWidget):
         for chan_counter, visible_counter in enumerate(index_visible_chans):
             pen = pg.mkPen(
                 color=self.channelColorPalette[config[1][visible_counter]["Channel_color"]],
-                width=config[1][visible_counter].get("Line_width", 1.0),
+                width=config[1][visible_counter].get("Line_width", DEFAULT_LINE_WIDTH),
             )
 
             # Extract data (re-referencing and flip are already baked into eeg_data)

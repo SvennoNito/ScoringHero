@@ -23,6 +23,8 @@ from PySide6.QtCore import Signal, Qt, QTime, QTimer
 from PySide6.QtGui import QColor, QFont, QFontMetrics
 import copy
 
+from config.default_config import DEFAULT_LINE_WIDTH
+
 
 class ConfigurationWindow(QDialog):
     changesMade = Signal()
@@ -1113,7 +1115,7 @@ class ChannelConfiguration(QDialog):
             line_width_box.setSingleStep(0.5)
             line_width_box.setDecimals(1)
             line_width_box.setSuffix(" px")
-            line_width_box.setValue(chaninfo.get("Line_width", 1.0))
+            line_width_box.setValue(chaninfo.get("Line_width", DEFAULT_LINE_WIDTH))
             line_width_box.setFixedWidth(line_width_col_w)
             line_width_box.valueChanged.connect(
                 lambda val, i=count: self.change_event(channel_config, i, "line_width"))
