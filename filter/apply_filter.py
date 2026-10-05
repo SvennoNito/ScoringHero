@@ -8,7 +8,7 @@ STOPBAND_DB = 60
 # Target zero-phase gain at the cutoff: -3 dB as seen on a sinusoid that goes
 # through sosfiltfilt (amplitude ratio 10**(-3/20)).
 _TARGET_GAIN = 10.0 ** (-3.0 / 20.0)
-_NOTCH_HALF_WIDTH_HZ = 1.0
+NOTCH_HALF_WIDTH_HZ = 1.0  # notch filter is 3 dB down at notch frequency ± this
 
 
 def zero_phase_gain(sos, freqs, sampling_rate):
@@ -66,7 +66,7 @@ def design_filter(kind, cutoff, order, sampling_rate):
         return design(x)
 
     if kind == "notch":
-        low_pt, high_pt = cutoff - _NOTCH_HALF_WIDTH_HZ, cutoff + _NOTCH_HALF_WIDTH_HZ
+        low_pt, high_pt = cutoff - NOTCH_HALF_WIDTH_HZ, cutoff + NOTCH_HALF_WIDTH_HZ
         if not (low_pt > 0 and high_pt < nyquist):
             return None
         a, b = np.tan(np.pi * low_pt / fs), np.tan(np.pi * high_pt / fs)

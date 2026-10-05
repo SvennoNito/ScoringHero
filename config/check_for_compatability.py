@@ -1,4 +1,4 @@
-from .default_config import default_configuration
+from .default_config import default_configuration, LEGACY_NEUTRAL_DEFAULTS
 from .write_configuration import write_configuration
 
 def check_for_compatability(configuration_settings, configuration_filename, number_of_channels, srate, channel_names, units=None):
@@ -29,7 +29,7 @@ def check_for_compatability(configuration_settings, configuration_filename, numb
         for chan_settings in derived:
             for key, value in default_template.items():
                 if key not in chan_settings:
-                    chan_settings[key] = False if key == "Subtract_median" else value
+                    chan_settings[key] = LEGACY_NEUTRAL_DEFAULTS.get(key, value)
 
     # Reconcile non-derived channel count only
     saved_non_derived_n = len(non_derived)

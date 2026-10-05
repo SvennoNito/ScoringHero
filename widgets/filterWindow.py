@@ -1,7 +1,7 @@
 import numpy as np
 import pyqtgraph as pg
 
-from filter.apply_filter import design_filter, zero_phase_gain
+from filter.apply_filter import NOTCH_HALF_WIDTH_HZ, design_filter, zero_phase_gain
 
 from PySide6.QtWidgets import (
     QDialog,
@@ -40,7 +40,7 @@ class FilterWindow(QDialog):
             "frequency of a high-pass or low-pass filter is the frequency where the "
             "displayed signal is attenuated by 3\u202fdB. The notch frequency is where a "
             "notch filter attenuates most; it is 3\u202fdB down at the notch frequency "
-            "\u00b11\u202fHz. A higher order gives a steeper roll-off without moving "
+            f"\u00b1{NOTCH_HALF_WIDTH_HZ:g}\u202fHz. A higher order gives a steeper roll-off without moving "
             "these points. Filters change the displayed signal and therefore also the "
             "spectrogram, periodogram and time-frequency power. "
             "Click \u223f to plot the magnitude response of a filter."
@@ -333,7 +333,7 @@ class FilterWindow(QDialog):
             cutoff = self._notch_cutoff[ch_idx].value()
             order  = int(self._notch_order[ch_idx].value())
             title = f"Notch  |  {ch_name}  |  Notch: {cutoff} Hz, Order: {order}"
-            vlines = [cutoff - 1.0, cutoff + 1.0]
+            vlines = [cutoff - NOTCH_HALF_WIDTH_HZ, cutoff + NOTCH_HALF_WIDTH_HZ]
 
         # Same design routine as the applied filter; None = invalid cutoff
         sos = design_filter(filter_type, float(cutoff), order, float(fs))

@@ -81,25 +81,36 @@ class ConfigurationWindow(QDialog):
         # otherwise be dropped when the window closes, leaving
         # ui.channel_name_to_idx pointing at the pre-rename name.
         self.channel_page.flush_pending_rename()
-        if self._changed_keys():
-            box = QMessageBox(self)
-            box.setWindowTitle("Unapplied changes")
-            box.setText("There are pending changes. Apply them before closing?")
-            apply_btn = box.addButton("Apply", QMessageBox.AcceptRole)
-            discard_btn = box.addButton("Discard", QMessageBox.DestructiveRole)
-            box.addButton("Cancel", QMessageBox.RejectRole)
-            box.exec()
-            clicked = box.clickedButton()
-            if clicked is apply_btn:
-                self.apply_pending()
-            elif clicked is not discard_btn:
-                return  # Cancel: keep window open with edits intact
+        keys = self.resolve_pending()
+        if keys is None:
+            return  # Cancel: keep window open with edits intact
+        if keys:
+            self.settingsApplied.emit(keys)
         super().reject()
 
-    def discard_pending(self):
-        """Drop unapplied General/Spectrogram/Periodogram/Wavelet edits so close() won't prompt."""
-        for k in self._changed_keys():
-            self.pending[k] = copy.deepcopy(self.base[k])
+    def resolve_pending(self):
+        """Ask Apply / Discard / Cancel if General/Spectrogram/Periodogram/Wavelet edits
+        are unapplied. Apply commits them into the live config WITHOUT emitting
+        settingsApplied; the caller must apply the returned keys. Returns the committed
+        keys ([] if nothing pending or discarded), or None on Cancel."""
+        if not self._changed_keys():
+            return []
+        box = QMessageBox(self)
+        box.setWindowTitle("Unapplied changes")
+        box.setText("There are pending changes. Apply them first?")
+        apply_btn = box.addButton("Apply", QMessageBox.AcceptRole)
+        discard_btn = box.addButton("Discard", QMessageBox.DestructiveRole)
+        box.addButton("Cancel", QMessageBox.RejectRole)
+        box.exec()
+        clicked = box.clickedButton()
+        if clicked is apply_btn:
+            return self._commit_pending()
+        if clicked is discard_btn:
+            for k in self._changed_keys():
+                self.pending[k] = copy.deepcopy(self.base[k])
+            self._update_apply_state()
+            return []
+        return None
 
     def _changed_keys(self):
         return [k for k in self.pending if self.pending[k] != self.base.get(k)]
@@ -107,17 +118,21 @@ class ConfigurationWindow(QDialog):
     def _update_apply_state(self, *_):
         self.apply_button.setEnabled(bool(self._changed_keys()))
 
-    def apply_pending(self):
-        """Commit pending edits into the live config; one settingsApplied emit for all keys."""
+    def _commit_pending(self):
+        """Copy pending edits into the live config; return the changed keys."""
         keys = self._changed_keys()
-        if not keys:
-            return
         for k in keys:
             self.live[k] = copy.deepcopy(self.pending[k])
             self.base[k] = copy.deepcopy(self.pending[k])
         self._update_apply_state()
-        self.settingsApplied.emit(keys)
-    
+        return keys
+
+    def apply_pending(self):
+        """Commit pending edits into the live config; one settingsApplied emit for all keys."""
+        keys = self._commit_pending()
+        if keys:
+            self.settingsApplied.emit(keys)
+
 
 """ class PanelLayout(QDialog):
     changesMade = Signal(list)
@@ -851,9 +866,9 @@ class _DraggableList(QListWidget):
 
 class ChannelConfiguration(QDialog):
     changesMade = Signal()
-    displayOnlyChanged = Signal()       # visibility/color/scale/shift — no signal rebuild needed
-    signalRebuildNeeded = Signal(int)   # reref/flip changed — rebuild display; chan_idx passed
-                                        # so caller can skip spectrogram recompute if unrelated channel
+    displayOnlyChanged = Signal()       # visibility/color/scale/shift/subtract median/line width — no signal rebuild
+    signalRebuildNeeded = Signal(int)   # reref/flip changed — rebuild display; chan_idx passed (-1: all
+                                        # channels) so caller can skip spectrogram recompute if unrelated channel
     channelRenamed = Signal()           # label changed — labels only, no signal rebuild (debounced)
     channelMoved = Signal(int, int)     # (from_index, to_index)
     channelAdded = Signal(str, str)     # (channel_a_name, channel_b_name)
@@ -934,16 +949,17 @@ class ChannelConfiguration(QDialog):
         _dummy_flip_label = QLabel("Flip")
         _dummy_flip_label.setFont(QFont())
         flip_col_w = max(_dummy_flip_label.sizeHint().width() + 4, QCheckBox().sizeHint().width())
-        _dummy_submed_label = QLabel("Subtract median")
-        _bold = QFont()
-        _bold.setBold(True)
-        _dummy_submed_label.setFont(_bold)
-        submed_col_w = _dummy_submed_label.sizeHint().width() + 4
-        linewidth_col_w = spinbox_w
 
         # Bold font
         bold_font = QFont()
         bold_font.setBold(True)
+
+        # Subtract median column: wide enough for the two-row bold header AND the checkbox
+        _dummy_subtract_median_label = QLabel("Subtract\nmedian")
+        _dummy_subtract_median_label.setFont(bold_font)
+        subtract_median_col_w = max(_dummy_subtract_median_label.sizeHint().width() + 4,
+                                    QCheckBox().sizeHint().width())
+        line_width_col_w = spinbox_w
 
         # Fixed header row (sits above the list, not draggable)
         header_widget = QWidget()
@@ -953,37 +969,34 @@ class ChannelConfiguration(QDialog):
         h0 = QLabel("#")
         h0.setFixedWidth(channel_number_widget_width)
         h0.setFont(bold_font)
-        h0.setAlignment(Qt.AlignRight)
+        h0.setAlignment(Qt.AlignRight | Qt.AlignBottom)
         h_grip = QLabel("")
         h_grip.setFixedWidth(grip_w)
         h1 = QLabel("")
         h1.setFixedWidth(channel_name_widget_width)
         h2 = QLabel("")
         h2.setFixedWidth(QCheckBox().sizeHint().width())
-        h3 = QLabel("Scaling factor")
+        h3 = QLabel("Scaling\nfactor")
         h3.setFixedWidth(spinbox_w)
-        h3.setFont(bold_font)
-        h4 = QLabel("Vertical shift")
+        h4 = QLabel("Vertical\nshift")
         h4.setFixedWidth(spinbox_w)
-        h4.setFont(bold_font)
-        h5 = QLabel("Channel color")
+        h5 = QLabel("Channel\ncolor")
         h5.setFixedWidth(colorbox_w)
-        h5.setFont(bold_font)
         h6 = QLabel("Re-reference")
         h6.setFixedWidth(rerefbox_w)
-        h6.setFont(bold_font)
         h7 = QLabel("Flip")
         h7.setFixedWidth(flip_col_w)
-        h7.setFont(bold_font)
-        h7b = QLabel("Subtract median")
-        h7b.setFixedWidth(submed_col_w)
-        h7b.setFont(bold_font)
+        h_subtract_median = QLabel("Subtract\nmedian")
+        h_subtract_median.setFixedWidth(subtract_median_col_w)
+        h_line_width = QLabel("Line\nwidth")
+        h_line_width.setFixedWidth(line_width_col_w)
         h8 = QLabel("")
         h8.setFixedWidth(trash_w)
-        h7c = QLabel("Line width")
-        h7c.setFixedWidth(linewidth_col_w)
-        h7c.setFont(bold_font)
-        for hw in [h0, h_grip, h1, h2, h3, h4, h5, h6, h7, h7b, h7c, h8]:
+        # Two-row headers: bottom-align every header so the text sits right above its column
+        for hw in [h3, h4, h5, h6, h7, h_subtract_median, h_line_width]:
+            hw.setFont(bold_font)
+            hw.setAlignment(Qt.AlignLeft | Qt.AlignBottom)
+        for hw in [h0, h_grip, h1, h2, h3, h4, h5, h6, h7, h_subtract_median, h_line_width, h8]:
             header_layout.addWidget(hw)
         header_layout.addStretch()
         layout.addWidget(header_widget)
@@ -1088,20 +1101,22 @@ class ChannelConfiguration(QDialog):
             flipbox.clicked.connect(lambda checked, i=count: self.change_event(channel_config, i, "flip"))
 
             # Subtract median checkbox
-            submedbox = QCheckBox()
-            submedbox.setFixedWidth(submed_col_w)
-            submedbox.setChecked(chaninfo.get("Subtract_median", False))
-            submedbox.clicked.connect(lambda checked, i=count: self.change_event(channel_config, i, "submedian"))
+            subtract_median_box = QCheckBox()
+            subtract_median_box.setFixedWidth(subtract_median_col_w)
+            subtract_median_box.setChecked(chaninfo.get("Subtract_median", False))
+            subtract_median_box.clicked.connect(
+                lambda checked, i=count: self.change_event(channel_config, i, "subtract_median"))
             # Line width
-            linewidthbox = QDoubleSpinBox()
-            linewidthbox.setMinimum(0.5)
-            linewidthbox.setMaximum(5)
-            linewidthbox.setSingleStep(0.5)
-            linewidthbox.setDecimals(1)
-            linewidthbox.setSuffix(" px")
-            linewidthbox.setValue(chaninfo.get("Line_width", 1.0))
-            linewidthbox.setFixedWidth(linewidth_col_w)
-            linewidthbox.valueChanged.connect(lambda val, i=count: self.change_event(channel_config, i, "linewidth"))
+            line_width_box = QDoubleSpinBox()
+            line_width_box.setMinimum(0.5)
+            line_width_box.setMaximum(5)
+            line_width_box.setSingleStep(0.5)
+            line_width_box.setDecimals(1)
+            line_width_box.setSuffix(" px")
+            line_width_box.setValue(chaninfo.get("Line_width", 1.0))
+            line_width_box.setFixedWidth(line_width_col_w)
+            line_width_box.valueChanged.connect(
+                lambda val, i=count: self.change_event(channel_config, i, "line_width"))
 
             # Trash button (delete channel)
             trash_btn = QPushButton("🗑")
@@ -1129,8 +1144,8 @@ class ChannelConfiguration(QDialog):
             row_layout.addWidget(colorbox)
             row_layout.addWidget(rerefbox)
             row_layout.addWidget(flipbox)
-            row_layout.addWidget(submedbox)
-            row_layout.addWidget(linewidthbox)
+            row_layout.addWidget(subtract_median_box)
+            row_layout.addWidget(line_width_box)
             row_layout.addWidget(trash_btn)
             row_layout.addStretch()
 
@@ -1145,8 +1160,8 @@ class ChannelConfiguration(QDialog):
             self.shift.append(shiftbox)
             self.reref.append(rerefbox)
             self.flip.append(flipbox)
-            self.subtract_median.append(submedbox)
-            self.line_width.append(linewidthbox)
+            self.subtract_median.append(subtract_median_box)
+            self.line_width.append(line_width_box)
             self.number_labels.append(numberbox)
 
     def _on_select_all_changed(self, channel_config):
@@ -1230,27 +1245,37 @@ class ChannelConfiguration(QDialog):
             self._rename_timer.stop()
             self._emit_rename()
 
-    def change_event(self, channel_config, chan_idx=None, prop=None):
-        if self.apply_all_checkbox.isChecked() and chan_idx is not None and prop is not None:
-            if prop == "scale":
-                val = self.scale[chan_idx].value()
-                for s in self.scale:
-                    s.blockSignals(True)
-                    s.setValue(val)
-                    s.blockSignals(False)
-            elif prop == "shift":
-                val = self.shift[chan_idx].value()
-                for s in self.shift:
-                    s.blockSignals(True)
-                    s.setValue(val)
-                    s.blockSignals(False)
-            elif prop == "color":
-                val = self.color[chan_idx].currentText()
-                for c in self.color:
-                    c.blockSignals(True)
-                    c.setCurrentText(val)
-                    c.blockSignals(False)
+    def _propagate_to_all(self, chan_idx, prop):
+        """Copy channel chan_idx's value of prop to every row without re-emitting the
+        rows' change signals. Returns False if prop is not shared (e.g. re-reference)."""
+        widgets = {
+            "scale": self.scale,
+            "shift": self.shift,
+            "color": self.color,
+            "flip": self.flip,
+            "subtract_median": self.subtract_median,
+            "line_width": self.line_width,
+        }.get(prop)
+        if widgets is None:
+            return False
+        source = widgets[chan_idx]
+        for w in widgets:
+            w.blockSignals(True)
+            if isinstance(w, QComboBox):
+                w.setCurrentText(source.currentText())
+            elif isinstance(w, QCheckBox):
+                w.setChecked(source.isChecked())
+            else:
+                w.setValue(source.value())
+            w.blockSignals(False)
+        return True
 
+    def change_event(self, channel_config, chan_idx=None, prop=None):
+        propagated = (
+            self.apply_all_checkbox.isChecked()
+            and chan_idx is not None
+            and self._propagate_to_all(chan_idx, prop)
+        )
         for counter, chaninfo in enumerate(channel_config):
             chaninfo["Channel_name"] = self.label[counter].text()
             chaninfo["Channel_color"] = self.color[counter].currentText()
@@ -1264,14 +1289,14 @@ class ChannelConfiguration(QDialog):
         # Display-only props: only a cheap redraw needed.
         # Signal props (reref, flip): need to rebuild eeg_data_display, but
         # spectrogram recomputation is only needed if this channel feeds the spectrogram
-        # or wavelet panel — caller decides via the emitted index.
+        # or wavelet panel — caller decides via the emitted index (-1: all channels).
         # Renames never reach here; they go through _on_label_edited instead.
-        display_only_props = {"display", "color", "scale", "shift", "submedian", "linewidth"}
+        display_only_props = {"display", "color", "scale", "shift", "subtract_median", "line_width"}
         signal_rebuild_props = {"reref", "flip"}
         if prop in display_only_props:
             self.displayOnlyChanged.emit()
         elif prop in signal_rebuild_props:
-            self.signalRebuildNeeded.emit(chan_idx if chan_idx is not None else -1)
+            self.signalRebuildNeeded.emit(-1 if propagated or chan_idx is None else chan_idx)
         else:
             self.changesMade.emit()
 

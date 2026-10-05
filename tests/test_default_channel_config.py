@@ -91,6 +91,33 @@ def test_compatibility_filler_adds_subtract_median():
     print("[OK] compatibility filler adds subtract median")
 
 
+def test_compatibility_filler_derived_channel_gets_neutral_subtract_median():
+    """A legacy derived channel has no unit of its own: it must not inherit the
+    unit-based default of the first signal (here a non-voltage one)."""
+    names = ["ACC", "EEG"]
+    units = ["g", "uV"]
+    config = default_configuration(2, 100, names, units)
+    derived = {k: v for k, v in config[1][1].items() if k != "Subtract_median"}
+    derived["derived"] = True
+    config[1].append(derived)
+    with tempfile.TemporaryDirectory() as d:
+        path = os.path.join(d, "x.config.json")
+        config = check_for_compatability(config, path, 2, 100, names, units)
+    assert config[1][0]["Subtract_median"] is True
+    assert config[1][2]["Subtract_median"] is False
+    print("[OK] compatibility filler gives derived channel neutral subtract median")
+
+
+def test_is_voltage_unit():
+    """Voltage units in any case and micro sign; non-voltage and unknown are not."""
+    from eeg.units import is_voltage_unit
+    for unit in ["V", "mV", "uV", "µV", "μV", "UV", " mv "]:
+        assert is_voltage_unit(unit), unit
+    for unit in ["g", "m/s2", "%", "", None]:
+        assert not is_voltage_unit(unit), unit
+    print("[OK] is_voltage_unit")
+
+
 def test_line_width_default_template_and_filler():
     names = ["EEG", "ACC"]
     config = default_configuration(2, 100, names, None)
@@ -140,5 +167,7 @@ if __name__ == "__main__":
     test_subtract_median_default_by_unit()
     test_channel_template_overrides_subtract_median()
     test_compatibility_filler_adds_subtract_median()
+    test_compatibility_filler_derived_channel_gets_neutral_subtract_median()
+    test_is_voltage_unit()
     test_line_width_default_template_and_filler()
     test_channel_from_selection_negative_shift()

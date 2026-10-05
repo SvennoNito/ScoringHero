@@ -16,7 +16,10 @@ from eeg.rebuild_display import rebuild_eeg_data_display
 from utilities.busy_indicator import run_busy
 
 
-def apply_changes(config_parameter_name, ui):
+def apply_changes(config_parameter_name, ui, channels_changed=False):
+    """Apply changed general settings (config_parameter_name: changed keys of
+    ui.config[0]). channels_changed=True means channel-level settings changed as
+    well, which rebuilds the displayed signal."""
     if ("Sampling_rate_hz" in config_parameter_name) or (
         "Epoch_length_s" in config_parameter_name
     ):
@@ -38,13 +41,12 @@ def apply_changes(config_parameter_name, ui):
     # Channel-level settings changed (re-reference, flip, filter, display toggles) or
     # spectrogram channel / sampling rate / epoch length changed → rebuild display data
     # and recompute all derived spectral data.
-    channel_settings_changed = config_parameter_name == []
     spectrogram_params_changed = (
         "Channel_for_spectogram" in config_parameter_name
         or "Sampling_rate_hz" in config_parameter_name
         or "Epoch_length_s" in config_parameter_name
     )
-    rebuilt = channel_settings_changed or spectrogram_params_changed
+    rebuilt = channels_changed or spectrogram_params_changed
     if rebuilt:
         rebuild_channel_index(ui)
 
@@ -82,7 +84,7 @@ def _finish_changes(config_parameter_name, ui, rebuilt):
         ui.RectanglePower.update_powerline(freqs, power, channel_name)
 
     # Fast-path for colorbar limit changes: no Morlet recompute, no reslice
-    if "Wavelet_power_limits" in config_parameter_name and len(config_parameter_name) == 1:
+    if "Wavelet_power_limits" in config_parameter_name and len(config_parameter_name) == 1 and not rebuilt:
         power_limits = ui.config[0].get("Wavelet_power_limits", None)
         if power_limits:
             display_mode = ui.config[0].get("Wavelet_display_mode", "Z-scored Power")

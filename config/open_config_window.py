@@ -1,9 +1,8 @@
 import numpy as np
 from widgets import ConfigurationWindow
 from utilities.redraw_gui import redraw_gui, redraw_all
-from utilities.refresh_gui import refresh_gui
 from scoring.write_scoring import write_scoring
-from scoring.clean_epochs_to_uistages import clean_epochs_to_uiscoring
+from events.event_deletion import rebuild_event_epochs, refresh_after_event_deletion
 from .apply_changes import apply_changes
 from .write_configuration import save_configuration
 from utilities.busy_indicator import run_busy
@@ -17,19 +16,22 @@ def _display_only_change(ui):
 
 
 def _signal_rebuild_change(ui, chan_idx):
-    """Channel config change that modifies the signal (reref, flip, label rename).
+    """Channel config change that modifies the signal (reref, flip).
 
     Always rebuilds eeg_data_display (reref + filtering + flip).  Only recomputes
-    the spectrogram/wavelet if the changed channel is the one currently feeding
-    those panels — otherwise the spectrogram data is still valid.
+    the spectrogram/wavelet if a changed channel is one currently feeding those
+    panels — otherwise the spectrogram data is still valid. chan_idx -1 means the
+    change was applied to all channels.
     """
     from eeg.rebuild_display import rebuild_eeg_data_display
     from signal_processing.recompute_derived import recompute_derived
 
-    spec_chan = ui.config[0].get("Channel_for_spectogram", "")
-    wav_chan  = ui.config[0].get("Wavelet_channel", "")
-    chan_name = ui.config[1][chan_idx]["Channel_name"] if 0 <= chan_idx < len(ui.config[1]) else ""
-    recompute = chan_name in (spec_chan, wav_chan)
+    if chan_idx == -1:
+        recompute = True
+    else:
+        spec_chan = ui.config[0].get("Channel_for_spectogram", "")
+        wav_chan = ui.config[0].get("Wavelet_channel", "")
+        recompute = ui.config[1][chan_idx]["Channel_name"] in (spec_chan, wav_chan)
 
     def work():
         rebuild_eeg_data_display(ui)
@@ -89,6 +91,9 @@ def _move_eeg_row(ui, from_idx, to_idx):
 
 def _add_channel(ui, channel_a_name, channel_b_name):
     """Add a new derived channel (A − B) to eeg_data and config, then refresh."""
+    applied_keys = ui.ConfigurationWindow.resolve_pending()
+    if applied_keys is None:
+        return  # Cancel: keep the window and its pending edits
     chan_names = [ch["Channel_name"] for ch in ui.config[1]]
     idx_a = chan_names.index(channel_a_name) if channel_a_name in chan_names else 0
 
@@ -122,14 +127,13 @@ def _add_channel(ui, channel_a_name, channel_b_name):
     }
     ui.config[1].append(new_chan_config)
 
-    # Rebuild display data and refresh all widgets
-    apply_changes([], ui)
+    # Rebuild display data and refresh all widgets (incl. any just-applied settings)
+    apply_changes(applied_keys, ui, channels_changed=True)
 
     # Reset filter window so it rebuilds with the new channel list next time
     ui.FilterWindow = None
 
     # Close the current config window and reopen on the Channels tab
-    ui.ConfigurationWindow.discard_pending()
     ui.ConfigurationWindow.close()
     open_config_window(ui)
     ui.ConfigurationWindow.tabs.setCurrentIndex(1)
@@ -137,6 +141,9 @@ def _add_channel(ui, channel_a_name, channel_b_name):
 
 def _delete_channel(ui, idx):
     """Remove channel at idx from eeg_data and config, then refresh."""
+    applied_keys = ui.ConfigurationWindow.resolve_pending()
+    if applied_keys is None:
+        return  # Cancel: keep the window and its pending edits
     del_name = ui.config[1][idx]["Channel_name"]
 
     # Remove the raw data row
@@ -157,14 +164,13 @@ def _delete_channel(ui, idx):
         if ui.config[0].get(key) == del_name:
             ui.config[0][key] = fallback
 
-    # Rebuild display data and refresh
-    apply_changes([], ui)
+    # Rebuild display data and refresh (incl. any just-applied settings)
+    apply_changes(applied_keys, ui, channels_changed=True)
 
     # Reset filter window so it rebuilds with the updated channel list next time
     ui.FilterWindow = None
 
     # Close the current config window and reopen on the Channels tab
-    ui.ConfigurationWindow.discard_pending()
     ui.ConfigurationWindow.close()
     open_config_window(ui)
     ui.ConfigurationWindow.tabs.setCurrentIndex(1)
@@ -172,15 +178,9 @@ def _delete_channel(ui, idx):
 
 def _delete_event(ui, idx):
     container = ui.AnnotationContainer[idx]
-    from events.event_epoch import event_epoch
     container.borders.clear()
-    container.epochs = event_epoch(container.borders, ui.config[0]["Epoch_length_s"], ui.numepo)
-    container.epochs_set = [set(lst) for lst in container.epochs]
-    clean_epochs_to_uiscoring(ui, container)
-    write_scoring(ui)
-    ui.HypnogramWidget.update_hypnogram(ui)
-    ui.HypnogramWidget.update_events(ui)
-    refresh_gui(ui)
+    rebuild_event_epochs(ui, container)
+    refresh_after_event_deletion(ui)
 
 
 def open_config_window(ui):
@@ -190,7 +190,7 @@ def open_config_window(ui):
     ui.ConfigurationWindow = ConfigurationWindow(ui.config, ui.AnnotationContainer, allow_staging, channel_labels)
     ui.ChannelPage, ui.GeneralPage, ui.EventPage, ui.WaveletPage, ui.SpectrogramPage, ui.PeriodogramPage = ui.ConfigurationWindow.return_page()
     ui.ChannelPage.channelMoved.connect(lambda f, t, ui=ui: _move_eeg_row(ui, f, t))
-    ui.ChannelPage.changesMade.connect(lambda: apply_changes([], ui))
+    ui.ChannelPage.changesMade.connect(lambda: apply_changes([], ui, channels_changed=True))
     ui.ChannelPage.displayOnlyChanged.connect(lambda: _display_only_change(ui))
     ui.ChannelPage.signalRebuildNeeded.connect(lambda idx: _signal_rebuild_change(ui, idx))
     ui.ChannelPage.channelRenamed.connect(lambda: _rename_change(ui))

@@ -1,8 +1,5 @@
-from .event_epoch import event_epoch
-from .draw_event_in_this_epoch import draw_event_in_this_epoch
 from .clip_borders import clip_borders
-from scoring.clean_epochs_to_uistages import clean_epochs_to_uiscoring
-from scoring.write_scoring import write_scoring
+from .event_deletion import rebuild_event_epochs, refresh_after_event_deletion
 from paint_event.convert_to_seconds import convert_to_seconds
 from paint_event.order_by_time import order_by_time
 
@@ -26,16 +23,9 @@ def erase_events_in_rectangles(ui):
         ui.PaintEventWidget.reset()
         return
 
-    epoch_length = ui.config[0]["Epoch_length_s"]
-
     for container in ui.AnnotationContainer:
         container.borders = clip_borders(container.borders, erase_ranges)
-        container.epochs = event_epoch(container.borders, epoch_length, ui.numepo)
-        container.epochs_set = [set(lst) for lst in container.epochs]
-        clean_epochs_to_uiscoring(ui, container)
-        draw_event_in_this_epoch(ui, container)
+        rebuild_event_epochs(ui, container)
 
-    write_scoring(ui)
-    ui.HypnogramWidget.update_hypnogram(ui)
-    ui.HypnogramWidget.update_events(ui)
-    ui.PaintEventWidget.reset()
+    # Also redraws the events and clears the erase rectangles
+    refresh_after_event_deletion(ui)

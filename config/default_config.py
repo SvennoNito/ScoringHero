@@ -1,3 +1,6 @@
+from eeg.units import is_voltage_unit, normalize_unit
+
+
 def default_scaling_factor(number_of_signals):
     """Default Scaling_factor (%) by number of signals in the file."""
     if number_of_signals <= 3:
@@ -7,20 +10,21 @@ def default_scaling_factor(number_of_signals):
     return 100
 
 
-_VOLTAGE_UNITS = {"v", "mv", "uv", "µv", "μv"}
-
-
 def default_subtract_median(unit):
     """True for a known non-voltage unit (e.g. 'g'); False for voltage or unknown."""
-    if unit is None or not str(unit).strip():
-        return False
-    return str(unit).strip().lower() not in _VOLTAGE_UNITS
+    return normalize_unit(unit) is not None and not is_voltage_unit(unit)
 
 
-def default_configuration(number_of_channels, srate, channel_names, units=None):
-    # number_of_channels = number of signals in the file. units = per-signal
+# Channel keys whose default depends on the signal (e.g. its unit). A channel
+# without a signal of its own (derived channel) that lacks such a key in an older
+# configuration file gets this neutral value instead.
+LEGACY_NEUTRAL_DEFAULTS = {"Subtract_median": False}
+
+
+def default_configuration(number_of_signals, srate, channel_names, units=None):
+    # number_of_signals = number of signals in the file. units = per-signal
     # unit strings; None means unknown (treated as voltage).
-    scaling_factor = default_scaling_factor(number_of_channels)
+    scaling_factor = default_scaling_factor(number_of_signals)
     configuration_settings = [[] for x in range(2)]
     configuration_settings[0] = {
         "Sampling_rate_hz": srate,
@@ -73,10 +77,10 @@ def default_configuration(number_of_channels, srate, channel_names, units=None):
             "Filter_notch_cutoff": 50.0,
             "Filter_notch_order": 4,
         }
-        for chan in range(number_of_channels)
+        for chan in range(number_of_signals)
     ]
 
-    if number_of_channels == 9:
+    if number_of_signals == 9:
         configuration_settings[1][1]["Display_on_screen"] = 0
         configuration_settings[1][3]["Display_on_screen"] = 0
         configuration_settings[1][5]["Display_on_screen"] = 0
