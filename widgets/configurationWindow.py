@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QTimeEdit,
 )
-from PySide6.QtCore import Signal, Qt, QTime
+from PySide6.QtCore import Signal, Qt, QTime, QTimer
 from PySide6.QtGui import QColor, QFont, QFontMetrics
 import copy
 
@@ -56,6 +56,13 @@ class ConfigurationWindow(QDialog):
 
     def return_page(self):
         return self.channel_page, self.general_page, self.events_page, self.wavelet_page, self.spectrogram_page, self.periodogram_page
+
+    def closeEvent(self, event):
+        # A channel rename that is still sitting in the debounce timer would
+        # otherwise be dropped when the window closes, leaving
+        # ui.channel_name_to_idx pointing at the pre-rename name.
+        self.channel_page.flush_pending_rename()
+        super().closeEvent(event)
     
 
 """ class PanelLayout(QDialog):
@@ -792,8 +799,9 @@ class _DraggableList(QListWidget):
 class ChannelConfiguration(QDialog):
     changesMade = Signal()
     displayOnlyChanged = Signal()       # visibility/color/scale/shift — no signal rebuild needed
-    signalRebuildNeeded = Signal(int)   # reref/flip/label changed — rebuild display; chan_idx passed
+    signalRebuildNeeded = Signal(int)   # reref/flip changed — rebuild display; chan_idx passed
                                         # so caller can skip spectrogram recompute if unrelated channel
+    channelRenamed = Signal()           # label changed — labels only, no signal rebuild (debounced)
     channelMoved = Signal(int, int)     # (from_index, to_index)
     channelAdded = Signal(str, str)     # (channel_a_name, channel_b_name)
     channelDeleted = Signal(int)        # channel index to delete
@@ -812,6 +820,20 @@ class ChannelConfiguration(QDialog):
         self.flip = []
         self.number_labels = []
         self.trash_buttons = []
+
+        # Channel names as of the last processed rename, so an edit can tell what
+        # the old name was and re-point the references that used it.
+        self._known_names = [ch["Channel_name"] for ch in channel_config]
+
+        # Renaming is a per-keystroke event but only needs one GUI refresh, so
+        # coalesce a burst of typing into a single emit.
+        self._rename_timer = QTimer(self)
+        self._rename_timer.setSingleShot(True)
+        self._rename_timer.setInterval(300)
+        self._rename_timer.timeout.connect(self._emit_rename)
+
+        # Guard so flush_pending_rename() is a no-op unless a rename is really pending.
+        self._rename_pending = False
 
         # Top checkboxes in 2x2 grid layout
         top_checkbox_layout = QGridLayout()
@@ -943,7 +965,7 @@ class ChannelConfiguration(QDialog):
             labelbox = QLineEdit(chaninfo["Channel_name"])
             labelbox.setAlignment(Qt.AlignLeft)
             labelbox.setFixedWidth(channel_name_widget_width)
-            labelbox.textChanged.connect(lambda text, i=count: self.change_event(channel_config, i, "label"))
+            labelbox.textChanged.connect(lambda text, i=count: self._on_label_edited(channel_config, i))
 
             # Value by which EEG is multiplied
             spinbox = QDoubleSpinBox()
@@ -1059,6 +1081,68 @@ class ChannelConfiguration(QDialog):
             self.general_config["Robust_z_standardize"] = self.z_standardize_checkbox.isChecked()
         self.displayOnlyChanged.emit()
 
+    def _on_label_edited(self, channel_config, chan_idx):
+        """Handle a channel rename.
+
+        A rename does not change a single sample, so re-filtering and
+        re-referencing the whole recording (what signalRebuildNeeded triggers) is
+        pure waste — and it used to run on *every keystroke*.  All that actually
+        has to happen is that the places storing a channel *name* follow the new
+        one: the other channels' Re_reference, the spectrogram/wavelet/periodogram
+        selectors, and the re-reference dropdown items.  That is cheap and done
+        immediately; the GUI refresh is debounced into a single emit.
+        """
+        new_name = self.label[chan_idx].text()
+        old_name = self._known_names[chan_idx] if chan_idx < len(self._known_names) else new_name
+        if old_name == new_name:
+            return
+
+        channel_config[chan_idx]["Channel_name"] = new_name
+        self._known_names[chan_idx] = new_name
+
+        # Only re-point name references if no other channel still carries the old
+        # name — otherwise those references still resolve to that other channel.
+        # (A derived channel starts out sharing its source channel's name.)
+        if old_name and not any(c["Channel_name"] == old_name for c in channel_config):
+            for c in channel_config:
+                if c.get("Re_reference", "None") == old_name:
+                    c["Re_reference"] = new_name
+            if self.general_config is not None:
+                for key in ("Channel_for_spectogram", "Wavelet_channel", "Periodogram_channel"):
+                    if self.general_config.get(key) == old_name:
+                        self.general_config[key] = new_name
+
+        # Keep the re-reference dropdowns on the current names, so a later
+        # unrelated edit cannot write a stale name back into the config.
+        all_names = [lb.text() for lb in self.label]
+        for k in range(len(self.reref)):
+            current = channel_config[k].get("Re_reference", "None")
+            self.reref[k].blockSignals(True)
+            self._rebuild_reref_combo(k, all_names)
+            self.reref[k].setCurrentText(current)
+            self.reref[k].blockSignals(False)
+
+        self._rename_pending = True
+        self._rename_timer.start()
+
+    def _emit_rename(self):
+        """Fire the coalesced rename and clear the pending flag."""
+        self._rename_pending = False
+        self.channelRenamed.emit()
+
+    def flush_pending_rename(self):
+        """Emit a rename that is still waiting in the debounce timer.
+
+        A rename is coalesced into one delayed emit; if the window is closed (or
+        another feature opened) before that 300 ms elapses, the emit — and with
+        it the rebuild of ui.channel_name_to_idx — would be lost, so downstream
+        features (Autoscore, the spectrogram/wavelet channel pickers, ...) would
+        fail to resolve the renamed channel. Call this to make it take effect now.
+        """
+        if self._rename_pending or self._rename_timer.isActive():
+            self._rename_timer.stop()
+            self._emit_rename()
+
     def change_event(self, channel_config, chan_idx=None, prop=None):
         if self.apply_all_checkbox.isChecked() and chan_idx is not None and prop is not None:
             if prop == "scale":
@@ -1089,11 +1173,12 @@ class ChannelConfiguration(QDialog):
             chaninfo["Re_reference"] = self.reref[counter].currentText()
             chaninfo["Flip_polarity"] = self.flip[counter].isChecked()
         # Display-only props: only a cheap redraw needed.
-        # Signal props (reref, flip, label): need to rebuild eeg_data_display, but
+        # Signal props (reref, flip): need to rebuild eeg_data_display, but
         # spectrogram recomputation is only needed if this channel feeds the spectrogram
         # or wavelet panel — caller decides via the emitted index.
+        # Renames never reach here; they go through _on_label_edited instead.
         display_only_props = {"display", "color", "scale", "shift"}
-        signal_rebuild_props = {"reref", "flip", "label"}
+        signal_rebuild_props = {"reref", "flip"}
         if prop in display_only_props:
             self.displayOnlyChanged.emit()
         elif prop in signal_rebuild_props:
@@ -1126,6 +1211,9 @@ class ChannelConfiguration(QDialog):
         # Update the displayed position numbers to reflect the new order
         for i, lbl in enumerate(self.number_labels):
             lbl.setText(str(i + 1))
+
+        # Names move with their rows
+        self._known_names = [lb.text() for lb in self.label]
 
         # Rebuild all reref dropdowns (channel positions have changed)
         all_names = [self.label[k].text() for k in range(len(self.label))]
