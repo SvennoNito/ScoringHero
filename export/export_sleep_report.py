@@ -1,6 +1,8 @@
 import os
 import numpy as np
 from datetime import datetime
+from scoring_model.scoring import stage_digit
+from scoring_model.statistics import sleep_statistics
 from utilities.clock_time_format import parse_start_time, format_clock_time
 from PySide6.QtWidgets import (
     QFileDialog, QMessageBox, QDialog, QVBoxLayout, QHBoxLayout,
@@ -203,7 +205,7 @@ class _ReportOptionsDialog(QDialog):
             spectrogram_img = _create_whole_night_spectrogram(ui) if options["spectrogram"] else None
             trace_img = _create_eeg_trace(ui, options) if options["trace"] else None
             any_stats = options["sleep_stats"] or options["stage_distribution"] or options["latencies"] or options["awakenings"] or options["arousals"]
-            stats_text = _calculate_sleep_statistics(ui, options) if any_stats else None
+            stats_text = _calculate_sleep_statistics(ui.scoring, options) if any_stats else None
             report_filename = options["filename"] or None
 
             tmp = tempfile.NamedTemporaryFile(suffix=".pdf", delete=False)
@@ -226,7 +228,7 @@ class _ReportOptionsDialog(QDialog):
 def export_sleep_report(ui):
     """Export a sleep report as PDF with hypnogram, spectrogram, and statistics."""
 
-    if not ui.stages or all(stage.get("digit") is None for stage in ui.stages):
+    if all(s is None for s in ui.scoring.stages()):
         QMessageBox.warning(ui, "No Scoring", "Please score some sleep stages first.")
         return
 
@@ -258,7 +260,7 @@ def export_sleep_report(ui):
         trace_img = _create_eeg_trace(ui, options) if options["trace"] else None
 
         any_stats = options["sleep_stats"] or options["stage_distribution"] or options["latencies"] or options["awakenings"] or options["arousals"]
-        stats_text = _calculate_sleep_statistics(ui, options) if any_stats else None
+        stats_text = _calculate_sleep_statistics(ui.scoring, options) if any_stats else None
 
         report_filename = options["filename"] or None
         _create_pdf_report(filepath, hypnogram_img, spectrogram_img, trace_img, stats_text, report_filename)
@@ -287,7 +289,7 @@ _CH_COLORS = {
 
 
 def _create_hypnogram(ui, options):
-    stages = np.array([stage["digit"] for stage in ui.stages])
+    stages = [stage_digit(s) for s in ui.scoring.stages()]
     times = np.arange(0, ui.numepo) * ui.config[0]["Epoch_length_s"] / 3600
     epoch_length = ui.config[0]["Epoch_length_s"] / 3600
 
@@ -319,7 +321,7 @@ def _create_hypnogram(ui, options):
     if show_line:
         line_x, line_y = [], []
         for i, stage_value in enumerate(stages):
-            if stage_value is not None:
+            if stage_value in stage_y_positions:
                 line_x.append(times[i] + epoch_length / 2)
                 line_y.append(stage_y_positions[stage_value])
         if line_x:
@@ -416,30 +418,23 @@ def _create_whole_night_spectrogram(ui):
     return img
 
 
-def _calculate_sleep_statistics(ui, options):
-    stages = np.array([stage["digit"] for stage in ui.stages], dtype=object)
-    epoch_length_s = ui.config[0]["Epoch_length_s"]
-    epoch_length_min = epoch_length_s / 60
+def _calculate_sleep_statistics(scoring, options):
+    """Report text from the Scoring statistics result; arousals are counted from the stage sequence."""
+    st = sleep_statistics(scoring)
+    counts = st.stage_counts
+    epoch_min = scoring.epoch_length_s / 60
+    scored = st.scored_epochs
 
-    scored_mask = np.array([s is not None for s in stages])
-    scored_epochs = np.sum(scored_mask)
+    def stage_line(label, stage):
+        minutes = counts[stage] * epoch_min
+        pct = counts[stage] / scored * 100 if scored > 0 else 0
+        return f"{label:<31}{minutes:.1f} min ({minutes / 60:.1f} h) - {pct:.1f}%"
 
-    wake_epochs = np.sum(stages == 1)
-    n1_epochs = np.sum(stages == -1)
-    n2_epochs = np.sum(stages == -2)
-    n3_epochs = np.sum(stages == -3)
-    rem_epochs = np.sum(stages == 0)
-    sleep_epochs = scored_epochs - wake_epochs
+    def latency_line(label, stage):
+        value = st.latency_min[stage]
+        return f"{label:<31}{value:.1f} min" if value is not None else f"{label:<31}N/A"
 
-    tst_min = sleep_epochs * epoch_length_min
-    trt_min = scored_epochs * epoch_length_min
-    sleep_efficiency = (tst_min / trt_min * 100) if trt_min > 0 else 0
-
-    n1_min = n1_epochs * epoch_length_min
-    n2_min = n2_epochs * epoch_length_min
-    n3_min = n3_epochs * epoch_length_min
-    rem_min = rem_epochs * epoch_length_min
-
+    tst_min, trt_min = st.total_sleep_min, st.total_recording_min
     lines = []
 
     if options["sleep_stats"]:
@@ -448,108 +443,56 @@ def _calculate_sleep_statistics(ui, options):
             "-" * 50,
             f"Total Sleep Time (TST):        {tst_min:.1f} min ({tst_min/60:.1f} h)",
             f"Total Recording Time (TRT):    {trt_min:.1f} min ({trt_min/60:.1f} h)",
-            f"Sleep Efficiency:              {sleep_efficiency:.1f}%",
+            f"Sleep Efficiency:              {st.efficiency:.1f}%",
         ]
 
     if options["stage_distribution"]:
-        wake_pct = (wake_epochs / scored_epochs * 100) if scored_epochs > 0 else 0
-        n1_pct = (n1_epochs / scored_epochs * 100) if scored_epochs > 0 else 0
-        n2_pct = (n2_epochs / scored_epochs * 100) if scored_epochs > 0 else 0
-        n3_pct = (n3_epochs / scored_epochs * 100) if scored_epochs > 0 else 0
-        rem_pct = (rem_epochs / scored_epochs * 100) if scored_epochs > 0 else 0
-
-        wake_h = wake_epochs * epoch_length_min / 60
-        n1_h = n1_min / 60
-        n2_h = n2_min / 60
-        n3_h = n3_min / 60
-        rem_h = rem_min / 60
-
         if lines:
             lines.append("")
         lines += [
             "SLEEP STAGE DISTRIBUTION",
             "-" * 50,
-            f"{'Wake:':<31}{wake_epochs * epoch_length_min:.1f} min ({wake_h:.1f} h) - {wake_pct:.1f}%",
-            f"{'REM:':<31}{rem_min:.1f} min ({rem_h:.1f} h) - {rem_pct:.1f}%",
-            f"{'N1:':<31}{n1_min:.1f} min ({n1_h:.1f} h) - {n1_pct:.1f}%",
-            f"{'N2:':<31}{n2_min:.1f} min ({n2_h:.1f} h) - {n2_pct:.1f}%",
-            f"{'N3:':<31}{n3_min:.1f} min ({n3_h:.1f} h) - {n3_pct:.1f}%",
+            stage_line("Wake:", "Wake"),
+            stage_line("REM:", "REM"),
+            stage_line("N1:", "N1"),
+            stage_line("N2:", "N2"),
+            stage_line("N3:", "N3"),
         ]
 
     if options["latencies"]:
-        n2_onset_idx = np.where(stages == -2)[0]
-        n2_latency_min = n2_onset_idx[0] * epoch_length_min if len(n2_onset_idx) > 0 else None
-
-        n3_onset_idx = np.where(stages == -3)[0]
-        n3_latency_min = n3_onset_idx[0] * epoch_length_min if len(n3_onset_idx) > 0 else None
-
-        rem_onset_idx = np.where(stages == 0)[0]
-        rem_latency_min = rem_onset_idx[0] * epoch_length_min if len(rem_onset_idx) > 0 else None
-
         if lines:
             lines.append("")
         lines += [
             "LATENCIES",
             "-" * 50,
-            f"N2 latency:                    {n2_latency_min:.1f} min" if n2_latency_min is not None else "N2 latency:                    N/A",
-            f"N3 latency:                    {n3_latency_min:.1f} min" if n3_latency_min is not None else "N3 latency:                    N/A",
-            f"REM latency:                   {rem_latency_min:.1f} min" if rem_latency_min is not None else "REM latency:                   N/A",
+            latency_line("N2 latency:", "N2"),
+            latency_line("N3 latency:", "N3"),
+            latency_line("REM latency:", "REM"),
         ]
 
-    if options["awakenings"] or options["arousals"]:
-        sleep_set = {-3, -2, 0}
-        scored_list = [s for s in stages.tolist() if s is not None]
-        n = len(scored_list)
-        sleep_positions = [i for i, s in enumerate(scored_list) if s in sleep_set]
-        last_sleep_pos = sleep_positions[-1] if sleep_positions else None
-
     if options["awakenings"]:
-        n3_to_wake = n2_to_wake = rem_to_wake = 0
-        awakening_durations = []
-
-        if last_sleep_pos is not None:
-            i = 1
-            while i < n:
-                prev = scored_list[i - 1]
-                curr = scored_list[i]
-                if curr == 1 and prev in sleep_set and i < last_sleep_pos:
-                    if prev == -3:
-                        n3_to_wake += 1
-                    elif prev == -2:
-                        n2_to_wake += 1
-                    elif prev == 0:
-                        rem_to_wake += 1
-                    j = i
-                    while j < n and scored_list[j] == 1:
-                        j += 1
-                    awakening_durations.append((j - i) * epoch_length_min)
-                    i = j
-                else:
-                    i += 1
-
-        total_awakenings = n3_to_wake + n2_to_wake + rem_to_wake
-        avg_awk = f"{np.mean(awakening_durations):.1f} min" if awakening_durations else "N/A"
+        awk = st.awakenings
+        durations = st.awakening_durations_min
+        avg_awk = f"{sum(durations) / len(durations):.1f} min" if durations else "N/A"
 
         if lines:
             lines.append("")
         lines += [
             "AWAKENINGS",
             "-" * 50,
-            f"{'N3 -> Wake:':<31}{n3_to_wake}",
-            f"{'N2 -> Wake:':<31}{n2_to_wake}",
-            f"{'REM -> Wake:':<31}{rem_to_wake}",
-            f"{'Total:':<31}{total_awakenings}",
+            f"{'N3 -> Wake:':<31}{awk['N3']}",
+            f"{'N2 -> Wake:':<31}{awk['N2']}",
+            f"{'REM -> Wake:':<31}{awk['REM']}",
+            f"{'Total:':<31}{sum(awk.values())}",
             f"{'Avg. duration:':<31}{avg_awk}",
         ]
 
     if options["arousals"]:
-        if last_sleep_pos is not None:
-            n3_to_n1 = sum(1 for i in range(1, n) if scored_list[i] == -1 and scored_list[i - 1] == -3)
-            n2_to_n1 = sum(1 for i in range(1, n) if scored_list[i] == -1 and scored_list[i - 1] == -2)
-            rem_to_n1 = sum(1 for i in range(1, n) if scored_list[i] == -1 and scored_list[i - 1] == 0)
-        else:
-            n3_to_n1 = n2_to_n1 = rem_to_n1 = 0
-
+        scored_list = [s for s in scoring.stages() if s is not None]
+        pairs = list(zip(scored_list, scored_list[1:]))
+        n3_to_n1 = sum(1 for prev, cur in pairs if cur == "N1" and prev == "N3")
+        n2_to_n1 = sum(1 for prev, cur in pairs if cur == "N1" and prev == "N2")
+        rem_to_n1 = sum(1 for prev, cur in pairs if cur == "N1" and prev == "REM")
         total_arousals = n3_to_n1 + n2_to_n1 + rem_to_n1
 
         if lines:
@@ -668,12 +611,11 @@ def _create_eeg_trace(ui, options):
 
     # Title: derive sleep stage from first selected epoch
     stage_name = "Unscored"
-    if epoch_numbers and hasattr(ui, "stages") and ui.stages:
+    if epoch_numbers:
+        stage_list = ui.scoring.stages()
         first_ep_idx = epoch_numbers[0] - 1
-        if 0 <= first_ep_idx < len(ui.stages):
-            s = ui.stages[first_ep_idx].get("stage")
-            if s:
-                stage_name = s
+        if 0 <= first_ep_idx < len(stage_list):
+            stage_name = stage_list[first_ep_idx] or stage_name
     ax.set_title(f"Example trace ({stage_name})", loc='left', fontsize=11, fontweight='bold', pad=4)
 
     fig.subplots_adjust(left=_PLOT_LEFT, right=_PLOT_RIGHT, bottom=bottom_frac, top=top_frac)
