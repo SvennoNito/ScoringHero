@@ -20,11 +20,12 @@ import io
 import json
 import os
 import tempfile
+from fractions import Fraction
 
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
-from scipy.signal import welch
+from scipy.signal import resample_poly, welch
 from edfio import read_edf
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
@@ -166,18 +167,39 @@ def _channel_color_and_scale(ch_name):
     return ('Black', 1.0)
 
 
+_TO_UV = {'V': 1e6, 'mV': 1e3, 'uV': 1.0}   # voltage unit -> factor to µV
+
+
+def _resample_to_rate(data, srate, target_srate):
+    """Polyphase-resample data to target_srate; output length round(n * target / srate)."""
+    if srate == target_srate:
+        return data
+    ratio    = Fraction(target_srate).limit_denominator(1000) / Fraction(srate).limit_denominator(1000)
+    n_target = int(round(len(data) * target_srate / srate))
+    out      = resample_poly(data, ratio.numerator, ratio.denominator, padtype='line')
+    if len(out) > n_target:
+        return out[:n_target]
+    return np.pad(out, (0, n_target - len(out)), mode='edge')
+
+
 def load_edf(filepath, scale_to_uv=False):
-    edf       = read_edf(filepath)
-    srate     = int(edf.signals[0].sampling_frequency)
-    ch_names  = [s.label for s in edf.signals]
-    signals   = [s.data for s in edf.signals]
-    max_len   = max(len(s) for s in signals)
-    eeg_data  = np.array([
+    """Same behavior as ScoringHero's eeg.load_edf: all signals at the highest native rate;
+    with scale_to_uv, only voltage-unit signals (V, mV, uV) are converted to µV."""
+    edf      = read_edf(filepath)
+    ch_names = [s.label for s in edf.signals]
+    srate    = int(round(max(s.sampling_frequency for s in edf.signals)))
+    signals  = []
+    for s in edf.signals:
+        data = _resample_to_rate(np.asarray(s.data, dtype=float), s.sampling_frequency, srate)
+        unit = (s.physical_dimension or '').strip().replace('\u00b5', 'u').replace('\u03bc', 'u')
+        if scale_to_uv and unit in _TO_UV:
+            data = data * _TO_UV[unit]
+        signals.append(data)
+    max_len  = max(len(s) for s in signals)
+    eeg_data = np.array([
         np.pad(s, (0, max_len - len(s))) if len(s) < max_len else s
         for s in signals
     ])
-    if scale_to_uv:
-        eeg_data = eeg_data * 1e6
     return eeg_data, srate, ch_names
 
 
