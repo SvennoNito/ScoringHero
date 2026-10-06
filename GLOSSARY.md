@@ -15,14 +15,21 @@ One data series stored in the recording file (EEG, EOG, EMG, accelerometer, ...)
 _Avoid_: trace, lead
 
 **Channel**:
-A displayed row on the signal panel; either a signal from the file or a derived channel.
+A displayed row on the signal panel; either a signal from the file or a derived channel. Identified by its channel name.
+
+**Channel name**:
+The name of a channel, unique within a recording; a channel cannot be renamed to a name another channel already has.
 
 **Derived channel**:
-A channel computed from other channels (e.g. re-referenced), not stored in the recording file. Starts with the channel settings of its source channel.
+A channel computed from other channels (e.g. re-referenced), not stored in the recording file. Starts with the channel settings of its source channel, under the source channel's name followed by `*` (`**`, ... if that name is taken).
 
 **Overlay signal**:
 A second recording with the same channels shown on top of the primary recording for comparison.
 _Avoid_: overlay (alone; ambiguous with busy indicator)
+
+**Displayed signal**:
+A channel's signal as shown: re-referenced, filtered and polarity-flipped according to its channel settings. Derived from the recording, never stored in it.
+_Avoid_: display data, processed signal
 
 **Busy indicator**:
 A visible notice that the app is working (importing or filtering) and that input is paused.
