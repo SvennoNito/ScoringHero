@@ -8,7 +8,8 @@ def score_not_sure(ui):
     stage = ui.scoring.stage(epoch)
     if stage is None:
         return  # an unscored epoch carries no confidence or source
-    ui.scoring.set(epoch, stage, HUMAN, change_value(ui.scoring.confidence(epoch)), ui.scoring.channels(epoch))
+    ui.scoring.set(epoch, stage, HUMAN, change_value(ui.scoring.confidence(epoch)),
+                   ui.scoring.channels(epoch), ui.scoring.probabilities(epoch))
 
     ui.DisplayedEpochWidget.update_text(
         ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
