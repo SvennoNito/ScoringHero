@@ -111,10 +111,8 @@ def open_nidra_window(ui):
         )
         return
 
-    # Keep the name->index cache in step with the current channel config: a
-    # channel added or renamed in the config window may not have refreshed it
-    # yet (the rename is debounced), which would make _channel_index() below
-    # fail on a channel the dialog happily offers.
+    # Keep the name->index cache in step with the current channel config, so
+    # _channel_index() below cannot fail on a channel the dialog offers.
     from utilities.channel_index import rebuild_channel_index
     rebuild_channel_index(ui)
 

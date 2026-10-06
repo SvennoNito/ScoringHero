@@ -6,8 +6,8 @@ def align_channels_to_config(eeg_data, channel_names, config):
     append reconstructed derived channels (e.g. re-referenced channels added via
     the config window) that are not stored as rows in the raw file.
 
-    Shared by the primary EEG loader and the overlay-signal loader so that both
-    data sets line up channel-for-channel with config[1].
+    Used by the overlay-signal loader so that the overlay lines up
+    channel-for-channel with config[1].
     """
     non_derived_configs = [ch for ch in config[1] if not ch.get("derived", False)]
     name_to_file_idx = {name: i for i, name in enumerate(channel_names)}

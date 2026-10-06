@@ -17,7 +17,6 @@ from utilities.apply_tf_visibility import apply_tf_visibility
 from utilities.refresh_gui import _update_export_menu_state
 from utilities.overlay_state import get_active_analysis_data, get_overlay_signal_for_display
 from .rebuild_display import rebuild_eeg_data_display
-from .align_channels import align_channels_to_config
 from utilities.busy_indicator import run_busy
 
 
@@ -128,11 +127,10 @@ def _load_heavy(ui, datatype, extra_files):
     _repair_stored_sampling_rate(ui, srate)
     rebuild_channel_index(ui)
 
-    # Reorder eeg_data rows to match the saved channel order in config, and
-    # reconstruct derived channels (added via re-reference) that are not stored
-    # in the EEG file, so the channel count/order matches config before
-    # rebuild_eeg_data_display applies the re-reference.
-    ui.eeg_data = align_channels_to_config(ui.eeg_data, channel_names, ui.config)
+    # One raw row per channel, in channel order: each channel (derived ones
+    # included) shows the file signal at its Signal_index, so renamed and moved
+    # channels keep their signal. rebuild_eeg_data_display applies the re-reference.
+    ui.eeg_data = ui.eeg_data[[channel["Signal_index"] for channel in ui.config[1]]]
 
     # Keep the original-plus-derived data immutable; display copy is rebuilt below
     ui.eeg_data_display = ui.eeg_data.copy()

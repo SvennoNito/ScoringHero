@@ -61,12 +61,14 @@ def load_channel_template(app_path):
 
 
 def save_channel_template(app_path, config):
-    """Persist config[1] as the default channel template for future recordings."""
+    """Persist config[1] as the default channel template for future recordings.
+    File signal links (Signal_index) belong to one recording and are left out."""
+    channels = [{k: v for k, v in c.items() if k != "Signal_index"} for c in config[1]]
     for path in _template_paths(app_path):
         try:
             os.makedirs(os.path.dirname(path), exist_ok=True)
             with open(path, "w") as handle:
-                json.dump(config[1], handle, indent=2)
+                json.dump(channels, handle, indent=2)
             return
         except Exception:
             continue

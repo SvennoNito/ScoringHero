@@ -46,16 +46,17 @@ def _signal_rebuild_change(ui, chan_idx):
     run_busy(ui, "Filtering…", work, done)
 
 
-def _rename_change(ui):
+def _rename_change(ui, old_name, new_name):
     """Channel rename: labels only — no filtering, no spectrogram recompute.
 
     Renaming leaves every sample untouched, and ChannelPage has already re-pointed
-    the config entries that store a channel *name* (other channels' Re_reference
-    and the spectrogram/wavelet/periodogram selectors).  So only the cached
-    name->index map and the names drawn on the panels need refreshing.
+    the config entries that store a channel *name* (rename_channel). So only the
+    name->index map, the names drawn on the panels and the names the disk cache
+    was validated with need to follow.
     """
     from utilities.channel_index import rebuild_channel_index
     from signal_processing.compute_epoch_periodogram import compute_epoch_periodogram
+    from cache.rename_in_cache import rename_in_cache
 
     rebuild_channel_index(ui)
     redraw_gui(ui)
@@ -67,6 +68,7 @@ def _rename_change(ui):
     # time it is opened so it shows the new ones.
     ui.FilterWindow = None
 
+    rename_in_cache(ui, old_name, new_name)
     save_configuration(ui)
 
 
@@ -96,13 +98,13 @@ def _add_channel(ui, channel_a_name, channel_b_name):
     if applied_keys is None:
         return  # Cancel: keep the window and its pending edits
     chan_names = [ch["Channel_name"] for ch in ui.config[1]]
-    idx_a = chan_names.index(channel_a_name) if channel_a_name in chan_names else 0
+    idx_a = chan_names.index(channel_a_name)
 
     # Append a copy of channel A's raw signal as the new row
     new_signal = ui.eeg_data[idx_a:idx_a + 1].copy()
     ui.eeg_data = np.vstack([ui.eeg_data, new_signal])
 
-    ui.config[1].append(derive_channel(ui.config[1][idx_a], channel_b_name))
+    ui.config[1].append(derive_channel(ui.config[1], channel_a_name, channel_b_name))
 
     # Rebuild display data and refresh all widgets (incl. any just-applied settings)
     apply_changes(applied_keys, ui, channels_changed=True)
@@ -170,7 +172,7 @@ def open_config_window(ui):
     ui.ChannelPage.changesMade.connect(lambda: apply_changes([], ui, channels_changed=True))
     ui.ChannelPage.displayOnlyChanged.connect(lambda: _display_only_change(ui))
     ui.ChannelPage.signalRebuildNeeded.connect(lambda idx: _signal_rebuild_change(ui, idx))
-    ui.ChannelPage.channelRenamed.connect(lambda: _rename_change(ui))
+    ui.ChannelPage.channelRenamed.connect(lambda old, new: _rename_change(ui, old, new))
     ui.ChannelPage.channelAdded.connect(lambda a, b, ui=ui: _add_channel(ui, a, b))
     ui.ChannelPage.channelDeleted.connect(lambda idx, ui=ui: _delete_channel(ui, idx))
     ui.ConfigurationWindow.settingsApplied.connect(
