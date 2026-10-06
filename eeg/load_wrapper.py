@@ -5,19 +5,15 @@ from config.load_configuration import load_configuration
 from scoring.load_scoring import load_scoring
 from scoring.events_to_ui import events_to_ui
 from utilities.timing_decorator import timing_decorator
-from utilities.channel_index import rebuild_channel_index
 from .load_eeglab import load_eeglab
 from .load_r09 import load_r09
 from .load_edf import load_edf
 from .number_of_epochs import number_of_epochs
-from cache.load_cache import load_cache
 from signal_processing.times_vector import times_vector
-from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 from utilities.apply_tf_visibility import apply_tf_visibility
 from utilities.refresh_gui import _update_export_menu_state
-from utilities.overlay_state import get_active_analysis_data, get_overlay_signal_for_display
-from .rebuild_display import rebuild_eeg_data_display
 from utilities.busy_indicator import run_busy
+from .displayed_signal import settings_changed
 
 
 def load_single(filename_prefix, datatype):
@@ -77,7 +73,8 @@ def _reset_for_new_recording(ui):
 
 @timing_decorator
 def load_wrapper(ui, datatype, extra_files=None):
-    """Synchronous load (used at startup, before the window is shown)."""
+    """Load at startup: reading the files blocks, building the displayed signal and
+    the analysis data runs under the busy indicator."""
     _reset_for_new_recording(ui)
     events = _load_heavy(ui, datatype, extra_files)
     _show_loaded(ui, events)
@@ -86,13 +83,9 @@ def load_wrapper(ui, datatype, extra_files=None):
 def load_wrapper_busy(ui, datatype, extra_files, on_done, on_error):
     """Load with the heavy step off the GUI thread and a busy indicator on top."""
     _reset_for_new_recording(ui)
-
-    def done(events):
-        _show_loaded(ui, events)
-        on_done()
-
     run_busy(ui, "Loading recording…",
-             lambda: _load_heavy(ui, datatype, extra_files), done, on_error)
+             lambda: _load_heavy(ui, datatype, extra_files),
+             lambda events: _show_loaded(ui, events, on_done), on_error)
 
 
 def _load_heavy(ui, datatype, extra_files):
@@ -123,20 +116,10 @@ def _load_heavy(ui, datatype, extra_files):
     except:
         numchans = 6
 
+    # Raw data stays in file order; each channel shows the file signal at its Signal_index
+    ui.signal_names = channel_names
     ui.config = load_configuration(f"{ui.filename}.config.json", numchans, srate, channel_names, ui.app_path, units=units)
     _repair_stored_sampling_rate(ui, srate)
-    rebuild_channel_index(ui)
-
-    # One raw row per channel, in channel order: each channel (derived ones
-    # included) shows the file signal at its Signal_index, so renamed and moved
-    # channels keep their signal. rebuild_eeg_data_display applies the re-reference.
-    ui.eeg_data = ui.eeg_data[[channel["Signal_index"] for channel in ui.config[1]]]
-
-    # Keep the original-plus-derived data immutable; display copy is rebuilt below
-    ui.eeg_data_display = ui.eeg_data.copy()
-
-    # Apply all saved manipulations (re-reference + filter + flip) from config
-    rebuild_eeg_data_display(ui)
 
     ui.numepo = number_of_epochs(
         ui.eeg_data.shape[1],
@@ -148,36 +131,20 @@ def _load_heavy(ui, datatype, extra_files):
     )
 
     times_vector(ui)
-    load_cache(ui)
     return events
 
 
-def _show_loaded(ui, events):
-    """GUI-thread half of loading: build annotation objects and draw every panel."""
+def _show_loaded(ui, events, on_done=None):
+    """GUI-thread half of loading: build annotation objects, then the displayed
+    signal and analysis data (from the disk cache where still valid), drawing every
+    panel."""
     events_to_ui(ui, events)
     ui.toolbar_jump_to_epoch.setMaximum(ui.numepo)
-    ui.SignalWidget.draw_signal(ui.config, ui.eeg_data_display, ui.times, ui.this_epoch,
-                                 get_overlay_signal_for_display(ui))
-    ui.DisplayedEpochWidget.update_text(
-        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
-    )
-    ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
-    ui.HypnogramWidget.draw_hypnogram(ui)
-    srate = ui.config[0]["Sampling_rate_hz"]
-    display_mode = ui.config[0].get("Wavelet_display_mode", "Z-scored Power")
-    freq_scale = ui.config[0].get("Wavelet_frequency_scale", "Logarithmic")
-    freq_limits = ui.config[0].get("Wavelet_frequency_limits_hz", None)
-    time_unit = ui.config[0].get("EEG_panel_time_unit", "Seconds")
-    recording_start_time = ui.config[0].get("Recording_start_time", "00:00")
-    epoch_length = ui.config[0]["Epoch_length_s"]
-    tf_channel_label = ui.config[0].get("Wavelet_channel", "")
-    tf_channel_idx = ui.channel_name_to_idx.get(tf_channel_label, 0)
-    ui.TFWidget.draw_tf(get_active_analysis_data(ui), ui.times, ui.this_epoch, srate, ui.tf_freqs,
-                        ui.tf_norm_median, ui.tf_norm_iqr, ui.tf_norm_rms, ui.tf_norm_median_linear,
-                        display_mode, freq_scale, freq_limits,
-                        time_unit, epoch_length, tf_channel_idx, tf_channel_label,
-                        recording_start_time=recording_start_time)
-    apply_tf_visibility(ui)
-    for container in ui.AnnotationContainer:
-        draw_event_in_this_epoch(ui, container)
-    _update_export_menu_state(ui)
+
+    def shown():
+        apply_tf_visibility(ui)
+        _update_export_menu_state(ui)
+        if on_done is not None:
+            on_done()
+
+    settings_changed(ui, shown)

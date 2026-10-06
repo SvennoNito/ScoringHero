@@ -1,19 +1,15 @@
 """Tests for the channel settings module: defaults, completion of older files,
-channel template merge, derived channels, renaming, change effects and the
-rebuild fingerprint."""
+channel template merge, derived channels, renaming and the rebuild fingerprint."""
 
 import pytest
 
 from config.channel_settings import (
-    DISPLAY,
-    REBUILD,
     complete_channels,
     default_channels,
     derive_channel,
     merge_template,
     rebuild_fingerprint,
     rename_channel,
-    setting_effect,
 )
 
 
@@ -106,6 +102,26 @@ def test_complete_renames_later_duplicates_and_references_keep_the_first():
     assert [c["Channel_name"] for c in channels] == ["C3", "M2", "C3*", "C3**"]
     assert channels[1]["Re_reference"] == "C3"
     assert [c["source_channel"] for c in channels[2:]] == ["C3", "C3"]
+
+
+def test_complete_keeps_a_derived_channel_among_ordinary_channels():
+    """A derived channel moved above an ordinary channel stays there, on its source's signal."""
+    names = ["C3", "C4", "M2"]
+    saved = default_channels(3, names)
+    saved.insert(1, derive_channel(saved, "C4", "M2"))
+    channels = complete_channels(saved, 3, names)
+    assert [(c["Channel_name"], c["Signal_index"]) for c in channels] == [
+        ("C3", 0), ("C4*", 1), ("C4", 1), ("M2", 2)]
+
+
+def test_complete_keeps_the_name_for_the_ordinary_channel_when_a_duplicate_comes_first():
+    """An older file with a derived channel named like its source, placed above it."""
+    names = ["C3", "M2"]
+    saved = default_channels(2, names)
+    saved.insert(0, dict(saved[0], derived=True, source_channel="C3", Re_reference="M2"))
+    channels = complete_channels(saved, 2, names)
+    assert [c["Channel_name"] for c in channels] == ["C3*", "C3", "M2"]
+
 
 
 def test_complete_fills_signal_index_by_name_where_names_match_the_file():
@@ -249,17 +265,15 @@ _DISPLAY_CHANGES = [
 ]
 
 
-def test_signal_affecting_change_rebuilds_and_changes_fingerprint():
+def test_signal_affecting_change_changes_fingerprint():
     base = default_channels(2, ["C3", "C4"])
     for name, value in _SIGNAL_CHANGES:
         changed = [dict(base[0], **{name: value}), base[1]]
         assert rebuild_fingerprint(changed) != rebuild_fingerprint(base), name
-        assert setting_effect(name) == REBUILD, name
 
 
-def test_display_only_change_redraws_and_keeps_fingerprint():
+def test_display_only_change_keeps_fingerprint():
     base = default_channels(2, ["C3", "C4"])
     for name, value in _DISPLAY_CHANGES:
         changed = [dict(base[0], **{name: value}), base[1]]
         assert rebuild_fingerprint(changed) == rebuild_fingerprint(base), name
-        assert setting_effect(name) == DISPLAY, name

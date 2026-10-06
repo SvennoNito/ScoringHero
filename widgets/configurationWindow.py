@@ -23,7 +23,7 @@ from PySide6.QtCore import Signal, Qt, QTime
 from PySide6.QtGui import QColor, QFont, QFontMetrics
 import copy
 
-from config.channel_settings import ANALYSIS_CHANNEL_KEYS, DISPLAY, REBUILD, rename_channel, setting_effect
+from config.channel_settings import ANALYSIS_CHANNEL_KEYS, rename_channel
 
 
 class ConfigurationWindow(QDialog):
@@ -876,12 +876,8 @@ class _DraggableList(QListWidget):
 
 
 class ChannelConfiguration(QDialog):
-    changesMade = Signal()
-    displayOnlyChanged = Signal()       # visibility/color/scale/shift/subtract median/line width — no signal rebuild
-    signalRebuildNeeded = Signal(int)   # reref/flip changed — rebuild display; chan_idx passed (-1: all
-                                        # channels) so caller can skip spectrogram recompute if unrelated channel
-    channelRenamed = Signal(str, str)   # (old_name, new_name) — labels only, no signal rebuild
-    channelMoved = Signal(int, int)     # (from_index, to_index)
+    channelsChanged = Signal()          # any channel setting changed or channels moved
+    channelRenamed = Signal(str, str)   # (old_name, new_name), not yet applied to the config
     channelAdded = Signal(str, str)     # (channel_a_name, channel_b_name)
     channelDeleted = Signal(int)        # channel index to delete
 
@@ -1180,17 +1176,17 @@ class ChannelConfiguration(QDialog):
             cb.setChecked(checked)
             cb.blockSignals(False)
             channel_config[i]["Display_on_screen"] = checked
-        self.displayOnlyChanged.emit()
+        self.channelsChanged.emit()
 
     def _on_stack_changed(self):
         if self.general_config is not None:
             self.general_config["Stack_channels"] = self.stack_channels_checkbox.isChecked()
-        self.displayOnlyChanged.emit()
+        self.channelsChanged.emit()
 
     def _on_z_standardize_changed(self):
         if self.general_config is not None:
             self.general_config["Robust_z_standardize"] = self.z_standardize_checkbox.isChecked()
-        self.displayOnlyChanged.emit()
+        self.channelsChanged.emit()
 
     def _name_taken(self, labelbox):
         """True if labelbox holds a name another channel already has."""
@@ -1205,27 +1201,21 @@ class ChannelConfiguration(QDialog):
         labelbox.setToolTip("name already used" if taken else "")
 
     def _on_label_finished(self, labelbox):
-        """Enter or focus out: apply the rename, or revert a taken name.
-
-        A rename changes no sample, so it never rebuilds the displayed signal; the
-        pure rename re-points every reference to the old name (re-references,
-        derived channels' sources, analysis channel selectors)."""
+        """Enter or focus out: report the rename (applied by the receiver, see
+        displayed_signal.channel_renamed), or revert a taken name."""
         idx = self.label.index(labelbox)
         old_name = self.channel_config[idx]["Channel_name"]
         new_name = labelbox.text()
         if new_name == old_name:
             return
-        try:
-            rename_channel(self.channel_config, self.general_config if self.general_config is not None else {},
-                           old_name, new_name)
-        except ValueError:
+        if self._name_taken(labelbox):
             labelbox.setText(old_name)  # clears the taken-name feedback via textChanged
             return
+        self.channelRenamed.emit(old_name, new_name)
 
         # Keep the re-reference dropdowns on the current names, so a later
         # unrelated edit cannot write a stale name back into the config.
         self._rebuild_all_reref_combos()
-        self.channelRenamed.emit(old_name, new_name)
 
     def _rebuild_all_reref_combos(self):
         all_names = [c["Channel_name"] for c in self.channel_config]
@@ -1262,10 +1252,8 @@ class ChannelConfiguration(QDialog):
         return True
 
     def change_event(self, channel_config, chan_idx, setting):
-        propagated = (
-            self.apply_all_checkbox.isChecked()
-            and self._propagate_to_all(chan_idx, setting)
-        )
+        if self.apply_all_checkbox.isChecked():
+            self._propagate_to_all(chan_idx, setting)
         for counter, chaninfo in enumerate(channel_config):
             chaninfo["Channel_color"] = self.color[counter].currentText()
             chaninfo["Display_on_screen"] = self.display[counter].isChecked()
@@ -1275,18 +1263,8 @@ class ChannelConfiguration(QDialog):
             chaninfo["Flip_polarity"] = self.flip[counter].isChecked()
             chaninfo["Subtract_median"] = self.subtract_median[counter].isChecked()
             chaninfo["Line_width"] = self.line_width[counter].value()
-        # Display-only settings: only a cheap redraw needed.
-        # Signal-rebuild settings: rebuild eeg_data_display, but spectrogram
-        # recomputation is only needed if this channel feeds the spectrogram
-        # or wavelet panel — caller decides via the emitted index (-1: all channels).
-        # Renames never reach here; they go through _on_label_finished instead.
-        effect = setting_effect(setting)
-        if effect == DISPLAY:
-            self.displayOnlyChanged.emit()
-        elif effect == REBUILD:
-            self.signalRebuildNeeded.emit(-1 if propagated else chan_idx)
-        else:
-            self.changesMade.emit()
+        # The receiver works out what has to be rebuilt; renames never reach here.
+        self.channelsChanged.emit()
 
     def _on_rows_moved(self, channel_config, src_start, dst_row):
         """Called when a channel row is drag-dropped to a new position.
@@ -1317,10 +1295,8 @@ class ChannelConfiguration(QDialog):
         # Rebuild all reref dropdowns (channel positions have changed)
         self._rebuild_all_reref_combos()
 
-        # Notify connection layer to move the eeg_data row and do a lightweight redraw.
-        # changesMade is intentionally NOT emitted here — reordering channels does not
-        # require recomputing spectrograms; the connection layer handles everything.
-        self.channelMoved.emit(src_start, new_pos)
+        # Moving only reorders the displayed rows; the receiver works that out.
+        self.channelsChanged.emit()
 
     def _rebuild_reref_combo(self, idx, all_channel_names):
         """Rebuild the re-reference combobox items for channel idx."""

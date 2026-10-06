@@ -1,113 +1,27 @@
-import numpy as np
 from widgets import ConfigurationWindow
-from utilities.redraw_gui import redraw_gui, redraw_all
 from scoring.write_scoring import write_scoring
 from events.event_deletion import rebuild_event_epochs, refresh_after_event_deletion
+from eeg.displayed_signal import channel_renamed, settings_changed
 from .apply_changes import apply_changes
-from .write_configuration import save_configuration
 from .channel_settings import derive_channel
-from utilities.busy_indicator import run_busy
 
 
-def _display_only_change(ui):
-    """Channel config change that only affects rendering (visibility, color, scale, shift).
-    No signal rebuild or spectrogram recomputation needed."""
-    redraw_gui(ui)
-    save_configuration(ui)
-
-
-def _signal_rebuild_change(ui, chan_idx):
-    """Channel config change that modifies the signal (reref, flip).
-
-    Always rebuilds eeg_data_display (reref + filtering + flip).  Only recomputes
-    the spectrogram/wavelet if a changed channel is one currently feeding those
-    panels — otherwise the spectrogram data is still valid. chan_idx -1 means the
-    change was applied to all channels.
-    """
-    from eeg.rebuild_display import rebuild_eeg_data_display
-    from signal_processing.recompute_derived import recompute_derived
-
-    if chan_idx == -1:
-        recompute = True
-    else:
-        spec_chan = ui.config[0].get("Channel_for_spectogram", "")
-        wav_chan = ui.config[0].get("Wavelet_channel", "")
-        recompute = ui.config[1][chan_idx]["Channel_name"] in (spec_chan, wav_chan)
-
-    def work():
-        rebuild_eeg_data_display(ui)
-        if recompute:
-            recompute_derived(ui)
-
-    def done(_):
-        redraw_all(ui)
-        save_configuration(ui)
-
-    run_busy(ui, "Filtering…", work, done)
-
-
-def _rename_change(ui, old_name, new_name):
-    """Channel rename: labels only — no filtering, no spectrogram recompute.
-
-    Renaming leaves every sample untouched, and ChannelPage has already re-pointed
-    the config entries that store a channel *name* (rename_channel). So only the
-    name->index map, the names drawn on the panels and the names the disk cache
-    was validated with need to follow.
-    """
-    from utilities.channel_index import rebuild_channel_index
-    from signal_processing.compute_epoch_periodogram import compute_epoch_periodogram
-    from cache.rename_in_cache import rename_in_cache
-
-    rebuild_channel_index(ui)
-    redraw_gui(ui)
-
-    freqs, power, channel_name = compute_epoch_periodogram(ui, ui.this_epoch)
-    ui.RectanglePower.update_powerline(freqs, power, channel_name)
-
+def _rename_channel(ui, old_name, new_name):
+    channel_renamed(ui, old_name, new_name)
     # Filter window caches the channel names in its row labels — rebuild it next
     # time it is opened so it shows the new ones.
     ui.FilterWindow = None
 
-    rename_in_cache(ui, old_name, new_name)
-    save_configuration(ui)
-
-
-def _move_eeg_row(ui, from_idx, to_idx):
-    """Reindex eeg_data and eeg_data_display after a channel drag-reorder.
-
-    This is a lightweight alternative to apply_changes: no filters are re-applied
-    and no spectrograms are recomputed. The display data is still valid — each
-    channel's processed signal moves with its config entry — so we just reindex
-    both arrays and redraw.
-    """
-    from utilities.channel_index import rebuild_channel_index
-
-    order = list(range(ui.eeg_data.shape[0]))
-    order.pop(from_idx)
-    order.insert(to_idx, from_idx)
-    ui.eeg_data = ui.eeg_data[order]
-    ui.eeg_data_display = ui.eeg_data_display[order]
-    rebuild_channel_index(ui)
-    redraw_gui(ui)
-    save_configuration(ui)
-
 
 def _add_channel(ui, channel_a_name, channel_b_name):
-    """Add a new derived channel (A − B) to eeg_data and config, then refresh."""
+    """Add a new derived channel (A − B), then refresh."""
     applied_keys = ui.ConfigurationWindow.resolve_pending()
     if applied_keys is None:
         return  # Cancel: keep the window and its pending edits
-    chan_names = [ch["Channel_name"] for ch in ui.config[1]]
-    idx_a = chan_names.index(channel_a_name)
-
-    # Append a copy of channel A's raw signal as the new row
-    new_signal = ui.eeg_data[idx_a:idx_a + 1].copy()
-    ui.eeg_data = np.vstack([ui.eeg_data, new_signal])
-
     ui.config[1].append(derive_channel(ui.config[1], channel_a_name, channel_b_name))
 
-    # Rebuild display data and refresh all widgets (incl. any just-applied settings)
-    apply_changes(applied_keys, ui, channels_changed=True)
+    # Build the new channel and refresh all widgets (incl. any just-applied settings)
+    apply_changes(applied_keys, ui)
 
     # Reset filter window so it rebuilds with the new channel list next time
     ui.FilterWindow = None
@@ -119,16 +33,11 @@ def _add_channel(ui, channel_a_name, channel_b_name):
 
 
 def _delete_channel(ui, idx):
-    """Remove channel at idx from eeg_data and config, then refresh."""
+    """Remove channel at idx from the config, then refresh."""
     applied_keys = ui.ConfigurationWindow.resolve_pending()
     if applied_keys is None:
         return  # Cancel: keep the window and its pending edits
     del_name = ui.config[1][idx]["Channel_name"]
-
-    # Remove the raw data row
-    ui.eeg_data = np.delete(ui.eeg_data, idx, axis=0)
-
-    # Remove the config entry
     ui.config[1].pop(idx)
 
     # Clear any re-reference that pointed to the deleted channel
@@ -143,8 +52,8 @@ def _delete_channel(ui, idx):
         if ui.config[0].get(key) == del_name:
             ui.config[0][key] = fallback
 
-    # Rebuild display data and refresh (incl. any just-applied settings)
-    apply_changes(applied_keys, ui, channels_changed=True)
+    # Drop the row, rebuild re-referenced rows and refresh (incl. any just-applied settings)
+    apply_changes(applied_keys, ui)
 
     # Reset filter window so it rebuilds with the updated channel list next time
     ui.FilterWindow = None
@@ -168,11 +77,8 @@ def open_config_window(ui):
     channel_labels = [ch["Channel_name"] for ch in ui.config[1]]
     ui.ConfigurationWindow = ConfigurationWindow(ui.config, ui.AnnotationContainer, allow_staging, channel_labels)
     ui.ChannelPage, ui.GeneralPage, ui.EventPage, ui.WaveletPage, ui.SpectrogramPage, ui.PeriodogramPage = ui.ConfigurationWindow.return_page()
-    ui.ChannelPage.channelMoved.connect(lambda f, t, ui=ui: _move_eeg_row(ui, f, t))
-    ui.ChannelPage.changesMade.connect(lambda: apply_changes([], ui, channels_changed=True))
-    ui.ChannelPage.displayOnlyChanged.connect(lambda: _display_only_change(ui))
-    ui.ChannelPage.signalRebuildNeeded.connect(lambda idx: _signal_rebuild_change(ui, idx))
-    ui.ChannelPage.channelRenamed.connect(lambda old, new: _rename_change(ui, old, new))
+    ui.ChannelPage.channelsChanged.connect(lambda ui=ui: settings_changed(ui))
+    ui.ChannelPage.channelRenamed.connect(lambda old, new, ui=ui: _rename_channel(ui, old, new))
     ui.ChannelPage.channelAdded.connect(lambda a, b, ui=ui: _add_channel(ui, a, b))
     ui.ChannelPage.channelDeleted.connect(lambda idx, ui=ui: _delete_channel(ui, idx))
     ui.ConfigurationWindow.settingsApplied.connect(

@@ -1,10 +1,9 @@
 import os
 from PySide6.QtWidgets import QFileDialog, QMessageBox
 
+from .displayed_signal import settings_changed
 from .load_wrapper import load_single
 from .resample import resample_to_rate
-from .align_channels import align_channels_to_config
-from .rebuild_display import rebuild_eeg_data_display
 from utilities.busy_indicator import run_busy
 
 
@@ -14,6 +13,25 @@ _DATATYPE_FILTER = {
     "edf": "*.edf",
     "edfvolt": "*.edf",
 }
+
+
+def _in_primary_file_order(eeg_data_ovl, names_ovl, names_primary):
+    """Overlay rows in the primary recording's file signal order, so that each
+    channel's Signal_index points at the same signal in both. Raises ValueError if
+    the overlay file does not hold the same signals."""
+    if list(names_ovl) == list(names_primary):
+        return eeg_data_ovl
+    if sorted(names_ovl) != sorted(names_primary) or len(set(names_primary)) != len(names_primary):
+        raise ValueError(
+            "The signal names in the overlay file do not match the primary recording's signals."
+        )
+    return eeg_data_ovl[[list(names_ovl).index(name) for name in names_primary]]
+
+
+def _set_checked_silently(action, checked):
+    action.blockSignals(True)
+    action.setChecked(checked)
+    action.blockSignals(False)
 
 
 def import_overlay_signal(ui, datatype):
@@ -40,21 +58,16 @@ def import_overlay_signal(ui, datatype):
                 f"but '{os.path.basename(filepath)}' has {eeg_data_ovl.shape[1]} samples. Both "
                 f"recordings must have the same number of samples to be overlaid."
             )
+        return _in_primary_file_order(eeg_data_ovl, channel_names_ovl, ui.signal_names)
 
-        non_derived_names = {ch["Channel_name"] for ch in ui.config[1] if not ch.get("derived", False)}
-        if set(channel_names_ovl) != non_derived_names:
-            raise ValueError(
-                "The channel names in the overlay file do not match the primary recording's channels."
-            )
-
-        ui.eeg_data_ref = align_channels_to_config(eeg_data_ovl, channel_names_ovl, ui.config)
-        rebuild_eeg_data_display(ui)
-
-    def done(_):
+    def done(eeg_data_ovl):
+        ui.eeg_data_ref = eeg_data_ovl
         ui.action_remove_overlay.setEnabled(True)
         ui.menu_analyze_source.setEnabled(True)
         ui.action_show_overlay.setEnabled(True)
-        ui.action_show_overlay.setChecked(True)  # triggers redraw with the overlay visible
+        _set_checked_silently(ui.action_show_overlay, True)
+        ui.show_overlay = True
+        settings_changed(ui)
 
     def failed(e):
         QMessageBox.critical(None, "Overlay loading error", str(e))
@@ -67,10 +80,12 @@ def remove_overlay_signal(ui):
         return
 
     ui.eeg_data_ref = None
-    ui.eeg_data_display_ref = None
-
     ui.action_remove_overlay.setEnabled(False)
     ui.menu_analyze_source.setEnabled(False)
-    ui.action_show_overlay.setChecked(False)  # triggers redraw with the overlay hidden
+    _set_checked_silently(ui.action_show_overlay, False)
     ui.action_show_overlay.setEnabled(False)
-    ui.action_analyze_original.setChecked(True)  # triggers analysis panels back to the primary signal
+    ui.show_overlay = False
+    if ui.analysis_source == "overlay":
+        ui.analysis_source = "original"
+        _set_checked_silently(ui.action_analyze_original, True)
+    settings_changed(ui)

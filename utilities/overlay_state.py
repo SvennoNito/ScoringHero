@@ -30,13 +30,5 @@ def set_analysis_source(ui, source, checked):
         return
     ui.analysis_source = source
 
-    from signal_processing.recompute_derived import recompute_derived
-    from signal_processing.compute_epoch_periodogram import compute_epoch_periodogram
-    from utilities.tf_config_helper import call_tf_widget
-
-    recompute_derived(ui)
-    ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
-    ui.HypnogramWidget.draw_hypnogram(ui)
-    call_tf_widget(ui)
-    freqs, power, channel_name = compute_epoch_periodogram(ui, ui.this_epoch)
-    ui.RectanglePower.update_powerline(freqs, power, channel_name)
+    from eeg.displayed_signal import settings_changed
+    settings_changed(ui)

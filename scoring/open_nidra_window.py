@@ -111,11 +111,6 @@ def open_nidra_window(ui):
         )
         return
 
-    # Keep the name->index cache in step with the current channel config, so
-    # _channel_index() below cannot fail on a channel the dialog offers.
-    from utilities.channel_index import rebuild_channel_index
-    rebuild_channel_index(ui)
-
     channel_labels = [ch["Channel_name"] for ch in ui.config[1]]
     annotation_labels = [container.label for container in ui.AnnotationContainer]
 

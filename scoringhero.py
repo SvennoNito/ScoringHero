@@ -24,7 +24,6 @@ from signal_processing.times_vector import times_vector
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 from events.event_handler import event_handler
 from events.erase_events_in_rectangles import erase_events_in_rectangles
-from cache.load_cache import load_cache
 from scoring.write_scoring import write_scoring
 from style.appstyler import appstyler
 from style.apply_app_theme import apply_app_theme

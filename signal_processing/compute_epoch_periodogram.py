@@ -12,7 +12,7 @@ def precompute_all_epoch_periodograms(ui):
     Stores raw (untrimmed) power and frequencies in ui.epoch_periodogram_power and
     ui.epoch_periodogram_freqs for fast lookup during navigation.
 
-    Called from recompute_derived() and apply_changes() when periodogram settings change.
+    Called by the displayed signal module when the epoch periodograms must be recomputed.
     """
     channel_names = [ch["Channel_name"] for ch in ui.config[1]]
     periodogram_channel_name = ui.config[0].get(

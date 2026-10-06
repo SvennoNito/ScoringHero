@@ -12,10 +12,9 @@ from collections import namedtuple
 
 from eeg.units import is_voltage_unit, normalize_unit
 
-# Effect of changing a setting
-DISPLAY = "display"  # redraw only
-REBUILD = "rebuild"  # recompute the displayed signal (re-reference -> filter -> flip)
-RENAME = "rename"    # handled by the rename path
+# Whether a setting determines the channel's displayed signal
+DISPLAY = "display"  # no: only how it is drawn
+REBUILD = "rebuild"  # yes (re-reference -> filter -> flip)
 
 # Signal a default is computed for: position in the file, name, unit, signal count
 _Signal = namedtuple("_Signal", "index name unit count")
@@ -51,9 +50,9 @@ def _subtract_median(unit):
     return normalize_unit(unit) is not None and not is_voltage_unit(unit)
 
 
-# name: (default for a _Signal, effect when changed)
+# name: (default for a _Signal, DISPLAY or REBUILD)
 _SETTINGS = {
-    "Channel_name":         (lambda s: s.name, RENAME),
+    "Channel_name":         (lambda s: s.name, DISPLAY),
     "Channel_color":        (lambda s: _color(s.name), DISPLAY),
     "Display_on_screen":    (lambda s: _shown(s.index, s.count), DISPLAY),
     "Scaling_factor":       (lambda s: _scaling(s.count), DISPLAY),
@@ -152,17 +151,25 @@ def _file_signal_indices(stored, defaults):
 def complete_channels(channels, number_of_signals, channel_names, units=None):
     """Channel list loaded from a (possibly older) configuration file, completed:
     ordinary channels get missing settings from their defaults, derived channels
-    from their source channel. Stored values are never overwritten. Ordinary
-    channels are truncated or padded with defaults to number_of_signals; derived
-    channels follow them. Later channels sharing an earlier one's name are renamed
-    <name>*, ..., so references to that name keep meaning the first."""
+    from their source channel. Stored values and positions are kept. Ordinary
+    channels are truncated or padded with defaults (appended) to
+    number_of_signals. A channel sharing an earlier one's name is renamed
+    <name>*, ..., ordinary channels taking precedence, so references to that name
+    keep meaning the first ordinary channel."""
     defaults = default_channels(number_of_signals, channel_names, units)
     stored = [c for c in channels if not _is_derived(c)][:number_of_signals]
     indices = _file_signal_indices(stored, defaults)
     ordinary = [{"Signal_index": i, **_completed(c, d)} for c, d, i in zip(stored, defaults, indices)]
     ordinary += defaults[len(ordinary):]
-    derived = [c for c in channels if _is_derived(c)]
-    return _make_names_unique(ordinary + _complete_derived(derived, ordinary, number_of_signals))
+    derived = _complete_derived([c for c in channels if _is_derived(c)], ordinary, number_of_signals)
+    _make_names_unique(ordinary + derived)
+
+    # Back to the stored order (truncated ordinary channels dropped), padding last
+    kept = {id(c) for c in stored}
+    next_ordinary, next_derived = iter(ordinary), iter(derived)
+    result = [next(next_derived) if _is_derived(c) else next(next_ordinary)
+              for c in channels if _is_derived(c) or id(c) in kept]
+    return result + list(next_ordinary)
 
 
 def merge_template(channels, template):
@@ -227,12 +234,22 @@ def rename_channel(channels, general, old_name, new_name):
             general[key] = new_name
 
 
-def setting_effect(name):
-    """DISPLAY, REBUILD or RENAME: what changing setting `name` requires."""
-    return _SETTINGS[name][1]
-
-
 _REBUILD_SETTINGS = [name for name, (_, effect) in _SETTINGS.items() if effect == REBUILD]
+
+
+def displayed_signal_inputs(channels):
+    """Per channel name, everything its displayed signal depends on, free of channel
+    names: its file signal, its reference's file signal (None if not re-referenced)
+    and its other signal-affecting settings. Renames and moves leave these equal."""
+    signal_index = {c["Channel_name"]: c["Signal_index"] for c in channels}
+    return {
+        c["Channel_name"]: (
+            c["Signal_index"],
+            signal_index.get(c["Re_reference"]),
+            tuple(c[name] for name in _REBUILD_SETTINGS if name != "Re_reference"),
+        )
+        for c in channels
+    }
 
 
 def rebuild_fingerprint(channels):

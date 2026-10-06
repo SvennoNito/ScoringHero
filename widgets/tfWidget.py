@@ -143,7 +143,7 @@ class TFWidget(QWidget):
 
         # --- generate frequency grid based on scale preference ----------
         if freq_scale == "Logarithmic":
-            freqs_for_compute = freqs  # already geomspace from load_cache
+            freqs_for_compute = freqs  # already geomspace (wavelet normalisation)
             norm_med = norm_median
             norm_iq = norm_iqr
         else:
