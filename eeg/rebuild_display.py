@@ -9,12 +9,12 @@ def _apply_manipulations(source, config):
     Re-referencing comes first so that each channel's filter settings act on
     exactly the signal that is displayed.  Filtering is linear, so for a channel
     A referenced to B this only matters when A and B carry different filter
-    settings -- but they are configured independently (and a derived channel
-    added in the config window starts out with no filter at all), so forming
-    A - B from the *raw* signals is the only order that makes the Ctrl+F
+    settings -- and they can: a derived channel A - B starts with A's filter
+    settings, which may differ from B's, and each is editable independently.
+    Forming A - B from the *raw* signals is the only order that makes the Ctrl+F
     settings of a re-referenced channel behave as the user expects.  Filtering
-    first would leave the reference channel's unfiltered content in the
-    difference.
+    first would leave the reference channel's differently filtered content in
+    the difference.
     """
     result = source.copy()
     n_data_channels = result.shape[0]
@@ -22,12 +22,12 @@ def _apply_manipulations(source, config):
     # 1. Apply re-referencing
     # Reference against the raw (unfiltered, un-rereferenced, unflipped) signal so
     # that the reference channel's own settings never leak into this channel.
-    any_reref = any(ch.get("Re_reference", "None") != "None" for ch in config[1])
+    any_reref = any(ch["Re_reference"] != "None" for ch in config[1])
     if any_reref:
         for ch_idx, ch_config in enumerate(config[1]):
             if ch_idx >= n_data_channels:
                 break
-            reref = ch_config.get("Re_reference", "None")
+            reref = ch_config["Re_reference"]
             if reref != "None":
                 ref_idx = next(
                     (i for i, c in enumerate(config[1]) if c["Channel_name"] == reref),
@@ -37,31 +37,15 @@ def _apply_manipulations(source, config):
                     result[ch_idx] = source[ch_idx] - source[ref_idx]
 
     # 2. Apply per-channel filter settings (stored in config)
-    filter_settings = []
-    any_filter_active = False
-    for chan in config[1][:n_data_channels]:
-        fs = {
-            "hp_enabled":    chan.get("Filter_hp_enabled", False),
-            "hp_cutoff":     chan.get("Filter_hp_cutoff", 0.3),
-            "hp_order":      chan.get("Filter_hp_order", 4),
-            "lp_enabled":    chan.get("Filter_lp_enabled", False),
-            "lp_cutoff":     chan.get("Filter_lp_cutoff", 50.0),
-            "lp_order":      chan.get("Filter_lp_order", 4),
-            "notch_enabled": chan.get("Filter_notch_enabled", False),
-            "notch_cutoff":  chan.get("Filter_notch_cutoff", 50.0),
-            "notch_order":   chan.get("Filter_notch_order", 4),
-        }
-        if fs["hp_enabled"] or fs["lp_enabled"] or fs["notch_enabled"]:
-            any_filter_active = True
-        filter_settings.append(fs)
-    if any_filter_active:
-        result = apply_filter(result, config[0]["Sampling_rate_hz"], filter_settings)
+    channels = config[1][:n_data_channels]
+    if any(ch[f"Filter_{kind}_enabled"] for ch in channels for kind in ("hp", "lp", "notch")):
+        result = apply_filter(result, config[0]["Sampling_rate_hz"], channels)
 
     # 3. Apply polarity flip
     for ch_idx, ch_config in enumerate(config[1]):
         if ch_idx >= n_data_channels:
             break
-        if ch_config.get("Flip_polarity", False):
+        if ch_config["Flip_polarity"]:
             result[ch_idx] = -result[ch_idx]
 
     return result

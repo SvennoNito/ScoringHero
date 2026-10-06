@@ -13,22 +13,13 @@ def open_filter_window(ui):
             ui.config[0]["Sampling_rate_hz"],
         )
         ui.FilterWindow.load_settings(ui.config[1])
-        ui.FilterWindow.filterApplied.connect(lambda settings: _after_filter(ui, settings))
+        ui.FilterWindow.filterApplied.connect(lambda: _after_filter(ui))
     ui.FilterWindow.show()
     ui.FilterWindow.raise_()
 
 
-def _after_filter(ui, filter_settings):
-    for i, settings in enumerate(filter_settings):
-        ui.config[1][i]["Filter_hp_enabled"]    = settings["hp_enabled"]
-        ui.config[1][i]["Filter_hp_cutoff"]      = settings["hp_cutoff"]
-        ui.config[1][i]["Filter_hp_order"]        = settings["hp_order"]
-        ui.config[1][i]["Filter_lp_enabled"]      = settings["lp_enabled"]
-        ui.config[1][i]["Filter_lp_cutoff"]        = settings["lp_cutoff"]
-        ui.config[1][i]["Filter_lp_order"]          = settings["lp_order"]
-        ui.config[1][i]["Filter_notch_enabled"]    = settings["notch_enabled"]
-        ui.config[1][i]["Filter_notch_cutoff"]      = settings["notch_cutoff"]
-        ui.config[1][i]["Filter_notch_order"]        = settings["notch_order"]
+def _after_filter(ui):
+    """The filter window has stored its settings on ui.config[1]: save and refilter."""
     save_configuration(ui)
 
     def work():

@@ -102,10 +102,10 @@ def apply_filter(eeg_data, sampling_rate, filter_settings):
     eeg_data : np.ndarray, shape (n_channels, n_samples)
     sampling_rate : float
     filter_settings : list[dict]
-        One dict per channel with keys:
-        - hp_enabled (bool), hp_cutoff (float), hp_order (int)
-        - lp_enabled (bool), lp_cutoff (float), lp_order (int)
-        - notch_enabled (bool), notch_cutoff (float), notch_order (int)
+        Channel settings, one per channel (row of eeg_data), read for:
+        - Filter_hp_enabled (bool), Filter_hp_cutoff (float), Filter_hp_order (int)
+        - Filter_lp_enabled, Filter_lp_cutoff, Filter_lp_order
+        - Filter_notch_enabled, Filter_notch_cutoff, Filter_notch_order
         A filter with an invalid cutoff is skipped.
 
     Returns
@@ -118,9 +118,9 @@ def apply_filter(eeg_data, sampling_rate, filter_settings):
     for settings in filter_settings:
         sections = []
         for kind in ("hp", "lp", "notch"):
-            if settings[f"{kind}_enabled"]:
+            if settings[f"Filter_{kind}_enabled"]:
                 sos = design_filter(
-                    kind, float(settings[f"{kind}_cutoff"]), int(settings[f"{kind}_order"]),
+                    kind, float(settings[f"Filter_{kind}_cutoff"]), int(settings[f"Filter_{kind}_order"]),
                     float(sampling_rate),
                 )
                 if sos is not None:

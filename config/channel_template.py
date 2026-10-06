@@ -8,9 +8,10 @@ from scratch, even if the user just spent time setting up the exact same montage
 on a previous file.
 
 This module persists the most recently saved `config[1]` (the per-channel list) as
-a single global template, independent of any one recording, and applies it to new
-recordings that don't have their own config.json yet. Matching is by channel name,
-so it only takes effect where the new file's montage overlaps with the saved one.
+a single global template, independent of any one recording. New recordings that
+don't have their own config.json yet get it merged in by
+`channel_settings.merge_template`, matching by channel name, so it only takes
+effect where the new file's montage overlaps with the saved one.
 
 Storage location mirrors `scoring/open_nidra_window.py`'s settings file: next to
 the executable in a packaged build (ui.app_path is a temporary extraction dir
@@ -69,40 +70,3 @@ def save_channel_template(app_path, config):
             return
         except Exception:
             continue
-
-
-def apply_channel_template(configuration_settings, template, channel_names):
-    """Overlay a saved global channel template onto freshly-built default settings.
-
-    Non-derived channels whose name matches a saved entry inherit that entry's
-    re-reference, filter, flip and display settings wholesale. Derived channels
-    (re-referenced channels added via the config window, not present in the raw
-    file) are recreated from the template whenever their source channel is among
-    the (possibly just-overlaid) non-derived channels.
-    """
-    if not template:
-        return configuration_settings
-
-    by_name = {}
-    for chan in template:
-        by_name.setdefault(chan.get("Channel_name"), chan)
-
-    updated_non_derived = []
-    for chan in configuration_settings[1]:
-        saved = by_name.get(chan["Channel_name"])
-        if saved and not saved.get("derived", False):
-            # Defaults underneath so keys added after the template was saved are present.
-            merged = {**chan, **saved}
-            merged["Channel_name"] = chan["Channel_name"]
-            updated_non_derived.append(merged)
-        else:
-            updated_non_derived.append(chan)
-
-    available_names = {chan["Channel_name"] for chan in updated_non_derived}
-    derived = [
-        dict(chan) for chan in template
-        if chan.get("derived", False) and chan.get("source_channel") in available_names
-    ]
-
-    configuration_settings[1] = updated_non_derived + derived
-    return configuration_settings

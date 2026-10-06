@@ -627,7 +627,7 @@ def _create_eeg_trace(ui, options):
     for plot_idx, ch_idx in enumerate(channel_indices):
         ch_cfg = ui.config[1][ch_idx]
         ch_color = _CH_COLORS.get(ch_cfg["Channel_color"], (0, 0, 0))
-        scale = ch_cfg.get("Scaling_factor", 100)
+        scale = ch_cfg["Scaling_factor"]
         offset = channel_offsets[plot_idx]
         scaled_ref = ref_amp_muV * scale / 100
         scaled_refs.append(scaled_ref)

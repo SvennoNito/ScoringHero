@@ -2,7 +2,8 @@ import os, json
 from .default_config import default_configuration
 from .write_configuration import write_configuration
 from .check_for_compatability import check_for_compatability
-from .channel_template import load_channel_template, apply_channel_template
+from .channel_template import load_channel_template
+from .channel_settings import merge_template
 
 def load_configuration(configuration_filename, number_of_channels=6, srate=125, channel_names=[], app_path=None, units=None):
     if os.path.exists(configuration_filename):
@@ -20,7 +21,7 @@ def load_configuration(configuration_filename, number_of_channels=6, srate=125, 
         # for any channel names the two recordings share.
         template = load_channel_template(app_path)
         if template:
-            configuration_settings = apply_channel_template(configuration_settings, template, channel_names)
+            configuration_settings[1] = merge_template(configuration_settings[1], template)
 
         write_configuration(configuration_filename, configuration_settings)
 

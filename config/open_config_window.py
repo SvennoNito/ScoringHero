@@ -5,7 +5,7 @@ from scoring.write_scoring import write_scoring
 from events.event_deletion import rebuild_event_epochs, refresh_after_event_deletion
 from .apply_changes import apply_changes
 from .write_configuration import save_configuration
-from .default_config import DEFAULT_LINE_WIDTH
+from .channel_settings import derive_channel
 from utilities.busy_indicator import run_busy
 
 
@@ -102,31 +102,7 @@ def _add_channel(ui, channel_a_name, channel_b_name):
     new_signal = ui.eeg_data[idx_a:idx_a + 1].copy()
     ui.eeg_data = np.vstack([ui.eeg_data, new_signal])
 
-    # Build a default config entry for the new channel (re-reference = B)
-    new_name = channel_a_name
-    new_chan_config = {
-        "Channel_name": new_name,
-        "derived": True,
-        "source_channel": channel_a_name,
-        "Channel_color": "Black",
-        "Display_on_screen": 1,
-        "Scaling_factor": 100,
-        "Vertical_shift": 0,
-        "Re_reference": channel_b_name,
-        "Flip_polarity": False,
-        "Subtract_median": False,
-        "Line_width": DEFAULT_LINE_WIDTH,
-        "Filter_hp_enabled": False,
-        "Filter_hp_cutoff": 0.3,
-        "Filter_hp_order": 4,
-        "Filter_lp_enabled": False,
-        "Filter_lp_cutoff": 50.0,
-        "Filter_lp_order": 4,
-        "Filter_notch_enabled": False,
-        "Filter_notch_cutoff": 50.0,
-        "Filter_notch_order": 4,
-    }
-    ui.config[1].append(new_chan_config)
+    ui.config[1].append(derive_channel(ui.config[1][idx_a], channel_b_name))
 
     # Rebuild display data and refresh all widgets (incl. any just-applied settings)
     apply_changes(applied_keys, ui, channels_changed=True)
@@ -155,7 +131,7 @@ def _delete_channel(ui, idx):
 
     # Clear any re-reference that pointed to the deleted channel
     for ch in ui.config[1]:
-        if ch.get("Re_reference") == del_name:
+        if ch["Re_reference"] == del_name:
             ch["Re_reference"] = "None"
 
     # Update spectrogram/wavelet/periodogram channel selectors if needed

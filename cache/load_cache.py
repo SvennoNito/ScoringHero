@@ -1,7 +1,8 @@
 import os, pickle
 from signal_processing.recompute_derived import recompute_derived
 from .write_cache import write_cache
-from .ui_to_cache import ui_to_cache, _manipulation_fingerprint
+from .ui_to_cache import ui_to_cache
+from config.channel_settings import rebuild_fingerprint
 
 
 def load_cache(ui):
@@ -17,7 +18,7 @@ def load_cache(ui):
             and cache.get("Sampling_rate_hz") == ui.config[0]["Sampling_rate_hz"]
             and cache.get("Epoch_length_s") == ui.config[0]["Epoch_length_s"]
             and cache.get("Channel_for_spectogram") == ui.config[0]["Channel_for_spectogram"]
-            and cache.get("manipulation_fingerprint") == _manipulation_fingerprint(ui)
+            and cache.get("manipulation_fingerprint") == rebuild_fingerprint(ui.config[1])
         )
 
     tf_limits_config = ui.config[0].get("Wavelet_frequency_limits_hz", [0.25, 45])
@@ -32,7 +33,7 @@ def load_cache(ui):
         and "epoch_periodogram" in cache
         and cache["epoch_periodogram"]["channel"] == ui.config[0].get("Periodogram_channel", "")
         and cache["epoch_periodogram"]["Sampling_rate_hz"] == ui.config[0]["Sampling_rate_hz"]
-        and cache.get("manipulation_fingerprint") == _manipulation_fingerprint(ui)
+        and cache.get("manipulation_fingerprint") == rebuild_fingerprint(ui.config[1])
     )
 
     if not cache_valid or not tf_norm_valid or not periodogram_valid:

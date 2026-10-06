@@ -18,7 +18,7 @@ _Avoid_: trace, lead
 A displayed row on the signal panel; either a signal from the file or a derived channel.
 
 **Derived channel**:
-A channel computed from other channels (e.g. re-referenced), not stored in the recording file.
+A channel computed from other channels (e.g. re-referenced), not stored in the recording file. Starts with the channel settings of its source channel.
 
 **Overlay signal**:
 A second recording with the same channels shown on top of the primary recording for comparison.
@@ -36,6 +36,10 @@ _Avoid_: gain, zoom
 
 **Default scaling**:
 The scaling factor given to channels of a newly opened recording, based on how many signals the file contains; a saved channel template entry for that channel name takes precedence.
+
+**Channel settings**:
+All per-channel settings of one channel in a recording: scaling factor, vertical shift, re-reference, filters, polarity flip and display options. Saved with the recording.
+_Avoid_: channel config
 
 **Channel template**:
 Saved per-channel-name settings reused when opening new recordings.

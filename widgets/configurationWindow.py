@@ -23,7 +23,7 @@ from PySide6.QtCore import Signal, Qt, QTime, QTimer
 from PySide6.QtGui import QColor, QFont, QFontMetrics
 import copy
 
-from config.default_config import DEFAULT_LINE_WIDTH
+from config.channel_settings import DISPLAY, REBUILD, setting_effect
 
 
 class ConfigurationWindow(QDialog):
@@ -1062,7 +1062,7 @@ class ChannelConfiguration(QDialog):
             spinbox.setValue(chaninfo["Scaling_factor"])
             spinbox.setSuffix(" %")
             spinbox.setFixedWidth(spinbox_w)
-            spinbox.valueChanged.connect(lambda val, i=count: self.change_event(channel_config, i, "scale"))
+            spinbox.valueChanged.connect(lambda val, i=count: self.change_event(channel_config, i, "Scaling_factor"))
 
             # Vertical shift
             shiftbox = QDoubleSpinBox()
@@ -1071,13 +1071,14 @@ class ChannelConfiguration(QDialog):
             shiftbox.setDecimals(0)
             shiftbox.setValue(chaninfo["Vertical_shift"])
             shiftbox.setFixedWidth(spinbox_w)
-            shiftbox.valueChanged.connect(lambda val, i=count: self.change_event(channel_config, i, "shift"))
+            shiftbox.valueChanged.connect(lambda val, i=count: self.change_event(channel_config, i, "Vertical_shift"))
 
             # Whether channel is displayed or not
             checkbox = QCheckBox()
             checkbox.setChecked(chaninfo["Display_on_screen"])
             checkbox.setMaximumWidth(checkbox.sizeHint().width())
-            checkbox.clicked.connect(lambda checked, i=count: self.change_event(channel_config, i, "display"))
+            checkbox.clicked.connect(
+                lambda checked, i=count: self.change_event(channel_config, i, "Display_on_screen"))
 
             # Channel color
             colorbox = QComboBox()
@@ -1089,7 +1090,8 @@ class ChannelConfiguration(QDialog):
             colorbox.addItem("Cyan")
             colorbox.setCurrentText(chaninfo["Channel_color"])
             colorbox.setFixedWidth(colorbox_w)
-            colorbox.currentIndexChanged.connect(lambda idx, i=count: self.change_event(channel_config, i, "color"))
+            colorbox.currentIndexChanged.connect(
+                lambda idx, i=count: self.change_event(channel_config, i, "Channel_color"))
 
             # Re-reference dropdown
             rerefbox = QComboBox()
@@ -1097,22 +1099,23 @@ class ChannelConfiguration(QDialog):
             for name in all_channel_names:
                 if name != chaninfo["Channel_name"]:
                     rerefbox.addItem(name)
-            rerefbox.setCurrentText(chaninfo.get("Re_reference", "None"))
+            rerefbox.setCurrentText(chaninfo["Re_reference"])
             rerefbox.setFixedWidth(rerefbox_w)
-            rerefbox.currentIndexChanged.connect(lambda idx, i=count: self.change_event(channel_config, i, "reref"))
+            rerefbox.currentIndexChanged.connect(
+                lambda idx, i=count: self.change_event(channel_config, i, "Re_reference"))
 
             # Flip polarity checkbox
             flipbox = QCheckBox()
             flipbox.setFixedWidth(flip_col_w)
-            flipbox.setChecked(chaninfo.get("Flip_polarity", False))
-            flipbox.clicked.connect(lambda checked, i=count: self.change_event(channel_config, i, "flip"))
+            flipbox.setChecked(chaninfo["Flip_polarity"])
+            flipbox.clicked.connect(lambda checked, i=count: self.change_event(channel_config, i, "Flip_polarity"))
 
             # Subtract median checkbox
             subtract_median_box = QCheckBox()
             subtract_median_box.setFixedWidth(subtract_median_col_w)
-            subtract_median_box.setChecked(chaninfo.get("Subtract_median", False))
+            subtract_median_box.setChecked(chaninfo["Subtract_median"])
             subtract_median_box.clicked.connect(
-                lambda checked, i=count: self.change_event(channel_config, i, "subtract_median"))
+                lambda checked, i=count: self.change_event(channel_config, i, "Subtract_median"))
             # Line width
             line_width_box = QDoubleSpinBox()
             line_width_box.setMinimum(0.5)
@@ -1120,10 +1123,10 @@ class ChannelConfiguration(QDialog):
             line_width_box.setSingleStep(0.5)
             line_width_box.setDecimals(1)
             line_width_box.setSuffix(" px")
-            line_width_box.setValue(chaninfo.get("Line_width", DEFAULT_LINE_WIDTH))
+            line_width_box.setValue(chaninfo["Line_width"])
             line_width_box.setFixedWidth(line_width_col_w)
             line_width_box.valueChanged.connect(
-                lambda val, i=count: self.change_event(channel_config, i, "line_width"))
+                lambda val, i=count: self.change_event(channel_config, i, "Line_width"))
 
             # Trash button (delete channel)
             trash_btn = QPushButton("🗑")
@@ -1214,7 +1217,7 @@ class ChannelConfiguration(QDialog):
         # (A derived channel starts out sharing its source channel's name.)
         if old_name and not any(c["Channel_name"] == old_name for c in channel_config):
             for c in channel_config:
-                if c.get("Re_reference", "None") == old_name:
+                if c["Re_reference"] == old_name:
                     c["Re_reference"] = new_name
             if self.general_config is not None:
                 for key in ("Channel_for_spectogram", "Wavelet_channel", "Periodogram_channel"):
@@ -1225,7 +1228,7 @@ class ChannelConfiguration(QDialog):
         # unrelated edit cannot write a stale name back into the config.
         all_names = [lb.text() for lb in self.label]
         for k in range(len(self.reref)):
-            current = channel_config[k].get("Re_reference", "None")
+            current = channel_config[k]["Re_reference"]
             self.reref[k].blockSignals(True)
             self._rebuild_reref_combo(k, all_names)
             self.reref[k].setCurrentText(current)
@@ -1252,17 +1255,17 @@ class ChannelConfiguration(QDialog):
             self._rename_timer.stop()
             self._emit_rename()
 
-    def _propagate_to_all(self, chan_idx, prop):
-        """Copy channel chan_idx's value of prop to every row without re-emitting the
-        rows' change signals. Returns False if prop is not shared (e.g. re-reference)."""
+    def _propagate_to_all(self, chan_idx, setting):
+        """Copy channel chan_idx's value of setting to every row without re-emitting the
+        rows' change signals. Returns False if setting is not shared (e.g. re-reference)."""
         widgets = {
-            "scale": self.scale,
-            "shift": self.shift,
-            "color": self.color,
-            "flip": self.flip,
-            "subtract_median": self.subtract_median,
-            "line_width": self.line_width,
-        }.get(prop)
+            "Scaling_factor": self.scale,
+            "Vertical_shift": self.shift,
+            "Channel_color": self.color,
+            "Flip_polarity": self.flip,
+            "Subtract_median": self.subtract_median,
+            "Line_width": self.line_width,
+        }.get(setting)
         if widgets is None:
             return False
         source = widgets[chan_idx]
@@ -1277,11 +1280,10 @@ class ChannelConfiguration(QDialog):
             w.blockSignals(False)
         return True
 
-    def change_event(self, channel_config, chan_idx=None, prop=None):
+    def change_event(self, channel_config, chan_idx, setting):
         propagated = (
             self.apply_all_checkbox.isChecked()
-            and chan_idx is not None
-            and self._propagate_to_all(chan_idx, prop)
+            and self._propagate_to_all(chan_idx, setting)
         )
         for counter, chaninfo in enumerate(channel_config):
             chaninfo["Channel_name"] = self.label[counter].text()
@@ -1293,17 +1295,16 @@ class ChannelConfiguration(QDialog):
             chaninfo["Flip_polarity"] = self.flip[counter].isChecked()
             chaninfo["Subtract_median"] = self.subtract_median[counter].isChecked()
             chaninfo["Line_width"] = self.line_width[counter].value()
-        # Display-only props: only a cheap redraw needed.
-        # Signal props (reref, flip): need to rebuild eeg_data_display, but
-        # spectrogram recomputation is only needed if this channel feeds the spectrogram
+        # Display-only settings: only a cheap redraw needed.
+        # Signal-rebuild settings: rebuild eeg_data_display, but spectrogram
+        # recomputation is only needed if this channel feeds the spectrogram
         # or wavelet panel — caller decides via the emitted index (-1: all channels).
         # Renames never reach here; they go through _on_label_edited instead.
-        display_only_props = {"display", "color", "scale", "shift", "subtract_median", "line_width"}
-        signal_rebuild_props = {"reref", "flip"}
-        if prop in display_only_props:
+        effect = setting_effect(setting)
+        if effect == DISPLAY:
             self.displayOnlyChanged.emit()
-        elif prop in signal_rebuild_props:
-            self.signalRebuildNeeded.emit(-1 if propagated or chan_idx is None else chan_idx)
+        elif effect == REBUILD:
+            self.signalRebuildNeeded.emit(-1 if propagated else chan_idx)
         else:
             self.changesMade.emit()
 
