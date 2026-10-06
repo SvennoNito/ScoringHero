@@ -3,6 +3,7 @@ set UV_PROJECT_ENVIRONMENT=.venv_gssc
 uv sync --python 3.13 --extra build-win --extra gssc --extra nidra
 uv run --python 3.13 python -m nuitka ^
     --onefile ^
+    --assume-yes-for-downloads ^
     --jobs=8 ^
     --windows-icon-from-ico=icon.ico ^
     --enable-plugin=pyside6 ^

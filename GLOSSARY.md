@@ -82,3 +82,12 @@ _Avoid_: you, my scoring, own scoring
 **Comparison scoring**:
 A second scoring of the same recording, loaded read-only to compare against the primary scoring. Labelled by its file name.
 _Avoid_: you, reference scoring, ref
+
+**Epoch**:
+A fixed-length time slice of a recording that receives one stage.
+
+**Stage**:
+One of Wake, N1, N2, N3, REM or Inconclusive, assigned to an epoch. An epoch without a stage is unscored.
+
+**Scoring**:
+The stage of every epoch of a recording; events are not part of it. The scoring file stores a scoring together with the events.

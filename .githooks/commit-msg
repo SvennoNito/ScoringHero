@@ -1,0 +1,5 @@
+#!/bin/sh
+# Subject must start with [MOD] [FIX] [DOC] or [NEW] (merges/reverts exempt).
+head -n1 "$1" | grep -Eq '^(\[(MOD|FIX|DOC|NEW)\] |Merge |Revert )' && exit 0
+echo "commit-msg: subject must start with [MOD], [FIX], [DOC] or [NEW]" >&2
+exit 1

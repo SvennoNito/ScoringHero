@@ -1,0 +1,47 @@
+name: Builds for Windows on Release
+
+permissions:
+  contents: write
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to attach the .exe files to
+        required: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - script: build-win-py13.bat
+            exe: scoringhero_windows.exe
+          - script: build-win-gssc.bat
+            exe: auto-scoringhero_windows.exe
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v4
+
+    - name: Install Python 3.13
+      run: uv python install 3.13
+
+    - name: Build ${{ matrix.exe }}
+      shell: cmd
+      run: call ${{ matrix.script }}
+
+    - name: Upload to release
+      shell: bash
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      run: gh release upload "$TAG" "dist/${{ matrix.exe }}" --clobber
