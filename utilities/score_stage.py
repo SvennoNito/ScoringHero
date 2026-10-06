@@ -1,4 +1,4 @@
-from .next_epoch import next_epoch
+from .refresh_gui import refresh_gui
 from scoring.write_scoring import write_scoring
 
 
@@ -25,4 +25,6 @@ def score_stage(value, ui):
     ui.HypnogramWidget.update_hypnogram(ui)
 
     write_scoring(ui)
-    next_epoch(ui)
+    # Advance unless on the last epoch, but always refresh
+    ui.this_epoch = min(ui.this_epoch + 1, ui.numepo - 1)
+    refresh_gui(ui)
