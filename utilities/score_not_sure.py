@@ -7,7 +7,9 @@ def score_not_sure(ui):
 
     # Update text
     # ui.DisplayedEpochWidget.change_uncertainty(ui.stages[ui.this_epoch]["uncertain"])
-    ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
+    ui.DisplayedEpochWidget.update_text(
+        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+    )
 
     # Update hypnpgram
     # ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)

@@ -160,7 +160,9 @@ def _show_loaded(ui, events):
     ui.toolbar_jump_to_epoch.setMaximum(ui.numepo)
     ui.SignalWidget.draw_signal(ui.config, ui.eeg_data_display, ui.times, ui.this_epoch,
                                  get_overlay_signal_for_display(ui))
-    ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
+    ui.DisplayedEpochWidget.update_text(
+        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+    )
     ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
     ui.HypnogramWidget.draw_hypnogram(ui)
     srate = ui.config[0]["Sampling_rate_hz"]

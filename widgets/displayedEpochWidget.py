@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont
-import numpy as np
+from utilities.epoch_header import epoch_header_text
 
 
 class DisplayedEpochWidget(QWidget):
@@ -25,29 +25,10 @@ class DisplayedEpochWidget(QWidget):
         layout = QVBoxLayout(axes)
         layout.addWidget(self.textfield)
 
-    def update_text(self, this_epoch, numepo, stages, stages_ref=None):
-        stage = stages[this_epoch]["stage"]
-
-        conf = stages[this_epoch]["confidence"]
-        if conf is None:
-            confidence_text = ""
-        elif conf == 0:
-            confidence_text = "(not sure)"
-        else:
-            confidence_text = f'| Confidence {np.round(conf * 100, 2)}%'
-
-        if stages_ref is None or this_epoch >= len(stages_ref):
-            self.textfield.setText(
-                f'Epoch {this_epoch+1}/{numepo} | {stage} {confidence_text}'
-            )
-        else:
-            ref_stage = stages_ref[this_epoch]["stage"]
-            disagreement = stage != ref_stage
-            color = "red" if disagreement else "black"
-            you_span = f'<span style="color:{color};">(you: {ref_stage})</span>'
-            self.textfield.setText(
-                f'Epoch {this_epoch+1}/{numepo} | {stage} {you_span} {confidence_text}'
-            )
+    def update_text(self, this_epoch, numepo, stages, stages_comparison=None, comparison_name=None):
+        self.textfield.setText(
+            epoch_header_text(this_epoch, numepo, stages, stages_comparison, comparison_name)
+        )
     #     self.change_uncertainty(stages[this_epoch]["confidence"])
 
     # def change_uncertainty(self, confidence):

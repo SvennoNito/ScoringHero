@@ -140,7 +140,8 @@ class Ui_MainWindow(QMainWindow):
         self.this_epoch = 0
         self.held_event_key = None
         self.relabeled_event = False
-        self.stages_ref = None
+        self.stages_comparison = None
+        self.comparison_name = None
         self.disagreement_epochs = []
         self.disagreement_index = 0
 

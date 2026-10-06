@@ -27,7 +27,9 @@ def redraw_gui(ui):
                                  get_overlay_signal_for_display(ui))
 
     # Update display text
-    ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
+    ui.DisplayedEpochWidget.update_text(
+        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+    )
 
     # Draw time-frequency panel
     call_tf_widget(ui)

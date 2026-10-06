@@ -5,6 +5,7 @@ from PySide6.QtWidgets import (
 
 from .load_scoring import load_scoring
 from .load_sleeptrip import load_sleeptrip
+from utilities.epoch_header import comparison_display_name
 
 
 _FORMATS = [
@@ -66,13 +67,14 @@ def scoring_import_comparison(ui):
 
     if filetype == "sleeptrip":
         epolen = ui.config[0]["Epoch_length_s"]
-        stages_ref, _ = load_sleeptrip(name_of_scoringfile, epolen, ui.numepo)
+        stages_comparison, _ = load_sleeptrip(name_of_scoringfile, epolen, ui.numepo)
     else:
-        stages_ref, _ = load_scoring(
+        stages_comparison, _ = load_scoring(
             name_of_scoringfile, ui.config[0]["Epoch_length_s"], ui.numepo, filetype
         )
 
-    ui.stages_ref = stages_ref
+    ui.stages_comparison = stages_comparison
+    ui.comparison_name = comparison_display_name(name_of_scoringfile)
     _recompute_disagreements(ui)
 
     ui.action_remove_comparison.setEnabled(True)
@@ -80,11 +82,14 @@ def scoring_import_comparison(ui):
     ui.tool_nextdisagreement.setEnabled(True)
 
     ui.HypnogramWidget.draw_hypnogram(ui)
-    ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages, ui.stages_ref)
+    ui.DisplayedEpochWidget.update_text(
+        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+    )
 
 
 def remove_comparison_scoring(ui):
-    ui.stages_ref = None
+    ui.stages_comparison = None
+    ui.comparison_name = None
     ui.disagreement_epochs = []
     ui.disagreement_index = 0
 
@@ -93,13 +98,15 @@ def remove_comparison_scoring(ui):
     ui.tool_nextdisagreement.setEnabled(False)
 
     ui.HypnogramWidget.draw_hypnogram(ui)
-    ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages, None)
+    ui.DisplayedEpochWidget.update_text(
+        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+    )
 
 
 def _recompute_disagreements(ui):
-    n = min(len(ui.stages), len(ui.stages_ref))
+    n = min(len(ui.stages), len(ui.stages_comparison))
     ui.disagreement_epochs = [
         i for i in range(n)
-        if ui.stages[i]["digit"] != ui.stages_ref[i]["digit"]
+        if ui.stages[i]["digit"] != ui.stages_comparison[i]["digit"]
     ]
     ui.disagreement_index = 0

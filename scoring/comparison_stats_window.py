@@ -31,9 +31,9 @@ def _cohen_kappa(y1, y2, labels):
 
 
 def comparison_stats_window(ui):
-    n = min(len(ui.stages), len(ui.stages_ref))
+    n = min(len(ui.stages), len(ui.stages_comparison))
     y1 = [s["stage"] for s in ui.stages[:n]]
-    y2 = [s["stage"] for s in ui.stages_ref[:n]]
+    y2 = [s["stage"] for s in ui.stages_comparison[:n]]
 
     # Build label list in canonical stage order, keeping only present ones
     present_set = set(y1) | set(y2)

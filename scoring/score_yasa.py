@@ -29,7 +29,9 @@ def score_yasa(ui):
         epoch["confidence"] = np.round(confidence[iepoch], 4)
 
     # Update display text
-    ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
+    ui.DisplayedEpochWidget.update_text(
+        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+    )
 
     # Update hypnpgram
     ui.HypnogramWidget.draw_hypnogram(ui)

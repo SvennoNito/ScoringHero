@@ -8,6 +8,12 @@ from utilities.timing_decorator import timing_decorator
 from utilities.clock_time_format import parse_start_time, format_clock_time
 from signal_processing import *
 
+COMPARISON_TITLE = (
+    '<span style="color:black;">Primary scoring</span>'
+    '<span style="color:black;"> | </span>'
+    '<span style="color:rgb(210,40,40);">Comparison scoring</span>'
+)
+
 
 class HypnogramWidget(QWidget):
     changesMade = Signal()
@@ -85,9 +91,12 @@ class HypnogramWidget(QWidget):
         # X axis ticks
         self._update_time_ticks(ui)
 
-        # Draw comparison overlay (disagreement epochs in red)
-        if getattr(ui, "stages_ref", None) is not None:
+        # Draw comparison overlay (disagreement epochs in red) and its legend title
+        if ui.stages_comparison is not None:
             self._draw_comparison_overlay(ui)
+            self.axes.setTitle(COMPARISON_TITLE)
+        else:
+            self.axes.setTitle(None)
 
         # Draw SWA
         self.draw_swa_in_time(ui.swa)
@@ -129,18 +138,18 @@ class HypnogramWidget(QWidget):
         self._update_time_ticks(ui)
 
     def _draw_comparison_overlay(self, ui):
-        """Overlay disagreement epochs in red, showing the reference scoring's stage."""
+        """Overlay disagreement epochs in red, showing the comparison scoring's stage."""
         if not ui.disagreement_epochs:
             return
 
         times = np.repeat(self.times, 2)
-        ref_digits = [s["digit"] for s in ui.stages_ref]
+        comparison_digits = [s["digit"] for s in ui.stages_comparison]
 
         # Collect (epoch, digit) pairs for disagreement epochs that have a digit
         ep_digit_pairs = [
-            (ep, ref_digits[ep])
+            (ep, comparison_digits[ep])
             for ep in ui.disagreement_epochs
-            if ep < len(ref_digits) and ref_digits[ep] is not None
+            if ep < len(comparison_digits) and comparison_digits[ep] is not None
         ]
         if not ep_digit_pairs:
             return

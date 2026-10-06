@@ -65,3 +65,13 @@ How steeply a filter rolls off beyond its cutoff; higher is steeper.
 **Event**:
 A scored time span of a given type (e.g. arousal, artefact) shown on the signal panel and the hypnogram.
 _Avoid_: annotation, label
+
+### Scoring
+
+**Primary scoring**:
+The scoring of the recording that is being viewed and edited.
+_Avoid_: you, my scoring, own scoring
+
+**Comparison scoring**:
+A second scoring of the same recording, loaded read-only to compare against the primary scoring. Labelled by its file name.
+_Avoid_: you, reference scoring, ref

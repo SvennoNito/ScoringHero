@@ -10,8 +10,9 @@ def refresh_gui(ui):
                                    get_overlay_signal_for_display(ui))
 
     # Update display text
-    stages_ref = getattr(ui, "stages_ref", None)
-    ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages, stages_ref)
+    ui.DisplayedEpochWidget.update_text(
+        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+    )
 
     # Update epoch indicator lines
     ui.SpectogramWidget.update_epoch_indicator(ui.this_epoch)

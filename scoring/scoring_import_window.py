@@ -167,7 +167,9 @@ def scoring_import_window(ui, filetype):
 
         events_to_ui(ui, events)
         ui.HypnogramWidget.draw_hypnogram(ui)
-        ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
+        ui.DisplayedEpochWidget.update_text(
+            ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+        )
         for container in ui.AnnotationContainer:
             draw_event_in_this_epoch(ui, container)
         return
@@ -200,5 +202,7 @@ def scoring_import_window(ui, filetype):
         events_to_ui(ui, events)
 
     ui.HypnogramWidget.draw_hypnogram(ui)
-    ui.DisplayedEpochWidget.update_text(ui.this_epoch, ui.numepo, ui.stages)
+    ui.DisplayedEpochWidget.update_text(
+        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+    )
     _update_export_menu_state(ui)
