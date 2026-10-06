@@ -4,7 +4,6 @@ from config.write_configuration import write_configuration
 from config.load_configuration import load_configuration
 from scoring.load_scoring import load_scoring
 from scoring.events_to_ui import events_to_ui
-from utilities.timing_decorator import timing_decorator
 from .load_eeglab import load_eeglab
 from .load_r09 import load_r09
 from .load_edf import load_edf
@@ -54,7 +53,6 @@ def _reset_for_new_recording(ui):
     ui.FilterWindow = None
 
 
-@timing_decorator
 def load_wrapper(ui, datatype, extra_files=None):
     """Load at startup: reading the files blocks, building the displayed signal and
     the analysis data runs under the busy indicator."""

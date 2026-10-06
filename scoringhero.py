@@ -13,8 +13,8 @@ import scipy.io, os, sys, json, re, h5py, datetime
 import numpy as np
 from importlib.metadata import version as _pkg_version
 
+from utilities.welcome_banner import print_welcome_banner
 from ui.setup_ui import setup_ui
-from utilities.timing_decorator import timing_decorator
 from utilities.next_epoch import next_epoch
 from utilities.prev_epoch import prev_epoch
 from eeg.load_wrapper import load_wrapper
@@ -173,6 +173,7 @@ class Ui_MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
+    print_welcome_banner()
     app = QtWidgets.QApplication(sys.argv)
 
     ui = Ui_MainWindow()

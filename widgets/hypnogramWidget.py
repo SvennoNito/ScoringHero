@@ -4,7 +4,6 @@ from PySide6.QtGui import QFont
 from scipy.signal import medfilt
 import pyqtgraph as pg
 import numpy as np
-from utilities.timing_decorator import timing_decorator
 from utilities.clock_time_format import parse_start_time, format_clock_time
 from signal_processing import *
 
@@ -57,7 +56,6 @@ class HypnogramWidget(QWidget):
         self.kernel = 100
         self.comparison_items = []
 
-    @timing_decorator
     def draw_hypnogram(self, ui):
         self.axes.clear()
         self.stage_items = {}
@@ -206,7 +204,6 @@ class HypnogramWidget(QWidget):
         return number if number % 2 == 0 else number + 1
 
 
-    @timing_decorator
     def update_hypnogram(self, ui):
         stages = np.array([stage["digit"] for stage in ui.stages])
         times = np.repeat(self.times, 2)

@@ -35,6 +35,10 @@ _Avoid_: display data, processed signal
 A visible notice that the app is working (importing or filtering) and that input is paused.
 _Avoid_: overlay, spinner
 
+**Welcome banner**:
+The greeting printed in the console window when the app starts; thanks the user and points to the issue tracker for bug reports and feature requests.
+_Avoid_: splash screen, startup message
+
 ### Display
 
 **Scaling factor**:

@@ -12,15 +12,12 @@ def resource_path(relative_path):
     # For PyInstaller bundle, use the _MEIPASS attribute
     if hasattr(sys, '_MEIPASS'):
         base_path = sys._MEIPASS
-        print("sys has MEIPASS attribute")        
-    print(f"basepath: {base_path}")
 
     return os.path.join(base_path, relative_path)
 
 def open_help_selection_box(ui):
     # Construct the path to the image using resource_path
     image_path = resource_path(os.path.join('help', 'images', 'selection_box.png'))
-    print(f"image_path: {image_path}")
  
     # Create a dialog
     dialog = QDialog(ui)

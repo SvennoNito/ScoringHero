@@ -1,8 +1,6 @@
 import numpy as np
-from utilities.timing_decorator import timing_decorator
 
 
-@timing_decorator
 def times_vector(ui):
     npoints = ui.eeg_data.shape[1]
     srate = ui.config[0]["Sampling_rate_hz"]

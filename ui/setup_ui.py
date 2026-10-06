@@ -12,7 +12,6 @@ from PySide6.QtWidgets import (
 
 from .toolbar import setup_toolbar
 from widgets import *
-from utilities.timing_decorator import timing_decorator
 from utilities.score_stage import score_stage
 from scoring.scoring_export_window import scoring_export_window
 from scoring.write_sleeptrip import write_sleeptrip
@@ -50,7 +49,6 @@ from events.erase_events_in_rectangles import erase_events_in_rectangles
 from export.export_sleep_report import export_sleep_report
 from functools import partial
 
-@timing_decorator
 def setup_ui(ui, MainWindow):
     ui.centralwidget = QWidget(MainWindow)
     ui.centralwidget.setObjectName("centralwidget")

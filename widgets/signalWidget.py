@@ -3,7 +3,6 @@ from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont, QColor, QBrush, QPen
 import pyqtgraph as pg
 import numpy as np
-from utilities.timing_decorator import timing_decorator
 from utilities.clock_time_format import parse_start_time, format_clock_time
 from signal_processing import *
 
@@ -71,7 +70,6 @@ class SignalWidget(QWidget):
                 data = data - median_val
         return data * chan["Scaling_factor"] / 100 + chan["Vertical_shift"] - chan_y_offset
 
-    @timing_decorator
     def draw_signal(self, config, eeg_data, times_and_indices, this_epoch, eeg_data_overlay=None):
         # Indices of visible channels
         index_visible_chans = [
@@ -278,7 +276,6 @@ class SignalWidget(QWidget):
         # Thicker vertical line in the middle
         self.divide_center_line(borders)               
 
-    @timing_decorator
     def update_signal(self, config, eeg_data, times_and_indices, this_epoch, eeg_data_overlay=None):
         # Indices of visible channels
         index_visible_chans = [

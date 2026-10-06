@@ -1,9 +1,7 @@
 import numpy as np
 from scipy.signal import welch
-from utilities.timing_decorator import timing_decorator
 
 
-@timing_decorator
 def compute_spectogram(eeg_data, times, srate, channel, epolen, winlen=4):
     indices_window = [
         np.arange(start, start + srate * winlen)
