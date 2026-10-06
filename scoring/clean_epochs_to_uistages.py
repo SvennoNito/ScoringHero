@@ -1,13 +1,8 @@
 def clean_epochs_to_uiscoring(ui, container):
+    """Mark epochs covered by an artefact event unclean, all others clean."""
     if container.key == 'A':
-        for epoch, stage in enumerate(ui.stages):
-            stage["clean"] = 0 if any(epoch+1 in epoch_set for epoch_set in container.epochs_set) else 1
-
-        # Honestly not sure whether this is correct, but maybe it would be faster.
-        # For sure the "stage" variable would need to be extracted first, something like ui.stages[something]
-        # But I´m also not sure what happens when several epochs are labeled at once with artefacts. So rather
-        # leave as is.
-        #if any(ui.this_epoch+1 in epoch for epoch in container.epochs):
-        #    stage["clean"] = 0
-        #else:
-        #    stage["clean"] = 1
+        n = len(ui.scoring)
+        # epochs_set holds 1-based epoch numbers
+        artefact = {epoch - 1 for epoch_set in container.epochs_set for epoch in epoch_set if 1 <= epoch <= n}
+        ui.scoring.set_clean(range(n), 1)
+        ui.scoring.set_clean(artefact, 0)

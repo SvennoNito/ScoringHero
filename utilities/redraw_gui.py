@@ -28,7 +28,7 @@ def redraw_gui(ui):
 
     # Update display text
     ui.DisplayedEpochWidget.update_text(
-        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+        ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
     )
 
     # Draw time-frequency panel

@@ -32,3 +32,20 @@ def loaded_ui(tmp_path):
     yield ui
     window.close()
     app.processEvents()
+
+
+@pytest.fixture
+def boot_scoring(monkeypatch):
+    """Until the app boot builds `ui.scoring` itself, give the session object a settable
+    blank one, so the boot's first redraw finds it. Request before `loaded_ui`."""
+    from scoring_model.scoring import Scoring
+
+    import scoringhero as sh
+
+    def get(self):
+        if "_scoring" not in self.__dict__:
+            self._scoring = Scoring(self.numepo, self.config[0]["Epoch_length_s"])
+        return self._scoring
+
+    monkeypatch.setattr(sh.Ui_MainWindow, "scoring", property(get, lambda self, v: setattr(self, "_scoring", v)), raising=False)
+    monkeypatch.setattr(sh.Ui_MainWindow, "scoring_comparison", None, raising=False)

@@ -1,10 +1,14 @@
 """Tests for the epoch header text and the comparison scoring's display name."""
 
+from scoring_model.scoring import Scoring
 from utilities.epoch_header import comparison_display_name, epoch_header_text
 
 
 def _stages(*names):
-    return [{"stage": s, "confidence": None} for s in names]
+    scoring = Scoring(len(names), 30)
+    for i, name in enumerate(names):
+        scoring.set(i, name)
+    return scoring
 
 
 def test_no_comparison_loaded():

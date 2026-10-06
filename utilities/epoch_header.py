@@ -15,12 +15,12 @@ def comparison_display_name(path):
     return stem
 
 
-def epoch_header_text(this_epoch, numepo, stages, stages_comparison=None, comparison_name=None):
+def epoch_header_text(this_epoch, numepo, scoring, scoring_comparison=None, comparison_name=None):
     """HTML header: epoch, primary stage, comparison stage labelled by comparison_name
     (red on disagreement, black on agreement) and confidence."""
-    stage = stages[this_epoch]["stage"]
+    stage = scoring.stage(this_epoch)
 
-    conf = stages[this_epoch]["confidence"]
+    conf = scoring.confidence(this_epoch)
     if conf is None:
         confidence_text = ""
     elif conf == 0:
@@ -28,9 +28,9 @@ def epoch_header_text(this_epoch, numepo, stages, stages_comparison=None, compar
     else:
         confidence_text = f"| Confidence {np.round(conf * 100, 2)}%"
 
-    if stages_comparison is None or this_epoch >= len(stages_comparison):
+    if scoring_comparison is None or this_epoch >= len(scoring_comparison):
         return f"Epoch {this_epoch+1}/{numepo} | {stage} {confidence_text}"
-    comparison_stage = stages_comparison[this_epoch]["stage"]
+    comparison_stage = scoring_comparison.stage(this_epoch)
     color = "red" if stage != comparison_stage else "black"
     comparison_span = f'<span style="color:{color};">({comparison_name}: {comparison_stage})</span>'
     return f"Epoch {this_epoch+1}/{numepo} | {stage} {comparison_span} {confidence_text}"
