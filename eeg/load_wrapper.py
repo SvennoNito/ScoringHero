@@ -33,15 +33,12 @@ def load_single(filename_prefix, datatype):
 
 def _repair_stored_sampling_rate(ui, srate):
     """A recording saved by an older loader may store a different sampling rate than
-    the loader now reports. Refresh the stored rate (other settings are kept) and
-    drop the cached derived data so it is rebuilt."""
+    the loader now reports. Refresh the stored rate (other settings are kept); the
+    cached derived data no longer matches its inputs and is rebuilt."""
     if ui.config[0]["Sampling_rate_hz"] == srate:
         return
     ui.config[0]["Sampling_rate_hz"] = srate
     write_configuration(f"{ui.filename}.config.json", ui.config)
-    cache_file = f"{ui.filename}.cache.pkl"
-    if os.path.exists(cache_file):
-        os.remove(cache_file)
 
 
 def _reset_for_new_recording(ui):

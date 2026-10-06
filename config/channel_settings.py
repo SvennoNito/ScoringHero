@@ -250,9 +250,3 @@ def displayed_signal_inputs(channels):
         )
         for c in channels
     }
-
-
-def rebuild_fingerprint(channels):
-    """Values of every signal-affecting setting of every channel; equal
-    fingerprints mean the displayed signal is unchanged."""
-    return tuple(tuple(channel[name] for name in _REBUILD_SETTINGS) for channel in channels)

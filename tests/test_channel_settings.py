@@ -1,5 +1,5 @@
 """Tests for the channel settings module: defaults, completion of older files,
-channel template merge, derived channels, renaming and the rebuild fingerprint."""
+channel template merge, derived channels and renaming."""
 
 import pytest
 
@@ -8,7 +8,6 @@ from config.channel_settings import (
     default_channels,
     derive_channel,
     merge_template,
-    rebuild_fingerprint,
     rename_channel,
 )
 
@@ -253,27 +252,3 @@ def test_template_matches_by_name_and_channels_keep_their_file_signal():
     template.append(dict(derive_channel(template, "C3", "M2"), Signal_index=7))
     channels = merge_template(default_channels(2, ["C3", "M2"]), template)
     assert [(c["Channel_name"], c["Signal_index"]) for c in channels] == [("C3", 0), ("M2", 1), ("C3*", 0)]
-
-
-_SIGNAL_CHANGES = [
-    ("Filter_hp_cutoff", 1.0), ("Filter_lp_order", 8), ("Filter_notch_enabled", True),
-    ("Filter_hp_enabled", True), ("Re_reference", "C4"), ("Flip_polarity", True),
-]
-_DISPLAY_CHANGES = [
-    ("Scaling_factor", 300), ("Line_width", 4.0), ("Subtract_median", True),
-    ("Vertical_shift", 10), ("Channel_color", "Red"), ("Display_on_screen", 0),
-]
-
-
-def test_signal_affecting_change_changes_fingerprint():
-    base = default_channels(2, ["C3", "C4"])
-    for name, value in _SIGNAL_CHANGES:
-        changed = [dict(base[0], **{name: value}), base[1]]
-        assert rebuild_fingerprint(changed) != rebuild_fingerprint(base), name
-
-
-def test_display_only_change_keeps_fingerprint():
-    base = default_channels(2, ["C3", "C4"])
-    for name, value in _DISPLAY_CHANGES:
-        changed = [dict(base[0], **{name: value}), base[1]]
-        assert rebuild_fingerprint(changed) == rebuild_fingerprint(base), name
