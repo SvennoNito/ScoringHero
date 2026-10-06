@@ -13,7 +13,8 @@ STAGES = ["Wake", "N1", "N2", "N3", "REM", "N2"]
 def scoring_of(stages, epoch_length_s=30, confidence=0.8):
     s = Scoring(len(stages), epoch_length_s)
     for i, stage in enumerate(stages):
-        s.set(i, stage, "human", confidence, ["C3"])
+        if stage is not None:  # unscored carries nothing unless passed explicitly
+            s.set(i, stage, "human", confidence, ["C3"])
     return s
 
 
