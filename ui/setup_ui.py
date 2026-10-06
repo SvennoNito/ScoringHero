@@ -14,12 +14,8 @@ from .toolbar import setup_toolbar
 from widgets import *
 from utilities.timing_decorator import timing_decorator
 from utilities.score_stage import score_stage
-from scoring.scoring_export_window import scoring_export_window
-from scoring.write_sleeptrip import write_sleeptrip
-from scoring.write_vis import write_vis
-from scoring.write_yasa import write_yasa
-from scoring.write_sleepyland import write_sleepyland
-from scoring.write_gssc import write_gssc
+from scoring.scoring_export_window import scoring_export_window, export_scoring
+from scoring_model.formats import FORMATS
 from mouse_click.click_on_hypnogram import click_on_hypnogram
 from mouse_click.click_on_spectogram import click_on_spectogram
 from mouse_click.move_swa_slider import move_swa_slider
@@ -155,35 +151,17 @@ def setup_ui(ui, MainWindow):
     ui.submenu_scoring = QMenu("Load Scoring", ui.menu_file)
     ui.submenu_scoring.setObjectName("submenu_scoring")
     ui.menu_file.addMenu(ui.submenu_scoring)
-    ui.action_load_scoringhero = QAction("Load Scoring Hero (.json)", ui)
-    ui.action_load_scoringhero.setObjectName("action_load_scoringhero")
-    ui.action_load_scoringhero.triggered.connect(lambda: scoring_import_window(ui, filetype="scoringhero"))
-    # ui.action_load_scoringhero.setShortcut("Ctrl+Shift+O")
-    ui.submenu_scoring.addAction(ui.action_load_scoringhero)
-    ui.action_load_vis = QAction("Load Zurich Scoring (.vis)", ui)
-    ui.action_load_vis.setObjectName("action_load_vis")
-    ui.action_load_vis.triggered.connect(lambda: scoring_import_window(ui, filetype="vis"))
-    ui.submenu_scoring.addAction(ui.action_load_vis)
-    ui.action_load_yasa = QAction("Load Yasa Scoring (.txt)", ui)
-    ui.action_load_yasa.setObjectName("action_load_yasa")
-    ui.action_load_yasa.triggered.connect(lambda: scoring_import_window(ui, filetype="yasa"))
-    ui.submenu_scoring.addAction(ui.action_load_yasa)
-    ui.action_load_sleeptrip = QAction("Load Sleeptrip Scoring (.csv)", ui)
-    ui.action_load_sleeptrip.setObjectName("action_load_sleeptrip")
-    ui.action_load_sleeptrip.triggered.connect(lambda: scoring_import_window(ui, filetype="sleeptrip"))
-    ui.submenu_scoring.addAction(ui.action_load_sleeptrip)
-    ui.action_load_sleeptrip_events = QAction("Load Sleeptrip Events (_events.csv)", ui)
-    ui.action_load_sleeptrip_events.setObjectName("action_load_sleeptrip_events")
-    ui.action_load_sleeptrip_events.triggered.connect(lambda: scoring_import_window(ui, filetype="sleeptrip_events"))
-    ui.submenu_scoring.addAction(ui.action_load_sleeptrip_events)
-    ui.action_load_sleepyland = QAction("Load Sleepyland Scoring (.annot)", ui)
-    ui.action_load_sleepyland.setObjectName("action_load_sleepyland")
-    ui.action_load_sleepyland.triggered.connect(lambda: scoring_import_window(ui, filetype="sleepyland"))
-    ui.submenu_scoring.addAction(ui.action_load_sleepyland)
-    ui.action_load_gssc = QAction("Load Greifswald Sleep Stage Classifier (GSSC) Scoring (.csv)", ui)
-    ui.action_load_gssc.setObjectName("action_load_gssc")
-    ui.action_load_gssc.triggered.connect(lambda: scoring_import_window(ui, filetype="gssc"))
-    ui.submenu_scoring.addAction(ui.action_load_gssc)
+    for fmt in FORMATS.values():
+        action = QAction(f"Load {fmt.label}", ui)
+        action.setObjectName(f"action_load_{fmt.name}")
+        action.triggered.connect(lambda checked=False, name=fmt.name: scoring_import_window(ui, filetype=name))
+        setattr(ui, f"action_load_{fmt.name}", action)
+        ui.submenu_scoring.addAction(action)
+        if fmt.name == "sleeptrip":
+            ui.action_load_sleeptrip_events = QAction("Load Sleeptrip Events (_events.csv)", ui)
+            ui.action_load_sleeptrip_events.setObjectName("action_load_sleeptrip_events")
+            ui.action_load_sleeptrip_events.triggered.connect(lambda: scoring_import_window(ui, filetype="sleeptrip_events"))
+            ui.submenu_scoring.addAction(ui.action_load_sleeptrip_events)
 
 
     ui.action_save_scoring = QAction("Save to", MainWindow)
@@ -196,26 +174,14 @@ def setup_ui(ui, MainWindow):
     ui.submenu_export = QMenu("Export as", ui.menu_file)
     ui.submenu_export.setObjectName("submenu_export")
     ui.menu_file.addMenu(ui.submenu_export)
-    ui.action_export_vis = QAction("Zurich Scoring (.vis)", ui)
-    ui.action_export_vis.setObjectName("action_export_vis")
-    ui.action_export_vis.triggered.connect(lambda: write_vis(ui))
-    ui.submenu_export.addAction(ui.action_export_vis)
-    ui.action_export_yasa = QAction("YASA Scoring (.txt)", ui)
-    ui.action_export_yasa.setObjectName("action_export_yasa")
-    ui.action_export_yasa.triggered.connect(lambda: write_yasa(ui))
-    ui.submenu_export.addAction(ui.action_export_yasa)
-    ui.action_export_sleeptrip = QAction("Sleeptrip (.csv)", ui)
-    ui.action_export_sleeptrip.setObjectName("action_export_sleeptrip")
-    ui.action_export_sleeptrip.triggered.connect(lambda: write_sleeptrip(ui))
-    ui.submenu_export.addAction(ui.action_export_sleeptrip)
-    ui.action_export_sleepyland = QAction("Sleepyland (.annot)", ui)
-    ui.action_export_sleepyland.setObjectName("action_export_sleepyland")
-    ui.action_export_sleepyland.triggered.connect(lambda: write_sleepyland(ui))
-    ui.submenu_export.addAction(ui.action_export_sleepyland)
-    ui.action_export_gssc = QAction("Greifswald Sleep Stage Classifier / GSSC (.csv)", ui)
-    ui.action_export_gssc.setObjectName("action_export_gssc")
-    ui.action_export_gssc.triggered.connect(lambda: write_gssc(ui))
-    ui.submenu_export.addAction(ui.action_export_gssc)
+    for fmt in FORMATS.values():
+        if fmt.name == "scoringhero":
+            continue  # "Save to" writes the ScoringHero file
+        action = QAction(fmt.label, ui)
+        action.setObjectName(f"action_export_{fmt.name}")
+        action.triggered.connect(lambda checked=False, name=fmt.name: export_scoring(ui, name))
+        setattr(ui, f"action_export_{fmt.name}", action)
+        ui.submenu_export.addAction(action)
 
     # Export submenu for reports
     ui.submenu_export_reports = QMenu("Export", ui.menu_file)

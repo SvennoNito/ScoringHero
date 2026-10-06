@@ -104,14 +104,16 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle(f"Scoring Hero v.{self.ui.version[0]}.{self.ui.version[1]}.{self.ui.version[2]}")
 
     def closeEvent(self, event):
-        n_unscored_epochs = sum(1 for stage in self.ui.stages if stage["digit"] is None)
+        if self.ui.scoring is None:
+            return  # no recording opened
+        stages = self.ui.scoring.stages()
+        n_unscored_epochs = sum(1 for stage in stages if stage is None)
         if n_unscored_epochs == 1:
             text_plural = ["is", "epoch"]
         else:
             text_plural = ["are", "epochs"]
 
-        # if None in [stage["digit"] for stage in self.ui.stages]:
-        if n_unscored_epochs / len(self.ui.stages) < .5 and n_unscored_epochs != 0:
+        if n_unscored_epochs / len(stages) < .5 and n_unscored_epochs != 0:
             # Raise warning message when 50% or less epochs were not scored. 
             # If the message always pops up it the user habituates to the message unintentionally. 
             messagebox = QMessageBox()
@@ -128,7 +130,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
                 event.ignore()
                 return
             else:
-                write_scoring(ui)
+                write_scoring(self.ui)
                 event.accept()
 
 
@@ -139,10 +141,9 @@ class Ui_MainWindow(QMainWindow):
         self.this_epoch = 0
         self.held_event_key = None
         self.relabeled_event = False
-        self.stages_comparison = None
+        self.scoring = None
+        self.scoring_comparison = None
         self.comparison_name = None
-        self.disagreement_epochs = []
-        self.disagreement_index = 0
 
         self.eeg_data_ref = None
         self.eeg_data_display_ref = None
