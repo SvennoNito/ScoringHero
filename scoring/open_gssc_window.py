@@ -14,6 +14,7 @@ except ImportError:
     _GSSC_AVAILABLE = False
 
 from widgets import GsscWindow
+from .autoscore_results import apply_gssc
 from .write_scoring import write_scoring
 from utilities.refresh_gui import refresh_gui
 
@@ -56,7 +57,7 @@ def _after_gssc_settings(ui, settings):
             return
 
     # Step B: Existing scores check
-    scored_count = sum(1 for e in ui.stages if e["stage"] is not None)
+    scored_count = sum(1 for stage in ui.scoring.stages() if stage is not None)
     mode = "overwrite"
     overwrite_stages = None
 
@@ -197,48 +198,8 @@ if _GSSC_AVAILABLE:
             finally:
                 _gssc_infer_mod.loudest_vote = _orig_loudest_vote
 
-            # Stage mapping: GSSC int -> ScoringHero (stage, digit)
-            stage_map = {
-                0: ("Wake", 1),
-                1: ("N1", -1),
-                2: ("N2", -2),
-                3: ("N3", -3),
-                4: ("REM", 0),
-            }
-
             channels_used = settings["eeg"] + settings["eog"]
-            epolen = ui.config[0]["Epoch_length_s"]
-
-            # Apply scores to ui.stages
-            for i, epoch in enumerate(ui.stages):
-                if mode == "fill_missing" and epoch["stage"] is not None:
-                    continue
-                if mode == "selective" and epoch["stage"] not in overwrite_stages:
-                    continue
-
-                # Find matching GSSC epoch
-                if epolen == 30:
-                    gssc_idx = i
-                else:
-                    # Map by midpoint: find which GSSC 30s epoch contains
-                    # the midpoint of this ScoringHero epoch
-                    midpoint = (epoch["start"] + epoch["end"]) / 2.0
-                    gssc_idx = int(midpoint // 30)
-
-                if gssc_idx < 0 or gssc_idx >= len(gssc_stages):
-                    continue
-
-                stage_int = int(gssc_stages[gssc_idx])
-                stage_str, digit = stage_map[stage_int]
-                epoch["stage"] = stage_str
-                epoch["digit"] = digit
-                epoch["source"] = "GSSC"
-                epoch["channels"] = channels_used
-
-                if probs is not None and gssc_idx < len(probs):
-                    epoch["confidence"] = round(float(probs[gssc_idx, stage_int]), 4)
-                else:
-                    epoch["confidence"] = None
+            apply_gssc(ui.scoring, gssc_stages, probs, channels_used, mode, overwrite_stages)
 
             # Show "Finished"
             progress.setLabelText("Finished")
