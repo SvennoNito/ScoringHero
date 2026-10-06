@@ -4,7 +4,7 @@ open_nidra_window.py — GUI flow for automatic sleep staging with NIDRA.
 NIDRA (Zerr 2025, https://github.com/paulzerr/nidra) bundles the ezscore-f
 models (Coon et al. 2025) for two-channel forehead EEG as ONNX files. The
 models run with onnxruntime inside ScoringHero — see nidra_runner.py. This
-module collects the settings, applies the result to ui.stages and reports
+module collects the settings, applies the result to the primary scoring and reports
 progress.
 """
 
@@ -32,21 +32,9 @@ from .nidra_env import (
     is_frozen,
 )
 from .write_scoring import write_scoring
+from .autoscore_results import apply_nidra
 
 _SETTINGS_FILE = "nidra_settings.json"
-
-# NIDRA hypnogram codes -> ScoringHero (stage, digit). 4 is unused (where AASM
-# once had N4); 6 = artifact, handled apart.
-_STAGE_MAP = {
-    0: ("Wake",  1),
-    1: ("N1",   -1),
-    2: ("N2",   -2),
-    3: ("N3",   -3),
-    5: ("REM",   0),
-}
-
-_ARTIFACT_CODE = 6
-
 
 # --------------------------------------------------------------------------
 # Persisted settings
@@ -149,7 +137,7 @@ def _after_nidra_settings(ui, settings):
             return
 
     # Step B: existing scores
-    scored_count = sum(1 for epoch in ui.stages if epoch["stage"] is not None)
+    scored_count = sum(1 for stage in ui.scoring.stages() if stage is not None)
     mode = "overwrite"
     overwrite_stages = None
 
@@ -389,65 +377,14 @@ def _apply_scores(
     ui, settings, hypnogram, probabilities, class_names,
     channels_used, mode, overwrite_stages,
 ):
-    """Write the NIDRA result into ui.stages. Returns the artifact epoch count."""
-    from .nidra_runner import CODE_TO_COLUMN
-
-    epolen = ui.config[0]["Epoch_length_s"]
-    source = f"NIDRA ({settings['model']})"
-    artifact_mode = settings["artifact_mode"]
-    store_probabilities = settings["store_probabilities"]
-
-    artifact_intervals = []
-
-    for index, epoch in enumerate(ui.stages):
-        if mode == "fill_missing" and epoch["stage"] is not None:
-            continue
-        if mode == "selective" and epoch["stage"] not in overwrite_stages:
-            continue
-
-        if epolen == 30:
-            nidra_index = index
-        else:
-            midpoint = (epoch["start"] + epoch["end"]) / 2.0
-            nidra_index = int(midpoint // 30)
-
-        if nidra_index < 0 or nidra_index >= len(hypnogram):
-            continue
-
-        code = int(hypnogram[nidra_index])
-        column = CODE_TO_COLUMN.get(code)
-        confidence = (
-            round(float(probabilities[nidra_index, column]), 4)
-            if column is not None and column < probabilities.shape[1]
-            else None
-        )
-
-        if code == _ARTIFACT_CODE:
-            artifact_intervals.append([epoch["start"], epoch["end"]])
-            epoch["clean"] = 0
-            if artifact_mode == "inconclusive":
-                epoch["stage"] = "Inconclusive"
-                epoch["digit"] = 2
-            else:
-                epoch["stage"] = None
-                epoch["digit"] = None
-            epoch["source"] = f"{source} — artifact"
-        else:
-            stage_name, digit = _STAGE_MAP[code]
-            epoch["stage"] = stage_name
-            epoch["digit"] = digit
-            epoch["source"] = source
-
-        epoch["confidence"] = confidence
-        epoch["channels"] = channels_used
-
-        if store_probabilities:
-            epoch["probabilities"] = {
-                name: round(float(probabilities[nidra_index, position]), 4)
-                for position, name in enumerate(class_names)
-            }
-        else:
-            epoch.pop("probabilities", None)
+    """Write the NIDRA result into the primary scoring. Returns the artifact epoch count."""
+    artifact_intervals = apply_nidra(
+        ui.scoring, hypnogram, probabilities, class_names,
+        f"NIDRA ({settings['model']})", channels_used,
+        artifact_mode=settings["artifact_mode"],
+        store_probabilities=settings["store_probabilities"],
+        mode=mode, overwrite_stages=overwrite_stages,
+    )
 
     if artifact_intervals and settings["mark_artifacts"]:
         container = next(
