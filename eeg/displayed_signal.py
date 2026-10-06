@@ -9,8 +9,8 @@ Two entries:
   deleting or moving channels, analysis-relevant general settings, loading or
   removing the overlay signal, switching the analysis source, opening a recording).
   Works out the minimum work, does it (under the busy indicator if rows are built
-  or analysis parts recomputed), redraws, saves the configuration, then calls
-  callback.
+  or analysis parts other than the instant wavelet cache reset are recomputed),
+  redraws, saves the configuration, then calls callback.
 - channel_renamed(ui, old_name, new_name): instant rename; rebuilds nothing.
 
 Raw data (ui.eeg_data, ui.eeg_data_ref) stays as loaded, in file order; each
@@ -21,7 +21,7 @@ from collections import namedtuple
 
 import numpy as np
 
-from cache.write_cache import read_cache, write_cache
+from cache.disk_cache import read_cache, write_cache
 from config.channel_settings import displayed_signal_inputs, rename_channel
 from config.write_configuration import save_configuration
 from filter.apply_filter import apply_filter
@@ -37,12 +37,16 @@ from utilities.redraw_gui import redraw_all, redraw_gui
 
 # Analysis parts in dependency order: the wavelet normalisation uses the spectrogram
 PARTS = ("spectrogram", "wavelet_normalisation", "epoch_periodograms", "wavelet_cache")
+# Parts whose recompute is instant (clearing a cache): no busy indicator, no full redraw
+INSTANT_PARTS = ("wavelet_cache",)
 
 # What the displayed rows and analysis parts were last built from:
 # order: channel names in row order; rows / overlay_rows: per channel name, the
-# inputs its primary / overlay row was built from; parts: per part, its inputs.
-State = namedtuple("State", "order rows overlay_rows parts")
-EMPTY = State((), {}, {}, {})
+# inputs its primary / overlay row was built from; overlay_signal: the overlay raw
+# array the overlay rows (and overlay-analysed parts) were built from, None without
+# one; parts: per part, its inputs.
+State = namedtuple("State", "order rows overlay_rows overlay_signal parts")
+EMPTY = State((), {}, {}, None, {})
 
 # rows / overlay_rows: per channel (new row order) the stored row to keep, or None
 # to build it (overlay_rows is None without an overlay signal); stored rows not
@@ -70,11 +74,12 @@ def _part_inputs(rows, general, source):
     }
 
 
-def plan(state, channels, general, overlay, analyse_overlay, cached):
+def plan(state, channels, general, overlay_signal, analyse_overlay, cached):
     """What to drop, reorder, build, restore or recompute to bring the stored state
     to the current channel list and general settings.
 
-    overlay: token identifying the loaded overlay signal, None without one.
+    overlay_signal: the loaded overlay raw array, None without one; told apart from
+    the stored one by identity.
     analyse_overlay: the analysis parts are computed from the overlay signal.
     cached: per analysis part, the inputs of its disk cache entry."""
     srate = general["Sampling_rate_hz"]
@@ -85,19 +90,30 @@ def plan(state, channels, general, overlay, analyse_overlay, cached):
     def kept(stored, current):
         return [position[n] if n in stored and stored[n] == current[n] else None for n in order]
 
-    overlay_rows = {} if overlay is None else {n: (rows[n], overlay) for n in order}
-    source = ("overlay", overlay) if analyse_overlay and overlay is not None else "original"
+    same_overlay = overlay_signal is state.overlay_signal
+    source = "overlay" if analyse_overlay and overlay_signal is not None else "original"
     parts = _part_inputs(rows, general, source)
-    stale = [p for p in PARTS if state.parts.get(p) != parts[p]]
-    restore = tuple(p for p in stale if p in _PART_DATA and cached.get(p) == parts[p])
-    compute = tuple(p for p in stale if p not in restore)
-    write = tuple(p for p in compute if p in _PART_DATA) if source == "original" else ()
+    stale = [part for part in PARTS
+             if state.parts.get(part) != parts[part] or (source == "overlay" and not same_overlay)]
+    restore = tuple(part for part in stale if part in _PART_DATA and cached.get(part) == parts[part])
+    compute = tuple(part for part in stale if part not in restore)
+    write = tuple(part for part in compute if part in _PART_DATA) if source == "original" else ()
     return Plan(
         kept(state.rows, rows),
-        None if overlay is None else kept(state.overlay_rows, overlay_rows),
+        None if overlay_signal is None else kept(state.overlay_rows if same_overlay else {}, rows),
         restore, compute, write,
-        State(order, rows, overlay_rows, parts),
+        State(order, rows, {} if overlay_signal is None else rows, overlay_signal, parts),
     )
+
+
+def busy_label(p):
+    """Busy indicator text for plan p; None when it holds no real work (no row to
+    build, only instant parts to recompute)."""
+    if None in p.rows or (p.overlay_rows is not None and None in p.overlay_rows):
+        return "Filtering…"
+    if any(part not in INSTANT_PARTS for part in p.compute):
+        return "Computing…"
+    return None
 
 
 def renamed(state, old_name, new_name):
@@ -190,7 +206,6 @@ class _Store:
 
     def __init__(self, raw, disk):
         self.raw = raw
-        self.overlay = None  # keeps the overlay raw array (and so its token) alive
         self.state = EMPTY
         self.disk = disk
 
@@ -201,7 +216,8 @@ def _store(ui):
     store = getattr(ui, "_displayed_signal", None)
     if store is None or store.raw is not ui.eeg_data:
         cache = read_cache(ui)
-        disk = {p: cache[p] for p in _PART_DATA if isinstance(cache.get(p), tuple) and len(cache[p]) == 2}
+        disk = {part: cache[part] for part in _PART_DATA
+                if isinstance(cache.get(part), tuple) and len(cache[part]) == 2}
         store = ui._displayed_signal = _Store(ui.eeg_data, disk)
     return store
 
@@ -213,8 +229,9 @@ def _execute(ui, store, p):
         getattr(ui, "eeg_data_display", None), p.rows, ui.eeg_data, channels, srate)
     ui.eeg_data_display_ref = None if p.overlay_rows is None else _assembled(
         ui.eeg_data_display_ref, p.overlay_rows, ui.eeg_data_ref, channels, srate)
-    store.overlay = ui.eeg_data_ref
-    store.state = store.state._replace(order=p.state.order, rows=p.state.rows, overlay_rows=p.state.overlay_rows)
+    store.state = store.state._replace(
+        order=p.state.order, rows=p.state.rows,
+        overlay_rows=p.state.overlay_rows, overlay_signal=p.state.overlay_signal)
 
     for part in PARTS:
         if part in p.restore:
@@ -238,16 +255,15 @@ def settings_changed(ui, callback=None):
     and call callback."""
     store = _store(ui)
     rebuild_channel_index(ui)  # the analysis parts look their channel up by name
-    overlay = getattr(ui, "eeg_data_ref", None)
     p = plan(
         store.state, ui.config[1], ui.config[0],
-        None if overlay is None else id(overlay),
+        getattr(ui, "eeg_data_ref", None),
         getattr(ui, "analysis_source", "original") == "overlay",
         {part: entry[0] for part, entry in store.disk.items()},
     )
 
     def done(_=None):
-        if p.restore or p.compute:
+        if p.restore or any(part not in INSTANT_PARTS for part in p.compute):
             redraw_all(ui)
         else:
             redraw_gui(ui)
@@ -255,12 +271,12 @@ def settings_changed(ui, callback=None):
         if callback is not None:
             callback()
 
-    builds = None in p.rows or (p.overlay_rows is not None and None in p.overlay_rows)
-    if builds or p.compute:
-        run_busy(ui, "Filtering…" if builds else "Computing…", lambda: _execute(ui, store, p), done)
-    else:
+    label = busy_label(p)
+    if label is None:
         _execute(ui, store, p)
         done()
+    else:
+        run_busy(ui, label, lambda: _execute(ui, store, p), done)
 
 
 def channel_renamed(ui, old_name, new_name):

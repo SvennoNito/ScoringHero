@@ -4,7 +4,7 @@ restore or recompute, and building displayed rows from raw rows by Signal_index.
 import numpy as np
 
 from config.channel_settings import default_channels, derive_channel, rename_channel
-from eeg.displayed_signal import EMPTY, PARTS, build_rows, plan, renamed
+from eeg.displayed_signal import EMPTY, PARTS, build_rows, busy_label, plan, renamed
 
 
 def _channels():
@@ -206,6 +206,36 @@ def test_filtering_an_unanalysed_channel_keeps_cache_valid():
     channels[3]["Filter_hp_enabled"] = True
     p = plan(EMPTY, channels, general, None, False, cached)
     assert p.compute == ("wavelet_cache",)
+
+
+def test_wavelet_channel_selector_needs_no_busy_indicator():
+    channels, general = _channels(), _general()
+    state = _settled(channels, general)
+    general["Wavelet_channel"] = "EMG"
+    p = plan(state, channels, general, None, False, {})
+    assert p.compute == ("wavelet_cache",) and busy_label(p) is None
+
+
+def test_busy_label_filtering_when_rows_are_built_computing_when_parts_recomputed():
+    channels, general = _channels(), _general()
+    state = _settled(channels, general)
+    channels[3]["Filter_hp_enabled"] = True
+    assert busy_label(plan(state, channels, general, None, False, {})) == "Filtering…"
+    channels[3]["Filter_hp_enabled"] = False
+    general["Periodogram_channel"] = "EMG"
+    assert busy_label(plan(state, channels, general, None, False, {})) == "Computing…"
+
+
+def test_new_overlay_signal_rebuilds_overlay_rows_and_analysed_parts():
+    """Overlay signals are told apart by identity: equal arrays are still different."""
+    channels, general = _channels(), _general()
+    old, new = np.zeros((4, 8)), np.zeros((4, 8))
+    state = plan(EMPTY, channels, general, old, True, {}).state
+    same = plan(state, channels, general, old, True, {})
+    assert _built(same.rows) == _built(same.overlay_rows) == [] and same.compute == ()
+    p = plan(state, channels, general, new, True, {})
+    assert _built(p.rows) == [] and _built(p.overlay_rows) == [0, 1, 2, 3]
+    assert p.compute == PARTS
 
 
 # Row building

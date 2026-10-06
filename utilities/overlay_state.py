@@ -32,3 +32,26 @@ def set_analysis_source(ui, source, checked):
 
     from eeg.displayed_signal import settings_changed
     settings_changed(ui)
+
+
+def set_checked_silently(action, checked):
+    """Check/uncheck action without emitting toggled. Blocked signals also bypass
+    QActionGroup exclusivity: uncheck the other group members explicitly."""
+    action.blockSignals(True)
+    action.setChecked(checked)
+    action.blockSignals(False)
+
+
+def drop_overlay_signal(ui):
+    """Forget the loaded overlay signal; its menu entries go back to: nothing to
+    remove or show, analysis on the original signal."""
+    ui.eeg_data_ref = None
+    ui.show_overlay = False
+    ui.analysis_source = "original"
+    if hasattr(ui, "action_remove_overlay"):
+        ui.action_remove_overlay.setEnabled(False)
+        set_checked_silently(ui.action_show_overlay, False)
+        ui.action_show_overlay.setEnabled(False)
+        ui.menu_analyze_source.setEnabled(False)
+        set_checked_silently(ui.action_analyze_original, True)
+        set_checked_silently(ui.action_analyze_overlay, False)

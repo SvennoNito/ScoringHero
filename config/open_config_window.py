@@ -3,7 +3,7 @@ from scoring.write_scoring import write_scoring
 from events.event_deletion import rebuild_event_epochs, refresh_after_event_deletion
 from eeg.displayed_signal import channel_renamed, settings_changed
 from .apply_changes import apply_changes
-from .channel_settings import derive_channel
+from .channel_settings import ANALYSIS_CHANNEL_KEYS, derive_channel
 
 
 def _rename_channel(ui, old_name, new_name):
@@ -21,7 +21,7 @@ def _add_channel(ui, channel_a_name, channel_b_name):
     ui.config[1].append(derive_channel(ui.config[1], channel_a_name, channel_b_name))
 
     # Build the new channel and refresh all widgets (incl. any just-applied settings)
-    apply_changes(applied_keys, ui)
+    apply_changes(applied_keys, ui, channels_changed=True)
 
     # Reset filter window so it rebuilds with the new channel list next time
     ui.FilterWindow = None
@@ -48,12 +48,12 @@ def _delete_channel(ui, idx):
     # Update spectrogram/wavelet/periodogram channel selectors if needed
     remaining_names = [c["Channel_name"] for c in ui.config[1]]
     fallback = remaining_names[0] if remaining_names else ""
-    for key in ["Channel_for_spectogram", "Periodogram_channel", "Wavelet_channel"]:
+    for key in ANALYSIS_CHANNEL_KEYS:
         if ui.config[0].get(key) == del_name:
             ui.config[0][key] = fallback
 
     # Drop the row, rebuild re-referenced rows and refresh (incl. any just-applied settings)
-    apply_changes(applied_keys, ui)
+    apply_changes(applied_keys, ui, channels_changed=True)
 
     # Reset filter window so it rebuilds with the updated channel list next time
     ui.FilterWindow = None

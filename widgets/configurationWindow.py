@@ -79,8 +79,9 @@ class ConfigurationWindow(QDialog):
         return self.channel_page, self.general_page, self.events_page, self.wavelet_page, self.spectrogram_page, self.periodogram_page
 
     def _on_channel_renamed(self, old_name, new_name):
-        """The channel page renamed a channel in the live config; keep the pending and
-        last-applied analysis selectors and their dropdowns on that channel."""
+        """The channel page is renaming a channel (the live config is renamed after this
+        slot, by channel_renamed); keep the pending and last-applied analysis selectors
+        and their dropdowns on that channel."""
         rename_channel([], self.pending, old_name, new_name)
         rename_channel([], self.base, old_name, new_name)
         for page in (self.spectrogram_page, self.periodogram_page, self.wavelet_page):
@@ -1228,7 +1229,7 @@ class ChannelConfiguration(QDialog):
 
     def _propagate_to_all(self, chan_idx, setting):
         """Copy channel chan_idx's value of setting to every row without re-emitting the
-        rows' change signals. Returns False if setting is not shared (e.g. re-reference)."""
+        rows' change signals. Settings that are not shared (e.g. re-reference) are left."""
         widgets = {
             "Scaling_factor": self.scale,
             "Vertical_shift": self.shift,
@@ -1238,7 +1239,7 @@ class ChannelConfiguration(QDialog):
             "Line_width": self.line_width,
         }.get(setting)
         if widgets is None:
-            return False
+            return
         source = widgets[chan_idx]
         for w in widgets:
             w.blockSignals(True)
@@ -1249,7 +1250,6 @@ class ChannelConfiguration(QDialog):
             else:
                 w.setValue(source.value())
             w.blockSignals(False)
-        return True
 
     def change_event(self, channel_config, chan_idx, setting):
         if self.apply_all_checkbox.isChecked():

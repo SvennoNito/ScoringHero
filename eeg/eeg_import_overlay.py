@@ -5,6 +5,7 @@ from .displayed_signal import settings_changed
 from .load_wrapper import load_single
 from .resample import resample_to_rate
 from utilities.busy_indicator import run_busy
+from utilities.overlay_state import drop_overlay_signal, set_checked_silently
 
 
 _DATATYPE_FILTER = {
@@ -26,12 +27,6 @@ def _in_primary_file_order(eeg_data_ovl, names_ovl, names_primary):
             "The signal names in the overlay file do not match the primary recording's signals."
         )
     return eeg_data_ovl[[list(names_ovl).index(name) for name in names_primary]]
-
-
-def _set_checked_silently(action, checked):
-    action.blockSignals(True)
-    action.setChecked(checked)
-    action.blockSignals(False)
 
 
 def import_overlay_signal(ui, datatype):
@@ -65,7 +60,7 @@ def import_overlay_signal(ui, datatype):
         ui.action_remove_overlay.setEnabled(True)
         ui.menu_analyze_source.setEnabled(True)
         ui.action_show_overlay.setEnabled(True)
-        _set_checked_silently(ui.action_show_overlay, True)
+        set_checked_silently(ui.action_show_overlay, True)
         ui.show_overlay = True
         settings_changed(ui)
 
@@ -79,13 +74,5 @@ def remove_overlay_signal(ui):
     if getattr(ui, "eeg_data_ref", None) is None:
         return
 
-    ui.eeg_data_ref = None
-    ui.action_remove_overlay.setEnabled(False)
-    ui.menu_analyze_source.setEnabled(False)
-    _set_checked_silently(ui.action_show_overlay, False)
-    ui.action_show_overlay.setEnabled(False)
-    ui.show_overlay = False
-    if ui.analysis_source == "overlay":
-        ui.analysis_source = "original"
-        _set_checked_silently(ui.action_analyze_original, True)
+    drop_overlay_signal(ui)
     settings_changed(ui)

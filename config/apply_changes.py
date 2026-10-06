@@ -8,9 +8,10 @@ from signal_processing.freqs_of_interest import freqs_of_interest
 from utilities.apply_tf_visibility import apply_tf_visibility
 
 
-def apply_changes(config_parameter_name, ui):
+def apply_changes(config_parameter_name, ui, channels_changed=False):
     """Apply changed general settings (config_parameter_name: changed keys of
-    ui.config[0]) after channel or general settings changed."""
+    ui.config[0]). channels_changed=True: the channel list changed as well (channel
+    added or deleted), so the displayed signal must be brought up to date."""
     if ("Sampling_rate_hz" in config_parameter_name) or (
         "Epoch_length_s" in config_parameter_name
     ):
@@ -30,7 +31,7 @@ def apply_changes(config_parameter_name, ui):
         ui.this_epoch = 0
 
     # Fast-path for colorbar limit changes: no Morlet recompute, no reslice
-    if config_parameter_name == ["Wavelet_power_limits"]:
+    if config_parameter_name == ["Wavelet_power_limits"] and not channels_changed:
         power_limits = ui.config[0].get("Wavelet_power_limits", None)
         if power_limits:
             display_mode = ui.config[0].get("Wavelet_display_mode", "Z-scored Power")

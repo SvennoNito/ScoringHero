@@ -1,3 +1,5 @@
+"""The recording's disk cache file ({filename}.cache.pkl)."""
+
 import os
 import pickle
 

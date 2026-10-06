@@ -13,6 +13,7 @@ from signal_processing.times_vector import times_vector
 from utilities.apply_tf_visibility import apply_tf_visibility
 from utilities.refresh_gui import _update_export_menu_state
 from utilities.busy_indicator import run_busy
+from utilities.overlay_state import drop_overlay_signal
 from .displayed_signal import settings_changed
 
 
@@ -46,23 +47,8 @@ def _reset_for_new_recording(ui):
 
     # A newly loaded primary recording invalidates any loaded overlay signal
     # (different duration/channels), so drop it and reset the related menu state.
-    ui.eeg_data_ref = None
+    drop_overlay_signal(ui)
     ui.eeg_data_display_ref = None
-    ui.show_overlay = False
-    ui.analysis_source = "original"
-    if hasattr(ui, "action_remove_overlay"):
-        ui.action_remove_overlay.setEnabled(False)
-        ui.action_show_overlay.blockSignals(True)
-        ui.action_show_overlay.setChecked(False)
-        ui.action_show_overlay.blockSignals(False)
-        ui.action_show_overlay.setEnabled(False)
-        ui.menu_analyze_source.setEnabled(False)
-        ui.action_analyze_original.blockSignals(True)
-        ui.action_analyze_original.setChecked(True)
-        ui.action_analyze_original.blockSignals(False)
-        ui.action_analyze_overlay.blockSignals(True)
-        ui.action_analyze_overlay.setChecked(False)
-        ui.action_analyze_overlay.blockSignals(False)
 
     # Reset filter window so it is recreated with the new channel configuration
     ui.FilterWindow = None
