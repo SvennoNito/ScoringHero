@@ -6,6 +6,7 @@ from widgets import MtSpindleWindow
 from scoring.mt_spindle import detect_spindle
 from events.add_events_to_container import add_events_to_container
 from scoring.write_scoring import write_scoring
+from scoring.autoscore_results import events_in_stages
 from utilities.refresh_gui import refresh_gui
 
 
@@ -16,7 +17,7 @@ def open_mt_spindle_window(ui):
 
     channel_labels    = [ch["Channel_name"] for ch in ui.config[1]]
     annotation_labels = [c.label for c in ui.AnnotationContainer]
-    has_stages        = any(s["stage"] is not None for s in ui.stages)
+    has_stages        = any(stage is not None for stage in ui.scoring.stages())
 
     ui.MtSpindleWindow = MtSpindleWindow(channel_labels, annotation_labels, has_stages)
     ui.MtSpindleWindow.settingsAccepted.connect(
@@ -57,8 +58,7 @@ def _execute(ui, settings, progress):
         # Stage filter
         filter_stages = settings.get("filter_stages")
         if filter_stages:
-            epoch_len  = float(ui.config[0]["Epoch_length_s"])
-            events_sec = _filter_by_stages(events_sec, ui.stages, epoch_len, filter_stages)
+            events_sec = events_in_stages(ui.scoring, events_sec, filter_stages)
 
         marker_label = settings["marker"]
         container = next(c for c in ui.AnnotationContainer if c.label == marker_label)
@@ -83,15 +83,3 @@ def _execute(ui, settings, progress):
             f"{type(exc).__name__}: {exc}\n\n"
             f"{traceback.format_exc()}",
         )
-
-
-def _filter_by_stages(events_sec, stages, epoch_len, filter_stages):
-    """Keep only events whose midpoint falls in one of the selected stages."""
-    selected = set(filter_stages)
-    kept = []
-    for start, end in events_sec:
-        mid       = (start + end) / 2.0
-        epoch_idx = int(mid / epoch_len)
-        if epoch_idx < len(stages) and stages[epoch_idx]["stage"] in selected:
-            kept.append([start, end])
-    return kept
