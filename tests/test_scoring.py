@@ -82,9 +82,18 @@ def test_set_rejects_unknown_stage_and_wrong_length_sequences():
 def test_clearing_stage_clears_source_confidence_channels():
     s = Scoring(2, 30)
     s.set([0, 1], "N2", source="YASA", confidence=0.8, channels=["C3"])
-    s.set(0, None, source="human", confidence=0.3, channels=["C3"])
+    s.set(0, None)
     assert (s.stage(0), s.source(0), s.confidence(0), s.channels(0)) == (None, None, None, [])
     assert s.source(1) == "YASA"
+
+
+def test_unscored_epoch_keeps_explicitly_passed_source_confidence_channels():
+    s = Scoring(1, 30)
+    s.set(0, "N2", source="YASA")
+    s.set(0, None, source="artefact", confidence=0.4, channels=["C3"])
+    assert (s.stage(0), s.source(0), s.confidence(0), s.channels(0)) == (None, "artefact", 0.4, ["C3"])
+    s.set(0, None)
+    assert (s.source(0), s.confidence(0), s.channels(0)) == (None, None, [])
 
 
 def test_clearing_stage_keeps_clean_flag():
@@ -167,6 +176,43 @@ def test_from_records_with_unknown_stage_raises_unless_replaced():
     s = Scoring.from_records(records, 30, replace_unknown=True)
     assert s.stages() == ["N2", None]
     assert (s.source(1), s.confidence(1)) == (None, None)
+
+
+def test_unscored_epoch_with_source_and_confidence_round_trips_through_records():
+    s = Scoring(2, 30)
+    s.set(0, None, source="NIDRA (m) - artifact", confidence=0.9, channels=["C3"])
+    s.set_clean(0, False)
+    again = Scoring.from_records(s.to_records(), 30)
+    assert again.stage(0) is None
+    assert (again.source(0), again.confidence(0), again.channels(0), again.clean(0)) == (
+        "NIDRA (m) - artifact", 0.9, ["C3"], 0)
+
+
+def test_probabilities_are_per_epoch_dicts_written_only_when_present():
+    s = Scoring(3, 30)
+    s.set([0, 1], "N2", source="NIDRA", probabilities=[{"Wake": 0.1, "N2": 0.9}, {"Wake": 0.6, "N2": 0.4}])
+    s.set(2, "N1", probabilities={"N1": 1.0})
+    assert s.probabilities(0) == {"Wake": 0.1, "N2": 0.9} and s.probabilities(1)["Wake"] == 0.6
+    assert s.probabilities(2) == {"N1": 1.0}
+    records = s.to_records()
+    assert records[0]["probabilities"] == {"Wake": 0.1, "N2": 0.9}
+    assert list(records[0])[:9] == RECORD_KEYS
+    s.set(0, "N2")
+    assert s.probabilities(0) is None and "probabilities" not in s.to_records()[0]
+    again = Scoring.from_records(records, 30)
+    assert again.probabilities(1) == {"Wake": 0.6, "N2": 0.4}
+
+
+def test_probabilities_wrong_length_sequence_rejected():
+    with pytest.raises(ValueError):
+        Scoring(2, 30).set([0, 1], "N2", probabilities=[{"N2": 1.0}])
+
+
+def test_fit_copies_probabilities_of_kept_epochs_but_not_to_copied_epochs():
+    s = Scoring(2, 30)
+    s.set(1, "N2", probabilities={"N2": 1.0})
+    f = s.fitted(3)
+    assert f.probabilities(1) == {"N2": 1.0} and f.probabilities(2) is None
 
 
 def _scoring():

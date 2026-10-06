@@ -1,8 +1,9 @@
 from mne import create_info
 from mne.io import RawArray
 from yasa import SleepStaging
-import numpy as np
 from .write_scoring import write_scoring
+from .autoscore_results import apply_yasa
+from utilities.refresh_gui import refresh_gui
 
 
 def score_yasa(ui):
@@ -16,23 +17,8 @@ def score_yasa(ui):
     probability = model.predict_proba()
     confidence  = probability.max(axis=1)
 
-    # Rename stages
-    mapping = {'W': 'Wake', 'R': 'REM', 'N1': 'N1', 'N2': 'N2', 'N3': 'N3'}
-    stages  = np.vectorize(mapping.get)(stages)    
-    mapping = {'Wake': 1, 'REM': 0, 'N1': -1, 'N2': -2, 'N3': -3}
-    digits  = np.vectorize(mapping.get)(stages)  
+    apply_yasa(ui.scoring, stages, confidence)
 
-    for iepoch, epoch in enumerate(ui.stages):
-        epoch["stage"]  = stages[iepoch]
-        epoch["digit"]  = int(digits[iepoch])
-        epoch["source"] = "YASA"
-        epoch["confidence"] = np.round(confidence[iepoch], 4)
-
-    # Update display text
-    ui.DisplayedEpochWidget.update_text(
-        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
-    )
-
-    # Update hypnpgram
+    write_scoring(ui)
     ui.HypnogramWidget.draw_hypnogram(ui)
-    write_scoring(ui)        
+    refresh_gui(ui)

@@ -29,6 +29,7 @@ class Scoring:
         self._confidence = [None] * n_epochs
         self._channels = [[] for _ in range(n_epochs)]
         self._clean = [1] * n_epochs
+        self._probabilities = [None] * n_epochs
 
     def __len__(self):
         return len(self._stage)
@@ -57,6 +58,11 @@ class Scoring:
         """Stage names of all epochs (copy)."""
         return list(self._stage)
 
+    def probabilities(self, epoch):
+        """Per-class probabilities of the epoch as a dict, or None."""
+        p = self._probabilities[self._check(epoch)]
+        return None if p is None else dict(p)
+
     def time_span(self, epoch):
         """(start, end) in seconds of the 0-based epoch index: (i*L, (i+1)*L).
         The 1-based epoch number in the scoring file is epoch + 1."""
@@ -65,24 +71,28 @@ class Scoring:
 
     # ---- setters -----------------------------------------------------------
 
-    def set(self, epochs, stage, source=None, confidence=None, channels=()):
-        """Set stage, source, confidence and channels of one epoch (int) or many
-        (iterable of indices). `stage`, `source` and `confidence` are either one value
-        for all epochs or a sequence with one value per epoch. `channels` is one list
-        of channel names, copied to every epoch. A None stage clears the epoch: source,
-        confidence and channels are reset whatever is passed (the clean flag is kept)."""
+    def set(self, epochs, stage, source=None, confidence=None, channels=(), probabilities=None):
+        """Set stage, source, confidence, channels and probabilities of one epoch (int)
+        or many (iterable of indices). `stage`, `source`, `confidence` and
+        `probabilities` (dict class -> probability) are either one value for all epochs
+        or a sequence with one value per epoch. `channels` is one list of channel names,
+        copied to every epoch. Whatever is not passed is reset, so `set(i, None)` clears
+        the epoch; with a None stage only what is passed explicitly is kept (e.g. the
+        source of an unscored artefact epoch). The clean flag is kept."""
         idx = [self._check(i) for i in self._as_list(epochs)]
         stages = self._per_epoch(stage, len(idx))
         sources = self._per_epoch(source, len(idx))
         confs = self._per_epoch(confidence, len(idx))
+        probs = self._per_epoch(probabilities, len(idx))
         for s in stages:
             if s is not None and s not in STAGE_DIGITS:
                 raise ValueError(f"Unknown stage: {s!r}")
-        for i, s, src, conf in zip(idx, stages, sources, confs):
+        for i, s, src, conf, prob in zip(idx, stages, sources, confs, probs):
             self._stage[i] = s
-            self._source[i] = src if s is not None else None
-            self._confidence[i] = float(conf) if s is not None and conf is not None else None
-            self._channels[i] = list(channels) if s is not None else []
+            self._source[i] = src
+            self._confidence[i] = float(conf) if conf is not None else None
+            self._channels[i] = list(channels)
+            self._probabilities[i] = dict(prob) if prob is not None else None
 
     def set_clean(self, epochs, clean):
         """Set the clean flag (1 clean, 0 artefact) of one epoch or many."""
@@ -108,6 +118,8 @@ class Scoring:
                 "clean": self._clean[i],
                 "source": self._source[i],
             })
+            if self._probabilities[i] is not None:
+                records[-1]["probabilities"] = dict(self._probabilities[i])
         return records
 
     @classmethod
@@ -122,9 +134,10 @@ class Scoring:
         scoring = cls(len(records), epoch_length_s)
         for i, rec in enumerate(records):
             stage = rec.get("stage")
-            if stage not in STAGE_DIGITS:
-                continue  # unscored, or unknown replaced with unscored
-            scoring.set(i, stage, rec.get("source"), rec.get("confidence"), rec.get("channels") or [])
+            if stage is not None and stage not in STAGE_DIGITS:
+                continue  # unknown, replaced with unscored
+            scoring.set(i, stage, rec.get("source"), rec.get("confidence"), rec.get("channels") or [],
+                        rec.get("probabilities"))
             scoring._clean[i] = int(rec.get("clean", 1))
         return scoring
 
@@ -141,6 +154,7 @@ class Scoring:
             out._source[i] = self._source[i]
             out._confidence[i] = self._confidence[i]
             out._channels[i] = list(self._channels[i])
+            out._probabilities[i] = self._probabilities[i]
             out._clean[i] = self._clean[i]
         if len(self) and n_epochs > len(self):
             last = len(self) - 1
@@ -163,7 +177,7 @@ class Scoring:
 
     @staticmethod
     def _per_epoch(value, n):
-        if hasattr(value, "__len__") and not isinstance(value, str):
+        if hasattr(value, "__len__") and not isinstance(value, (str, dict)):
             if len(value) != n:
                 raise ValueError(f"Expected {n} values, got {len(value)}")
             return list(value)
