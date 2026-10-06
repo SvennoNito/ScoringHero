@@ -2,6 +2,7 @@
 
 Each channel of a recording is a plain dict holding every setting declared in
 _SETTINGS, plus the markers "derived"/"source_channel" on a derived channel.
+"Ordinary" channels below are the non-derived ones (a signal from the file).
 No file, GUI or application-state access here.
 """
 
@@ -26,7 +27,7 @@ def _scaling(count):
     return 100
 
 
-def _colour(name):
+def _color(name):
     upper = name.upper()
     if "EOG" in upper:
         return "Blue"
@@ -51,7 +52,7 @@ def _subtract_median(unit):
 # name: (default for a _Signal, effect when changed)
 _SETTINGS = {
     "Channel_name":         (lambda s: s.name, RENAME),
-    "Channel_color":        (lambda s: _colour(s.name), DISPLAY),
+    "Channel_color":        (lambda s: _color(s.name), DISPLAY),
     "Display_on_screen":    (lambda s: _shown(s.index, s.count), DISPLAY),
     "Scaling_factor":       (lambda s: _scaling(s.count), DISPLAY),
     "Vertical_shift":       (lambda s: 0, DISPLAY),
