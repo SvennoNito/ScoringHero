@@ -67,6 +67,8 @@ def run_forehead(data_volts, sfreq, model_path, tick=None):
     """
     import mne
 
+    from .mne_raw import raw_array
+
     data = np.asarray(data_volts, dtype=np.float64)
     if data.ndim != 2 or data.shape[0] != 2:
         raise ValueError(f"Expected a (2, n_samples) array, got {data.shape}.")
@@ -77,7 +79,7 @@ def run_forehead(data_volts, sfreq, model_path, tick=None):
     info = mne.create_info(
         ch_names=["eegl", "eegr"], sfreq=float(sfreq), ch_types=["eeg", "eeg"]
     )
-    raw = mne.io.RawArray(data, info, verbose=False)
+    raw = raw_array(data, info)
     raw.resample(sfreq=FOREHEAD_SAMPLE_RATE, verbose=False)
     raw.filter(l_freq=0.5, h_freq=None, verbose=False)
 

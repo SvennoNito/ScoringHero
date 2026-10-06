@@ -7,7 +7,7 @@ from PySide6.QtCore import Qt, QTimer
 
 try:
     from mne import create_info
-    from mne.io import RawArray
+    from .mne_raw import raw_array
     from gssc.infer import EEGInfer
     _GSSC_AVAILABLE = True
 except ImportError:
@@ -155,16 +155,7 @@ if _GSSC_AVAILABLE:
             sfreq = ui.config[0]["Sampling_rate_hz"]
             info = create_info(ch_names=ch_names, sfreq=sfreq, ch_types="eeg")
 
-            # Nuitka-compiled frames omit 'self' from f_locals, which crashes
-            # MNE's _get_argvalues (frame introspection). Patch it to return
-            # None instead — _init_kwargs is only used for repr, not inference.
-            import mne.utils.misc as _mne_misc
-            _orig_get_argvalues = _mne_misc._get_argvalues
-            _mne_misc._get_argvalues = lambda: None
-            try:
-                raw = RawArray(ui.eeg_data_display, info, verbose=False)
-            finally:
-                _mne_misc._get_argvalues = _orig_get_argvalues
+            raw = raw_array(ui.eeg_data_display, info)
 
             # Run GSSC inference
             # PyTorch 2.6 changed the default of weights_only to True, but GSSC's
