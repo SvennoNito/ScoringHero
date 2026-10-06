@@ -6,6 +6,8 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor
 
+from scoring_model.scoring import disagreements
+
 
 _STAGE_ORDER = ["Wake", "N1", "N2", "N3", "REM", "Inconclusive", None]
 
@@ -31,9 +33,9 @@ def _cohen_kappa(y1, y2, labels):
 
 
 def comparison_stats_window(ui):
-    n = min(len(ui.stages), len(ui.stages_comparison))
-    y1 = [s["stage"] for s in ui.stages[:n]]
-    y2 = [s["stage"] for s in ui.stages_comparison[:n]]
+    n = len(ui.scoring)
+    y1 = ui.scoring.stages()
+    y2 = ui.scoring_comparison.stages()
 
     # Build label list in canonical stage order, keeping only present ones
     present_set = set(y1) | set(y2)
@@ -60,7 +62,7 @@ def comparison_stats_window(ui):
         f"<b>Cohen's κ:</b> {kappa:.3f}  <i>({kappa_interp})</i>"
     ))
     layout.addWidget(QLabel(
-        f"<b>Disagreements:</b> {len(ui.disagreement_epochs)} epochs"
+        f"<b>Disagreements:</b> {len(disagreements(ui.scoring, ui.scoring_comparison))} epochs"
     ))
 
     layout.addWidget(QLabel(
