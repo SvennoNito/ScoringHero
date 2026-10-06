@@ -944,17 +944,22 @@ class ChannelConfiguration(QDialog):
         for _c in ["Black", "Blue", "Green", "Magenta", "Orange", "Cyan"]:
             _dummy_colorbox.addItem(_c)
         colorbox_w = _dummy_colorbox.sizeHint().width()
-        rerefbox_w = max(len(n) for n in all_channel_names + ["None"]) * 8 + 35
+        # Bold font
+        bold_font = QFont()
+        bold_font.setBold(True)
+
+        # Re-reference column: wide enough for the bold header AND a combo box holding the longest option
+        _dummy_reref_label = QLabel("Re-reference")
+        _dummy_reref_label.setFont(bold_font)
+        _dummy_rerefbox = QComboBox()
+        _dummy_rerefbox.addItems(["None"] + all_channel_names)
+        rerefbox_w = max(_dummy_reref_label.sizeHint().width() + 4, _dummy_rerefbox.sizeHint().width())
         grip_w = 20  # width for drag handle column
         trash_w = 28  # width for trash button column
         # flip column: wide enough to show bold "Flip" label AND the bare checkbox
         _dummy_flip_label = QLabel("Flip")
         _dummy_flip_label.setFont(QFont())
         flip_col_w = max(_dummy_flip_label.sizeHint().width() + 4, QCheckBox().sizeHint().width())
-
-        # Bold font
-        bold_font = QFont()
-        bold_font.setBold(True)
 
         # Subtract median column: wide enough for the two-row bold header AND the checkbox
         _dummy_subtract_median_label = QLabel("Subtract\nmedian")
