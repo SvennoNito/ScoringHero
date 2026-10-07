@@ -1,3 +1,4 @@
+from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QMessageBox
 
 from widgets import SumoWindow
@@ -27,6 +28,6 @@ def open_sumo_window(ui):
 
     ui.SumoWindow = SumoWindow(channel_labels, annotation_labels, has_stages)
     ui.SumoWindow.settingsAccepted.connect(
-        lambda settings: run_event_detector(ui, SPEC, settings)
+        lambda settings: QTimer.singleShot(0, lambda: run_event_detector(ui, SPEC, settings))
     )
     ui.SumoWindow.show()

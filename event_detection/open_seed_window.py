@@ -5,6 +5,7 @@ import sys
 import tempfile
 
 import numpy as np
+from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QMessageBox
 
 from widgets import SeedWindow
@@ -50,7 +51,7 @@ def open_seed_window(ui):
 
     ui.SeedWindow = SeedWindow(channel_labels, annotation_labels, saved)
     ui.SeedWindow.settingsAccepted.connect(
-        lambda settings: _after_seed_settings(ui, settings)
+        lambda settings: QTimer.singleShot(0, lambda: _after_seed_settings(ui, settings))
     )
     ui.SeedWindow.show()
 

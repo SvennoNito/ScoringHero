@@ -1,3 +1,4 @@
+from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QMessageBox
 
 from widgets import MtSpindleWindow
@@ -32,6 +33,6 @@ def open_mt_spindle_window(ui):
 
     ui.MtSpindleWindow = MtSpindleWindow(channel_labels, annotation_labels, has_stages)
     ui.MtSpindleWindow.settingsAccepted.connect(
-        lambda settings: run_event_detector(ui, SPEC, settings)
+        lambda settings: QTimer.singleShot(0, lambda: run_event_detector(ui, SPEC, settings))
     )
     ui.MtSpindleWindow.show()
