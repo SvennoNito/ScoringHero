@@ -77,6 +77,13 @@ How steeply a filter rolls off beyond its cutoff; higher is steeper.
 A scored time span of a given type (e.g. arousal, artefact) shown on the signal panel and the hypnogram.
 _Avoid_: annotation, label
 
+**Event slot**:
+One of 13 fixed event types (hotkeys F0–F12), identified by its position, never by its label. Each has a label (user-editable, need not be unique), a colour, and holds the events of that type. Slot 0 is the artefact slot: only events in slot 0 mark the epochs they cover as unclean; events in other slots are plain events.
+_Avoid_: container, marker, annotation container
+
+**Event epochs**:
+The epochs an event overlaps. Derived from the event's time span and the epoch length; written next to the event in the scoring file and ignored on load.
+
 ### Scoring
 
 **Autoscorer**:
