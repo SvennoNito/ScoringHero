@@ -1086,6 +1086,7 @@ class ChannelConfiguration(QDialog):
         add_row_layout.setSpacing(6)
         add_btn = QPushButton("+")
         add_btn.setFixedWidth(28)
+        add_btn.setStyleSheet("padding: 4px 0;")  # theme's 14px side padding leaves no room in 28px
         add_btn.setToolTip("Add re-referenced channel")
         add_btn.clicked.connect(self._on_add_channel)
         add_row_layout.addWidget(add_btn)

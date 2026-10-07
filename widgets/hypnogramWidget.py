@@ -40,7 +40,7 @@ class HypnogramWidget(QWidget):
             -3: "#3b3fa8",
             -2: "#4f9fd8",
             -1: "#aabcce",
-            0: "#56bf8b",
+            0: "#dc5050",
             1: "#8bbf56",
             2: "#000000",
         }

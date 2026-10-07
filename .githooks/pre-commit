@@ -1,7 +1,6 @@
 #!/bin/sh
-# Checks: ruff + pytest must pass. Enable once per clone: git config core.hooksPath .githooks
+# Fast checks only (ruff); pytest runs in pre-push. Enable once per clone: git config core.hooksPath .githooks
 uv run ruff check . || exit 1
-uv run pytest -q || exit 1
 
 # Auto-update CITATION.cff when pyproject.toml version changes.
 

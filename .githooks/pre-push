@@ -1,0 +1,3 @@
+#!/bin/sh
+# Full test suite before push. Enable once per clone: git config core.hooksPath .githooks
+uv run pytest -q || exit 1
