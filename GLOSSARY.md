@@ -89,5 +89,12 @@ A fixed-length time slice of a recording that receives one stage.
 **Stage**:
 One of Wake, N1, N2, N3, REM or Inconclusive, assigned to an epoch. An epoch without a stage is unscored.
 
+**Hypnogram digit**:
+The number a stage has on the hypnogram: Wake 1, N1 -1, N2 -2, N3 -3, REM 0, Inconclusive 2. Derived from the stage name, never stored in memory; written next to the stage in the scoring file and ignored on load. Not the same as a format's own stage codes (e.g. GSSC `4` = REM), which stay inside that format's loader and writer.
+_Avoid_: digit (alone; ambiguous with format codes)
+
+**Disagreement**:
+An epoch where the primary scoring and the comparison scoring have different stages. Always computed from the current primary scoring.
+
 **Scoring**:
 The stage of every epoch of a recording; events are not part of it. The scoring file stores a scoring together with the events.

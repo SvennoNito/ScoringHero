@@ -144,8 +144,8 @@ class HypnogramWidget(QWidget):
 
     def _draw_comparison_overlay(self, ui):
         """Overlay disagreement epochs in red, showing the comparison scoring's stage."""
-        disagreement_epochs = disagreements(ui.scoring, ui.scoring_comparison)
-        if not disagreement_epochs:
+        disagreeing = disagreements(ui.scoring, ui.scoring_comparison)
+        if not disagreeing:
             return
 
         times = np.repeat(self.times, 2)
@@ -154,7 +154,7 @@ class HypnogramWidget(QWidget):
         # Collect (epoch, digit) pairs for disagreement epochs that have a digit
         ep_digit_pairs = [
             (ep, comparison_digits[ep])
-            for ep in disagreement_epochs
+            for ep in disagreeing
             if ep < len(comparison_digits) and comparison_digits[ep] is not None
         ]
         if not ep_digit_pairs:

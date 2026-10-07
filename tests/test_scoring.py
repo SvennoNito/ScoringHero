@@ -73,7 +73,7 @@ def test_set_channels_are_copied_per_epoch():
 def test_set_rejects_unknown_stage_and_wrong_length_sequences():
     s = Scoring(2, 30)
     with pytest.raises(ValueError):
-        s.set(0, "NREM")
+        s.set(0, "Bogus")
     with pytest.raises(ValueError):
         s.set([0, 1], ["N1"])
     assert s.stages() == [None, None]
@@ -114,7 +114,7 @@ def test_clean_flag_one_and_many_epochs():
     assert [s.clean(i) for i in range(4)] == [1, 1, 1, 1]
 
 
-def test_records_of_unscored_match_existing_default_scoring():
+def test_records_of_unscored_match_the_file_format():
     assert Scoring(2, 30).to_records() == [
         {"epoch": 1, "start": 0, "end": 30, "stage": None, "digit": None, "confidence": None,
          "channels": [], "clean": 1, "source": None},
@@ -164,13 +164,13 @@ def test_records_with_missing_or_null_fields_load_with_defaults():
 
 
 def test_unknown_stages_are_reported():
-    records = [{"stage": "N2"}, {"stage": "NREM"}, {"stage": "foo"}, {"stage": None}, {"stage": "NREM"}]
-    assert unknown_stages(records) == ["NREM", "foo"]
+    records = [{"stage": "N2"}, {"stage": "Bogus"}, {"stage": "foo"}, {"stage": None}, {"stage": "Bogus"}]
+    assert unknown_stages(records) == ["Bogus", "foo"]
     assert unknown_stages([{"stage": "REM"}, {"stage": None}]) == []
 
 
 def test_from_records_with_unknown_stage_raises_unless_replaced():
-    records = [{"stage": "N2", "source": "human"}, {"stage": "NREM", "source": "x", "confidence": 0.5}]
+    records = [{"stage": "N2", "source": "human"}, {"stage": "Bogus", "source": "x", "confidence": 0.5}]
     with pytest.raises(ValueError):
         Scoring.from_records(records, 30)
     s = Scoring.from_records(records, 30, replace_unknown=True)

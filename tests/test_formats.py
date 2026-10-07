@@ -130,10 +130,10 @@ def test_scoringhero_loads_stage_name_over_contradicting_digit(tmp_path):
 
 def test_scoringhero_reports_unknown_stages(tmp_path):
     p = tmp_path / "a.json"
-    p.write_text(json.dumps([[{"stage": "NREM"}, {"stage": "Wake"}, {"stage": "Foo"}], []]))
+    p.write_text(json.dumps([[{"stage": "Bogus"}, {"stage": "Wake"}, {"stage": "Foo"}], []]))
     loaded = load("scoringhero", p)
     assert loaded.stages == [None, "Wake", None]
-    assert loaded.unrecognised == ["Foo", "NREM"]
+    assert loaded.unrecognised == ["Bogus", "Foo"]
 
 
 def test_loader_raises_on_missing_file(tmp_path):

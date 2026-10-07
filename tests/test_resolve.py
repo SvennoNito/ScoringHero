@@ -34,8 +34,8 @@ def test_length_case_and_choices(loaded_n, recording_n, kind, tolerated, choices
 
 
 def test_unknown_stages_are_listed_with_replace_choice():
-    p = diagnose(_loaded(10, ["NREM", "foo"]), 10)
-    assert p.unknown == ("NREM", "foo")
+    p = diagnose(_loaded(10, ["Bogus", "foo"]), 10)
+    assert p.unknown == ("Bogus", "foo")
     assert p.unknown_choices == ("replace",)
     assert diagnose(_loaded(10), 10).unknown_choices == ()
 
@@ -82,7 +82,7 @@ def test_shorter_by_many_copies_last_epoch_until_match():
 
 
 def test_unknown_stages_replaced_with_unscored():
-    loaded = _loaded(10, ["NREM"])
+    loaded = _loaded(10, ["Bogus"])
     loaded.stages[3] = None
     s = resolve(loaded, 10, 30, _always("replace"))
     assert s.stage(3) is None and s.source(3) is None

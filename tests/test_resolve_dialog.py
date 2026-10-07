@@ -43,8 +43,8 @@ def _loaded(n, unrecognised=()):
         (13, (), "Cancel", None, ["Truncate", "Cancel"]),
         (5, (), "Copy last epoch", 10, ["Copy last epoch", "Cancel"]),
         (5, (), "Cancel", None, ["Copy last epoch", "Cancel"]),
-        (10, ("NREM",), "Replace with unscored", 10, ["Replace with unscored", "Cancel"]),
-        (10, ("NREM",), "Cancel", None, ["Replace with unscored", "Cancel"]),
+        (10, ("Bogus",), "Replace with unscored", 10, ["Replace with unscored", "Cancel"]),
+        (10, ("Bogus",), "Cancel", None, ["Replace with unscored", "Cancel"]),
     ],
 )
 def test_each_case(boxes, n, unknown, click, expect_len, labels):
