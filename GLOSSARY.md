@@ -58,6 +58,13 @@ Saved per-channel-name settings reused when opening new recordings.
 **Vertical shift**:
 Per-channel offset of the trace from its row position, in µV; may be negative.
 
+**Navigation bar**:
+The vertical icon bar on the left of the main window holding the jump buttons. Replaces the former horizontal toolbar.
+_Avoid_: toolbar
+
+**Jump button**:
+A navigation bar button that moves to the next epoch or event of a given kind (unscored, uncertain, stage transition, event, human-scored, disagreement).
+
 ### Filtering
 
 **Cutoff frequency**:
@@ -106,6 +113,19 @@ A fixed-length time slice of a recording that receives one stage.
 
 **Stage**:
 One of Wake, N1, N2, N3, REM or Inconclusive, assigned to an epoch. An epoch without a stage is unscored.
+
+**Confidence**:
+How certain an Autoscorer is of an epoch's stage, from 0 to 1. An epoch without a confidence (e.g. scored by hand) has none.
+
+**Uncertain epoch**:
+An epoch whose confidence is below 0.5. An epoch with no confidence is not uncertain.
+
+**Human-scored epoch**:
+An epoch whose stage was set by the user rather than by an Autoscorer.
+_Avoid_: human epoch, manual epoch
+
+**Stage transition**:
+An epoch whose stage differs from the stage of the epoch before it; unscored counts as a stage.
 
 **Hypnogram digit**:
 The number a stage has on the hypnogram: Wake 1, N1 -1, N2 -2, N3 -3, REM 0, Inconclusive 2. Derived from the stage name, never stored in memory; written next to the stage in the scoring file and ignored on load. Not the same as a format's own stage codes (e.g. GSSC `4` = REM), which stay inside that format's loader and writer.

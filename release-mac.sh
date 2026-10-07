@@ -24,6 +24,9 @@ python -m nuitka \
     --include-module=utilities.jump_to_event \
     --include-data-files=./help/images/selection_box.png=help/images/selection_box.png \
     --include-data-files=./style/modern_theme.qss=style/modern_theme.qss \
+    --include-data-dir=./assets=assets \
+    --include-module=PySide6.QtSvg \
+    --include-qt-plugins=imageformats,iconengines \
     --include-data-files=./spectral.txt=spectral.txt \
     --output-filename="$FINAL_FILE_NAME" \
     --output-dir=dist \

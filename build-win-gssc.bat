@@ -37,6 +37,9 @@ uv run --python 3.13 python -m nuitka ^
     --nofollow-import-to=pytest ^
     --include-data-files=./help/images/selection_box.png=help/images/selection_box.png ^
     --include-data-files=./style/modern_theme.qss=style/modern_theme.qss ^
+    --include-data-dir=./assets=assets ^
+    --include-module=PySide6.QtSvg ^
+    --include-qt-plugins=imageformats,iconengines ^
     --include-data-files=./spectral.txt=spectral.txt ^
     --output-filename=auto-scoringhero_windows.exe ^
     --output-dir=dist ^

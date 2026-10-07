@@ -47,11 +47,16 @@ def _boot(directory):
 
     import scoringhero as sh
     from eeg.load_wrapper import load_wrapper
+    from style.appstyler import appstyler
+    from style.apply_app_theme import apply_app_theme
 
     app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
     ui = sh.Ui_MainWindow()
     window = sh.MyMainWindow(ui)
     sh.setup_ui(ui, window)
+    if not app.styleSheet():  # styled like the real start-up: real glyphs, screenshots match the app
+        appstyler(app)
+        apply_app_theme(window, app, ui.app_path, "modern_theme.qss")
     ui.app_path = str(directory)
     ui.filename = os.path.join(str(directory), "example_data")
     # A mismatch dialog would block forever on an invisible modal; exec returns at once

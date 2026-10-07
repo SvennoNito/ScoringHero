@@ -1,4 +1,4 @@
-MUTED = "#6b7280"
+from .theme import MUTED
 
 
 def soften_axes(plot, color=MUTED):
