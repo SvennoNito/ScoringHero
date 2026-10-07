@@ -300,8 +300,8 @@ def _create_hypnogram(ui, options):
         1: "#8bbf56",
         0: "#dc5050",
         -1: "#aabcce",
-        -2: "#405c79",
-        -3: "#0b1c2c",
+        -2: "#4f9fd8",
+        -3: "#3b3fa8",
     }
     stage_y_positions = {1: 4, 0: 3, -1: 2, -2: 1, -3: 0}
 

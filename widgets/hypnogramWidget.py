@@ -37,8 +37,8 @@ class HypnogramWidget(QWidget):
         # Colors
         self.colors = {
             -4: "#bf5656",
-            -3: "#2a4fc0",
-            -2: "#405c79",
+            -3: "#3b3fa8",
+            -2: "#4f9fd8",
             -1: "#aabcce",
             0: "#56bf8b",
             1: "#8bbf56",

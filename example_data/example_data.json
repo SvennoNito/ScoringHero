@@ -2776,23 +2776,43 @@
    "epoch": 243,
    "start": 7260,
    "end": 7290,
-   "stage": "REM",
-   "digit": 0,
-   "confidence": 0.7713,
-   "channels": [],
+   "stage": "Wake",
+   "digit": 1,
+   "confidence": null,
+   "channels": [
+    "F3-A2",
+    "F4-A1",
+    "C3-A2",
+    "C4-A1",
+    "O1-A2",
+    "EOG1",
+    "EOG2",
+    "EMG",
+    "O2-A1"
+   ],
    "clean": 1,
-   "source": "YASA"
+   "source": "human"
   },
   {
    "epoch": 244,
    "start": 7290,
    "end": 7320,
-   "stage": "REM",
-   "digit": 0,
-   "confidence": 0.425,
-   "channels": [],
-   "clean": 1,
-   "source": "YASA"
+   "stage": "Inconclusive",
+   "digit": 2,
+   "confidence": null,
+   "channels": [
+    "F3-A2",
+    "F4-A1",
+    "C3-A2",
+    "C4-A1",
+    "O1-A2",
+    "EOG1",
+    "EOG2",
+    "EMG",
+    "O2-A1"
+   ],
+   "clean": 0,
+   "source": "human"
   },
   {
    "epoch": 245,
@@ -8548,5 +8568,17 @@
    "source": "YASA"
   }
  ],
- []
+ [
+  {
+   "key": "A",
+   "event": "Artifact",
+   "digit": 0,
+   "counter": 0,
+   "epoch": [
+    244
+   ],
+   "start": 7290,
+   "end": 7320
+  }
+ ]
 ]

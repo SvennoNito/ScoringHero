@@ -10,6 +10,23 @@ Welcome to **ScoringHero**, an open-source project designed to assist you in EEG
 
 **ScoringHero** is an open-source tool for visualizing long-term EEG recordings, marking events (such as sleep spindles, artefacts, or anything really), and performing sleep scoring. It is built with PySide6 (Qt6) and designed for researchers and clinicians who need a fast way for checking and annotating EEG data.
 
+### Quick tour
+
+<table>
+  <tr>
+    <td width="50%"><img src="screenshots/signal_panel.png" alt="EEG signal panel" /><br /><b>Signal panel</b> — multi-channel EEG with the current stage shown in a movable badge</td>
+    <td width="50%"><img src="screenshots/hypnogram_panel.png" alt="Hypnogram with SWA" /><br /><b>Hypnogram</b> — whole-night stages, events and slow-wave activity</td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="screenshots/spectrogram_panel.png" alt="Spectrogram" /><br /><b>Spectrogram</b> — click anywhere to jump to that time</td>
+    <td width="50%"><img src="screenshots/periodogram_panel.png" alt="Periodogram" /><br /><b>Periodogram</b> — spectrum of the epoch or of a selected region</td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="screenshots/wavelet_panel.png" alt="Wavelet time-frequency panel" /><br /><b>Time-frequency</b> — Morlet wavelet power of the current epoch</td>
+    <td width="50%"><img src="screenshots/events_on_signal.png" alt="Events marked on the signal" /><br /><b>Events</b> — draw, label and relabel events directly on the signal</td>
+  </tr>
+</table>
+
 ---
 
 ## Getting Started
@@ -65,25 +82,50 @@ arch -x86_64 ./release-mac.sh  # x86_64
 ## Features
 
 ### Multi-Channel EEG Signal Display
+
+![EEG signal panel](screenshots/signal_panel.png)
+
 - View multiple EEG channels simultaneously with configurable vertical spacing
 - Per-channel amplitude scaling and vertical offset adjustment
 - 6 channel colors: Black, Blue, Green, Magenta, Orange, Cyan
 - Amplitude reference lines and 1-second grid overlay
-- Configurable time axis units: Seconds, Minutes, or Hours
+- Configurable time axis units: Seconds, Minutes, Hours, or **Clock Time** (set the recording start time in the configuration; the status bar shows the clock time of every epoch)
 - **Stack channels** on a shared baseline for overlay comparison
 - **Robust z-standardization** (median/IQR normalization) for cross-channel comparison
 - Select/deselect all channels or apply settings to all channels at once
+
+<p align="center">
+    <img src="screenshots/signal_stacked.png" width="49%" alt="Stacked channels" />
+    <img src="screenshots/signal_zscore.png" width="49%" alt="Robustly z-standardized channels" />
+</p>
+
+*Left: channels stacked on a shared baseline. Right: robustly z-standardized channels.*
+
+### Stage Badge & Status Bar
+
+![Stage badge for every stage](screenshots/stage_badge.png)
+
+- The **stage badge** shows the stage of the displayed epoch (**Wake**, **N1**, **N2**, **N3**, **REM**, **Inconclusive** or **Unscored**) as a large translucent chip right over the EEG, so you see it while you scan the trace
+- **Drag the badge** with the mouse to put it anywhere in the EEG panel; the position is saved with the recording
+- Show or hide the badge and change its size in **Configuration → General → Stage in EEG panel**
+- When a comparison scoring is loaded and disagrees with yours, the badge reads e.g. *N2 vs N3* and gets a red border
+
+![Status bar](screenshots/status_bar.png)
+
+- The **status bar** shows the epoch (click it, type a number and press Enter to jump), the stage in the same colour as the badge, the confidence, the clock time of the epoch, the EEG file and the scoring file
 
 ### Sleep Stage Scoring
 - Score epochs as **Wake** (`W`), **N1** (`1`), **N2** (`2`), **N3** (`3`), **REM** (`R`), or **Inconclusive** (`I`)
 - Clear a score with `Delete`
 - **Confidence flagging**: press `Q` to mark an epoch as uncertain for later review
-- Track scoring progress with an on-screen epoch counter
+- Track scoring progress with the epoch readout in the status bar and the stage badge over the EEG
 - Automatic save prompt on close if epochs remain unscored
 
 ### Compare Scoring
 
 ![Compare Scoring Window](screenshots/compare_scoring.png)
+
+![Hypnogram with disagreements highlighted](screenshots/compare_hypnogram.png)
 
 - Load a second scoring file (**Compare → Scoring → Import scoring for comparison**) to compare it against the current scoring
 - Epochs where the two scorings disagree are highlighted directly in the hypnogram; the highlighting, the Next disagreement jump and the statistics always follow your latest edits
@@ -102,6 +144,8 @@ arch -x86_64 ./release-mac.sh  # x86_64
 - **Erase events in selection**: draw one or more rectangles and press `Backspace` to delete all events inside the drawn region
 - **Delete all events**: via the Labels menu — choose to delete all events, events in the current epoch only, or events of a specific type (via the Events config tab)
 
+![Events marked on the signal](screenshots/events_on_signal.png)
+
 <p align="center">
     <img src="screenshots/artefact.png" width="49%" alt="Artefact event marked on signal" />
     <img src="screenshots/arousal.png" width="49%" alt="Arousal event marked on signal" />
@@ -109,6 +153,8 @@ arch -x86_64 ./release-mac.sh  # x86_64
 
 ### Smart Navigation
 All jumps wrap around from the last epoch to the first. The **Navigation bar** on the left of the window holds one icon-only **Jump button** per kind of epoch; hover a button to see its rule (a disabled button says why it is disabled).
+
+![Navigation bar with a jump button tooltip](screenshots/navigation_bar.png)
 
 | Jump button / Action | Description |
 |----------------|-------------|
@@ -123,6 +169,9 @@ All jumps wrap around from the last epoch to the first. The **Navigation bar** o
 | **Click on spectrogram** | Navigate to any time point by clicking the spectrogram |
 
 ### Spectrogram Panel
+
+![Spectrogram panel](screenshots/spectrogram_panel.png)
+
 - Welch power spectral density computed across the full recording
 - Configurable frequency range (default: 0–20 Hz)
 - Adjustable colorbar power limits (log10 scale)
@@ -131,6 +180,11 @@ All jumps wrap around from the last epoch to the first. The **Navigation bar** o
 - Cached computation — no recalculation when navigating epochs
 
 ### Hypnogram Panel
+
+![Hypnogram panel](screenshots/hypnogram_panel.png)
+
+Hover the **SWA slider** next to the hypnogram for an explanation of what it does.
+
 - Full-night sleep architecture timeline with color-coded stages
 - Current epoch position indicator
 - **Slow-wave activity (SWA) overlay** showing delta power across the night
@@ -138,6 +192,9 @@ All jumps wrap around from the last epoch to the first. The **Navigation bar** o
 - Event markers displayed directly on the hypnogram
 
 ### Morlet Wavelet Time-Frequency Panel
+
+![Wavelet time-frequency panel](screenshots/wavelet_panel.png)
+
 - Complex Morlet wavelet decomposition via FFT-based convolution
 - Adaptive cycle count per frequency for optimal time-frequency resolution trade-off
 - **4 normalization modes:**
@@ -152,6 +209,11 @@ All jumps wrap around from the last epoch to the first. The **Navigation bar** o
 - Choose the colormap (the original spectral map, viridis, magma or cividis) in the Wavelet tab of the configuration window; the color bar follows
 
 ### Periodogram Panel
+
+![Periodogram panel](screenshots/periodogram_panel.png)
+
+Hover the **ⓘ** icon in the top right of the panel for a short explanation of what the periodogram shows.
+
 - Welch periodogram of any user-selected EEG region
 - Draw a rectangle on the signal to compute the power spectrum of that region
 - Configurable frequency band display
@@ -170,6 +232,11 @@ All jumps wrap around from the last epoch to the first. The **Navigation bar** o
 - **Apply to all channels** checkbox to propagate settings across all channels at once
 
 ### Automatic K-Complex & Spindle Detection (MT-KCD)
+
+<p align="center">
+    <img src="screenshots/mt_kcd.png" width="49%" alt="MT-KCD window" />
+    <img src="screenshots/mt_spindle.png" width="49%" alt="MT-Spindle window" />
+</p>
 
 - One-click K-complex and spindle detection via the **MT-KCD algorithm** (multitaper-based) — accessible from the Detectors menu or `Ctrl+K`
 - Select which EEG channel to analyse and which event type to store detections in
@@ -193,6 +260,8 @@ and exported like any other scoring.
 
 #### NIDRA — ezscore-f forehead EEG (`Ctrl+N`)
 
+![Auto Score (NIDRA) Window](screenshots/NIDRA.png)
+
 - Artifact-aware **ezscore-f** classifiers for **two-channel forehead EEG** (ZMax,
   DCM, CGX PatchEEG and comparable montages), from
   [Coon et al. 2025](https://doi.org/10.1101/2025.06.02.657451), run from the
@@ -210,6 +279,8 @@ and exported like any other scoring.
 - Needs `onnxruntime` and `mne` (`uv sync --extra nidra`). See
   [NIDRA_SETUP.md](NIDRA_SETUP.md)
 
+![NIDRA summary figure: hypnodensity and hypnogram](screenshots/summary_image.png)
+
 ### Sleep Report (PDF Export)
 
 - Generate a multi-page PDF sleep report via **File → Export Report → Sleep Report**
@@ -220,9 +291,38 @@ and exported like any other scoring.
   - Sleep statistics: TST, TRT, sleep efficiency, and stage distribution (epochs scored *Inconclusive* count as neither sleep nor wake, but are part of the scored-epoch total)
   - Sleep latencies: time to first N2/N3 and REM latency
 
+<p align="center">
+    <img src="screenshots/report_options.png" width="32%" alt="Sleep report options" />
+    <img src="screenshots/report_page.png" width="60%" alt="Sleep report page" />
+</p>
+
 ### Zoom
 - Draw a rectangle on the signal and press `Z` to zoom into that region
 - Inspect fine-grained signal details at any scale
+
+![Zoom on a selected region](screenshots/zoom.png)
+
+---
+
+## Menus
+
+<table>
+  <tr>
+    <td><img src="screenshots/menu_file.png" alt="File menu" /><br /><b>File</b></td>
+    <td><img src="screenshots/menu_stages.png" alt="Stages menu" /><br /><b>Stages</b></td>
+    <td><img src="screenshots/menu_events.png" alt="Events menu" /><br /><b>Events</b></td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/menu_autoscore.png" alt="Autoscore menu" /><br /><b>Autoscore</b></td>
+    <td><img src="screenshots/menu_detectors.png" alt="Detectors menu" /><br /><b>Detectors</b></td>
+    <td><img src="screenshots/menu_utilities.png" alt="Utilities menu" /><br /><b>Utilities</b></td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/menu_compare.png" alt="Compare menu" /><br /><b>Compare</b></td>
+    <td><img src="screenshots/menu_configuration.png" alt="Configuration menu" /><br /><b>Configuration</b></td>
+    <td><img src="screenshots/menu_help.png" alt="Help menu" /><br /><b>Help</b></td>
+  </tr>
+</table>
 
 ---
 
@@ -460,7 +560,9 @@ Open the configuration window with `Ctrl+C`. Settings are saved per-file as `{fi
 - Reference amplitude line (µV)
 - Extension epoch duration for wavelet edge-artifact handling
 - Periodogram frequency limits
-- EEG panel time unit (Seconds / Minutes / Hours)
+- EEG panel time unit (Seconds / Minutes / Hours / Clock Time)
+- Recording start time (always editable; sets the clock time shown in the status bar and on the time axes)
+- Stage in EEG panel: show or hide the stage badge and set its size (drag it in the EEG panel to move it)
 
 ### Channels Tab
 
@@ -481,9 +583,20 @@ Open the configuration window with `Ctrl+C`. Settings are saved per-file as `{fi
 - Per-type delete button to remove all events of that type
 
 ### Spectrogram Tab
+
+![Configuration Window — Spectrogram Tab](screenshots/spectrogram_config.png)
+
 - Channel selection for spectrogram computation
 - Frequency display limits (Hz)
 - Colorbar power limits
+
+### Periodogram Tab
+
+![Configuration Window — Periodogram Tab](screenshots/periodogram_config.png)
+
+- Channel selection for the periodogram
+- Frequency display limits (Hz)
+- Display mode: 1/f Removed, dB or Raw Power
 
 ### Wavelet Tab
 
@@ -543,7 +656,7 @@ scoringhero.py              Main entry point and window
 ├── paint_event/            Event rectangle drawing overlay
 ├── utilities/              GUI state (refresh, redraw, zoom, navigation)
 ├── cache/                  Computed data caching
-├── style/                  QSS dark theme
+├── style/                  Modern light theme (QSS), icons, plot style
 └── help/                   Help content and images
 ```
 

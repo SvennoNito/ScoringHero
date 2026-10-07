@@ -6,12 +6,13 @@ from PySide6.QtWidgets import QLabel
 STAGE_COLORS = {
     "Wake": "#8bbf56",
     "N1": "#aabcce",
-    "N2": "#405c79",
-    "N3": "#2a4fc0",
+    "N2": "#4f9fd8",
+    "N3": "#3b3fa8",
     "REM": "#dc5050",
 }
 UNSCORED_COLOR = "#78808c"
 TEXT_COLOR = "#1f2933"
+LIGHT_TEXT = "#ffffff"
 DISAGREE_BORDER = "#c0392b"
 TINT_ALPHA = 170
 
@@ -20,6 +21,11 @@ def stage_tint(stage):
     """Translucent background colour (CSS rgba) for `stage`."""
     c = QColor(STAGE_COLORS.get(stage, UNSCORED_COLOR))
     return f"rgba({c.red()}, {c.green()}, {c.blue()}, {TINT_ALPHA})"
+
+
+def stage_text_color(stage):
+    """Text colour readable on the tint of `stage`."""
+    return LIGHT_TEXT if stage == "N3" else TEXT_COLOR
 
 
 class StageBadge(QLabel):
@@ -43,7 +49,7 @@ class StageBadge(QLabel):
         text = f"{stage} vs {comparison_stage}" if disagrees else stage
         border = DISAGREE_BORDER if disagrees else "transparent"
         self.setStyleSheet(
-            f"background: {stage_tint(stage)}; color: {TEXT_COLOR};"
+            f"background: {stage_tint(stage)}; color: {stage_text_color(stage)};"
             f"border: 2px solid {border}; border-radius: {size * 5 // 12}px;"
             f"padding: {size // 8}px {size * 7 // 12}px; font-size: {size}px; font-weight: 700;"
         )

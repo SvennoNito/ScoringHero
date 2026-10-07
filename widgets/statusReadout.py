@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QLabel, QSizePolicy, QSpinBox, QStackedWidget
 
 from style.roles import set_role
 from utilities.epoch_status import epoch_status
-from widgets.stageBadge import TEXT_COLOR, StageBadge, stage_tint
+from widgets.stageBadge import StageBadge, stage_text_color, stage_tint
 
 
 class _ClickableLabel(QLabel):
@@ -108,7 +108,7 @@ class StatusReadout:
         self.epoch.show_epoch(ui.this_epoch)
         self.stage.setText(status.stage)
         self.stage.setStyleSheet(
-            f"background: {stage_tint(status.stage)}; color: {TEXT_COLOR};"
+            f"background: {stage_tint(status.stage)}; color: {stage_text_color(status.stage)};"
             "border-radius: 4px; padding: 0 8px; font-weight: 700;"
         )
         badge = self.stage_badge

@@ -29,6 +29,8 @@ def dialogs(monkeypatch):
 @pytest.fixture
 def ui(loaded_ui):
     loaded_ui.scoring = Scoring(loaded_ui.numepo, loaded_ui.config[0]["Epoch_length_s"])
+    for slot in range(N_SLOTS):
+        loaded_ui.events.clear(slot)
     return loaded_ui
 
 

@@ -220,7 +220,7 @@ def create_hypnogram(stages, n_epochs, epoch_length_s, options, awakening_times_
     epoch_dur_h = epoch_length_s / 3600
     total_hours = n_epochs * epoch_length_s / 3600
 
-    stage_colors   = {1: '#8bbf56', 0: '#dc5050', -1: '#aabcce', -2: '#405c79', -3: '#0b1c2c'}
+    stage_colors   = {1: '#8bbf56', 0: '#dc5050', -1: '#aabcce', -2: '#4f9fd8', -3: '#3b3fa8'}
     stage_y        = {1: 4, 0: 3, -1: 2, -2: 1, -3: 0}
     hyp_colors     = options.get('hyp_colors', 'all')
     show_line      = options.get('hyp_line', False)
