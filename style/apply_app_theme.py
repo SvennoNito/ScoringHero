@@ -1,11 +1,22 @@
 import os
 
 from PySide6.QtGui import QFont, QFontDatabase
+from PySide6.QtWidgets import QDialogButtonBox, QProxyStyle, QStyle
 
 from . import theme
 
 FONT_FILES = ("Inter-Regular.ttf", "Inter-SemiBold.ttf")
 FONT_FAMILY = "Inter"
+
+
+class ThemeStyle(QProxyStyle):
+    """Fusion with one button order on every platform: Cancel left of the primary action,
+    both flush right (Qt's "Mac" button layout)."""
+
+    def styleHint(self, hint, option=None, widget=None, returnData=None):
+        if hint == QStyle.SH_DialogButtonLayout:
+            return QDialogButtonBox.ButtonLayout.MacLayout.value
+        return super().styleHint(hint, option, widget, returnData)
 
 
 def register_app_font(app):
@@ -20,7 +31,7 @@ def register_app_font(app):
 
 def apply_app_theme(MainWindow, app, app_path, stylesheet):
 
-    app.setStyle("Fusion")
+    app.setStyle(ThemeStyle("Fusion"))
     register_app_font(app)
     with open(os.path.join(app_path, "style", stylesheet), "r") as file:
         stylesheet = file.read()

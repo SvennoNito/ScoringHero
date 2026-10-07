@@ -77,7 +77,7 @@ Open an EEG file (EEGLAB .mat, EDF, etc.) in ScoringHero.
 
 ### 2. Run Spindle Detection
 
-**Menu:** Utilities → Spindle Detection (SUMO)  
+**Menu:** Detectors → Spindle Detection (SUMO)  
 **Keyboard shortcut:** Ctrl+Shift+S
 
 ### 3. Configure Settings

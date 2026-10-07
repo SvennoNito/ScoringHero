@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QLabel, QSizePolicy, QSpinBox, QStackedWidget
 
 from style.roles import set_role
 from utilities.epoch_status import epoch_status
+from widgets.stageBadge import StageBadge
 
 
 class _ClickableLabel(QLabel):
@@ -84,19 +85,19 @@ class EpochReadout(QStackedWidget):
 
 
 class StatusReadout:
-    """Fills the status bar: epoch, stage, comparison stage, confidence and clock time on
-    the left; recording name and scoring state on the right."""
+    """Fills the status bar: epoch, comparison stage, confidence and clock time on the
+    left; recording name and scoring state on the right. The stage is shown by a large
+    StageBadge over the signal panel."""
 
-    def __init__(self, statusbar):
+    def __init__(self, statusbar, signal_panel):
         self.epoch = EpochReadout()
-        self.stage = QLabel()
-        set_role(self.stage, "info")
+        self.stage_badge = StageBadge(signal_panel)
         self.comparison = QLabel()
         self.confidence = QLabel()
         self.clock = QLabel()
         self.state = QLabel()
         self.file = QLabel()
-        for widget in (self.epoch, self.stage, self.comparison, self.confidence, self.clock):
+        for widget in (self.epoch, self.comparison, self.confidence, self.clock):
             statusbar.addWidget(widget)
         statusbar.addPermanentWidget(self.state)
         statusbar.addPermanentWidget(self.file)
@@ -104,7 +105,7 @@ class StatusReadout:
     def update(self, ui):
         status = epoch_status(ui)
         self.epoch.show_epoch(ui.this_epoch)
-        self.stage.setText(status.stage)
+        self.stage_badge.show_stage(status.stage, status.comparison_stage, status.disagrees)
         self.comparison.setText(status.comparison or "")
         self.comparison.setVisible(status.comparison is not None)
         set_role(self.comparison, "error" if status.disagrees else None)

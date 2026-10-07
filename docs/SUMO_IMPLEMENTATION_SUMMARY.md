@@ -72,7 +72,7 @@ The model (310 KB checkpoint) is auto-cached on first use.
 ### 2. In ScoringHero
 
 1. **Load EEG data** (any format: .mat, .edf, etc.)
-2. **Open detector**: Menu → Utilities → **Spindle Detection (SUMO)** [Ctrl+Shift+S]
+2. **Open detector**: Menu → Detectors → **Spindle Detection (SUMO)** [Ctrl+Shift+S]
 3. **Configure**:
    - Select EEG channel (Cz, C3, C4, etc.)
    - Choose event marker (F1–F12, default F2)
@@ -111,7 +111,7 @@ The model (310 KB checkpoint) is auto-cached on first use.
 ## System Integration
 
 ### Menu
-- Location: Utilities menu (next to K-Complex Detection)
+- Location: Detectors menu (next to K-Complex Detection)
 - Shortcut: Ctrl+Shift+S
 - Wired in: `ui/setup_ui.py`
 

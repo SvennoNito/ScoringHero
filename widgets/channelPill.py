@@ -7,7 +7,7 @@ from style import theme
 
 class ChannelPill(QGraphicsItem):
     """A channel name in a small rounded, semi-opaque label inside a plot, so it never
-    fights with the trace or image behind it. At most `max_fraction` (a quarter) of the plot widget wide:
+    fights with the trace or image behind it. At most `max_fraction` (default a quarter) of the plot widget wide:
     longer names are elided in the middle (suffixes like '-A2' or '*' stay visible) and
     the tooltip then carries the full name.
 

@@ -1,4 +1,4 @@
-"""Status bar: epoch, stage, confidence, clock time, file name and scoring state."""
+"""Status bar (epoch, confidence, clock time, file name, scoring state) and the stage badge."""
 
 import pytest
 from PySide6.QtCore import Qt
@@ -29,20 +29,25 @@ def ui(loaded_ui, monkeypatch):
     return loaded_ui
 
 
-def test_status_bar_shows_epoch_stage_confidence_and_clock_time(ui):
+def test_status_bar_shows_epoch_confidence_and_clock_time_and_badge_shows_stage(ui):
     _jump(ui, 3)
     text = _status_text(ui)
     assert f"Epoch 4 / {ui.numepo}" in text
-    assert "N2" in text
     assert "Confidence 85%" in text
     assert "23:01:30" in text  # epoch 4 starts 3 x 30 s after 23:00:00
+    assert ui.StatusReadout.stage_badge.text() == "N2"
 
 
-def test_status_bar_shows_unscored_epochs_and_not_sure_epochs(ui):
+def test_stage_badge_shows_unscored_not_sure_and_comparison_disagreement(ui):
     _jump(ui, 0)
-    assert "Unscored" in _status_text(ui)
+    assert ui.StatusReadout.stage_badge.text() == "Unscored"
     _jump(ui, 5)
-    assert "REM" in _status_text(ui) and "Not sure" in _status_text(ui)
+    assert ui.StatusReadout.stage_badge.text() == "REM" and "Not sure" in _status_text(ui)
+    ui.scoring_comparison = Scoring(ui.numepo, ui.config[0]["Epoch_length_s"])
+    ui.scoring_comparison.set(3, "N3")
+    ui.comparison_name = "other"
+    _jump(ui, 3)
+    assert ui.StatusReadout.stage_badge.text() == "N2 vs N3"
 
 
 def test_status_bar_shows_recording_name_and_comparison(ui):
