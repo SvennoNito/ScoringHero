@@ -7,6 +7,7 @@ import pytest
 
 import event_detection.run_detector_gui as gui
 from event_detection.run_detector import DetectorSpec, DetectorUnavailable, events_in_stages
+from scoring_model.events import N_SLOTS
 from scoring_model.scoring import Scoring
 
 
@@ -38,7 +39,7 @@ def make_spec(detect):
 def settings_for(ui, **extra):
     return {
         "channel": ui.config[1][1]["Channel_name"],
-        "marker": ui.AnnotationContainer[0].label,
+        "marker": ui.events.label(0),
         **extra,
     }
 
@@ -81,7 +82,7 @@ def test_unknown_channel_shows_error_and_adds_no_events(ui, dialogs):
     assert not gui.run_event_detector(ui, spec, settings_for(ui, channel="nope"))
     assert not called
     assert dialogs.errors and dialogs.errors[0][0] == "Fake Error"
-    assert ui.AnnotationContainer[0].borders == []
+    assert ui.events.spans(0) == []
 
 
 def test_stage_filter_keeps_only_events_in_chosen_stages(ui, dialogs):
@@ -89,22 +90,22 @@ def test_stage_filter_keeps_only_events_in_chosen_stages(ui, dialogs):
     ui.scoring.set([1], ["Wake"])
     spec = make_spec(lambda signal, sfreq: [[1, 5], [31, 35]])
     assert gui.run_event_detector(ui, spec, settings_for(ui, filter_stages=["N2"]))
-    assert ui.AnnotationContainer[0].borders == [[1, 5]]
+    assert ui.events.spans(0) == [[1, 5]]
 
 
 def test_no_chosen_stages_keeps_all_events(ui, dialogs):
     spec = make_spec(lambda signal, sfreq: [[1, 5], [31, 35]])
     assert gui.run_event_detector(ui, spec, settings_for(ui, filter_stages=[]))
-    assert ui.AnnotationContainer[0].borders == [[1, 5], [31, 35]]
+    assert ui.events.spans(0) == [[1, 5], [31, 35]]
 
 
 def test_events_land_in_chosen_container_and_are_saved(ui, dialogs):
-    container = ui.AnnotationContainer[-1]
+    last = N_SLOTS - 1
     spec = make_spec(lambda signal, sfreq: [[2, 4]])
-    assert gui.run_event_detector(ui, spec, settings_for(ui, marker=container.label))
-    assert container.borders == [[2, 4]]
+    assert gui.run_event_detector(ui, spec, settings_for(ui, marker=ui.events.label(last)))
+    assert ui.events.spans(last) == [[2, 4]]
     assert saved_starts(ui) == [2]
-    assert all(c.borders == [] for c in ui.AnnotationContainer[:-1])
+    assert all(ui.events.count(slot) == 0 for slot in range(last))
 
 
 def test_detector_exception_shows_error_without_crashing(ui, dialogs):

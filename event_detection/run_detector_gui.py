@@ -3,9 +3,8 @@ import traceback
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import QApplication, QMessageBox, QProgressDialog
 
-from events.add_events_to_container import add_events_to_container
 from event_detection.run_detector import DetectorUnavailable, run_detector
-from scoring.write_scoring import write_scoring
+from scoring_model.events import N_SLOTS
 from utilities.refresh_gui import refresh_gui
 
 
@@ -31,13 +30,14 @@ def run_event_detector(ui, spec, settings):
             float(ui.config[0]["Sampling_rate_hz"]),
             ui.scoring,
         )
-        container = next(c for c in ui.AnnotationContainer if c.label == settings["marker"])
-        add_events_to_container(ui, events_sec, container)
+        labels = [ui.events.label(slot) for slot in range(N_SLOTS)]
+        slot = labels.index(settings["marker"])
+        ui.edit_events(lambda events: events.add(slot, events_sec))
 
         progress.setLabelText(f"Done — {len(events_sec)} {spec.noun}(s) detected.")
         QApplication.processEvents()
 
-        write_scoring(ui)
+        ui.save_scoring()
         ui.HypnogramWidget.draw_hypnogram(ui)
         refresh_gui(ui)
 

@@ -20,8 +20,7 @@ def ui(loaded_ui, monkeypatch):
     n, length = loaded_ui.numepo, loaded_ui.config[0]["Epoch_length_s"]
     loaded_ui.scoring = Scoring(n, length)
     loaded_ui.scoring_comparison = None
-    monkeypatch.setattr("utilities.score_stage.write_scoring", lambda ui: None)
-    monkeypatch.setattr("utilities.score_not_sure.write_scoring", lambda ui: None)
+    monkeypatch.setattr(loaded_ui, "save_scoring", lambda: None)
     return loaded_ui
 
 

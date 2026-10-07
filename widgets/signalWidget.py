@@ -49,7 +49,18 @@ class SignalWidget(QWidget):
         self.penCustomDash.setDashPattern([10, 30])  # Example: 10 pixels dash, 5 pixels gap
 
         self._center_line = None
+        self.event_boxes = []
 
+    def draw_events(self, events, this_epoch):
+        """Draw a box for every event of `events` that overlaps the 0-based epoch."""
+        for box in self.event_boxes:
+            self.axes.removeItem(box)
+        self.event_boxes = []
+        for slot, start, end in events.events_in_epoch(this_epoch):
+            box = pg.LinearRegionItem(brush=events.colour(slot), pen=pg.mkPen(color=(0, 0, 0), width=3))
+            box.setRegion([start, end])
+            self.axes.addItem(box)
+            self.event_boxes.append(box)
 
     def _overlay_pen(self, config, visible_counter):
         base_color = self.channelColorPalette[config[1][visible_counter]["Channel_color"]]

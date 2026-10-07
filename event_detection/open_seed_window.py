@@ -9,6 +9,7 @@ from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QMessageBox
 
 from widgets import SeedWindow
+from scoring_model.events import N_SLOTS
 from event_detection.run_detector import DetectorSpec
 from event_detection.run_detector_gui import run_event_detector
 
@@ -46,7 +47,7 @@ def open_seed_window(ui):
         return
 
     channel_labels    = [ch["Channel_name"] for ch in ui.config[1]]
-    annotation_labels = [c.label for c in ui.AnnotationContainer]
+    annotation_labels = [ui.events.label(slot) for slot in range(N_SLOTS)]
     saved             = _load_seed_settings(ui)
 
     ui.SeedWindow = SeedWindow(channel_labels, annotation_labels, saved)

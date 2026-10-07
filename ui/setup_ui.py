@@ -19,7 +19,6 @@ from mouse_click.click_on_spectogram import click_on_spectogram
 from mouse_click.move_swa_slider import move_swa_slider
 from paint_event.paint_event_handler import paint_event_handler
 from utilities.zoom_on_selected_eeg import zoom_on_selected_eeg
-from events.event_handler import event_handler
 from utilities.score_not_sure import score_not_sure
 from config.open_config_window import open_config_window
 from filter.open_filter_window import open_filter_window
@@ -37,9 +36,8 @@ from utilities.overlay_state import toggle_show_overlay, set_analysis_source
 # from autoscoring.score_yasa import score_yasa
 from eeg.eeg_import_window import eeg_import_window
 from help.open_help_selection_box import open_help_selection_box
-from events.event_deletion import rebuild_event_epochs, refresh_after_event_deletion
-from events.clip_borders import clip_borders
-from events.erase_events_in_rectangles import erase_events_in_rectangles
+from paint_event.rectangle_events import event_hotkey, erase_events_in_rectangles
+from scoring_model.events import N_SLOTS
 from export.export_sleep_report import export_sleep_report
 from functools import partial
 
@@ -66,10 +64,6 @@ def setup_ui(ui, MainWindow):
     ui.RectanglePower = RectanglePower(ui.centralwidget)
     ui.PaintEventWidget = PaintEventWidget()
     ui.TFWidget = TFWidget(ui.centralwidget, ui.app_path)
-    ui.AnnotationContainer = [
-        AnnotationContainer(colorindex=counter, label=f"F{counter}")
-        for counter in range(10)
-    ]
 
     # Make widgets react to mouse click
     ui.SpectogramWidget.graphics.scene().sigMouseClicked.connect(
@@ -249,7 +243,7 @@ def setup_ui(ui, MainWindow):
     ui.action_artefact = QAction("Artefact", MainWindow)
     ui.action_artefact.setObjectName("action_artefact")
     ui.action_artefact.triggered.connect(
-        partial(event_handler, box_index=0, ui=ui)
+        partial(event_hotkey, box_index=0, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_artefact)
     ui.menu_labels.addSeparator()
@@ -257,73 +251,73 @@ def setup_ui(ui, MainWindow):
     ui.action_F1 = QAction("Event 1", MainWindow)
     ui.action_F1.setObjectName("action_F1")
     ui.action_F1.triggered.connect(
-        partial(event_handler, box_index=1, ui=ui)
+        partial(event_hotkey, box_index=1, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F1)
     ui.action_F2 = QAction("Event 2", MainWindow)
     ui.action_F2.setObjectName("action_F2")
     ui.action_F2.triggered.connect(
-        partial(event_handler, box_index=2, ui=ui)
+        partial(event_hotkey, box_index=2, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F2)
     ui.action_F3 = QAction("Event 3", MainWindow)
     ui.action_F3.setObjectName("action_F3")
     ui.action_F3.triggered.connect(
-        partial(event_handler, box_index=3, ui=ui)
+        partial(event_hotkey, box_index=3, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F3)
     ui.action_F4 = QAction("Event 4", MainWindow)
     ui.action_F4.setObjectName("action_F4")
     ui.action_F4.triggered.connect(
-        partial(event_handler, box_index=4, ui=ui)
+        partial(event_hotkey, box_index=4, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F4)
     ui.action_F5 = QAction("Event 5", MainWindow)
     ui.action_F5.setObjectName("action_F5")
     ui.action_F5.triggered.connect(
-        partial(event_handler, box_index=5, ui=ui)
+        partial(event_hotkey, box_index=5, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F5)
     ui.action_F6 = QAction("Event 6", MainWindow)
     ui.action_F6.setObjectName("action_F6")
     ui.action_F6.triggered.connect(
-        partial(event_handler, box_index=6, ui=ui)
+        partial(event_hotkey, box_index=6, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F6)
     ui.action_F7 = QAction("Event 7", MainWindow)
     ui.action_F7.setObjectName("action_F7")
     ui.action_F7.triggered.connect(
-        partial(event_handler, box_index=7, ui=ui)
+        partial(event_hotkey, box_index=7, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F7)
     ui.action_F8 = QAction("Event 8", MainWindow)
     ui.action_F8.setObjectName("action_F8")
     ui.action_F8.triggered.connect(
-        partial(event_handler, box_index=8, ui=ui)
+        partial(event_hotkey, box_index=8, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F8)
     ui.action_F9 = QAction("Event 9", MainWindow)
     ui.action_F9.setObjectName("action_F9")
     ui.action_F9.triggered.connect(
-        partial(event_handler, box_index=9, ui=ui)
+        partial(event_hotkey, box_index=9, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F9)
     ui.action_F10 = QAction("Event 10", MainWindow)
     ui.action_F10.setObjectName("action_F10")
     ui.action_F10.triggered.connect(
-        partial(event_handler, box_index=10, ui=ui)
+        partial(event_hotkey, box_index=10, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F10)
     ui.action_F11 = QAction("Event 11", MainWindow)
     ui.action_F11.setObjectName("action_F11")
     ui.action_F11.triggered.connect(
-        partial(event_handler, box_index=11, ui=ui)
+        partial(event_hotkey, box_index=11, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F11)
     ui.action_F12 = QAction("Event 12", MainWindow)
     ui.action_F12.setObjectName("action_F12")
     ui.action_F12.triggered.connect(
-        partial(event_handler, box_index=12, ui=ui)
+        partial(event_hotkey, box_index=12, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F12)
 
@@ -570,10 +564,7 @@ def _delete_all_events(ui):
     msg.exec()
 
     if msg.clickedButton() is btn_delete:
-        for container in ui.AnnotationContainer:
-            container.borders.clear()
-            rebuild_event_epochs(ui, container)
-        refresh_after_event_deletion(ui)
+        ui.edit_events(lambda events: [events.clear(slot) for slot in range(N_SLOTS)])
     elif msg.clickedButton() is btn_epoch:
         _delete_events_in_current_epoch(ui)
     elif msg.clickedButton() is btn_specific:
@@ -582,12 +573,5 @@ def _delete_all_events(ui):
 
 
 def _delete_events_in_current_epoch(ui):
-    epoch_length = ui.config[0]["Epoch_length_s"]
-    e_start = ui.this_epoch * epoch_length
-    e_end = (ui.this_epoch + 1) * epoch_length
-
-    for container in ui.AnnotationContainer:
-        container.borders = clip_borders(container.borders, [(e_start, e_end)])
-        rebuild_event_epochs(ui, container)
-
-    refresh_after_event_deletion(ui)
+    length = ui.config[0]["Epoch_length_s"]
+    ui.edit_events(lambda events: events.erase([(ui.this_epoch * length, (ui.this_epoch + 1) * length)]))

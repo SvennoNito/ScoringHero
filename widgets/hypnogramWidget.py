@@ -6,6 +6,7 @@ import numpy as np
 from utilities.clock_time_format import parse_start_time, format_clock_time
 from signal_processing import *
 from scoring_model.scoring import disagreements
+from scoring_model.events import N_SLOTS
 
 COMPARISON_TITLE = (
     '<span style="color:black;">Primary scoring</span>'
@@ -105,14 +106,14 @@ class HypnogramWidget(QWidget):
 
     def draw_events(self, ui):
         times = np.repeat(self.times, 2)
-        for container in ui.AnnotationContainer:
-            epochs = np.unique(np.concatenate(container.epochs)).astype(int) - 1 if container.epochs else np.array([], dtype=int)
-            if len(epochs) > 0:
+        for slot in range(N_SLOTS):
+            epochs = sorted(ui.events.covered_epochs(slot))
+            if epochs:
                 data = np.zeros(ui.numepo)
                 data[:] = np.nan
                 data[epochs] = 2
                 data = np.concatenate(np.column_stack((data, data - 1)))
-                pen = pg.mkPen(color=container.facecolor[0:3], width=2)
+                pen = pg.mkPen(color=ui.events.colour(slot)[0:3], width=2)
                 item = pg.PlotDataItem(times, data, pen=pen)
                 self.axes.addItem(item)
                 self.event_items.append(item)

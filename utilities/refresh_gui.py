@@ -1,5 +1,4 @@
 from signal_processing.compute_epoch_periodogram import compute_epoch_periodogram
-from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 from utilities.tf_config_helper import call_tf_widget
 from utilities.overlay_state import get_overlay_signal_for_display
 
@@ -34,8 +33,7 @@ def refresh_gui(ui):
     call_tf_widget(ui)
 
     # Draw annotations
-    for container in ui.AnnotationContainer:
-        draw_event_in_this_epoch(ui, container)
+    ui.SignalWidget.draw_events(ui.events, ui.this_epoch)
 
     # Update export menu state based on scoring
     _update_export_menu_state(ui)

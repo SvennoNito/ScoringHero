@@ -1,5 +1,4 @@
 from scoring_model.scoring import HUMAN
-from scoring.write_scoring import write_scoring
 
 
 def score_not_sure(ui):
@@ -15,7 +14,7 @@ def score_not_sure(ui):
         ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
     )
 
-    write_scoring(ui)
+    ui.save_scoring()
 
 
 def change_value(value):

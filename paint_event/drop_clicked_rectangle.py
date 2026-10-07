@@ -1,5 +1,4 @@
-from events.drop_event import drop_event
-from events.relabel_event import relabel_event
+from .rectangle_events import drop_or_relabel
 
 
 def drop_clicked_rectangle(ui, converted_corners, rectangle_sizes):
@@ -21,11 +20,7 @@ def drop_clicked_rectangle(ui, converted_corners, rectangle_sizes):
                 rectangle_sizes.pop(index)
                 converted_corners.pop(index)
 
-        held_key = getattr(ui, 'held_event_key', None)
-        if held_key is not None and relabel_event(ui, converted_corners[-1], held_key):
-            ui.relabeled_event = True
-        else:
-            drop_event(ui, converted_corners[-1])
+        drop_or_relabel(ui, converted_corners[-1][0].x())
 
         # Drop zero size rectangle
         ui.PaintEventWidget.stored_corners.pop(-1)
