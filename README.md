@@ -37,6 +37,12 @@ Welcome to **ScoringHero**, an open-source project designed to assist you in EEG
 
 No installation is required. Simply go to the [**Releases**](https://github.com/SvennoNito/ScoringHero/releases) section on the right of this page, download the appropriate file for your operating system, and execute the file to start **ScoringHero**.
 
+### Code Signing Policy
+
+Free code signing provided by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
+
+- **Privacy policy:** ScoringHero runs entirely locally. It does not collect or transmit any user data.
+
 ### For Mac Users
 
 **ScoringHero** is not registered with Apple (as this would imply a yearly fee). This means you need to manually allow its execution. Follow these steps to run the software:
