@@ -73,6 +73,8 @@ def _ask_selective_stages(parent=None):
     dialog = QDialog(parent)
     dialog.setWindowTitle("Select stages to overwrite")
     layout = QVBoxLayout(dialog)
+    layout.setContentsMargins(16, 16, 16, 16)
+    layout.setSpacing(10)
     layout.addWidget(QLabel("Overwrite epochs currently scored as:"))
 
     checkboxes = {}

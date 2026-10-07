@@ -5,7 +5,7 @@ import os
 
 import numpy as np
 
-SPECTROGRAM_COLORMAPS = ("cividis", "viridis", "magma")
+SPECTROGRAM_COLORMAPS = ("cividis", "viridis", "magma", "spectral")
 WAVELET_COLORMAPS = ("spectral", "viridis", "magma", "cividis")
 
 

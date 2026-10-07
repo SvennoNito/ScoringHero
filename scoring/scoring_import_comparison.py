@@ -12,6 +12,8 @@ class _FormatDialog(QDialog):
         super().__init__(parent)
         self.setWindowTitle("Select Comparison Scoring Format")
         layout = QVBoxLayout()
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(10)
         layout.addWidget(QLabel("Select the format of the comparison scoring file:"))
 
         row = QHBoxLayout()
@@ -22,12 +24,14 @@ class _FormatDialog(QDialog):
         layout.addLayout(row)
 
         btn_row = QHBoxLayout()
+        btn_row.addStretch(1)
         ok_btn = QPushButton("OK")
+        ok_btn.setDefault(True)
         cancel_btn = QPushButton("Cancel")
         ok_btn.clicked.connect(self.accept)
         cancel_btn.clicked.connect(self.reject)
-        btn_row.addWidget(ok_btn)
         btn_row.addWidget(cancel_btn)
+        btn_row.addWidget(ok_btn)
         layout.addLayout(btn_row)
 
         self.setLayout(layout)

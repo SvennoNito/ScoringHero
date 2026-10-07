@@ -52,6 +52,8 @@ class MtKcdWindow(QDialog):
         self.resize(440, 580)
 
         layout = QVBoxLayout(self)
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(10)
 
         # --- EEG channel ---
         ch_group = QGroupBox("EEG channel:")

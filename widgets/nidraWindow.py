@@ -79,12 +79,16 @@ class NidraWindow(QDialog):
         self._channel_labels = list(channel_labels)
 
         outer = QVBoxLayout(self)
+        outer.setContentsMargins(16, 16, 16, 16)
+        outer.setSpacing(10)
 
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         scroll.setFrameShape(QScrollArea.NoFrame)
         body = QWidget()
         layout = QVBoxLayout(body)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(10)
         scroll.setWidget(body)
         outer.addWidget(scroll)
 

@@ -16,6 +16,8 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Signal
 
+from style.roles import set_role
+
 
 class SeedWindow(QDialog):
     settingsAccepted = Signal(dict)
@@ -27,6 +29,8 @@ class SeedWindow(QDialog):
         saved_paths = saved_paths or {}
 
         layout = QVBoxLayout(self)
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(10)
 
         # --- EEG channel ---
         ch_group = QGroupBox("EEG channel:")
@@ -102,7 +106,7 @@ class SeedWindow(QDialog):
             "TensorFlow 1.15 — it cannot run inside ScoringHero's own environment."
         )
         note.setWordWrap(True)
-        note.setStyleSheet("color: gray; font-size: 11px;")
+        set_role(note, "note")
         layout.addWidget(note)
 
         # --- OK / Cancel ---

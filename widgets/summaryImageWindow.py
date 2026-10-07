@@ -1,3 +1,4 @@
+from style.roles import set_role
 from PySide6.QtWidgets import (
     QDialog,
     QVBoxLayout,
@@ -33,6 +34,8 @@ class SummaryImageWindow(QDialog):
         self._save_name = save_name
 
         layout = QVBoxLayout(self)
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(10)
 
         self._scroll = QScrollArea()
         self._scroll.setWidgetResizable(True)
@@ -45,17 +48,18 @@ class SummaryImageWindow(QDialog):
         if caption:
             caption_label = QLabel(caption)
             caption_label.setWordWrap(True)
-            caption_label.setStyleSheet("color: gray; font-size: 11px;")
+            set_role(caption_label, "note")
             layout.addWidget(caption_label)
 
         button_row = QHBoxLayout()
         button_row.addStretch(1)
-        save_button = QPushButton("Save figure as...")
-        save_button.clicked.connect(lambda: self._save(image_path))
         close_button = QPushButton("Close")
         close_button.clicked.connect(self.accept)
-        button_row.addWidget(save_button)
+        save_button = QPushButton("Save figure as...")
+        save_button.setDefault(True)
+        save_button.clicked.connect(lambda: self._save(image_path))
         button_row.addWidget(close_button)
+        button_row.addWidget(save_button)
         layout.addLayout(button_row)
 
         self.resize(1100, 620)

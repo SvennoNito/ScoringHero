@@ -19,6 +19,8 @@ class EpochEventImportDialog(QDialog):
         self.setWindowTitle("Import Per-Epoch Event Column")
 
         layout = QVBoxLayout()
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(10)
 
         layout.addWidget(QLabel(
             "The file contains a per-epoch event column (second column).\n"
@@ -34,12 +36,14 @@ class EpochEventImportDialog(QDialog):
         layout.addLayout(combo_layout)
 
         btn_layout = QHBoxLayout()
+        btn_layout.addStretch(1)
         import_btn = QPushButton("Import")
+        import_btn.setDefault(True)
         skip_btn = QPushButton("Skip")
         import_btn.clicked.connect(self.accept)
         skip_btn.clicked.connect(self.reject)
-        btn_layout.addWidget(import_btn)
         btn_layout.addWidget(skip_btn)
+        btn_layout.addWidget(import_btn)
         layout.addLayout(btn_layout)
 
         self.setLayout(layout)
@@ -58,6 +62,8 @@ class SleeptripEventMappingDialog(QDialog):
         self.setWindowTitle("Map SleepTrip Events to ScoringHero Format")
 
         outer_layout = QVBoxLayout()
+        outer_layout.setContentsMargins(16, 16, 16, 16)
+        outer_layout.setSpacing(10)
         outer_layout.addWidget(QLabel(
             "Assign each event type to a ScoringHero event slot\n"
             "(or 'Skip' to ignore it):"
@@ -89,12 +95,14 @@ class SleeptripEventMappingDialog(QDialog):
         outer_layout.addWidget(scroll)
 
         btn_layout = QHBoxLayout()
+        btn_layout.addStretch(1)
         import_btn = QPushButton("Import")
+        import_btn.setDefault(True)
         cancel_btn = QPushButton("Cancel")
         import_btn.clicked.connect(self.accept)
         cancel_btn.clicked.connect(self.reject)
-        btn_layout.addWidget(import_btn)
         btn_layout.addWidget(cancel_btn)
+        btn_layout.addWidget(import_btn)
         outer_layout.addLayout(btn_layout)
 
         self.setLayout(outer_layout)

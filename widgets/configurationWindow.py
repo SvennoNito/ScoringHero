@@ -28,6 +28,11 @@ from style.colormaps import SPECTROGRAM_COLORMAPS, WAVELET_COLORMAPS
 from style.roles import set_role
 
 
+def _label_width(widget):
+    """Width of the right-aligned label column, from the longest label at the current font/DPI."""
+    return widget.fontMetrics().horizontalAdvance("Vertical distance between channels") + 8
+
+
 def _colormap_row(page, general_config, key, colormaps):
     """Label + drop-down choosing the colormap stored under `key` (the page's apply_changes saves it)."""
     label = QLabel("Colormap")
@@ -60,6 +65,8 @@ class ConfigurationWindow(QDialog):
         self.pending = copy.deepcopy(config[0])
 
         self.layout = QVBoxLayout(self)
+        self.layout.setContentsMargins(16, 16, 16, 16)
+        self.layout.setSpacing(10)
         self.tabs = QTabWidget()
         self.layout.addWidget(self.tabs)
 
@@ -75,7 +82,7 @@ class ConfigurationWindow(QDialog):
             page.changesMade.connect(self._update_apply_state)
 
         self.apply_button = QPushButton("Apply")
-        self.apply_button.setFixedWidth(100)
+        self.apply_button.setDefault(True)
         self.apply_button.setEnabled(False)
         self.apply_button.clicked.connect(self.apply_pending)
         button_row = QHBoxLayout()
@@ -185,6 +192,8 @@ class EventConfiguration(QDialog):
         self.count_labels = []
         self.dur_labels = []
         layout = QVBoxLayout(self)
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(10)
         self.label = []
         self.remove_buttons = []
 
@@ -222,7 +231,7 @@ class EventConfiguration(QDialog):
 
             # Label
             labelbox = QLineEdit(events.label(count))
-            labelbox.setAlignment(Qt.AlignRight)
+            labelbox.setAlignment(Qt.AlignLeft)
             labelbox.textChanged.connect(lambda text, slot=count: self.labelEdited.emit(slot, text))
 
             # Color swatch
@@ -288,8 +297,10 @@ class GeneralConfiguration(QDialog):
     def __init__(self, general_config, allow_staging, channel_labels=None, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout(self)
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(10)
         form_layout = QFormLayout()
-        self.width_label = 200
+        self.width_label = _label_width(self)
         self.spinboxes = {}
         self.optionboxes = {}
         self.checkboxes = {}
@@ -412,6 +423,7 @@ class GeneralConfiguration(QDialog):
 
         # Final layout
         layout.addLayout(form_layout)
+        layout.addStretch(1)
 
 
 
@@ -467,7 +479,9 @@ class SpectrogramConfiguration(QDialog):
     def __init__(self, general_config, channel_labels=None, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout(self)
-        self.width_label = 200
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(10)
+        self.width_label = _label_width(self)
         self.spinboxes = {}
         self.optionboxes = {}
 
@@ -478,6 +492,7 @@ class SpectrogramConfiguration(QDialog):
             "at the top left. Configure spectrogram parameters here." \
         )
         description.setWordWrap(True)
+        set_role(description, "note")
         layout.addWidget(description)
 
         form_layout = QFormLayout()
@@ -575,7 +590,9 @@ class PeriodogramConfiguration(QDialog):
     def __init__(self, general_config, channel_labels=None, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout(self)
-        self.width_label = 200
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(10)
+        self.width_label = _label_width(self)
         self.spinboxes = {}
         self.optionboxes = {}
 
@@ -587,6 +604,7 @@ class PeriodogramConfiguration(QDialog):
             "Configure periodogram parameters here."
         )
         description.setWordWrap(True)
+        set_role(description, "note")
         layout.addWidget(description)
 
         form_layout = QFormLayout()
@@ -678,7 +696,9 @@ class WaveletConfiguration(QDialog):
     def __init__(self, general_config, channel_labels=None, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout(self)
-        self.width_label = 200
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(10)
+        self.width_label = _label_width(self)
         self.spinboxes = {}
         self.optionboxes = {}
         self.checkboxes = {}
@@ -691,6 +711,7 @@ class WaveletConfiguration(QDialog):
             "decomposition parameters here." \
         )
         description.setWordWrap(True)
+        set_role(description, "note")
         layout.addWidget(description)
 
         form_layout = QFormLayout()
@@ -787,6 +808,8 @@ class WaveletConfiguration(QDialog):
         row_layout.addWidget(self._power_max_spin)
         form_layout.addRow(row_layout)
 
+        form_layout.addRow(_colormap_row(self, general_config, "Wavelet_colormap", WAVELET_COLORMAPS))
+
         # Connect normalization dropdown after power spinboxes are created
         self._norm_box = norm_box
         norm_box.currentIndexChanged.connect(lambda: self._on_norm_changed(general_config))
@@ -823,8 +846,6 @@ class WaveletConfiguration(QDialog):
         row_layout.addWidget(ridge_label)
         row_layout.addWidget(ridge_checkbox)
         form_layout.addRow(row_layout)
-
-        form_layout.addRow(_colormap_row(self, general_config, "Wavelet_colormap", WAVELET_COLORMAPS))
 
         layout.addLayout(form_layout)
         layout.addStretch(1)
@@ -906,6 +927,8 @@ class ChannelConfiguration(QDialog):
         self.general_config = general_config
         self.channel_config = channel_config
         layout = QVBoxLayout(self)
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(10)
         self.scale = []
         self.display = []
         self.color = []
@@ -944,7 +967,9 @@ class ChannelConfiguration(QDialog):
         layout.addLayout(top_checkbox_layout)
 
         # Channel name width
-        channel_name_widget_width = max(len(chaninfo["Channel_name"]) for chaninfo in channel_config) * 8 + 10
+        channel_name_widget_width = max(
+            self.fontMetrics().horizontalAdvance(chaninfo["Channel_name"]) for chaninfo in channel_config
+        ) + 24
         channel_number_widget_width = len(str(len(channel_config))) * 6 * 2
 
         # All channel names (for re-reference dropdown)
@@ -1330,6 +1355,8 @@ class ChannelConfiguration(QDialog):
         dialog = QDialog(self)
         dialog.setWindowTitle("Add Re-referenced Channel")
         dlayout = QVBoxLayout(dialog)
+        dlayout.setContentsMargins(16, 16, 16, 16)
+        dlayout.setSpacing(10)
 
         desc = QLabel("Create a new channel as:  Channel A \u2212 Channel B")
         dlayout.addWidget(desc)
@@ -1348,12 +1375,13 @@ class ChannelConfiguration(QDialog):
 
         btn_layout = QHBoxLayout()
         ok_btn = QPushButton("Add Channel")
+        ok_btn.setDefault(True)
         cancel_btn = QPushButton("Cancel")
         ok_btn.clicked.connect(dialog.accept)
         cancel_btn.clicked.connect(dialog.reject)
-        btn_layout.addStretch()
-        btn_layout.addWidget(ok_btn)
+        btn_layout.addStretch(1)
         btn_layout.addWidget(cancel_btn)
+        btn_layout.addWidget(ok_btn)
         dlayout.addLayout(btn_layout)
 
         if dialog.exec() == QDialog.Accepted:

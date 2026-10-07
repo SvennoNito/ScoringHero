@@ -1,6 +1,6 @@
 import numpy as np
 from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QLabel, QPushButton,
+    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,
     QTableWidget, QTableWidgetItem, QHeaderView,
 )
 from PySide6.QtCore import Qt
@@ -51,7 +51,8 @@ def comparison_stats_window(ui):
     dialog.resize(520, 420)
 
     layout = QVBoxLayout()
-    layout.setSpacing(8)
+    layout.setContentsMargins(16, 16, 16, 16)
+    layout.setSpacing(10)
 
     layout.addWidget(QLabel(f"<b>Epochs compared:</b> {n}"))
     layout.addWidget(QLabel(
@@ -92,8 +93,12 @@ def comparison_stats_window(ui):
     layout.addWidget(table)
 
     close_btn = QPushButton("Close")
+    close_btn.setDefault(True)
     close_btn.clicked.connect(dialog.accept)
-    layout.addWidget(close_btn)
+    btn_row = QHBoxLayout()
+    btn_row.addStretch(1)
+    btn_row.addWidget(close_btn)
+    layout.addLayout(btn_row)
 
     dialog.setLayout(layout)
     dialog.exec()

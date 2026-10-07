@@ -31,6 +31,8 @@ class FilterWindow(QDialog):
         self._sampling_rate = sampling_rate
 
         layout = QVBoxLayout(self)
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(10)
 
         # Info label
         description = QLabel(
@@ -120,6 +122,7 @@ class FilterWindow(QDialog):
         self._all_enabled = []
 
         nyquist = sampling_rate / 2.0
+        plt_size = self.fontMetrics().height() + 8
 
         for ch_idx, chaninfo in enumerate(channel_config):
             row = ch_idx + 2  # rows 0-1 are super-header and sub-header
@@ -140,7 +143,7 @@ class FilterWindow(QDialog):
             hp_ord.setMaximumWidth(60)
 
             hp_plt = QPushButton("\u223f")
-            hp_plt.setFixedSize(20, 20)
+            hp_plt.setFixedSize(plt_size, plt_size)
             hp_plt.setToolTip("Plot high-pass frequency response")
 
             lp_cb  = QCheckBox()
@@ -157,7 +160,7 @@ class FilterWindow(QDialog):
             lp_ord.setMaximumWidth(60)
 
             lp_plt = QPushButton("\u223f")
-            lp_plt.setFixedSize(20, 20)
+            lp_plt.setFixedSize(plt_size, plt_size)
             lp_plt.setToolTip("Plot low-pass frequency response")
 
             nt_cb  = QCheckBox()
@@ -174,7 +177,7 @@ class FilterWindow(QDialog):
             nt_ord.setMaximumWidth(60)
 
             nt_plt = QPushButton("\u223f")
-            nt_plt.setFixedSize(20, 20)
+            nt_plt.setFixedSize(plt_size, plt_size)
             nt_plt.setToolTip("Plot notch frequency response")
 
             all_cb = QCheckBox()
@@ -219,7 +222,7 @@ class FilterWindow(QDialog):
 
         # Apply button
         apply_button = QPushButton("Apply")
-        apply_button.setFixedWidth(100)
+        apply_button.setDefault(True)
         apply_button.clicked.connect(self._on_apply)
 
         button_layout = QHBoxLayout()
@@ -343,7 +346,8 @@ class FilterWindow(QDialog):
         dlg.setWindowTitle("Filter frequency response")
         dlg.resize(700, 520)
         v = QVBoxLayout(dlg)
-        v.setContentsMargins(4, 4, 4, 4)
+        v.setContentsMargins(16, 16, 16, 16)
+        v.setSpacing(10)
         v.addWidget(win)
         dlg.show()
 

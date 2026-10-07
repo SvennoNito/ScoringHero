@@ -30,7 +30,7 @@ def test_config_window_offers_current_map_viridis_magma_cividis(loaded_ui):
     open_config_window(loaded_ui)
     spectrogram = loaded_ui.SpectrogramPage.optionboxes["Spectrogram_colormap"][0]
     wavelet = loaded_ui.WaveletPage.optionboxes["Wavelet_colormap"][0]
-    assert _items(spectrogram) == ["cividis", "viridis", "magma"]  # its current map is cividis
+    assert _items(spectrogram) == ["cividis", "viridis", "magma", "spectral"]  # its current map is cividis
     assert _items(wavelet) == ["spectral", "viridis", "magma", "cividis"]
     loaded_ui.ConfigurationWindow.close()
 
@@ -75,3 +75,11 @@ def test_saved_choice_is_restored_and_old_config_loads_with_defaults(loaded_ui):
     loaded = load_configuration(path, len(names), ui.config[0]["Sampling_rate_hz"], names)
     assert loaded[0]["Spectrogram_colormap"] == "cividis"
     assert loaded[0]["Wavelet_colormap"] == "spectral"
+
+
+def test_spectrogram_can_use_the_spectral_map_of_the_time_frequency_panel(loaded_ui):
+    ui = loaded_ui
+    ui.config[0]["Spectrogram_colormap"] = "spectral"
+    apply_changes(["Spectrogram_colormap"], ui)
+    assert np.array_equal(_colors(ui.SpectogramWidget.img.getColorMap()),
+                          _colors(ui.TFWidget.img.getColorMap()))

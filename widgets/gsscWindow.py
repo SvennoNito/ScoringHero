@@ -20,6 +20,8 @@ class GsscWindow(QDialog):
         self.resize(400, 450)
 
         layout = QVBoxLayout(self)
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(10)
 
         # --- EEG channels (optional) ---
         eeg_group = QGroupBox("EEG channels (optional):")

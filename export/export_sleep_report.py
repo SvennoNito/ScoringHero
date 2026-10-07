@@ -30,6 +30,8 @@ class _ReportOptionsDialog(QDialog):
         self.setMinimumWidth(320)
 
         layout = QVBoxLayout()
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(10)
 
         general_group = QGroupBox("General")
         general_layout = QHBoxLayout()
@@ -148,16 +150,17 @@ class _ReportOptionsDialog(QDialog):
             w.setEnabled(False)
 
         btn_layout = QHBoxLayout()
+        btn_layout.addStretch(1)
         btn_preview = QPushButton("Preview")
         btn_preview.clicked.connect(self._show_preview)
         btn_ok = QPushButton("Generate Report")
+        btn_ok.setDefault(True)
         btn_ok.clicked.connect(self.accept)
         btn_cancel = QPushButton("Cancel")
         btn_cancel.clicked.connect(self.reject)
         btn_layout.addWidget(btn_preview)
-        btn_layout.addStretch()
-        btn_layout.addWidget(btn_ok)
         btn_layout.addWidget(btn_cancel)
+        btn_layout.addWidget(btn_ok)
         layout.addLayout(btn_layout)
 
         self.setLayout(layout)

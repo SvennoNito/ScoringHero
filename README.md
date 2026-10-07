@@ -127,7 +127,7 @@ All jumps wrap around from the last epoch to the first. The **Navigation bar** o
 - Configurable frequency range (default: 0–20 Hz)
 - Adjustable colorbar power limits (log10 scale)
 - Select which channel to display
-- Choose the colormap (cividis by default, or viridis or magma) in the Spectrogram tab of the configuration window; the color bar follows
+- Choose the colormap (cividis by default, or viridis, magma or spectral) in the Spectrogram tab of the configuration window; the color bar follows
 - Cached computation — no recalculation when navigating epochs
 
 ### Hypnogram Panel

@@ -33,6 +33,8 @@ def open_help_selection_box(ui):
     
     # Set layout for the dialog
     layout = QVBoxLayout()
+    layout.setContentsMargins(16, 16, 16, 16)
+    layout.setSpacing(10)
     layout.addWidget(label)
     dialog.setLayout(layout)
     
