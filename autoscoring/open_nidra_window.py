@@ -32,6 +32,7 @@ from .nidra_env import (
     is_frozen,
 )
 from scoring.write_scoring import write_scoring
+from .staging_dialogs import ask_staging_options
 from .autoscore_results import apply_nidra
 
 _SETTINGS_FILE = "nidra_settings.json"
@@ -118,57 +119,11 @@ def _after_nidra_settings(ui, settings):
 
     model_key = settings["model"]
 
-    # Step A: epoch length
-    epolen = ui.config[0]["Epoch_length_s"]
-    if epolen != 30:
-        message = QMessageBox()
-        message.setIcon(QMessageBox.Warning)
-        message.setWindowTitle("Epoch length mismatch")
-        message.setText(
-            f"The NIDRA models use 30-second epochs, but your epoch length is "
-            f"{epolen}s.\n\nThe scores will be mapped onto your epoch grid "
-            "automatically.\n\nYou can adjust the epoch length in the "
-            "Configuration panel if you prefer 30s epochs."
-        )
-        continue_button = message.addButton("Continue", QMessageBox.AcceptRole)
-        message.addButton("Cancel", QMessageBox.RejectRole)
-        message.exec()
-        if message.clickedButton() != continue_button:
-            return
-
-    # Step B: existing scores
-    scored_count = sum(1 for stage in ui.scoring.stages() if stage is not None)
-    mode = "overwrite"
-    overwrite_stages = None
-
-    if scored_count > 0:
-        from .open_gssc_window import _ask_selective_stages
-
-        message = QMessageBox()
-        message.setIcon(QMessageBox.Warning)
-        message.setWindowTitle("Existing scores detected")
-        message.setText(
-            f"{scored_count} epoch(s) already have sleep scores.\n"
-            "How would you like to proceed?"
-        )
-        overwrite_button = message.addButton("Overwrite all", QMessageBox.AcceptRole)
-        selective_button = message.addButton("Overwrite selected stages...", QMessageBox.AcceptRole)
-        fill_button = message.addButton("Fill missing only", QMessageBox.AcceptRole)
-        message.addButton("Cancel", QMessageBox.RejectRole)
-        message.exec()
-
-        clicked = message.clickedButton()
-        if clicked == overwrite_button:
-            mode = "overwrite"
-        elif clicked == selective_button:
-            overwrite_stages = _ask_selective_stages()
-            if overwrite_stages is None:
-                return
-            mode = "selective"
-        elif clicked == fill_button:
-            mode = "fill_missing"
-        else:
-            return
+    # Step A/B: epoch length and existing scores
+    options = ask_staging_options(ui, "NIDRA")
+    if options is None:
+        return
+    mode, overwrite_stages = options
 
     # Step C: model weights
     model_path = _ensure_model(settings, model_key)

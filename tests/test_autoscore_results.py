@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from autoscoring.autoscore_results import apply_gssc, apply_nidra, apply_yasa, events_in_stages
+from autoscoring.autoscore_results import apply_gssc, apply_nidra, apply_yasa
 from scoring_model.scoring import Scoring
 
 CLASSES = ["Wake", "N1", "N2", "N3", "REM", "Artifact"]
@@ -143,14 +143,3 @@ def test_yasa_maps_names_and_rounds_confidence():
     assert n == 3
     assert s.stages() == ["Wake", "N2", "REM"]
     assert s.source(0) == "YASA" and s.confidence(0) == 0.1235 and s.channels(0) == []
-
-
-# ---- detector stage filter -------------------------------------------------
-
-def test_events_in_stages_keeps_events_by_midpoint_stage():
-    s = Scoring(4, 30)
-    s.set([0, 1, 2, 3], ["N2", "Wake", "N2", "N2"])
-    events = [[1, 5], [28, 40], [35, 50], [80, 100], [200, 210]]
-    # midpoints 3 (N2), 34 (Wake), 42.5 (Wake), 90 (N2), 205 (beyond scoring)
-    assert events_in_stages(s, events, ["N2"]) == [[1, 5], [80, 100]]
-    assert events_in_stages(s, events, []) == []

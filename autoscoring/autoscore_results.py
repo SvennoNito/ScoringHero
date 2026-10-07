@@ -93,15 +93,3 @@ def apply_yasa(scoring, stages, confidence):
         [round(float(confidence[j]), 4) for _, j in pairs],
     )
     return len(pairs)
-
-
-def events_in_stages(scoring, events_sec, stages):
-    """Events ([start, end] seconds) whose midpoint lies in an epoch scored as one of
-    `stages`."""
-    selected = set(stages)
-    kept = []
-    for start, end in events_sec:
-        epoch = int(((start + end) / 2.0) / scoring.epoch_length_s)
-        if epoch < len(scoring) and scoring.stage(epoch) in selected:
-            kept.append([start, end])
-    return kept

@@ -9,6 +9,8 @@ Paper: https://doi.org/10.1038/s41598-022-11210-y
 import numpy as np
 from scipy.signal import resample
 
+from event_detection.run_detector import DetectorUnavailable
+
 
 def detect_spindles(
     signal,
@@ -38,9 +40,15 @@ def detect_spindles(
     try:
         import torch
     except ImportError:
-        raise ImportError(
-            "SUMO requires PyTorch. Install with: pip install torch\n"
-            "or: uv pip install torch"
+        raise DetectorUnavailable(
+            "PyTorch Not Found",
+            "SUMO requires PyTorch to be installed.\n\n"
+            "Install PyTorch using one of these commands:\n"
+            "  • uv pip install torch\n"
+            "  • uv sync --extra sumo\n"
+            "  • pip install torch\n\n"
+            "For platform-specific instructions, visit:\n"
+            "https://pytorch.org/get-started/locally/",
         )
 
     # --- Preprocess ---
@@ -197,13 +205,19 @@ def _download_sumo_model(model_path):
                 model_path.unlink()
             continue
 
-    raise RuntimeError(
+    raise DetectorUnavailable(
+        "SUMO Model Setup Required",
         f"Failed to download SUMO model.\n\n"
         f"Please download manually:\n"
         f"1. Visit: https://github.com/dslaborg/sumo/releases\n"
         f"2. Download 'final.ckpt' or 'sumo_model.pt'\n"
         f"3. Place at: {model_path}\n\n"
-        f"Or run: python setup_sumo.py"
+        f"Or run: python setup_sumo.py\n\n"
+        f"Quick start:\n"
+        f"1. Run: python setup_sumo.py\n"
+        f"2. Follow the manual download instructions\n"
+        f"3. Restart ScoringHero\n\n"
+        f"Repository: https://github.com/dslaborg/sumo",
     )
 
 

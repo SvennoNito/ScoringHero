@@ -1,13 +1,17 @@
-import numpy as np
-from PySide6.QtWidgets import QMessageBox, QProgressDialog, QApplication
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtWidgets import QMessageBox
 
 from widgets import MtKcdWindow
 from event_detection.mt_kcd import detect_kc
-from events.add_events_to_container import add_events_to_container
-from scoring.write_scoring import write_scoring
-from autoscoring.autoscore_results import events_in_stages
-from utilities.refresh_gui import refresh_gui
+from event_detection.run_detector import DetectorSpec
+from event_detection.run_detector_gui import run_event_detector
+
+SPEC = DetectorSpec(
+    detect=detect_kc,
+    args=lambda s: dict(amin=s["amin"], dmax_s=s["dmax_s"], q=s["q"], fmax=s["fmax"]),
+    method="MT-KCD",
+    title="K-Complex Detection (MT-KCD)",
+    noun="KC",
+)
 
 
 def open_mt_kcd_window(ui):
@@ -21,65 +25,6 @@ def open_mt_kcd_window(ui):
 
     ui.MtKcdWindow = MtKcdWindow(channel_labels, annotation_labels, has_stages)
     ui.MtKcdWindow.settingsAccepted.connect(
-        lambda settings: _after_settings(ui, settings)
+        lambda settings: run_event_detector(ui, SPEC, settings)
     )
     ui.MtKcdWindow.show()
-
-
-def _after_settings(ui, settings):
-    progress = QProgressDialog("Running MT-KCD K-complex detection…", None, 0, 0)
-    progress.setWindowTitle("K-Complex Detection (MT-KCD)")
-    progress.setWindowModality(Qt.WindowModal)
-    progress.setCancelButton(None)
-    progress.setMinimumDuration(0)
-    progress.show()
-    progress.raise_()
-    QApplication.processEvents()
-    QTimer.singleShot(0, lambda: _execute(ui, settings, progress))
-
-
-def _execute(ui, settings, progress):
-    try:
-        ch_idx    = ui.channel_name_to_idx.get(settings["channel"], 0)
-        sfreq     = float(ui.config[0]["Sampling_rate_hz"])
-        signal_1d = ui.eeg_data_display[ch_idx].copy().astype(np.float64)
-
-        events_sec = detect_kc(
-            signal_1d,
-            sfreq,
-            amin=settings["amin"],
-            dmax_s=settings["dmax_s"],
-            q=settings["q"],
-            fmax=settings["fmax"],
-        )
-
-        # Stage filter
-        filter_stages = settings.get("filter_stages")
-        if filter_stages:
-            events_sec = events_in_stages(ui.scoring, events_sec, filter_stages)
-
-        marker_label = settings["marker"]
-        container = next(c for c in ui.AnnotationContainer if c.label == marker_label)
-        add_events_to_container(ui, events_sec, container)
-
-        progress.setLabelText(f"Done — {len(events_sec)} KC(s) detected.")
-        QApplication.processEvents()
-
-        write_scoring(ui)
-        ui.HypnogramWidget.draw_hypnogram(ui)
-        refresh_gui(ui)
-
-        QTimer.singleShot(1500, progress.close)
-
-    except Exception as exc:
-        import traceback
-        progress.close()
-        QMessageBox.critical(
-            None,
-            "MT-KCD Error",
-            f"An error occurred during MT-KCD detection:\n\n"
-            f"{type(exc).__name__}: {exc}\n\n"
-            f"{traceback.format_exc()}",
-        )
-
-

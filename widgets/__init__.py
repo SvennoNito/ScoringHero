@@ -16,5 +16,5 @@ from .nidraWindow import NidraWindow, NidraSummaryWindow
 from .seedWindow import SeedWindow
 from .mtKcdWindow import MtKcdWindow
 from .mtSpindleWindow import MtSpindleWindow
-# from .sumoWindow import SumoWindow  # TODO: SUMO needs debugging
+from .sumoWindow import SumoWindow
 from .yasaWindow import YasaWindow

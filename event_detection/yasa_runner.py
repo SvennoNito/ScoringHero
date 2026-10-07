@@ -5,6 +5,7 @@ Uses yasa.spindles_detect() to detect sleep spindles in EEG data.
 Returns event time ranges (start_sec, end_sec) as list of [start, end] pairs.
 """
 
+from event_detection.run_detector import DetectorUnavailable
 
 
 def detect_spindles(signal_1d, sfreq, rel_pow=0.2, corr=0.65, rms=1.5,
@@ -41,11 +42,13 @@ def detect_spindles(signal_1d, sfreq, rel_pow=0.2, corr=0.65, rms=1.5,
     try:
         import yasa
     except ImportError:
-        raise ImportError(
-            "YASA is not installed. Install it with:\n"
-            "  uv pip install yasa\n"
-            "or\n"
-            "  pip install yasa"
+        raise DetectorUnavailable(
+            "YASA Not Installed",
+            "YASA spindle detection requires the YASA library.\n\n"
+            "Install it with:\n\n"
+            "  uv pip install yasa\n\n"
+            "or\n\n"
+            "  pip install yasa",
         )
 
     # Call YASA spindles_detect with thresh dictionary

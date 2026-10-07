@@ -1,7 +1,6 @@
 import numpy as np
 from PySide6.QtWidgets import (
     QMessageBox, QProgressDialog, QApplication,
-    QDialog, QVBoxLayout, QLabel, QCheckBox, QDialogButtonBox,
 )
 from PySide6.QtCore import Qt, QTimer
 
@@ -14,9 +13,9 @@ except ImportError:
     _GSSC_AVAILABLE = False
 
 from widgets import GsscWindow
-from scoring_model.formats import GSSC_STAGES
 from .autoscore_results import apply_gssc
 from scoring.write_scoring import write_scoring
+from .staging_dialogs import ask_staging_options
 from utilities.refresh_gui import refresh_gui
 
 
@@ -39,82 +38,13 @@ def open_gssc_window(ui):
 
 
 def _after_gssc_settings(ui, settings):
-    # Step A: Epoch length check
-    epolen = ui.config[0]["Epoch_length_s"]
-    if epolen != 30:
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Warning)
-        msg.setWindowTitle("Epoch length mismatch")
-        msg.setText(
-            f"GSSC uses 30-second epochs, but your epoch length is {epolen}s.\n\n"
-            "GSSC scores will be mapped onto your epoch grid automatically.\n\n"
-            "You can adjust the epoch length in the Configuration panel "
-            "if you prefer 30s epochs."
-        )
-        btn_continue = msg.addButton("Continue", QMessageBox.AcceptRole)
-        msg.addButton("Cancel", QMessageBox.RejectRole)
-        msg.exec()
-        if msg.clickedButton() != btn_continue:
-            return
+    options = ask_staging_options(ui, "GSSC")
+    if options is None:
+        return
+    mode, overwrite_stages = options
 
-    # Step B: Existing scores check
-    scored_count = sum(1 for stage in ui.scoring.stages() if stage is not None)
-    mode = "overwrite"
-    overwrite_stages = None
-
-    if scored_count > 0:
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Warning)
-        msg.setWindowTitle("Existing scores detected")
-        msg.setText(
-            f"{scored_count} epoch(s) already have sleep scores.\n"
-            "How would you like to proceed?"
-        )
-        btn_overwrite = msg.addButton("Overwrite all", QMessageBox.AcceptRole)
-        btn_selective = msg.addButton("Overwrite selected stages...", QMessageBox.AcceptRole)
-        btn_fill = msg.addButton("Fill missing only", QMessageBox.AcceptRole)
-        msg.addButton("Cancel", QMessageBox.RejectRole)
-        msg.exec()
-
-        clicked = msg.clickedButton()
-        if clicked == btn_overwrite:
-            mode = "overwrite"
-        elif clicked == btn_selective:
-            overwrite_stages = _ask_selective_stages()
-            if overwrite_stages is None:
-                return  # user cancelled or selected nothing
-            mode = "selective"
-        elif clicked == btn_fill:
-            mode = "fill_missing"
-        else:
-            return
-
-    # Step C: Run GSSC with progress
+    # Run GSSC with progress
     _run_gssc(ui, settings, mode, overwrite_stages)
-
-
-def _ask_selective_stages(parent=None):
-    """Show dialog to select which existing stages to overwrite. Returns set or None."""
-    dialog = QDialog(parent)
-    dialog.setWindowTitle("Select stages to overwrite")
-    layout = QVBoxLayout(dialog)
-    layout.addWidget(QLabel("Overwrite epochs currently scored as:"))
-
-    checkboxes = {}
-    for stage in GSSC_STAGES.values():
-        cb = QCheckBox(stage)
-        checkboxes[stage] = cb
-        layout.addWidget(cb)
-
-    button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-    button_box.accepted.connect(dialog.accept)
-    button_box.rejected.connect(dialog.reject)
-    layout.addWidget(button_box)
-
-    if dialog.exec() == QDialog.Accepted:
-        selected = {s for s, cb in checkboxes.items() if cb.isChecked()}
-        return selected if selected else None
-    return None
 
 
 if _GSSC_AVAILABLE:

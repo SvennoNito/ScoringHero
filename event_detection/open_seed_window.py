@@ -5,13 +5,11 @@ import sys
 import tempfile
 
 import numpy as np
-from PySide6.QtWidgets import QMessageBox, QProgressDialog, QApplication
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtWidgets import QMessageBox
 
 from widgets import SeedWindow
-from events.add_events_to_container import add_events_to_container
-from scoring.write_scoring import write_scoring
-from utilities.refresh_gui import refresh_gui
+from event_detection.run_detector import DetectorSpec
+from event_detection.run_detector_gui import run_event_detector
 
 _SETTINGS_FILE = "seed_settings.json"
 
@@ -60,80 +58,36 @@ def open_seed_window(ui):
 def _after_seed_settings(ui, settings):
     _save_seed_settings(ui, settings)
 
-    progress = QProgressDialog("Initializing SEED...", None, 0, 0)
-    progress.setWindowTitle("K-Complex / Spindle Detection (SEED)")
-    progress.setWindowModality(Qt.WindowModal)
-    progress.setCancelButton(None)
-    progress.setMinimumDuration(0)
-    progress.show()
-    progress.raise_()
-    QApplication.processEvents()
-    QTimer.singleShot(0, lambda: _execute_seed(ui, settings, progress))
-
-
-def _execute_seed(ui, settings, progress):
-    try:
-        python_exe = settings["python_exe"]
-        seed_dir   = settings["seed_dir"]
-
-        if not os.path.isfile(python_exe):
-            raise FileNotFoundError(
-                f"SEED Python executable not found:\n{python_exe}\n\n"
-                "Please set the correct path in the SEED dialog."
-            )
-
-        runner = _find_runner_script()
-
-        ch_idx    = ui.channel_name_to_idx.get(settings["channel"], 0)
-        sfreq     = float(ui.config[0]["Sampling_rate_hz"])
-        signal_1d = ui.eeg_data_display[ch_idx].copy().astype(np.float32)
-
-        detections = [
-            ("detect_kc",       "kc_marker",     "kc",      "K-complex"),
-            ("detect_spindles", "spindle_marker", "spindle", "Spindle"),
-        ]
-
-        any_added = False
-        for detect_key, marker_key, event_type, label in detections:
-            if not settings.get(detect_key):
-                continue
-
-            progress.setLabelText(f"Running SEED {label} detection…")
-            QApplication.processEvents()
-
-            events_sec = _call_seed_subprocess(
-                python_exe, runner, seed_dir, signal_1d, sfreq, event_type
-            )
-
-            marker_label = settings[marker_key]
-            container = next(c for c in ui.AnnotationContainer if c.label == marker_label)
-            add_events_to_container(ui, events_sec, container)
-            any_added = True
-
-        if not any_added:
-            progress.close()
-            return
-
-        progress.setLabelText("Finished")
-        QApplication.processEvents()
-
-        write_scoring(ui)
-        ui.HypnogramWidget.draw_hypnogram(ui)
-        refresh_gui(ui)
-
-        QTimer.singleShot(1500, progress.close)
-
-    except Exception as exc:
-        import traceback
-        tb_str = traceback.format_exc()
-        progress.close()
-        QMessageBox.critical(
-            None,
-            "SEED Error",
-            f"An error occurred while running SEED:\n\n"
-            f"{type(exc).__name__}: {exc}\n\n"
-            f"Traceback:\n{tb_str}",
+    detections = [
+        ("detect_kc",       "kc_marker",      "kc",      "K-complex"),
+        ("detect_spindles", "spindle_marker", "spindle", "Spindle"),
+    ]
+    for detect_key, marker_key, event_type, label in detections:
+        if not settings.get(detect_key):
+            continue
+        spec = DetectorSpec(
+            detect=lambda signal, sfreq, event_type=event_type: _detect_seed(
+                settings["python_exe"], settings["seed_dir"], signal, sfreq, event_type
+            ),
+            args=lambda s: {},
+            method="SEED",
+            title="K-Complex / Spindle Detection (SEED)",
+            noun=label,
         )
+        run_settings = {"channel": settings["channel"], "marker": settings[marker_key]}
+        if not run_event_detector(ui, spec, run_settings):
+            break
+
+
+def _detect_seed(python_exe, seed_dir, signal_1d, sfreq, event_type):
+    if not os.path.isfile(python_exe):
+        raise FileNotFoundError(
+            f"SEED Python executable not found:\n{python_exe}\n\n"
+            "Please set the correct path in the SEED dialog."
+        )
+    return _call_seed_subprocess(
+        python_exe, _find_runner_script(), seed_dir, signal_1d, sfreq, event_type
+    )
 
 
 def _find_runner_script():
@@ -156,7 +110,7 @@ def _call_seed_subprocess(python_exe, runner, seed_dir, signal_1d, sfreq, event_
     output_f.close()
 
     try:
-        np.save(input_f.name, signal_1d)
+        np.save(input_f.name, signal_1d.astype(np.float32))
 
         result = subprocess.run(
             [
