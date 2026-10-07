@@ -87,7 +87,7 @@ def test_nidra_artifact_epoch_unscored_keeps_source_confidence_channels_and_is_u
     s.set(1, "N2", source="human")
     artifacts = apply_nidra(s, np.array([2, 6, 2]), _probs([2, 5, 2]), CLASSES, "NIDRA (ez6)", ["C3"])
     assert artifacts == [[30, 60]]
-    assert s.stage(1) is None and s.digit(1) is None
+    assert s.stage(1) is None and s.hypnogram_digit(1) is None
     assert s.source(1) == "NIDRA (ez6) — artifact"
     assert s.confidence(1) == 0.8 and s.channels(1) == ["C3"]
     assert s.clean(1) == 0 and s.clean(0) == 1
@@ -97,7 +97,7 @@ def test_nidra_artifact_epoch_as_inconclusive():
     s = Scoring(2, 30)
     apply_nidra(s, np.array([2, 6]), _probs([2, 5]), CLASSES, "NIDRA (ez6)", ["C3"],
                 artifact_mode="inconclusive")
-    assert s.stages() == ["N2", "Inconclusive"] and s.digit(1) == 2
+    assert s.stages() == ["N2", "Inconclusive"] and s.hypnogram_digit(1) == 2
     assert s.source(1) == "NIDRA (ez6) — artifact" and s.clean(1) == 0
 
 

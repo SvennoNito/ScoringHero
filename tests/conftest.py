@@ -26,8 +26,23 @@ def _copy_example(source_dir, target_dir):
             shutil.copy(src, target_dir)
 
 
+def wait_until_loaded(ui):
+    """Wait for the worker thread that builds the displayed signal and analysis data, so
+    no thread outlives the test and the hypnogram and spectrogram exist."""
+    from PySide6 import QtWidgets
+
+    app = QtWidgets.QApplication.instance()
+    end = time.time() + 120
+    while getattr(ui, "_busy_runners", None) and time.time() < end:
+        app.processEvents()
+        time.sleep(0.01)
+    assert not getattr(ui, "_busy_runners", None), "recording did not finish loading"
+
+
 def _boot(directory):
     """Boot the app on the example recording in `directory`; returns (app, window, ui)."""
+    from unittest import mock
+
     from PySide6 import QtWidgets
 
     import scoringhero as sh
@@ -39,15 +54,18 @@ def _boot(directory):
     sh.setup_ui(ui, window)
     ui.app_path = str(directory)
     ui.filename = os.path.join(str(directory), "example_data")
-    load_wrapper(ui, "eeglab")
-    # The displayed signal and analysis data are built on a worker thread; wait for it
-    # so no thread outlives the test and the hypnogram and spectrogram exist.
-    end = time.time() + 120
-    while getattr(ui, "_busy_runners", None) and time.time() < end:
-        app.processEvents()
-        time.sleep(0.01)
-    assert not getattr(ui, "_busy_runners", None), "recording did not finish loading"
+    # A mismatch dialog would block forever on an invisible modal; exec returns at once
+    # (no button clicked = cancel), so such a failure shows up as a failed test instead.
+    with mock.patch.object(sh.QMessageBox, "exec", lambda self: sh.QMessageBox.Yes):
+        load_wrapper(ui, "eeglab")
+        wait_until_loaded(ui)
     return app, window, ui
+
+
+@pytest.fixture
+def wait_loaded():
+    return wait_until_loaded
+
 
 
 @pytest.fixture(scope="session")

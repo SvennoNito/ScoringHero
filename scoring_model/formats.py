@@ -1,14 +1,12 @@
 """Scoring file formats: one table of label, file filter, loader and writer.
 
-No Qt, no dialogs. A loader takes a path and returns `Loaded`: stage names at the
-file's native length (UNSCORED = None) plus optional per-epoch confidence, source,
-channels, clean flag, and format-specific annotations. Rows or stage names it cannot
-map become unscored epochs and are listed in `Loaded.unrecognised` for the caller to
-report. Loaders raise on failure (missing file, unreadable content). Each format keeps
-only its own code <-> stage-name map; hypnogram digits live in scoring.py. A writer
-takes (scoring, path).
-
-Length fitting and the cancel/replace choice stay with the caller (Scoring.fitted).
+No Qt, no dialogs. A loader takes a path and returns `Loaded`: one record per epoch at
+the file's native length (the ScoringHero record layout: stage name or None for
+unscored, source, confidence, ...), plus the events or per-epoch artefact flags the
+format carries. Rows or stage names it cannot map are listed in `Loaded.unrecognised`
+for the caller to report; they become unscored epochs. Loaders raise on failure
+(missing file, unreadable content). Each format keeps only its own code <-> stage-name
+map; hypnogram digits live in scoring.py. A writer takes (scoring, path).
 """
 
 import csv
@@ -20,61 +18,47 @@ from .scoring import STAGE_DIGITS, UNSCORED, Scoring, unknown_stages
 
 @dataclass
 class Loaded:
-    stages: list
-    confidence: list = None  # per epoch, or None if the format has none
-    source: list = None  # per epoch (None for unscored), or None
-    channels: list = None  # per epoch lists of channel names (ScoringHero only)
-    clean: list = None  # per epoch 1/0 (ScoringHero only)
-    annotations: list = field(default_factory=list)  # ScoringHero: events; Sleeptrip: per-epoch artefact column
+    records: list  # per epoch dicts as in Scoring.to_records; only the keys the format has
+    events: list = field(default_factory=list)  # ScoringHero only: the file's event dicts
+    artefact_flags: list = field(default_factory=list)  # Sleeptrip only: per-epoch 0/1 column
     unrecognised: list = field(default_factory=list)  # unknown stage names / unparsable rows, in file order
+
+    @classmethod
+    def from_columns(cls, stages, source=None, confidence=None, **rest):
+        """Loaded from per-epoch columns; `source` is a name for every scored epoch."""
+        records = [
+            {"stage": stage, "source": source if stage is not None else None,
+             "confidence": confidence[i] if confidence else None}
+            for i, stage in enumerate(stages)
+        ]
+        return cls(records, **rest)
+
+    @property
+    def stages(self):
+        """Stage name per epoch; unscored and unknown names are None."""
+        return [r["stage"] if r.get("stage") in STAGE_DIGITS else UNSCORED for r in self.records]
 
 
 def to_scoring(loaded, epoch_length_s):
-    """Scoring of the file's native length from a Loaded result."""
-    scoring = Scoring(len(loaded.stages), epoch_length_s)
-    for i, stage in enumerate(loaded.stages):
-        if stage is None:
-            continue
-        scoring.set(
-            i,
-            stage,
-            loaded.source[i] if loaded.source else None,
-            loaded.confidence[i] if loaded.confidence else None,
-            loaded.channels[i] if loaded.channels else (),
-        )
-        if loaded.clean:
-            scoring.set_clean(i, loaded.clean[i])
-    return scoring
+    """Scoring of the file's native length from a Loaded result (unknown stage names
+    become unscored)."""
+    return Scoring.from_records(loaded.records, epoch_length_s, replace_unknown=True)
 
 
 def _invert(table):
     return {stage: code for code, stage in table.items()}
 
 
-def _source(stages, name):
-    return [name if s is not None else None for s in stages]
-
-
 # ---- ScoringHero (.json: [records, events]) -------------------------------------
 
 
 def load_scoringhero(path):
-    """Reads the stage records of the shared file; events are returned as annotations
-    untouched. The stored digit is ignored: the stage name wins. Unknown stage names
-    become unscored and are listed."""
+    """Reads the records of the shared file as they are (probabilities, and the fields of
+    unscored epochs, included); events are returned untouched. The stored digit is
+    ignored: the stage name wins. Unknown stage names are listed."""
     with open(path, "r") as file:
         records, events = json.load(file)
-    unknown = unknown_stages(records)
-    stages = [r.get("stage") if r.get("stage") in STAGE_DIGITS else UNSCORED for r in records]
-    return Loaded(
-        stages=stages,
-        confidence=[r.get("confidence") for r in records],
-        source=[r.get("source") if s is not None else None for r, s in zip(records, stages)],
-        channels=[r.get("channels") or [] for r in records],
-        clean=[int(r.get("clean", 1)) for r in records],
-        annotations=events,
-        unrecognised=unknown,
-    )
+    return Loaded(records, events=events, unrecognised=unknown_stages(records))
 
 
 def write_scoringhero(scoring, path, events=()):
@@ -93,10 +77,11 @@ _VIS_SYMBOLS = {"Wake": "0", "N1": "1", "N2": "2", "N3": "3", "REM": "r"}
 def load_vis(path):
     """First line is an offset; then `<epoch number> <symbol> [comment]`. Epochs absent
     from the file are filled from the nearest scored epoch (forward, then backward); a
-    final 'e' symbol repeats the previous one. Rows that do not parse, and symbols outside
-    the map, are listed (unknown symbols become unscored)."""
+    final 'e' symbol repeats the previous one. Symbols outside the map and rows with a
+    wrong number of columns are listed and their epoch becomes unscored; rows without an
+    epoch number cannot be placed and are only listed."""
     unrecognised = []
-    rows = []  # (epoch number, symbol or UNKNOWN)
+    rows = []  # (epoch number, symbol; None for a malformed row)
     with open(path, "r") as file:
         int(file.readline().strip())  # offset line
         for line in file:
@@ -104,10 +89,14 @@ def load_vis(path):
             if not columns:
                 continue
             try:
-                if not 2 <= len(columns) <= 3:
-                    raise ValueError
-                rows.append((int(columns[0]), columns[1]))
+                epoch = int(columns[0])
             except ValueError:
+                unrecognised.append(line.strip())
+                continue
+            if 2 <= len(columns) <= 3:
+                rows.append((epoch, columns[1]))
+            else:
+                rows.append((epoch, None))
                 unrecognised.append(line.strip())
     if not rows:
         raise ValueError(f"No scored epochs in {path}")
@@ -121,7 +110,8 @@ def load_vis(path):
             filled[epoch - 1] = _VIS_STAGES[symbol]
         else:
             filled[epoch - 1] = unknown
-            unrecognised.append(symbol)
+            if symbol is not None:
+                unrecognised.append(symbol)
     for sweep in (range(len(filled)), range(len(filled) - 1, -1, -1)):
         last = None
         for i in sweep:
@@ -130,7 +120,7 @@ def load_vis(path):
             elif last is not None:
                 filled[i] = last
     stages = [UNSCORED if s is unknown else s for s in filled]
-    return Loaded(stages=stages, unrecognised=unrecognised)
+    return Loaded.from_columns(stages, unrecognised=unrecognised)
 
 
 def write_vis(scoring, path):
@@ -161,7 +151,7 @@ def load_yasa(path):
         stage = YASA_STAGES.get(line.strip().upper())
         if stage is not None:
             stages.append(stage)
-    return Loaded(stages=stages)
+    return Loaded.from_columns(stages)
 
 
 def write_yasa(scoring, path):
@@ -178,29 +168,29 @@ _SLEEPTRIP_CODES = _invert(_SLEEPTRIP_STAGES)
 
 def load_sleeptrip(path):
     """First column is the stage code; rows whose first column is not a code are
-    skipped. Annotations: the second column of every row as an int (0 if absent or not
+    skipped. Artefact flags: the second column of every row as an int (0 if absent or not
     a number), the per-epoch artefact flag."""
     with open(path, "r", newline="") as csvfile:
         all_lines = list(csv.reader(csvfile))
     stages = [
         _SLEEPTRIP_STAGES[row[0]] for row in all_lines if row and row[0] in _SLEEPTRIP_STAGES
     ]
-    annotations = []
+    artefact_flags = []
     if any(len(row) >= 2 for row in all_lines):
         for row in all_lines:
             try:
-                annotations.append(int(row[1]))
+                artefact_flags.append(int(row[1]))
             except (ValueError, IndexError):
-                annotations.append(0)
-    return Loaded(stages=stages, source=_source(stages, "Sleeptrip"), annotations=annotations)
+                artefact_flags.append(0)
+    return Loaded.from_columns(stages, "Sleeptrip", artefact_flags=artefact_flags)
 
 
 def write_sleeptrip(scoring, path):
     with open(path, "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
         for i in range(len(scoring)):
-            digit = _SLEEPTRIP_CODES.get(scoring.stage(i), "")
-            writer.writerow([digit, 0 if scoring.clean(i) else 1])
+            code = _SLEEPTRIP_CODES.get(scoring.stage(i), "")
+            writer.writerow([code, 0 if scoring.clean(i) else 1])
 
 
 # ---- Sleepyland (.annot, tab separated) ------------------------------------------
@@ -239,19 +229,14 @@ def load_sleepyland(path):
                     conf[k.strip()] = float(v.strip())
             stages.append(stage)
             confidence.append(conf.get(_SLEEPYLAND_CONF[stage]))
-    return Loaded(
-        stages=stages,
-        confidence=confidence,
-        source=_source(stages, "Sleepyland"),
-        unrecognised=unrecognised,
-    )
+    return Loaded.from_columns(stages, "Sleepyland", confidence, unrecognised=unrecognised)
 
 
 def _sleepyland_meta(stage, confidence):
     value = confidence if confidence is not None else 1.0
     active = _SLEEPYLAND_CONF.get(stage)
     return "; ".join(
-        f"{k}={value if k == active else 0.0}" for k in ["pW", "pN1", "pN2", "pN3", "pR"]
+        f"{k}={value if k == active else 0.0}" for k in _SLEEPYLAND_CONF.values()
     )
 
 
@@ -297,16 +282,10 @@ def load_gssc(path):
                 continue
             stages.append(stage)
             confidence.append(conf)
-    return Loaded(
-        stages=stages,
-        confidence=confidence,
-        source=_source(stages, "GSSC"),
-        unrecognised=unrecognised,
-    )
+    return Loaded.from_columns(stages, "GSSC", confidence, unrecognised=unrecognised)
 
 
 def write_gssc(scoring, path):
-    epolen = scoring.epoch_length_s
     with open(path, "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(["Epoch", "Start", "Stage", "pWake", "pN1", "pN2", "pN3", "pREM"])
@@ -315,7 +294,7 @@ def write_gssc(scoring, path):
             confidence = scoring.confidence(i)
             value = confidence if confidence is not None else 1.0
             confs = [value if j == code else 0.0 for j in range(5)]
-            writer.writerow([i + 1, i * epolen, code] + confs)
+            writer.writerow([i + 1, scoring.time_span(i)[0], code] + confs)
 
 
 # ---- the table -------------------------------------------------------------------

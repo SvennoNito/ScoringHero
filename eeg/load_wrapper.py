@@ -130,7 +130,7 @@ def _show_loaded(ui, loaded, on_done=None):
     scoring, events = None, []
     if loaded is not None:
         scoring = resolve_loaded(ui, loaded, n_epochs, epoch_length_s)
-        events = loaded.annotations
+        events = loaded.events
     ui.scoring = scoring if scoring is not None else Scoring(n_epochs, epoch_length_s)
     events_to_ui(ui, events)
     ui.toolbar_jump_to_epoch.setMaximum(ui.numepo)

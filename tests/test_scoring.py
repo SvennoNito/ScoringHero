@@ -20,7 +20,7 @@ def test_new_scoring_is_unscored():
     s = Scoring(3, 30)
     assert len(s) == 3
     assert s.stages() == [None, None, None]
-    assert s.digit(1) is None
+    assert s.hypnogram_digit(1) is None
     assert s.source(1) is None
     assert s.confidence(1) is None
     assert s.channels(1) == []
@@ -43,7 +43,7 @@ def test_time_span_uses_zero_based_index_and_epoch_length():
 def test_set_one_epoch():
     s = Scoring(3, 30)
     s.set(1, "N2", source="human", channels=["C3", "C4"])
-    assert (s.stage(1), s.digit(1), s.source(1), s.channels(1)) == ("N2", -2, "human", ["C3", "C4"])
+    assert (s.stage(1), s.hypnogram_digit(1), s.source(1), s.channels(1)) == ("N2", -2, "human", ["C3", "C4"])
     assert s.stage(0) is None and s.stage(2) is None
 
 
@@ -152,7 +152,7 @@ def test_digit_in_records_is_ignored_stage_name_wins():
     rec = Scoring(1, 30).to_records()
     rec[0].update(stage="N1", digit=2, epoch=99, start=5, end=6)
     s = Scoring.from_records(rec, 30)
-    assert s.stage(0) == "N1" and s.digit(0) == -1
+    assert s.stage(0) == "N1" and s.hypnogram_digit(0) == -1
     assert s.to_records()[0]["digit"] == -1
     assert (s.to_records()[0]["epoch"], s.to_records()[0]["start"]) == (1, 0)
 

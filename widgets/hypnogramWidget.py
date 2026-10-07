@@ -16,8 +16,8 @@ COMPARISON_TITLE = (
 )
 
 
-def _digits(scoring):
-    return np.array([scoring.digit(e) for e in range(len(scoring))])
+def _hypnogram_digits(scoring):
+    return np.array([scoring.hypnogram_digit(e) for e in range(len(scoring))])
 
 
 class HypnogramWidget(QWidget):
@@ -70,7 +70,7 @@ class HypnogramWidget(QWidget):
         self.comparison_items = []
         self.times = np.arange(0, ui.numepo) * ui.config[0]["Epoch_length_s"] / 3600
         times = np.repeat(self.times, 2)
-        stages = _digits(ui.scoring)
+        stages = _hypnogram_digits(ui.scoring)
         for stage, color in self.colors.items():
             data = np.zeros(ui.numepo)
             data[:] = np.nan
@@ -149,7 +149,7 @@ class HypnogramWidget(QWidget):
             return
 
         times = np.repeat(self.times, 2)
-        comparison_digits = [ui.scoring_comparison.digit(e) for e in range(len(ui.scoring_comparison))]
+        comparison_digits = _hypnogram_digits(ui.scoring_comparison)
 
         # Collect (epoch, digit) pairs for disagreement epochs that have a digit
         ep_digit_pairs = [
@@ -214,7 +214,7 @@ class HypnogramWidget(QWidget):
 
     @timing_decorator
     def update_hypnogram(self, ui):
-        stages = _digits(ui.scoring)
+        stages = _hypnogram_digits(ui.scoring)
         times = np.repeat(self.times, 2)
         for stage, item in self.stage_items.items():
             data = np.zeros(ui.numepo)

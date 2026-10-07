@@ -177,9 +177,9 @@ def scoring_import_window(ui, filetype):
 
     events = []
     if filetype == "scoringhero":
-        events = loaded.annotations
+        events = loaded.events
     elif filetype == "sleeptrip":
-        epoch_event_col = loaded.annotations
+        epoch_event_col = loaded.artefact_flags
         if epoch_event_col and any(v == 1 for v in epoch_event_col):
             dialog = EpochEventImportDialog()
             if dialog.exec():

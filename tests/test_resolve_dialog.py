@@ -30,7 +30,7 @@ def boxes(monkeypatch):
 
 
 def _loaded(n, unrecognised=()):
-    return Loaded(stages=["N2"] * n, unrecognised=list(unrecognised))
+    return Loaded.from_columns(["N2"] * n, unrecognised=list(unrecognised))
 
 
 @pytest.mark.parametrize(

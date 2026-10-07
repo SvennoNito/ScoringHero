@@ -42,7 +42,7 @@ class Scoring:
     def stage(self, epoch):
         return self._stage[self._check(epoch)]
 
-    def digit(self, epoch):
+    def hypnogram_digit(self, epoch):
         return stage_digit(self.stage(epoch))
 
     def source(self, epoch):

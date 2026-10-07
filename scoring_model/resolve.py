@@ -31,10 +31,6 @@ class Problems:
         return ("longer_" if self.diff > 0 else "shorter_") + ("1" if abs(self.diff) == 1 else "n")
 
     @property
-    def tolerated(self):
-        return abs(self.diff) == 1
-
-    @property
     def length_choices(self):
         """Actions on offer besides Cancel; ("ok",) = notice only; () = no problem."""
         return {

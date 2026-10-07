@@ -36,6 +36,24 @@ def test_events_are_kept_on_save(loaded_ui):
     assert saved_events == events and records[0]["stage"] == "N2" and records[0]["digit"] == -2
 
 
+def test_nidra_probabilities_and_unscored_artefact_epoch_survive_open_edit_save(loaded_ui, wait_loaded):
+    path = f"{loaded_ui.filename}.json"
+    s = loaded_ui.scoring
+    s.set(3, "N2", "NIDRA (m)", 0.9, ["C3"], probabilities={"Wake": 0.1, "N2": 0.9})
+    s.set(4, None, "NIDRA (m) - artifact", 0.8, ["C4"])
+    s.set_clean(4, 0)
+    write_scoring(loaded_ui)
+    before = _json(path)
+    load_wrapper(loaded_ui, "eeglab")
+    wait_loaded(loaded_ui)
+    loaded_ui.scoring.set(0, "N1", "human")  # edit elsewhere
+    write_scoring(loaded_ui)
+    after = _json(path)
+    assert after[0][3] == before[0][3] and "probabilities" in after[0][3]
+    assert after[0][4] == before[0][4] and after[0][4]["clean"] == 0
+    assert after[1] == before[1]
+
+
 def _write_short_file(ui, n):
     path = f"{ui.filename}.json"
     records = ui.scoring.to_records()[:n]
@@ -44,18 +62,19 @@ def _write_short_file(ui, n):
     return path
 
 
-def test_mismatch_cancel_opens_empty_scoring_and_leaves_file(loaded_ui, monkeypatch):
+def test_mismatch_cancel_opens_empty_scoring_and_leaves_file(loaded_ui, monkeypatch, wait_loaded):
     path = _write_short_file(loaded_ui, 5)
     before = open(path, "rb").read()
     monkeypatch.setattr(load_wrapper_module, "resolve_loaded", lambda *a: None)
     load_wrapper(loaded_ui, "eeglab")
+    wait_loaded(loaded_ui)
     assert len(loaded_ui.scoring) == loaded_ui.numepo
     assert all(s is None for s in loaded_ui.scoring.stages())
     assert open(path, "rb").read() == before
     assert len(loaded_ui.AnnotationContainer[1].borders) == 1  # events survive for the first save
 
 
-def test_mismatch_resolved_fits_recording(loaded_ui, monkeypatch):
+def test_mismatch_resolved_fits_recording(loaded_ui, monkeypatch, wait_loaded):
     _write_short_file(loaded_ui, 5)
     seen = []
     monkeypatch.setattr(
@@ -63,13 +82,15 @@ def test_mismatch_resolved_fits_recording(loaded_ui, monkeypatch):
         lambda parent, loaded, n, L: seen.append((len(loaded.stages), n)) or Scoring(n, L),
     )
     load_wrapper(loaded_ui, "eeglab")
+    wait_loaded(loaded_ui)
     assert seen == [(5, loaded_ui.numepo)]
     assert len(loaded_ui.scoring) == loaded_ui.numepo
 
 
-def test_missing_file_gives_empty_scoring(loaded_ui):
+def test_missing_file_gives_empty_scoring(loaded_ui, wait_loaded):
     os.remove(f"{loaded_ui.filename}.json")
     load_wrapper(loaded_ui, "eeglab")
+    wait_loaded(loaded_ui)
     assert len(loaded_ui.scoring) == loaded_ui.numepo
     assert all(s is None for s in loaded_ui.scoring.stages())
     assert not os.path.exists(f"{loaded_ui.filename}.json")

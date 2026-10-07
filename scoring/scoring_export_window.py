@@ -18,7 +18,9 @@ def export_scoring(ui, format_name):
     fmt = FORMATS[format_name]
     extension = fmt.file_filter[1:]
     default_path = os.path.join(ui.default_data_path, f"{os.path.basename(ui.filename)}{extension}")
-    path, _ = QFileDialog.getSaveFileName(None, f"Export {fmt.label}", default_path, fmt.label)
+    path, _ = QFileDialog.getSaveFileName(
+        None, f"Export {fmt.label}", default_path, f"{fmt.label} ({fmt.file_filter})"
+    )
     if not path:
         return
     try:

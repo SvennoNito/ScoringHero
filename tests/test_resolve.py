@@ -9,27 +9,27 @@ from scoring_model.resolve import diagnose, resolve
 def _loaded(n, unrecognised=()):
     stages = ["N2"] * n
     stages[-1] = "REM"
-    return Loaded(
-        stages=stages,
-        confidence=[0.9] * (n - 1) + [0.4],
-        source=["gssc"] * n,
+    return Loaded.from_columns(
+        stages,
+        "gssc",
+        [0.9] * (n - 1) + [0.4],
         unrecognised=list(unrecognised),
     )
 
 
 @pytest.mark.parametrize(
-    "loaded_n, recording_n, kind, tolerated, choices",
+    "loaded_n, recording_n, kind, choices",
     [
-        (10, 10, "exact", False, ()),
-        (11, 10, "longer_1", True, ("ok",)),
-        (13, 10, "longer_n", False, ("truncate",)),
-        (9, 10, "shorter_1", True, ("ok",)),
-        (5, 10, "shorter_n", False, ("copy_last",)),
+        (10, 10, "exact", ()),
+        (11, 10, "longer_1", ("ok",)),
+        (13, 10, "longer_n", ("truncate",)),
+        (9, 10, "shorter_1", ("ok",)),
+        (5, 10, "shorter_n", ("copy_last",)),
     ],
 )
-def test_length_case_and_choices(loaded_n, recording_n, kind, tolerated, choices):
+def test_length_case_and_choices(loaded_n, recording_n, kind, choices):
     p = diagnose(_loaded(loaded_n), recording_n)
-    assert (p.length_kind, p.tolerated, p.length_choices) == (kind, tolerated, choices)
+    assert (p.length_kind, p.length_choices) == (kind, choices)
     assert p.unknown == ()
 
 
@@ -83,7 +83,7 @@ def test_shorter_by_many_copies_last_epoch_until_match():
 
 def test_unknown_stages_replaced_with_unscored():
     loaded = _loaded(10, ["Bogus"])
-    loaded.stages[3] = None
+    loaded.records[3]["stage"] = "Bogus"
     s = resolve(loaded, 10, 30, _always("replace"))
     assert s.stage(3) is None and s.source(3) is None
 
