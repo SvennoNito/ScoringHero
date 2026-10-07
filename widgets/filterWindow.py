@@ -1,5 +1,6 @@
 import numpy as np
 import pyqtgraph as pg
+from style.icons import icon
 
 from filter.apply_filter import NOTCH_HALF_WIDTH_HZ, design_filter, zero_phase_gain
 
@@ -45,7 +46,7 @@ class FilterWindow(QDialog):
             f"\u00b1{NOTCH_HALF_WIDTH_HZ:g}\u202fHz. A higher order gives a steeper roll-off without moving "
             "these points. Filters change the displayed signal and therefore also the "
             "spectrogram, periodogram and time-frequency power. "
-            "Click \u223f to plot the magnitude response of a filter."
+            "Click the waveform button to plot the magnitude response of a filter."
         )
         description.setWordWrap(True)
         layout.addWidget(description)
@@ -142,7 +143,7 @@ class FilterWindow(QDialog):
             hp_ord.setDecimals(0)
             hp_ord.setMaximumWidth(60)
 
-            hp_plt = QPushButton("\u223f")
+            hp_plt = QPushButton(icon("audio-waveform"), "")
             hp_plt.setFixedSize(plt_size, plt_size)
             hp_plt.setToolTip("Plot high-pass frequency response")
 
@@ -159,7 +160,7 @@ class FilterWindow(QDialog):
             lp_ord.setDecimals(0)
             lp_ord.setMaximumWidth(60)
 
-            lp_plt = QPushButton("\u223f")
+            lp_plt = QPushButton(icon("audio-waveform"), "")
             lp_plt.setFixedSize(plt_size, plt_size)
             lp_plt.setToolTip("Plot low-pass frequency response")
 
@@ -176,7 +177,7 @@ class FilterWindow(QDialog):
             nt_ord.setDecimals(0)
             nt_ord.setMaximumWidth(60)
 
-            nt_plt = QPushButton("\u223f")
+            nt_plt = QPushButton(icon("audio-waveform"), "")
             nt_plt.setFixedSize(plt_size, plt_size)
             nt_plt.setToolTip("Plot notch frequency response")
 

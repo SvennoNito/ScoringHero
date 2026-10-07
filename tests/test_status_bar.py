@@ -48,7 +48,9 @@ def test_stage_badge_shows_unscored_not_sure_and_comparison_disagreement(ui):
     ui.scoring_comparison.set(3, "N3")
     ui.comparison_name = "other"
     _jump(ui, 3)
-    assert ui.StatusReadout.stage_badge.text() == "N2 vs N3"
+    text = ui.StatusReadout.stage_badge.text()
+    assert "N2" in text and "vs N3" in text
+    assert 'color: #c0392b;">vs N3' in text
 
 
 def test_status_bar_shows_recording_name_and_comparison(ui):

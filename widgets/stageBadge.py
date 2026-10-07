@@ -46,7 +46,7 @@ class StageBadge(QLabel):
         panel.installEventFilter(self)
 
     def show_stage(self, stage, comparison_stage=None, disagrees=False, position=(0.5, 0.5), size=24):
-        text = f"{stage} vs {comparison_stage}" if disagrees else stage
+        text = f'{stage} <span style="color: {DISAGREE_BORDER};">vs {comparison_stage}</span>' if disagrees else stage
         border = DISAGREE_BORDER if disagrees else "transparent"
         self.setStyleSheet(
             f"background: {stage_tint(stage)}; color: {stage_text_color(stage)};"
