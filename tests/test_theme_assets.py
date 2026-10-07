@@ -24,7 +24,7 @@ def _opaque_colors(pixmap):
 
 
 def test_icon_takes_its_colors_from_the_theme_per_state(loaded_ui):
-    zap = icon("zap")
-    assert _opaque_colors(zap.pixmap(32, 32, QIcon.Normal)) == {theme.ICON}
-    assert _opaque_colors(zap.pixmap(32, 32, QIcon.Active)) == {theme.ACCENT}
-    assert _opaque_colors(zap.pixmap(32, 32, QIcon.Disabled)) == {theme.DISABLED}
+    flag = icon("flag")
+    assert _opaque_colors(flag.pixmap(32, 32, QIcon.Normal)) == {theme.ICON}
+    assert _opaque_colors(flag.pixmap(32, 32, QIcon.Active)) == {theme.ACCENT}
+    assert _opaque_colors(flag.pixmap(32, 32, QIcon.Disabled)) == {theme.DISABLED}

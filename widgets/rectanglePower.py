@@ -1,8 +1,7 @@
 from style.plot_style import soften_axes
-from style.roles import set_role
-from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout
-from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QFont
+from PySide6.QtWidgets import QWidget
+from PySide6.QtCore import Signal
+from .channelPill import ChannelPill
 import pyqtgraph as pg
 import numpy as np
 from utilities import *
@@ -23,15 +22,11 @@ class RectanglePower(QWidget):
         self.axes.setLabel("left", "Power (unitless)")
         self.axes.setMouseEnabled(x=False, y=False)
 
-        # Channel name label (overlaid on top of the plot)
-        self._channel_label = QLabel(self.axes)
-        self._channel_label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
-        self._channel_label.setAttribute(Qt.WA_TranslucentBackground)
-        self._channel_label.setAttribute(Qt.WA_TransparentForMouseEvents)
-        set_role(self._channel_label, "plot-label")
-        self._channel_label.setObjectName("periodogram_channel_label")
-        channel_layout = QVBoxLayout(self.axes)
-        channel_layout.addWidget(self._channel_label)
+        # Channel name pill in the top-left corner; this panel is narrow, so its pill may
+        # take more than the usual quarter of the width
+        self.channel_pill = ChannelPill(self.axes, corner=True, max_fraction=0.6)
+        self.channel_pill.setParentItem(self.axes.getViewBox())
+        self.axes.getViewBox().sigResized.connect(self.channel_pill.refresh)
 
         # bf5656
         self.pen = pg.mkPen(color="#0b1c2c", width=2)
@@ -47,7 +42,7 @@ class RectanglePower(QWidget):
     def update_powerline(self, freqs, power, channel_name=""):
         self.powerline.setData(freqs, power)
         self.axes.setXRange(freqs[0], freqs[-1], padding=0)
-        self._channel_label.setText(channel_name)
+        self.channel_pill.set_name(channel_name)
 
         # Build x ticks with "Hz" suffix on the last label
         step = 5 if freqs[-1] <= 30 else 10

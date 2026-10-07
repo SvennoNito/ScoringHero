@@ -22,7 +22,7 @@ QMenu::separator { height: 1px; background: #e3e7ed; margin: 4px 6px; }
 QToolBar { background: #ffffff; border: none; padding: 6px 4px; spacing: 4px; }
 QToolBar::separator { background: #e3e7ed; height: 1px; margin: 4px 6px; }
 QMainWindow::separator { background: #e3e7ed; width: 1px; height: 1px; }
-QToolBar QToolButton { background: transparent; border: 1px solid transparent; border-radius: 8px; padding: 7px; }
+QToolBar QToolButton { background: transparent; border: 1px solid transparent; border-radius: 8px; padding: 6px; }
 QToolBar QToolButton:hover { background: #e8eefc; }
 QToolBar QToolButton:pressed { background: #d4e0fa; }
 QToolBar QToolButton:focus { border-color: #2f6fed; }
@@ -103,9 +103,6 @@ QLabel[role="warn"] { color: #b7791f; font-size: 11px; }
 QLabel[role="ok"] { color: #2e7d32; font-size: 11px; }
 QLabel[role="error"] { color: #c0392b; }
 QLineEdit[role="error"] { border-color: #c0392b; background: #fdf2f1; }
-
-/* Channel name drawn over a plot (periodogram); spectrogram, time-frequency and signal panels use ChannelPill */
-QLabel[role="plot-label"] { color: #1f2933; font-weight: 600; background: transparent; }
 
 /* Dialog title line inside a dialog body */
 QLabel[role="heading"] { color: #1f2933; font-size: 14px; font-weight: 600; }

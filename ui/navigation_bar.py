@@ -26,7 +26,7 @@ JUMP_BUTTONS = [
      "next epoch whose stage differs from the current one (unscored counts as a stage)",
      "arrow-left-right", stage_transition, NEEDS_RECORDING),
     ("tool_nextevent", "Next event", "next epoch that contains an event",
-     "zap", jump_to_event, NEEDS_RECORDING),
+     "flag", jump_to_event, NEEDS_RECORDING),
     ("tool_nexthuman", "Next human-scored", "next epoch whose stage you set yourself",
      "user", next_human_epoch, NEEDS_RECORDING),
     ("tool_nextdisagreement", "Next disagreement",
@@ -52,7 +52,7 @@ def setup_navigation_bar(ui, MainWindow):
     bar.setMovable(False)
     bar.setFloatable(False)
     bar.setToolButtonStyle(Qt.ToolButtonIconOnly)
-    bar.setIconSize(QSize(22, 22))
+    bar.setIconSize(QSize(16, 16))
     MainWindow.addToolBar(Qt.LeftToolBarArea, bar)
     ui.navigation_bar = bar
 

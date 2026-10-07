@@ -7,7 +7,7 @@ from style import theme
 
 class ChannelPill(QGraphicsItem):
     """A channel name in a small rounded, semi-opaque label inside a plot, so it never
-    fights with the trace or image behind it. At most a quarter of the plot widget wide:
+    fights with the trace or image behind it. At most `max_fraction` (a quarter) of the plot widget wide:
     longer names are elided in the middle (suffixes like '-A2' or '*' stay visible) and
     the tooltip then carries the full name.
 
@@ -16,15 +16,15 @@ class ChannelPill(QGraphicsItem):
     of a ViewBox, where it sits in the top-left corner. Call refresh() when the plot
     widget is resized."""
 
-    MAX_FRACTION = 0.25
     PAD_X, PAD_Y, INSET = 8, 3, 8
 
-    def __init__(self, view, name="", corner=False):
+    def __init__(self, view, name="", corner=False, max_fraction=0.25):
         super().__init__()
         self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
         self.setZValue(15)
         self._view = view
         self._corner = corner
+        self._max_fraction = max_fraction
         self._font = QFont(QApplication.font())
         self._font.setPixelSize(12)
         self._font.setWeight(QFont.DemiBold)
@@ -43,7 +43,7 @@ class ChannelPill(QGraphicsItem):
 
     def refresh(self):
         metrics = QFontMetrics(self._font)
-        available = int(self._view.viewport().width() * self.MAX_FRACTION) - 2 * self.PAD_X
+        available = int(self._view.viewport().width() * self._max_fraction) - 2 * self.PAD_X
         shown = metrics.elidedText(self._name, Qt.ElideMiddle, max(available, 0))
         width = metrics.horizontalAdvance(shown) + 2 * self.PAD_X
         height = metrics.height() + 2 * self.PAD_Y
