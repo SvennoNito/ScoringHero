@@ -3,7 +3,9 @@ from PySide6.QtWidgets import (
     QFileDialog, QMessageBox, QDialog, QVBoxLayout, QHBoxLayout,
     QLabel, QComboBox, QPushButton, QScrollArea, QWidget
 )
-from scoring_model.event_records import events_from_records
+from scoring_model.event_records import (
+    artefact_flag_records, events_from_records, sleeptrip_event_records,
+)
 from utilities.refresh_gui import _update_export_menu_state
 from scoring_model.formats import FORMATS
 from widgets.resolveDialog import resolve_loaded
@@ -19,7 +21,8 @@ class EpochEventImportDialog(QDialog):
 
         layout.addWidget(QLabel(
             "The file contains a per-epoch event column (second column).\n"
-            "Would you like to import it as an event?"
+            "Would you like to import it as an event?\n"
+            "Only slot A makes ScoringHero treat the flagged epochs as artefacts."
         ))
 
         combo_layout = QHBoxLayout()
@@ -109,6 +112,13 @@ class SleeptripEventMappingDialog(QDialog):
         return mapping
 
 
+def _merge_records(events, records):
+    """Add event records (from the pure conversions) to Events."""
+    for record in records:
+        events.set_label(record["digit"], record["event"])
+        events.add(record["digit"], [(record["start"], record["end"])])
+
+
 def scoring_import_window(ui, filetype):
     if filetype == "sleeptrip_events":
         datatype = "*.csv"
@@ -135,29 +145,15 @@ def scoring_import_window(ui, filetype):
         mapping = dialog.get_mapping()
         epolen = ui.config[0]["Epoch_length_s"]
 
-        events = []
-        for ev in raw_events:
-            label = ev["event"]
-            if mapping.get(label) is None:
-                continue
-            digit, slot_name = mapping[label]
-            start_epoch = int(ev["start"] / epolen)
-            end_epoch = int(ev["stop"] / epolen)
-            epoch_list = list(range(start_epoch + 1, end_epoch + 2))
-            events.append({
-                "digit": digit,
-                "event": label,
-                "start": ev["start"],
-                "end": ev["stop"],
-                "epoch": epoch_list,
-            })
+        def add_all(events):
+            for label, target in mapping.items():
+                if target is None:
+                    continue
+                digit, slot_name = target
+                raw = [ev for ev in raw_events if ev["event"] == label]
+                _merge_records(events, sleeptrip_event_records(raw, digit, label, epolen))
 
-        ui.events = events_from_records(events, epolen, ui.numepo)
-        ui.HypnogramWidget.draw_hypnogram(ui)
-        ui.DisplayedEpochWidget.update_text(
-            ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
-        )
-        ui.SignalWidget.draw_events(ui.events, ui.this_epoch)
+        ui.edit_events(add_all)
         return
 
     epolen = ui.config[0]["Epoch_length_s"]
@@ -173,29 +169,24 @@ def scoring_import_window(ui, filetype):
     ui.filename, _ = os.path.splitext(name_of_scoringfile)
     ui.scoring = scoring
 
-    events = []
     if filetype == "scoringhero":
-        events = loaded.events
-    elif filetype == "sleeptrip":
-        epoch_event_col = loaded.artefact_flags
-        if epoch_event_col and any(v == 1 for v in epoch_event_col):
-            dialog = EpochEventImportDialog()
-            if dialog.exec():
-                digit = dialog.selected_digit()
-                label = dialog.selected_label()
-                for epoch_idx, val in enumerate(epoch_event_col):
-                    if val == 1:
-                        events.append({
-                            "digit": digit,
-                            "event": label,
-                            "start": epoch_idx * epolen,
-                            "end": (epoch_idx + 1) * epolen,
-                            "epoch": [epoch_idx + 1],
-                        })
-    ui.events = events_from_records(events, epolen, ui.numepo)
-
+        ui.events = events_from_records(loaded.events, epolen, ui.numepo)
+    else:
+        ui.events = events_from_records([], epolen, ui.numepo)
     ui.HypnogramWidget.draw_hypnogram(ui)
     ui.DisplayedEpochWidget.update_text(
         ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
     )
     _update_export_menu_state(ui)
+
+    if filetype == "sleeptrip":
+        flags = loaded.artefact_flags
+        if flags and any(v == 1 for v in flags):
+            dialog = EpochEventImportDialog()
+            if dialog.exec():
+                slot, label = dialog.selected_digit(), dialog.selected_label()
+                records = artefact_flag_records(flags, slot, label, epolen)
+                ui.edit_events(lambda events: _merge_records(events, records))
+                return
+    ui.SignalWidget.draw_events(ui.events, ui.this_epoch)
+    ui.HypnogramWidget.update_events(ui)
