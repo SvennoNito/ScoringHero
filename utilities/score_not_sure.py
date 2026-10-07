@@ -10,9 +10,7 @@ def score_not_sure(ui):
     ui.scoring.set(epoch, stage, HUMAN, change_value(ui.scoring.confidence(epoch)),
                    ui.scoring.channels(epoch), ui.scoring.probabilities(epoch))
 
-    ui.DisplayedEpochWidget.update_text(
-        ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
-    )
+    ui.StatusReadout.update(ui)
 
     ui.save_scoring()
 

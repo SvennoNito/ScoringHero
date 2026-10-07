@@ -175,9 +175,7 @@ def scoring_import_window(ui, filetype):
     else:
         ui.events = Events(epolen, ui.numepo)
     ui.HypnogramWidget.draw_hypnogram(ui)
-    ui.DisplayedEpochWidget.update_text(
-        ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
-    )
+    ui.StatusReadout.update(ui)
     _update_export_menu_state(ui)
 
     if filetype == "sleeptrip":

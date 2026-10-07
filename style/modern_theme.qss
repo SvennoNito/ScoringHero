@@ -18,11 +18,22 @@ QMenu::item:selected { background: #2f6fed; color: #ffffff; }
 QMenu::item:disabled { color: #a3aab5; background: transparent; }
 QMenu::separator { height: 1px; background: #e3e7ed; margin: 4px 6px; }
 
-/* ---------- Toolbar / status bar ---------- */
-QToolBar { background: #ffffff; border: none; border-bottom: 1px solid #e3e7ed; padding: 3px 6px; spacing: 6px; }
-QToolBar::separator { background: #e3e7ed; width: 1px; margin: 4px 6px; }
-QToolBar QPushButton { padding: 1px 9px; min-height: 14px; border-radius: 5px; font-size: 12px; }
+/* ---------- Navigation bar / status bar ---------- */
+QToolBar { background: #ffffff; border: none; padding: 6px 4px; spacing: 4px; }
+QToolBar::separator { background: #e3e7ed; height: 1px; margin: 4px 6px; }
+QMainWindow::separator { background: #e3e7ed; width: 1px; height: 1px; }
+QToolBar QToolButton { background: transparent; border: 1px solid transparent; border-radius: 8px; padding: 7px; }
+QToolBar QToolButton:hover { background: #e8eefc; }
+QToolBar QToolButton:pressed { background: #d4e0fa; }
+QToolBar QToolButton:focus { border-color: #2f6fed; }
+QToolBar QToolButton:disabled { background: transparent; }
 QStatusBar { background: #ffffff; border-top: 1px solid #e3e7ed; color: #6b7280; }
+QStatusBar::item { border: none; }
+QStatusBar QLabel { padding: 0 8px; }
+QStatusBar QLabel[role="info"] { padding: 0 8px; }
+QLabel[role="epoch-readout"] { color: #1f2933; font-weight: 600; border-radius: 4px; }
+QLabel[role="epoch-readout"]:hover { background: #e8eefc; color: #1f5bd6; }
+QLabel[role="epoch-readout"]:disabled { color: #a3aab5; background: transparent; }
 
 /* ---------- Buttons ---------- */
 QPushButton { background: #ffffff; color: #1f2933; border: 1px solid #d3d8e0; border-radius: 6px; padding: 4px 14px; min-height: 18px; }

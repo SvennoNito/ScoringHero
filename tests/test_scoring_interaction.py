@@ -51,7 +51,7 @@ def test_not_sure_toggles_confidence_and_keeps_stage(ui):
     assert ui.scoring.confidence(2) == 0
     assert ui.scoring.stage(2) == "N3"
     assert ui.scoring.source(2) == HUMAN
-    assert "not sure" in ui.DisplayedEpochWidget.textfield.text()
+    assert ui.StatusReadout.confidence.text() == "Not sure"
     score_not_sure(ui)
     assert ui.scoring.confidence(2) is None
 

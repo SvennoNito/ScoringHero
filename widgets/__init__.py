@@ -1,5 +1,5 @@
 from .signalWidget import SignalWidget
-from .displayedEpochWidget import DisplayedEpochWidget
+from .statusReadout import StatusReadout
 from .spectogramWidget import SpectogramWidget
 from .hypnogramWidget import HypnogramWidget
 from .spectogramSlider import SpectogramSlider

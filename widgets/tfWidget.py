@@ -78,7 +78,7 @@ class TFWidget(QWidget):
         self.axes.addItem(self._cbar_min_label)
         self.axes.addItem(self._cbar_max_label)
 
-        # Channel label overlay (same style as DisplayedEpochWidget)
+        # Channel label overlay
         self._channel_label = QLabel(self.graphics)
         self._channel_label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
         font = QFont()

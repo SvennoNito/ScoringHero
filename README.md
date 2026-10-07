@@ -86,7 +86,7 @@ arch -x86_64 ./release-mac.sh  # x86_64
 ![Compare Scoring Window](screenshots/compare_scoring.png)
 
 - Load a second scoring file (**Compare → Scoring → Import scoring for comparison**) to compare it against the current scoring
-- Epochs where the two scorings disagree are highlighted directly in the hypnogram; the highlighting, the [disagreement] jump and the statistics always follow your latest edits
+- Epochs where the two scorings disagree are highlighted directly in the hypnogram; the highlighting, the Next disagreement jump and the statistics always follow your latest edits
 - A summary statistics window shows agreement metrics (e.g., Cohen's kappa, per-stage agreement) between the two scorings
 
 ### Event Annotation
@@ -108,17 +108,17 @@ arch -x86_64 ./release-mac.sh  # x86_64
 </p>
 
 ### Smart Navigation
-All jumps wrap around from the last epoch to the first.
+All jumps wrap around from the last epoch to the first. The **Navigation bar** on the left of the window holds one icon-only **Jump button** per kind of epoch; hover a button to see its rule (a disabled button says why it is disabled).
 
-| Button / Action | Description |
+| Jump button / Action | Description |
 |----------------|-------------|
-| **[unscored]** | Jump to the next epoch that hasn't been scored yet |
-| **[uncertain]** | Jump to the next epoch flagged with low confidence |
-| **[transition]** | Jump to the next sleep stage change |
-| **[event]** | Jump to the next epoch containing a marked event |
-| **[human]** | Jump to the next epoch scored by a human |
-| **[disagreement]** | Jump to the next epoch where the comparison scoring differs (needs a comparison scoring) |
-| **Epoch spinbox** | Type any epoch number to jump there directly |
+| **Next unscored** | Jump to the next epoch that hasn't been scored yet |
+| **Next uncertain** | Jump to the next **uncertain epoch** (confidence below 0.5) |
+| **Next stage transition** | Jump to the next epoch whose stage differs from the current one (unscored counts as a stage) |
+| **Next event** | Jump to the next epoch containing a marked event |
+| **Next human-scored** | Jump to the next **human-scored epoch** (stage set by you rather than by an autoscorer) |
+| **Next disagreement** | Jump to the next epoch where the comparison scoring differs (needs a comparison scoring) |
+| **Epoch readout** (status bar) | Click "Epoch 12 / 767" in the status bar, type an epoch number and press Enter to jump there directly |
 | **Click on hypnogram** | Navigate to any time point by clicking the hypnogram |
 | **Click on spectrogram** | Navigate to any time point by clicking the spectrogram |
 

@@ -116,7 +116,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
             messagebox.setIcon(QMessageBox.Warning)
             messagebox.setWindowTitle("Scoring incomplete")
             messagebox.setText(
-                f"There {text_plural[0]} <b>{n_unscored_epochs} unscored {text_plural[1]}</b>. You can click [unscored] in the toolbar to jump to the respective {text_plural[1]}. Are you sure you want to exit Scoring Hero?"
+                f"There {text_plural[0]} <b>{n_unscored_epochs} unscored {text_plural[1]}</b>. You can click <i>Next unscored</i> in the navigation bar to jump to the respective {text_plural[1]}. Are you sure you want to exit Scoring Hero?"
             )
             messagebox.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
             messagebox.setDefaultButton(QMessageBox.Cancel)
@@ -141,6 +141,7 @@ class Ui_MainWindow(QMainWindow):
         self.events = Events(30, 0)  # 13 slots from startup; the grid follows the recording
         self.scoring_comparison = None
         self.comparison_name = None
+        self.scoring_save_failed = False
 
         self.eeg_data_ref = None
         self.eeg_data_display_ref = None
@@ -178,13 +179,16 @@ class Ui_MainWindow(QMainWindow):
         return result
 
     def save_scoring(self):
-        """Write the scoring file; a failure is reported in a message box."""
+        """Write the scoring file; a failure is reported in a message box and in the status bar."""
         path = f"{self.filename}.json"
         try:
             write_scoring(self.scoring, self.events, path)
+            self.scoring_save_failed = False
         except Exception as e:
+            self.scoring_save_failed = True
             error_message = f"An error occurred while writing the scoring file in \n{path}: \n\n{str(e)} \n\nThis means that the latest change in the scoring file was not saved! Please 1) screenshot this errorbox and 2) go to the black command window that opened with this program and copy the last error messages. Please report this bug so that it can be fixed fast!"
             QMessageBox.critical(self, "Error", error_message)
+        self.StatusReadout.update(self)
 
     def keyPressEvent(self, event):
         # print(event.key())

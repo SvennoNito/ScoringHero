@@ -9,8 +9,9 @@ from PySide6.QtWidgets import (
     QStatusBar,
     )
 
-from .toolbar import setup_toolbar
+from .navigation_bar import setup_navigation_bar
 from style.icons import icon
+from utilities.jump_to_epoch import jump_to_epoch
 from widgets import *
 from utilities.score_stage import score_stage
 from scoring.scoring_export_window import scoring_export_window, export_scoring
@@ -58,7 +59,6 @@ def setup_ui(ui, MainWindow):
 
     # Build widgets
     ui.SignalWidget = SignalWidget(ui.centralwidget)
-    ui.DisplayedEpochWidget = DisplayedEpochWidget(ui.SignalWidget.axes)
     ui.SpectogramWidget = SpectogramWidget(ui.centralwidget, ui.app_path)
     ui.HypnogramWidget = HypnogramWidget(ui.centralwidget)
     ui.HypnogramSlider = HypnogramSlider(ui.centralwidget)
@@ -90,14 +90,13 @@ def setup_ui(ui, MainWindow):
     layout.addWidget(ui.HypnogramSlider, 1, 86, 8, 1)
     layout.addWidget(ui.RectanglePower.axes, 0, 87, 10, 13)
 
-    # Statusbar
+    # Status bar (filled by StatusReadout)
     ui.statusbar = QStatusBar(MainWindow)
     ui.statusbar.setObjectName("statusbar")
-    ui.statusBar().showMessage('Ready')
-    ui.statusbar.setVisible(True)
-    #ui.statusbar.setMinimumHeight(20) 
-    layout.addWidget(ui.statusbar, 95, 0, 5, 101)    
-    #layout.setRowStretch(95, 0.1)
+    ui.StatusReadout = StatusReadout(ui.statusbar)
+    ui.EpochReadout = ui.StatusReadout.epoch
+    ui.EpochReadout.epochChosen.connect(lambda number, ui=ui: jump_to_epoch(number, ui))
+    ui.EpochReadout.editingDone.connect(ui.SignalWidget.axes.setFocus)
 
 
     # *** Menu ***
@@ -555,8 +554,8 @@ def setup_ui(ui, MainWindow):
     MainWindow.setStatusBar(ui.statusbar)
     QMetaObject.connectSlotsByName(MainWindow)
 
-    # *** Setup toolbar ***
-    setup_toolbar(ui, MainWindow)
+    # *** Setup navigation bar ***
+    setup_navigation_bar(ui, MainWindow)
 
     # Makes GUI listen to key strokes
     MainWindow.keyPressEvent = ui.keyPressEvent

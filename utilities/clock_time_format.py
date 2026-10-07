@@ -12,3 +12,11 @@ def format_clock_time(abs_seconds):
     h = int(abs_seconds // 3600) % 24
     m = int((abs_seconds % 3600) // 60)
     return f"{h:02d}:{m:02d}h"
+
+
+def format_clock_time_hms(abs_seconds):
+    """Format absolute seconds as 'HH:MM:SS', wrapping at 24 h."""
+    h = int(abs_seconds // 3600) % 24
+    m = int((abs_seconds % 3600) // 60)
+    s = int(abs_seconds % 60)
+    return f"{h:02d}:{m:02d}:{s:02d}"

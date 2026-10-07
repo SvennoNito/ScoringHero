@@ -4,7 +4,7 @@ from PySide6.QtWidgets import (
 )
 
 from scoring_model.formats import FORMATS
-from utilities.epoch_header import comparison_display_name
+from utilities.epoch_status import comparison_display_name
 from widgets.resolveDialog import resolve_loaded
 
 class _FormatDialog(QDialog):
@@ -70,9 +70,7 @@ def scoring_import_comparison(ui):
     ui.tool_nextdisagreement.setEnabled(True)
 
     ui.HypnogramWidget.draw_hypnogram(ui)
-    ui.DisplayedEpochWidget.update_text(
-        ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
-    )
+    ui.StatusReadout.update(ui)
 
 
 def clear_comparison(ui):
@@ -88,6 +86,4 @@ def clear_comparison(ui):
 def remove_comparison_scoring(ui):
     clear_comparison(ui)
     ui.HypnogramWidget.draw_hypnogram(ui)
-    ui.DisplayedEpochWidget.update_text(
-        ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
-    )
+    ui.StatusReadout.update(ui)

@@ -132,7 +132,7 @@ def _show_loaded(ui, loaded):
         events = loaded.events
     ui.scoring = scoring if scoring is not None else Scoring(n_epochs, epoch_length_s)
     ui.events = events_from_records(events, epoch_length_s, n_epochs)
-    ui.toolbar_jump_to_epoch.setMaximum(ui.numepo)
+    ui.EpochReadout.set_total(ui.numepo)
 
     def shown():
         apply_tf_visibility(ui)
