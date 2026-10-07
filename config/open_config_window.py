@@ -64,6 +64,11 @@ def _delete_channel(ui, idx):
 
 def _delete_event(ui, idx):
     ui.edit_events(lambda events: events.clear(idx))
+    ui.EventPage.refresh()
+
+
+def _edit_label(ui, slot, text):
+    ui.edit_events(lambda events: events.set_label(slot, text))
 
 
 def open_config_window(ui):
@@ -79,7 +84,7 @@ def open_config_window(ui):
     ui.ConfigurationWindow.settingsApplied.connect(
         lambda keys, ui=ui: apply_changes(keys, ui)
     )
-    ui.EventPage.changesMade.connect(ui.save_scoring)
+    ui.EventPage.labelEdited.connect(lambda slot, text, ui=ui: _edit_label(ui, slot, text))
     ui.EventPage.eventDeleted.connect(lambda idx, ui=ui: _delete_event(ui, idx))
     # ui.ConfigurationWindow.finished.connect(lambda: save_configuration(ui))
     ui.ConfigurationWindow.show()

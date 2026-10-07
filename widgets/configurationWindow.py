@@ -158,11 +158,14 @@ class ConfigurationWindow(QDialog):
 
 
 class EventConfiguration(QDialog):
-    changesMade = Signal()
+    labelEdited = Signal(int, str)
     eventDeleted = Signal(int)
 
     def __init__(self, events, parent=None):
         super().__init__(parent)
+        self.events = events
+        self.count_labels = []
+        self.dur_labels = []
         layout = QVBoxLayout(self)
         self.label = []
         self.remove_buttons = []
@@ -202,7 +205,7 @@ class EventConfiguration(QDialog):
             # Label
             labelbox = QLineEdit(events.label(count))
             labelbox.setAlignment(Qt.AlignRight)
-            labelbox.textChanged.connect(lambda: self.change_event(events))
+            labelbox.textChanged.connect(lambda text, slot=count: self.labelEdited.emit(slot, text))
 
             # Color swatch
             colorbutton = QPushButton()
@@ -241,8 +244,16 @@ class EventConfiguration(QDialog):
             layout.addLayout(row_layout)
 
             self.label.append(labelbox)
+            self.count_labels.append(count_label)
+            self.dur_labels.append(dur_label)
 
         layout.addStretch()
+
+    def refresh(self):
+        """Re-read counts and total durations from the Events."""
+        for slot in range(N_SLOTS):
+            self.count_labels[slot].setText(str(self.events.count(slot)))
+            self.dur_labels[slot].setText(f"{self.events.total_duration(slot):.1f} s")
 
     def _on_remove_event_btn(self, btn):
         idx = self.remove_buttons.index(btn)
@@ -255,11 +266,6 @@ class EventConfiguration(QDialog):
         msg.exec()
         if msg.clickedButton() is btn_continue:
             self.eventDeleted.emit(idx)
-
-    def change_event(self, events):
-        for counter in range(N_SLOTS):
-            events.set_label(counter, self.label[counter].text())
-        self.changesMade.emit()
 
 
 class GeneralConfiguration(QDialog):
