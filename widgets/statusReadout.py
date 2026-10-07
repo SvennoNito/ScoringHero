@@ -1,7 +1,7 @@
 import os
 
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtWidgets import QLabel, QSizePolicy, QSpinBox, QStackedWidget
+from PySide6.QtWidgets import QApplication, QLabel, QSizePolicy, QSpinBox, QStackedWidget
 
 from style.roles import set_role
 from utilities.epoch_status import epoch_status
@@ -104,6 +104,10 @@ class StatusReadout:
         statusbar.addPermanentWidget(self.file)
 
     def update(self, ui):
+        # Every label gets the application font explicitly: the ones restyled by set_role
+        # below otherwise end up in a different size than the untouched ones.
+        for label in (self.stage, self.comparison, self.confidence, self.clock, self.state, self.file):
+            label.setFont(QApplication.font())
         status = epoch_status(ui)
         self.epoch.show_epoch(ui.this_epoch)
         self.stage.setText(status.stage)
@@ -127,7 +131,7 @@ class StatusReadout:
         if ui.scoring_save_failed:
             state.append("Unsaved changes")
         if ui.scoring_comparison is not None:
-            state.append(f"Comparison: {ui.comparison_name}")
+            state.append(f"Comparison: {ui.comparison_name}{getattr(ui, 'comparison_suffix', '')}")
         self.state.setText(" · ".join(state))
         self.state.setVisible(bool(state))
         set_role(self.state, "error" if ui.scoring_save_failed else None)

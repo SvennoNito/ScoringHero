@@ -68,6 +68,7 @@ def scoring_import_comparison(ui):
 
     ui.scoring_comparison = scoring
     ui.comparison_name = comparison_display_name(name_of_scoringfile)
+    ui.comparison_suffix = os.path.splitext(name_of_scoringfile)[1]
 
     ui.action_remove_comparison.setEnabled(True)
     ui.action_comparison_stats.setEnabled(True)
@@ -81,6 +82,7 @@ def clear_comparison(ui):
     """Drop the comparison scoring and disable its actions (no redraw)."""
     ui.scoring_comparison = None
     ui.comparison_name = None
+    ui.comparison_suffix = ""
 
     ui.action_remove_comparison.setEnabled(False)
     ui.action_comparison_stats.setEnabled(False)

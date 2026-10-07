@@ -143,6 +143,7 @@ class Ui_MainWindow(QMainWindow):
         self.events = Events(30, 0)  # 13 slots from startup; the grid follows the recording
         self.scoring_comparison = None
         self.comparison_name = None
+        self.comparison_suffix = ""
         self.scoring_save_failed = False
 
         self.eeg_data_ref = None

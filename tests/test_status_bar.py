@@ -50,7 +50,11 @@ def test_stage_badge_shows_unscored_not_sure_and_comparison_disagreement(ui):
     _jump(ui, 3)
     text = ui.StatusReadout.stage_badge.text()
     assert "N2" in text and "vs N3" in text
-    assert 'color: #c0392b;">vs N3' in text
+    assert "#c0392b" in text and "font-size" in text and ">vs N3<" in text
+    ui.scoring_comparison.set(3, "N2")
+    _jump(ui, 3)
+    text = ui.StatusReadout.stage_badge.text()
+    assert "vs N2" in text and "#c0392b" not in text
 
 
 def test_status_bar_shows_recording_name_and_comparison(ui):
@@ -62,9 +66,10 @@ def test_status_bar_shows_recording_name_and_comparison(ui):
     ui.scoring_comparison = Scoring(ui.numepo, ui.config[0]["Epoch_length_s"])
     ui.scoring_comparison.set(3, "N3")
     ui.comparison_name = "scorer2"
+    ui.comparison_suffix = ".annot"
     _jump(ui, 3)
     text = _status_text(ui)
-    assert "Comparison: scorer2" in text
+    assert "Comparison: scorer2.annot" in text
     assert "scorer2: N3" in text
 
 

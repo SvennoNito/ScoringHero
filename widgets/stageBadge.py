@@ -30,8 +30,8 @@ def stage_text_color(stage):
 
 class StageBadge(QLabel):
     """Translucent stage chip floating over `panel` (the signal panel). Shows the stage of
-    the displayed epoch; 'N2 vs N3' with a red border when the comparison scoring
-    disagrees. Drag it with the mouse; `positionChosen(fx, fy)` reports the new centre as
+    the displayed epoch; 'N2 vs N3' when a comparison scoring covers it, with the 'vs' part
+    and a border in red if they differ. Drag it with the mouse; `positionChosen(fx, fy)` reports the new centre as
     fractions of the panel size on release."""
 
     positionChosen = Signal(float, float)
@@ -46,7 +46,10 @@ class StageBadge(QLabel):
         panel.installEventFilter(self)
 
     def show_stage(self, stage, comparison_stage=None, disagrees=False, position=(0.5, 0.5), size=24):
-        text = f'{stage} <span style="color: {DISAGREE_BORDER};">vs {comparison_stage}</span>' if disagrees else stage
+        text = stage
+        if comparison_stage is not None:
+            vs_color = f"color: {DISAGREE_BORDER}; " if disagrees else ""
+            text += f' <span style="{vs_color}font-size: {size * 2 // 3}px;">vs {comparison_stage}</span>'
         border = DISAGREE_BORDER if disagrees else "transparent"
         self.setStyleSheet(
             f"background: {stage_tint(stage)}; color: {stage_text_color(stage)};"
