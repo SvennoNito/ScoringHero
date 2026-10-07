@@ -39,9 +39,9 @@ def test_buttons_wait_for_a_recording_and_disagreement_for_a_comparison(unloaded
     assert _button(loaded_ui, "Next disagreement").isEnabled()
 
 
-def test_tooltips_give_name_and_rule_and_disabled_buttons_say_why(unloaded_ui, loaded_ui):
+def test_tooltips_give_a_sentence_and_rule_and_disabled_buttons_say_why(unloaded_ui, loaded_ui):
     uncertain = _button(loaded_ui, "Next uncertain").toolTip()
-    assert "Next uncertain" in uncertain and "confidence is below 0.5" in uncertain
+    assert "Jump to next <b>uncertain</b> epoch" in uncertain and "confidence is below 0.5" in uncertain
 
     assert "open a recording first" in _button(unloaded_ui, "Next event").toolTip().lower()
     disagreement = _button(loaded_ui, "Next disagreement")

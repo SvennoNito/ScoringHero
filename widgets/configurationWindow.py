@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (
     QDialog,
     QFormLayout,
     QDoubleSpinBox,
+    QSpinBox,
     QCheckBox,
     QComboBox,
     QHBoxLayout,
@@ -385,7 +386,7 @@ class GeneralConfiguration(QDialog):
             row_layout.addWidget(optionbox)
             form_layout.addRow(row_layout)
 
-        # Recording start time field (active only when "Clock Time" is selected)
+        # Recording start time field (the status bar clock time always uses it)
         start_label = QLabel("Recording start time")
         start_label.setAlignment(Qt.AlignRight)
         start_label.setFixedWidth(self.width_label)
@@ -397,20 +398,39 @@ class GeneralConfiguration(QDialog):
             self.start_time_edit.setTime(QTime(h, m))
         except Exception:
             self.start_time_edit.setTime(QTime(0, 0))
-        is_clock_mode = general_config.get("EEG_panel_time_unit", "Seconds") == "Clock Time"
-        self.start_time_edit.setEnabled(is_clock_mode)
-        start_label.setEnabled(is_clock_mode)
-        time_unit_combo = self.optionboxes["EEG_panel_time_unit"][0]
-        time_unit_combo.currentTextChanged.connect(
-            lambda text, lbl=start_label: (
-                self.start_time_edit.setEnabled(text == "Clock Time"),
-                lbl.setEnabled(text == "Clock Time"),
-            )
-        )
         start_row = QHBoxLayout()
         start_row.addWidget(start_label)
         start_row.addWidget(self.start_time_edit)
         form_layout.addRow(start_row)
+
+        # Stage badge: the large stage indicator in the EEG panel (drag it there to move it)
+        badge_label = QLabel("Stage in EEG panel")
+        badge_label.setAlignment(Qt.AlignRight)
+        badge_label.setFixedWidth(self.width_label)
+        badge_checkbox = QCheckBox("Show (drag to move)", self)
+        badge_checkbox.setChecked(general_config.get("Show_stage_badge", True))
+        badge_checkbox.stateChanged.connect(lambda _=None: self.apply_changes(general_config))
+        self.checkboxes["Show_stage_badge"] = badge_checkbox
+        badge_size = QSpinBox(self)
+        badge_size.setRange(10, 96)
+        badge_size.setSuffix(" px")
+        badge_size.setValue(general_config.get("Stage_badge_size", 24))
+        badge_size.setToolTip("Size of the stage badge")
+        self.spinboxes["Stage_badge_size"] = [badge_size]
+        size_label = QLabel("Size")
+        size_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        for widget in (size_label, badge_size):
+            widget.setEnabled(badge_checkbox.isChecked())
+        badge_checkbox.stateChanged.connect(
+            lambda state: (size_label.setEnabled(bool(state)), badge_size.setEnabled(bool(state)))
+        )
+        badge_row = QHBoxLayout()
+        badge_row.addWidget(badge_label)
+        badge_row.addWidget(badge_checkbox)
+        badge_row.addStretch(1)
+        badge_row.addWidget(size_label)
+        badge_row.addWidget(badge_size)
+        form_layout.addRow(badge_row)
 
         # Edits write into the pending config; the window-level Apply commits them.
         for spinbox_list in self.spinboxes.values():

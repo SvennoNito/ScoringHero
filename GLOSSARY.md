@@ -65,6 +65,10 @@ _Avoid_: toolbar
 **Jump button**:
 A navigation bar button that moves to the next epoch or event of a given kind (unscored, uncertain, stage transition, event, human-scored, disagreement).
 
+**Stage badge**:
+Translucent coloured chip over the signal panel (initially centred; the user can drag it anywhere, and hide it in the Configuration) showing the stage of the displayed epoch ("Unscored" when it has none). When a comparison scoring disagrees it reads e.g. "N2 vs N3" with a red border. The status bar shows the stage as well.
+_Avoid_: stage label, stage overlay
+
 ### Filtering
 
 **Cutoff frequency**:

@@ -16,6 +16,7 @@ from widgets import *
 from utilities.score_stage import score_stage
 from scoring.scoring_export_window import scoring_export_window, export_scoring
 from scoring_model.formats import FORMATS
+from config.write_configuration import save_configuration
 from mouse_click.click_on_hypnogram import click_on_hypnogram
 from mouse_click.click_on_spectogram import click_on_spectogram
 from mouse_click.move_swa_slider import move_swa_slider
@@ -93,8 +94,13 @@ def setup_ui(ui, MainWindow):
     # Status bar (filled by StatusReadout)
     ui.statusbar = QStatusBar(MainWindow)
     ui.statusbar.setObjectName("statusbar")
-    ui.StatusReadout = StatusReadout(ui.statusbar)
+    ui.StatusReadout = StatusReadout(ui.statusbar, ui.PaintEventWidget)
     ui.EpochReadout = ui.StatusReadout.epoch
+    def save_badge_position(fx, fy, ui=ui):
+        ui.config[0]["Stage_badge_position"] = [round(fx, 4), round(fy, 4)]
+        save_configuration(ui)
+
+    ui.StatusReadout.stage_badge.positionChosen.connect(save_badge_position)
     ui.EpochReadout.epochChosen.connect(lambda number, ui=ui: jump_to_epoch(number, ui))
     ui.EpochReadout.editingDone.connect(ui.SignalWidget.axes.setFocus)
 

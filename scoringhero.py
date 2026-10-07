@@ -24,6 +24,8 @@ from scoring_model.clean_sync import sync_clean
 from scoring_model.events import Events
 from style.appstyler import appstyler
 from style.apply_app_theme import apply_app_theme
+from style.theme import app_icon_path
+from PySide6.QtGui import QIcon
 
 _EVENT_KEY_MAP = {
     Qt.Key_A: 0,
@@ -200,7 +202,13 @@ class Ui_MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     print_welcome_banner()
+    if sys.platform == "win32":
+        # Own taskbar identity, so Windows shows our icon instead of grouping under python.exe
+        import ctypes
+
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("ScoringHero.ScoringHero")
     app = QtWidgets.QApplication(sys.argv)
+    app.setWindowIcon(QIcon(app_icon_path()))
 
     ui = Ui_MainWindow()
     MainWindow = MyMainWindow(ui)
@@ -212,7 +220,8 @@ if __name__ == "__main__":
     if ui.devmode == 1:
         name_of_eegfile = os.path.join(ui.default_data_path, "example_data.mat")
         ui.filename, suffix = os.path.splitext(name_of_eegfile)
-        MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({os.path.basename(name_of_eegfile)})")
+        ui.eeg_file_name = os.path.basename(name_of_eegfile)
+        ui.eeg_extra_files = 0
         load_wrapper(ui, 'eeglab')
 
     appstyler(app)

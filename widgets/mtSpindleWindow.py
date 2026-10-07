@@ -19,6 +19,7 @@ from PySide6.QtCore import Signal, Qt
 
 from scoring_model.scoring import STAGES
 from style.roles import set_role
+from style.icons import info_badge
 
 
 def _info_label(text, tooltip):
@@ -30,11 +31,7 @@ def _info_label(text, tooltip):
 
     row.addWidget(QLabel(text))
 
-    icon = QLabel("ⓘ")
-    set_role(icon, "info")
-    icon.setToolTip(tooltip)
-    icon.setToolTipDuration(0)
-    icon.setCursor(Qt.WhatsThisCursor)
+    icon = info_badge(tooltip)
     row.addWidget(icon)
     row.addStretch()
 
@@ -231,11 +228,7 @@ class MtSpindleWindow(QDialog):
         set_role(note, "note")
         note_layout.addWidget(note, stretch=1)
 
-        procedure_icon = QLabel("ⓘ")
-        set_role(procedure_icon, "info")
-        procedure_icon.setCursor(Qt.WhatsThisCursor)
-        procedure_icon.setToolTipDuration(0)
-        procedure_icon.setToolTip(
+        procedure_icon = info_badge(
             "MT-Spindle procedure\n"
             "─────────────────────────────────────────\n"
             "1. Broadband bandpass filter (0.3–35 Hz)\n"

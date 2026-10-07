@@ -28,3 +28,9 @@ def test_icon_takes_its_colors_from_the_theme_per_state(loaded_ui):
     assert _opaque_colors(flag.pixmap(32, 32, QIcon.Normal)) == {theme.ICON}
     assert _opaque_colors(flag.pixmap(32, 32, QIcon.Active)) == {theme.ACCENT}
     assert _opaque_colors(flag.pixmap(32, 32, QIcon.Disabled)) == {theme.DISABLED}
+
+
+def test_application_icon_file_loads_with_several_sizes(loaded_ui):
+    application_icon = QIcon(theme.app_icon_path())
+    assert not application_icon.isNull()
+    assert len(application_icon.availableSizes()) > 1

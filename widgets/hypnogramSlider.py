@@ -33,6 +33,14 @@ class HypnogramSlider(QWidget):
 
         self.slider.sliderMoved.connect(self.transform_value)
 
+        tip = (
+            "<b>Smoothing of the SWA curve</b><br>"
+            "<i>Slow-wave activity: mean power at 0.5\u20134 Hz per epoch, the line in the hypnogram</i><br>"
+            "Top: unsmoothed. Lower: smoother (median filter over up to 101 epochs)."
+        )
+        for widget in (self, labelbox, self.slider):
+            widget.setToolTip(tip)
+
     def transform_value(self, value):
         remainder = value % 2
         value_by_two = value - remainder if remainder < 1 else value + (2 - remainder)

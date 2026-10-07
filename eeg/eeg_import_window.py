@@ -26,12 +26,8 @@ def eeg_import_window(ui, MainWindow, datatype):
 
     ui.filename, suffix = os.path.splitext(primary_file)
     ui.default_data_path = os.path.dirname(primary_file)
-
-    if extra_files:
-        base_names = ", ".join(os.path.basename(f) for f in name_of_eegfiles)
-        MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({len(name_of_eegfiles)} files: {os.path.basename(primary_file)}, ...)")
-    else:
-        MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({os.path.basename(primary_file)})")
+    ui.eeg_file_name = os.path.basename(primary_file)
+    ui.eeg_extra_files = len(extra_files)
 
     def on_error(e):
         QMessageBox.critical(None, "File loading error", str(e))

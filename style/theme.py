@@ -17,5 +17,11 @@ def asset_path(*parts):
     """Absolute path of a bundled file under assets/ (fonts, icons)."""
     return os.path.join(_ASSETS, *parts)
 
+
+def app_icon_path():
+    """Absolute path of the application icon (icon.ico in the project root; the Windows
+    builds bundle it as a data file)."""
+    return os.path.join(os.path.dirname(_ASSETS), "icon.ico")
+
 # Channel-name pill on plots: semi-opaque white so the name reads over any trace or image
 PILL_BACKGROUND = (255, 255, 255, 215)

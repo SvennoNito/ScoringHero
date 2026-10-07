@@ -1,12 +1,23 @@
 from style.plot_style import soften_axes
-from PySide6.QtWidgets import QWidget
-from PySide6.QtCore import Signal
+from PySide6.QtWidgets import QLabel, QWidget
+from PySide6.QtCore import QEvent, Qt, Signal
+from style.roles import set_role
 from .channelPill import ChannelPill
 import pyqtgraph as pg
 import numpy as np
 from utilities import *
 from signal_processing import *
 
+
+INFO_TEXT = (
+    "<b>Periodogram</b><br>"
+    "<i>Power spectrum of the displayed epoch</i><br>"
+    "Welch estimate (2 s Hann windows) of the channel named at the top left.<br>"
+    "Power is scaled to 0\u20131, so the shape counts, not the amplitude.<br>"
+    "Channel, frequency range and display mode: Configuration \u2192 Periodogram."
+)
+
+RIGHT_MARGIN = 0.15  # fraction of the frequency span
 
 class RectanglePower(QWidget):
     changesMade = Signal()
@@ -36,12 +47,33 @@ class RectanglePower(QWidget):
         self.axes.getAxis('left').setTicks([])
         self.axes.showGrid(x=True, y=False, alpha=0.3)
 
+        # Info icon in the top-right corner
+        self.info = QLabel("\u24d8", self.axes)
+        set_role(self.info, "info")
+        self.info.setToolTip(INFO_TEXT)
+        self.info.setToolTipDuration(0)
+        self.info.setCursor(Qt.WhatsThisCursor)
+        self.info.setStyleSheet("background: transparent;")
+        self.info.adjustSize()
+        self.axes.installEventFilter(self)
+        self._place_info()
+
         # Initiate
         self.powerline = self.axes.plot([0], [0], pen=self.pen)
 
+    def _place_info(self):
+        self.info.move(self.axes.width() - self.info.width() - 6, 4)
+        self.info.raise_()
+
+    def eventFilter(self, obj, event):
+        if event.type() == QEvent.Resize:
+            self._place_info()
+        return False
+
     def update_powerline(self, freqs, power, channel_name=""):
         self.powerline.setData(freqs, power)
-        self.axes.setXRange(freqs[0], freqs[-1], padding=0)
+        # Room right of the last tick so its "Hz" label is not cut off at the panel edge
+        self.axes.setXRange(freqs[0], freqs[-1] + RIGHT_MARGIN * (freqs[-1] - freqs[0]), padding=0)
         self.channel_pill.set_name(channel_name)
 
         # Build x ticks with "Hz" suffix on the last label

@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QLabel, QSizePolicy, QSpinBox, QStackedWidget
 
 from style.roles import set_role
 from utilities.epoch_status import epoch_status
-from widgets.stageBadge import StageBadge
+from widgets.stageBadge import TEXT_COLOR, StageBadge, stage_tint
 
 
 class _ClickableLabel(QLabel):
@@ -85,19 +85,20 @@ class EpochReadout(QStackedWidget):
 
 
 class StatusReadout:
-    """Fills the status bar: epoch, comparison stage, confidence and clock time on the
-    left; recording name and scoring state on the right. The stage is shown by a large
-    StageBadge over the signal panel."""
+    """Fills the status bar: epoch, stage, comparison stage, confidence and clock time on
+    the left; recording name and scoring state on the right. The stage is also shown by a
+    StageBadge over the signal panel (optional, movable)."""
 
     def __init__(self, statusbar, signal_panel):
         self.epoch = EpochReadout()
         self.stage_badge = StageBadge(signal_panel)
+        self.stage = QLabel()
         self.comparison = QLabel()
         self.confidence = QLabel()
         self.clock = QLabel()
         self.state = QLabel()
         self.file = QLabel()
-        for widget in (self.epoch, self.comparison, self.confidence, self.clock):
+        for widget in (self.epoch, self.stage, self.comparison, self.confidence, self.clock):
             statusbar.addWidget(widget)
         statusbar.addPermanentWidget(self.state)
         statusbar.addPermanentWidget(self.file)
@@ -105,7 +106,17 @@ class StatusReadout:
     def update(self, ui):
         status = epoch_status(ui)
         self.epoch.show_epoch(ui.this_epoch)
-        self.stage_badge.show_stage(status.stage, status.comparison_stage, status.disagrees)
+        self.stage.setText(status.stage)
+        self.stage.setStyleSheet(
+            f"background: {stage_tint(status.stage)}; color: {TEXT_COLOR};"
+            "border-radius: 4px; padding: 0 8px; font-weight: 700;"
+        )
+        badge = self.stage_badge
+        badge.setVisible(ui.config[0].get("Show_stage_badge", True))
+        badge.show_stage(
+            status.stage, status.comparison_stage, status.disagrees,
+            ui.config[0].get("Stage_badge_position", [0.5, 0.5]), ui.config[0].get("Stage_badge_size", 24),
+        )
         self.comparison.setText(status.comparison or "")
         self.comparison.setVisible(status.comparison is not None)
         set_role(self.comparison, "error" if status.disagrees else None)
@@ -120,4 +131,7 @@ class StatusReadout:
         self.state.setText(" · ".join(state))
         self.state.setVisible(bool(state))
         set_role(self.state, "error" if ui.scoring_save_failed else None)
-        self.file.setText(os.path.basename(ui.filename))
+        eeg = getattr(ui, "eeg_file_name", "")
+        extra = getattr(ui, "eeg_extra_files", 0)
+        eeg_text = f"{eeg} (+{extra})" if extra else eeg
+        self.file.setText(f"EEG: {eeg_text}  ·  Scoring: {os.path.basename(ui.filename)}.json")

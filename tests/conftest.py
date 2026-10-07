@@ -56,6 +56,7 @@ def _build(directory):
         apply_app_theme(window, app, ui.app_path, "modern_theme.qss")
     ui.app_path = str(directory)
     ui.filename = os.path.join(str(directory), "example_data")
+    ui.eeg_file_name = "example_data.mat"
     return app, window, ui
 
 

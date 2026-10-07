@@ -22,6 +22,7 @@ class EpochStatus(NamedTuple):
     comparison: Optional[str]  # "scorer2: N3"; None without a comparison covering this epoch
     disagrees: bool
     clock: str
+    comparison_stage: Optional[str] = None  # the comparison's stage name, "Unscored" when it has none
 
 
 def epoch_status(ui):
@@ -38,13 +39,16 @@ def epoch_status(ui):
     else:
         confidence_text = f"Confidence {confidence * 100:.0f}%"
 
-    comparison, disagrees = None, False
+    comparison, comparison_stage, disagrees = None, None, False
     other = ui.scoring_comparison
     if other is not None and epoch < len(other):
         other_stage = other.stage(epoch)
-        comparison = f"{ui.comparison_name}: {'Unscored' if other_stage is None else other_stage}"
+        comparison_stage = "Unscored" if other_stage is None else other_stage
+        comparison = f"{ui.comparison_name}: {comparison_stage}"
         disagrees = other_stage != stage
 
     start_s = parse_start_time(ui.config[0].get("Recording_start_time", "00:00"))
     clock = format_clock_time_hms(start_s + epoch * ui.config[0]["Epoch_length_s"])
-    return EpochStatus("Unscored" if stage is None else stage, confidence_text, comparison, disagrees, clock)
+    return EpochStatus(
+        "Unscored" if stage is None else stage, confidence_text, comparison, disagrees, clock, comparison_stage
+    )

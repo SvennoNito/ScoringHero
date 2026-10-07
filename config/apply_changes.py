@@ -81,3 +81,6 @@ def _finish_changes(config_parameter_name, ui):
     ):
         ui.SpectogramWidget.update_time_axis_only(ui.config)
         ui.HypnogramWidget.update_time_axis(ui)
+
+    if any(key in config_parameter_name for key in ("Recording_start_time", "Show_stage_badge", "Stage_badge_size")):
+        ui.StatusReadout.update(ui)

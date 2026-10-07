@@ -62,7 +62,8 @@ if __name__ == "__main__":
     if ui.devmode == 1:
         name_of_eegfile = os.path.join(ui.default_data_path, "example_data.mat")
         ui.filename, suffix = os.path.splitext(name_of_eegfile)
-        MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({os.path.basename(name_of_eegfile)})")
+        ui.eeg_file_name = os.path.basename(name_of_eegfile)
+        ui.eeg_extra_files = 0
         load_wrapper(ui, 'eeglab')
 
     appstyler(app)
