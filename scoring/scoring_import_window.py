@@ -3,12 +3,11 @@ from PySide6.QtWidgets import (
     QFileDialog, QMessageBox, QDialog, QVBoxLayout, QHBoxLayout,
     QLabel, QComboBox, QPushButton, QScrollArea, QWidget
 )
-from events.draw_event_in_this_epoch import draw_event_in_this_epoch
+from scoring_model.event_records import events_from_records
 from utilities.refresh_gui import _update_export_menu_state
 from scoring_model.formats import FORMATS
 from widgets.resolveDialog import resolve_loaded
 from .load_sleeptrip_events import load_sleeptrip_events
-from .events_to_ui import events_to_ui
 
 
 class EpochEventImportDialog(QDialog):
@@ -153,13 +152,12 @@ def scoring_import_window(ui, filetype):
                 "epoch": epoch_list,
             })
 
-        events_to_ui(ui, events)
+        ui.events = events_from_records(events, epolen, ui.numepo)
         ui.HypnogramWidget.draw_hypnogram(ui)
         ui.DisplayedEpochWidget.update_text(
             ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
         )
-        for container in ui.AnnotationContainer:
-            draw_event_in_this_epoch(ui, container)
+        ui.SignalWidget.draw_events(ui.events, ui.this_epoch)
         return
 
     epolen = ui.config[0]["Epoch_length_s"]
@@ -194,7 +192,7 @@ def scoring_import_window(ui, filetype):
                             "end": (epoch_idx + 1) * epolen,
                             "epoch": [epoch_idx + 1],
                         })
-    events_to_ui(ui, events)
+    ui.events = events_from_records(events, epolen, ui.numepo)
 
     ui.HypnogramWidget.draw_hypnogram(ui)
     ui.DisplayedEpochWidget.update_text(

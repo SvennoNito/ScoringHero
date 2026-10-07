@@ -1,4 +1,3 @@
-from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 from signal_processing.compute_epoch_periodogram import compute_epoch_periodogram
 from utilities.tf_config_helper import call_tf_widget
 from utilities.overlay_state import get_overlay_signal_for_display
@@ -35,5 +34,4 @@ def redraw_gui(ui):
     call_tf_widget(ui)
 
     # Draw annotations
-    for container in ui.AnnotationContainer:
-        draw_event_in_this_epoch(ui, container)
+    ui.SignalWidget.draw_events(ui.events, ui.this_epoch)

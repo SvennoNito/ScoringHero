@@ -14,7 +14,6 @@ except ImportError:
 
 from widgets import GsscWindow
 from .autoscore_results import apply_gssc
-from scoring.write_scoring import write_scoring
 from .staging_dialogs import ask_staging_options
 from utilities.refresh_gui import refresh_gui
 
@@ -127,7 +126,7 @@ if _GSSC_AVAILABLE:
             progress.setLabelText("Finished")
             QApplication.processEvents()
 
-            write_scoring(ui)
+            ui.save_scoring()
             ui.HypnogramWidget.draw_hypnogram(ui)
             refresh_gui(ui)
 

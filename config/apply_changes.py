@@ -2,6 +2,7 @@ from .write_configuration import save_configuration
 from eeg.displayed_signal import settings_changed
 from eeg.number_of_epochs import number_of_epochs
 from scoring.scoring_import_comparison import clear_comparison
+from scoring_model.clean_sync import sync_clean
 from scoring_model.scoring import Scoring
 from signal_processing.compute_epoch_periodogram import compute_epoch_periodogram
 from signal_processing.times_vector import times_vector
@@ -23,6 +24,10 @@ def apply_changes(config_parameter_name, ui, channels_changed=False):
         )
         ui.scoring = Scoring(ui.numepo, ui.config[0]["Epoch_length_s"])
         clear_comparison(ui)
+        # Events keep their times; their epochs follow the new grid, and the new Scoring
+        # gets the artefact flags (an edit from empty). Redraw and file follow the rebuild.
+        ui.events.set_grid(ui.config[0]["Epoch_length_s"], ui.numepo)
+        sync_clean(ui.scoring, set(), ui.events.artefact_epochs())
 
     if (
         ("Sampling_rate_hz" in config_parameter_name)

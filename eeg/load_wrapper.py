@@ -6,7 +6,7 @@ from scoring.scoring_import_comparison import clear_comparison
 from scoring_model.formats import load_scoringhero
 from scoring_model.scoring import Scoring
 from widgets.resolveDialog import resolve_loaded
-from scoring.events_to_ui import events_to_ui
+from scoring_model.event_records import events_from_records
 from .load_eeglab import load_eeglab
 from .load_r09 import load_r09
 from .load_edf import load_edf
@@ -130,7 +130,7 @@ def _show_loaded(ui, loaded, on_done=None):
         scoring = resolve_loaded(ui, loaded, n_epochs, epoch_length_s)
         events = loaded.events
     ui.scoring = scoring if scoring is not None else Scoring(n_epochs, epoch_length_s)
-    events_to_ui(ui, events)
+    ui.events = events_from_records(events, epoch_length_s, n_epochs)
     ui.toolbar_jump_to_epoch.setMaximum(ui.numepo)
 
     def shown():

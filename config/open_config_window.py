@@ -1,6 +1,4 @@
 from widgets import ConfigurationWindow
-from scoring.write_scoring import write_scoring
-from events.event_deletion import rebuild_event_epochs, refresh_after_event_deletion
 from eeg.displayed_signal import channel_renamed, settings_changed
 from .apply_changes import apply_changes
 from .channel_settings import ANALYSIS_CHANNEL_KEYS, derive_channel
@@ -65,17 +63,14 @@ def _delete_channel(ui, idx):
 
 
 def _delete_event(ui, idx):
-    container = ui.AnnotationContainer[idx]
-    container.borders.clear()
-    rebuild_event_epochs(ui, container)
-    refresh_after_event_deletion(ui)
+    ui.edit_events(lambda events: events.clear(idx))
 
 
 def open_config_window(ui):
     allow_staging = all(stage is None for stage in ui.scoring.stages())
 
     channel_labels = [ch["Channel_name"] for ch in ui.config[1]]
-    ui.ConfigurationWindow = ConfigurationWindow(ui.config, ui.AnnotationContainer, allow_staging, channel_labels)
+    ui.ConfigurationWindow = ConfigurationWindow(ui.config, ui.events, allow_staging, channel_labels)
     ui.ChannelPage, ui.GeneralPage, ui.EventPage, ui.WaveletPage, ui.SpectrogramPage, ui.PeriodogramPage = ui.ConfigurationWindow.return_page()
     ui.ChannelPage.channelsChanged.connect(lambda ui=ui: settings_changed(ui))
     ui.ChannelPage.channelRenamed.connect(lambda old, new, ui=ui: _rename_channel(ui, old, new))
@@ -84,7 +79,7 @@ def open_config_window(ui):
     ui.ConfigurationWindow.settingsApplied.connect(
         lambda keys, ui=ui: apply_changes(keys, ui)
     )
-    ui.EventPage.changesMade.connect(lambda: write_scoring(ui))
+    ui.EventPage.changesMade.connect(ui.save_scoring)
     ui.EventPage.eventDeleted.connect(lambda idx, ui=ui: _delete_event(ui, idx))
     # ui.ConfigurationWindow.finished.connect(lambda: save_configuration(ui))
     ui.ConfigurationWindow.show()

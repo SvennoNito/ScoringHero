@@ -4,7 +4,6 @@ import json
 import os
 
 from scoring.scoring_import_comparison import scoring_import_comparison
-from scoring.write_scoring import write_scoring
 from scoring_model.formats import FORMATS
 from scoring_model.scoring import Scoring
 
@@ -22,7 +21,7 @@ def _json(path):
 def test_example_file_round_trips_unchanged(loaded_ui):
     path = f"{loaded_ui.filename}.json"
     before = _json(path)
-    write_scoring(loaded_ui)
+    loaded_ui.save_scoring()
     assert _json(path) == before
     assert loaded_ui.scoring.to_records() == before[0]
 
@@ -31,7 +30,7 @@ def test_events_are_kept_on_save(loaded_ui):
     path = f"{loaded_ui.filename}.json"
     events = _json(path)[1]
     loaded_ui.scoring.set(0, "N2", "human")
-    write_scoring(loaded_ui)
+    loaded_ui.save_scoring()
     records, saved_events = _json(path)
     assert saved_events == events and records[0]["stage"] == "N2" and records[0]["digit"] == -2
 
@@ -42,12 +41,12 @@ def test_nidra_probabilities_and_unscored_artefact_epoch_survive_open_edit_save(
     s.set(3, "N2", "NIDRA (m)", 0.9, ["C3"], probabilities={"Wake": 0.1, "N2": 0.9})
     s.set(4, None, "NIDRA (m) - artifact", 0.8, ["C4"])
     s.set_clean(4, 0)
-    write_scoring(loaded_ui)
+    loaded_ui.save_scoring()
     before = _json(path)
     load_wrapper(loaded_ui, "eeglab")
     wait_loaded(loaded_ui)
     loaded_ui.scoring.set(0, "N1", "human")  # edit elsewhere
-    write_scoring(loaded_ui)
+    loaded_ui.save_scoring()
     after = _json(path)
     assert after[0][3] == before[0][3] and "probabilities" in after[0][3]
     assert after[0][4] == before[0][4] and after[0][4]["clean"] == 0
@@ -71,7 +70,7 @@ def test_mismatch_cancel_opens_empty_scoring_and_leaves_file(loaded_ui, monkeypa
     assert len(loaded_ui.scoring) == loaded_ui.numepo
     assert all(s is None for s in loaded_ui.scoring.stages())
     assert open(path, "rb").read() == before
-    assert len(loaded_ui.AnnotationContainer[1].borders) == 1  # events survive for the first save
+    assert loaded_ui.events.count(1) == 1  # events survive for the first save
 
 
 def test_mismatch_resolved_fits_recording(loaded_ui, monkeypatch, wait_loaded):

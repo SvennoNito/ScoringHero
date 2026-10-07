@@ -1,7 +1,6 @@
 from mne import create_info
 from mne.io import RawArray
 from yasa import SleepStaging
-from scoring.write_scoring import write_scoring
 from .autoscore_results import apply_yasa
 from utilities.refresh_gui import refresh_gui
 
@@ -19,6 +18,6 @@ def score_yasa(ui):
 
     apply_yasa(ui.scoring, stages, confidence)
 
-    write_scoring(ui)
+    ui.save_scoring()
     ui.HypnogramWidget.draw_hypnogram(ui)
     refresh_gui(ui)

@@ -1,7 +1,6 @@
 import os
 from PySide6.QtWidgets import QFileDialog, QMessageBox
 from scoring_model.formats import FORMATS
-from .write_scoring import write_scoring
 
 
 def scoring_export_window(ui):
@@ -10,7 +9,7 @@ def scoring_export_window(ui):
     )
     ui.filename, _ = os.path.splitext(name_of_scoringfile)
     ui.default_data_path = os.path.dirname(name_of_scoringfile)
-    write_scoring(ui)
+    ui.save_scoring()
 
 
 def export_scoring(ui, format_name):

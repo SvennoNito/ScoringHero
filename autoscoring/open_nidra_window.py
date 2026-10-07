@@ -20,7 +20,6 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, QTimer
 
 from widgets import NidraWindow, NidraSummaryWindow
-from events.add_events_to_container import add_events_to_container
 from utilities.refresh_gui import refresh_gui
 from .nidra_env import (
     MODELS,
@@ -31,7 +30,7 @@ from .nidra_env import (
     missing_requirements,
     is_frozen,
 )
-from scoring.write_scoring import write_scoring
+from scoring_model.events import N_SLOTS
 from .staging_dialogs import ask_staging_options
 from .autoscore_results import apply_nidra
 
@@ -101,7 +100,7 @@ def open_nidra_window(ui):
         return
 
     channel_labels = [ch["Channel_name"] for ch in ui.config[1]]
-    annotation_labels = [container.label for container in ui.AnnotationContainer]
+    annotation_labels = [ui.events.label(slot) for slot in range(N_SLOTS)]
 
     ui.NidraWindow = NidraWindow(
         channel_labels,
@@ -271,7 +270,7 @@ def _execute_nidra(ui, settings, model_path, mode, overwrite_stages, progress):
         progress.setLabelText(f"Finished — {len(hypnogram)} epochs scored.")
         QApplication.processEvents()
 
-        write_scoring(ui)
+        ui.save_scoring()
         ui.HypnogramWidget.draw_hypnogram(ui)
         refresh_gui(ui)
 
@@ -342,11 +341,9 @@ def _apply_scores(
     )
 
     if artifact_intervals and settings["mark_artifacts"]:
-        container = next(
-            (c for c in ui.AnnotationContainer if c.label == settings["artifact_marker"]),
-            None,
-        )
-        if container is not None:
-            add_events_to_container(ui, artifact_intervals, container)
+        labels = [ui.events.label(slot) for slot in range(N_SLOTS)]
+        if settings["artifact_marker"] in labels:
+            slot = labels.index(settings["artifact_marker"])
+            ui.edit_events(lambda events: events.add(slot, artifact_intervals))
 
     return len(artifact_intervals)

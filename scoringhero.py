@@ -18,9 +18,10 @@ from utilities.next_epoch import next_epoch
 from utilities.prev_epoch import prev_epoch
 from eeg.load_wrapper import load_wrapper
 from widgets import *
-from events.event_handler import event_handler
-from events.erase_events_in_rectangles import erase_events_in_rectangles
+from paint_event.rectangle_events import event_hotkey, erase_events_in_rectangles
 from scoring.write_scoring import write_scoring
+from scoring_model.clean_sync import sync_clean
+from scoring_model.events import Events
 from style.appstyler import appstyler
 from style.apply_app_theme import apply_app_theme
 
@@ -81,8 +82,8 @@ class GlobalKeyFilter(QObject):
                 box_index = _EVENT_KEY_MAP[key]
                 if self._ui.relabeled_event:
                     self._ui.relabeled_event = False
-                elif box_index < len(self._ui.AnnotationContainer):
-                    event_handler(box_index, self._ui)
+                else:
+                    event_hotkey(box_index, self._ui)
                 self._ui.held_event_key = None
                 return True
 
@@ -126,7 +127,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
                 event.ignore()
                 return
             else:
-                write_scoring(self.ui)
+                self.ui.save_scoring()
                 event.accept()
 
 
@@ -138,6 +139,7 @@ class Ui_MainWindow(QMainWindow):
         self.held_event_key = None
         self.relabeled_event = False
         self.scoring = None
+        self.events = Events(30, 0)  # 13 slots from startup; the grid follows the recording
         self.scoring_comparison = None
         self.comparison_name = None
 
@@ -160,6 +162,30 @@ class Ui_MainWindow(QMainWindow):
             # Running as a script
             self.app_path = os.path.dirname(os.path.abspath(__file__))
             self.default_data_path = os.path.join(self.app_path, "example_data")
+
+    def edit_events(self, edit):
+        """The GUI step after every event edit. `edit` is called with Events and does the
+        edit; then the Scoring clean flags follow slot 0 if it changed, the event boxes and
+        the hypnogram event markers are redrawn and the scoring file is written. Returns
+        what `edit` returns."""
+        before = self.events.artefact_epochs()
+        result = edit(self.events)
+        after = self.events.artefact_epochs()
+        if after != before:
+            sync_clean(self.scoring, before, after)
+        self.SignalWidget.draw_events(self.events, self.this_epoch)
+        self.HypnogramWidget.update_events(self)
+        self.save_scoring()
+        return result
+
+    def save_scoring(self):
+        """Write the scoring file; a failure is reported in a message box."""
+        path = f"{self.filename}.json"
+        try:
+            write_scoring(self.scoring, self.events, path)
+        except Exception as e:
+            error_message = f"An error occurred while writing the scoring file in \n{path}: \n\n{str(e)} \n\nThis means that the latest change in the scoring file was not saved! Please 1) screenshot this errorbox and 2) go to the black command window that opened with this program and copy the last error messages. Please report this bug so that it can be fixed fast!"
+            QMessageBox.critical(self, "Error", error_message)
 
     def keyPressEvent(self, event):
         # print(event.key())

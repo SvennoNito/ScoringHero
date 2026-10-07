@@ -23,13 +23,14 @@ from PySide6.QtGui import QColor, QFont, QFontMetrics
 import copy
 
 from config.channel_settings import ANALYSIS_CHANNEL_KEYS, rename_channel
+from scoring_model.events import N_SLOTS
 
 
 class ConfigurationWindow(QDialog):
     changesMade = Signal()
     settingsApplied = Signal(list)
 
-    def __init__(self, config, AnnotationContainer, allow_staging, channel_labels=None):
+    def __init__(self, config, events, allow_staging, channel_labels=None):
         super().__init__()
         self.setWindowTitle("Configuration Window")
         self.resize(630, 500)
@@ -48,7 +49,7 @@ class ConfigurationWindow(QDialog):
         self.channel_page = ChannelConfiguration(config[1], config[0])
         self.channel_page.channelRenamed.connect(self._on_channel_renamed)
         self.general_page = GeneralConfiguration(self.pending, allow_staging, channel_labels or [])
-        self.events_page = EventConfiguration(AnnotationContainer)
+        self.events_page = EventConfiguration(events)
         self.spectrogram_page = SpectrogramConfiguration(self.pending, channel_labels or [])
         self.wavelet_page = WaveletConfiguration(self.pending, channel_labels or [])
         self.periodogram_page = PeriodogramConfiguration(self.pending, channel_labels or [])
@@ -160,7 +161,7 @@ class EventConfiguration(QDialog):
     changesMade = Signal()
     eventDeleted = Signal(int)
 
-    def __init__(self, AnnotationContainer, parent=None):
+    def __init__(self, events, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout(self)
         self.label = []
@@ -195,18 +196,13 @@ class EventConfiguration(QDialog):
         layout.addLayout(header_layout)
 
         # Data rows
-        for count, container in enumerate(AnnotationContainer):
-            qcolor = QColor(
-                container.facecolor[0],
-                container.facecolor[1],
-                container.facecolor[2],
-                container.facecolor[3],
-            )
+        for count in range(N_SLOTS):
+            qcolor = QColor(*events.colour(count))
 
             # Label
-            labelbox = QLineEdit(container.label)
+            labelbox = QLineEdit(events.label(count))
             labelbox.setAlignment(Qt.AlignRight)
-            labelbox.textChanged.connect(lambda: self.change_event(AnnotationContainer))
+            labelbox.textChanged.connect(lambda: self.change_event(events))
 
             # Color swatch
             colorbutton = QPushButton()
@@ -214,12 +210,12 @@ class EventConfiguration(QDialog):
             colorbutton.setStyleSheet(f"background-color: {qcolor.name()};")
 
             # Event count
-            count_label = QLabel(str(len(container.borders)))
+            count_label = QLabel(str(events.count(count)))
             count_label.setFixedWidth(count_w)
             count_label.setAlignment(Qt.AlignRight)
 
             # Total duration
-            total_s = sum(b[1] - b[0] for b in container.borders)
+            total_s = events.total_duration(count)
             dur_label = QLabel(f"{total_s:.1f} s")
             dur_label.setFixedWidth(dur_w)
             dur_label.setAlignment(Qt.AlignRight)
@@ -260,9 +256,9 @@ class EventConfiguration(QDialog):
         if msg.clickedButton() is btn_continue:
             self.eventDeleted.emit(idx)
 
-    def change_event(self, AnnotationContainer):
-        for counter, container in enumerate(AnnotationContainer):
-            container.label = self.label[counter].text()
+    def change_event(self, events):
+        for counter in range(N_SLOTS):
+            events.set_label(counter, self.label[counter].text())
         self.changesMade.emit()
 
 
