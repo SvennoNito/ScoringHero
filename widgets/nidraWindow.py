@@ -69,7 +69,7 @@ class NidraWindow(QDialog):
 
     settingsAccepted = Signal(dict)
 
-    def __init__(self, channel_labels, annotation_labels, saved=None, parent=None):
+    def __init__(self, channel_labels, saved=None, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Auto Score (NIDRA)")
         self.resize(600, 760)
@@ -153,22 +153,9 @@ class NidraWindow(QDialog):
         artifact_form.addRow("Sleep stage:", self._artifact_mode)
         artifact_layout.addLayout(artifact_form)
 
-        marker_row = QHBoxLayout()
-        self._mark_artifacts = QCheckBox("Also mark artifact epochs with event marker:")
+        self._mark_artifacts = QCheckBox("Also mark artifact epochs as Artifact events (slot 0)")
         self._mark_artifacts.setChecked(bool(saved.get("mark_artifacts", True)))
-        self._artifact_marker = QComboBox()
-        self._artifact_marker.addItems(annotation_labels)
-        saved_marker = saved.get("artifact_marker")
-        if saved_marker in annotation_labels:
-            self._artifact_marker.setCurrentText(saved_marker)
-        elif "Artifact" in annotation_labels:
-            self._artifact_marker.setCurrentText("Artifact")
-        self._mark_artifacts.toggled.connect(self._artifact_marker.setEnabled)
-        self._artifact_marker.setEnabled(self._mark_artifacts.isChecked())
-        marker_row.addWidget(self._mark_artifacts)
-        marker_row.addWidget(self._artifact_marker)
-        marker_row.addStretch(1)
-        artifact_layout.addLayout(marker_row)
+        artifact_layout.addWidget(self._mark_artifacts)
 
         artifact_note = QLabel(
             "Epochs dominated by signal loss or movement get their own label "
@@ -336,7 +323,6 @@ class NidraWindow(QDialog):
             "duplicate_left":      right == _NO_RIGHT,
             "artifact_mode":       self._artifact_mode.currentData(),
             "mark_artifacts":      self._mark_artifacts.isChecked(),
-            "artifact_marker":     self._artifact_marker.currentText(),
             "store_probabilities": self._store_probs.isChecked(),
             "show_summary":        self._show_summary.isChecked(),
         }

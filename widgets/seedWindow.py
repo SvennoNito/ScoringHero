@@ -50,8 +50,7 @@ class SeedWindow(QDialog):
         self._kc_marker = QComboBox()
         for label in annotation_labels:
             self._kc_marker.addItem(label)
-        if "F1" in annotation_labels:
-            self._kc_marker.setCurrentIndex(annotation_labels.index("F1"))
+        self._kc_marker.setCurrentIndex(1)
         kc_layout.addRow("Save to event marker:", self._kc_marker)
         self._kc_group.setLayout(kc_layout)
         layout.addWidget(self._kc_group)
@@ -64,8 +63,7 @@ class SeedWindow(QDialog):
         self._sp_marker = QComboBox()
         for label in annotation_labels:
             self._sp_marker.addItem(label)
-        if "F2" in annotation_labels:
-            self._sp_marker.setCurrentIndex(annotation_labels.index("F2"))
+        self._sp_marker.setCurrentIndex(2)
         sp_layout.addRow("Save to event marker:", self._sp_marker)
         self._sp_group.setLayout(sp_layout)
         layout.addWidget(self._sp_group)
@@ -153,9 +151,9 @@ class SeedWindow(QDialog):
         settings = {
             "channel":         selected.text(),
             "detect_kc":       detect_kc,
-            "kc_marker":       self._kc_marker.currentText() if detect_kc else None,
+            "kc_slot":         self._kc_marker.currentIndex() if detect_kc else None,
             "detect_spindles": detect_sp,
-            "spindle_marker":  self._sp_marker.currentText() if detect_sp else None,
+            "spindle_slot":    self._sp_marker.currentIndex() if detect_sp else None,
             "python_exe":      python_exe,
             "seed_dir":        self._seed_dir.text().strip(),
         }

@@ -49,12 +49,14 @@ def apply_gssc(scoring, gssc_stages, probs, channels, mode="overwrite", overwrit
 
 def apply_nidra(scoring, hypnogram, probabilities, class_names, source, channels,
                 artifact_mode="unscored", store_probabilities=False,
-                mode="overwrite", overwrite_stages=None):
+                mode="overwrite", overwrite_stages=None, mark_artifacts=True):
     """Write NIDRA output (code per 30 s epoch, probabilities [n, classes]) into
-    `scoring`. Artifact epochs (code 6) are marked unclean and get source
-    "<source> — artifact"; their stage is Inconclusive if `artifact_mode` is
-    "inconclusive", else unscored (source, confidence and channels are kept on the
-    unscored epoch). Returns the [start, end] seconds of the artifact epochs."""
+    `scoring`. Artifact epochs (code 6) get source "<source> — artifact"; their stage
+    is Inconclusive if `artifact_mode` is "inconclusive", else unscored (source,
+    confidence and channels are kept on the unscored epoch). With `mark_artifacts`
+    they are also marked unclean; without it their clean flag is untouched. Returns
+    the [start, end] seconds of the artifact epochs (the caller adds them as slot-0
+    events when marking)."""
     pairs = _targets(scoring, len(hypnogram), mode, overwrite_stages)
     epochs, stages, sources, confidence, artifacts, probs = [], [], [], [], [], []
     for i, j in pairs:
@@ -77,7 +79,8 @@ def apply_nidra(scoring, hypnogram, probabilities, class_names, source, channels
         )
         epochs.append(i)
     scoring.set(epochs, stages, sources, confidence, channels, probs)
-    scoring.set_clean(artifacts, 0)
+    if mark_artifacts:
+        scoring.set_clean(artifacts, 0)
     return [list(scoring.time_span(i)) for i in artifacts]
 
 
