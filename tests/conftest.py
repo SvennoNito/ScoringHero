@@ -39,14 +39,11 @@ def wait_until_loaded(ui):
     assert not getattr(ui, "_busy_runners", None), "recording did not finish loading"
 
 
-def _boot(directory):
-    """Boot the app on the example recording in `directory`; returns (app, window, ui)."""
-    from unittest import mock
-
+def _build(directory):
+    """Build the app window in `directory` without opening a recording; returns (app, window, ui)."""
     from PySide6 import QtWidgets
 
     import scoringhero as sh
-    from eeg.load_wrapper import load_wrapper
     from style.appstyler import appstyler
     from style.apply_app_theme import apply_app_theme
 
@@ -59,6 +56,17 @@ def _boot(directory):
         apply_app_theme(window, app, ui.app_path, "modern_theme.qss")
     ui.app_path = str(directory)
     ui.filename = os.path.join(str(directory), "example_data")
+    return app, window, ui
+
+
+def _boot(directory):
+    """Boot the app on the example recording in `directory`; returns (app, window, ui)."""
+    from unittest import mock
+
+    import scoringhero as sh
+    from eeg.load_wrapper import load_wrapper
+
+    app, window, ui = _build(directory)
     # A mismatch dialog would block forever on an invisible modal; exec returns at once
     # (no button clicked = cancel), so such a failure shows up as a failed test instead.
     with mock.patch.object(sh.QMessageBox, "exec", lambda self: sh.QMessageBox.Yes):
@@ -89,6 +97,15 @@ def warm_example_dir(tmp_path_factory):
         window.close()
     app.processEvents()
     return directory
+
+
+@pytest.fixture
+def unloaded_ui(tmp_path):
+    """The app window before any recording is opened."""
+    app, window, ui = _build(tmp_path)
+    yield ui
+    window.close()
+    app.processEvents()
 
 
 @pytest.fixture

@@ -13,6 +13,7 @@ from .load_edf import load_edf
 from .number_of_epochs import number_of_epochs
 from signal_processing.times_vector import times_vector
 from utilities.apply_tf_visibility import apply_tf_visibility
+from utilities.enable_recording_ui import enable_recording_ui
 from utilities.refresh_gui import _update_export_menu_state
 from utilities.busy_indicator import run_busy
 from utilities.overlay_state import drop_overlay_signal
@@ -65,12 +66,12 @@ def load_wrapper(ui, datatype, extra_files=None):
     _show_loaded(ui, loaded)
 
 
-def load_wrapper_busy(ui, datatype, extra_files, on_done, on_error):
+def load_wrapper_busy(ui, datatype, extra_files, on_error):
     """Load with the heavy step off the GUI thread and a busy indicator on top."""
     _reset_for_new_recording(ui)
     run_busy(ui, "Loading recording…",
              lambda: _load_heavy(ui, datatype, extra_files),
-             lambda loaded: _show_loaded(ui, loaded, on_done), on_error)
+             lambda loaded: _show_loaded(ui, loaded), on_error)
 
 
 def _load_heavy(ui, datatype, extra_files):
@@ -118,7 +119,7 @@ def _load_heavy(ui, datatype, extra_files):
     return loaded
 
 
-def _show_loaded(ui, loaded, on_done=None):
+def _show_loaded(ui, loaded):
     """GUI-thread half of loading: build the primary scoring (resolving a mismatching
     file with the user; cancel or no file gives an empty scoring, and nothing is
     written until the first edit) and the annotation objects, then the displayed
@@ -136,7 +137,6 @@ def _show_loaded(ui, loaded, on_done=None):
     def shown():
         apply_tf_visibility(ui)
         _update_export_menu_state(ui)
-        if on_done is not None:
-            on_done()
+        enable_recording_ui(ui)
 
     settings_changed(ui, shown)

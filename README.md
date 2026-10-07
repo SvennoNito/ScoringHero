@@ -169,7 +169,7 @@ All jumps wrap around from the last epoch to the first.
 
 ### Automatic K-Complex & Spindle Detection (MT-KCD)
 
-- One-click K-complex and spindle detection via the **MT-KCD algorithm** (multitaper-based) — accessible from the Utilities menu or `Ctrl+K`
+- One-click K-complex and spindle detection via the **MT-KCD algorithm** (multitaper-based) — accessible from the Detectors menu or `Ctrl+K`
 - Select which EEG channel to analyse and which event type to store detections in
 - Configurable amplitude and slope thresholds and frequency parameters
 - Limit detection to specific sleep stages (e.g., N2 only) when a scoring is loaded

@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (
     )
 
 from .toolbar import setup_toolbar
+from style.icons import icon
 from widgets import *
 from utilities.score_stage import score_stage
 from scoring.scoring_export_window import scoring_export_window, export_scoring
@@ -115,6 +116,7 @@ def setup_ui(ui, MainWindow):
 
     # Load EEG submenu
     ui.submenu_load_eeg = QMenu("Load EEG", ui.menu_file)
+    ui.submenu_load_eeg.setIcon(icon("folder-open"))
     ui.submenu_load_eeg.setObjectName("submenu_load_eeg")
     ui.menu_file.addMenu(ui.submenu_load_eeg)
     ui.action_load_eeglab = QAction("Load EEGLAB structure (.mat)", ui)
@@ -138,6 +140,7 @@ def setup_ui(ui, MainWindow):
 
 
     ui.submenu_scoring = QMenu("Load Scoring", ui.menu_file)
+    ui.submenu_scoring.setIcon(icon("file-up"))
     ui.submenu_scoring.setObjectName("submenu_scoring")
     ui.menu_file.addMenu(ui.submenu_scoring)
     for fmt in FORMATS.values():
@@ -153,7 +156,7 @@ def setup_ui(ui, MainWindow):
             ui.submenu_scoring.addAction(ui.action_load_sleeptrip_events)
 
 
-    ui.action_save_scoring = QAction("Save to", MainWindow)
+    ui.action_save_scoring = QAction(icon("save"), "Save to", MainWindow)
     ui.action_save_scoring.setObjectName("action_save_scoring")
     ui.action_save_scoring.triggered.connect(lambda: scoring_export_window(ui))
     ui.action_save_scoring.setShortcut("Ctrl+S")
@@ -161,6 +164,7 @@ def setup_ui(ui, MainWindow):
 
     # Export as submenu
     ui.submenu_export = QMenu("Export as", ui.menu_file)
+    ui.submenu_export.setIcon(icon("file-down"))
     ui.submenu_export.setObjectName("submenu_export")
     ui.menu_file.addMenu(ui.submenu_export)
     for fmt in FORMATS.values():
@@ -174,6 +178,7 @@ def setup_ui(ui, MainWindow):
 
     # Export submenu for reports
     ui.submenu_export_reports = QMenu("Export", ui.menu_file)
+    ui.submenu_export_reports.setIcon(icon("file-text"))
     ui.submenu_export_reports.setObjectName("submenu_export_reports")
     ui.menu_file.addMenu(ui.submenu_export_reports)
     ui.action_export_sleep_report = QAction("Sleep Report (PDF)", ui)
@@ -338,14 +343,14 @@ def setup_ui(ui, MainWindow):
     ui.menu_autoscore.setObjectName("menu_autoscore")
     ui.menu.addAction(ui.menu_autoscore.menuAction())
 
-    ui.action_gssc = QAction("Greifswald Sleep Stage Classifier (GSSC)", MainWindow)
+    ui.action_gssc = QAction(icon("bot"), "Greifswald Sleep Stage Classifier (GSSC)", MainWindow)
     ui.action_gssc.setObjectName("action_gssc")
     ui.action_gssc.setShortcut("Ctrl+G")
     ui.action_gssc.setStatusTip("Auto score scalp EEG/EOG with GSSC")
     ui.action_gssc.triggered.connect(lambda: open_gssc_window(ui))
     ui.menu_autoscore.addAction(ui.action_gssc)
 
-    ui.action_nidra = QAction("NIDRA (ezscore-f)", MainWindow)
+    ui.action_nidra = QAction(icon("bot"), "NIDRA (ezscore-f)", MainWindow)
     ui.action_nidra.setObjectName("action_nidra")
     ui.action_nidra.setShortcut("Ctrl+N")
     ui.action_nidra.setStatusTip(
@@ -355,53 +360,58 @@ def setup_ui(ui, MainWindow):
     ui.action_nidra.triggered.connect(lambda: open_nidra_window(ui))
     ui.menu_autoscore.addAction(ui.action_nidra)
 
-    # Utilities menu
-    ui.menu_utils = QMenu("Utilities", ui.menu)
-    ui.menu_utils.setObjectName("menu_utils")
-    ui.menu.addAction(ui.menu_utils.menuAction())
-
-    """     ui.action_yasa = QAction("Let machine sleep score (YASA)", MainWindow)
-    ui.action_yasa.setObjectName("action_yasa")
-    ui.action_yasa.triggered.connect(lambda: score_yasa(ui))
-    ui.menu_utils.addAction(ui.action_yasa)  """   
-
-    ui.action_filter = QAction("Filter", MainWindow)
-    ui.action_filter.setObjectName("action_filter")
-    ui.action_filter.triggered.connect(lambda: open_filter_window(ui))
-    ui.action_filter.setShortcut("Ctrl+F")
-    ui.menu_utils.addAction(ui.action_filter)
+    # Detectors menu — event detectors
+    ui.menu_detectors = QMenu("Detectors", ui.menu)
+    ui.menu_detectors.setObjectName("menu_detectors")
+    ui.menu.addAction(ui.menu_detectors.menuAction())
 
     # ui.action_seed = QAction("K-Complex / Spindle Detection (SEED)", MainWindow)
     # ui.action_seed.setObjectName("action_seed")
     # ui.action_seed.triggered.connect(lambda: open_seed_window(ui))
-    # ui.menu_utils.addAction(ui.action_seed)
+    # ui.menu_detectors.addAction(ui.action_seed)
 
-    ui.action_mt_kcd = QAction("K-Complex Detection (MT-KCD)", MainWindow)
+    ui.action_mt_kcd = QAction(icon("activity"), "K-Complex Detection (MT-KCD)", MainWindow)
     ui.action_mt_kcd.setObjectName("action_mt_kcd")
     ui.action_mt_kcd.setShortcut("Ctrl+K")
     ui.action_mt_kcd.triggered.connect(lambda: open_mt_kcd_window(ui))
-    ui.menu_utils.addAction(ui.action_mt_kcd)
+    ui.menu_detectors.addAction(ui.action_mt_kcd)
 
-    ui.action_mt_spindle = QAction("Spindle Detection (MT-Spindle)", MainWindow)
+    ui.action_mt_spindle = QAction(icon("activity"), "Spindle Detection (MT-Spindle)", MainWindow)
     ui.action_mt_spindle.setObjectName("action_mt_spindle")
     ui.action_mt_spindle.setShortcut("Ctrl+Shift+S")
     ui.action_mt_spindle.triggered.connect(lambda: open_mt_spindle_window(ui))
-    ui.menu_utils.addAction(ui.action_mt_spindle)
+    ui.menu_detectors.addAction(ui.action_mt_spindle)
 
     # YASA spindle detection disabled — scripts kept in scoring/ for later re-enabling
     # ui.action_yasa = QAction("Spindle Detection (YASA)", MainWindow)
     # ui.action_yasa.setShortcut("Ctrl+Shift+Y")
     # ui.action_yasa.triggered.connect(lambda: open_yasa_window(ui))
-    # ui.menu_utils.addAction(ui.action_yasa)
+    # ui.menu_detectors.addAction(ui.action_yasa)
 
     # TODO: SUMO spindle detection needs debugging - disabled for now
     # ui.action_sumo = QAction("Spindle Detection (SUMO)", MainWindow)
     # ui.action_sumo.setObjectName("action_sumo")
     # ui.action_sumo.setShortcut("Ctrl+Shift+S")
     # ui.action_sumo.triggered.connect(lambda: open_sumo_window(ui))
-    # ui.menu_utils.addAction(ui.action_sumo)
+    # ui.menu_detectors.addAction(ui.action_sumo)
 
-    ui.action_zoom = QAction("Zoom on selected EEG", MainWindow)
+    # Filter menu
+    ui.menu_filter = QMenu("Filter", ui.menu)
+    ui.menu_filter.setObjectName("menu_filter")
+    ui.menu.addAction(ui.menu_filter.menuAction())
+
+    ui.action_filter = QAction(icon("sliders-horizontal"), "Open filter settings", MainWindow)
+    ui.action_filter.setObjectName("action_filter")
+    ui.action_filter.triggered.connect(lambda: open_filter_window(ui))
+    ui.action_filter.setShortcut("Ctrl+F")
+    ui.menu_filter.addAction(ui.action_filter)
+
+    # Utilities menu
+    ui.menu_utils = QMenu("Utilities", ui.menu)
+    ui.menu_utils.setObjectName("menu_utils")
+    ui.menu.addAction(ui.menu_utils.menuAction())
+
+    ui.action_zoom = QAction(icon("zoom-in"), "Zoom on selected EEG", MainWindow)
     ui.action_zoom.setObjectName("action_zoom")
     ui.action_zoom.triggered.connect(lambda: zoom_on_selected_eeg(ui))
     ui.action_zoom.setShortcut("Z")
@@ -512,7 +522,7 @@ def setup_ui(ui, MainWindow):
     ui.menu_config.setObjectName("menu_config")
     ui.menu.addAction(ui.menu_config.menuAction())
 
-    ui.action_config_window = QAction("Open configuration window", MainWindow)
+    ui.action_config_window = QAction(icon("settings"), "Open configuration window", MainWindow)
     ui.action_config_window.setObjectName("action_config_window")
     ui.action_config_window.setShortcut("")
     ui.action_config_window.triggered.connect(lambda: open_config_window(ui))
@@ -531,9 +541,11 @@ def setup_ui(ui, MainWindow):
     ui.action_help_selection_box.setShortcut("Ctrl+H")
     ui.menu_help.addAction(ui.action_help_selection_box)    
 
-    # Disable the stages, events, autoscore, utilities, and configuration menus initially
+    # Menus that need a recording start disabled (enable_recording_ui turns them on)
     ui.menu_stages.setEnabled(False)
     ui.menu_labels.setEnabled(False)
+    ui.menu_detectors.setEnabled(False)
+    ui.menu_filter.setEnabled(False)
     ui.menu_utils.setEnabled(False)
     ui.menu_autoscore.setEnabled(False)
     ui.menu_config.setEnabled(False)

@@ -33,27 +33,8 @@ def eeg_import_window(ui, MainWindow, datatype):
     else:
         MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({os.path.basename(primary_file)})")
 
-    def on_done():
-        # Enable the menus once the data is loaded
-        ui.menu_stages.setEnabled(True)
-        ui.menu_labels.setEnabled(True)
-        ui.menu_utils.setEnabled(True)
-        ui.menu_autoscore.setEnabled(True)
-        ui.menu_config.setEnabled(True)
-
-        # Enable toolbar once the data is loaded
-        ui.toolbar_jump_to_epoch.setEnabled(True)
-        ui.tool_nextunscored.setEnabled(True)
-        ui.tool_nextuncertain.setEnabled(True)
-        ui.tool_nexttransition.setEnabled(True)
-        ui.tool_nextevent.setEnabled(True)
-        ui.tool_nexthuman.setEnabled(True)
-
-        # Enable sliders
-        ui.HypnogramSlider.enable_slider()
-
     def on_error(e):
         QMessageBox.critical(None, "File loading error", str(e))
 
-    load_wrapper_busy(ui, datatype, extra_files, on_done, on_error)
+    load_wrapper_busy(ui, datatype, extra_files, on_error)
     
