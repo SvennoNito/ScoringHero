@@ -3768,7 +3768,7 @@
    "end": 9990,
    "stage": "Wake",
    "digit": 1,
-   "confidence": 0,
+   "confidence": 0.0,
    "channels": [],
    "clean": 1,
    "source": "human"

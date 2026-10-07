@@ -21,6 +21,7 @@ QMenu::separator { height: 1px; background: #e3e7ed; margin: 4px 6px; }
 /* ---------- Toolbar / status bar ---------- */
 QToolBar { background: #ffffff; border: none; border-bottom: 1px solid #e3e7ed; padding: 3px 6px; spacing: 6px; }
 QToolBar::separator { background: #e3e7ed; width: 1px; margin: 4px 6px; }
+QToolBar QPushButton { padding: 1px 9px; min-height: 14px; border-radius: 5px; font-size: 12px; }
 QStatusBar { background: #ffffff; border-top: 1px solid #e3e7ed; color: #6b7280; }
 
 /* ---------- Buttons ---------- */
