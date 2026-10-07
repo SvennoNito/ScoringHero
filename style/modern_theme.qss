@@ -103,3 +103,6 @@ QLabel[role="warn"] { color: #b7791f; font-size: 11px; }
 QLabel[role="ok"] { color: #2e7d32; font-size: 11px; }
 QLabel[role="error"] { color: #c0392b; }
 QLineEdit[role="error"] { border-color: #c0392b; background: #fdf2f1; }
+
+/* Channel name drawn over a plot (periodogram); spectrogram, time-frequency and signal panels use ChannelPill */
+QLabel[role="plot-label"] { color: #1f2933; font-weight: 600; background: transparent; }

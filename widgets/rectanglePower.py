@@ -1,4 +1,5 @@
 from style.plot_style import soften_axes
+from style.roles import set_role
 from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont
@@ -25,12 +26,9 @@ class RectanglePower(QWidget):
         # Channel name label (overlaid on top of the plot)
         self._channel_label = QLabel(self.axes)
         self._channel_label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
-        font = QFont()
-        font.setBold(True)
-        self._channel_label.setFont(font)
         self._channel_label.setAttribute(Qt.WA_TranslucentBackground)
         self._channel_label.setAttribute(Qt.WA_TransparentForMouseEvents)
-        self._channel_label.setStyleSheet("color: black;")
+        set_role(self._channel_label, "plot-label")
         self._channel_label.setObjectName("periodogram_channel_label")
         channel_layout = QVBoxLayout(self.axes)
         channel_layout.addWidget(self._channel_label)

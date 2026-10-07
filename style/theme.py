@@ -16,3 +16,6 @@ _ASSETS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 def asset_path(*parts):
     """Absolute path of a bundled file under assets/ (fonts, icons)."""
     return os.path.join(_ASSETS, *parts)
+
+# Channel-name pill on plots: semi-opaque white so the name reads over any trace or image
+PILL_BACKGROUND = (255, 255, 255, 215)

@@ -1,11 +1,9 @@
+from style.colormaps import SPECTROGRAM_COLORMAPS, get_colormap
 from style.plot_style import soften_axes
-import os
 from PySide6 import QtWidgets
-from PySide6.QtWidgets import QLabel, QVBoxLayout
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont
 import pyqtgraph as pg
 import numpy as np
+from .channelPill import ChannelPill
 from utilities.clock_time_format import parse_start_time, format_clock_time
 
 
@@ -19,18 +17,10 @@ class SpectogramWidget(QtWidgets.QWidget):
         self.axes = self.graphics.addPlot()
         soften_axes(self.axes)
 
-        self._channel_label = QLabel(self.graphics)
-        self._channel_label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
-        font = QFont()
-        font.setBold(True)
-        self._channel_label.setFont(font)
-        self._channel_label.setAttribute(Qt.WA_TranslucentBackground)
-        self._channel_label.setAttribute(Qt.WA_TransparentForMouseEvents)
-        self._channel_label.setStyleSheet("color: white;")
-        self._channel_label.setObjectName("spectogram_channel_label")
-        channel_layout = QVBoxLayout(self.graphics)
-        channel_layout.addWidget(self._channel_label)
-        self._colormap = self._load_colormap(app_path)
+        self.channel_pill = ChannelPill(self.graphics, corner=True)
+        self.channel_pill.setParentItem(self.axes.getViewBox())
+        self.axes.getViewBox().sigResized.connect(self.channel_pill.refresh)
+        self._app_path = app_path
 
         # Colorbar text labels (created once; _cbar_img is recreated per draw)
         self._cbar_min_label = pg.TextItem(color=(0, 0, 0), anchor=(0.5, 0))
@@ -42,17 +32,6 @@ class SpectogramWidget(QtWidgets.QWidget):
         # Gradient cache key: (cbar_height_int, cbar_width, levels_tuple)
         self._cbar_gradient_cache = None
 
-    @staticmethod
-    def _load_colormap(app_path):
-        colormap_path = os.path.join(app_path, "spectral.txt")
-        rgb = np.loadtxt(colormap_path)
-        rgba = np.hstack([
-            (rgb * 255).clip(0, 255).astype(np.uint8),
-            np.full((len(rgb), 1), 255, dtype=np.uint8),
-        ])
-        positions = np.linspace(0.0, 1.0, len(rgb))
-        return pg.ColorMap(positions, rgba)
-
     def draw_spectogram(self, power, freqs, freqsOI, config):
         power = np.log10(power)[:, freqsOI]
         freqs = freqs[freqsOI]
@@ -62,7 +41,7 @@ class SpectogramWidget(QtWidgets.QWidget):
 
         # https://github.com/epeters13/pyqtspecgram/blob/main/src/pyqtspecgram/pyqtspecgram.py
         pg.setConfigOptions(imageAxisOrder="col-major")
-        colormap = pg.colormap.get("cividis")
+        colormap = get_colormap(config[0].get("Spectrogram_colormap", SPECTROGRAM_COLORMAPS[0]), self._app_path)
         self.img = pg.ImageItem()
         self.img.setImage(power)
         self.img.setColorMap(colormap)
@@ -106,7 +85,7 @@ class SpectogramWidget(QtWidgets.QWidget):
 
         # Channel label
         channel_label = config[0].get("Channel_for_spectogram", "")
-        self._channel_label.setText(channel_label)
+        self.channel_pill.set_name(channel_label)
 
         # Colorbar
         n_times = power.shape[0]

@@ -24,7 +24,24 @@ import copy
 
 from config.channel_settings import ANALYSIS_CHANNEL_KEYS, rename_channel
 from scoring_model.events import N_SLOTS
+from style.colormaps import SPECTROGRAM_COLORMAPS, WAVELET_COLORMAPS
 from style.roles import set_role
+
+
+def _colormap_row(page, general_config, key, colormaps):
+    """Label + drop-down choosing the colormap stored under `key` (the page's apply_changes saves it)."""
+    label = QLabel("Colormap")
+    label.setAlignment(Qt.AlignRight)
+    label.setFixedWidth(page.width_label)
+    box = QComboBox(page)
+    box.addItems(colormaps)
+    box.setCurrentText(general_config[key])
+    box.currentIndexChanged.connect(lambda: page.apply_changes(general_config))
+    page.optionboxes[key] = [box]
+    row = QHBoxLayout()
+    row.addWidget(label)
+    row.addWidget(box)
+    return row
 
 
 class ConfigurationWindow(QDialog):
@@ -524,6 +541,8 @@ class SpectrogramConfiguration(QDialog):
             row_layout.addWidget(spinbox)
         form_layout.addRow(row_layout)
 
+        form_layout.addRow(_colormap_row(self, general_config, "Spectrogram_colormap", SPECTROGRAM_COLORMAPS))
+
         layout.addLayout(form_layout)
         layout.addStretch(1)
 
@@ -804,6 +823,8 @@ class WaveletConfiguration(QDialog):
         row_layout.addWidget(ridge_label)
         row_layout.addWidget(ridge_checkbox)
         form_layout.addRow(row_layout)
+
+        form_layout.addRow(_colormap_row(self, general_config, "Wavelet_colormap", WAVELET_COLORMAPS))
 
         layout.addLayout(form_layout)
         layout.addStretch(1)

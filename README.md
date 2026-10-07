@@ -127,6 +127,7 @@ All jumps wrap around from the last epoch to the first. The **Navigation bar** o
 - Configurable frequency range (default: 0–20 Hz)
 - Adjustable colorbar power limits (log10 scale)
 - Select which channel to display
+- Choose the colormap (cividis by default, or viridis or magma) in the Spectrogram tab of the configuration window; the color bar follows
 - Cached computation — no recalculation when navigating epochs
 
 ### Hypnogram Panel
@@ -148,6 +149,7 @@ All jumps wrap around from the last epoch to the first. The **Navigation bar** o
 - Configurable frequency range (default: 1–45 Hz)
 - Extended epoch padding to minimize edge artifacts
 - Can be toggled on/off to save screen space
+- Choose the colormap (the original spectral map, viridis, magma or cividis) in the Wavelet tab of the configuration window; the color bar follows
 
 ### Periodogram Panel
 - Welch periodogram of any user-selected EEG region

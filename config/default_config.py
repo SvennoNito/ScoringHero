@@ -1,3 +1,4 @@
+from style.colormaps import SPECTROGRAM_COLORMAPS, WAVELET_COLORMAPS
 from .channel_settings import default_channels
 
 
@@ -25,6 +26,8 @@ def default_configuration(number_of_signals, srate, channel_names, units=None):
         "Wavelet_panel_visible": True,
         "Wavelet_show_ridge": False,
         "Spectrogram_power_limits": [-1, 3],
+        "Spectrogram_colormap": SPECTROGRAM_COLORMAPS[0],
+        "Wavelet_colormap": WAVELET_COLORMAPS[0],
         "Wavelet_power_limits": {
             "Raw Power": [-1, 3],
             "L2-Normalized Power": [-1, 3],

@@ -55,6 +55,8 @@ def _finish_changes(config_parameter_name, ui):
     if "Spectogram_limit_hz" in config_parameter_name:
         ui.freqsOI = freqs_of_interest(ui.freqs, ui.config)
         ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
+    elif "Spectrogram_colormap" in config_parameter_name:
+        ui.SpectogramWidget.draw_spectogram(ui.power, ui.freqs, ui.freqsOI, ui.config)
 
     if "Spectrogram_power_limits" in config_parameter_name:
         # Fast-path: only update colorbar levels, don't redraw spectrogram

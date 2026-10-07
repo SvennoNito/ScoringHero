@@ -1,14 +1,14 @@
+from style.colormaps import WAVELET_COLORMAPS, get_colormap
 from style.plot_style import soften_axes
-import os
 import numpy as np
 import pyqtgraph as pg
-from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout
+from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 
 from signal_processing.compute_morlet_tf import compute_morlet_tf
 from utilities.clock_time_format import parse_start_time, format_clock_time
-
+from .channelPill import ChannelPill
 
 class TFWidget(QWidget):
     """Time-frequency panel using Morlet wavelets.
@@ -41,9 +41,11 @@ class TFWidget(QWidget):
         left_ax.setTickFont(tick_font)
         self.axes.getAxis("bottom").setStyle(tickLength=-8)
 
-        self._colormap = self._load_colormap(app_path)
+        self._app_path = app_path
+        self._colormap_name = WAVELET_COLORMAPS[0]
+        colormap = get_colormap(self._colormap_name, app_path)
         self.img = pg.ImageItem()
-        self.img.setColorMap(self._colormap)
+        self.img.setColorMap(colormap)
         self.axes.addItem(self.img)
         self._freq_labels = []  # kept for cleanup; no longer drawn inside the plot
         #self._hz_label = pg.TextItem(text="Hz", color=(150, 150, 150), anchor=(0.5, 0))
@@ -68,7 +70,7 @@ class TFWidget(QWidget):
 
         # Internal colorbar: narrow ImageItem + two TextItem labels
         self._cbar_img = pg.ImageItem()
-        self._cbar_img.setColorMap(self._colormap)
+        self._cbar_img.setColorMap(colormap)
         self._cbar_img.setZValue(10)
         self.axes.addItem(self._cbar_img)
         self._cbar_min_label = pg.TextItem(color=(0, 0, 0), anchor=(0.5, 0))
@@ -78,35 +80,19 @@ class TFWidget(QWidget):
         self.axes.addItem(self._cbar_min_label)
         self.axes.addItem(self._cbar_max_label)
 
-        # Channel label overlay
-        self._channel_label = QLabel(self.graphics)
-        self._channel_label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
-        font = QFont()
-        font.setBold(True)
-        self._channel_label.setFont(font)
-        self._channel_label.setStyleSheet("color: white;")
-        self._channel_label.setAttribute(Qt.WA_TranslucentBackground)
-        self._channel_label.setObjectName("tf_channel_label")
-        channel_layout = QVBoxLayout(self.graphics)
-        channel_layout.addWidget(self._channel_label)
+        # Channel name pill in the top-left corner of the plot
+        self.channel_pill = ChannelPill(self.graphics, corner=True)
+        self.channel_pill.setParentItem(self.axes.getViewBox())
+        self.axes.getViewBox().sigResized.connect(self.channel_pill.refresh)
 
-    @staticmethod
-    def _load_colormap(app_path):
-        """Build a pg.ColorMap from spectral.txt (RGB floats 0-1, one row per stop).
-
-        The file is resolved relative to app_path, which equals sys._MEIPASS
-        inside a PyInstaller .exe and the project root during normal execution.
-        spectral.txt must be listed in the PyInstaller .spec datas so it is
-        bundled into sys._MEIPASS at build time.
-        """
-        colormap_path = os.path.join(app_path, "spectral.txt")
-        rgb = np.loadtxt(colormap_path)                          # (N, 3), 0-1
-        rgba = np.hstack([
-            (rgb * 255).clip(0, 255).astype(np.uint8),
-            np.full((len(rgb), 1), 255, dtype=np.uint8),         # alpha = opaque
-        ])
-        positions = np.linspace(0.0, 1.0, len(rgb))
-        return pg.ColorMap(positions, rgba)
+    def set_colormap(self, name):
+        """Color the image and its color bar with the colormap `name` (see style.colormaps)."""
+        if name == self._colormap_name:
+            return
+        self._colormap_name = name
+        colormap = get_colormap(name, self._app_path)
+        self.img.setColorMap(colormap)
+        self._cbar_img.setColorMap(colormap)
 
     # ------------------------------------------------------------------
     _x_unit_format = {
@@ -216,7 +202,7 @@ class TFWidget(QWidget):
         # Transpose so shape becomes (n_ext, n_freqs): x=time, y=freq.
         self.img.setImage(power_display.T)
         self.img.setLevels(levels)
-        self._channel_label.setText(channel_label)
+        self.channel_pill.set_name(channel_label)
 
         # --- axis ticks -----------------------------------------------
         n_freqs = len(freqs_filtered)

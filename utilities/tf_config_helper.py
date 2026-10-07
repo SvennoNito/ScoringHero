@@ -1,3 +1,4 @@
+from style.colormaps import WAVELET_COLORMAPS
 from utilities.overlay_state import get_active_analysis_data
 
 
@@ -15,6 +16,7 @@ def call_tf_widget(ui):
     tf_channel_idx = ui.channel_name_to_idx.get(tf_channel_label, 0)
     power_limits = ui.config[0].get("Wavelet_power_limits", None)
     show_ridge = ui.config[0].get("Wavelet_show_ridge", False)
+    ui.TFWidget.set_colormap(ui.config[0].get("Wavelet_colormap", WAVELET_COLORMAPS[0]))
     ui.TFWidget.update_tf(get_active_analysis_data(ui), ui.times, ui.this_epoch, srate, ui.tf_freqs,
                           ui.tf_norm_median, ui.tf_norm_iqr, ui.tf_norm_rms, ui.tf_norm_median_linear,
                           display_mode, freq_scale, freq_limits,

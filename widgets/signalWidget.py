@@ -5,6 +5,8 @@ import pyqtgraph as pg
 import numpy as np
 from utilities.clock_time_format import parse_start_time, format_clock_time
 from signal_processing import *
+from style.plot_style import soften_axes
+from .channelPill import ChannelPill
 
 
 class SignalWidget(QWidget):
@@ -18,7 +20,10 @@ class SignalWidget(QWidget):
         self.axes.setObjectName("SignalWidget")
         self.axes.setBackground((0, 0, 0, 0))
         self.axes.getAxis("left").setTicks([])
+        soften_axes(self.axes)
         self.axes.showGrid(x=True, y=True, alpha=1)
+        self.written_channel_labels = []
+        self.axes.getViewBox().sigResized.connect(self._refresh_channel_labels)
         # self.setWindowFlags(Qt.FramelessWindowHint)
         # self.setAttribute(Qt.WA_TranslucentBackground)
 
@@ -50,6 +55,10 @@ class SignalWidget(QWidget):
 
         self._center_line = None
         self.event_boxes = []
+
+    def _refresh_channel_labels(self):
+        for pill in self.written_channel_labels:
+            pill.refresh()
 
     def draw_events(self, events, this_epoch):
         """Draw a box for every event of `events` that overlaps the 0-based epoch."""
@@ -173,19 +182,12 @@ class SignalWidget(QWidget):
                 self.axes.addItem(amplitude_line)
 
             # Add channel labels
-            channel_label = pg.TextItem(
-                text=config[1][visible_counter]["Channel_name"],
-                color=(150, 150, 150),
-                anchor=(0, 0.5),
-            )
+            channel_label = ChannelPill(self.axes, config[1][visible_counter]["Channel_name"])
             channel_label.setPos(
                 times[0],
                 0 - chan_y_offset,
             )
-            font = QFont()
-            font.setPixelSize(20)
-            channel_label.setFont(font)
-            self.axes.addItem(channel_label)
+            self.axes.addItem(channel_label, ignoreBounds=True)
             self.written_channel_labels.append(channel_label)
 
         # µV tick labels on left axis for the first visible channel
