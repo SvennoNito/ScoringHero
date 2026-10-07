@@ -99,7 +99,7 @@ def test_no_chosen_stages_keeps_all_events(ui, dialogs):
     assert ui.events.spans(0) == [[1, 5], [31, 35]]
 
 
-def test_events_land_in_chosen_container_and_are_saved(ui, dialogs):
+def test_events_land_in_chosen_slot_and_are_saved(ui, dialogs):
     last = N_SLOTS - 1
     spec = make_spec(lambda signal, sfreq: [[2, 4]])
     assert gui.run_event_detector(ui, spec, settings_for(ui, slot=last))

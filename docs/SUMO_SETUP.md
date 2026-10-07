@@ -127,7 +127,7 @@ If sleep stages are scored, optionally restrict detections to specific sleep sta
 
 4. **Output**
    - Spindle detections as [start_sec, end_sec] time intervals
-   - Added to selected annotation container
+   - Added to selected event slot
 
 ### Performance
 

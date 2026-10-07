@@ -6,7 +6,6 @@ from .spectogramSlider import SpectogramSlider
 from .hypnogramSlider import HypnogramSlider
 from .paintEventWidget import PaintEventWidget
 from .rectanglePower import RectanglePower
-from .annotationContainer import AnnotationContainer
 from .configurationWindow import ConfigurationWindow
 from .filterWindow import FilterWindow
 from .tfWidget import TFWidget

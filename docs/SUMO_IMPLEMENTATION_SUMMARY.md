@@ -116,7 +116,7 @@ The model (310 KB checkpoint) is auto-cached on first use.
 - Wired in: `ui/setup_ui.py`
 
 ### Annotation System
-- Detected spindles → Annotation containers (F1–F12 or A)
+- Detected spindles → Event slots (F1–F12 or A)
 - Automatically saved to scoring file
 - Exportable in all formats (YASA, Sleeptrip, etc.)
 

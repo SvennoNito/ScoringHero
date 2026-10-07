@@ -1,10 +1,8 @@
 """Interactive scoring paths on the Scoring module, driven through the headless app."""
 
-from types import SimpleNamespace
 
 import pytest
 
-from scoring.clean_epochs_to_uiscoring import clean_epochs_to_uiscoring
 from scoring_model.scoring import HUMAN, Scoring, disagreements
 from utilities.epoch_disagreement import next_disagreement_epoch
 from utilities.epoch_human import next_human_epoch
@@ -150,14 +148,3 @@ def test_comparison_stats_reflect_current_primary(ui, monkeypatch):
         l.text() for l in self.findChildren(mod.QLabel)))
     mod.comparison_stats_window(ui)
     assert any("Disagreements:</b> 1 epochs" in t for t in texts)
-
-
-def test_artefact_events_mark_epochs_unclean_through_scoring(ui):
-    container = SimpleNamespace(key="A", epochs_set=[{2, 3}, {6}])
-    clean_epochs_to_uiscoring(ui, container)
-    assert [ui.scoring.clean(i) for i in range(8)] == [1, 0, 0, 1, 1, 0, 1, 1]
-    container.epochs_set = [{3}]
-    clean_epochs_to_uiscoring(ui, container)
-    assert [ui.scoring.clean(i) for i in range(4)] == [1, 1, 0, 1]
-    clean_epochs_to_uiscoring(ui, SimpleNamespace(key="B", epochs_set=[{1}]))
-    assert ui.scoring.clean(0) == 1
