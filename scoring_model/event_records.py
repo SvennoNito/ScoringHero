@@ -7,7 +7,7 @@ A record is {key, event, digit, counter, epoch, start, end}: `event` is the slot
 event overlaps, `start`/`end` seconds. Only `event`, `digit`, `start` and `end` are read
 back; key, counter and epoch are derived on write and ignored on load. The sleeptrip
 conversions return records for a chosen slot; the caller passes them to
-`events_from_records` (or merges them into the file's records).
+`events_from_records` or `add_records`.
 """
 
 from .events import N_SLOTS, Events, ARTEFACT_SLOT
@@ -34,11 +34,17 @@ def events_from_records(records, epoch_length_s, n_epochs):
     """Events from records; the slot is the digit, the slot label the record's event
     (the last record of a slot wins)."""
     events = Events(epoch_length_s, n_epochs)
+    add_records(events, records)
+    return events
+
+
+def add_records(events, records):
+    """Add records to events: each record's slot gets the record's event as label and the
+    record's span."""
     for record in records:
         slot = record["digit"]
         events.set_label(slot, record["event"])
         events.add(slot, [(record["start"], record["end"])])
-    return events
 
 
 def sleeptrip_event_records(raw_events, slot, label, epoch_length_s):

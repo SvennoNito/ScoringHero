@@ -20,7 +20,7 @@ from PySide6.QtCore import Signal
 class SeedWindow(QDialog):
     settingsAccepted = Signal(dict)
 
-    def __init__(self, channel_labels, annotation_labels, saved_paths=None, parent=None):
+    def __init__(self, channel_labels, slot_labels, saved_paths=None, parent=None):
         super().__init__(parent)
         self.setWindowTitle("K-Complex / Spindle Detection (SEED)")
         self.resize(480, 580)
@@ -48,7 +48,7 @@ class SeedWindow(QDialog):
         self._kc_group.setChecked(True)
         kc_layout = QFormLayout()
         self._kc_marker = QComboBox()
-        for label in annotation_labels:
+        for label in slot_labels:
             self._kc_marker.addItem(label)
         self._kc_marker.setCurrentIndex(1)
         kc_layout.addRow("Save to event marker:", self._kc_marker)
@@ -61,7 +61,7 @@ class SeedWindow(QDialog):
         self._sp_group.setChecked(False)
         sp_layout = QFormLayout()
         self._sp_marker = QComboBox()
-        for label in annotation_labels:
+        for label in slot_labels:
             self._sp_marker.addItem(label)
         self._sp_marker.setCurrentIndex(2)
         sp_layout.addRow("Save to event marker:", self._sp_marker)

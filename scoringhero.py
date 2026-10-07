@@ -79,11 +79,11 @@ class GlobalKeyFilter(QObject):
         elif event_type == QEvent.Type.KeyRelease and not event.isAutoRepeat():
             key = event.key()
             if key in _EVENT_KEY_MAP and self._ui.held_event_key is not None:
-                box_index = _EVENT_KEY_MAP[key]
+                slot = _EVENT_KEY_MAP[key]
                 if self._ui.relabeled_event:
                     self._ui.relabeled_event = False
                 else:
-                    event_hotkey(box_index, self._ui)
+                    event_hotkey(slot, self._ui)
                 self._ui.held_event_key = None
                 return True
 

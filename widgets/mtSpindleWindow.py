@@ -45,7 +45,7 @@ class MtSpindleWindow(QDialog):
 
     settingsAccepted = Signal(dict)
 
-    def __init__(self, channel_labels, annotation_labels, has_stages=False, parent=None):
+    def __init__(self, channel_labels, slot_labels, has_stages=False, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Spindle Detection (MT-Spindle)")
         self.resize(440, 600)
@@ -70,7 +70,7 @@ class MtSpindleWindow(QDialog):
         marker_group = QGroupBox("Save detections to event marker:")
         marker_layout = QFormLayout()
         self._marker = QComboBox()
-        for label in annotation_labels:
+        for label in slot_labels:
             self._marker.addItem(label)
         self._marker.setCurrentIndex(3)
         marker_layout.addRow("Event marker:", self._marker)

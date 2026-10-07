@@ -43,7 +43,7 @@ class SumoWindow(QDialog):
 
     settingsAccepted = Signal(dict)
 
-    def __init__(self, channel_labels, annotation_labels, has_stages=False, parent=None):
+    def __init__(self, channel_labels, slot_labels, has_stages=False, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Spindle Detection (SUMO)")
         self.resize(480, 520)
@@ -68,7 +68,7 @@ class SumoWindow(QDialog):
         marker_group = QGroupBox("Save detections to event marker:")
         marker_layout = QVBoxLayout()
         self._marker = QComboBox()
-        for label in annotation_labels:
+        for label in slot_labels:
             self._marker.addItem(label)
         self._marker.setCurrentIndex(2)
         marker_layout.addWidget(self._marker)

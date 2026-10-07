@@ -2,7 +2,6 @@ from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QMessageBox
 
 from widgets import MtKcdWindow
-from scoring_model.events import N_SLOTS
 from event_detection.mt_kcd import detect_kc
 from event_detection.run_detector import DetectorSpec
 from event_detection.run_detector_gui import run_event_detector
@@ -22,10 +21,10 @@ def open_mt_kcd_window(ui):
         return
 
     channel_labels    = [ch["Channel_name"] for ch in ui.config[1]]
-    annotation_labels = [ui.events.label(slot) for slot in range(N_SLOTS)]
+    slot_labels = ui.events.labels()
     has_stages        = any(stage is not None for stage in ui.scoring.stages())
 
-    ui.MtKcdWindow = MtKcdWindow(channel_labels, annotation_labels, has_stages)
+    ui.MtKcdWindow = MtKcdWindow(channel_labels, slot_labels, has_stages)
     ui.MtKcdWindow.settingsAccepted.connect(
         lambda settings: QTimer.singleShot(0, lambda: run_event_detector(ui, SPEC, settings))
     )

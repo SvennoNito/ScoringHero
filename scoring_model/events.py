@@ -52,6 +52,10 @@ class Events:
 
     # ---- slot properties ---------------------------------------------------
 
+    def labels(self):
+        """The labels of every slot, in slot order."""
+        return list(self._labels)
+
     def label(self, slot):
         return self._labels[_check_slot(slot)]
 

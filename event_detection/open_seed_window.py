@@ -9,7 +9,6 @@ from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QMessageBox
 
 from widgets import SeedWindow
-from scoring_model.events import N_SLOTS
 from event_detection.run_detector import DetectorSpec
 from event_detection.run_detector_gui import run_event_detector
 
@@ -47,10 +46,10 @@ def open_seed_window(ui):
         return
 
     channel_labels    = [ch["Channel_name"] for ch in ui.config[1]]
-    annotation_labels = [ui.events.label(slot) for slot in range(N_SLOTS)]
+    slot_labels = ui.events.labels()
     saved             = _load_seed_settings(ui)
 
-    ui.SeedWindow = SeedWindow(channel_labels, annotation_labels, saved)
+    ui.SeedWindow = SeedWindow(channel_labels, slot_labels, saved)
     ui.SeedWindow.settingsAccepted.connect(
         lambda settings: QTimer.singleShot(0, lambda: _after_seed_settings(ui, settings))
     )
@@ -64,7 +63,7 @@ def _after_seed_settings(ui, settings):
         ("detect_kc",       "kc_slot",      "kc",      "K-complex"),
         ("detect_spindles", "spindle_slot", "spindle", "Spindle"),
     ]
-    for detect_key, marker_key, event_type, label in detections:
+    for detect_key, slot_key, event_type, label in detections:
         if not settings.get(detect_key):
             continue
         spec = DetectorSpec(
@@ -76,7 +75,7 @@ def _after_seed_settings(ui, settings):
             title="K-Complex / Spindle Detection (SEED)",
             noun=label,
         )
-        run_settings = {"channel": settings["channel"], "slot": settings[marker_key]}
+        run_settings = {"channel": settings["channel"], "slot": settings[slot_key]}
         if not run_event_detector(ui, spec, run_settings):
             break
 

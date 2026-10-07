@@ -243,7 +243,7 @@ def setup_ui(ui, MainWindow):
     ui.action_artefact = QAction("Artefact", MainWindow)
     ui.action_artefact.setObjectName("action_artefact")
     ui.action_artefact.triggered.connect(
-        partial(event_hotkey, box_index=0, ui=ui)
+        partial(event_hotkey, slot=0, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_artefact)
     ui.menu_labels.addSeparator()
@@ -251,73 +251,73 @@ def setup_ui(ui, MainWindow):
     ui.action_F1 = QAction("Event 1", MainWindow)
     ui.action_F1.setObjectName("action_F1")
     ui.action_F1.triggered.connect(
-        partial(event_hotkey, box_index=1, ui=ui)
+        partial(event_hotkey, slot=1, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F1)
     ui.action_F2 = QAction("Event 2", MainWindow)
     ui.action_F2.setObjectName("action_F2")
     ui.action_F2.triggered.connect(
-        partial(event_hotkey, box_index=2, ui=ui)
+        partial(event_hotkey, slot=2, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F2)
     ui.action_F3 = QAction("Event 3", MainWindow)
     ui.action_F3.setObjectName("action_F3")
     ui.action_F3.triggered.connect(
-        partial(event_hotkey, box_index=3, ui=ui)
+        partial(event_hotkey, slot=3, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F3)
     ui.action_F4 = QAction("Event 4", MainWindow)
     ui.action_F4.setObjectName("action_F4")
     ui.action_F4.triggered.connect(
-        partial(event_hotkey, box_index=4, ui=ui)
+        partial(event_hotkey, slot=4, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F4)
     ui.action_F5 = QAction("Event 5", MainWindow)
     ui.action_F5.setObjectName("action_F5")
     ui.action_F5.triggered.connect(
-        partial(event_hotkey, box_index=5, ui=ui)
+        partial(event_hotkey, slot=5, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F5)
     ui.action_F6 = QAction("Event 6", MainWindow)
     ui.action_F6.setObjectName("action_F6")
     ui.action_F6.triggered.connect(
-        partial(event_hotkey, box_index=6, ui=ui)
+        partial(event_hotkey, slot=6, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F6)
     ui.action_F7 = QAction("Event 7", MainWindow)
     ui.action_F7.setObjectName("action_F7")
     ui.action_F7.triggered.connect(
-        partial(event_hotkey, box_index=7, ui=ui)
+        partial(event_hotkey, slot=7, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F7)
     ui.action_F8 = QAction("Event 8", MainWindow)
     ui.action_F8.setObjectName("action_F8")
     ui.action_F8.triggered.connect(
-        partial(event_hotkey, box_index=8, ui=ui)
+        partial(event_hotkey, slot=8, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F8)
     ui.action_F9 = QAction("Event 9", MainWindow)
     ui.action_F9.setObjectName("action_F9")
     ui.action_F9.triggered.connect(
-        partial(event_hotkey, box_index=9, ui=ui)
+        partial(event_hotkey, slot=9, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F9)
     ui.action_F10 = QAction("Event 10", MainWindow)
     ui.action_F10.setObjectName("action_F10")
     ui.action_F10.triggered.connect(
-        partial(event_hotkey, box_index=10, ui=ui)
+        partial(event_hotkey, slot=10, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F10)
     ui.action_F11 = QAction("Event 11", MainWindow)
     ui.action_F11.setObjectName("action_F11")
     ui.action_F11.triggered.connect(
-        partial(event_hotkey, box_index=11, ui=ui)
+        partial(event_hotkey, slot=11, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F11)
     ui.action_F12 = QAction("Event 12", MainWindow)
     ui.action_F12.setObjectName("action_F12")
     ui.action_F12.triggered.connect(
-        partial(event_hotkey, box_index=12, ui=ui)
+        partial(event_hotkey, slot=12, ui=ui)
     )
     ui.menu_labels.addAction(ui.action_F12)
 
@@ -564,7 +564,11 @@ def _delete_all_events(ui):
     msg.exec()
 
     if msg.clickedButton() is btn_delete:
-        ui.edit_events(lambda events: [events.clear(slot) for slot in range(N_SLOTS)])
+        def clear_all(events):
+            for slot in range(N_SLOTS):
+                events.clear(slot)
+
+        ui.edit_events(clear_all)
     elif msg.clickedButton() is btn_epoch:
         _delete_events_in_current_epoch(ui)
     elif msg.clickedButton() is btn_specific:

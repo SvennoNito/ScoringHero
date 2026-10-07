@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt, QTimer
 
+from scoring_model.events import ARTEFACT_SLOT
 from widgets import NidraWindow, NidraSummaryWindow
 from utilities.refresh_gui import refresh_gui
 from .nidra_env import (
@@ -339,6 +340,6 @@ def _apply_scores(
     )
 
     if artifact_intervals and settings["mark_artifacts"]:
-        ui.edit_events(lambda events: events.add(0, artifact_intervals))
+        ui.edit_events(lambda events: events.add(ARTEFACT_SLOT, artifact_intervals))
 
     return len(artifact_intervals)

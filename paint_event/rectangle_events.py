@@ -5,16 +5,16 @@ from .convert_to_seconds import convert_to_seconds
 from .order_by_time import order_by_time
 
 
-def event_hotkey(box_index, ui):
+def event_hotkey(slot, ui):
     """Event slot hotkey: add the drawn rectangles (clipped to the displayed range) to the
     slot, or toggle the whole current epoch if none is drawn."""
     corners, _ = convert_to_seconds(ui, ui.PaintEventWidget.stored_corners)
     if not corners:
-        ui.edit_events(lambda events: events.toggle_epoch(box_index, int(ui.this_epoch)))
+        ui.edit_events(lambda events: events.toggle_epoch(slot, int(ui.this_epoch)))
     else:
         times = ui.times[int(ui.this_epoch)][0]
         spans = [(max(c[0].x(), times[0]), min(c[1].x(), times[-1])) for c in corners]
-        ui.edit_events(lambda events: events.add(box_index, spans))
+        ui.edit_events(lambda events: events.add(slot, spans))
     _reset_rectangles(ui)
 
 
