@@ -1,9 +1,7 @@
-from PySide6.QtCore import Qt, QRect, Signal, QPoint
-from PySide6.QtWidgets import QSlider, QWidget, QLabel, QVBoxLayout
+from PySide6.QtCore import Qt, QRect, Signal
+from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout
 from PySide6.QtGui import QPainter, QBrush, QColor, QFont
 
-import pyqtgraph as pg
-import numpy as np
 
 
 class PaintEventWidget(QWidget):

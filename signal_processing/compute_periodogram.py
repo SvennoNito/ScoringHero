@@ -2,8 +2,6 @@ from scipy.signal import welch
 from scipy.ndimage import uniform_filter1d
 import numpy as np
 
-from .sample_from_selection import sample_from_selection
-from .channel_from_selection import channel_from_selection
 from signal_processing.trim_power import trim_power
 from signal_processing.min_max_scale import min_max_scale
 

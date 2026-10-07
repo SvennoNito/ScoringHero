@@ -10,7 +10,6 @@ from PySide6.QtWidgets import (
     QComboBox,
     QHBoxLayout,
     QLineEdit,
-    QColorDialog,
     QPushButton,
     QGridLayout,
     QListWidget,

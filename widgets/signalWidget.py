@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QGraphicsRectItem
+from PySide6.QtWidgets import QWidget, QGraphicsRectItem
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont, QColor, QBrush, QPen
 import pyqtgraph as pg

@@ -1,4 +1,3 @@
-import numpy as np
 
 
 def trim_power(power, freqs, lower_limit, upper_limit):

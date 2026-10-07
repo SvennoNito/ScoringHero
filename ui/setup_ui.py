@@ -7,7 +7,6 @@ from PySide6.QtWidgets import (
     QMenu,
     QMessageBox,
     QStatusBar,
-    QSizePolicy,
     )
 
 from .toolbar import setup_toolbar
@@ -26,7 +25,6 @@ from config.open_config_window import open_config_window
 from filter.open_filter_window import open_filter_window
 from scoring.open_gssc_window import open_gssc_window
 from scoring.open_nidra_window import open_nidra_window
-from scoring.open_seed_window import open_seed_window
 from scoring.open_mt_kcd_window import open_mt_kcd_window
 from scoring.open_mt_spindle_window import open_mt_spindle_window
 # from scoring.open_yasa_window import open_yasa_window  # YASA disabled — keep scripts for later

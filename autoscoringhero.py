@@ -33,25 +33,15 @@ except ImportError as e:
 
 # All dependencies available, now run ScoringHero
 # Import after dependency checks to fail early
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtWidgets
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
-import scipy.io, os, json, re, h5py, datetime
-import numpy as np
-from importlib.metadata import version as _pkg_version
+import os
 
 from utilities.welcome_banner import print_welcome_banner
 from ui.setup_ui import setup_ui
-from utilities.next_epoch import next_epoch
-from utilities.prev_epoch import prev_epoch
 from eeg.load_wrapper import load_wrapper
-from eeg.eeg_import_window import eeg_import_window
 from widgets import *
-from signal_processing.times_vector import times_vector
-from events.draw_event_in_this_epoch import draw_event_in_this_epoch
-from events.event_handler import event_handler
-from events.erase_events_in_rectangles import erase_events_in_rectangles
-from scoring.write_scoring import write_scoring
 from style.appstyler import appstyler
 from style.apply_app_theme import apply_app_theme
 

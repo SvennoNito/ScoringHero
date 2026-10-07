@@ -1,6 +1,3 @@
-from signal_processing.sample_from_selection import sample_from_selection
-from signal_processing.channel_from_selection import channel_from_selection
-import numpy as np
 
 def rectangle_size(ui, eeg_in_rectangle, channel, converted_corners, converted_shape):
     if len(converted_shape) > 0:

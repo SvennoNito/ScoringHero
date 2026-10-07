@@ -1,4 +1,4 @@
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtGui
 from PySide6.QtWidgets import QStyleFactory
 
 def appstyler(app):

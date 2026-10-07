@@ -1,5 +1,3 @@
-import numpy as np
-from PySide6 import QtWidgets, QtGui, QtCore
 from PySide6.QtCore import QObject, Signal
 
 

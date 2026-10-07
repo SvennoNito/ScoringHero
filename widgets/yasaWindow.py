@@ -9,7 +9,6 @@ from PySide6.QtWidgets import (
     QListWidget,
     QAbstractItemView,
     QDoubleSpinBox,
-    QSpinBox,
     QFormLayout,
     QMessageBox,
     QWidget,

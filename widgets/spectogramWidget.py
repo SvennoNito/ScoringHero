@@ -1,11 +1,10 @@
 import os
-from PySide6 import QtWidgets, QtGui
+from PySide6 import QtWidgets
 from PySide6.QtWidgets import QLabel, QVBoxLayout
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 import pyqtgraph as pg
 import numpy as np
-from scipy.signal import welch, find_peaks
 from utilities.clock_time_format import parse_start_time, format_clock_time
 
 

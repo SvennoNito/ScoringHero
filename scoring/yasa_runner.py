@@ -5,7 +5,6 @@ Uses yasa.spindles_detect() to detect sleep spindles in EEG data.
 Returns event time ranges (start_sec, end_sec) as list of [start, end] pairs.
 """
 
-import numpy as np
 
 
 def detect_spindles(signal_1d, sfreq, rel_pow=0.2, corr=0.65, rms=1.5,

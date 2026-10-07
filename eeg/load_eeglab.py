@@ -1,7 +1,6 @@
 import h5py
 from scipy import io
 import numpy as np
-import os
 
 def load_eeglab(filename_prefix):
     # Check if the file is a MATLAB v7.3+ file (HDF5-based)

@@ -1,6 +1,5 @@
-from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout
+from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QFont
 from scipy.signal import medfilt
 import pyqtgraph as pg
 import numpy as np
