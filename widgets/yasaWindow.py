@@ -71,8 +71,7 @@ class YasaWindow(QDialog):
         self._marker = QComboBox()
         for label in annotation_labels:
             self._marker.addItem(label)
-        if "F2" in annotation_labels:
-            self._marker.setCurrentIndex(annotation_labels.index("F2"))
+        self._marker.setCurrentIndex(2)
         marker_layout.addRow("Event marker:", self._marker)
         marker_group.setLayout(marker_layout)
         layout.addWidget(marker_group)
@@ -324,7 +323,7 @@ class YasaWindow(QDialog):
 
         settings = {
             "channel":       selected.text(),
-            "marker":        self._marker.currentText(),
+            "slot":          self._marker.currentIndex(),
             "rel_pow":       self._rel_pow.value(),
             "corr":          self._corr.value(),
             "rms":           self._rms.value(),

@@ -72,8 +72,7 @@ class MtSpindleWindow(QDialog):
         self._marker = QComboBox()
         for label in annotation_labels:
             self._marker.addItem(label)
-        if "F3" in annotation_labels:
-            self._marker.setCurrentIndex(annotation_labels.index("F3"))
+        self._marker.setCurrentIndex(3)
         marker_layout.addRow("Event marker:", self._marker)
         marker_group.setLayout(marker_layout)
         layout.addWidget(marker_group)
@@ -304,7 +303,7 @@ class MtSpindleWindow(QDialog):
 
         settings = {
             "channel":       selected.text(),
-            "marker":        self._marker.currentText(),
+            "slot":          self._marker.currentIndex(),
             "fmin":          self._fmin.value(),
             "fmax":          self._fmax.value(),
             "amin":          self._amin.value(),

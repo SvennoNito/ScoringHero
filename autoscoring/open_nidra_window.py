@@ -30,7 +30,6 @@ from .nidra_env import (
     missing_requirements,
     is_frozen,
 )
-from scoring_model.events import N_SLOTS
 from .staging_dialogs import ask_staging_options
 from .autoscore_results import apply_nidra
 
@@ -100,11 +99,9 @@ def open_nidra_window(ui):
         return
 
     channel_labels = [ch["Channel_name"] for ch in ui.config[1]]
-    annotation_labels = [ui.events.label(slot) for slot in range(N_SLOTS)]
 
     ui.NidraWindow = NidraWindow(
         channel_labels,
-        annotation_labels,
         saved=_load_settings(ui),
     )
     ui.NidraWindow.settingsAccepted.connect(
@@ -338,12 +335,10 @@ def _apply_scores(
         artifact_mode=settings["artifact_mode"],
         store_probabilities=settings["store_probabilities"],
         mode=mode, overwrite_stages=overwrite_stages,
+        mark_artifacts=settings["mark_artifacts"],
     )
 
     if artifact_intervals and settings["mark_artifacts"]:
-        labels = [ui.events.label(slot) for slot in range(N_SLOTS)]
-        if settings["artifact_marker"] in labels:
-            slot = labels.index(settings["artifact_marker"])
-            ui.edit_events(lambda events: events.add(slot, artifact_intervals))
+        ui.edit_events(lambda events: events.add(0, artifact_intervals))
 
     return len(artifact_intervals)

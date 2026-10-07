@@ -70,8 +70,7 @@ class SumoWindow(QDialog):
         self._marker = QComboBox()
         for label in annotation_labels:
             self._marker.addItem(label)
-        if "F2" in annotation_labels:
-            self._marker.setCurrentIndex(annotation_labels.index("F2"))
+        self._marker.setCurrentIndex(2)
         marker_layout.addWidget(self._marker)
         marker_group.setLayout(marker_layout)
         layout.addWidget(marker_group)
@@ -199,7 +198,7 @@ class SumoWindow(QDialog):
 
         settings = {
             "channel": selected.text(),
-            "marker": self._marker.currentText(),
+            "slot": self._marker.currentIndex(),
             "prob_threshold": self._prob_threshold.value(),
             "filter_stages": filter_stages,
         }

@@ -72,8 +72,7 @@ class MtKcdWindow(QDialog):
         self._marker = QComboBox()
         for label in annotation_labels:
             self._marker.addItem(label)
-        if "F1" in annotation_labels:
-            self._marker.setCurrentIndex(annotation_labels.index("F1"))
+        self._marker.setCurrentIndex(1)
         marker_layout.addRow("Event marker:", self._marker)
         marker_group.setLayout(marker_layout)
         layout.addWidget(marker_group)
@@ -272,7 +271,7 @@ class MtKcdWindow(QDialog):
 
         settings = {
             "channel":       selected.text(),
-            "marker":        self._marker.currentText(),
+            "slot":          self._marker.currentIndex(),
             "amin":          self._amin.value(),
             "dmax_s":        self._dmax.value(),
             "q":             float(self._q.value()),

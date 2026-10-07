@@ -39,7 +39,7 @@ def make_spec(detect):
 def settings_for(ui, **extra):
     return {
         "channel": ui.config[1][1]["Channel_name"],
-        "marker": ui.events.label(0),
+        "slot": 0,
         **extra,
     }
 
@@ -102,10 +102,26 @@ def test_no_chosen_stages_keeps_all_events(ui, dialogs):
 def test_events_land_in_chosen_container_and_are_saved(ui, dialogs):
     last = N_SLOTS - 1
     spec = make_spec(lambda signal, sfreq: [[2, 4]])
-    assert gui.run_event_detector(ui, spec, settings_for(ui, marker=ui.events.label(last)))
+    assert gui.run_event_detector(ui, spec, settings_for(ui, slot=last))
     assert ui.events.spans(last) == [[2, 4]]
     assert saved_starts(ui) == [2]
     assert all(ui.events.count(slot) == 0 for slot in range(last))
+
+
+def test_duplicate_labels_never_redirect_results(ui, dialogs):
+    ui.events.set_label(1, "same")
+    ui.events.set_label(2, "same")
+    spec = make_spec(lambda signal, sfreq: [[2, 4]])
+    assert gui.run_event_detector(ui, spec, settings_for(ui, slot=2))
+    assert ui.events.spans(2) == [[2, 4]] and ui.events.spans(1) == []
+
+
+def test_results_into_slot_0_mark_epochs_unclean_other_slots_do_not(ui, dialogs):
+    spec = make_spec(lambda signal, sfreq: [[2, 4]])
+    assert gui.run_event_detector(ui, spec, settings_for(ui, slot=1))
+    assert ui.scoring.clean(0) == 1
+    assert gui.run_event_detector(ui, spec, settings_for(ui, slot=0))
+    assert ui.scoring.clean(0) == 0
 
 
 def test_detector_exception_shows_error_without_crashing(ui, dialogs):

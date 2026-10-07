@@ -61,8 +61,8 @@ def _after_seed_settings(ui, settings):
     _save_seed_settings(ui, settings)
 
     detections = [
-        ("detect_kc",       "kc_marker",      "kc",      "K-complex"),
-        ("detect_spindles", "spindle_marker", "spindle", "Spindle"),
+        ("detect_kc",       "kc_slot",      "kc",      "K-complex"),
+        ("detect_spindles", "spindle_slot", "spindle", "Spindle"),
     ]
     for detect_key, marker_key, event_type, label in detections:
         if not settings.get(detect_key):
@@ -76,7 +76,7 @@ def _after_seed_settings(ui, settings):
             title="K-Complex / Spindle Detection (SEED)",
             noun=label,
         )
-        run_settings = {"channel": settings["channel"], "marker": settings[marker_key]}
+        run_settings = {"channel": settings["channel"], "slot": settings[marker_key]}
         if not run_event_detector(ui, spec, run_settings):
             break
 

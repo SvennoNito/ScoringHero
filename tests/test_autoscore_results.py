@@ -110,6 +110,22 @@ def test_nidra_stores_probabilities_only_when_asked():
     assert s.probabilities(1) is None
 
 
+def test_nidra_marking_off_leaves_artifact_epochs_clean_but_keeps_stage_and_source():
+    s = Scoring(3, 30)
+    artifacts = apply_nidra(s, np.array([2, 6, 2]), _probs([2, 5, 2]), CLASSES, "NIDRA (ez6)", ["C3"],
+                            artifact_mode="inconclusive", mark_artifacts=False)
+    assert artifacts == [[30, 60]]
+    assert [s.clean(i) for i in range(3)] == [1, 1, 1]
+    assert s.stage(1) == "Inconclusive" and s.source(1) == "NIDRA (ez6) — artifact"
+
+
+def test_nidra_marking_off_keeps_existing_unclean_flags():
+    s = Scoring(2, 30)
+    s.set_clean([1], 0)
+    apply_nidra(s, np.array([2, 6]), _probs([2, 5]), CLASSES, "N", [], mark_artifacts=False)
+    assert [s.clean(i) for i in range(2)] == [1, 0]
+
+
 def test_nidra_artifact_marker_intervals_use_time_span_for_shorter_epochs():
     s = Scoring(4, 15)  # epochs 0,1 in model epoch 0; epochs 2,3 in model epoch 1 (artifact)
     artifacts = apply_nidra(s, np.array([2, 6]), _probs([2, 5]), CLASSES, "N", [])
