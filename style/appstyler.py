@@ -8,25 +8,24 @@ def appstyler(app):
 
     # Define a light palette
     light_palette = QtGui.QPalette()
-    light_palette.setColor(QtGui.QPalette.Window, QtGui.QColor(255, 255, 255))  # White background
-    light_palette.setColor(QtGui.QPalette.WindowText, QtGui.QColor(0, 0, 0))    # Black text
-    light_palette.setColor(QtGui.QPalette.Base, QtGui.QColor(240, 240, 240))    # Input fields background
-    light_palette.setColor(QtGui.QPalette.AlternateBase, QtGui.QColor(225, 225, 225))
-    light_palette.setColor(QtGui.QPalette.ToolTipBase, QtGui.QColor(255, 255, 255))
-    light_palette.setColor(QtGui.QPalette.ToolTipText, QtGui.QColor(0, 0, 0))
-    light_palette.setColor(QtGui.QPalette.Text, QtGui.QColor(0, 0, 0))
-    light_palette.setColor(QtGui.QPalette.Button, QtGui.QColor(240, 240, 240))
-    light_palette.setColor(QtGui.QPalette.ButtonText, QtGui.QColor(0, 0, 0))
-    light_palette.setColor(QtGui.QPalette.BrightText, QtGui.QColor(255, 0, 0))  # Highlight error text
-    light_palette.setColor(QtGui.QPalette.Highlight, QtGui.QColor(0, 120, 215))  # Highlight color (blue)
-    light_palette.setColor(QtGui.QPalette.HighlightedText, QtGui.QColor(255, 255, 255))  # Text in highlight
-    light_palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, QtGui.QColor(160, 160, 160))  # Gray text
-    light_palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, QtGui.QColor(160, 160, 160)) # Gray text for windows
-    light_palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.Base, QtGui.QColor(240, 240, 240))       # Light background
-    light_palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.Button, QtGui.QColor(240, 240, 240))     # Light background
-    light_palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.Text, QtGui.QColor(160, 160, 160))       # Gray text inside text boxes
-    light_palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.Highlight, QtGui.QColor(200, 200, 200))  # Dimmed highlight
-    light_palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.HighlightedText, QtGui.QColor(160, 160, 160)) # Dimmed text
+    c = QtGui.QColor
+    light_palette.setColor(QtGui.QPalette.Window, c("#ffffff"))
+    light_palette.setColor(QtGui.QPalette.WindowText, c("#1f2933"))
+    light_palette.setColor(QtGui.QPalette.Base, c("#ffffff"))
+    light_palette.setColor(QtGui.QPalette.AlternateBase, c("#f8f9fb"))
+    light_palette.setColor(QtGui.QPalette.ToolTipBase, c("#1f2933"))
+    light_palette.setColor(QtGui.QPalette.ToolTipText, c("#ffffff"))
+    light_palette.setColor(QtGui.QPalette.Text, c("#1f2933"))
+    light_palette.setColor(QtGui.QPalette.Button, c("#ffffff"))
+    light_palette.setColor(QtGui.QPalette.ButtonText, c("#1f2933"))
+    light_palette.setColor(QtGui.QPalette.BrightText, c("#c0392b"))
+    light_palette.setColor(QtGui.QPalette.Highlight, c("#2f6fed"))
+    light_palette.setColor(QtGui.QPalette.HighlightedText, c("#ffffff"))
+    for role in (QtGui.QPalette.ButtonText, QtGui.QPalette.WindowText, QtGui.QPalette.Text, QtGui.QPalette.HighlightedText):
+        light_palette.setColor(QtGui.QPalette.Disabled, role, c("#a3aab5"))
+    light_palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.Base, c("#f4f6f9"))
+    light_palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.Button, c("#f4f6f9"))
+    light_palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.Highlight, c("#d3d8e0"))
 
     # Apply the light palette
     app.setPalette(light_palette)        

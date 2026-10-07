@@ -1,3 +1,4 @@
+from style.plot_style import soften_axes
 from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import Signal, Qt
 from scipy.signal import medfilt
@@ -27,6 +28,7 @@ class HypnogramWidget(QWidget):
 
         # Plot axes
         self.axes = pg.PlotWidget(centralWidget)
+        soften_axes(self.axes)
         self.axes.setObjectName("HypnogramWidget")
         self.axes.setBackground((0, 0, 0, 0))
         self.axes.setLabel("left", "Stage")

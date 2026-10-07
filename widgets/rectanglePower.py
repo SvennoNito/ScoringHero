@@ -1,3 +1,4 @@
+from style.plot_style import soften_axes
 from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont
@@ -15,6 +16,7 @@ class RectanglePower(QWidget):
 
         # Plot axes
         self.axes = pg.PlotWidget(centralWidget)
+        soften_axes(self.axes)
         self.axes.setObjectName("RectanglePowerWidget")
         self.axes.setBackground((0, 0, 0, 0))
         self.axes.setLabel("left", "Power (unitless)")

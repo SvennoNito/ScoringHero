@@ -1,4 +1,93 @@
-QPushButton { background-color: #ffffff; color: #000000; border: 2px solid #cccccc; padding: 5px; height: 10px; border-radius: 10px; } 
-QPushButton:hover { background-color: #ffffff; color: #a0a0a0; } 
-QPushButton:checked { background-color: #ffffff; color: #000000; } 
-QPushButton:disabled { background-color: #ffffff; color: #a0a0a0; } 
+/* ScoringHero theme. Palette:
+   window #f4f6f9 | surface #ffffff | border #d3d8e0 | text #1f2933 | muted #6b7280
+   accent #2f6fed (hover #1f5bd6, pressed #1a4cb5) | danger #c0392b | warn #b7791f | ok #2e7d32 */
+
+QToolTip { background: #1f2933; color: #ffffff; border: none; padding: 5px 8px; }
+
+/* Dialogs sit on a light grey so white group boxes read as cards; the recording canvas stays white */
+QDialog { background: #f4f6f9; }
+
+/* ---------- Menus ---------- */
+QMenuBar { background: #ffffff; border-bottom: 1px solid #e3e7ed; padding: 2px 4px; }
+QMenuBar::item { background: transparent; padding: 4px 10px; border-radius: 4px; }
+QMenuBar::item:selected { background: #e8eefc; }
+QMenuBar::item:disabled { color: #a3aab5; }
+QMenu { background: #ffffff; border: 1px solid #d3d8e0; padding: 4px; }
+QMenu::item { padding: 5px 24px 5px 14px; border-radius: 4px; }
+QMenu::item:selected { background: #2f6fed; color: #ffffff; }
+QMenu::item:disabled { color: #a3aab5; background: transparent; }
+QMenu::separator { height: 1px; background: #e3e7ed; margin: 4px 6px; }
+
+/* ---------- Toolbar / status bar ---------- */
+QToolBar { background: #ffffff; border: none; border-bottom: 1px solid #e3e7ed; padding: 3px 6px; spacing: 6px; }
+QToolBar::separator { background: #e3e7ed; width: 1px; margin: 4px 6px; }
+QStatusBar { background: #ffffff; border-top: 1px solid #e3e7ed; color: #6b7280; }
+
+/* ---------- Buttons ---------- */
+QPushButton { background: #ffffff; color: #1f2933; border: 1px solid #d3d8e0; border-radius: 6px; padding: 4px 14px; min-height: 18px; }
+QPushButton:hover { background: #f1f5fd; border-color: #2f6fed; }
+QPushButton:pressed { background: #e1eafb; border-color: #1f5bd6; }
+QPushButton:checked { background: #e1eafb; border-color: #2f6fed; color: #1a4cb5; }
+QPushButton:focus { border-color: #2f6fed; }
+QPushButton:disabled { background: #f4f6f9; color: #a3aab5; border-color: #e3e7ed; }
+
+/* Default dialog button (OK / Run / Apply) = primary action */
+QPushButton:default { background: #2f6fed; color: #ffffff; border-color: #2f6fed; }
+QPushButton:default:hover { background: #1f5bd6; border-color: #1f5bd6; }
+QPushButton:default:pressed { background: #1a4cb5; border-color: #1a4cb5; }
+QPushButton:default:disabled { background: #b8ccf6; color: #ffffff; border-color: #b8ccf6; }
+
+/* Destructive icon button (trash / remove) */
+QPushButton[role="danger"] { color: #c0392b; border: none; background: transparent; padding: 2px 6px; font-size: 14px; }
+QPushButton[role="danger"]:hover { background: rgba(192, 57, 43, 38); }
+QPushButton[role="danger"]:pressed { background: rgba(192, 57, 43, 80); }
+
+/* ---------- Inputs ---------- */
+/* Combo boxes and spin boxes keep the native Fusion look (QSS borders would drop their arrows). */
+QLineEdit, QPlainTextEdit, QTextEdit {
+    background: #ffffff; border: 1px solid #d3d8e0; border-radius: 6px; padding: 3px 8px;
+    selection-background-color: #2f6fed; selection-color: #ffffff;
+}
+QLineEdit:hover { border-color: #aab3c2; }
+QLineEdit:focus, QPlainTextEdit:focus, QTextEdit:focus { border-color: #2f6fed; }
+QLineEdit:disabled { background: #f4f6f9; color: #a3aab5; }
+
+QListWidget, QListView, QTableWidget, QTableView, QTreeView {
+    background: #ffffff; border: 1px solid #d3d8e0; border-radius: 6px; outline: none; alternate-background-color: #f8f9fb;
+}
+QListWidget::item:selected, QListView::item:selected, QTableView::item:selected { background: #2f6fed; color: #ffffff; }
+QHeaderView::section { background: #f4f6f9; border: none; border-bottom: 1px solid #d3d8e0; padding: 4px 8px; font-weight: bold; }
+
+/* ---------- Group boxes: white cards on the window background ---------- */
+QGroupBox { background: #ffffff; border: 1px solid #d3d8e0; border-radius: 8px; margin-top: 22px; padding: 10px; }
+QGroupBox::title { subcontrol-origin: margin; subcontrol-position: top left; left: 2px; padding: 0 2px; color: #1f2933; font-weight: bold; }
+
+QCheckBox, QRadioButton { spacing: 8px; }
+QCheckBox:disabled, QRadioButton:disabled { color: #a3aab5; }
+
+/* ---------- Sliders ---------- */
+QSlider::groove:horizontal { height: 4px; background: #d3d8e0; border-radius: 2px; }
+QSlider::sub-page:horizontal { background: #2f6fed; border-radius: 2px; }
+QSlider::handle:horizontal { background: #ffffff; border: 2px solid #2f6fed; width: 12px; height: 12px; margin: -6px 0; border-radius: 8px; }
+QSlider::groove:vertical { width: 4px; background: #d3d8e0; border-radius: 2px; }
+QSlider::add-page:vertical { background: #2f6fed; border-radius: 2px; }
+QSlider::handle:vertical { background: #ffffff; border: 2px solid #2f6fed; width: 12px; height: 12px; margin: 0 -6px; border-radius: 8px; }
+QSlider::handle:hover { background: #e8eefc; }
+
+/* ---------- Scroll bars ---------- */
+QScrollBar:vertical { background: transparent; width: 10px; margin: 0; }
+QScrollBar::handle:vertical { background: #c3cad5; border-radius: 4px; min-height: 28px; margin: 1px; }
+QScrollBar::handle:vertical:hover { background: #9aa4b5; }
+QScrollBar:horizontal { background: transparent; height: 10px; margin: 0; }
+QScrollBar::handle:horizontal { background: #c3cad5; border-radius: 4px; min-width: 28px; margin: 1px; }
+QScrollBar::handle:horizontal:hover { background: #9aa4b5; }
+QScrollBar::add-line, QScrollBar::sub-line { width: 0; height: 0; }
+QScrollBar::add-page, QScrollBar::sub-page { background: transparent; }
+
+/* ---------- Text roles (set via style.roles.set_role) ---------- */
+QLabel[role="note"] { color: #6b7280; font-size: 11px; }
+QLabel[role="info"] { color: #2f6fed; font-weight: bold; }
+QLabel[role="warn"] { color: #b7791f; font-size: 11px; }
+QLabel[role="ok"] { color: #2e7d32; font-size: 11px; }
+QLabel[role="error"] { color: #c0392b; }
+QLineEdit[role="error"] { border-color: #c0392b; background: #fdf2f1; }

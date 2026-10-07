@@ -1,3 +1,4 @@
+from style.plot_style import soften_axes
 import os
 from PySide6 import QtWidgets
 from PySide6.QtWidgets import QLabel, QVBoxLayout
@@ -16,6 +17,7 @@ class SpectogramWidget(QtWidgets.QWidget):
         self.graphics.setObjectName("spectogram")
         self.graphics.setBackground("w")
         self.axes = self.graphics.addPlot()
+        soften_axes(self.axes)
 
         self._channel_label = QLabel(self.graphics)
         self._channel_label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)

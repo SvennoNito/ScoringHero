@@ -24,6 +24,7 @@ import copy
 
 from config.channel_settings import ANALYSIS_CHANNEL_KEYS, rename_channel
 from scoring_model.events import N_SLOTS
+from style.roles import set_role
 
 
 class ConfigurationWindow(QDialog):
@@ -227,11 +228,7 @@ class EventConfiguration(QDialog):
             remove_btn = QPushButton("🗑")
             remove_btn.setFixedWidth(remove_w)
             remove_btn.setToolTip("Remove all events of this type")
-            remove_btn.setStyleSheet(
-                "QPushButton { color: #c0392b; border: none; background: transparent; font-size: 14px; }"
-                "QPushButton:hover { background-color: rgba(192, 57, 43, 40); border-radius: 3px; }"
-                "QPushButton:pressed { background-color: rgba(192, 57, 43, 80); }"
-            )
+            remove_btn.setProperty("role", "danger")
             remove_btn.clicked.connect(lambda checked, b=remove_btn: self._on_remove_event_btn(b))
             self.remove_buttons.append(remove_btn)
 
@@ -901,7 +898,7 @@ class ChannelConfiguration(QDialog):
         self.trash_buttons = []
 
         # Feedback on a channel name field holding another channel's name
-        self._taken_name_style = "QLineEdit { border: 1px solid red; }"
+        # (taken names get role="error", see modern_theme.qss)
 
         # Top checkboxes in 2x2 grid layout
         top_checkbox_layout = QGridLayout()
@@ -1129,11 +1126,7 @@ class ChannelConfiguration(QDialog):
             trash_btn = QPushButton("🗑")
             trash_btn.setFixedWidth(trash_w)
             trash_btn.setToolTip("Delete channel")
-            trash_btn.setStyleSheet(
-                "QPushButton { color: #c0392b; border: none; background: transparent; font-size: 14px; }"
-                "QPushButton:hover { background-color: rgba(192, 57, 43, 40); border-radius: 3px; }"
-                "QPushButton:pressed { background-color: rgba(192, 57, 43, 80); }"
-            )
+            trash_btn.setProperty("role", "danger")
             self.trash_buttons.append(trash_btn)
             trash_btn.clicked.connect(lambda checked, b=trash_btn: self._on_delete_channel_btn(b))
 
@@ -1199,7 +1192,7 @@ class ChannelConfiguration(QDialog):
     def _on_label_typed(self, labelbox):
         """Live feedback while typing: red border and tooltip on a taken name."""
         taken = self._name_taken(labelbox)
-        labelbox.setStyleSheet(self._taken_name_style if taken else "")
+        set_role(labelbox, "error" if taken else None)
         labelbox.setToolTip("name already used" if taken else "")
 
     def _on_label_finished(self, labelbox):

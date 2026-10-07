@@ -95,7 +95,6 @@ class MyMainWindow(QtWidgets.QMainWindow):
         super().__init__()
         self.setObjectName("ScoringHero")
         self.resize(800, 600)
-        self.setStyleSheet("background-color: white;")
         self.ui = ui
         self.ui.version = [int(x) for x in _pkg_version("scoringhero").split(".")]
         self.setWindowTitle(f"Scoring Hero v.{self.ui.version[0]}.{self.ui.version[1]}.{self.ui.version[2]}")

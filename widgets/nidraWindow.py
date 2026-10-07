@@ -26,6 +26,7 @@ from autoscoring.nidra_env import (
     missing_requirements,
 )
 from .summaryImageWindow import SummaryImageWindow
+from style.roles import set_role
 
 _NO_RIGHT = "— none (duplicate the left channel) —"
 
@@ -103,7 +104,7 @@ class NidraWindow(QDialog):
             "polarity flip or filter set in the Configuration panel is applied first."
         )
         channel_note.setWordWrap(True)
-        channel_note.setStyleSheet("color: gray; font-size: 11px;")
+        set_role(channel_note, "note")
         layout.addWidget(channel_note)
 
         # --- Model ---------------------------------------------------------
@@ -117,7 +118,7 @@ class NidraWindow(QDialog):
 
         self._model_description = QLabel()
         self._model_description.setWordWrap(True)
-        self._model_description.setStyleSheet("color: gray; font-size: 11px;")
+        set_role(self._model_description, "note")
         model_layout.addWidget(self._model_description)
 
         dir_row = QHBoxLayout()
@@ -134,7 +135,7 @@ class NidraWindow(QDialog):
 
         self._model_status = QLabel()
         self._model_status.setWordWrap(True)
-        self._model_status.setStyleSheet("font-size: 11px;")
+        set_role(self._model_status, "note")
         model_layout.addWidget(self._model_status)
 
         model_group.setLayout(model_layout)
@@ -163,7 +164,7 @@ class NidraWindow(QDialog):
             "out of the sleep statistics."
         )
         artifact_note.setWordWrap(True)
-        artifact_note.setStyleSheet("color: gray; font-size: 11px;")
+        set_role(artifact_note, "note")
         artifact_layout.addWidget(artifact_note)
 
         self._artifact_group.setLayout(artifact_layout)
@@ -196,7 +197,7 @@ class NidraWindow(QDialog):
                 "imported here.\n\n" + INSTALL_INSTRUCTIONS
             )
             requirement_note.setWordWrap(True)
-            requirement_note.setStyleSheet("color: #e0a030; font-size: 11px;")
+            set_role(requirement_note, "warn")
             requirement_layout.addWidget(requirement_note)
             requirement_group.setLayout(requirement_layout)
             layout.addWidget(requirement_group)
@@ -270,13 +271,13 @@ class NidraWindow(QDialog):
         missing = missing_model_files(model_key, self._model_dir.text().strip())
         if not missing:
             self._model_status.setText("✔ Model weights found.")
-            self._model_status.setStyleSheet("color: #4caf50; font-size: 11px;")
+            set_role(self._model_status, "ok")
         else:
             self._model_status.setText(
                 f"✖ {', '.join(missing)} not found — ScoringHero will offer to "
                 f"download the weights (~{spec['size_mb']} MB) when you press OK."
             )
-            self._model_status.setStyleSheet("color: #e0a030; font-size: 11px;")
+            set_role(self._model_status, "warn")
 
     def _browse_model_dir(self):
         directory = QFileDialog.getExistingDirectory(

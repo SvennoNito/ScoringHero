@@ -18,6 +18,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Signal, Qt
 
 from scoring_model.scoring import STAGES
+from style.roles import set_role
 
 
 def _info_label(text, tooltip):
@@ -30,7 +31,7 @@ def _info_label(text, tooltip):
     row.addWidget(QLabel(text))
 
     icon = QLabel("ⓘ")
-    icon.setStyleSheet("color: #5ba3d9; font-weight: bold;")
+    set_role(icon, "info")
     icon.setToolTip(tooltip)
     icon.setToolTipDuration(0)
     icon.setCursor(Qt.WhatsThisCursor)
@@ -183,7 +184,7 @@ class MtKcdWindow(QDialog):
 
         if not has_stages:
             note_no_stages = QLabel("No sleep stages have been scored yet.")
-            note_no_stages.setStyleSheet("color: gray; font-size: 11px;")
+            set_role(note_no_stages, "note")
             stage_layout.addWidget(note_no_stages)
 
         self._stage_group.setLayout(stage_layout)
@@ -201,11 +202,11 @@ class MtKcdWindow(QDialog):
             "Based on: Oliveira et al. (2020), Expert Syst. Appl. 151, 113331."
         )
         note.setWordWrap(True)
-        note.setStyleSheet("color: gray; font-size: 11px;")
+        set_role(note, "note")
         note_layout.addWidget(note, stretch=1)
 
         procedure_icon = QLabel("ⓘ")
-        procedure_icon.setStyleSheet("color: #5ba3d9; font-weight: bold; font-size: 13px;")
+        set_role(procedure_icon, "info")
         procedure_icon.setCursor(Qt.WhatsThisCursor)
         procedure_icon.setToolTipDuration(0)
         procedure_icon.setToolTip(

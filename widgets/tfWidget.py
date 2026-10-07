@@ -1,3 +1,4 @@
+from style.plot_style import soften_axes
 import os
 import numpy as np
 import pyqtgraph as pg
@@ -29,6 +30,7 @@ class TFWidget(QWidget):
         self.graphics.ci.layout.setSpacing(0)
 
         self.axes = self.graphics.addPlot()
+        soften_axes(self.axes)
         self.axes.setLabel("left", "")
         self.axes.setLabel("bottom", "")
         left_ax = self.axes.getAxis("left")
