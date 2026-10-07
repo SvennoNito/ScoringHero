@@ -72,7 +72,7 @@ def _delete_event(ui, idx):
 
 
 def open_config_window(ui):
-    allow_staging = all([stage["stage"] == None for stage in ui.stages])
+    allow_staging = all(stage is None for stage in ui.scoring.stages())
 
     channel_labels = [ch["Channel_name"] for ch in ui.config[1]]
     ui.ConfigurationWindow = ConfigurationWindow(ui.config, ui.AnnotationContainer, allow_staging, channel_labels)

@@ -6,12 +6,17 @@ import pyqtgraph as pg
 import numpy as np
 from utilities.clock_time_format import parse_start_time, format_clock_time
 from signal_processing import *
+from scoring_model.scoring import disagreements
 
 COMPARISON_TITLE = (
     '<span style="color:black;">Primary scoring</span>'
     '<span style="color:black;"> | </span>'
     '<span style="color:rgb(210,40,40);">Comparison scoring</span>'
 )
+
+
+def _hypnogram_digits(scoring):
+    return np.array([scoring.hypnogram_digit(e) for e in range(len(scoring))])
 
 
 class HypnogramWidget(QWidget):
@@ -63,7 +68,7 @@ class HypnogramWidget(QWidget):
         self.comparison_items = []
         self.times = np.arange(0, ui.numepo) * ui.config[0]["Epoch_length_s"] / 3600
         times = np.repeat(self.times, 2)
-        stages = np.array([stage["digit"] for stage in ui.stages])
+        stages = _hypnogram_digits(ui.scoring)
         for stage, color in self.colors.items():
             data = np.zeros(ui.numepo)
             data[:] = np.nan
@@ -90,7 +95,7 @@ class HypnogramWidget(QWidget):
         self._update_time_ticks(ui)
 
         # Draw comparison overlay (disagreement epochs in red) and its legend title
-        if ui.stages_comparison is not None:
+        if ui.scoring_comparison is not None:
             self._draw_comparison_overlay(ui)
             self.axes.setTitle(COMPARISON_TITLE)
         else:
@@ -137,16 +142,17 @@ class HypnogramWidget(QWidget):
 
     def _draw_comparison_overlay(self, ui):
         """Overlay disagreement epochs in red, showing the comparison scoring's stage."""
-        if not ui.disagreement_epochs:
+        disagreeing = disagreements(ui.scoring, ui.scoring_comparison)
+        if not disagreeing:
             return
 
         times = np.repeat(self.times, 2)
-        comparison_digits = [s["digit"] for s in ui.stages_comparison]
+        comparison_digits = _hypnogram_digits(ui.scoring_comparison)
 
         # Collect (epoch, digit) pairs for disagreement epochs that have a digit
         ep_digit_pairs = [
             (ep, comparison_digits[ep])
-            for ep in ui.disagreement_epochs
+            for ep in disagreeing
             if ep < len(comparison_digits) and comparison_digits[ep] is not None
         ]
         if not ep_digit_pairs:
@@ -205,7 +211,7 @@ class HypnogramWidget(QWidget):
 
 
     def update_hypnogram(self, ui):
-        stages = np.array([stage["digit"] for stage in ui.stages])
+        stages = _hypnogram_digits(ui.scoring)
         times = np.repeat(self.times, 2)
         for stage, item in self.stage_items.items():
             data = np.zeros(ui.numepo)
@@ -213,6 +219,14 @@ class HypnogramWidget(QWidget):
             data[stages == stage] = stage
             data = np.concatenate(np.column_stack((data, data - 1)))
             item.setData(times, data)
+        self._redraw_comparison_overlay(ui)
+
+    def _redraw_comparison_overlay(self, ui):
+        for item in self.comparison_items:
+            self.axes.removeItem(item)
+        self.comparison_items = []
+        if ui.scoring_comparison is not None:
+            self._draw_comparison_overlay(ui)
 
     def update_epoch_indicator(self, this_epoch):
         self.epoch_indicator_line.setPos(self.times[this_epoch])

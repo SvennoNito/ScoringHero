@@ -1,12 +1,12 @@
 import os
 from PySide6.QtWidgets import (
-    QFileDialog, QDialog, QVBoxLayout, QHBoxLayout,
+    QFileDialog, QMessageBox, QDialog, QVBoxLayout, QHBoxLayout,
     QLabel, QComboBox, QPushButton, QScrollArea, QWidget
 )
 from events.draw_event_in_this_epoch import draw_event_in_this_epoch
 from utilities.refresh_gui import _update_export_menu_state
-from .load_scoring import load_scoring
-from .load_sleeptrip import load_sleeptrip
+from scoring_model.formats import FORMATS
+from widgets.resolveDialog import resolve_loaded
 from .load_sleeptrip_events import load_sleeptrip_events
 from .events_to_ui import events_to_ui
 
@@ -111,20 +111,10 @@ class SleeptripEventMappingDialog(QDialog):
 
 
 def scoring_import_window(ui, filetype):
-    if filetype == "scoringhero":
-        datatype = "*.json"
-    if filetype == "vis":
-        datatype = "*.vis"
-    if filetype == "yasa":
-        datatype = "*.txt"
-    if filetype == "sleeptrip":
-        datatype = "*.csv"
     if filetype == "sleeptrip_events":
         datatype = "*.csv"
-    if filetype == "sleepyland":
-        datatype = "*.annot"
-    if filetype == "gssc":
-        datatype = "*.csv"
+    else:
+        datatype = FORMATS[filetype].file_filter
 
     name_of_scoringfile, _ = QFileDialog.getOpenFileName(
         None, "Open Scoring File", ui.default_data_path, datatype
@@ -135,8 +125,6 @@ def scoring_import_window(ui, filetype):
         return  # Exit the function if no file is selected
 
     ui.default_data_path = os.path.dirname(name_of_scoringfile)
-    if filetype != "sleeptrip_events":
-        ui.filename, suffix = os.path.splitext(name_of_scoringfile)
 
     if filetype == "sleeptrip_events":
         raw_events, unique_labels = load_sleeptrip_events(name_of_scoringfile)
@@ -168,17 +156,30 @@ def scoring_import_window(ui, filetype):
         events_to_ui(ui, events)
         ui.HypnogramWidget.draw_hypnogram(ui)
         ui.DisplayedEpochWidget.update_text(
-            ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+            ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
         )
         for container in ui.AnnotationContainer:
             draw_event_in_this_epoch(ui, container)
         return
 
-    if filetype == "sleeptrip":
-        epolen = ui.config[0]["Epoch_length_s"]
-        ui.stages, epoch_event_col = load_sleeptrip(name_of_scoringfile, epolen, ui.numepo)
+    epolen = ui.config[0]["Epoch_length_s"]
+    try:
+        loaded = FORMATS[filetype].loader(name_of_scoringfile)
+    except Exception as e:
+        QMessageBox.critical(ui, "Error", f"The scoring file\n{name_of_scoringfile}\ncould not be read:\n\n{e}")
+        return
+    scoring = resolve_loaded(ui, loaded, ui.numepo, epolen)
+    if scoring is None:
+        return  # cancelled: nothing changes
 
-        events = []
+    ui.filename, _ = os.path.splitext(name_of_scoringfile)
+    ui.scoring = scoring
+
+    events = []
+    if filetype == "scoringhero":
+        events = loaded.events
+    elif filetype == "sleeptrip":
+        epoch_event_col = loaded.artefact_flags
         if epoch_event_col and any(v == 1 for v in epoch_event_col):
             dialog = EpochEventImportDialog()
             if dialog.exec():
@@ -193,16 +194,10 @@ def scoring_import_window(ui, filetype):
                             "end": (epoch_idx + 1) * epolen,
                             "epoch": [epoch_idx + 1],
                         })
-
-        events_to_ui(ui, events)
-    else:
-        ui.stages, events = load_scoring(
-            name_of_scoringfile, ui.config[0]["Epoch_length_s"], ui.numepo, filetype
-        )
-        events_to_ui(ui, events)
+    events_to_ui(ui, events)
 
     ui.HypnogramWidget.draw_hypnogram(ui)
     ui.DisplayedEpochWidget.update_text(
-        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+        ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
     )
     _update_export_menu_state(ui)

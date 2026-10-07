@@ -25,9 +25,9 @@ class DisplayedEpochWidget(QWidget):
         layout = QVBoxLayout(axes)
         layout.addWidget(self.textfield)
 
-    def update_text(self, this_epoch, numepo, stages, stages_comparison=None, comparison_name=None):
+    def update_text(self, this_epoch, numepo, scoring, scoring_comparison=None, comparison_name=None):
         self.textfield.setText(
-            epoch_header_text(this_epoch, numepo, stages, stages_comparison, comparison_name)
+            epoch_header_text(this_epoch, numepo, scoring, scoring_comparison, comparison_name)
         )
     #     self.change_uncertainty(stages[this_epoch]["confidence"])
 

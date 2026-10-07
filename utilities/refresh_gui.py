@@ -11,7 +11,7 @@ def refresh_gui(ui):
 
     # Update display text
     ui.DisplayedEpochWidget.update_text(
-        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+        ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
     )
 
     # Update epoch indicator lines
@@ -43,6 +43,6 @@ def refresh_gui(ui):
 
 def _update_export_menu_state(ui):
     """Enable/disable sleep report export based on scoring availability."""
-    has_scores = ui.stages and any(stage.get("digit") is not None for stage in ui.stages)
+    has_scores = any(stage is not None for stage in ui.scoring.stages())
     if hasattr(ui, "action_export_sleep_report"):
         ui.action_export_sleep_report.setEnabled(has_scores)

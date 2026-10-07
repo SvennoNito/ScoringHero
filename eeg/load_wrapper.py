@@ -2,7 +2,10 @@ import os
 import numpy as np
 from config.write_configuration import write_configuration
 from config.load_configuration import load_configuration
-from scoring.load_scoring import load_scoring
+from scoring.scoring_import_comparison import clear_comparison
+from scoring_model.formats import load_scoringhero
+from scoring_model.scoring import Scoring
+from widgets.resolveDialog import resolve_loaded
 from scoring.events_to_ui import events_to_ui
 from .load_eeglab import load_eeglab
 from .load_r09 import load_r09
@@ -43,6 +46,7 @@ def _repair_stored_sampling_rate(ui, srate):
 
 def _reset_for_new_recording(ui):
     ui.this_epoch = 0
+    clear_comparison(ui)  # a comparison scoring belongs to the previous recording
 
     # A newly loaded primary recording invalidates any loaded overlay signal
     # (different duration/channels), so drop it and reset the related menu state.
@@ -57,8 +61,8 @@ def load_wrapper(ui, datatype, extra_files=None):
     """Load at startup: reading the files blocks, building the displayed signal and
     the analysis data runs under the busy indicator."""
     _reset_for_new_recording(ui)
-    events = _load_heavy(ui, datatype, extra_files)
-    _show_loaded(ui, events)
+    loaded = _load_heavy(ui, datatype, extra_files)
+    _show_loaded(ui, loaded)
 
 
 def load_wrapper_busy(ui, datatype, extra_files, on_done, on_error):
@@ -66,11 +70,11 @@ def load_wrapper_busy(ui, datatype, extra_files, on_done, on_error):
     _reset_for_new_recording(ui)
     run_busy(ui, "Loading recording…",
              lambda: _load_heavy(ui, datatype, extra_files),
-             lambda events: _show_loaded(ui, events, on_done), on_error)
+             lambda loaded: _show_loaded(ui, loaded, on_done), on_error)
 
 
 def _load_heavy(ui, datatype, extra_files):
-    """Pure-compute half of loading (no GUI objects). Returns the scoring events."""
+    """Pure-compute half of loading (no GUI objects). Returns the loaded ScoringHero file (None if there is none)."""
     ui.eeg_data, srate, channel_names, units = load_single(ui.filename, datatype)
 
     if extra_files:
@@ -107,18 +111,25 @@ def _load_heavy(ui, datatype, extra_files):
         ui.config[0]["Sampling_rate_hz"],
         ui.config[0]["Epoch_length_s"],
     )
-    ui.stages, events = load_scoring(
-        f"{ui.filename}.json", ui.config[0]["Epoch_length_s"], ui.numepo, "scoringhero"
-    )
+    scoring_path = f"{ui.filename}.json"
+    loaded = load_scoringhero(scoring_path) if os.path.exists(scoring_path) else None
 
     times_vector(ui)
-    return events
+    return loaded
 
 
-def _show_loaded(ui, events, on_done=None):
-    """GUI-thread half of loading: build annotation objects, then the displayed
+def _show_loaded(ui, loaded, on_done=None):
+    """GUI-thread half of loading: build the primary scoring (resolving a mismatching
+    file with the user; cancel or no file gives an empty scoring, and nothing is
+    written until the first edit) and the annotation objects, then the displayed
     signal and analysis data (from the disk cache where still valid), drawing every
     panel."""
+    n_epochs, epoch_length_s = ui.numepo, ui.config[0]["Epoch_length_s"]
+    scoring, events = None, []
+    if loaded is not None:
+        scoring = resolve_loaded(ui, loaded, n_epochs, epoch_length_s)
+        events = loaded.events
+    ui.scoring = scoring if scoring is not None else Scoring(n_epochs, epoch_length_s)
     events_to_ui(ui, events)
     ui.toolbar_jump_to_epoch.setMaximum(ui.numepo)
 

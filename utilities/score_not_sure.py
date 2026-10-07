@@ -1,18 +1,19 @@
+from scoring_model.scoring import HUMAN
 from scoring.write_scoring import write_scoring
 
+
 def score_not_sure(ui):
-    # Change uncertainty
-    ui.stages[ui.this_epoch]["confidence"] = change_value(ui.stages[ui.this_epoch]["confidence"])
-    ui.stages[ui.this_epoch]["source"] = "human"
+    # Toggle uncertainty: confidence 0 <-> none. Keeps the epoch's stage and channels.
+    epoch = ui.this_epoch
+    stage = ui.scoring.stage(epoch)
+    if stage is None:
+        return  # an unscored epoch carries no confidence or source
+    ui.scoring.set(epoch, stage, HUMAN, change_value(ui.scoring.confidence(epoch)),
+                   ui.scoring.channels(epoch), ui.scoring.probabilities(epoch))
 
-    # Update text
-    # ui.DisplayedEpochWidget.change_uncertainty(ui.stages[ui.this_epoch]["uncertain"])
     ui.DisplayedEpochWidget.update_text(
-        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+        ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
     )
-
-    # Update hypnpgram
-    # ui.HypnogramWidget.draw_hypnogram(ui.stages, ui.numepo, ui.config, ui.swa)
 
     write_scoring(ui)
 

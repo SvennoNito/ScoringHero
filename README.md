@@ -85,8 +85,8 @@ arch -x86_64 ./release-mac.sh  # x86_64
 
 ![Compare Scoring Window](screenshots/compare_scoring.png)
 
-- Load a second scoring file (**File → Compare Scoring**) to compare it against the current scoring
-- Epochs where the two scorings disagree are highlighted directly in the hypnogram
+- Load a second scoring file (**Compare → Scoring → Import scoring for comparison**) to compare it against the current scoring
+- Epochs where the two scorings disagree are highlighted directly in the hypnogram; the highlighting, the [disagreement] jump and the statistics always follow your latest edits
 - A summary statistics window shows agreement metrics (e.g., Cohen's kappa, per-stage agreement) between the two scorings
 
 ### Event Annotation
@@ -108,12 +108,16 @@ arch -x86_64 ./release-mac.sh  # x86_64
 </p>
 
 ### Smart Navigation
+All jumps wrap around from the last epoch to the first.
+
 | Button / Action | Description |
 |----------------|-------------|
 | **[unscored]** | Jump to the next epoch that hasn't been scored yet |
 | **[uncertain]** | Jump to the next epoch flagged with low confidence |
 | **[transition]** | Jump to the next sleep stage change |
 | **[event]** | Jump to the next epoch containing a marked event |
+| **[human]** | Jump to the next epoch scored by a human |
+| **[disagreement]** | Jump to the next epoch where the comparison scoring differs (needs a comparison scoring) |
 | **Epoch spinbox** | Type any epoch number to jump there directly |
 | **Click on hypnogram** | Navigate to any time point by clicking the hypnogram |
 | **Click on spectrogram** | Navigate to any time point by clicking the spectrogram |
@@ -211,7 +215,7 @@ and exported like any other scoring.
   - Hypnogram with stage-specific colors
   - Whole-night spectrogram (using cached Welch data)
   - Example EEG trace with channel headers
-  - Sleep statistics: TST, TRT, sleep efficiency, and stage distribution
+  - Sleep statistics: TST, TRT, sleep efficiency, and stage distribution (epochs scored *Inconclusive* count as neither sleep nor wake, but are part of the scored-epoch total)
   - Sleep latencies: time to first N2/N3 and REM latency
 
 ### Zoom
@@ -277,6 +281,13 @@ Legacy binary format. Fixed 9-channel layout at 128 Hz with hardcoded channel na
 | Sleepyland | `.annot` | Sleepyland | Includes per-stage confidence scores |
 | GSSC | `.csv` | Greifswald Sleep Stage Classifier | Includes per-stage confidence |
 | Zurich VIS | `.vis` | Zurich scoring format | 20-second epoch standard |
+
+Every format goes through the same checks when a scoring file is opened or imported for comparison:
+
+- **More epochs than the recording**: exactly one extra epoch is dropped with a warning; two or more extra epochs ask whether to cancel or truncate.
+- **Fewer epochs than the recording**: exactly one missing epoch is filled by copying the last epoch, with a warning; two or more missing epochs ask whether to cancel or copy the last epoch until the length matches. Copied epochs keep the stage, source and confidence of the epoch they were copied from.
+- **Unknown stage names or codes**: a warning asks whether to cancel or replace them with *unscored*.
+- **Cancel** aborts a comparison import. When opening a recording, cancelling on its own ScoringHero file opens the recording with an empty scoring; the file on disk stays untouched until your first edit, so you can fix the epoch length setting and reopen.
 
 #### YASA (`.txt`)
 
@@ -357,13 +368,13 @@ ScoringHero saves scoring to `{filename}.json` next to the EEG file. The file is
   "stage":      "N2",    // human-readable label (see encoding table)
   "digit":      -2,      // numeric code (see encoding table)
   "confidence": 0.85,    // model confidence 0–1, or null
-  "channels":   [],      // reserved, always []
+  "channels":   ["C3"],  // channels displayed when the epoch was scored
   "clean":      1,       // 1 = clean, 0 = artifact
   "source":     "YASA"   // originating tool, or null
 }
 ```
 
-**Stage encoding:**
+**Stage encoding** (on load the `stage` name wins; `digit`, `epoch`, `start` and `end` are derived and ignored):
 
 | `stage` | `digit` |
 |---------|:-------:|
@@ -372,6 +383,7 @@ ScoringHero saves scoring to `{filename}.json` next to the EEG file. The file is
 | `"N2"` | `-2` |
 | `"N3"` | `-3` |
 | `"REM"` | `0` |
+| `"Inconclusive"` | `2` |
 | `null` (unscored) | `null` |
 
 **Element 1 — annotations:** one dict per marked event:

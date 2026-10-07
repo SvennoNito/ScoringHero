@@ -17,7 +17,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Signal, Qt
 
-_STAGES = ["Wake", "N1", "N2", "N3", "REM", "Inconclusive"]
+from scoring_model.scoring import STAGES
 
 
 def _info_label(text, tooltip):
@@ -200,7 +200,7 @@ class MtSpindleWindow(QDialog):
         stage_layout = QVBoxLayout()
         self._stage_checks = {}
         default_on = {"N2", "N3"}
-        for stage in _STAGES:
+        for stage in STAGES:
             cb = QCheckBox(stage)
             cb.setChecked(stage in default_on)
             stage_layout.addWidget(cb)

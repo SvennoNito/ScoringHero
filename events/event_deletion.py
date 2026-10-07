@@ -1,5 +1,5 @@
 from .event_epoch import event_epoch
-from scoring.clean_epochs_to_uistages import clean_epochs_to_uiscoring
+from scoring.clean_epochs_to_uiscoring import clean_epochs_to_uiscoring
 from scoring.write_scoring import write_scoring
 from utilities.refresh_gui import refresh_gui
 

@@ -379,7 +379,7 @@ def calculate_sleep_statistics(stages, epoch_length_s, options):
     n2_epochs    = np.sum(digits == -2)
     n3_epochs    = np.sum(digits == -3)
     rem_epochs   = np.sum(digits == 0)
-    sleep_epochs = scored_epochs - wake_epochs
+    sleep_epochs = n1_epochs + n2_epochs + n3_epochs + rem_epochs  # Inconclusive (2): neither sleep nor wake
 
     tst_min         = sleep_epochs * epoch_length_min
     trt_min         = scored_epochs * epoch_length_min

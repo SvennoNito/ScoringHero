@@ -1,22 +1,11 @@
 import os
 from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QComboBox, QPushButton, QFileDialog
+    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QComboBox, QPushButton, QFileDialog, QMessageBox
 )
 
-from .load_scoring import load_scoring
-from .load_sleeptrip import load_sleeptrip
+from scoring_model.formats import FORMATS
 from utilities.epoch_header import comparison_display_name
-
-
-_FORMATS = [
-    ("ScoringHero (.json)",                                  "scoringhero", "*.json"),
-    ("Zurich Scoring (.vis)",                                "vis",         "*.vis"),
-    ("YASA (.txt)",                                          "yasa",        "*.txt"),
-    ("Sleeptrip (.csv)",                                     "sleeptrip",   "*.csv"),
-    ("Sleepyland (.annot)",                                  "sleepyland",  "*.annot"),
-    ("Greifswald Sleep Stage Classifier / GSSC (.csv)",      "gssc",        "*.csv"),
-]
-
+from widgets.resolveDialog import resolve_loaded
 
 class _FormatDialog(QDialog):
     def __init__(self, parent=None):
@@ -28,7 +17,7 @@ class _FormatDialog(QDialog):
         row = QHBoxLayout()
         row.addWidget(QLabel("Format:"))
         self.combo = QComboBox()
-        self.combo.addItems([label for label, _, _ in _FORMATS])
+        self.combo.addItems([fmt.label for fmt in FORMATS.values()])
         row.addWidget(self.combo)
         layout.addLayout(row)
 
@@ -44,38 +33,37 @@ class _FormatDialog(QDialog):
         self.setLayout(layout)
 
     def selection(self):
-        _, filetype, file_filter = _FORMATS[self.combo.currentIndex()]
-        return filetype, file_filter
+        return list(FORMATS.values())[self.combo.currentIndex()]
 
 
 def scoring_import_comparison(ui):
-    if not getattr(ui, "stages", None):
+    if getattr(ui, "scoring", None) is None:
         return
 
     dialog = _FormatDialog()
     if not dialog.exec():
         return
 
-    filetype, file_filter = dialog.selection()
+    fmt = dialog.selection()
     name_of_scoringfile, _ = QFileDialog.getOpenFileName(
-        None, "Open Comparison Scoring File", ui.default_data_path, file_filter
+        None, "Open Comparison Scoring File", ui.default_data_path, fmt.file_filter
     )
     if not name_of_scoringfile:
         return
 
     ui.default_data_path = os.path.dirname(name_of_scoringfile)
 
-    if filetype == "sleeptrip":
-        epolen = ui.config[0]["Epoch_length_s"]
-        stages_comparison, _ = load_sleeptrip(name_of_scoringfile, epolen, ui.numepo)
-    else:
-        stages_comparison, _ = load_scoring(
-            name_of_scoringfile, ui.config[0]["Epoch_length_s"], ui.numepo, filetype
-        )
+    try:
+        loaded = fmt.loader(name_of_scoringfile)
+    except Exception as e:
+        QMessageBox.critical(ui, "Error", f"The scoring file\n{name_of_scoringfile}\ncould not be read:\n\n{e}")
+        return
+    scoring = resolve_loaded(ui, loaded, ui.numepo, ui.config[0]["Epoch_length_s"])
+    if scoring is None:
+        return  # cancelled: abort, nothing changes
 
-    ui.stages_comparison = stages_comparison
+    ui.scoring_comparison = scoring
     ui.comparison_name = comparison_display_name(name_of_scoringfile)
-    _recompute_disagreements(ui)
 
     ui.action_remove_comparison.setEnabled(True)
     ui.action_comparison_stats.setEnabled(True)
@@ -83,30 +71,23 @@ def scoring_import_comparison(ui):
 
     ui.HypnogramWidget.draw_hypnogram(ui)
     ui.DisplayedEpochWidget.update_text(
-        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+        ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
     )
 
 
-def remove_comparison_scoring(ui):
-    ui.stages_comparison = None
+def clear_comparison(ui):
+    """Drop the comparison scoring and disable its actions (no redraw)."""
+    ui.scoring_comparison = None
     ui.comparison_name = None
-    ui.disagreement_epochs = []
-    ui.disagreement_index = 0
 
     ui.action_remove_comparison.setEnabled(False)
     ui.action_comparison_stats.setEnabled(False)
     ui.tool_nextdisagreement.setEnabled(False)
 
+
+def remove_comparison_scoring(ui):
+    clear_comparison(ui)
     ui.HypnogramWidget.draw_hypnogram(ui)
     ui.DisplayedEpochWidget.update_text(
-        ui.this_epoch, ui.numepo, ui.stages, ui.stages_comparison, ui.comparison_name
+        ui.this_epoch, ui.numepo, ui.scoring, ui.scoring_comparison, ui.comparison_name
     )
-
-
-def _recompute_disagreements(ui):
-    n = min(len(ui.stages), len(ui.stages_comparison))
-    ui.disagreement_epochs = [
-        i for i in range(n)
-        if ui.stages[i]["digit"] != ui.stages_comparison[i]["digit"]
-    ]
-    ui.disagreement_index = 0

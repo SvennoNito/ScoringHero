@@ -1,7 +1,8 @@
 from .write_configuration import save_configuration
 from eeg.displayed_signal import settings_changed
 from eeg.number_of_epochs import number_of_epochs
-from scoring.default_scoring import default_scoring
+from scoring.scoring_import_comparison import clear_comparison
+from scoring_model.scoring import Scoring
 from signal_processing.compute_epoch_periodogram import compute_epoch_periodogram
 from signal_processing.times_vector import times_vector
 from signal_processing.freqs_of_interest import freqs_of_interest
@@ -20,7 +21,8 @@ def apply_changes(config_parameter_name, ui, channels_changed=False):
             ui.config[0]["Sampling_rate_hz"],
             ui.config[0]["Epoch_length_s"],
         )
-        ui.stages = default_scoring(ui.config[0]["Epoch_length_s"], ui.numepo)
+        ui.scoring = Scoring(ui.numepo, ui.config[0]["Epoch_length_s"])
+        clear_comparison(ui)
 
     if (
         ("Sampling_rate_hz" in config_parameter_name)
