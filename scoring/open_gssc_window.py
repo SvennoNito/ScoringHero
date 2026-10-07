@@ -14,7 +14,7 @@ except ImportError:
     _GSSC_AVAILABLE = False
 
 from widgets import GsscWindow
-from .autoscore_results import apply_gssc
+from .autoscore_results import GSSC_STAGES, apply_gssc
 from .write_scoring import write_scoring
 from utilities.refresh_gui import refresh_gui
 
@@ -100,7 +100,7 @@ def _ask_selective_stages(parent=None):
     layout.addWidget(QLabel("Overwrite epochs currently scored as:"))
 
     checkboxes = {}
-    for stage in ["Wake", "N1", "N2", "N3", "REM"]:
+    for stage in GSSC_STAGES.values():
         cb = QCheckBox(stage)
         checkboxes[stage] = cb
         layout.addWidget(cb)

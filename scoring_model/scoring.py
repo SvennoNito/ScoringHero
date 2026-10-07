@@ -10,6 +10,7 @@ from numbers import Integral
 
 # The only stage table. Unscored is None and has no digit.
 STAGE_DIGITS = {"Wake": 1, "N1": -1, "N2": -2, "N3": -3, "REM": 0, "Inconclusive": 2}
+STAGES = tuple(STAGE_DIGITS)  # stage names in display order
 UNSCORED = None
 HUMAN = "human"  # source of an epoch scored by the user
 UNCERTAIN_BELOW = 0.5  # confidence below this is uncertain

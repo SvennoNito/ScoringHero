@@ -1,12 +1,10 @@
 """Interactive scoring paths on the Scoring module, driven through the headless app."""
 
-import time
 from types import SimpleNamespace
 
 import pytest
-from PySide6 import QtWidgets
 
-from scoring.clean_epochs_to_uistages import clean_epochs_to_uiscoring
+from scoring.clean_epochs_to_uiscoring import clean_epochs_to_uiscoring
 from scoring_model.scoring import HUMAN, Scoring, disagreements
 from utilities.epoch_disagreement import next_disagreement_epoch
 from utilities.epoch_human import next_human_epoch
@@ -19,10 +17,6 @@ from utilities.score_stage import score_stage
 
 @pytest.fixture
 def ui(loaded_ui, monkeypatch):
-    end = time.time() + 60
-    while not hasattr(loaded_ui.HypnogramWidget, "times") and time.time() < end:
-        QtWidgets.QApplication.processEvents()
-        time.sleep(0.01)
     n, length = loaded_ui.numepo, loaded_ui.config[0]["Epoch_length_s"]
     loaded_ui.scoring = Scoring(n, length)
     loaded_ui.scoring_comparison = None

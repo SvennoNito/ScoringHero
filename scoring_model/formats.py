@@ -142,7 +142,7 @@ def write_vis(scoring, path):
 
 # ---- YASA (.txt) -----------------------------------------------------------------
 
-_YASA_STAGES = {
+YASA_STAGES = {
     "W": "Wake", "WAKE": "Wake", "0": "Wake",
     "N1": "N1", "NREM1": "N1", "1": "N1",
     "N2": "N2", "NREM2": "N2", "2": "N2",
@@ -158,7 +158,7 @@ def load_yasa(path):
         lines = file.readlines()
     stages = []
     for line in lines:
-        stage = _YASA_STAGES.get(line.strip().upper())
+        stage = YASA_STAGES.get(line.strip().upper())
         if stage is not None:
             stages.append(stage)
     return Loaded(stages=stages)
@@ -269,8 +269,8 @@ def write_sleepyland(scoring, path):
 
 # ---- GSSC (.csv) -----------------------------------------------------------------
 
-_GSSC_STAGES = {0: "Wake", 1: "N1", 2: "N2", 3: "N3", 4: "REM"}
-_GSSC_CODES = _invert(_GSSC_STAGES)
+GSSC_STAGES = {0: "Wake", 1: "N1", 2: "N2", 3: "N3", 4: "REM"}
+_GSSC_CODES = _invert(GSSC_STAGES)
 
 
 def load_gssc(path):
@@ -288,7 +288,7 @@ def load_gssc(path):
                 continue
             try:
                 code = int(parts[2])
-                stage = _GSSC_STAGES[code]
+                stage = GSSC_STAGES[code]
                 conf = float(parts[3 + code])
             except (ValueError, KeyError, IndexError):
                 stages.append(UNSCORED)

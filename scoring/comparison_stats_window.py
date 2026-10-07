@@ -6,10 +6,10 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor
 
-from scoring_model.scoring import disagreements
+from scoring_model.scoring import STAGES, disagreements
 
 
-_STAGE_ORDER = ["Wake", "N1", "N2", "N3", "REM", "Inconclusive", None]
+_STAGE_ORDER = [*STAGES, None]
 
 
 def _cohen_kappa(y1, y2, labels):

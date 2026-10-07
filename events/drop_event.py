@@ -1,6 +1,6 @@
 from .draw_event_in_this_epoch import draw_event_in_this_epoch
 from scoring.write_scoring import write_scoring
-from scoring.clean_epochs_to_uistages import clean_epochs_to_uiscoring
+from scoring.clean_epochs_to_uiscoring import clean_epochs_to_uiscoring
 
 def drop_event(ui, converted_corners):
     for container in ui.AnnotationContainer:

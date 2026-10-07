@@ -5,17 +5,15 @@ resolved here, per epoch, against the scoring as it was before the run.
 The models score 30 s epochs (`MODEL_EPOCH_S`). A Scoring epoch takes the model epoch
 that contains its midpoint, the midpoint coming from `Scoring.time_span`."""
 
+from scoring_model.formats import GSSC_STAGES, YASA_STAGES
+
 from .nidra_runner import CODE_TO_COLUMN
 
 MODEL_EPOCH_S = 30
 
-GSSC_STAGES = {0: "Wake", 1: "N1", 2: "N2", 3: "N3", 4: "REM"}
-
 # NIDRA hypnogram codes. 4 is unused (where AASM once had N4); 6 = artifact, handled apart.
 NIDRA_STAGES = {0: "Wake", 1: "N1", 2: "N2", 3: "N3", 5: "REM"}
 NIDRA_ARTIFACT_CODE = 6
-
-YASA_STAGES = {"W": "Wake", "R": "REM", "N1": "N1", "N2": "N2", "N3": "N3"}
 
 
 def _targets(scoring, n_model_epochs, mode, overwrite_stages):

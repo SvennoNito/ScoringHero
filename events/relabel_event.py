@@ -2,7 +2,7 @@ from .merge_events import merge_events
 from .event_epoch import event_epoch
 from .draw_event_in_this_epoch import draw_event_in_this_epoch
 from scoring.write_scoring import write_scoring
-from scoring.clean_epochs_to_uistages import clean_epochs_to_uiscoring
+from scoring.clean_epochs_to_uiscoring import clean_epochs_to_uiscoring
 
 
 def relabel_event(ui, converted_corners, target_box_index):
