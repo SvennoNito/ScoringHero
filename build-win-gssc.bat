@@ -28,6 +28,8 @@ uv run --python 3.13 python -m nuitka ^
     --include-package=onnxruntime ^
     --include-package-data=onnxruntime ^
     --include-package=torch ^
+    --module-parameter=torch-disable-jit=yes ^
+    --nofollow-import-to=sympy ^
     --include-data-files=./help/images/selection_box.png=help/images/selection_box.png ^
     --include-data-files=./style/modern_theme.qss=style/modern_theme.qss ^
     --include-data-files=./spectral.txt=spectral.txt ^
