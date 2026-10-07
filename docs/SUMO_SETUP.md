@@ -189,8 +189,8 @@ pip install torch
 ## Code Structure
 
 - `widgets/sumoWindow.py` — Settings dialog
-- `scoring/sumo_runner.py` — Detection engine (PyTorch model inference)
-- `scoring/open_sumo_window.py` — Orchestration (dialog → detection → results)
+- `event_detection/sumo_runner.py` — Detection engine (PyTorch model inference)
+- `event_detection/open_sumo_window.py` — Orchestration (dialog → detection → results)
 - Menu action wired in `ui/setup_ui.py`
 
 ## Citation

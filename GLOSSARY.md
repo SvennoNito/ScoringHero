@@ -79,6 +79,13 @@ _Avoid_: annotation, label
 
 ### Scoring
 
+**Autoscorer**:
+Any automatic scoring method (GSSC, NIDRA, MT-KCD, MT-Spindle, YASA, SUMO, SEED).
+
+**Event detector**:
+An Autoscorer that produces events rather than stages (MT-KCD, MT-Spindle, YASA, SUMO, SEED).
+_Avoid_: event scorer
+
 **Primary scoring**:
 The scoring of the recording that is being viewed and edited.
 _Avoid_: you, my scoring, own scoring

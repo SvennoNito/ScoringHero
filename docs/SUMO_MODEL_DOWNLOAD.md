@@ -100,7 +100,7 @@ After placing the model file, verify it works:
 
 ```bash
 python -c "
-from scoring.sumo_runner import detect_spindles
+from event_detection.sumo_runner import detect_spindles
 import numpy as np
 
 # Create a test signal
@@ -135,7 +135,7 @@ On Windows, the cache directory sometimes uses a different path. You can manuall
 
 ```python
 # In your Python code or notebook
-from scoring.sumo_runner import detect_spindles
+from event_detection.sumo_runner import detect_spindles
 
 model_path = r"C:\path\to\sumo_model.pt"
 events = detect_spindles(signal, sfreq, model_path=model_path)

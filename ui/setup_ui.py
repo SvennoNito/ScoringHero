@@ -23,18 +23,18 @@ from events.event_handler import event_handler
 from utilities.score_not_sure import score_not_sure
 from config.open_config_window import open_config_window
 from filter.open_filter_window import open_filter_window
-from scoring.open_gssc_window import open_gssc_window
-from scoring.open_nidra_window import open_nidra_window
-from scoring.open_mt_kcd_window import open_mt_kcd_window
-from scoring.open_mt_spindle_window import open_mt_spindle_window
-# from scoring.open_yasa_window import open_yasa_window  # YASA disabled — keep scripts for later
-# from scoring.open_sumo_window import open_sumo_window  # TODO: SUMO needs debugging
+from autoscoring.open_gssc_window import open_gssc_window
+from autoscoring.open_nidra_window import open_nidra_window
+from event_detection.open_mt_kcd_window import open_mt_kcd_window
+from event_detection.open_mt_spindle_window import open_mt_spindle_window
+# from event_detection.open_yasa_window import open_yasa_window  # YASA disabled — keep scripts for later
+# from event_detection.open_sumo_window import open_sumo_window  # TODO: SUMO needs debugging
 from scoring.scoring_import_window import scoring_import_window
 from scoring.scoring_import_comparison import scoring_import_comparison, remove_comparison_scoring
 from scoring.comparison_stats_window import comparison_stats_window
 from eeg.eeg_import_overlay import import_overlay_signal, remove_overlay_signal
 from utilities.overlay_state import toggle_show_overlay, set_analysis_source
-# from scoring.score_yasa import score_yasa
+# from autoscoring.score_yasa import score_yasa
 from eeg.eeg_import_window import eeg_import_window
 from help.open_help_selection_box import open_help_selection_box
 from events.event_deletion import rebuild_event_epochs, refresh_after_event_deletion

@@ -20,8 +20,8 @@ The following changes were reverted in the codebase:
 
 The following SUMO implementation files are preserved in the repository:
 
-- **scoring/sumo_runner.py** - Detection engine with signal preprocessing, model loading, and event extraction
-- **scoring/open_sumo_window.py** - Orchestration function for dialog management and result integration
+- **event_detection/sumo_runner.py** - Detection engine with signal preprocessing, model loading, and event extraction
+- **event_detection/open_sumo_window.py** - Orchestration function for dialog management and result integration
 - **widgets/sumoWindow.py** - Settings dialog with channel/marker/threshold selection
 - **setup_sumo.py** - Model download and verification utility
 - **sumo_lib/** - Official SUMO source code from GitHub

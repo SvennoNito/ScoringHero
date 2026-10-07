@@ -14,14 +14,14 @@ The SUMO (Slim U-Net trained on MODA) deep learning spindle detector has been su
    - Optional sleep stage filtering
    - Info tooltips explaining the algorithm
 
-2. **scoring/sumo_runner.py** (350+ lines) — Detection engine with:
+2. **event_detection/sumo_runner.py** (350+ lines) — Detection engine with:
    - PyTorch inference on CPU
    - Signal preprocessing (resampling, z-transformation)
    - Model loading from checkpoint (.ckpt format)
    - Moving-average post-processing
    - Event extraction and boundary detection
 
-3. **scoring/open_sumo_window.py** (95 lines) — Orchestration:
+3. **event_detection/open_sumo_window.py** (95 lines) — Orchestration:
    - Dialog management
    - Progress feedback
    - Stage filtering

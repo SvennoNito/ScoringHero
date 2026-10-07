@@ -2,15 +2,15 @@ import numpy as np
 from PySide6.QtWidgets import QMessageBox, QProgressDialog, QApplication
 from PySide6.QtCore import Qt, QTimer
 
-from widgets import YasaWindow
-from scoring.yasa_runner import detect_spindles
+from widgets import MtSpindleWindow
+from event_detection.mt_spindle import detect_spindle
 from events.add_events_to_container import add_events_to_container
 from scoring.write_scoring import write_scoring
-from scoring.autoscore_results import events_in_stages
+from autoscoring.autoscore_results import events_in_stages
 from utilities.refresh_gui import refresh_gui
 
 
-def open_yasa_window(ui):
+def open_mt_spindle_window(ui):
     if not hasattr(ui, "eeg_data_display") or ui.eeg_data_display is None:
         QMessageBox.warning(None, "No data loaded", "Please load EEG data first.")
         return
@@ -19,16 +19,16 @@ def open_yasa_window(ui):
     annotation_labels = [c.label for c in ui.AnnotationContainer]
     has_stages        = any(stage is not None for stage in ui.scoring.stages())
 
-    ui.YasaWindow = YasaWindow(channel_labels, annotation_labels, has_stages)
-    ui.YasaWindow.settingsAccepted.connect(
+    ui.MtSpindleWindow = MtSpindleWindow(channel_labels, annotation_labels, has_stages)
+    ui.MtSpindleWindow.settingsAccepted.connect(
         lambda settings: _after_settings(ui, settings)
     )
-    ui.YasaWindow.show()
+    ui.MtSpindleWindow.show()
 
 
 def _after_settings(ui, settings):
-    progress = QProgressDialog("Running YASA spindle detection…", None, 0, 0)
-    progress.setWindowTitle("Spindle Detection (YASA)")
+    progress = QProgressDialog("Running MT-Spindle spindle detection…", None, 0, 0)
+    progress.setWindowTitle("Spindle Detection (MT-Spindle)")
     progress.setWindowModality(Qt.WindowModal)
     progress.setCancelButton(None)
     progress.setMinimumDuration(0)
@@ -40,21 +40,19 @@ def _after_settings(ui, settings):
 
 def _execute(ui, settings, progress):
     try:
-        channel_labels = [ch["Channel_name"] for ch in ui.config[1]]
-        ch_idx    = channel_labels.index(settings["channel"])
+        ch_idx    = ui.channel_name_to_idx.get(settings["channel"], 0)
         sfreq     = float(ui.config[0]["Sampling_rate_hz"])
         signal_1d = ui.eeg_data_display[ch_idx].copy().astype(np.float64)
 
-        events_sec = detect_spindles(
+        events_sec = detect_spindle(
             signal_1d,
             sfreq,
-            rel_pow=settings["rel_pow"],
-            corr=settings["corr"],
-            rms=settings["rms"],
-            min_dur=settings["min_dur"],
-            max_dur=settings["max_dur"],
-            freq_sp=settings["freq_sp"],
-            freq_broad=settings["freq_broad"],
+            fmin=settings["fmin"],
+            fmax=settings["fmax"],
+            amin=settings["amin"],
+            dmin_s=settings["dmin_s"],
+            dmax_s=settings["dmax_s"],
+            q=settings["q"],
         )
 
         # Stage filter
@@ -75,25 +73,13 @@ def _execute(ui, settings, progress):
 
         QTimer.singleShot(1500, progress.close)
 
-    except ImportError as e:
-        progress.close()
-        QMessageBox.critical(
-            None,
-            "YASA Not Installed",
-            f"YASA spindle detection requires the YASA library.\n\n"
-            f"Install it with:\n\n"
-            f"  uv pip install yasa\n\n"
-            f"or\n\n"
-            f"  pip install yasa\n\n"
-            f"Error: {e}",
-        )
     except Exception as exc:
         import traceback
         progress.close()
         QMessageBox.critical(
             None,
-            "YASA Error",
-            f"An error occurred during YASA spindle detection:\n\n"
+            "MT-Spindle Error",
+            f"An error occurred during spindle detection:\n\n"
             f"{type(exc).__name__}: {exc}\n\n"
             f"{traceback.format_exc()}",
         )

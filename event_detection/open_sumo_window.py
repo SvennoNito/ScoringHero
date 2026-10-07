@@ -3,10 +3,10 @@ from PySide6.QtWidgets import QMessageBox, QProgressDialog, QApplication
 from PySide6.QtCore import Qt, QTimer
 
 from widgets import SumoWindow
-from scoring.sumo_runner import detect_spindles
+from event_detection.sumo_runner import detect_spindles
 from events.add_events_to_container import add_events_to_container
 from scoring.write_scoring import write_scoring
-from scoring.autoscore_results import events_in_stages
+from autoscoring.autoscore_results import events_in_stages
 from utilities.refresh_gui import refresh_gui
 
 

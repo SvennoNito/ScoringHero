@@ -13,7 +13,7 @@ don't have their own config.json yet get it merged in by
 `channel_settings.merge_template`, matching by channel name, so it only takes
 effect where the new file's montage overlaps with the saved one.
 
-Storage location mirrors `scoring/open_nidra_window.py`'s settings file: next to
+Storage location mirrors `autoscoring/open_nidra_window.py`'s settings file: next to
 the executable in a packaged build (ui.app_path is a temporary extraction dir
 there), otherwise next to the source (ui.app_path), with the user's home directory
 as a fallback for read-only install locations.

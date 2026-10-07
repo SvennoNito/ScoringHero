@@ -1,7 +1,7 @@
 from mne import create_info
 from mne.io import RawArray
 from yasa import SleepStaging
-from .write_scoring import write_scoring
+from scoring.write_scoring import write_scoring
 from .autoscore_results import apply_yasa
 from utilities.refresh_gui import refresh_gui
 

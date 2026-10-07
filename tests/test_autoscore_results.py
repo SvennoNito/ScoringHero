@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from scoring.autoscore_results import apply_gssc, apply_nidra, apply_yasa, events_in_stages
+from autoscoring.autoscore_results import apply_gssc, apply_nidra, apply_yasa, events_in_stages
 from scoring_model.scoring import Scoring
 
 CLASSES = ["Wake", "N1", "N2", "N3", "REM", "Artifact"]

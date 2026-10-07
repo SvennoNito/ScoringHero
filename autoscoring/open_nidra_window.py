@@ -31,7 +31,7 @@ from .nidra_env import (
     missing_requirements,
     is_frozen,
 )
-from .write_scoring import write_scoring
+from scoring.write_scoring import write_scoring
 from .autoscore_results import apply_nidra
 
 _SETTINGS_FILE = "nidra_settings.json"

@@ -29,7 +29,7 @@ Without them the menu entry still appears and explains what is missing.
 
 The `nidra` package itself is deliberately **not** a dependency: it would pull
 in Flask, pywebview and a pinned `pydantic-core` that has no wheel for
-ScoringHero's Python. `scoring/nidra_runner.py` is instead a port of NIDRA's
+ScoringHero's Python. `autoscoring/nidra_runner.py` is instead a port of NIDRA's
 preprocessing and inference (MIT licence). It is verified to reproduce NIDRA
 0.2.3 exactly — identical hypnograms and class probabilities to float32
 precision for `ez6` and `ez6moe`. **If NIDRA changes its preprocessing, that

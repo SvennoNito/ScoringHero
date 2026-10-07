@@ -16,7 +16,7 @@ except ImportError:
 from widgets import GsscWindow
 from scoring_model.formats import GSSC_STAGES
 from .autoscore_results import apply_gssc
-from .write_scoring import write_scoring
+from scoring.write_scoring import write_scoring
 from utilities.refresh_gui import refresh_gui
 
 

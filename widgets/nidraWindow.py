@@ -17,7 +17,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Signal
 
-from scoring.nidra_env import (
+from autoscoring.nidra_env import (
     MODELS,
     DEFAULT_MODEL,
     INSTALL_INSTRUCTIONS,
