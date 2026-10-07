@@ -8,11 +8,13 @@ import pytest
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-EXAMPLE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "example_data")
+EXAMPLE_DIR = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..", "example_data"
+)
 
 
 @pytest.fixture
-def loaded_ui(tmp_path):
+def loaded_ui(tmp_path, monkeypatch):
     from PySide6 import QtWidgets
 
     import scoringhero as sh
@@ -29,23 +31,8 @@ def loaded_ui(tmp_path):
     ui.app_path = str(tmp_path)
     ui.filename = str(tmp_path / "example_data")
     load_wrapper(ui, "eeglab")
+    # Closing a partly scored recording asks for confirmation; answer yes instead of blocking.
+    monkeypatch.setattr(sh.QMessageBox, "exec", lambda self: sh.QMessageBox.Yes)
     yield ui
     window.close()
     app.processEvents()
-
-
-@pytest.fixture
-def boot_scoring(monkeypatch):
-    """Until the app boot builds `ui.scoring` itself, give the session object a settable
-    blank one, so the boot's first redraw finds it. Request before `loaded_ui`."""
-    from scoring_model.scoring import Scoring
-
-    import scoringhero as sh
-
-    def get(self):
-        if "_scoring" not in self.__dict__:
-            self._scoring = Scoring(self.numepo, self.config[0]["Epoch_length_s"])
-        return self._scoring
-
-    monkeypatch.setattr(sh.Ui_MainWindow, "scoring", property(get, lambda self, v: setattr(self, "_scoring", v)), raising=False)
-    monkeypatch.setattr(sh.Ui_MainWindow, "scoring_comparison", None, raising=False)

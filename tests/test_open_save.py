@@ -2,6 +2,9 @@
 
 import json
 import os
+import time
+
+from PySide6 import QtWidgets
 
 from scoring.scoring_import_comparison import scoring_import_comparison
 from scoring.write_scoring import write_scoring
@@ -94,6 +97,10 @@ def _import_comparison(ui, monkeypatch, tmp_path, name, resolve):
 
 def test_comparison_import_and_cancel(loaded_ui, monkeypatch, tmp_path):
     ui = loaded_ui
+    end = time.time() + 120
+    while not hasattr(ui, "swa") and time.time() < end:  # analysis data is built on a worker thread
+        QtWidgets.QApplication.processEvents()
+        time.sleep(0.01)
     ui.scoring.set(range(4), "N2")
     _import_comparison(ui, monkeypatch, tmp_path, "yasa", lambda parent, loaded, n, L: None)
     assert ui.scoring_comparison is None and not ui.action_remove_comparison.isEnabled()

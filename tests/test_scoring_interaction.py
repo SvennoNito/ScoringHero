@@ -18,7 +18,7 @@ from utilities.score_stage import score_stage
 
 
 @pytest.fixture
-def ui(boot_scoring, loaded_ui, monkeypatch):
+def ui(loaded_ui, monkeypatch):
     end = time.time() + 60
     while not hasattr(loaded_ui.HypnogramWidget, "times") and time.time() < end:
         QtWidgets.QApplication.processEvents()

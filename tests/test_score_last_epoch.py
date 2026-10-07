@@ -17,7 +17,7 @@ def _wait_until_loaded(ui, timeout_s=60):
     assert hasattr(ui.HypnogramWidget, "times"), "recording did not finish loading"
 
 
-def test_scoring_last_epoch_refreshes_header_and_export_menu(boot_scoring, loaded_ui):
+def test_scoring_last_epoch_refreshes_header_and_export_menu(loaded_ui):
     ui = loaded_ui
     _wait_until_loaded(ui)
     ui.scoring = Scoring(ui.numepo, ui.config[0]["Epoch_length_s"])
