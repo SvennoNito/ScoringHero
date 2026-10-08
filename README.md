@@ -1,25 +1,8 @@
 # ScoringHero — Open-Source Sleep EEG Visualization, Annotation & Scoring
 
-**ScoringHero** is an open-source tool (PySide6/Qt6, cross-platform) for visualizing long EEG recordings, marking events (spindles, artefacts, anything) and scoring sleep. Used by multiple labs; currently beta.
+**ScoringHero** is an open-source tool (PySide6/Qt6, cross-platform) for visualizing long EEG recordings, marking events (spindles, artefacts, anything) and scoring sleep. Used by multiple labs.
 
 ![ScoringHero Main Window](screenshots/main.png)
-
-<table>
-  <tr>
-    <td width="50%"><img src="screenshots/signal_panel.png" alt="EEG signal panel" /><br /><b>Signal</b> — multi-channel EEG, stage shown in a movable badge</td>
-    <td width="50%"><img src="screenshots/hypnogram_panel.png" alt="Hypnogram with SWA" /><br /><b>Hypnogram</b> — stages, events, slow-wave activity</td>
-  </tr>
-  <tr>
-    <td width="50%"><img src="screenshots/spectrogram_panel.png" alt="Spectrogram" /><br /><b>Spectrogram</b> — click to jump to that time</td>
-    <td width="50%"><img src="screenshots/periodogram_panel.png" alt="Periodogram" /><br /><b>Periodogram</b> — epoch or selected region</td>
-  </tr>
-  <tr>
-    <td width="50%"><img src="screenshots/wavelet_panel.png" alt="Wavelet panel" /><br /><b>Time-frequency</b> — Morlet wavelet power</td>
-    <td width="50%"><img src="screenshots/events_on_signal.png" alt="Events on the signal" /><br /><b>Events</b> — draw, label, relabel on the signal</td>
-  </tr>
-</table>
-
----
 
 ## Getting Started
 
@@ -39,6 +22,23 @@ uv run scoringhero.py
 **Build binaries:** Windows `uv sync --extra build-win && ./build-win.bat` (→ `dist/scoringhero.exe`); macOS `uv sync --extra build-mac && arch -arm64 ./release-mac.sh` (or `-x86_64`).
 
 **Code signing:** free signing by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/). ScoringHero runs fully locally and sends no data.
+
+---
+
+<table>
+  <tr>
+    <td width="50%"><img src="screenshots/signal_panel.png" alt="EEG signal panel" /><br /><b>Signal</b> — multi-channel EEG, stage shown in a movable badge</td>
+    <td width="50%"><img src="screenshots/hypnogram_panel.png" alt="Hypnogram with SWA" /><br /><b>Hypnogram</b> — stages, events, slow-wave activity</td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="screenshots/spectrogram_panel.png" alt="Spectrogram" /><br /><b>Spectrogram</b> — click to jump to that time</td>
+    <td width="50%"><img src="screenshots/periodogram_panel.png" alt="Periodogram" /><br /><b>Periodogram</b> — epoch or selected region</td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="screenshots/wavelet_panel.png" alt="Wavelet panel" /><br /><b>Time-frequency</b> — Morlet wavelet power</td>
+    <td width="50%"><img src="screenshots/events_on_signal.png" alt="Events on the signal" /><br /><b>Events</b> — draw, label, relabel on the signal</td>
+  </tr>
+</table>
 
 ---
 
