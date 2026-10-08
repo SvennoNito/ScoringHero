@@ -22,7 +22,7 @@ from mouse_click.click_on_spectogram import click_on_spectogram
 from mouse_click.move_swa_slider import move_swa_slider
 from paint_event.paint_event_handler import paint_event_handler
 from utilities.zoom_on_selected_eeg import zoom_on_selected_eeg
-from screenshot.screenshot_dialog import screenshot_window
+from screenshot.screenshot_dialog import PANELS, screenshot_panel, screenshot_window, update_panel_actions
 from utilities.score_not_sure import score_not_sure
 from config.open_config_window import open_config_window
 from filter.open_filter_window import open_filter_window
@@ -431,6 +431,17 @@ def setup_ui(ui, MainWindow):
     ui.action_screenshot_window.setObjectName("action_screenshot_window")
     ui.action_screenshot_window.triggered.connect(lambda: screenshot_window(ui))
     ui.menu_screenshot.addAction(ui.action_screenshot_window)
+
+    ui.menu_screenshot_panel = QMenu("Panel", ui.menu_screenshot)
+    ui.menu_screenshot_panel.setObjectName("menu_screenshot_panel")
+    ui.menu_screenshot.addMenu(ui.menu_screenshot_panel)
+    ui.action_screenshot_panels = {}
+    for panel_name in PANELS:
+        action = QAction(panel_name + "…", MainWindow)
+        action.triggered.connect(lambda checked=False, name=panel_name: screenshot_panel(ui, name))
+        ui.menu_screenshot_panel.addAction(action)
+        ui.action_screenshot_panels[panel_name] = action
+    ui.menu_screenshot_panel.aboutToShow.connect(lambda: update_panel_actions(ui))
 
     # Compare menu
     ui.menu_compare = QMenu("Compare", ui.menu)

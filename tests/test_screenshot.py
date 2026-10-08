@@ -171,3 +171,147 @@ def test_options_dialog_defaults_and_limits(loaded_ui, monkeypatch, tmp_path):
     monkeypatch.setattr(dialog_module.ScreenshotOptionsDialog, "exec", exec_)
     _whole_window_action(loaded_ui).trigger()
     assert seen == {"dpi": 200, "include_bars": True, "low": 72, "high": 1200}
+
+
+# ---- Panel screenshots ---------------------------------------------------------------------
+
+PANEL_ITEMS = ["Signal…", "Spectrogram…", "Hypnogram…", "Rectangle power…", "Time-frequency…"]
+
+
+def _panel_menu(ui):
+    return {a.text(): a.menu() for a in _screenshot_menu(ui).actions() if a.menu()}["Panel"]
+
+
+def _panel_action(ui, name):
+    return {a.text(): a for a in _panel_menu(ui).actions()}[name + "…"]
+
+
+def _take_panel(ui, monkeypatch, name, path, **kw):
+    choices = Choices(monkeypatch, path=str(path), **kw)
+    _panel_action(ui, name).trigger()
+    return choices
+
+
+def _show_tf_panel(ui, visible):
+    from utilities.apply_tf_visibility import apply_tf_visibility
+
+    ui.config[0]["Wavelet_panel_visible"] = visible
+    apply_tf_visibility(ui)
+
+
+def _lay_out(ui):
+    """Show the window at a fixed size so the panels sit at their real places."""
+    from PySide6.QtWidgets import QApplication
+
+    window = ui.centralwidget.window()
+    window.resize(1400, 900)
+    window.show()
+    QApplication.processEvents()
+    return window
+
+
+def test_panel_menu_lists_the_five_panels(loaded_ui):
+    assert [a.text() for a in _panel_menu(loaded_ui).actions()] == PANEL_ITEMS
+    assert _panel_menu(loaded_ui).isEnabled()
+
+
+def test_panel_entries_wait_for_a_recording(unloaded_ui):
+    assert not _utilities(unloaded_ui).isEnabled()
+
+
+def test_hidden_panel_entry_is_disabled(loaded_ui):
+    ui = loaded_ui
+    _show_tf_panel(ui, False)
+    assert not _panel_action(ui, "Time-frequency").isEnabled()
+    assert _panel_action(ui, "Signal").isEnabled()
+    _show_tf_panel(ui, True)
+    assert _panel_action(ui, "Time-frequency").isEnabled()
+
+
+@pytest.mark.parametrize("name", ["Signal", "Spectrogram", "Hypnogram", "Rectangle power", "Time-frequency"])
+def test_panel_png_is_smaller_than_the_window_and_not_blank(loaded_ui, monkeypatch, tmp_path, name):
+    _take(loaded_ui, monkeypatch, tmp_path / "window.png")
+    _take_panel(loaded_ui, monkeypatch, name, tmp_path / "panel.png")
+
+    window, panel = QImage(str(tmp_path / "window.png")), QImage(str(tmp_path / "panel.png"))
+    assert not panel.isNull()
+    assert panel.width() * panel.height() < window.width() * window.height()
+    assert abs(_dpi(panel) - 200) <= DPI_TOLERANCE
+    colours = {panel.pixel(x, y) for x in range(0, panel.width(), 7) for y in range(0, panel.height(), 7)}
+    assert len(colours) > 3
+
+
+def test_panel_capture_is_that_area_of_the_window_capture(loaded_ui, monkeypatch, tmp_path):
+    ui = loaded_ui
+    _lay_out(ui)
+    _take(ui, monkeypatch, tmp_path / "window.png", include_bars=False)
+    _take_panel(ui, monkeypatch, "Hypnogram", tmp_path / "panel.png")
+
+    window, panel = QImage(str(tmp_path / "window.png")), QImage(str(tmp_path / "panel.png"))
+    origin = ui.HypnogramWidget.axes.mapTo(ui.centralwidget, ui.HypnogramWidget.axes.rect().topLeft())
+    scale = 200 / 96
+    area = window.copy(round(origin.x() * scale), round(origin.y() * scale), panel.width(), panel.height())
+    points = [(x, y) for x in range(0, panel.width(), 3) for y in range(0, panel.height(), 3)]
+    differing = sum(area.pixel(x, y) != panel.pixel(x, y) for x, y in points)
+    assert differing < 0.1 * len(points)  # antialiasing at fractional scale differs a little
+
+
+def test_signal_panel_includes_the_stage_badge(loaded_ui, monkeypatch, tmp_path):
+    ui = loaded_ui
+    _lay_out(ui)
+    badge = ui.StatusReadout.stage_badge
+    ui.config[0]["Show_stage_badge"] = True
+    badge.show()
+    _take_panel(ui, monkeypatch, "Signal", tmp_path / "with.png")
+    badge.hide()
+    _take_panel(ui, monkeypatch, "Signal", tmp_path / "without.png")
+    assert QImage(str(tmp_path / "with.png")) != QImage(str(tmp_path / "without.png"))
+
+
+def test_panel_options_dialog_disables_the_bars_checkbox(loaded_ui, monkeypatch):
+    seen = {}
+
+    monkeypatch.setattr(dialog_module.ScreenshotOptionsDialog, "exec", lambda self: False)
+    real_init = dialog_module.ScreenshotOptionsDialog.__init__
+
+    def spy(self, parent, include_bars_enabled=True):
+        seen["enabled"] = include_bars_enabled
+        real_init(self, parent, include_bars_enabled)
+
+    monkeypatch.setattr(dialog_module.ScreenshotOptionsDialog, "__init__", spy)
+    _panel_action(loaded_ui, "Signal").trigger()
+    assert seen == {"enabled": False}
+    options = dialog_module.ScreenshotOptionsDialog(None, include_bars_enabled=False)
+    assert not options.cb_bars.isEnabled()
+
+
+def test_panel_suggested_name_has_panel_and_padded_epoch(loaded_ui, monkeypatch, tmp_path):
+    ui = loaded_ui
+    ui.this_epoch = 6
+    choices = _take_panel(ui, monkeypatch, "Rectangle power", tmp_path / "x.png")
+    assert os.path.basename(choices.offered[0][0]) == "example_data_rectangle_power_epoch007.png"
+    choices = _take_panel(ui, monkeypatch, "Time-frequency", tmp_path / "x.png")
+    assert os.path.basename(choices.offered[0][0]) == "example_data_time-frequency_epoch007.png"
+
+
+def test_panel_folder_behaviour_matches_the_window_screenshot(loaded_ui, monkeypatch, tmp_path):
+    ui = loaded_ui
+    data_folder = ui.default_data_path
+    target = tmp_path / "figures"
+    target.mkdir()
+
+    choices = _take_panel(ui, monkeypatch, "Signal", target / "a.png")
+    assert os.path.dirname(choices.offered[0][0]) == data_folder
+    choices = _take(ui, monkeypatch, target / "b.png")  # window shares the folder with panels
+    assert os.path.dirname(choices.offered[0][0]) == str(target)
+    assert ui.default_data_path == data_folder
+
+
+def test_panel_cancel_and_failed_write(loaded_ui, monkeypatch, tmp_path):
+    ui = loaded_ui
+    _take_panel(ui, monkeypatch, "Signal", tmp_path / "a.png", cancel_options=True)
+    _take_panel(ui, monkeypatch, "Signal", "")
+    assert list(tmp_path.glob("*.png")) == []
+    choices = _take_panel(ui, monkeypatch, "Signal", tmp_path / "missing" / "a.png")
+    assert len(choices.errors) == 1
+    assert ui.screenshot_path is None

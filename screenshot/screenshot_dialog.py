@@ -6,11 +6,12 @@ is the widget."""
 
 import os
 
+from PySide6.QtCore import QPoint, QRect
 from PySide6.QtWidgets import (
     QCheckBox, QDialog, QDialogButtonBox, QFileDialog, QFormLayout, QMessageBox, QSpinBox, QVBoxLayout,
 )
 
-from .capture import FORMATS, capture
+from .capture import FORMATS, Crop, capture
 
 DPI_MIN, DPI_MAX, DPI_DEFAULT = 72, 1200, 200
 
@@ -106,3 +107,30 @@ def screenshot_window(ui):
         lambda include_bars: ui.centralwidget.window() if include_bars else ui.centralwidget,
         with_bars_option=True,
     )
+
+
+# Panel name (menu text and file name) -> the widget showing it
+PANELS = {
+    "Signal": lambda ui: ui.SignalWidget.axes,
+    "Spectrogram": lambda ui: ui.SpectogramWidget.graphics,
+    "Hypnogram": lambda ui: ui.HypnogramWidget.axes,
+    "Rectangle power": lambda ui: ui.RectanglePower.axes,
+    "Time-frequency": lambda ui: ui.TFWidget.graphics,
+}
+
+
+def panel_visible(ui, name):
+    return PANELS[name](ui).isVisibleTo(ui.centralwidget)
+
+
+def update_panel_actions(ui):
+    """Enable each Panel entry only while its panel is visible."""
+    for name, action in ui.action_screenshot_panels.items():
+        action.setEnabled(panel_visible(ui, name))
+
+
+def screenshot_panel(ui, name):
+    """Utilities > Screenshot > Panel > <name>: that panel only, with what lies over it."""
+    panel = PANELS[name](ui)
+    area = QRect(panel.mapTo(ui.centralwidget, QPoint(0, 0)), panel.size())
+    take_screenshot(ui, name.lower().replace(" ", "_"), lambda _: Crop(ui.centralwidget, area))

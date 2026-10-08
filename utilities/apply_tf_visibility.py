@@ -1,3 +1,6 @@
+from screenshot.screenshot_dialog import update_panel_actions
+
+
 def apply_tf_visibility(ui):
     """Show or hide the TF panel and resize the EEG signal panel accordingly.
 
@@ -15,3 +18,4 @@ def apply_tf_visibility(ui):
         ui.central_layout.addWidget(ui.SignalWidget.axes, 10, 0, 85, 101)
         ui.central_layout.addWidget(ui.PaintEventWidget, 10, 0, 85, 101)
         ui.SignalWidget.axes.getAxis("bottom").setStyle(showValues=True)
+    update_panel_actions(ui)

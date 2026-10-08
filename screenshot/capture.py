@@ -20,6 +20,32 @@ class Format(NamedTuple):
     write: Callable[[QWidget, str, int], None]  # (widget, path, dpi)
 
 
+class Crop(NamedTuple):
+    """An area of a widget as a capture target, so everything lying over a panel (e.g. the
+    stage badge) is part of it. Sized like the area; drawn with `draw`."""
+
+    widget: QWidget
+    area: QRect
+
+    def width(self):
+        return self.area.width()
+
+    def height(self):
+        return self.area.height()
+
+    def size(self):
+        return self.area.size()
+
+
+def draw(painter, target):
+    """Draw a widget, or a Crop of one, with its top-left at the painter's origin. Writers draw through this."""
+    # QWidget.render, not widget.render: QGraphicsView (pyqtgraph) overrides render with another signature
+    if isinstance(target, Crop):
+        QWidget.render(target.widget, painter, QPoint(0, 0), QRegion(target.area))
+    else:
+        QWidget.render(target, painter, QPoint(0, 0), QRegion(QRect(QPoint(0, 0), target.size())))
+
+
 def render_image(widget, dpi):
     """The widget as it is displayed, drawn at dpi / SCREEN_DPI times its size."""
     scale = dpi / SCREEN_DPI
@@ -31,8 +57,7 @@ def render_image(widget, dpi):
     image.setDotsPerMeterY(meters)
     painter = QPainter(image)
     painter.scale(scale, scale)
-    # QWidget.render, not widget.render: QGraphicsView (pyqtgraph) overrides render with another signature
-    QWidget.render(widget, painter, QPoint(0, 0), QRegion(QRect(QPoint(0, 0), widget.size())))
+    draw(painter, widget)
     painter.end()
     return image
 
