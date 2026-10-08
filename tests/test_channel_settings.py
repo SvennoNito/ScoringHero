@@ -32,7 +32,7 @@ def test_subtract_median_default_by_unit():
 
 
 def test_default_line_width():
-    assert [c["Line_width"] for c in default_channels(2, ["EEG", "ACC"])] == [2.0, 2.0]
+    assert [c["Line_width"] for c in default_channels(2, ["EEG", "ACC"])] == [1.5, 1.5]
 
 
 def test_default_colour_by_channel_type():
@@ -70,7 +70,7 @@ def test_complete_fills_missing_without_overwriting():
     saved = [_without(c, "Subtract_median", "Line_width") for c in saved]
     channels = complete_channels(saved, 2, names, units)
     assert [c["Subtract_median"] for c in channels] == [False, True]
-    assert [c["Line_width"] for c in channels] == [2.0, 2.0]
+    assert [c["Line_width"] for c in channels] == [1.5, 1.5]
     assert channels[0]["Scaling_factor"] == 321
 
 
@@ -156,7 +156,7 @@ def test_template_takes_precedence_over_defaults():
     template = [dict(default_channels(1, ["C3"])[0], Scaling_factor=200, Line_width=3.5, Subtract_median=True)]
     channels = merge_template(default_channels(3, names), template)
     assert [c["Scaling_factor"] for c in channels] == [200, 50, 50]
-    assert [c["Line_width"] for c in channels] == [3.5, 2.0, 2.0]
+    assert [c["Line_width"] for c in channels] == [3.5, 1.5, 1.5]
     assert [c["Subtract_median"] for c in channels] == [True, False, False]
 
 

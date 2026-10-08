@@ -60,7 +60,7 @@ _SETTINGS = {
     "Re_reference":         (lambda s: "None", REBUILD),
     "Flip_polarity":        (lambda s: False, REBUILD),
     "Subtract_median":      (lambda s: _subtract_median(s.unit), DISPLAY),
-    "Line_width":           (lambda s: 2.0, DISPLAY),
+    "Line_width":           (lambda s: 1.5, DISPLAY),
     "Filter_hp_enabled":    (lambda s: False, REBUILD),
     "Filter_hp_cutoff":     (lambda s: 0.3, REBUILD),
     "Filter_hp_order":      (lambda s: 4, REBUILD),

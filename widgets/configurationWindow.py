@@ -1179,9 +1179,9 @@ class ChannelConfiguration(QDialog):
                 lambda checked, i=count: self.change_event(channel_config, i, "Subtract_median"))
             # Line width
             line_width_box = QDoubleSpinBox()
-            line_width_box.setMinimum(0.5)
+            line_width_box.setMinimum(0.1)
             line_width_box.setMaximum(5)
-            line_width_box.setSingleStep(0.5)
+            line_width_box.setSingleStep(0.1)
             line_width_box.setDecimals(1)
             line_width_box.setSuffix(" px")
             line_width_box.setValue(chaninfo["Line_width"])
