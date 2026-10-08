@@ -69,6 +69,14 @@ A navigation bar button that moves to the next epoch or event of a given kind (u
 Translucent coloured chip over the signal panel (initially centred; the user can drag it anywhere, and hide it in the Configuration) showing the stage of the displayed epoch ("Unscored" when it has none). When a comparison scoring disagrees it reads e.g. "N2 vs N3" with a red border. The status bar shows the stage as well.
 _Avoid_: stage label, stage overlay
 
+**Panel**:
+One plot area of the main window: signal, spectrogram, hypnogram, rectangle power or time-frequency.
+_Avoid_: widget, plot, view
+
+**Screenshot**:
+An image (PNG, JPEG, TIFF, BMP, WEBP) or vector file (SVG, PDF) of the whole main window or of one visible panel, saved from the Utilities menu. Not the scoring export.
+_Avoid_: snapshot, figure export
+
 ### Filtering
 
 **Cutoff frequency**:
