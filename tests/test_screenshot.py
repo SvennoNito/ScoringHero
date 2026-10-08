@@ -104,7 +104,7 @@ def test_suggested_name_is_recording_window_and_padded_epoch(loaded_ui, monkeypa
     choices = _take(ui, monkeypatch, tmp_path / "x.png")
     start, filter_ = choices.offered[0]
     assert os.path.basename(start) == "example_data_window_epoch007.png"
-    assert filter_ == "PNG (*.png)"
+    assert filter_.startswith("PNG (*.png);;JPEG (*.jpg)")
 
     ui.this_epoch = 233
     choices = _take(ui, monkeypatch, tmp_path / "x.png")
@@ -315,3 +315,65 @@ def test_panel_cancel_and_failed_write(loaded_ui, monkeypatch, tmp_path):
     choices = _take_panel(ui, monkeypatch, "Signal", tmp_path / "missing" / "a.png")
     assert len(choices.errors) == 1
     assert ui.screenshot_path is None
+
+
+# --- raster formats ---
+
+def _take_as(ui, monkeypatch, path, filter_, **kw):
+    """Like _take, but the user picks `filter_` in the file dialog."""
+    choices = Choices(monkeypatch, path=str(path), **kw)
+    monkeypatch.setattr(
+        dialog_module.QFileDialog, "getSaveFileName",
+        lambda parent, caption, start, flt, selected="": (choices.offered.append((start, flt)) or str(path), filter_),
+    )
+    _whole_window_action(ui).trigger()
+    return choices
+
+
+RASTER = [("PNG", "png", "PNG"), ("JPEG", "jpg", "JPEG"), ("TIFF", "tiff", "TIFF"), ("BMP", "bmp", "BMP"), ("WEBP", "webp", "WEBP")]
+
+
+@pytest.mark.parametrize("label, ext, fmt", RASTER)
+def test_each_raster_format_writes_a_valid_file_of_that_format(loaded_ui, monkeypatch, tmp_path, label, ext, fmt):
+    out = tmp_path / f"shot.{ext}"
+    _take_as(loaded_ui, monkeypatch, out, f"{label} (*.{ext})", dpi=96)
+    assert out.exists()
+    from PySide6.QtGui import QImageReader
+    reader = QImageReader(str(out))
+    assert bytes(reader.format()).decode().upper() == fmt.replace("JPEG", "JPEG")
+    window = loaded_ui.centralwidget.window()
+    assert reader.size().width() == window.width() and reader.size().height() == window.height()
+
+
+@pytest.mark.parametrize("label, ext", [("JPEG", "jpg"), ("TIFF", "tiff"), ("BMP", "bmp")])
+def test_dpi_metadata_is_written_where_supported(loaded_ui, monkeypatch, tmp_path, label, ext):
+    out = tmp_path / f"shot.{ext}"
+    _take_as(loaded_ui, monkeypatch, out, f"{label} (*.{ext})", dpi=300)
+    assert abs(_dpi(QImage(str(out))) - 300) <= 1
+
+
+@pytest.mark.parametrize("typed, expected", [
+    ("name", "name.jpg"), ("a.png", "a.jpg"), ("a.jpg", "a.jpg"), ("a.JPEG", "a.JPEG"), ("my.rec", "my.rec.jpg"),
+])
+def test_typed_extension_is_completed_or_replaced_by_the_filter_extension(loaded_ui, monkeypatch, tmp_path, typed, expected):
+    out = tmp_path / "out"
+    out.mkdir()
+    _take_as(loaded_ui, monkeypatch, out / typed, "JPEG (*.jpg)")
+    assert [p.name for p in out.iterdir()] == [expected]
+
+
+@pytest.mark.parametrize("label, ext", [("JPEG", "jpg"), ("TIFF", "tiff"), ("BMP", "bmp"), ("WEBP", "webp"), ("PNG", "png")])
+def test_next_suggested_name_uses_the_last_used_format(loaded_ui, monkeypatch, tmp_path, label, ext):
+    _take_as(loaded_ui, monkeypatch, tmp_path / "x", f"{label} (*.{ext})")
+    choices = _take_as(loaded_ui, monkeypatch, tmp_path / "y", f"{label} (*.{ext})")
+    assert choices.offered[0][0].endswith(f".{ext}")
+    assert choices.offered[0][1].split(";;")[0] == "PNG (*.png)"
+    assert f"{label} (*.{ext})" in choices.offered[0][1]
+
+
+def test_jpeg_background_is_white_not_black(loaded_ui, monkeypatch, tmp_path):
+    out = tmp_path / "shot.jpg"
+    _take_as(loaded_ui, monkeypatch, out, "JPEG (*.jpg)", dpi=96)
+    image = QImage(str(out))
+    colours = [image.pixelColor(x, y) for x in range(0, image.width(), 11) for y in range(0, image.height(), 11)]
+    assert any(c.lightness() > 200 for c in colours)

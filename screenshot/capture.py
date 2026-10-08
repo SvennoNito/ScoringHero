@@ -6,7 +6,7 @@ entry here."""
 
 from typing import Callable, NamedTuple
 
-from PySide6.QtCore import QPoint, QRect, QSize
+from PySide6.QtCore import Qt, QPoint, QRect, QSize
 from PySide6.QtGui import QImage, QPainter, QRegion
 from PySide6.QtWidgets import QWidget
 
@@ -18,6 +18,7 @@ class Format(NamedTuple):
     label: str  # in the file dialog filter
     extension: str  # without dot
     write: Callable[[QWidget, str, int], None]  # (widget, path, dpi)
+    aliases: tuple = ()  # other extensions of the same format, accepted when typed
 
 
 class Crop(NamedTuple):
@@ -46,12 +47,12 @@ def draw(painter, target):
         QWidget.render(target, painter, QPoint(0, 0), QRegion(QRect(QPoint(0, 0), target.size())))
 
 
-def render_image(widget, dpi):
+def render_image(widget, dpi, background=0):
     """The widget as it is displayed, drawn at dpi / SCREEN_DPI times its size."""
     scale = dpi / SCREEN_DPI
     size = QSize(round(widget.width() * scale), round(widget.height() * scale))
     image = QImage(size, QImage.Format_ARGB32)
-    image.fill(0)  # transparent
+    image.fill(background)  # transparent unless a background is given
     meters = round(dpi / INCH_PER_METER)
     image.setDotsPerMeterX(meters)
     image.setDotsPerMeterY(meters)
@@ -62,9 +63,9 @@ def render_image(widget, dpi):
     return image
 
 
-def _write_raster(format_name):
+def _write_raster(format_name, background=0):
     def write(widget, path, dpi):
-        if not render_image(widget, dpi).save(path, format_name):
+        if not render_image(widget, dpi, background).save(path, format_name):
             raise OSError(f"Could not write {path}")
 
     return write
@@ -72,6 +73,10 @@ def _write_raster(format_name):
 
 FORMATS = {
     "png": Format("PNG", "png", _write_raster("PNG")),
+    "jpeg": Format("JPEG", "jpg", _write_raster("JPEG", background=Qt.white), aliases=("jpeg",)),  # no alpha: on white
+    "tiff": Format("TIFF", "tiff", _write_raster("TIFF"), aliases=("tif",)),
+    "bmp": Format("BMP", "bmp", _write_raster("BMP")),
+    "webp": Format("WEBP", "webp", _write_raster("WEBP")),
 }
 
 
