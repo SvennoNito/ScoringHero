@@ -151,6 +151,10 @@ class Ui_MainWindow(QMainWindow):
         self.show_overlay = False
         self.analysis_source = "original"
 
+        # Screenshots (session only): last folder and format; the folder for scoring files is default_data_path
+        self.screenshot_path = None
+        self.screenshot_format = "png"
+
         # Default paths
         if hasattr(sys, '_MEIPASS'):
             # PyInstaller: resources in temp extraction dir, exe is the real location

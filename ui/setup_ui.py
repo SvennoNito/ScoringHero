@@ -22,6 +22,7 @@ from mouse_click.click_on_spectogram import click_on_spectogram
 from mouse_click.move_swa_slider import move_swa_slider
 from paint_event.paint_event_handler import paint_event_handler
 from utilities.zoom_on_selected_eeg import zoom_on_selected_eeg
+from screenshot.screenshot_dialog import screenshot_window
 from utilities.score_not_sure import score_not_sure
 from config.open_config_window import open_config_window
 from filter.open_filter_window import open_filter_window
@@ -421,6 +422,15 @@ def setup_ui(ui, MainWindow):
     ui.action_zoom.triggered.connect(lambda: zoom_on_selected_eeg(ui))
     ui.action_zoom.setShortcut("Z")
     ui.menu_utils.addAction(ui.action_zoom)
+
+    ui.menu_screenshot = QMenu("Screenshot", ui.menu_utils)
+    ui.menu_screenshot.setObjectName("menu_screenshot")
+    ui.menu_utils.addMenu(ui.menu_screenshot)
+
+    ui.action_screenshot_window = QAction("Whole window…", MainWindow)
+    ui.action_screenshot_window.setObjectName("action_screenshot_window")
+    ui.action_screenshot_window.triggered.connect(lambda: screenshot_window(ui))
+    ui.menu_screenshot.addAction(ui.action_screenshot_window)
 
     # Compare menu
     ui.menu_compare = QMenu("Compare", ui.menu)

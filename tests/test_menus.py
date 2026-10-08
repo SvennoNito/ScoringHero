@@ -27,7 +27,7 @@ def test_detectors_filter_and_utilities_contents(loaded_ui):
         "Spindle Detection (MT-Spindle)",
     ]
     assert _items(menus["Filter"]) == ["Open filter settings"]
-    assert _items(menus["Utilities"]) == ["Zoom on selected EEG"]
+    assert _items(menus["Utilities"]) == ["Zoom on selected EEG", "Screenshot"]
 
 
 def test_detectors_and_filter_menus_wait_for_a_recording(unloaded_ui, loaded_ui):
