@@ -8,7 +8,7 @@ import os
 
 from PySide6.QtCore import QPoint, QRect
 from PySide6.QtWidgets import (
-    QCheckBox, QDialog, QDialogButtonBox, QFileDialog, QFormLayout, QMessageBox, QSpinBox, QVBoxLayout,
+    QCheckBox, QDialog, QDialogButtonBox, QFileDialog, QFormLayout, QLabel, QMessageBox, QSpinBox, QVBoxLayout,
 )
 
 from .capture import FORMATS, Crop, capture
@@ -41,6 +41,7 @@ class ScreenshotOptionsDialog(QDialog):
         layout = QVBoxLayout(self)
         layout.addLayout(form)
         layout.addWidget(self.cb_bars)
+        layout.addWidget(QLabel("Resolution is ignored for SVG and PDF (vector formats)."))
         layout.addWidget(buttons)
 
     def dpi(self):

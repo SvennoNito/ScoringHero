@@ -6,9 +6,12 @@ entry here."""
 
 from typing import Callable, NamedTuple
 
-from PySide6.QtCore import Qt, QPoint, QRect, QSize
-from PySide6.QtGui import QImage, QPainter, QRegion
+from PySide6.QtCore import Qt, QBuffer, QIODevice, QMarginsF, QPoint, QRect, QSize, QSizeF
+from PySide6.QtGui import QImage, QPageLayout, QPageSize, QPainter, QPdfWriter, QRegion
+from PySide6.QtSvg import QSvgGenerator
 from PySide6.QtWidgets import QWidget
+
+from .svg_cosmetic import bake_cosmetic_strokes
 
 SCREEN_DPI = 96  # the unscaled size of a widget corresponds to this many dots per inch
 INCH_PER_METER = 0.0254
@@ -19,6 +22,7 @@ class Format(NamedTuple):
     extension: str  # without dot
     write: Callable[[QWidget, str, int], None]  # (widget, path, dpi)
     aliases: tuple = ()  # other extensions of the same format, accepted when typed
+    vector: bool = False  # DPI is ignored
 
 
 class Crop(NamedTuple):
@@ -71,12 +75,42 @@ def _write_raster(format_name, background=0):
     return write
 
 
+def _write_svg(widget, path, dpi):
+    """Vector; dpi ignored. One user unit per widget pixel; cosmetic pen widths baked into the geometry."""
+    buffer = QBuffer()
+    buffer.open(QIODevice.WriteOnly)
+    generator = QSvgGenerator()
+    generator.setOutputDevice(buffer)
+    generator.setSize(widget.size())
+    generator.setViewBox(QRect(QPoint(0, 0), widget.size()))
+    generator.setResolution(SCREEN_DPI)
+    painter = QPainter(generator)
+    draw(painter, widget)
+    painter.end()
+    svg = bake_cosmetic_strokes(bytes(buffer.data()).decode("utf-8"))
+    with open(path, "w", encoding="utf-8", newline="") as file:
+        file.write(svg)
+
+
+def _write_pdf(widget, path, dpi):
+    """Vector; dpi ignored. One page as large as the widget (one device pixel is 1/96 inch)."""
+    writer = QPdfWriter(path)
+    writer.setResolution(SCREEN_DPI)
+    writer.setPageSize(QPageSize(QSizeF(widget.width(), widget.height()) / SCREEN_DPI, QPageSize.Inch))
+    writer.setPageMargins(QMarginsF(0, 0, 0, 0), QPageLayout.Inch)
+    painter = QPainter(writer)
+    draw(painter, widget)
+    painter.end()
+
+
 FORMATS = {
     "png": Format("PNG", "png", _write_raster("PNG")),
     "jpeg": Format("JPEG", "jpg", _write_raster("JPEG", background=Qt.white), aliases=("jpeg",)),  # no alpha: on white
     "tiff": Format("TIFF", "tiff", _write_raster("TIFF"), aliases=("tif",)),
     "bmp": Format("BMP", "bmp", _write_raster("BMP")),
     "webp": Format("WEBP", "webp", _write_raster("WEBP")),
+    "svg": Format("SVG", "svg", _write_svg, vector=True),
+    "pdf": Format("PDF", "pdf", _write_pdf, vector=True),
 }
 
 

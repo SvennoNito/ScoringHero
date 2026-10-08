@@ -377,3 +377,143 @@ def test_jpeg_background_is_white_not_black(loaded_ui, monkeypatch, tmp_path):
     image = QImage(str(out))
     colours = [image.pixelColor(x, y) for x in range(0, image.width(), 11) for y in range(0, image.height(), 11)]
     assert any(c.lightness() > 200 for c in colours)
+
+
+# --- vector formats ---
+
+VECTOR = [("SVG", "svg"), ("PDF", "pdf")]
+
+
+def _panel_of(name):
+    return {"Signal": 0, "Spectrogram": 1, "Hypnogram": 2, "Rectangle power": 3, "Time-frequency": 4}[name]
+
+
+def _take_panel_as(ui, monkeypatch, name, path, filter_, **kw):
+    choices = Choices(monkeypatch, path=str(path), **kw)
+    monkeypatch.setattr(
+        dialog_module.QFileDialog, "getSaveFileName",
+        lambda parent, caption, start, flt, selected="": (choices.offered.append((start, flt)) or str(path), filter_),
+    )
+    _panel_action(ui, name).trigger()
+    return choices
+
+
+def _svg_size(text):
+    """Size in widget pixels: the viewBox (width/height attributes are in mm)."""
+    import re
+
+    return tuple(float(v) for v in re.search(r'viewBox="0 0 ([\d.]+) ([\d.]+)"', text).groups())
+
+
+def test_file_dialog_offers_svg_and_pdf(loaded_ui, monkeypatch, tmp_path):
+    choices = _take(loaded_ui, monkeypatch, tmp_path / "x.png")
+    assert "SVG (*.svg)" in choices.offered[0][1] and "PDF (*.pdf)" in choices.offered[0][1]
+
+
+def test_whole_window_svg_has_text_and_paths_not_one_raster(loaded_ui, monkeypatch, tmp_path):
+    out = tmp_path / "w.svg"
+    _take_as(loaded_ui, monkeypatch, out, "SVG (*.svg)")
+    text = out.read_text(encoding="utf-8")
+    assert text.lstrip().startswith("<?xml") and "<svg" in text and text.rstrip().endswith("</svg>")
+    assert "<text" in text
+    assert text.count("<path") > 10
+    assert text.count("<image") < text.count("<path")
+
+
+def test_svg_ignores_dpi(loaded_ui, monkeypatch, tmp_path):
+    _lay_out(loaded_ui)  # the first capture of a window not yet shown would lay it out differently from the next
+    _take_as(loaded_ui, monkeypatch, tmp_path / "a.svg", "SVG (*.svg)", dpi=72)
+    _take_as(loaded_ui, monkeypatch, tmp_path / "b.svg", "SVG (*.svg)", dpi=1200)
+    assert (tmp_path / "a.svg").read_bytes() == (tmp_path / "b.svg").read_bytes()
+
+
+def test_svg_is_sized_like_the_window(loaded_ui, monkeypatch, tmp_path):
+    out = tmp_path / "w.svg"
+    _take_as(loaded_ui, monkeypatch, out, "SVG (*.svg)")
+    window = loaded_ui.centralwidget.window()
+    assert _svg_size(out.read_text(encoding="utf-8")) == (window.width(), window.height())
+
+
+def test_whole_window_pdf_is_valid_and_ignores_dpi(loaded_ui, monkeypatch, tmp_path):
+    _take_as(loaded_ui, monkeypatch, tmp_path / "a.pdf", "PDF (*.pdf)", dpi=72)
+    _take_as(loaded_ui, monkeypatch, tmp_path / "b.pdf", "PDF (*.pdf)", dpi=1200)
+    a = (tmp_path / "a.pdf").read_bytes()
+    assert a.startswith(b"%PDF-") and b"%%EOF" in a[-32:]
+    assert b"/Count 1" in a  # a single page
+    # creation date differs between runs; the page size is what DPI could change
+    import re
+
+    assert re.search(rb"/MediaBox \[[^\]]*\]", a).group() == re.search(rb"/MediaBox \[[^\]]*\]", (tmp_path / "b.pdf").read_bytes()).group()
+
+
+def test_without_bars_the_svg_is_smaller(loaded_ui, monkeypatch, tmp_path):
+    _take_as(loaded_ui, monkeypatch, tmp_path / "full.svg", "SVG (*.svg)")
+    _take_as(loaded_ui, monkeypatch, tmp_path / "plots.svg", "SVG (*.svg)", include_bars=False)
+    full = _svg_size((tmp_path / "full.svg").read_text(encoding="utf-8"))
+    plots = _svg_size((tmp_path / "plots.svg").read_text(encoding="utf-8"))
+    assert plots[1] < full[1]
+
+
+@pytest.mark.parametrize("name", ["Signal", "Spectrogram", "Hypnogram", "Rectangle power", "Time-frequency"])
+@pytest.mark.parametrize("label, ext", VECTOR)
+def test_each_visible_panel_writes_a_valid_vector_file(loaded_ui, monkeypatch, tmp_path, name, label, ext):
+    ui = loaded_ui
+    _show_tf_panel(ui, True)
+    _lay_out(ui)
+    action = _panel_action(ui, name)
+    if not action.isEnabled():
+        pytest.skip("panel not visible in this setup")
+    out = tmp_path / f"p.{ext}"
+    _take_panel_as(ui, monkeypatch, name, out, f"{label} (*.{ext})")
+    data = out.read_bytes()
+    if ext == "svg":
+        assert b"<svg" in data and data.rstrip().endswith(b"</svg>")
+        w, h = _svg_size(data.decode("utf-8"))
+        window = ui.centralwidget.window()
+        assert w < window.width() or h < window.height()
+    else:
+        assert data.startswith(b"%PDF-") and b"%%EOF" in data[-32:]
+
+
+def test_panel_svg_is_vector_for_curves(loaded_ui, monkeypatch, tmp_path):
+    _lay_out(loaded_ui)
+    out = tmp_path / "s.svg"
+    _take_panel_as(loaded_ui, monkeypatch, "Signal", out, "SVG (*.svg)")
+    assert out.read_text(encoding="utf-8").count("<path") > 1
+
+
+def test_options_dialog_says_dpi_is_ignored_for_vector(loaded_ui):
+    from PySide6.QtWidgets import QLabel
+
+    dialog = dialog_module.ScreenshotOptionsDialog(loaded_ui.centralwidget.window())
+    notes = " ".join(l.text() for l in dialog.findChildren(QLabel))
+    assert "SVG" in notes and "PDF" in notes and "ignored" in notes
+
+
+def test_svg_strokes_do_not_depend_on_non_scaling_stroke_support(loaded_ui, monkeypatch, tmp_path):
+    """Viewers that ignore vector-effect (Inkscape, Illustrator) scale a stroke with its group's transform:
+    no group may both scale and hold cosmetic-pen lines."""
+    import re
+
+    _lay_out(loaded_ui)
+    out = tmp_path / "w.svg"
+    _take_as(loaded_ui, monkeypatch, out, "SVG (*.svg)")
+    text = out.read_text(encoding="utf-8")
+    for transform, body in re.findall(r'<g [^>]*transform="matrix\(([^)]*)\)"[^>]*>(.*?)</g>', text, re.S):
+        if transform.split(",")[:4] != ["1", "0", "0", "1"]:
+            assert 'vector-effect="non-scaling-stroke"' not in body
+    assert text.count("<polyline") < 2000  # curves are joined, not one element per segment
+
+
+def test_svg_curve_stays_where_the_widget_draws_it(loaded_ui, monkeypatch, tmp_path):
+    """The first channel's curve in the SVG spans the signal panel horizontally, in pixel coordinates."""
+    import re
+
+    _lay_out(loaded_ui)
+    out = tmp_path / "s.svg"
+    _take_panel_as(loaded_ui, monkeypatch, "Signal", out, "SVG (*.svg)")
+    text = out.read_text(encoding="utf-8")
+    width, height = _svg_size(text)
+    xs = [float(x) for points in re.findall(r'<polyline[^>]*points="([^"]*)"', text) for x, _ in (p.split(",") for p in points.split())]
+    assert xs and min(xs) >= -1 and max(xs) <= width + 1
+    assert max(xs) - min(xs) > 0.5 * width
