@@ -24,6 +24,10 @@ class Format(NamedTuple):
     aliases: tuple = ()  # other extensions of the same format, accepted when typed
     vector: bool = False  # DPI is ignored
 
+    def matches(self, extension):
+        """Whether `extension` (no dot, lower case) is this format's."""
+        return extension in (self.extension, *self.aliases)
+
 
 class Crop(NamedTuple):
     """An area of a widget as a capture target, so everything lying over a panel (e.g. the

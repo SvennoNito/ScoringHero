@@ -438,6 +438,7 @@ def setup_ui(ui, MainWindow):
     ui.action_screenshot_panels = {}
     for panel_name in PANELS:
         action = QAction(panel_name + "…", MainWindow)
+        action.setObjectName("action_screenshot_" + panel_name.lower().replace(" ", "_"))
         action.triggered.connect(lambda checked=False, name=panel_name: screenshot_panel(ui, name))
         ui.menu_screenshot_panel.addAction(action)
         ui.action_screenshot_panels[panel_name] = action

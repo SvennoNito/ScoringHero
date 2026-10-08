@@ -61,16 +61,17 @@ def _format_chosen(path, selected_filter, fallback):
         if selected_filter == _filter(name):
             return name
     extension = os.path.splitext(path)[1][1:].lower()
-    return next((name for name, f in FORMATS.items() if extension in (f.extension, *f.aliases)), fallback)
+    return next((name for name, f in FORMATS.items() if f.matches(extension)), fallback)
 
 
 def _with_extension(path, format):
     """`path` ending in the format's extension: kept if it has one, a known image extension is replaced, else appended."""
     stem, typed = os.path.splitext(path)
     f = FORMATS[format]
-    if typed[1:].lower() in (f.extension, *f.aliases):
+    typed = typed[1:].lower()
+    if f.matches(typed):
         return path
-    if any(typed[1:].lower() in (g.extension, *g.aliases) for g in FORMATS.values()):
+    if any(g.matches(typed) for g in FORMATS.values()):
         return f"{stem}.{f.extension}"
     return f"{path}.{f.extension}"
 
