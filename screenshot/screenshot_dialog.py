@@ -59,7 +59,18 @@ def _format_chosen(path, selected_filter, fallback):
         if selected_filter == _filter(name):
             return name
     extension = os.path.splitext(path)[1][1:].lower()
-    return next((name for name, f in FORMATS.items() if f.extension == extension), fallback)
+    return next((name for name, f in FORMATS.items() if extension in (f.extension, *f.aliases)), fallback)
+
+
+def _with_extension(path, format):
+    """`path` ending in the format's extension: kept if it has one, a known image extension is replaced, else appended."""
+    stem, typed = os.path.splitext(path)
+    f = FORMATS[format]
+    if typed[1:].lower() in (f.extension, *f.aliases):
+        return path
+    if any(typed[1:].lower() in (g.extension, *g.aliases) for g in FORMATS.values()):
+        return f"{stem}.{f.extension}"
+    return f"{path}.{f.extension}"
 
 
 def suggested_name(ui, name, format):
@@ -87,8 +98,7 @@ def take_screenshot(ui, name, target, with_bars_option=False):
     if not path:
         return
     format = _format_chosen(path, selected_filter, ui.screenshot_format)
-    if os.path.splitext(path)[1].lower() != f".{FORMATS[format].extension}":
-        path += f".{FORMATS[format].extension}"
+    path = _with_extension(path, format)
 
     try:
         capture(widget, path, format, options.dpi())
