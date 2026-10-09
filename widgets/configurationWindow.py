@@ -1118,7 +1118,7 @@ class ChannelConfiguration(QDialog):
             # Value by which EEG is multiplied
             spinbox = QDoubleSpinBox()
             spinbox.setMinimum(0)
-            spinbox.setMaximum(1000000)
+            spinbox.setMaximum(1e21)
             spinbox.setDecimals(0)
             spinbox.setValue(chaninfo["Scaling_factor"])
             spinbox.setSuffix(" %")
