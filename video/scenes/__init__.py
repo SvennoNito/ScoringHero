@@ -3,6 +3,7 @@ in this folder exposing `run(ctx)` and `check(ctx)` (see video/make_video.py).""
 
 SCENES = [
     "s00_load_recording",
+    "s00b_manual_stages",
     "s01_spectrogram_clicks",
     "s02_swa_slider",
     "s03_highpass_filter",
@@ -10,7 +11,6 @@ SCENES = [
     "s05_spindle_detection",
     "s06_jump_buttons",
     "s07_manual_spindles",
-    "s08_manual_stages",
     "s09_sleep_report",
     "s10_comparison_scoring",
     "s11_overlay_signal",
