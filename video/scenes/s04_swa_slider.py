@@ -24,16 +24,16 @@ def run(ctx):
     ctx.caption("Drag the SWA slider to smooth the slow-wave activity curve of the Hypnogram")
     slider = ctx.ref("HypnogramSlider.slider")
     widget = ctx.ref("HypnogramWidget")
-    ctx.state["s02_values"] = []
+    ctx.state["s04_values"] = []
     for dy in (0.9, -0.5, 0.3):  # fractions of the slider height: down, back up, down a bit
         _drag_handle_by(ctx, slider, round(dy * slider.height()))
-        ctx.state["s02_values"].append(slider.value())
+        ctx.state["s04_values"].append(slider.value())
         ctx.wait(0.8)
 
     # the heaviest-SWA Epoch is the peak of the curve the slider has just drawn
     curve = np.asarray(widget.swa_item.getData()[1], dtype=float)
     heaviest = int(np.nanargmax(curve))
-    ctx.state["s02_heaviest"] = heaviest
+    ctx.state["s04_heaviest"] = heaviest
     ctx.caption(f"Jump to the Epoch with the most SWA (Epoch {heaviest + 1})")
     readout = ctx.ref("StatusReadout.epoch")
     ctx.click(readout.label, duration=1.0)
@@ -45,9 +45,9 @@ def run(ctx):
 
 
 def check(ctx):
-    values = ctx.state["s02_values"]
+    values = ctx.state["s04_values"]
     assert len(set(values)) > 1, f"the SWA slider did not move: {values}"
     assert ctx.ui.HypnogramWidget.kernel == ctx.ui.HypnogramSlider.slider.value(), "slider did not smooth the SWA curve"
-    assert ctx.ui.this_epoch == ctx.state["s02_heaviest"], (
-        f"displayed Epoch {ctx.ui.this_epoch}, expected the heaviest SWA Epoch {ctx.state['s02_heaviest']}"
+    assert ctx.ui.this_epoch == ctx.state["s04_heaviest"], (
+        f"displayed Epoch {ctx.ui.this_epoch}, expected the heaviest SWA Epoch {ctx.state['s04_heaviest']}"
     )

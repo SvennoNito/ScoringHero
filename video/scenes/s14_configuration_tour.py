@@ -29,8 +29,8 @@ def _choose_channel_color(ctx, box, color_name):
 def run(ctx):
     ui = ctx.ui
     ctx.wait_idle()
-    ctx.state["s12_config_before"] = copy.deepcopy(ui.config[0])
-    ctx.state["s12_stages_before"] = list(ui.scoring.stages())
+    ctx.state["s14_config_before"] = copy.deepcopy(ui.config[0])
+    ctx.state["s14_stages_before"] = list(ui.scoring.stages())
     ctx.caption("Configuration: a tour through every tab")
     ctx.click_menu("action_config_window")
     window = ui.ConfigurationWindow
@@ -68,13 +68,13 @@ def run(ctx):
 
 def check(ctx):
     ui = ctx.ui
-    before, after = ctx.state["s12_config_before"], ui.config[0]
+    before, after = ctx.state["s14_config_before"], ui.config[0]
     assert not ui.ConfigurationWindow.isVisible(), "Configuration window is still open"
     for key in COSMETIC_KEYS:
         assert after[key] != before[key], f"{key} was not changed"
     others = {k for k in before if before[k] != after[k]}
     assert others == set(COSMETIC_KEYS), f"scoring-relevant settings changed: {others - set(COSMETIC_KEYS)}"
-    assert list(ui.scoring.stages()) == ctx.state["s12_stages_before"], "scoring changed"
+    assert list(ui.scoring.stages()) == ctx.state["s14_stages_before"], "scoring changed"
 
     channels = {c["Channel_name"]: c for c in ui.config[1]}
     assert channels[ui.config[1][0]["Channel_name"]]["Channel_color"] == BLACK_CHANNEL_COLOR, \

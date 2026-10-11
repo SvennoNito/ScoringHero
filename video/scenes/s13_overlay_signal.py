@@ -26,22 +26,22 @@ def make_overlay_file(ctx):
 
 
 def run(ctx):
-    ctx.state["s11_path"] = path = make_overlay_file(ctx)
+    ctx.state["s13_path"] = path = make_overlay_file(ctx)
     ctx.caption("Import an Overlay signal: a second Recording drawn over the Displayed signal")
     with ctx.file_dialogs(open=path):
         ctx.click_menu("action_import_overlay_eeglab")
     ctx.wait_until(lambda: getattr(ctx.ui, "eeg_data_ref", None) is not None)
-    ctx.state["s11_loaded"] = ctx.ui.eeg_data_ref is not None and ctx.ui.show_overlay
+    ctx.state["s13_loaded"] = ctx.ui.eeg_data_ref is not None and ctx.ui.show_overlay
     ctx.wait(1.5)
 
     ctx.caption("Move to several Epochs to compare the two signals")
     spectrogram = ctx.ref("SpectogramWidget.graphics")
     ctx.move_cursor(ctx.center(spectrogram), 0.8)
-    ctx.state["s11_epochs"] = []
+    ctx.state["s13_epochs"] = []
     for fraction in FRACTIONS:
         epoch = int(fraction * ctx.ui.numepo)
         ctx.click_epoch(epoch)
-        ctx.state["s11_epochs"].append(epoch)
+        ctx.state["s13_epochs"].append(epoch)
         ctx.wait(1.2)
 
     ctx.caption("Remove the Overlay signal again")
@@ -52,8 +52,8 @@ def run(ctx):
 
 def check(ctx):
     ui = ctx.ui
-    assert os.path.exists(ctx.state["s11_path"]), "overlay file was not generated"
-    assert ctx.state["s11_loaded"], "Overlay signal was not imported and shown"
-    assert len(set(ctx.state["s11_epochs"])) == len(FRACTIONS), "not every click ran or the Epoch did not change"
+    assert os.path.exists(ctx.state["s13_path"]), "overlay file was not generated"
+    assert ctx.state["s13_loaded"], "Overlay signal was not imported and shown"
+    assert len(set(ctx.state["s13_epochs"])) == len(FRACTIONS), "not every click ran or the Epoch did not change"
     assert getattr(ui, "eeg_data_ref", None) is None, "Overlay signal was not removed"
     assert not ui.show_overlay, "overlay is still shown"

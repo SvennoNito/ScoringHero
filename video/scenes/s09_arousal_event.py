@@ -56,12 +56,12 @@ def run(ctx):
     length = ui.config[0]["Epoch_length_s"]
     start = epoch * length + min(2.0, length * 0.3)  # margin so the rectangle stays inside the Epoch
     end = start + RECT_S
-    print(f"s07: arousal drawn in Epoch {epoch + 1} ({start:.2f}-{end:.2f} s)", flush=True)
+    print(f"s09: arousal drawn in Epoch {epoch + 1} ({start:.2f}-{end:.2f} s)", flush=True)
 
     ctx.state.update(
-        s07_epoch=epoch,
-        s07_slot1_before=ui.events.count(SLOT_1),
-        s07_slot2_before=ui.events.count(SLOT_2),
+        s09_epoch=epoch,
+        s09_slot1_before=ui.events.count(SLOT_1),
+        s09_slot2_before=ui.events.count(SLOT_2),
     )
 
     ctx.caption(f"An arousal in Epoch {epoch + 1}: go there")
@@ -74,7 +74,7 @@ def run(ctx):
     assert ui.PaintEventWidget.stored_corners, "the rectangle was not drawn"
     ctx.wait(0.8)
     ctx.press_key(HOTKEY_1, seconds=1.0)
-    ctx.state["s07_slot1_after_add"] = ui.events.count(SLOT_1)
+    ctx.state["s09_slot1_after_add"] = ui.events.count(SLOT_1)
     ctx.wait(1.0)
 
     ctx.caption(f"Move it to slot {SLOT_2}: hold its hotkey and click the event")
@@ -88,8 +88,8 @@ def run(ctx):
     QTest.keyRelease(widget, HOTKEY_2)
     ctx.app.processEvents()
     ctx.state.update(
-        s07_slot1_after_move=ui.events.count(SLOT_1),
-        s07_slot2_after_move=ui.events.count(SLOT_2),
+        s09_slot1_after_move=ui.events.count(SLOT_1),
+        s09_slot2_after_move=ui.events.count(SLOT_2),
     )
     ctx.wait(1.0)
 
@@ -127,20 +127,20 @@ def run(ctx):
 
     ctx.caption(f"Click the {NEW_LABEL} to delete it")
     ctx.click(point, duration=1.0)
-    ctx.state["s07_slot2_after_delete"] = ui.events.count(SLOT_2)
+    ctx.state["s09_slot2_after_delete"] = ui.events.count(SLOT_2)
     ctx.wait(1.0)
     ctx.caption(None)
 
 
 def check(ctx):
     ui, state = ctx.ui, ctx.state
-    assert state["s07_slot1_after_add"] == state["s07_slot1_before"] + 1, \
-        f"slot {SLOT_1} count after add: {state['s07_slot1_after_add']}, expected {state['s07_slot1_before'] + 1}"
-    assert state["s07_slot1_after_move"] == state["s07_slot1_after_add"] - 1, \
-        f"slot {SLOT_1} count after move: {state['s07_slot1_after_move']}, expected {state['s07_slot1_after_add'] - 1}"
-    assert state["s07_slot2_after_move"] == state["s07_slot2_before"] + 1, \
-        f"slot {SLOT_2} count after move: {state['s07_slot2_after_move']}, expected {state['s07_slot2_before'] + 1}"
+    assert state["s09_slot1_after_add"] == state["s09_slot1_before"] + 1, \
+        f"slot {SLOT_1} count after add: {state['s09_slot1_after_add']}, expected {state['s09_slot1_before'] + 1}"
+    assert state["s09_slot1_after_move"] == state["s09_slot1_after_add"] - 1, \
+        f"slot {SLOT_1} count after move: {state['s09_slot1_after_move']}, expected {state['s09_slot1_after_add'] - 1}"
+    assert state["s09_slot2_after_move"] == state["s09_slot2_before"] + 1, \
+        f"slot {SLOT_2} count after move: {state['s09_slot2_after_move']}, expected {state['s09_slot2_before'] + 1}"
     assert ui.events.label(SLOT_2) == NEW_LABEL, f"slot {SLOT_2} was not renamed to '{NEW_LABEL}'"
-    assert state["s07_slot2_after_delete"] == state["s07_slot2_before"], \
-        f"slot {SLOT_2} count after delete: {state['s07_slot2_after_delete']}, expected {state['s07_slot2_before']}"
+    assert state["s09_slot2_after_delete"] == state["s09_slot2_before"], \
+        f"slot {SLOT_2} count after delete: {state['s09_slot2_after_delete']}, expected {state['s09_slot2_before']}"
     assert not ui.PaintEventWidget.stored_corners, "rectangles are left on the paint overlay"
