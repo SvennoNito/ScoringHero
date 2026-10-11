@@ -24,11 +24,13 @@ def _list_item_point(ctx, list_widget, text):
     if not items:
         raise LookupError(f"no list entry '{text}'")
     list_widget.scrollToItem(items[0], QAbstractItemView.PositionAtCenter)
+    QApplication.processEvents()  # scrollbar and viewport update before the item's rectangle is read
     return list_widget.viewport().mapToGlobal(list_widget.visualItemRect(items[0]).center()) - ctx._origin()
 
 
 def run(ctx):
     ui = ctx.ui
+    ctx.wait_until(lambda: not getattr(ui, "_busy_runners", None))  # the busy indicator swallows mouse input
     if ui.events.label(SPINDLE_SLOT) != LABEL:  # off camera: name the slot the detections go to
         ui.edit_events(lambda events: events.set_label(SPINDLE_SLOT, LABEL))
 
