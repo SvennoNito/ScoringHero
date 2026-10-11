@@ -28,6 +28,7 @@ def _choose_channel_color(ctx, box, color_name):
 
 def run(ctx):
     ui = ctx.ui
+    ctx.wait_idle()
     ctx.state["s12_config_before"] = copy.deepcopy(ui.config[0])
     ctx.state["s12_stages_before"] = list(ui.scoring.stages())
     ctx.caption("Configuration: a tour through every tab")

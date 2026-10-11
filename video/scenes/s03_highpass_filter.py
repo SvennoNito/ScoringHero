@@ -4,7 +4,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QDialog, QPushButton
 
 CUTOFF_HZ = 0.5
-KEYS = [Qt.Key_0, Qt.Key_Period, Qt.Key_5]  # typed after clearing: "0.5"
+DECIMAL_KEYS = {".": Qt.Key_Period, ",": Qt.Key_Comma}
 
 
 def run(ctx):
@@ -19,7 +19,8 @@ def run(ctx):
     ctx.click(cutoff)
     cutoff.setFocus()
     cutoff.selectAll()
-    for key in [Qt.Key_Delete] + KEYS:
+    decimal_key = DECIMAL_KEYS[cutoff.locale().decimalPoint()]
+    for key in [Qt.Key_Delete, Qt.Key_0, decimal_key, Qt.Key_5]:
         ctx.press_key(key, seconds=0.25)
     ctx.press_key(Qt.Key_Tab, seconds=0.2)
     ctx.click(window._fields["Filter_hp_enabled"][0])

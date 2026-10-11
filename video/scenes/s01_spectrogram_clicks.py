@@ -17,4 +17,5 @@ def run(ctx):
 
 def check(ctx):
     assert len(set(ctx.state["s01_epochs"])) == len(FRACTIONS), "not every spectrogram click ran or the Epoch did not change"
-    assert not any(ctx.ui.scoring.stage(i) for i in range(len(ctx.ui.scoring))), "Primary scoring is not empty"
+    assert not any(ctx.ui.scoring.stage(i) for i in range(10, len(ctx.ui.scoring))), \
+        "Primary scoring has epochs staged beyond the ten wake Epochs scored in the manual-staging scene"
