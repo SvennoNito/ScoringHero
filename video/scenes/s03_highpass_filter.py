@@ -1,6 +1,7 @@
-"""Scene 3: open the filter window and apply a 0.5 Hz high-pass Cutoff frequency."""
+"""Scene 3: open the filter window, preview the magnitude response, then apply a 0.5 Hz high-pass Cutoff frequency."""
 
 from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QDialog, QPushButton
 
 CUTOFF_HZ = 0.5
 KEYS = [Qt.Key_0, Qt.Key_Period, Qt.Key_5]  # typed after clearing: "0.5"
@@ -23,6 +24,23 @@ def run(ctx):
     ctx.press_key(Qt.Key_Tab, seconds=0.2)
     ctx.click(window._fields["Filter_hp_enabled"][0])
     ctx.wait(0.6)
+
+    ctx.caption("Preview the high-pass magnitude response before applying")
+    hp_plt = next(
+        b for b in window.findChildren(QPushButton) if b.toolTip() == "Plot high-pass frequency response"
+    )
+    ctx.click(hp_plt)
+    response_dialog = next(
+        (d for d in window.findChildren(QDialog) if d.windowTitle() == "Filter frequency response" and d.isVisible()),
+        None,
+    )
+    ctx.state["s03_response_dialog_opened"] = response_dialog is not None
+    ctx.wait(3.0)
+    if response_dialog is not None:
+        response_dialog.close()
+    ctx.state["s03_response_dialog_closed"] = response_dialog is not None and not response_dialog.isVisible()
+    ctx.wait(0.4)
+
     ctx.click(ctx.button(window, "Apply"))
     ctx.wait(0.8)
     window.hide()
@@ -32,6 +50,8 @@ def run(ctx):
 def check(ctx):
     channels = ctx.ui.config[1]
     assert channels, "no channels configured"
+    assert ctx.state.get("s03_response_dialog_opened"), "high-pass magnitude-response dialog was not opened"
+    assert ctx.state.get("s03_response_dialog_closed"), "high-pass magnitude-response dialog was not closed before Apply"
     for channel in channels:
         assert channel["Filter_hp_enabled"], f"high-pass not enabled on {channel['Channel_name']}"
         assert abs(channel["Filter_hp_cutoff"] - CUTOFF_HZ) < 1e-9, (
