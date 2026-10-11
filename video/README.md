@@ -13,5 +13,5 @@ uv run --extra gssc python video/make_video.py --scenes s01 s02   # only these s
 - Runs on a temp copy of `example_data`; tracked files are never changed.
 - The smoke run is manual (needs GSSC, takes a few minutes); it is not part of pytest or the commit hook.
 - Generated files in `video/` (`.mp4`, `.json`, `.mat`, `.pdf`) are gitignored.
-- Scene 6 seeds targets off camera so every Jump button has somewhere to go: a few unscored Epochs, a few human-scored Epochs, one uncertain Epoch and a temporary Comparison scoring that disagrees on a few Epochs. Everything is restored at the end of the scene, but the temporary Comparison scoring is visible in the Hypnogram while it runs.
+- Scene 10 demos every Jump button after showing the Comparison summary statistics: a few Epochs are cleared and a few are staged by hand, on camera, so "Next unscored" and "Next human-scored" have real targets; "Next stage transition", "Next event" and "Next disagreement" already have real targets (the GSSC-staged night, the spindle Events, and the Comparison scoring just imported). "Next uncertain" is reported rather than asserted if GSSC produced no uncertain Epoch.
 - See the docstring of `make_video.py` for the scene contract and helpers.
