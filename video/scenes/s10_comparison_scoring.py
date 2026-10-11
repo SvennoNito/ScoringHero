@@ -9,7 +9,7 @@ from PySide6.QtWidgets import QDialog
 
 from scoring import scoring_import_comparison as import_module
 from scoring_model.formats import FORMATS, write_scoringhero
-from scoring_model.scoring import STAGES
+from scoring_model.scoring import HUMAN, STAGES
 
 CHANGED_FRACTION = 0.15  # share of epochs the second scorer disagrees on
 
@@ -23,7 +23,7 @@ def make_comparison_file(ctx):
     changed = sorted(rng.choice(n, size=round(CHANGED_FRACTION * n), replace=False).tolist())
     for epoch in changed:
         others = [s for s in STAGES if s != scoring.stage(epoch)]
-        scoring.set(epoch, others[rng.integers(len(others))], source="human")
+        scoring.set(epoch, others[rng.integers(len(others))], source=HUMAN)
     path = os.path.join(ctx.video_dir, "comparison_scoring.json")
     write_scoringhero(scoring, path, [])
     ctx.state["s10_changed"] = len(changed)
@@ -32,7 +32,7 @@ def make_comparison_file(ctx):
 
 def run(ctx):
     ui = ctx.ui
-    ctx.wait_until(lambda: not getattr(ui, "_busy_runners", None))
+    ctx.wait_idle()
     ctx.state["s10_path"] = path = make_comparison_file(ctx)
     ctx.caption("Import a Comparison scoring from a second scorer")
     # the format dialog is modal: answer it with the default format (ScoringHero .json)
@@ -40,7 +40,7 @@ def run(ctx):
     with ctx.file_dialogs(open=path), mock.patch.object(import_module._FormatDialog, "exec", lambda self: True):
         ctx.click_menu("action_import_comparison")
     ctx.wait_until(lambda: ui.scoring_comparison is not None)
-    ctx.state["s10_set"] = ui.scoring_comparison is not None and ui.action_comparison_stats.isEnabled()
+    assert ui.action_comparison_stats.isEnabled(), "Comparison scoring was not imported"
     ctx.wait(2.0)
 
     ctx.caption("Show the summary statistics: agreement, Cohen's kappa and confusion matrix")
@@ -69,7 +69,6 @@ def check(ctx):
     ui = ctx.ui
     assert os.path.exists(ctx.state["s10_path"]), "comparison file was not generated"
     assert ctx.state["s10_changed"] > 0, "no epochs were changed in the comparison scoring"
-    assert ctx.state["s10_set"], "Comparison scoring was not imported"
     assert ctx.state["s10_stats_shown"], "summary statistics were not shown"
     assert ui.scoring_comparison is None, "Comparison scoring was not removed"
     assert not ui.action_comparison_stats.isEnabled(), "comparison statistics still enabled"

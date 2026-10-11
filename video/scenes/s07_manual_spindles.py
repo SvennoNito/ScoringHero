@@ -1,6 +1,6 @@
 """Scene 7: add a missed spindle by drawing a rectangle, delete a false-positive spindle with a click.
 
-Uses ctx.state from scene 5 ("spindle_slot", "spindles"). Both choices are data-driven, on C3-A2:
+Uses ctx.state from scene 5 ("spindles", "spindle_epochs"). Both choices are data-driven, on C3-A2:
     missed spindle   NREM Epoch without a detection whose 11-16 Hz (sigma) burst is the strongest
                      relative to its broadband signal; the rectangle covers 1 s around the burst
     false positive   detected spindle (outside the missed one's Epoch) with the weakest sigma burst
@@ -9,13 +9,14 @@ Their Epochs (1-based, as displayed) are printed in the run output.
 
 import numpy as np
 from PySide6.QtCore import QPoint, QPointF, Qt
+from scenes.s05_spindle_detection import SPINDLE_SLOT as SLOT
 from scipy.signal import butter, filtfilt
 
 CHANNEL = "C3-A2"
 SIGMA_HZ = (11.0, 16.0)
 NREM = ("N2", "N3")
 RECT_S = 1.0
-HOTKEY = {1: Qt.Key_F1, 2: Qt.Key_F2, 3: Qt.Key_F3}  # event slot -> hotkey
+HOTKEY = Qt.Key(Qt.Key_F1 + SLOT - 1)  # Event hotkeys F1, F2, ... belong to slots 1, 2, ...
 
 
 def _sigma(ui):
@@ -31,7 +32,7 @@ def _ratio(signal, sigma, lo, hi):
     return np.sqrt(np.mean(sigma[lo:hi] ** 2)) / (np.sqrt(np.mean(signal[lo:hi] ** 2)) + 1e-12)
 
 
-def choose(ui, slot, spans, spindle_epochs):
+def choose(ui, spans, spindle_epochs):
     """(missed_start_s, missed_end_s, missed_epoch, false_positive_index, false_positive_epoch)."""
     signal, sigma, srate = _sigma(ui)
     length = ui.config[0]["Epoch_length_s"]
@@ -85,18 +86,16 @@ def _install_key_filter(ctx):
 def run(ctx):
     ui = ctx.ui
     _install_key_filter(ctx)
-    ctx.wait_until(lambda: not getattr(ui, "_busy_runners", None))  # the busy indicator swallows mouse input
-    slot = ctx.state["spindle_slot"]
+    ctx.wait_idle()
     spans = ctx.state["spindles"]
-    start, end, epoch, false_index, false_epoch = choose(ui, slot, spans, ctx.state["spindle_epochs"])
+    start, end, epoch, false_index, false_epoch = choose(ui, spans, ctx.state["spindle_epochs"])
     false_span = spans[false_index]
-    ctx.state.update(s07_missed_epoch=epoch, s07_false_epoch=false_epoch, s07_before=ui.events.count(slot))
+    ctx.state.update(s07_missed_epoch=epoch, s07_false_epoch=false_epoch, s07_before=ui.events.count(SLOT))
     print(f"s07: missed spindle added in Epoch {epoch + 1} ({start:.2f}-{end:.2f} s); "
           f"false positive deleted in Epoch {false_epoch + 1} ({false_span[0]:.2f}-{false_span[1]:.2f} s)", flush=True)
 
     ctx.caption(f"A spindle was missed: go to Epoch {epoch + 1}")
-    ctx.click(ctx.spectrogram_point(epoch), duration=1.0)
-    assert ui.this_epoch == epoch, f"view did not jump to Epoch {epoch}"
+    ctx.click_epoch(epoch, duration=1.0)
     ctx.wait(1.0)
 
     ctx.caption("Draw a rectangle around it, then press the Event hotkey")
@@ -104,19 +103,18 @@ def run(ctx):
     ctx.drag(QPoint(_signal_x(ctx, start), y0), QPoint(_signal_x(ctx, end), y1), duration=1.0)
     assert ui.PaintEventWidget.stored_corners, "the rectangle was not drawn"
     ctx.wait(0.8)
-    ctx.press_key(HOTKEY[slot], seconds=1.0)
-    ctx.state["s07_after_add"] = ui.events.count(slot)
+    ctx.press_key(HOTKEY, seconds=1.0)
+    ctx.state["s07_after_add"] = ui.events.count(SLOT)
     ctx.wait(1.5)
 
     ctx.caption(f"A false positive: go to Epoch {false_epoch + 1}")
-    ctx.click(ctx.spectrogram_point(false_epoch), duration=1.0)
-    assert ui.this_epoch == false_epoch, f"view did not jump to Epoch {false_epoch}"
+    ctx.click_epoch(false_epoch, duration=1.0)
     ctx.wait(1.0)
 
     ctx.caption("Click on the spindle to delete it")
     middle = (false_span[0] + false_span[1]) / 2
     ctx.click(QPoint(_signal_x(ctx, middle), _paint_y(ctx, 0.5)), duration=1.0)
-    ctx.state["s07_after_delete"] = ui.events.count(slot)
+    ctx.state["s07_after_delete"] = ui.events.count(SLOT)
     ctx.wait(1.5)
     ctx.caption(None)
 

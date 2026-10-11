@@ -57,7 +57,7 @@ def _restore(ui, saved):
 
 def run(ctx):
     ui = ctx.ui
-    ctx.wait_until(lambda: not getattr(ui, "_busy_runners", None))  # the busy indicator swallows mouse input
+    ctx.wait_idle()
     saved = _prepare(ui)
     ctx.state["s06_visited"] = []
     pressed = []
@@ -74,7 +74,7 @@ def run(ctx):
             assert expected is not None and expected != before, f"'{name}' has no visible target"
             ctx.caption(name)
             ctx.click(ui.navigation_bar.widgetForAction(action), duration=1.0)
-            ctx.wait_until(lambda: not getattr(ui, "_busy_runners", None))
+            ctx.wait_idle()
             assert pressed and pressed[-1] is action, f"the click did not press '{name}'"
             assert ui.this_epoch == expected, f"'{name}': went to epoch {ui.this_epoch}, expected {expected}"
             ctx.state["s06_visited"].append((name, ui.this_epoch))

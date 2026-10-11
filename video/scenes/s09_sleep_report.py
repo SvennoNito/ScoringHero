@@ -8,7 +8,7 @@ Hands over: ctx.state["s09_report"] = path of the PDF.
 import os
 from unittest import mock
 
-from PySide6.QtWidgets import QMessageBox, QPushButton
+from PySide6.QtWidgets import QMessageBox
 
 from export import export_sleep_report as report
 
@@ -16,8 +16,7 @@ PDF_NAME = "sleep_report.pdf"
 
 
 def run(ctx):
-    ui = ctx.ui
-    ctx.wait_until(lambda: not getattr(ui, "_busy_runners", None))  # the busy indicator swallows mouse input
+    ctx.wait_idle()
     path = os.path.join(ctx.video_dir, PDF_NAME)
     if os.path.exists(path):
         os.remove(path)
@@ -31,8 +30,7 @@ def run(ctx):
         dialog.move(area.center().x() - dialog.width() // 2, max(area.top() + 10, area.center().y() - dialog.height() // 2))
         ctx.caption("Choose what goes into the report")
         ctx.wait(1.5)
-        button = next(b for b in dialog.findChildren(QPushButton) if b.text() == "Generate Report")
-        ctx.click(button, duration=0.8)
+        ctx.click(ctx.button(dialog, "Generate Report"), duration=0.8)
         return dialog.result()
 
     ctx.caption("Export: sleep report (PDF)")
