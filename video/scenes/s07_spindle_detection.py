@@ -55,7 +55,7 @@ def run(ctx):
             per_epoch[epoch] = per_epoch.get(epoch, 0) + 1
     densest = max(per_epoch, key=lambda e: (per_epoch[e], -e)) if per_epoch else None
     ctx.state.update(spindles=spans, spindle_epochs=epochs, spindle_densest=densest)
-    print(f"s05: {len(spans)} spindles detected on {CHANNEL}; densest epoch {densest} "
+    print(f"s07: {len(spans)} spindles detected on {CHANNEL}; densest epoch {densest} "
           f"({per_epoch.get(densest, 0)} spindles)", flush=True)
 
     if densest is not None:

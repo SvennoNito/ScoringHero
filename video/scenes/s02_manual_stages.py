@@ -15,21 +15,21 @@ def run(ctx):
     ctx.wait_idle()
     ctx.window.activateWindow()  # offscreen: shortcuts only fire in the active window
     ctx.app.processEvents()
-    ctx.state["s00b_before"] = list(ui.scoring.stages()[:N_EPOCHS])
+    ctx.state["s02_before"] = list(ui.scoring.stages()[:N_EPOCHS])
 
     ctx.caption("Stage the first ten Epochs Wake by hand: click an Epoch, then press W")
     ctx.wait(1.0)
     for epoch in range(N_EPOCHS):
         ctx.click_epoch(epoch)
         ctx.press_key(KEY, seconds=0.6)
-        print(f"s00b: epoch {epoch} -> Wake", flush=True)
+        print(f"s02: epoch {epoch} -> Wake", flush=True)
     ctx.wait(1.0)
     ctx.caption(None)
 
 
 def check(ctx):
     ui = ctx.ui
-    before = ctx.state["s00b_before"]
+    before = ctx.state["s02_before"]
     assert all(stage is None for stage in before), "the first ten Epochs were already staged before this scene ran"
     stages = ui.scoring.stages()
     staged = [i for i, stage in enumerate(stages) if stage is not None]

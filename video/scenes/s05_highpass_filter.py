@@ -35,11 +35,11 @@ def run(ctx):
         (d for d in window.findChildren(QDialog) if d.windowTitle() == "Filter frequency response" and d.isVisible()),
         None,
     )
-    ctx.state["s03_response_dialog_opened"] = response_dialog is not None
+    ctx.state["s05_response_dialog_opened"] = response_dialog is not None
     ctx.wait(3.0)
     if response_dialog is not None:
         response_dialog.close()
-    ctx.state["s03_response_dialog_closed"] = response_dialog is not None and not response_dialog.isVisible()
+    ctx.state["s05_response_dialog_closed"] = response_dialog is not None and not response_dialog.isVisible()
     ctx.wait(0.4)
 
     ctx.click(ctx.button(window, "Apply"))
@@ -51,8 +51,8 @@ def run(ctx):
 def check(ctx):
     channels = ctx.ui.config[1]
     assert channels, "no channels configured"
-    assert ctx.state.get("s03_response_dialog_opened"), "high-pass magnitude-response dialog was not opened"
-    assert ctx.state.get("s03_response_dialog_closed"), "high-pass magnitude-response dialog was not closed before Apply"
+    assert ctx.state.get("s05_response_dialog_opened"), "high-pass magnitude-response dialog was not opened"
+    assert ctx.state.get("s05_response_dialog_closed"), "high-pass magnitude-response dialog was not closed before Apply"
     for channel in channels:
         assert channel["Filter_hp_enabled"], f"high-pass not enabled on {channel['Channel_name']}"
         assert abs(channel["Filter_hp_cutoff"] - CUTOFF_HZ) < 1e-9, (
