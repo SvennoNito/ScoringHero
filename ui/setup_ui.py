@@ -143,6 +143,10 @@ def setup_ui(ui, MainWindow):
     ui.action_load_edf_volt.setObjectName("action_load_edf_volt")
     ui.action_load_edf_volt.triggered.connect(lambda: eeg_import_window(ui, MainWindow, datatype="edfvolt"))
     ui.submenu_load_eeg.addAction(ui.action_load_edf_volt)        
+    ui.action_load_bdf = QAction("Load BDF file (.bdf)", ui)
+    ui.action_load_bdf.setObjectName("action_load_bdf")
+    ui.action_load_bdf.triggered.connect(lambda: eeg_import_window(ui, MainWindow, datatype="bdf"))
+    ui.submenu_load_eeg.addAction(ui.action_load_bdf)
 
 
     ui.submenu_scoring = QMenu("Load Scoring", ui.menu_file)
@@ -501,6 +505,11 @@ def setup_ui(ui, MainWindow):
     ui.action_import_overlay_edf_volt.setObjectName("action_import_overlay_edf_volt")
     ui.action_import_overlay_edf_volt.triggered.connect(lambda: import_overlay_signal(ui, "edfvolt"))
     ui.submenu_import_overlay.addAction(ui.action_import_overlay_edf_volt)
+
+    ui.action_import_overlay_bdf = QAction("Load BDF file (.bdf)", MainWindow)
+    ui.action_import_overlay_bdf.setObjectName("action_import_overlay_bdf")
+    ui.action_import_overlay_bdf.triggered.connect(lambda: import_overlay_signal(ui, "bdf"))
+    ui.submenu_import_overlay.addAction(ui.action_import_overlay_bdf)
 
     ui.action_remove_overlay = QAction("Remove signal overlay", MainWindow)
     ui.action_remove_overlay.setObjectName("action_remove_overlay")
