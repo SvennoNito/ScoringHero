@@ -29,13 +29,15 @@ from signal_processing.compute_epoch_periodogram import (
     compute_epoch_periodogram,
     precompute_all_epoch_periodograms,
 )
+from signal_processing.compute_spectogram import compute_spectogram
 from signal_processing.freqs_of_interest import freqs_of_interest
 from signal_processing.spectogram_to_ui import spectogram_to_ui
 from utilities.busy_indicator import run_busy
 from utilities.channel_index import rebuild_channel_index
+from utilities.overlay_state import get_active_analysis_data
 from utilities.redraw_gui import redraw_all, redraw_gui
 
-# Analysis parts in dependency order: the wavelet normalisation uses the spectrogram
+# Analysis parts in dependency order: the wavelet normalisation reuses the spectrogram when both show the same channel
 PARTS = ("spectrogram", "wavelet_normalisation", "epoch_periodograms", "wavelet_cache")
 # Parts whose recompute is instant (clearing a cache): no busy indicator, no full redraw
 INSTANT_PARTS = ("wavelet_cache",)
@@ -65,10 +67,9 @@ def _part_inputs(rows, general, source):
 
     epoching = (general["Sampling_rate_hz"], general["Epoch_length_s"], tuple(general["Extension_epoch_s"]))
     wavelet_limits = tuple(general.get("Wavelet_frequency_limits_hz", (0.25, 45)))
-    spectrogram = (channel("Channel_for_spectogram"), epoching, source)
     return {
-        "spectrogram": spectrogram,
-        "wavelet_normalisation": (spectrogram, wavelet_limits),
+        "spectrogram": (channel("Channel_for_spectogram"), epoching, source),
+        "wavelet_normalisation": (channel("Wavelet_channel"), epoching, source, wavelet_limits),
         "epoch_periodograms": (channel("Periodogram_channel"), epoching, source),
         "wavelet_cache": (channel("Wavelet_channel"), epoching, wavelet_limits, source),
     }
@@ -164,17 +165,23 @@ def _assembled(displayed, keep, raw, channels, srate):
 
 
 def _compute_wavelet_normalisation(ui):
-    """Per-frequency log-power statistics of the spectrogram on the wavelet grid."""
+    """Per-frequency log-power statistics of the wavelet channel's spectrogram on the wavelet grid."""
     limits = ui.config[0].get("Wavelet_frequency_limits_hz", [0.25, 45])
     srate = ui.config[0]["Sampling_rate_hz"]
     ui.tf_freqs = np.geomspace(max(float(limits[0]), 0.1), min(float(limits[1]), srate / 2 - 0.25), 120)
-    log_power = np.log10(np.maximum(ui.power, 1e-30))
+    channel_idx = ui.channel_name_to_idx.get(ui.config[0].get("Wavelet_channel", ""), 0)
+    if channel_idx == ui.channel_name_to_idx.get(ui.config[0].get("Channel_for_spectogram", ""), 0):
+        power, freqs = ui.power, ui.freqs
+    else:
+        power, freqs = compute_spectogram(
+            get_active_analysis_data(ui), ui.times, srate, channel_idx, ui.config[0]["Epoch_length_s"])
+    log_power = np.log10(np.maximum(power, 1e-30))
     iqr = np.percentile(log_power, 75, axis=0) - np.percentile(log_power, 25, axis=0)
     rms = np.sqrt(np.mean(log_power ** 2, axis=0))
-    ui.tf_norm_median = np.interp(ui.tf_freqs, ui.freqs, np.median(log_power, axis=0))
-    ui.tf_norm_iqr = np.interp(ui.tf_freqs, ui.freqs, np.maximum(iqr, 1e-6))
-    ui.tf_norm_rms = np.interp(ui.tf_freqs, ui.freqs, np.maximum(rms, 1e-6))
-    ui.tf_norm_median_linear = np.interp(ui.tf_freqs, ui.freqs, np.maximum(np.median(ui.power, axis=0), 1e-30))
+    ui.tf_norm_median = np.interp(ui.tf_freqs, freqs, np.median(log_power, axis=0))
+    ui.tf_norm_iqr = np.interp(ui.tf_freqs, freqs, np.maximum(iqr, 1e-6))
+    ui.tf_norm_rms = np.interp(ui.tf_freqs, freqs, np.maximum(rms, 1e-6))
+    ui.tf_norm_median_linear = np.interp(ui.tf_freqs, freqs, np.maximum(np.median(power, axis=0), 1e-30))
 
 
 def _compute_spectrogram(ui):

@@ -82,13 +82,13 @@ def test_rereferencing_periodogram_channel_recomputes_periodograms():
     assert p.compute == ("epoch_periodograms",)
 
 
-def test_filter_on_spectrogram_channel_recomputes_spectrogram_and_normalisation():
+def test_filter_on_spectrogram_channel_recomputes_spectrogram_only():
     channels, general = _channels(), _general()
     state = _settled(channels, general)
     channels[0]["Flip_polarity"] = True
     p = plan(state, channels, general, None, False, {})
     assert _built(p.rows) == [0]
-    assert p.compute == ("spectrogram", "wavelet_normalisation")
+    assert p.compute == ("spectrogram",)
 
 
 def test_wavelet_channel_signal_change_refreshes_wavelet_cache():
@@ -97,7 +97,7 @@ def test_wavelet_channel_signal_change_refreshes_wavelet_cache():
     channels[2]["Filter_notch_enabled"] = True
     p = plan(state, channels, general, None, False, {})
     assert _built(p.rows) == [2]
-    assert p.compute == ("wavelet_cache",)
+    assert p.compute == ("wavelet_normalisation", "wavelet_cache")
 
 
 def test_periodogram_channel_selector_recomputes_periodograms_only():
@@ -108,12 +108,12 @@ def test_periodogram_channel_selector_recomputes_periodograms_only():
     assert _built(p.rows) == [] and p.compute == ("epoch_periodograms",)
 
 
-def test_spectrogram_channel_selector_recomputes_spectrogram_and_normalisation():
+def test_spectrogram_channel_selector_leaves_wavelet_untouched():
     channels, general = _channels(), _general()
     state = _settled(channels, general)
     general["Channel_for_spectogram"] = "EMG"
     p = plan(state, channels, general, None, False, {})
-    assert p.compute == ("spectrogram", "wavelet_normalisation")
+    assert p.compute == ("spectrogram",)
 
 
 def test_wavelet_limits_recompute_normalisation_and_wavelet_cache_only():
@@ -208,12 +208,12 @@ def test_filtering_an_unanalysed_channel_keeps_cache_valid():
     assert p.compute == ("wavelet_cache",)
 
 
-def test_wavelet_channel_selector_needs_no_busy_indicator():
+def test_wavelet_channel_selector_recomputes_normalisation_of_that_channel():
     channels, general = _channels(), _general()
     state = _settled(channels, general)
     general["Wavelet_channel"] = "EMG"
     p = plan(state, channels, general, None, False, {})
-    assert p.compute == ("wavelet_cache",) and busy_label(p) is None
+    assert p.compute == ("wavelet_normalisation", "wavelet_cache") and busy_label(p) == "Computing…"
 
 
 def test_busy_label_filtering_when_rows_are_built_computing_when_parts_recomputed():
