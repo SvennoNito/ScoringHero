@@ -5,8 +5,10 @@
     uv run python video/make_video.py --scenes s01     # only scenes whose module name starts with s01
 
 The real main window is booted offscreen on a temp copy of example_data (tracked files are
-never touched) WITHOUT its scoring sidecar: no Primary scoring, no Events. Scenes drive it with
-Qt mouse and key events through a drawn cursor; every input step renders frames of the window.
+never touched), with no recording loaded: the film opens on the empty window. The first scene
+loads the recording through File > Load EEG, without its scoring sidecar: no Primary scoring,
+no Events. Scenes drive the window with Qt mouse and key events through a drawn cursor; every
+input step renders frames of the window.
 
 Scene contract (add a scene = one new module + one line in video/scenes/__init__.py):
 
@@ -57,7 +59,7 @@ from PySide6.QtGui import QColor, QFont, QFontMetrics, QImage, QMouseEvent, QPai
 from PySide6.QtTest import QTest  # noqa: E402
 from PySide6.QtWidgets import QApplication, QFileDialog, QMessageBox, QProgressDialog, QPushButton, QWidget  # noqa: E402
 
-from tests.conftest import EXAMPLE_DIR, _build, wait_until_loaded  # noqa: E402
+from tests.conftest import EXAMPLE_DIR, _build  # noqa: E402
 
 FULL = {"size": (1920, 1080), "fps": 30}
 SMOKE = {"size": (640, 360), "fps": 6}
@@ -380,7 +382,8 @@ def _packed(image):
 
 
 def boot(directory):
-    """App on the example recording copied to `directory` without its scoring sidecar."""
+    """Bare app window on a temp copy of the example recording files (no scoring sidecar); no
+    recording is loaded yet — the first scene loads it through File > Load EEG."""
     for name in os.listdir(EXAMPLE_DIR):
         stem = "example_data"
         if name.startswith(stem + ".") and name != stem + ".json":
@@ -390,13 +393,7 @@ def boot(directory):
     if os.path.exists(cache):
         os.remove(cache)
 
-    import scoringhero as sh
-    from eeg.load_wrapper import load_wrapper
-
     app, window, ui = _build(directory)
-    with mock.patch.object(sh.QMessageBox, "exec", lambda self: sh.QMessageBox.Yes):
-        load_wrapper(ui, "eeglab")
-        wait_until_loaded(ui)
     window.resize(*WINDOW_SIZE)
     window.show()
     for _ in range(5):
@@ -432,7 +429,6 @@ def main():
 
     directory = tempfile.mkdtemp(prefix="video_")
     app, window, ui = boot(directory)
-    assert_empty_start(ui)
     writer = imageio_ffmpeg.write_frames(out, mode["size"], fps=mode["fps"], quality=8, macro_block_size=1)
     writer.send(None)
     ctx = Context(app, window, ui, directory, writer, mode["size"], mode["fps"])

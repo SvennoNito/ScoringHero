@@ -9,7 +9,7 @@ uv run --extra gssc python video/make_video.py --scenes s01 s02   # only these s
 ```
 
 - `--extra gssc` is required: scene 4 runs the GSSC Autoscorer for real.
-- Scenes run in film order (`video/scenes/__init__.py`); later scenes depend on earlier ones (scene 7 needs the spindles of scene 5, scene 10 derives its Comparison scoring from the Primary scoring after scene 8), so `--scenes` subsets only work for independent scenes.
+- Scenes run in film order (`video/scenes/__init__.py`); the film opens on the empty window and scene 0 loads the example recording through File > Load EEG with the cursor on the menus. Later scenes depend on earlier ones (scene 7 needs the spindles of scene 5, scene 10 derives its Comparison scoring from the Primary scoring after scene 8), so `--scenes` subsets only work for independent scenes.
 - Runs on a temp copy of `example_data`; tracked files are never changed.
 - The smoke run is manual (needs GSSC, takes a few minutes); it is not part of pytest or the commit hook.
 - Generated files in `video/` (`.mp4`, `.json`, `.mat`, `.pdf`) are gitignored.
