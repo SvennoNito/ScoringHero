@@ -3,4 +3,5 @@ in this folder exposing `run(ctx)` and `check(ctx)` (see video/make_video.py).""
 
 SCENES = [
     "s01_spectrogram_clicks",
+    "s11_overlay_signal",
 ]
