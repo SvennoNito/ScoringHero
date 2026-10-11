@@ -13,7 +13,7 @@ FRACTIONS = [0.15, 0.3, 0.45, 0.6, 0.75, 0.9]
 
 def run(ctx):
     ui = ctx.ui
-    ctx.wait_until(lambda: not getattr(ui, "_busy_runners", None))  # the busy indicator swallows mouse input
+    ctx.wait_idle()
     ctx.window.activateWindow()  # offscreen: shortcuts only fire in the active window
     ctx.app.processEvents()
     ctx.state["s08_changes"] = changes = []
@@ -22,8 +22,7 @@ def run(ctx):
     ctx.wait(1.0)
     for i, fraction in enumerate(FRACTIONS):
         epoch = min(int(ui.numepo * fraction), ui.numepo - 2)
-        ctx.click(ctx.spectrogram_point(epoch), duration=0.9)
-        assert ui.this_epoch == epoch, f"click did not jump to epoch {epoch}"
+        ctx.click_epoch(epoch)
         before = ui.scoring.stages()[epoch]
         key, stage = next(k for k in KEYS[i % len(KEYS):] + KEYS if k[1] != before)
         ctx.caption(f"Epoch {epoch + 1}: {before} \u2192 {stage}")

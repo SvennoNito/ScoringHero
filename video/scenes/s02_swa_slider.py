@@ -10,7 +10,7 @@ def _handle_centre(ctx, slider):
     option = QStyleOptionSlider()
     slider.initStyleOption(option)
     rect = slider.style().subControlRect(QStyle.CC_Slider, option, QStyle.SC_SliderHandle, slider)
-    return ctx.at(slider, 0, 0) + rect.center()
+    return ctx.window_point(slider, rect.center())
 
 
 def _drag_handle_by(ctx, slider, dy):

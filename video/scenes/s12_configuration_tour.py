@@ -4,11 +4,6 @@ import copy
 COSMETIC_KEYS = ("Spectrogram_colormap", "Wavelet_colormap")
 
 
-def _tab_point(ctx, tabs, index):
-    bar = tabs.tabBar()
-    return bar.mapToGlobal(bar.tabRect(index).center()) - ctx._origin()
-
-
 def _choose_colormap(ctx, box):
     """Open the drop-down, show it, then pick the next colormap in the list."""
     ctx.click(box, duration=0.8)
@@ -30,7 +25,7 @@ def run(ctx):
 
     tabs = window.tabs
     for index in range(tabs.count()):
-        ctx.click(_tab_point(ctx, tabs, index), duration=0.7)
+        ctx.click(ctx.window_point(tabs.tabBar(), tabs.tabBar().tabRect(index).center()), duration=0.7)
         if tabs.currentIndex() != index:
             tabs.setCurrentIndex(index)
         if tabs.widget(index) is ui.SpectrogramPage:

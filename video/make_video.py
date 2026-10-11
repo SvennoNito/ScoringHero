@@ -20,10 +20,12 @@ Scene contract (add a scene = one new module + one line in video/scenes/__init__
   * Find widgets by reference, never by pixel: `ctx.ref("A.b")` (dotted attribute path from `ui`),
     `ctx.named(objectName)`, `ctx.menu_action(attr)`. All raise LookupError on failure.
   * Input helpers (positions are window coordinates, targets are a QPoint or a QWidget's
-    centre): `move_cursor`, `click`, `drag`, `press_key`, `click_menu`, plus `center(widget)`,
-    `at(widget, fx, fy)` and `spectrogram_point(epoch)`. Events go to the widget under the cursor.
+    centre): `move_cursor`, `click`, `click_epoch`, `drag`, `press_key`, `click_menu`, plus `center(widget)`,
+    `at(widget, fx, fy)`, `window_point(widget, local_pt)` and `spectrogram_point(epoch)`.
+    Events go to the widget under the cursor. Finders: `button(dialog, text)`, `progress_dialogs()`.
   * Film helpers: `caption(text | None)`, `processing_card(text, seconds, until)` (runs the work
-    off camera, shows a short card instead), `wait(seconds)`, `ctx.wait_until(cond)` (off camera).
+    off camera, shows a short card instead), `wait(seconds)`, `ctx.wait_until(cond)` and `ctx.wait_idle()` (off camera;
+    call wait_idle before the first click of a scene: background work blocks mouse input).
   * Native dialogs: `with ctx.file_dialogs(open=path, save=path, directory=path):` answers
     QFileDialog calls and QMessageBox.exec (Yes). Dialogs the app opens with its own `exec`
     (QDialog) would block the script: patch that class's `exec` in the scene, as
@@ -36,7 +38,6 @@ Scene contract (add a scene = one new module + one line in video/scenes/__init__
 import argparse
 import contextlib
 import importlib
-import math
 import os
 import shutil
 import sys
@@ -52,9 +53,9 @@ sys.path.insert(0, ROOT)
 sys.path.insert(0, VIDEO_DIR)
 
 from PySide6.QtCore import QEvent, QPoint, QPointF, QRectF, Qt  # noqa: E402
-from PySide6.QtGui import QColor, QFont, QFontMetrics, QImage, QMouseEvent, QPainter, QPainterPath, QPolygonF  # noqa: E402
+from PySide6.QtGui import QColor, QFont, QFontMetrics, QImage, QMouseEvent, QPainter, QPolygonF  # noqa: E402
 from PySide6.QtTest import QTest  # noqa: E402
-from PySide6.QtWidgets import QApplication, QFileDialog, QMenu, QMessageBox, QWidget  # noqa: E402
+from PySide6.QtWidgets import QApplication, QFileDialog, QMessageBox, QProgressDialog, QPushButton, QWidget  # noqa: E402
 
 from tests.conftest import EXAMPLE_DIR, _build, wait_until_loaded  # noqa: E402
 
@@ -133,14 +134,17 @@ class Context:
     def to_global(self, point):
         return self._origin() + QPoint(round(point.x()), round(point.y()))
 
+    def window_point(self, widget, local_pt):
+        """`local_pt` (a QPoint in `widget` coordinates) in window coordinates."""
+        return widget.mapToGlobal(local_pt) - self._origin()
+
     def center(self, widget):
         """Centre of the widget, in window coordinates."""
         return self.at(widget, 0.5, 0.5)
 
     def at(self, widget, fx, fy):
         """Point at fractions (fx, fy) of the widget's size, in window coordinates."""
-        local = QPoint(round(widget.width() * fx), round(widget.height() * fy))
-        return widget.mapToGlobal(local) - self._origin()
+        return self.window_point(widget, QPoint(round(widget.width() * fx), round(widget.height() * fy)))
 
     def spectrogram_point(self, epoch, fy=0.5):
         """Window position of 0-based `epoch` in the spectrogram Panel (fy: fraction of the frequency range)."""
@@ -247,10 +251,17 @@ class Context:
         if not condition():
             raise TimeoutError("condition not met in time")
 
+    def wait_idle(self):
+        """Process events (not filmed) until no background work is left: the busy indicator swallows mouse input."""
+        self.wait_until(lambda: not getattr(self.ui, "_busy_runners", None))
+
     def processing_card(self, text="Processing…", seconds=2.0, until=None):
         """Run the app until `until()` (default: no background work left) off camera, then
         film a full-frame card with `text` for `seconds` instead of the wait."""
-        self.wait_until(until or (lambda: not getattr(self.ui, "_busy_runners", None)))
+        if until:
+            self.wait_until(until)
+        else:
+            self.wait_idle()
         self._card = text
         try:
             self.wait(seconds)
@@ -311,12 +322,12 @@ class Context:
         menus, action = self.menu_action(attribute)
         bar = self.ui.menu
         top = menus[0].menuAction()
-        self.move_cursor(bar.mapToGlobal(bar.actionGeometry(top).center()) - self._origin(), 0.7)
+        self.move_cursor(self.window_point(bar, bar.actionGeometry(top).center()), 0.7)
         bar.setActiveAction(top)
         self.wait(0.3)
         for parent, entry in zip(menus, menus[1:] + [None]):
             target = entry.menuAction() if entry is not None else action
-            point = parent.mapToGlobal(parent.actionGeometry(target).center()) - self._origin()
+            point = self.window_point(parent, parent.actionGeometry(target).center())
             self.move_cursor(point, 0.5)
             parent.setActiveAction(target)
             if entry is not None:
@@ -329,6 +340,22 @@ class Context:
         action.trigger()
         self.app.processEvents()
         self.wait(0.3)
+
+    def click_epoch(self, epoch, duration=0.9):
+        """Click 0-based `epoch` in the spectrogram Panel and assert the view jumped there."""
+        self.click(self.spectrogram_point(epoch), duration=duration)
+        assert self.ui.this_epoch == epoch, f"click on Epoch {epoch} displayed Epoch {self.ui.this_epoch}"
+
+    def button(self, dialog, text):
+        """The push button of `dialog` labelled `text` (e.g. "OK", "Apply")."""
+        for button in dialog.findChildren(QPushButton):
+            if button.text().replace("&", "") == text:
+                return button
+        raise LookupError(f"no button '{text}' in {type(dialog).__name__}")
+
+    def progress_dialogs(self):
+        """Progress dialogs of the app that are showing."""
+        return [w for w in self.app.topLevelWidgets() if isinstance(w, QProgressDialog) and w.isVisible()]
 
     @contextlib.contextmanager
     def file_dialogs(self, open=None, save=None, directory=None):

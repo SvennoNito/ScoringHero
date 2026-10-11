@@ -4,7 +4,7 @@ GSSC needs its optional dependency: run with `uv run --extra gssc python video/m
 The real GSSC run happens off camera; a short "processing" card replaces the wait.
 """
 
-from PySide6.QtWidgets import QDialogButtonBox, QProgressDialog, QScrollArea
+from PySide6.QtWidgets import QScrollArea
 
 EEG_CHANNELS = ["C3-A2", "C4-A1"]
 EOG_CHANNELS = ["EOG1", "EOG2"]
@@ -29,7 +29,7 @@ def run(ctx):
         import gssc  # noqa: F401
     except ImportError as error:
         raise RuntimeError("GSSC is not installed: run with `uv run --extra gssc python video/make_video.py`") from error
-    ctx.wait_until(lambda: not getattr(ui, "_busy_runners", None))  # earlier scenes' background work blocks mouse input
+    ctx.wait_idle()  # earlier scenes' background work blocks mouse input
     ctx.state["s04_stages_before"] = sum(stage is not None for stage in ui.scoring.stages())
 
     ctx.caption("Autoscorer: let GSSC score the Stages of the whole night")
@@ -41,17 +41,11 @@ def run(ctx):
     _tick(ctx, window._eog_checkboxes, EOG_CHANNELS)
     ctx.wait(0.5)
 
-    ok = window.findChild(QDialogButtonBox).button(QDialogButtonBox.Ok)
-    ctx.click(ok, duration=0.8)  # GSSC starts on the next event-loop turn
+    ctx.click(ctx.button(window, "OK"), duration=0.8)  # GSSC starts on the next event-loop turn
     ctx.caption("GSSC is scoring the night…")
-    ctx.processing_card("Processing…", 2.0, until=lambda: _scored(ui) and not _progress_shown(ctx))
+    ctx.processing_card("Processing…", 2.0, until=lambda: _scored(ui) and not ctx.progress_dialogs())
     ctx.caption("The Hypnogram is filled with the GSSC Stages")
     ctx.wait(2.5)
-    ctx.state["s04_channels"] = EEG_CHANNELS + EOG_CHANNELS
-
-
-def _progress_shown(ctx):
-    return any(isinstance(w, QProgressDialog) and w.isVisible() for w in ctx.app.topLevelWidgets())
 
 
 def _scored(ui):

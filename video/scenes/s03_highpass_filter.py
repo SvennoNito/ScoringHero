@@ -1,7 +1,6 @@
 """Scene 3: open the filter window and apply a 0.5 Hz high-pass Cutoff frequency."""
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QPushButton
 
 CUTOFF_HZ = 0.5
 KEYS = [Qt.Key_0, Qt.Key_Period, Qt.Key_5]  # typed after clearing: "0.5"
@@ -24,18 +23,10 @@ def run(ctx):
     ctx.press_key(Qt.Key_Tab, seconds=0.2)
     ctx.click(window._fields["Filter_hp_enabled"][0])
     ctx.wait(0.6)
-    apply_button = _apply_button(window)
-    ctx.click(apply_button)
+    ctx.click(ctx.button(window, "Apply"))
     ctx.wait(0.8)
     window.hide()
     ctx.wait(1.0)
-
-
-def _apply_button(window):
-    for button in window.findChildren(QPushButton):
-        if button.text() == "Apply":
-            return button
-    raise LookupError("Apply button not found in the filter window")
 
 
 def check(ctx):
