@@ -1,3 +1,4 @@
+from .load_bdf import load_bdf
 import os
 import numpy as np
 from config.write_configuration import write_configuration
@@ -33,6 +34,8 @@ def load_single(filename_prefix, datatype):
         return load_edf(filename_prefix)
     if datatype == "edfvolt":
         return load_edf(filename_prefix, scale_to_uv=True)
+    if datatype == "bdf":
+        return load_bdf(filename_prefix)
 
 
 def _repair_stored_sampling_rate(ui, srate):

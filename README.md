@@ -139,6 +139,7 @@ Predictions are imported as a scoring you can review, correct and export.
 |--------|------|-------|
 | EEGLAB | `.mat` | v5 and v7.3 (HDF5); needs `EEG.data` (channels × samples; transposed auto-fixed), `EEG.srate`, `EEG.chanlocs(i).labels` (missing → `CH1…`) |
 | EDF | `.edf` | via pyedflib; a Volt-scaled variant converts to µV |
+| BDF | `.bdf` | BioSemi 24-bit; read directly; annotation channels dropped |
 | Zurich R09 | `.r09` | legacy; fixed 9 channels at 128 Hz (`F3-A2, F4-A1, C3-A2, C4-A1, O1-A2, O2-A1, EOG1, EOG2, EMG`), `int16` |
 
 ### Scoring import

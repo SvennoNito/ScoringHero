@@ -13,6 +13,7 @@ _DATATYPE_FILTER = {
     "r09": "*.r09",
     "edf": "*.edf",
     "edfvolt": "*.edf",
+    "bdf": "*.bdf",
 }
 
 

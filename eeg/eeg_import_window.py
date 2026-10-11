@@ -12,6 +12,8 @@ def eeg_import_window(ui, MainWindow, datatype):
         datatype_to_show = "*.edf"
     if datatype == "edfvolt":
         datatype_to_show = "*.edf"
+    if datatype == "bdf":
+        datatype_to_show = "*.bdf"
 
     name_of_eegfiles, _ = QFileDialog.getOpenFileNames(
         None, "Open File(s)", ui.default_data_path, datatype_to_show
