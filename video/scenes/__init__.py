@@ -8,6 +8,7 @@ SCENES = [
     "s04_gssc",
     "s05_spindle_detection",
     "s09_sleep_report",
+    "s10_comparison_scoring",
     "s11_overlay_signal",
     "s12_configuration_tour",
 ]
