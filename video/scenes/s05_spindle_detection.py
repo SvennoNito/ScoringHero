@@ -11,7 +11,6 @@ from PySide6.QtWidgets import QAbstractItemView, QApplication
 
 CHANNEL = "C3-A2"
 SPINDLE_SLOT = 1
-LABEL = "Spindle"
 
 
 def _list_item_point(ctx, list_widget, text):
@@ -26,8 +25,6 @@ def _list_item_point(ctx, list_widget, text):
 def run(ctx):
     ui = ctx.ui
     ctx.wait_idle()
-    if ui.events.label(SPINDLE_SLOT) != LABEL:  # off camera: name the slot the detections go to
-        ui.edit_events(lambda events: events.set_label(SPINDLE_SLOT, LABEL))
 
     ctx.caption("Event detector: spindles with MT-Spindle")
     ctx.click_menu("action_mt_spindle")
@@ -44,7 +41,7 @@ def run(ctx):
     combo.setFocus()
     while combo.currentIndex() != SPINDLE_SLOT:
         ctx.press_key(Qt.Key_Up if combo.currentIndex() > SPINDLE_SLOT else Qt.Key_Down, seconds=0.5)
-    assert combo.currentText() == LABEL, "the Spindle Event marker was not chosen"
+    assert combo.currentText() == "F1", "the F1 Event marker was not chosen"
     ctx.wait(1.0)
 
     ctx.click(ctx.button(dialog, "OK"), duration=0.8)  # detection runs inside this click
