@@ -9,7 +9,6 @@ SCENES = [
     "s03_highpass_filter",
     "s04_gssc",
     "s05_spindle_detection",
-    "s06_jump_buttons",
     "s07_manual_spindles",
     "s09_sleep_report",
     "s10_comparison_scoring",
