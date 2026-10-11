@@ -19,7 +19,7 @@ def _tick(ctx, checkboxes, names):
         scroll = next(s for s in ctx.ui.GsscWindow.findChildren(QScrollArea) if s.isAncestorOf(box))
         scroll.ensureWidgetVisible(box)
         ctx.app.processEvents()
-        ctx.click(ctx.at(box, 12 / box.width(), 0.5), duration=0.6)  # a checkbox only reacts on its indicator and text
+        ctx.click(ctx.at(box, min(0.5, box.sizeHint().width() / 2) / box.width(), 0.5), duration=0.6)  # a checkbox only reacts on its indicator and text: aim at the middle of those
         assert box.isChecked(), f"clicking GSSC channel '{name}' did not tick it"
 
 
@@ -29,6 +29,7 @@ def run(ctx):
         import gssc  # noqa: F401
     except ImportError as error:
         raise RuntimeError("GSSC is not installed: run with `uv run --extra gssc python video/make_video.py`") from error
+    ctx.wait_until(lambda: not getattr(ui, "_busy_runners", None))  # earlier scenes' background work blocks mouse input
     ctx.state["s04_stages_before"] = sum(stage is not None for stage in ui.scoring.stages())
 
     ctx.caption("Autoscorer: let GSSC score the Stages of the whole night")
