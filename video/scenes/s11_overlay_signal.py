@@ -3,18 +3,22 @@
 import os
 
 import numpy as np
-from scipy import io, signal
+from scipy import io
 
 FRACTIONS = [0.25, 0.4, 0.62, 0.8]  # where in the night to look at the overlay
-LOWPASS_HZ = 12  # the overlay is a smoothed copy of the recording, so it differs visibly
+DRIFT_HZ = 0.3  # the overlay is the recording plus mild noise and a slow drift
 
 
 def make_overlay_file(ctx):
-    """EEGLAB .mat (EEG.data, EEG.srate, EEG.chanlocs.labels) off camera: the primary signals low-passed."""
+    """EEGLAB .mat (EEG.data, EEG.srate, EEG.chanlocs.labels) off camera: the primary signals plus mild noise and 0.3 Hz drift."""
     ui = ctx.ui
     srate = ui.config[0]["Sampling_rate_hz"]
-    sos = signal.butter(4, LOWPASS_HZ, fs=srate, output="sos")
-    data = signal.sosfiltfilt(sos, np.asarray(ui.eeg_data, dtype=np.float64), axis=1)
+    rng = np.random.default_rng(0)
+    data = np.asarray(ui.eeg_data, dtype=np.float64)
+    seconds = np.arange(data.shape[1]) / srate
+    noise = rng.normal(0, 0.1 * data.std(axis=1, keepdims=True), data.shape)
+    drift = 0.5 * data.std(axis=1, keepdims=True) * np.sin(2 * np.pi * DRIFT_HZ * seconds)
+    data = data + noise + drift
     chanlocs = np.array([(name,) for name in ui.signal_names], dtype=[("labels", "O")]).reshape(1, -1)
     path = os.path.join(ctx.video_dir, "overlay_signal.mat")
     io.savemat(path, {"EEG": {"data": data, "srate": float(srate), "chanlocs": chanlocs}})
