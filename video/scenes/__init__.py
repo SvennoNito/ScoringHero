@@ -7,6 +7,7 @@ SCENES = [
     "s03_highpass_filter",
     "s04_gssc",
     "s05_spindle_detection",
+    "s10_comparison_scoring",
     "s11_overlay_signal",
     "s12_configuration_tour",
 ]
