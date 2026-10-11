@@ -10,7 +10,7 @@ SCENES = [
     "s04_gssc",
     "s05_spindle_detection",
     "s05b_events_tab_rename",
-    "s07_manual_spindles",
+    "s07_arousal_event",
     "s09_sleep_report",
     "s10_comparison_scoring",
     "s11_overlay_signal",
