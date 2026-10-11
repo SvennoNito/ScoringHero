@@ -25,8 +25,10 @@ def run(ctx):
 
     def film_options(dialog):
         """Replaces QDialog.exec: show the options, click Generate Report, report the result."""
-        dialog.move(ctx.window.geometry().center() - dialog.rect().center())
         dialog.show()
+        ctx.app.processEvents()  # the dialog reaches its final size only once shown
+        area = ctx.window.geometry()
+        dialog.move(area.center().x() - dialog.width() // 2, max(area.top() + 10, area.center().y() - dialog.height() // 2))
         ctx.caption("Choose what goes into the report")
         ctx.wait(1.5)
         button = next(b for b in dialog.findChildren(QPushButton) if b.text() == "Generate Report")
