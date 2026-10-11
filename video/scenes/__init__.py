@@ -8,6 +8,7 @@ SCENES = [
     "s04_gssc",
     "s05_spindle_detection",
     "s06_jump_buttons",
+    "s07_manual_spindles",
     "s08_manual_stages",
     "s09_sleep_report",
     "s10_comparison_scoring",
