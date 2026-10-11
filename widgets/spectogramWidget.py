@@ -29,9 +29,6 @@ class SpectogramWidget(QtWidgets.QWidget):
         self._cbar_max_label.setZValue(11)
         self._cbar_img = None
 
-        # Gradient cache key: (cbar_height_int, cbar_width, levels_tuple)
-        self._cbar_gradient_cache = None
-
     def draw_spectogram(self, power, freqs, freqsOI, config):
         power = np.log10(power)[:, freqsOI]
         freqs = freqs[freqsOI]
@@ -194,17 +191,7 @@ class SpectogramWidget(QtWidgets.QWidget):
         self._cbar_min_label.setText(f"{levels[0]:.1f}")
         self._cbar_max_label.setText(f"{levels[1]:.1f}")
 
-        # Rebuild gradient only if levels changed
-        cache_key = (
-            self._cbar_img.image.shape[0] if self._cbar_img.image is not None else None,
-            self._cbar_img.image.shape[1] if self._cbar_img.image is not None else None,
-            tuple(levels),
-        )
-        if self._cbar_gradient_cache != cache_key:
-            if self._cbar_img.image is not None:
-                cbar_height_int = int(self._cbar_img.image.shape[0])
-                cbar_width = int(self._cbar_img.image.shape[1])
-                gradient = np.linspace(levels[0], levels[1], cbar_height_int).reshape(-1, 1)
-                gradient = np.repeat(gradient, cbar_width, axis=1)
-                self._cbar_img.setImage(gradient.T)
-                self._cbar_gradient_cache = cache_key
+        # Rebuild the gradient (col-major image shape: (width, height))
+        n_x, n_y = self._cbar_img.image.shape
+        gradient = np.repeat(np.linspace(levels[0], levels[1], n_y).reshape(-1, 1), n_x, axis=1)
+        self._cbar_img.setImage(gradient.T)

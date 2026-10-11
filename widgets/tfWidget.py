@@ -314,3 +314,16 @@ class TFWidget(QWidget):
                      norm_median, norm_iqr, norm_rms, norm_median_linear, display_mode, freq_scale, freq_limits,
                      time_unit, epoch_length, tf_channel_idx, channel_label, power_limits, show_ridge,
                      recording_start_time)
+
+    def update_levels_only(self, levels):
+        """Fast-path for colorbar limit changes: no Morlet recompute."""
+        if self._cbar_img.image is None:
+            return
+        levels = list(levels)
+        self.img.setLevels(levels)
+        self._cbar_img.setLevels(levels)
+        n_x, n_y = self._cbar_img.image.shape  # col-major: (width, height)
+        gradient = np.repeat(np.linspace(levels[0], levels[1], n_y).reshape(-1, 1), n_x, axis=1)
+        self._cbar_img.setImage(gradient.T)
+        self._cbar_min_label.setText(f"{levels[0]:.1f}")
+        self._cbar_max_label.setText(f"{levels[1]:.1f}")
