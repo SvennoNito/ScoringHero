@@ -3,18 +3,10 @@ from PySide6.QtWidgets import QFileDialog, QMessageBox
 
 from .displayed_signal import settings_changed
 from .load_wrapper import load_single
+from .datatypes import DATATYPES
 from .resample import resample_to_rate
 from utilities.busy_indicator import run_busy
 from utilities.overlay_state import drop_overlay_signal, set_checked_silently
-
-
-_DATATYPE_FILTER = {
-    "eeglab": "*.mat",
-    "r09": "*.r09",
-    "edf": "*.edf",
-    "edfvolt": "*.edf",
-    "bdf": "*.bdf",
-}
 
 
 def _in_primary_file_order(eeg_data_ovl, names_ovl, names_primary):
@@ -35,7 +27,7 @@ def import_overlay_signal(ui, datatype):
         return
 
     filepath, _ = QFileDialog.getOpenFileName(
-        None, "Open Overlay Signal File", ui.default_data_path, _DATATYPE_FILTER[datatype]
+        None, "Open Overlay Signal File", ui.default_data_path, DATATYPES[datatype].file_filter
     )
     if not filepath:
         return

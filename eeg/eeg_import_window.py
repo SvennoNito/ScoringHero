@@ -1,22 +1,12 @@
 import os
 from PySide6.QtWidgets import QFileDialog, QMessageBox
 from .load_wrapper import load_wrapper_busy
+from .datatypes import DATATYPES
 
 
 def eeg_import_window(ui, MainWindow, datatype):
-    if datatype == "eeglab":
-        datatype_to_show = "*.mat"
-    if datatype == "r09":
-        datatype_to_show = "*.r09"
-    if datatype == "edf":
-        datatype_to_show = "*.edf"
-    if datatype == "edfvolt":
-        datatype_to_show = "*.edf"
-    if datatype == "bdf":
-        datatype_to_show = "*.bdf"
-
     name_of_eegfiles, _ = QFileDialog.getOpenFileNames(
-        None, "Open File(s)", ui.default_data_path, datatype_to_show
+        None, "Open File(s)", ui.default_data_path, DATATYPES[datatype].file_filter
     )
 
     # Check if the user clicked "Cancel"

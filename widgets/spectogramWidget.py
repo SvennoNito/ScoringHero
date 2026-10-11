@@ -5,6 +5,7 @@ import pyqtgraph as pg
 import numpy as np
 from .channelPill import ChannelPill
 from utilities.clock_time_format import parse_start_time, format_clock_time
+from .colorbar_gradient import set_colorbar_gradient
 
 
 class SpectogramWidget(QtWidgets.QWidget):
@@ -191,7 +192,4 @@ class SpectogramWidget(QtWidgets.QWidget):
         self._cbar_min_label.setText(f"{levels[0]:.1f}")
         self._cbar_max_label.setText(f"{levels[1]:.1f}")
 
-        # Rebuild the gradient (col-major image shape: (width, height))
-        n_x, n_y = self._cbar_img.image.shape
-        gradient = np.repeat(np.linspace(levels[0], levels[1], n_y).reshape(-1, 1), n_x, axis=1)
-        self._cbar_img.setImage(gradient.T)
+        set_colorbar_gradient(self._cbar_img, levels)

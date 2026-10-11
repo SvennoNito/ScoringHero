@@ -1,4 +1,3 @@
-from .load_bdf import load_bdf
 import os
 import numpy as np
 from config.write_configuration import write_configuration
@@ -8,9 +7,7 @@ from scoring_model.formats import load_scoringhero
 from scoring_model.scoring import Scoring
 from widgets.resolveDialog import resolve_loaded
 from scoring_model.event_records import events_from_records
-from .load_eeglab import load_eeglab
-from .load_r09 import load_r09
-from .load_edf import load_edf
+from .datatypes import DATATYPES
 from .number_of_epochs import number_of_epochs
 from signal_processing.times_vector import times_vector
 from utilities.apply_tf_visibility import apply_tf_visibility
@@ -26,16 +23,7 @@ def load_single(filename_prefix, datatype):
 
     All signals are at the common (highest native) sampling rate srate.
     """
-    if datatype == "eeglab":
-        return load_eeglab(filename_prefix)
-    if datatype == "r09":
-        return load_r09(filename_prefix)
-    if datatype == "edf":
-        return load_edf(filename_prefix)
-    if datatype == "edfvolt":
-        return load_edf(filename_prefix, scale_to_uv=True)
-    if datatype == "bdf":
-        return load_bdf(filename_prefix)
+    return DATATYPES[datatype].load(filename_prefix)
 
 
 def _repair_stored_sampling_rate(ui, srate):

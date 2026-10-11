@@ -9,6 +9,7 @@ from PySide6.QtGui import QFont
 from signal_processing.compute_morlet_tf import compute_morlet_tf
 from utilities.clock_time_format import parse_start_time, format_clock_time
 from .channelPill import ChannelPill
+from .colorbar_gradient import set_colorbar_gradient
 
 class TFWidget(QWidget):
     """Time-frequency panel using Morlet wavelets.
@@ -322,8 +323,6 @@ class TFWidget(QWidget):
         levels = list(levels)
         self.img.setLevels(levels)
         self._cbar_img.setLevels(levels)
-        n_x, n_y = self._cbar_img.image.shape  # col-major: (width, height)
-        gradient = np.repeat(np.linspace(levels[0], levels[1], n_y).reshape(-1, 1), n_x, axis=1)
-        self._cbar_img.setImage(gradient.T)
+        set_colorbar_gradient(self._cbar_img, levels)
         self._cbar_min_label.setText(f"{levels[0]:.1f}")
         self._cbar_max_label.setText(f"{levels[1]:.1f}")
