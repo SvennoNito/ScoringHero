@@ -1,4 +1,4 @@
-"""Scene 10: import a Comparison scoring, show the comparison summary statistics, demo every
+"""Scene 12: import a Comparison scoring, show the comparison summary statistics, demo every
 Jump button on the Navigation bar, then remove the Comparison scoring.
 
 A few Epochs are cleared and a few are staged by hand, on camera, with real hotkeys, so "Next

@@ -1,4 +1,4 @@
-"""Scene 9: export the sleep report (PDF) from the Export menu.
+"""Scene 11: export the sleep report (PDF) from the Export menu.
 
 The options dialog is shown and clicked through: "Preview" first (renders page 1 of the
 generated PDF onto the frame for a few seconds), then "Generate Report". The native save

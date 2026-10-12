@@ -1,4 +1,4 @@
-"""Scene 11: import an Overlay signal, move to several epochs, then remove the Overlay signal."""
+"""Scene 13: import an Overlay signal, move to several epochs, then remove the Overlay signal."""
 
 import os
 

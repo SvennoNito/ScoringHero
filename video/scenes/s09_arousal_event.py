@@ -1,4 +1,4 @@
-"""Scene 7: draw an Arousal event at the first N2/N3-to-N1 stage transition (any Epoch if
+"""Scene 9: draw an Arousal event at the first N2/N3-to-N1 stage transition (any Epoch if
 the recording has none), move it to another Event slot by holding that slot's hotkey and
 clicking the event, rename the slot to "Arousal" in the Configuration Events tab, then
 delete it with a plain click.
@@ -9,7 +9,7 @@ from PySide6.QtTest import QTest
 from PySide6.QtWidgets import QApplication
 
 RECT_S = 1.0
-SLOT_1 = 1  # the slot the event is first drawn into (the spindle slot from scene 5)
+SLOT_1 = 1  # the slot the event is first drawn into (the spindle slot from scene 7)
 SLOT_2 = 2  # the slot it is moved to, then renamed
 HOTKEY_1 = Qt.Key(Qt.Key_F1 + SLOT_1 - 1)  # Event hotkeys F1, F2, ... belong to slots 1, 2, ...
 HOTKEY_2 = Qt.Key(Qt.Key_F1 + SLOT_2 - 1)

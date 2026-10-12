@@ -1,4 +1,4 @@
-"""Scene 8: draw a transient selection rectangle (NOT an Event: no hotkey) centred on the
+"""Scene 10: draw a transient selection rectangle (NOT an Event: no hotkey) centred on the
 C3-A2 trace's row over one detected spindle, showing that the Periodogram panel (RectanglePower)
 displays the row the rectangle overlaps -- not whatever channel Configuration > Periodogram has
 set (Periodogram_channel defaults to a different channel in example_data).

@@ -1,4 +1,4 @@
-"""Scene 2: drag the SWA slider to show SWA moments, then jump to the Epoch with the most SWA."""
+"""Scene 4: drag the SWA slider to show SWA moments, then jump to the Epoch with the most SWA."""
 
 import numpy as np
 from PySide6.QtCore import QPoint, Qt

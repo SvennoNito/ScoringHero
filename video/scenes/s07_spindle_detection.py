@@ -1,6 +1,6 @@
-"""Scene 5: run the Event detector for spindles (MT-Spindle) on C3-A2 with default values.
+"""Scene 7: run the Event detector for spindles (MT-Spindle) on C3-A2 with default values.
 
-Hands over to later scenes (add / delete a spindle) through ctx.state:
+Hands over to later scenes (Events tab rename, periodogram) through ctx.state:
     "spindles"        [[start_s, end_s], ...] detected spans, in time order
     "spindle_epochs"  0-based epochs of each span (same order; a list per span)
     "spindle_densest" 0-based epoch with the most spindles

@@ -1,4 +1,4 @@
-"""Scene 4: run the GSSC Autoscorer for stages, chosen from the Autoscorer menu.
+"""Scene 6: run the GSSC Autoscorer for stages, chosen from the Autoscorer menu.
 
 GSSC needs its optional dependency: run with `uv run --extra gssc python video/make_video.py ...`.
 The real GSSC run happens off camera; a short "processing" card replaces the wait.

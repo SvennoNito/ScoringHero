@@ -1,4 +1,4 @@
-"""Scene 5b: Configuration > Events tab shows the spindle slot's count under its default
+"""Scene 8: Configuration > Events tab shows the spindle slot's count under its default
 label 'F1', then rename that slot to 'Spindle' on camera."""
 
 from PySide6.QtCore import Qt

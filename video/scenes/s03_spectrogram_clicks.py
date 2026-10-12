@@ -1,4 +1,4 @@
-"""Scene 1: roam through the night and click several points in the spectrogram Panel."""
+"""Scene 3: roam through the night and click several points in the spectrogram Panel."""
 
 FRACTIONS = [0.12, 0.31, 0.55, 0.78, 0.94, 0.42]  # where in the night to click
 

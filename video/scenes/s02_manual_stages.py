@@ -1,4 +1,4 @@
-"""Scene 0b: score the first ten Epochs Wake by hand, right after the recording loads.
+"""Scene 2: score the first ten Epochs Wake by hand, right after the recording loads.
 
 Click each of the first ten Epochs in turn and press the Wake hotkey (W); the app scores
 the Epoch and the Hypnogram visibly builds up one Epoch at a time, before any Autoscorer runs.

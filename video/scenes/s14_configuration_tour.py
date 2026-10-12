@@ -1,4 +1,4 @@
-"""Scene 12: tour through all tabs of the Configuration, change only cosmetic items (colormaps
+"""Scene 14: tour through all tabs of the Configuration, change only cosmetic items (colormaps
 and the Channels-tab colour of a few channels), close."""
 import copy
 

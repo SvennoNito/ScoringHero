@@ -1,4 +1,4 @@
-"""Scene 3: open the filter window, preview the magnitude response, then apply a 0.5 Hz high-pass Cutoff frequency."""
+"""Scene 5: open the filter window, preview the magnitude response, then apply a 0.5 Hz high-pass Cutoff frequency."""
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QDialog, QPushButton

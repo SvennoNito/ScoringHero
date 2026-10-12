@@ -1,4 +1,4 @@
-"""Scene 0: the window starts empty; load the example recording through File > Load EEG."""
+"""Scene 1: the window starts empty; load the example recording through File > Load EEG."""
 
 import os
 
