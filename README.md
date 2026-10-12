@@ -4,6 +4,14 @@
 
 ![ScoringHero Main Window](screenshots/main.png)
 
+## Video walkthrough
+
+
+https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
+
+
+
+
 ## Getting Started
 
 **Download:** grab the file for your OS from [Releases](https://github.com/SvennoNito/ScoringHero/releases) (Windows `.exe`; macOS `arm64` / `x86_64`) and run it. No installation.
