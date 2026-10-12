@@ -62,6 +62,10 @@ Per-channel offset of the trace from its row position, in µV; may be negative.
 The vertical icon bar on the left of the main window holding the jump buttons. Replaces the former horizontal toolbar.
 _Avoid_: toolbar
 
+**Epoch counter**:
+The status-bar field at the bottom left showing the displayed epoch ("Epoch N / total"); click it to type an epoch number to jump to.
+_Avoid_: epoch selection tool, epoch readout, epoch spinbox
+
 **Jump button**:
 A navigation bar button that moves to the next epoch or event of a given kind (unscored, uncertain, stage transition, event, human-scored, disagreement).
 
