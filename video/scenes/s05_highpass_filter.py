@@ -1,10 +1,14 @@
-"""Scene 5: open the filter window, preview the magnitude response, then apply a 0.5 Hz high-pass Cutoff frequency."""
+"""Scene 5: open the filter window, preview the magnitude response, then apply a 0.8 Hz high-pass Cutoff frequency."""
 
+import pyqtgraph as pg
+from make_video import ease
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QDialog, QPushButton
 
-CUTOFF_HZ = 0.5
+CUTOFF_HZ = 0.8
 DECIMAL_KEYS = {".": Qt.Key_Period, ",": Qt.Key_Comma}
+ZOOM_HZ = 2.0
+ZOOM_SECONDS = 0.8
 
 
 def run(ctx):
@@ -13,14 +17,14 @@ def run(ctx):
     window = ctx.ref("FilterWindow")
     ctx.wait(0.8)
 
-    ctx.caption("Set a 0.5 Hz Cutoff frequency for all channels, then apply")
+    ctx.caption(f"Set a {CUTOFF_HZ} Hz Cutoff frequency for all channels, then apply")
     ctx.click(ctx.at(window.apply_all_checkbox, 0.03, 0.5))  # the label, not the empty stretch, is clickable
     cutoff = window._fields["Filter_hp_cutoff"][0]
     ctx.click(cutoff)
     cutoff.setFocus()
     cutoff.selectAll()
     decimal_key = DECIMAL_KEYS[cutoff.locale().decimalPoint()]
-    for key in [Qt.Key_Delete, Qt.Key_0, decimal_key, Qt.Key_5]:
+    for key in [Qt.Key_Delete, Qt.Key_0, decimal_key, Qt.Key_8]:
         ctx.press_key(key, seconds=0.25)
     ctx.press_key(Qt.Key_Tab, seconds=0.2)
     ctx.click(window._fields["Filter_hp_enabled"][0])
@@ -36,9 +40,21 @@ def run(ctx):
         None,
     )
     ctx.state["s05_response_dialog_opened"] = response_dialog is not None
-    ctx.wait(3.0)
     if response_dialog is not None:
+        ctx.wait(1.0)
+        win = response_dialog.findChild(pg.GraphicsLayoutWidget)
+        p1, p2 = win.getItem(0, 0), win.getItem(1, 0)
+        nyquist = window._sampling_rate / 2.0
+        steps = max(1, round(ZOOM_SECONDS * ctx._fps))
+        for i in range(1, steps + 1):
+            x_max = nyquist + (ZOOM_HZ - nyquist) * ease(i / steps)
+            p1.setXRange(0, x_max, padding=0)
+            p2.setXRange(0, x_max, padding=0)
+            ctx.frame()
+        ctx.wait(3.0)
         response_dialog.close()
+    else:
+        ctx.wait(4.0)
     ctx.state["s05_response_dialog_closed"] = response_dialog is not None and not response_dialog.isVisible()
     ctx.wait(0.4)
 
