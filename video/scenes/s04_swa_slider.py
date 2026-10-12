@@ -1,7 +1,6 @@
-"""Scene 4: drag the SWA slider to show SWA moments, then jump to the Epoch with the most SWA."""
+"""Scene 4: drag the SWA slider to show SWA moments, then click the Hypnogram to jump in time."""
 
-import numpy as np
-from PySide6.QtCore import QPoint, Qt
+from PySide6.QtCore import QPoint, QPointF
 from PySide6.QtWidgets import QStyle, QStyleOptionSlider
 
 
@@ -20,27 +19,26 @@ def _drag_handle_by(ctx, slider, dy):
     ctx.drag(start, QPoint(start.x(), max(top, min(bottom, start.y() + dy))), duration=1.4)
 
 
+def _hypnogram_point(ctx, hour, fy=0.5):
+    """Window position of `hour` into the night in the Hypnogram Panel (fy: fraction of the stage range)."""
+    axes = ctx.ref("HypnogramWidget.axes")
+    view = axes.getViewBox()
+    y_lo, y_hi = view.viewRange()[1]
+    scene = view.mapViewToScene(QPointF(hour, y_lo + (1 - fy) * (y_hi - y_lo)))
+    return axes.viewport().mapTo(ctx.window, axes.mapFromScene(scene))
+
+
 def run(ctx):
     ctx.caption("Drag the SWA slider to smooth the slow-wave activity curve of the Hypnogram")
     slider = ctx.ref("HypnogramSlider.slider")
-    widget = ctx.ref("HypnogramWidget")
     ctx.state["s04_values"] = []
     for dy in (0.9, -0.5, 0.3):  # fractions of the slider height: down, back up, down a bit
         _drag_handle_by(ctx, slider, round(dy * slider.height()))
         ctx.state["s04_values"].append(slider.value())
         ctx.wait(0.8)
 
-    # the heaviest-SWA Epoch is the peak of the curve the slider has just drawn
-    curve = np.asarray(widget.swa_item.getData()[1], dtype=float)
-    heaviest = int(np.nanargmax(curve))
-    ctx.state["s04_heaviest"] = heaviest
-    ctx.caption(f"Jump to the Epoch with the most SWA (Epoch {heaviest + 1})")
-    readout = ctx.ref("StatusReadout.epoch")
-    ctx.click(readout.label, duration=1.0)
-    ctx.wait(0.4)
-    for digit in str(heaviest + 1):
-        ctx.press_key(getattr(Qt, f"Key_{digit}"), seconds=0.25)
-    ctx.press_key(Qt.Key_Return, seconds=0.2)
+    ctx.caption("The Hypnogram navigates the night too: click it to jump to that time")
+    ctx.click(_hypnogram_point(ctx, 4.5), duration=1.0)
     ctx.wait(1.5)
 
 
@@ -48,6 +46,4 @@ def check(ctx):
     values = ctx.state["s04_values"]
     assert len(set(values)) > 1, f"the SWA slider did not move: {values}"
     assert ctx.ui.HypnogramWidget.kernel == ctx.ui.HypnogramSlider.slider.value(), "slider did not smooth the SWA curve"
-    assert ctx.ui.this_epoch == ctx.state["s04_heaviest"], (
-        f"displayed Epoch {ctx.ui.this_epoch}, expected the heaviest SWA Epoch {ctx.state['s04_heaviest']}"
-    )
+    assert ctx.ui.this_epoch == 540, f"displayed Epoch {ctx.ui.this_epoch}, expected Epoch 540 (4.5h into the night)"
