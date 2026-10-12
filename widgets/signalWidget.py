@@ -4,6 +4,7 @@ from PySide6.QtGui import QFont, QColor, QBrush, QPen
 import pyqtgraph as pg
 import numpy as np
 from utilities.clock_time_format import parse_start_time, format_clock_time
+from utilities.format_amplitude import format_amplitude
 from signal_processing import *
 from style.plot_style import soften_axes
 from .channelPill import ChannelPill
@@ -222,7 +223,7 @@ class SignalWidget(QWidget):
             if show_amplitude_lines:
                 top_pos = base + ref_amp * scaling / 100
                 bot_pos = base - ref_amp * scaling / 100
-                ref_label = int(ref_amp) if ref_amp == int(ref_amp) else ref_amp
+                ref_label = format_amplitude(ref_amp)
                 left_axis.setTicks([[(top_pos, f"+{ref_label}"), (base, "0"), (bot_pos, f"-{ref_label}")]])
             else:
                 left_axis.setTicks([[(base, "0")]])
@@ -256,13 +257,14 @@ class SignalWidget(QWidget):
                 padding=0,
             )
 
-        # Add grid lines using pg.GridItem (1 s vertical ticks only; zero lines handle the y axis); gated by the Vertical grid config toggle
+        # Add grid lines using pg.GridItem (1 s vertical ticks only; zero lines handle the y axis); gated by the Vertical grid config toggle.
+        # setTickSpacing(y=[]) can't express "no y ticks": `[] or default` in its implementation falls back to the
+        # default spacing, so the empty y spacing is set directly on opts instead.
         show_vertical_grid = config[0].get("Show_vertical_grid", True)
         self.grid_item = None
         if show_vertical_grid:
             grid_item = pg.GridItem()
-            grid_item.setTickSpacing(x=[1])
-            grid_item.opts["tickSpacing"] = (grid_item.opts["tickSpacing"][0], [])
+            grid_item.opts["tickSpacing"] = ([1], [])
             grid_item.grid_depth = max(len(s) for s in grid_item.opts["tickSpacing"])
             grid_item.picture = None
             grid_item.update()

@@ -27,6 +27,7 @@ from config.channel_settings import ANALYSIS_CHANNEL_KEYS, rename_channel
 from scoring_model.events import N_SLOTS
 from style.colormaps import SPECTROGRAM_COLORMAPS, WAVELET_COLORMAPS
 from style.roles import set_role
+from utilities.format_amplitude import format_amplitude
 
 
 def _label_width(widget):
@@ -443,10 +444,10 @@ class GeneralConfiguration(QDialog):
         grid_label = QLabel("Grid lines")
         grid_label.setAlignment(Qt.AlignRight)
         grid_label.setFixedWidth(self.width_label)
-        vgrid_checkbox = QCheckBox("Vertical grid", self)
-        vgrid_checkbox.setChecked(general_config.get("Show_vertical_grid", True))
-        vgrid_checkbox.stateChanged.connect(lambda _=None: self.apply_changes(general_config))
-        self.checkboxes["Show_vertical_grid"] = vgrid_checkbox
+        vertical_grid_checkbox = QCheckBox("Vertical grid", self)
+        vertical_grid_checkbox.setChecked(general_config.get("Show_vertical_grid", True))
+        vertical_grid_checkbox.stateChanged.connect(lambda _=None: self.apply_changes(general_config))
+        self.checkboxes["Show_vertical_grid"] = vertical_grid_checkbox
         self.amplitude_checkbox = QCheckBox(self)
         self.amplitude_checkbox.setChecked(general_config.get("Show_amplitude_lines", True))
         self.amplitude_checkbox.stateChanged.connect(lambda _=None: self.apply_changes(general_config))
@@ -458,7 +459,7 @@ class GeneralConfiguration(QDialog):
         self.checkboxes["Show_zero_lines"] = zero_lines_checkbox
         grid_row = QHBoxLayout()
         grid_row.addWidget(grid_label)
-        grid_row.addWidget(vgrid_checkbox)
+        grid_row.addWidget(vertical_grid_checkbox)
         grid_row.addWidget(self.amplitude_checkbox)
         grid_row.addWidget(zero_lines_checkbox)
         grid_row.addStretch(1)
@@ -493,7 +494,7 @@ class GeneralConfiguration(QDialog):
             self.amplitude_checkbox.setText("Amplitude lines (\u00b13)")
             return
         ref_amp = self._general_config["Reference_amplitude_line_muV"]
-        ref_label = int(ref_amp) if ref_amp == int(ref_amp) else ref_amp
+        ref_label = format_amplitude(ref_amp)
         self.amplitude_checkbox.setText(f"Amplitude lines (\u00b1{ref_label} \u03bcV)")
 
     def apply_changes(self, general_config):
