@@ -432,7 +432,7 @@ class GeneralConfiguration(QDialog):
         badge_row.addWidget(badge_size)
         form_layout.addRow(badge_row)
 
-        # Grid lines: vertical 1 s / axis-tick grid on the EEG panel (more checkboxes join this row later)
+        # Grid lines: vertical 1 s / axis-tick grid and per-channel zero lines on the EEG panel
         grid_label = QLabel("Grid lines")
         grid_label.setAlignment(Qt.AlignRight)
         grid_label.setFixedWidth(self.width_label)
@@ -440,9 +440,14 @@ class GeneralConfiguration(QDialog):
         vgrid_checkbox.setChecked(general_config.get("Show_vertical_grid", True))
         vgrid_checkbox.stateChanged.connect(lambda _=None: self.apply_changes(general_config))
         self.checkboxes["Show_vertical_grid"] = vgrid_checkbox
+        zero_lines_checkbox = QCheckBox("Zero lines", self)
+        zero_lines_checkbox.setChecked(general_config.get("Show_zero_lines", True))
+        zero_lines_checkbox.stateChanged.connect(lambda _=None: self.apply_changes(general_config))
+        self.checkboxes["Show_zero_lines"] = zero_lines_checkbox
         grid_row = QHBoxLayout()
         grid_row.addWidget(grid_label)
         grid_row.addWidget(vgrid_checkbox)
+        grid_row.addWidget(zero_lines_checkbox)
         grid_row.addStretch(1)
         form_layout.addRow(grid_row)
 

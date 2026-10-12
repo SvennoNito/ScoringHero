@@ -109,6 +109,7 @@ class SignalWidget(QWidget):
 
         stack = config[0].get("Stack_channels", False)
         z_standardize = config[0].get("Robust_z_standardize", False)
+        show_zero_lines = config[0].get("Show_zero_lines", True)
 
         # Loop through channels
         self.axes.clear()
@@ -132,14 +133,15 @@ class SignalWidget(QWidget):
                 chan_y_offset = config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
 
             # Zero line at this channel's actual baseline (vertical shift minus its offset)
-            zero_line = pg.InfiniteLine(
-                angle=0,
-                pos=config[1][visible_counter]["Vertical_shift"] - chan_y_offset,
-                pen=self.pen_zeroline,
-            )
-            zero_line.setZValue(-10)
-            self.axes.addItem(zero_line)
-            self.drawn_zerolines.append(zero_line)
+            if show_zero_lines:
+                zero_line = pg.InfiniteLine(
+                    angle=0,
+                    pos=config[1][visible_counter]["Vertical_shift"] - chan_y_offset,
+                    pen=self.pen_zeroline,
+                )
+                zero_line.setZValue(-10)
+                self.axes.addItem(zero_line)
+                self.drawn_zerolines.append(zero_line)
 
             # Plot EEG
             drawn_signal = self.axes.plot(
@@ -342,10 +344,11 @@ class SignalWidget(QWidget):
             else:
                 chan_y_offset = config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
 
-            # Update zero line position (baseline may change with vertical shift/offset)
-            self.drawn_zerolines[chan_counter].setPos(
-                config[1][visible_counter]["Vertical_shift"] - chan_y_offset
-            )
+            # Update zero line position (baseline may change with vertical shift/offset); skipped when zero lines are off
+            if self.drawn_zerolines:
+                self.drawn_zerolines[chan_counter].setPos(
+                    config[1][visible_counter]["Vertical_shift"] - chan_y_offset
+                )
 
             # Update signal
             self.drawn_signals[chan_counter].setData(
