@@ -80,22 +80,22 @@ def test_nothing_is_drawn_over_the_signal(ui):
 
 
 def _enter_epoch_number(ui, digits):
-    QTest.mouseClick(ui.EpochReadout.label, Qt.LeftButton)
-    ui.EpochReadout.spin.lineEdit().selectAll()
-    QTest.keyClicks(ui.EpochReadout.spin.lineEdit(), digits)
-    QTest.keyClick(ui.EpochReadout.spin, Qt.Key_Return)
+    QTest.mouseClick(ui.EpochCounter.label, Qt.LeftButton)
+    ui.EpochCounter.spin.lineEdit().selectAll()
+    QTest.keyClicks(ui.EpochCounter.spin.lineEdit(), digits)
+    QTest.keyClick(ui.EpochCounter.spin, Qt.Key_Return)
 
 
-def test_clicking_the_epoch_readout_lets_you_type_an_epoch_number_to_jump(ui):
+def test_clicking_the_epoch_counter_lets_you_type_an_epoch_number_to_jump(ui):
     _enter_epoch_number(ui, "12")
     assert ui.this_epoch == 11
-    assert ui.EpochReadout.currentWidget() is ui.EpochReadout.label
+    assert ui.EpochCounter.currentWidget() is ui.EpochCounter.label
     assert f"Epoch 12 / {ui.numepo}" in _status_text(ui)
 
 
 def test_epoch_number_beyond_the_recording_is_clamped(ui):
-    ui.EpochReadout.spin.setValue(10**6)
-    ui.EpochReadout.spin.editingFinished.emit()
+    ui.EpochCounter.spin.setValue(10**6)
+    ui.EpochCounter.spin.editingFinished.emit()
     assert ui.this_epoch == ui.numepo - 1
 
 
