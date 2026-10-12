@@ -45,6 +45,7 @@ class SignalWidget(QWidget):
         self.pen_amplines = pg.mkPen(color=(0, 0, 0, 80), style=Qt.DotLine)
         self.pen_border = pg.mkPen(color=(0, 0, 0), style=Qt.DashLine, width=5)
         self.pen_grid_1s = pg.mkPen(color=(25, 25, 25, 15), style=Qt.DashLine)
+        self.pen_zeroline = pg.mkPen(color=(25, 25, 25, 15), style=Qt.DashLine)
         self.pen_grid = pg.mkPen(color=(100, 149, 237), style=Qt.DotLine)
         self.transparent_numbers = pg.mkPen(color=(255, 255, 255, 0))
 
@@ -105,6 +106,7 @@ class SignalWidget(QWidget):
         # Initiate list
         self.drawn_signals = []
         self.drawn_overlay_signals = []
+        self.drawn_zerolines = []
         self.written_channel_labels  = []
 
         stack = config[0].get("Stack_channels", False)
@@ -130,6 +132,16 @@ class SignalWidget(QWidget):
                 chan_y_offset = 8 * chan_counter
             else:
                 chan_y_offset = config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
+
+            # Zero line at this channel's actual baseline (vertical shift minus its offset)
+            zero_line = pg.InfiniteLine(
+                angle=0,
+                pos=config[1][visible_counter]["Vertical_shift"] - chan_y_offset,
+                pen=self.pen_zeroline,
+            )
+            zero_line.setZValue(-10)
+            self.axes.addItem(zero_line)
+            self.drawn_zerolines.append(zero_line)
 
             # Plot EEG
             drawn_signal = self.axes.plot(
@@ -236,10 +248,13 @@ class SignalWidget(QWidget):
                 padding=0,
             )
 
-        # Add grid lines using pg.GridItem
+        # Add grid lines using pg.GridItem (1 s vertical ticks only; zero lines handle the y axis)
         grid_item = pg.GridItem()
-        grid_y_spacing = 10000 if stack else (config[0]["Distance_between_channels_muV"] * numchans_visible if numchans_visible > 1 else 10000)
-        grid_item.setTickSpacing(x=[1], y=[grid_y_spacing])
+        grid_item.setTickSpacing(x=[1])
+        grid_item.opts["tickSpacing"] = (grid_item.opts["tickSpacing"][0], [])
+        grid_item.grid_depth = max(len(s) for s in grid_item.opts["tickSpacing"])
+        grid_item.picture = None
+        grid_item.update()
         grid_item.setTextPen(self.transparent_numbers)
         self.axes.addItem(grid_item)
 
@@ -324,6 +339,11 @@ class SignalWidget(QWidget):
                 chan_y_offset = 8 * chan_counter
             else:
                 chan_y_offset = config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
+
+            # Update zero line position (baseline may change with vertical shift/offset)
+            self.drawn_zerolines[chan_counter].setPos(
+                config[1][visible_counter]["Vertical_shift"] - chan_y_offset
+            )
 
             # Update signal
             self.drawn_signals[chan_counter].setData(
