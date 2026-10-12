@@ -14,6 +14,6 @@ def test_scoring_last_epoch_refreshes_status_bar_and_export_menu(loaded_ui):
     score_stage("N2", ui)
 
     assert ui.this_epoch == ui.numepo - 1
-    assert f"Epoch {ui.numepo} / {ui.numepo}" in ui.EpochReadout.label.text()
+    assert f"Epoch {ui.numepo} / {ui.numepo}" in ui.EpochCounter.label.text()
     assert ui.StatusReadout.stage_badge.text() == "N2"
     assert ui.action_export_sleep_report.isEnabled()

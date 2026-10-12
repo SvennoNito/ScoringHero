@@ -26,7 +26,7 @@ class _EpochSpinBox(QSpinBox):
             super().keyPressEvent(event)
 
 
-class EpochReadout(QStackedWidget):
+class EpochCounter(QStackedWidget):
     """'Epoch 12 / 767'; a click turns it into a spin box to type an epoch number into.
     Enter (or leaving the box) jumps; the numbers are 1-based like the display."""
 
@@ -90,7 +90,7 @@ class StatusReadout:
     StageBadge over the signal panel (optional, movable)."""
 
     def __init__(self, statusbar, signal_panel):
-        self.epoch = EpochReadout()
+        self.epoch = EpochCounter()
         self.stage_badge = StageBadge(signal_panel)
         self.stage = QLabel()
         self.comparison = QLabel()
