@@ -4,6 +4,7 @@ from PySide6.QtGui import QFont, QColor, QBrush, QPen
 import pyqtgraph as pg
 import numpy as np
 from utilities.clock_time_format import parse_start_time, format_clock_time
+from utilities.format_amplitude import format_amplitude
 from signal_processing import *
 from style.plot_style import soften_axes
 from .channelPill import ChannelPill
@@ -45,6 +46,7 @@ class SignalWidget(QWidget):
         self.pen_amplines = pg.mkPen(color=(0, 0, 0, 80), style=Qt.DotLine)
         self.pen_border = pg.mkPen(color=(0, 0, 0), style=Qt.DashLine, width=5)
         self.pen_grid_1s = pg.mkPen(color=(25, 25, 25, 15), style=Qt.DashLine)
+        self.pen_zeroline = pg.mkPen(color=(25, 25, 25, 15), style=Qt.DashLine)
         self.pen_grid = pg.mkPen(color=(100, 149, 237), style=Qt.DotLine)
         self.transparent_numbers = pg.mkPen(color=(255, 255, 255, 0))
 
@@ -72,9 +74,7 @@ class SignalWidget(QWidget):
             self.event_boxes.append(box)
 
     def _overlay_pen(self, config, visible_counter):
-        base_color = self.channelColorPalette[config[1][visible_counter]["Channel_color"]]
-        pen = pg.mkPen(color=(*base_color, 150), style=Qt.DashLine, width=1)
-        return pen
+        return pg.mkPen(color=(95, 110, 145), width=config[1][visible_counter]["Line_width"])
 
     def _standardize_or_scale(self, data, config, visible_counter, chan_y_offset, z_standardize):
         chan = config[1][visible_counter]
@@ -105,10 +105,13 @@ class SignalWidget(QWidget):
         # Initiate list
         self.drawn_signals = []
         self.drawn_overlay_signals = []
+        self.drawn_zerolines = []
         self.written_channel_labels  = []
 
         stack = config[0].get("Stack_channels", False)
         z_standardize = config[0].get("Robust_z_standardize", False)
+        show_zero_lines = config[0].get("Show_zero_lines", True)
+        show_amplitude_lines = config[0].get("Show_amplitude_lines", True)
 
         # Loop through channels
         self.axes.clear()
@@ -131,6 +134,17 @@ class SignalWidget(QWidget):
             else:
                 chan_y_offset = config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
 
+            # Zero line at this channel's actual baseline (vertical shift minus its offset)
+            if show_zero_lines:
+                zero_line = pg.InfiniteLine(
+                    angle=0,
+                    pos=config[1][visible_counter]["Vertical_shift"] - chan_y_offset,
+                    pen=self.pen_zeroline,
+                )
+                zero_line.setZValue(-10)
+                self.axes.addItem(zero_line)
+                self.drawn_zerolines.append(zero_line)
+
             # Plot EEG
             drawn_signal = self.axes.plot(
                 times,
@@ -150,36 +164,37 @@ class SignalWidget(QWidget):
                 self.drawn_overlay_signals.append(drawn_overlay)
 
             # Amplitude lines
-            if z_standardize:
-                # Show lines at z = +3 and z = -3
-                for z_val in [3, -3]:
+            if show_amplitude_lines:
+                if z_standardize:
+                    # Show lines at z = +3 and z = -3
+                    for z_val in [3, -3]:
+                        amplitude_line = pg.InfiniteLine(
+                            angle=0,
+                            pos=z_val * config[1][visible_counter]["Scaling_factor"] / 100
+                            + config[1][visible_counter]["Vertical_shift"]
+                            - chan_y_offset,
+                            pen=self.pen_amplines,
+                        )
+                        self.axes.addItem(amplitude_line)
+                else:
                     amplitude_line = pg.InfiniteLine(
                         angle=0,
-                        pos=z_val * config[1][visible_counter]["Scaling_factor"] / 100
+                        pos=0
+                        - chan_y_offset
                         + config[1][visible_counter]["Vertical_shift"]
-                        - chan_y_offset,
+                        + config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
                         pen=self.pen_amplines,
                     )
                     self.axes.addItem(amplitude_line)
-            else:
-                amplitude_line = pg.InfiniteLine(
-                    angle=0,
-                    pos=0
-                    - chan_y_offset
-                    + config[1][visible_counter]["Vertical_shift"]
-                    + config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
-                    pen=self.pen_amplines,
-                )
-                self.axes.addItem(amplitude_line)
-                amplitude_line = pg.InfiniteLine(
-                    angle=0,
-                    pos=0
-                    - chan_y_offset
-                    + config[1][visible_counter]["Vertical_shift"]
-                    - config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
-                    pen=self.pen_amplines,
-                )
-                self.axes.addItem(amplitude_line)
+                    amplitude_line = pg.InfiniteLine(
+                        angle=0,
+                        pos=0
+                        - chan_y_offset
+                        + config[1][visible_counter]["Vertical_shift"]
+                        - config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
+                        pen=self.pen_amplines,
+                    )
+                    self.axes.addItem(amplitude_line)
 
             # Add channel labels
             channel_label = ChannelPill(self.axes, config[1][visible_counter]["Channel_name"])
@@ -195,17 +210,23 @@ class SignalWidget(QWidget):
         if z_standardize:
             sc0 = config[1][index_visible_chans[0]]["Scaling_factor"] / 100
             sh0 = config[1][index_visible_chans[0]]["Vertical_shift"]
-            left_axis.setTicks([[(sh0 + 3 * sc0, "+3"), (sh0, "0"), (sh0 - 3 * sc0, "-3")]])
+            if show_amplitude_lines:
+                left_axis.setTicks([[(sh0 + 3 * sc0, "+3"), (sh0, "0"), (sh0 - 3 * sc0, "-3")]])
+            else:
+                left_axis.setTicks([[(sh0, "0")]])
         else:
             vc0 = index_visible_chans[0]
             ref_amp = config[0]["Reference_amplitude_line_muV"]
             scaling = config[1][vc0]["Scaling_factor"]
             vshift  = config[1][vc0]["Vertical_shift"]
             base    = vshift
-            top_pos = base + ref_amp * scaling / 100
-            bot_pos = base - ref_amp * scaling / 100
-            ref_label = int(ref_amp) if ref_amp == int(ref_amp) else ref_amp
-            left_axis.setTicks([[(top_pos, f"+{ref_label}"), (base, "0"), (bot_pos, f"-{ref_label}")]])
+            if show_amplitude_lines:
+                top_pos = base + ref_amp * scaling / 100
+                bot_pos = base - ref_amp * scaling / 100
+                ref_label = format_amplitude(ref_amp)
+                left_axis.setTicks([[(top_pos, f"+{ref_label}"), (base, "0"), (bot_pos, f"-{ref_label}")]])
+            else:
+                left_axis.setTicks([[(base, "0")]])
         tick_font = QFont()
         tick_font.setPixelSize(10)
         left_axis.setTickFont(tick_font)
@@ -236,12 +257,20 @@ class SignalWidget(QWidget):
                 padding=0,
             )
 
-        # Add grid lines using pg.GridItem
-        grid_item = pg.GridItem()
-        grid_y_spacing = 10000 if stack else (config[0]["Distance_between_channels_muV"] * numchans_visible if numchans_visible > 1 else 10000)
-        grid_item.setTickSpacing(x=[1], y=[grid_y_spacing])
-        grid_item.setTextPen(self.transparent_numbers)
-        self.axes.addItem(grid_item)
+        # Add grid lines using pg.GridItem (1 s vertical ticks only; zero lines handle the y axis); gated by the Vertical grid config toggle.
+        # setTickSpacing(y=[]) can't express "no y ticks": `[] or default` in its implementation falls back to the
+        # default spacing, so the empty y spacing is set directly on opts instead.
+        show_vertical_grid = config[0].get("Show_vertical_grid", True)
+        self.grid_item = None
+        if show_vertical_grid:
+            grid_item = pg.GridItem()
+            grid_item.opts["tickSpacing"] = ([1], [])
+            grid_item.grid_depth = max(len(s) for s in grid_item.opts["tickSpacing"])
+            grid_item.picture = None
+            grid_item.update()
+            grid_item.setTextPen(self.transparent_numbers)
+            self.axes.addItem(grid_item)
+            self.grid_item = grid_item
 
         # Epoch border grid
         #grid_item = pg.GridItem()
@@ -249,7 +278,7 @@ class SignalWidget(QWidget):
         #grid_item.setTextPen(self.transparent_numbers)
         #grid_item.setPen(self.pen_border)
         #self.axes.addItem(grid_item)
-        self.axes.showGrid(x=True, y=False)     
+        self.axes.showGrid(x=show_vertical_grid, y=False)     
 
         # Darker areas on both sides
         bottom, top     = self.axes.viewRange()[1]
@@ -324,6 +353,12 @@ class SignalWidget(QWidget):
                 chan_y_offset = 8 * chan_counter
             else:
                 chan_y_offset = config[0]["Distance_between_channels_muV"] * numchans_visible * chan_counter
+
+            # Update zero line position (baseline may change with vertical shift/offset); skipped when zero lines are off
+            if self.drawn_zerolines:
+                self.drawn_zerolines[chan_counter].setPos(
+                    config[1][visible_counter]["Vertical_shift"] - chan_y_offset
+                )
 
             # Update signal
             self.drawn_signals[chan_counter].setData(

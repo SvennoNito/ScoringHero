@@ -5,8 +5,10 @@
     uv run python video/make_video.py --scenes s01     # only scenes whose module name starts with s01
 
 The real main window is booted offscreen on a temp copy of example_data (tracked files are
-never touched) WITHOUT its scoring sidecar: no Primary scoring, no Events. Scenes drive it with
-Qt mouse and key events through a drawn cursor; every input step renders frames of the window.
+never touched), with no recording loaded: the film opens on the empty window. The first scene
+loads the recording through File > Load EEG, without its scoring sidecar: no Primary scoring,
+no Events. Scenes drive the window with Qt mouse and key events through a drawn cursor; every
+input step renders frames of the window.
 
 Scene contract (add a scene = one new module + one line in video/scenes/__init__.py):
 
@@ -23,12 +25,22 @@ Scene contract (add a scene = one new module + one line in video/scenes/__init__
     centre): `move_cursor`, `click`, `click_epoch`, `drag`, `press_key`, `click_menu`, plus `center(widget)`,
     `at(widget, fx, fy)`, `window_point(widget, local_pt)` and `spectrogram_point(epoch)`.
     Events go to the widget under the cursor. Finders: `button(dialog, text)`, `progress_dialogs()`.
+  * `type_text(widget, text, cps=5)`: focuses `widget` if it doesn't already have focus, then
+    types `text` one real `QTest.keyClick` per character (preserving case) at `cps` characters
+    per second, filming a frame after each keystroke — use for on-camera renames instead of an
+    instant `QTest.keyClicks` call.
   * Film helpers: `caption(text | None)`, `processing_card(text, seconds, until)` (runs the work
     off camera, shows a short card instead), `wait(seconds)`, `ctx.wait_until(cond)` and `ctx.wait_idle()` (off camera;
     call wait_idle before the first click of a scene: background work blocks mouse input).
-  * Native dialogs: `with ctx.file_dialogs(open=path, save=path, directory=path):` answers
-    QFileDialog calls and QMessageBox.exec (Yes). Dialogs the app opens with its own `exec`
-    (QDialog) would block the script: patch that class's `exec` in the scene, as
+  * Native dialogs: `with ctx.file_dialogs(open=(folder, filename, name_filter=None), save=path,
+    directory=path):` answers the app's static QFileDialog calls and QMessageBox.exec (Yes).
+    `open` drives `ctx.filmed_open_dialog(folder, filename, name_filter=None)`: it opens a
+    real, non-native QFileDialog at `folder` (restricted to `name_filter` if given, e.g.
+    "*.mat"), films it, clicks `filename` in the file list, then clicks Open, and returns the
+    chosen path — this is what the viewer sees when the app loads a Recording (scene 1) or
+    imports a Comparison scoring / Overlay signal (later scenes). `save`/`directory` still
+    answer getSaveFileName/getExistingDirectory silently. Dialogs the app opens with its own
+    `exec` (QDialog) would block the script: patch that class's `exec` in the scene, as
     make_screenshots.py does. Visible dialogs and menu popups are composited into the frames.
   * Durations are in seconds of video; smoke lowers fps, so scenes stay fast without changes.
   * Generated inputs (Comparison scoring, Overlay signal, report) go to `ctx.video_dir`
@@ -52,12 +64,21 @@ ROOT = os.path.dirname(VIDEO_DIR)
 sys.path.insert(0, ROOT)
 sys.path.insert(0, VIDEO_DIR)
 
-from PySide6.QtCore import QEvent, QPoint, QPointF, QRectF, Qt  # noqa: E402
+from PySide6.QtCore import QEvent, QObject, QPoint, QPointF, QRectF, Qt  # noqa: E402
 from PySide6.QtGui import QColor, QFont, QFontMetrics, QImage, QMouseEvent, QPainter, QPolygonF  # noqa: E402
 from PySide6.QtTest import QTest  # noqa: E402
-from PySide6.QtWidgets import QApplication, QFileDialog, QMessageBox, QProgressDialog, QPushButton, QWidget  # noqa: E402
+from PySide6.QtWidgets import (  # noqa: E402
+    QApplication,
+    QFileDialog,
+    QListView,
+    QMessageBox,
+    QProgressDialog,
+    QPushButton,
+    QTreeView,
+    QWidget,
+)
 
-from tests.conftest import EXAMPLE_DIR, _build, wait_until_loaded  # noqa: E402
+from tests.conftest import EXAMPLE_DIR, _build  # noqa: E402
 
 FULL = {"size": (1920, 1080), "fps": 30}
 SMOKE = {"size": (640, 360), "fps": 6}
@@ -68,6 +89,27 @@ RIPPLE_SECONDS = 0.5
 def ease(t):
     """Smooth start and stop (smootherstep) for t in [0, 1]."""
     return t * t * t * (t * (6 * t - 15) + 10)
+
+
+SHOW_ORDER_PROPERTY = "_ctx_show_order"
+
+
+class _ShowOrderTracker(QObject):
+    """App-wide event filter: stamps every top-level widget with an incrementing sequence
+    number the moment it receives QEvent.Show, so _stacking_order can sort by actual show
+    order. Keying off a dynamic Qt property (stored on the widget itself) rather than a
+    Python dict keyed by id() avoids stale entries: CPython can reuse a destroyed widget's id
+    for an unrelated later widget, which would silently resurrect a stale sequence number."""
+
+    def __init__(self):
+        super().__init__()
+        self._counter = 0
+
+    def eventFilter(self, watched, event):
+        if event.type() == QEvent.Show and isinstance(watched, QWidget) and watched.isWindow():
+            self._counter += 1
+            watched.setProperty(SHOW_ORDER_PROPERTY, self._counter)
+        return False
 
 
 class Context:
@@ -83,6 +125,8 @@ class Context:
         self._caption = None
         self._card = None
         self._ripples = []  # (start frame, x, y)
+        self._show_tracker = _ShowOrderTracker()
+        self.app.installEventFilter(self._show_tracker)
         self._cursor = QPointF(WINDOW_SIZE[0] / 2, WINDOW_SIZE[1] / 2)
         self.frames_written = 0
 
@@ -159,14 +203,27 @@ class Context:
             return self.center(target)
         return QPoint(target)
 
-    def _widget_at(self, point):
-        """Widget under `point` (window coordinates): popups first, then other visible
-        top-level windows (dialogs), then the main window."""
-        global_point = self.to_global(point)
-        tops = [w for w in QApplication.topLevelWidgets() if w.isVisible() and w is not self.window]
+    def _stacking_order(self):
+        """Visible top-level windows in paint order (bottom to top): the main window first, then
+        dialogs/menus ordered by show order (a window shown more recently paints in front of one
+        shown earlier; re-showing an already-tracked window bumps it back to the front, via the
+        `_ShowOrderTracker` event filter installed in `__init__`), then the active popup last
+        (always topmost)."""
         popup = QApplication.activePopupWidget()
-        tops.sort(key=lambda w: w is not popup)
-        for top in tops + [self.window]:
+        tops = [w for w in QApplication.topLevelWidgets()
+                if w.isVisible() and w is not self.window and w is not popup]
+
+        tops.sort(key=lambda w: w.property(SHOW_ORDER_PROPERTY) or 0)
+        order = [self.window] + tops
+        if popup is not None and popup.isVisible():
+            order.append(popup)
+        return order
+
+    def _widget_at(self, point):
+        """Widget under `point` (window coordinates): the topmost window at that point, in
+        reverse stacking order (popup first, then dialogs nearest the top, then the main window)."""
+        global_point = self.to_global(point)
+        for top in reversed(self._stacking_order()):
             if top.frameGeometry().contains(global_point) or top.geometry().contains(global_point):
                 local = top.mapFromGlobal(global_point)
                 child = top.childAt(local)
@@ -184,9 +241,8 @@ class Context:
         base = self.window.grab().toImage().convertToFormat(QImage.Format_RGB888)
         origin = self._origin()
         painter = QPainter(base)
-        for top in QApplication.topLevelWidgets():  # dialogs and menu popups
-            if top is not self.window and top.isVisible():
-                painter.drawImage(top.pos() - origin, top.grab().toImage())
+        for top in self._stacking_order()[1:]:  # dialogs and menu popups, bottom to top
+            painter.drawImage(top.pos() - origin, top.grab().toImage())
         self._paint_overlays(painter, base.width(), base.height())
         painter.end()
         return base
@@ -317,6 +373,17 @@ class Context:
         self.app.processEvents()
         self.wait(seconds)
 
+    def type_text(self, widget, text, cps=5):
+        """Give `widget` focus if it doesn't have it, then type `text` one real QTest key
+        event per character (preserving case), filming a frame 1/cps seconds after each
+        keystroke (fixed pace, no jitter)."""
+        if QApplication.focusWidget() is not widget:
+            widget.setFocus()
+        for char in text:
+            QTest.keyClick(widget, char)
+            self.app.processEvents()
+            self.wait(1 / cps)
+
     def click_menu(self, attribute):
         """Walk the cursor down the menus to the QAction at `ui.<attribute>` and trigger it."""
         menus, action = self.menu_action(attribute)
@@ -357,13 +424,54 @@ class Context:
         """Progress dialogs of the app that are showing."""
         return [w for w in self.app.topLevelWidgets() if isinstance(w, QProgressDialog) and w.isVisible()]
 
+    def filmed_open_dialog(self, folder, filename, name_filter=None):
+        """Open a real, non-native QFileDialog at `folder` (restricted to `name_filter` if
+        given, e.g. "*.mat"), film it, click `filename` in the file list, then click Open.
+        Returns the chosen path. Used by `file_dialogs(open=...)` to answer the app's static
+        open-file calls with a visible, driven dialog instead of an instant silent answer."""
+        dialog = QFileDialog(self.window, "Open File", folder, name_filter or "")
+        dialog.setOption(QFileDialog.DontUseNativeDialog, True)
+        dialog.setFileMode(QFileDialog.ExistingFile)
+        dialog.setModal(False)
+        dialog.show()
+        for _ in range(5):
+            self.app.processEvents()
+        view = dialog.findChild(QTreeView, "treeView")
+        if view is None or not view.isVisible():
+            view = dialog.findChild(QListView, "listView")
+        root = view.rootIndex()
+        self.wait_until(lambda: view.model().rowCount(root) > 0)
+        self.wait(0.6)
+        index = None
+        model = view.model()
+        for row in range(model.rowCount(root)):
+            candidate = model.index(row, 0, root)
+            if model.data(candidate) == filename:
+                index = candidate
+                break
+        if index is None:
+            dialog.close()
+            raise LookupError(f"'{filename}' not found in {folder}")
+        self.click(self.window_point(view.viewport(), view.visualRect(index).center()))
+        self.click(self.button(dialog, "Open"))
+        path = os.path.join(folder, filename)
+        dialog.close()
+        return path
+
     @contextlib.contextmanager
     def file_dialogs(self, open=None, save=None, directory=None):
-        """Answer native dialogs: QFileDialog open/save/directory return the given paths and
-        QMessageBox.exec returns Yes."""
-        opened = (open,) if isinstance(open, str) else open
-        with mock.patch.object(QFileDialog, "getOpenFileName", lambda *a, **k: (opened[0] if opened else "", "")), \
-                mock.patch.object(QFileDialog, "getOpenFileNames", lambda *a, **k: (list(opened or []), "")), \
+        """Answer the app's static dialog calls. `open`: a (folder, filename) or (folder,
+        filename, name_filter) tuple — getOpenFileName/getOpenFileNames are answered by filming
+        and driving a real dialog through `filmed_open_dialog`. `save`/`directory`: paths
+        returned silently by getSaveFileName/getExistingDirectory. QMessageBox.exec always
+        returns Yes."""
+        def opened_path():
+            folder, filename, *rest = open
+            name_filter = rest[0] if rest else None
+            return self.filmed_open_dialog(folder, filename, name_filter)
+
+        with mock.patch.object(QFileDialog, "getOpenFileName", lambda *a, **k: (opened_path() if open else "", "")), \
+                mock.patch.object(QFileDialog, "getOpenFileNames", lambda *a, **k: ([opened_path()] if open else [], "")), \
                 mock.patch.object(QFileDialog, "getSaveFileName", lambda *a, **k: (save or "", "")), \
                 mock.patch.object(QFileDialog, "getExistingDirectory", lambda *a, **k: directory or ""), \
                 mock.patch.object(QMessageBox, "exec", lambda self: QMessageBox.Yes):
@@ -379,8 +487,11 @@ def _packed(image):
     return b"".join(data[y * image.bytesPerLine(): y * image.bytesPerLine() + width] for y in range(image.height()))
 
 
-def boot(directory):
-    """App on the example recording copied to `directory` without its scoring sidecar."""
+def boot():
+    """Bare app window on a temp copy of the example recording files (no scoring sidecar), in a
+    temp folder named to read clearly in the filmed file dialog ("...ScoringHero example"); no
+    recording is loaded yet — the first scene loads it through File > Load EEG."""
+    directory = tempfile.mkdtemp(suffix=" - ScoringHero example")
     for name in os.listdir(EXAMPLE_DIR):
         stem = "example_data"
         if name.startswith(stem + ".") and name != stem + ".json":
@@ -390,18 +501,12 @@ def boot(directory):
     if os.path.exists(cache):
         os.remove(cache)
 
-    import scoringhero as sh
-    from eeg.load_wrapper import load_wrapper
-
     app, window, ui = _build(directory)
-    with mock.patch.object(sh.QMessageBox, "exec", lambda self: sh.QMessageBox.Yes):
-        load_wrapper(ui, "eeglab")
-        wait_until_loaded(ui)
     window.resize(*WINDOW_SIZE)
     window.show()
     for _ in range(5):
         app.processEvents()
-    return app, window, ui
+    return app, window, ui, directory
 
 
 def assert_empty_start(ui):
@@ -430,9 +535,7 @@ def main():
 
     import imageio_ffmpeg
 
-    directory = tempfile.mkdtemp(prefix="video_")
-    app, window, ui = boot(directory)
-    assert_empty_start(ui)
+    app, window, ui, directory = boot()
     writer = imageio_ffmpeg.write_frames(out, mode["size"], fps=mode["fps"], quality=8, macro_block_size=1)
     writer.send(None)
     ctx = Context(app, window, ui, directory, writer, mode["size"], mode["fps"])

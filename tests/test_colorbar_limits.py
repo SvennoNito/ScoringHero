@@ -6,11 +6,12 @@ def test_wv(loaded_ui):
     open_config_window(ui)
     shape = ui.TFWidget._cbar_img.image.shape
     wv = ui.WaveletPage
+    lo = wv._power_min_spin.value()
     wv._power_max_spin.setValue(9.0); wv._power_max_spin.editingFinished.emit()
     ui.ConfigurationWindow.apply_pending()
     im = ui.TFWidget._cbar_img.image
-    assert list(ui.TFWidget.img.levels) == [-1, 9] and im.shape == shape
-    assert im.min() == -1 and np.isclose(im.max(), 9) and ui.TFWidget._cbar_max_label.toPlainText() == "9.0"
+    assert list(ui.TFWidget.img.levels) == [lo, 9] and im.shape == shape
+    assert np.isclose(im.min(), lo) and np.isclose(im.max(), 9) and ui.TFWidget._cbar_max_label.toPlainText() == "9.0"
 
 def test_sp(loaded_ui):
     ui = loaded_ui
