@@ -236,12 +236,16 @@ class SignalWidget(QWidget):
                 padding=0,
             )
 
-        # Add grid lines using pg.GridItem
-        grid_item = pg.GridItem()
-        grid_y_spacing = 10000 if stack else (config[0]["Distance_between_channels_muV"] * numchans_visible if numchans_visible > 1 else 10000)
-        grid_item.setTickSpacing(x=[1], y=[grid_y_spacing])
-        grid_item.setTextPen(self.transparent_numbers)
-        self.axes.addItem(grid_item)
+        # Add grid lines using pg.GridItem; gated by the Vertical grid config toggle
+        show_vertical_grid = config[0].get("Show_vertical_grid", True)
+        self.grid_item = None
+        if show_vertical_grid:
+            grid_item = pg.GridItem()
+            grid_y_spacing = 10000 if stack else (config[0]["Distance_between_channels_muV"] * numchans_visible if numchans_visible > 1 else 10000)
+            grid_item.setTickSpacing(x=[1], y=[grid_y_spacing])
+            grid_item.setTextPen(self.transparent_numbers)
+            self.axes.addItem(grid_item)
+            self.grid_item = grid_item
 
         # Epoch border grid
         #grid_item = pg.GridItem()
@@ -249,7 +253,7 @@ class SignalWidget(QWidget):
         #grid_item.setTextPen(self.transparent_numbers)
         #grid_item.setPen(self.pen_border)
         #self.axes.addItem(grid_item)
-        self.axes.showGrid(x=True, y=False)     
+        self.axes.showGrid(x=show_vertical_grid, y=False)     
 
         # Darker areas on both sides
         bottom, top     = self.axes.viewRange()[1]
