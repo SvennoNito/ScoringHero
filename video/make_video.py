@@ -435,7 +435,8 @@ class Context:
         returns Yes."""
         def opened_path():
             folder, filename, *rest = open
-            return self.filmed_open_dialog(folder, filename, rest[0] if rest else None)
+            name_filter = rest[0] if rest else None
+            return self.filmed_open_dialog(folder, filename, name_filter)
 
         with mock.patch.object(QFileDialog, "getOpenFileName", lambda *a, **k: (opened_path() if open else "", "")), \
                 mock.patch.object(QFileDialog, "getOpenFileNames", lambda *a, **k: ([opened_path()] if open else [], "")), \
