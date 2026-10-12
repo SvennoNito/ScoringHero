@@ -22,7 +22,7 @@ from PySide6.QtCore import QPoint, QPointF
 
 CHANNEL = "C3-A2"
 SPINDLE_SLOT = 1
-HALF_HEIGHT_MUV = 10.0
+HALF_HEIGHT_MUV = 30.0
 
 
 def _window_point(ctx, seconds, amplitude):
@@ -93,6 +93,7 @@ def run(ctx):
     ctx.state["s10_freqs"] = list(ui.RectanglePower.powerline.xData)
     data, times = ui.PaintEventWidget.selected_data
     ctx.state["s10_selected_times"] = (float(times[0]), float(times[-1]))
+    ctx.move_cursor(ctx.center(ui.RectanglePower.axes), 1.0)
     ctx.wait(1.5)
 
     ui.PaintEventWidget.reset()
