@@ -4,7 +4,6 @@ in this folder exposing `run(ctx)` and `check(ctx)` (see video/make_video.py).""
 SCENES = [
     "s01_load_recording",
     "s02_manual_stages",
-    "s03_spectrogram_clicks",
     "s04_swa_slider",
     "s05_highpass_filter",
     "s06_gssc",
