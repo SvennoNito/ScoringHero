@@ -246,15 +246,19 @@ class SignalWidget(QWidget):
                 padding=0,
             )
 
-        # Add grid lines using pg.GridItem (1 s vertical ticks only; zero lines handle the y axis)
-        grid_item = pg.GridItem()
-        grid_item.setTickSpacing(x=[1])
-        grid_item.opts["tickSpacing"] = (grid_item.opts["tickSpacing"][0], [])
-        grid_item.grid_depth = max(len(s) for s in grid_item.opts["tickSpacing"])
-        grid_item.picture = None
-        grid_item.update()
-        grid_item.setTextPen(self.transparent_numbers)
-        self.axes.addItem(grid_item)
+        # Add grid lines using pg.GridItem (1 s vertical ticks only; zero lines handle the y axis); gated by the Vertical grid config toggle
+        show_vertical_grid = config[0].get("Show_vertical_grid", True)
+        self.grid_item = None
+        if show_vertical_grid:
+            grid_item = pg.GridItem()
+            grid_item.setTickSpacing(x=[1])
+            grid_item.opts["tickSpacing"] = (grid_item.opts["tickSpacing"][0], [])
+            grid_item.grid_depth = max(len(s) for s in grid_item.opts["tickSpacing"])
+            grid_item.picture = None
+            grid_item.update()
+            grid_item.setTextPen(self.transparent_numbers)
+            self.axes.addItem(grid_item)
+            self.grid_item = grid_item
 
         # Epoch border grid
         #grid_item = pg.GridItem()
@@ -262,7 +266,7 @@ class SignalWidget(QWidget):
         #grid_item.setTextPen(self.transparent_numbers)
         #grid_item.setPen(self.pen_border)
         #self.axes.addItem(grid_item)
-        self.axes.showGrid(x=True, y=False)     
+        self.axes.showGrid(x=show_vertical_grid, y=False)     
 
         # Darker areas on both sides
         bottom, top     = self.axes.viewRange()[1]
