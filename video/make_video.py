@@ -25,6 +25,10 @@ Scene contract (add a scene = one new module + one line in video/scenes/__init__
     centre): `move_cursor`, `click`, `click_epoch`, `drag`, `press_key`, `click_menu`, plus `center(widget)`,
     `at(widget, fx, fy)`, `window_point(widget, local_pt)` and `spectrogram_point(epoch)`.
     Events go to the widget under the cursor. Finders: `button(dialog, text)`, `progress_dialogs()`.
+  * `type_text(widget, text, cps=5)`: focuses `widget` if it doesn't already have focus, then
+    types `text` one real `QTest.keyClick` per character (preserving case) at `cps` characters
+    per second, filming a frame after each keystroke — use for on-camera renames instead of an
+    instant `QTest.keyClicks` call.
   * Film helpers: `caption(text | None)`, `processing_card(text, seconds, until)` (runs the work
     off camera, shows a short card instead), `wait(seconds)`, `ctx.wait_until(cond)` and `ctx.wait_idle()` (off camera;
     call wait_idle before the first click of a scene: background work blocks mouse input).
@@ -351,6 +355,17 @@ class Context:
         QTest.keyClick(QApplication.focusWidget() or self.window, key, modifier)
         self.app.processEvents()
         self.wait(seconds)
+
+    def type_text(self, widget, text, cps=5):
+        """Give `widget` focus if it doesn't have it, then type `text` one real QTest key
+        event per character (preserving case), filming a frame 1/cps seconds after each
+        keystroke (fixed pace, no jitter)."""
+        if QApplication.focusWidget() is not widget:
+            widget.setFocus()
+        for char in text:
+            QTest.keyClick(widget, char)
+            self.app.processEvents()
+            self.wait(1 / cps)
 
     def click_menu(self, attribute):
         """Walk the cursor down the menus to the QAction at `ui.<attribute>` and trigger it."""
