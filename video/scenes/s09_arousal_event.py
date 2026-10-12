@@ -1,29 +1,20 @@
-"""Scene 9: draw an Arousal event at the first N2/N3-to-N1 stage transition (any Epoch if
-the recording has none), move it to another Event slot by holding that slot's hotkey and
-clicking the event, rename the slot to "Arousal" in the Configuration Events tab, then
-delete it with a plain click.
+"""Scene 9: draw a real Arousal event in Epoch 137 (4083-4090 s), move it to another Event
+slot by holding that slot's hotkey and clicking the event, rename the slot to "Arousal" in
+the Configuration Events tab, then delete it with a plain click.
 """
 
 from PySide6.QtCore import QPoint, QPointF, Qt
 from PySide6.QtTest import QTest
 from PySide6.QtWidgets import QApplication
 
-RECT_S = 1.0
+EPOCH = 136  # 0-based: Epoch 137
+START_S = 4083.0
+END_S = 4090.0
 SLOT_1 = 1  # the slot the event is first drawn into (the spindle slot from scene 7)
 SLOT_2 = 2  # the slot it is moved to, then renamed
 HOTKEY_1 = Qt.Key(Qt.Key_F1 + SLOT_1 - 1)  # Event hotkeys F1, F2, ... belong to slots 1, 2, ...
 HOTKEY_2 = Qt.Key(Qt.Key_F1 + SLOT_2 - 1)
 NEW_LABEL = "Arousal"
-
-
-def choose_epoch(ui):
-    """0-based index of the first N2/N3-to-N1 stage transition; falls back to Epoch 0 if the
-    recording has none."""
-    stages = ui.scoring.stages()
-    for i in range(1, len(stages)):
-        if stages[i - 1] in ("N2", "N3") and stages[i] == "N1":
-            return i
-    return 0
 
 
 def _signal_x(ctx, seconds):
@@ -52,20 +43,17 @@ def run(ctx):
     _install_key_filter(ctx)
     ctx.wait_idle()
 
-    epoch = choose_epoch(ui)
-    length = ui.config[0]["Epoch_length_s"]
-    start = epoch * length + min(2.0, length * 0.3)  # margin so the rectangle stays inside the Epoch
-    end = start + RECT_S
-    print(f"s09: arousal drawn in Epoch {epoch + 1} ({start:.2f}-{end:.2f} s)", flush=True)
+    start, end = START_S, END_S
+    print(f"s09: arousal drawn in Epoch {EPOCH + 1} ({start:.2f}-{end:.2f} s)", flush=True)
 
     ctx.state.update(
-        s09_epoch=epoch,
+        s09_epoch=EPOCH,
         s09_slot1_before=ui.events.count(SLOT_1),
         s09_slot2_before=ui.events.count(SLOT_2),
     )
 
-    ctx.caption(f"An arousal in Epoch {epoch + 1}: go there")
-    ctx.click_epoch(epoch, duration=1.0)
+    ctx.caption(f"An arousal in Epoch {EPOCH + 1}: go there")
+    ctx.click_epoch(EPOCH, duration=1.0)
     ctx.wait(1.0)
 
     ctx.caption("Draw a rectangle around it, then press the Event hotkey")
@@ -119,9 +107,7 @@ def run(ctx):
     ctx.wait(0.6)
     ctx.press_key(Qt.Key_Return, seconds=0.3)
 
-    ctx.caption("Apply and close")
-    ctx.click(window.apply_button, duration=0.7)
-    ctx.wait(0.6)
+    ctx.caption("Close the Configuration window")
     window.close()
     ctx.wait(0.6)
 
