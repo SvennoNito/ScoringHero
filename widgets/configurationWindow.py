@@ -74,7 +74,12 @@ class ConfigurationWindow(QDialog):
         # Create the pages
         self.channel_page = ChannelConfiguration(config[1], config[0])
         self.channel_page.channelRenamed.connect(self._on_channel_renamed)
-        self.general_page = GeneralConfiguration(self.pending, allow_staging, channel_labels or [])
+        self.general_page = GeneralConfiguration(
+            self.pending,
+            allow_staging,
+            channel_labels or [],
+            z_standardize_checkbox=self.channel_page.z_standardize_checkbox,
+        )
         self.events_page = EventConfiguration(events)
         self.spectrogram_page = SpectrogramConfiguration(self.pending, channel_labels or [])
         self.wavelet_page = WaveletConfiguration(self.pending, channel_labels or [])
@@ -295,7 +300,7 @@ class EventConfiguration(QDialog):
 class GeneralConfiguration(QDialog):
     changesMade = Signal(list)
 
-    def __init__(self, general_config, allow_staging, channel_labels=None, parent=None):
+    def __init__(self, general_config, allow_staging, channel_labels=None, z_standardize_checkbox=None, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout(self)
         layout.setContentsMargins(16, 16, 16, 16)
@@ -305,6 +310,8 @@ class GeneralConfiguration(QDialog):
         self.spinboxes = {}
         self.optionboxes = {}
         self.checkboxes = {}
+        self._z_standardize_checkbox = z_standardize_checkbox
+        self._general_config = general_config
 
         legend = {
             "Sampling_rate_hz": {"label": "Sampling rate", "unit": " Hz"},
@@ -432,7 +439,7 @@ class GeneralConfiguration(QDialog):
         badge_row.addWidget(badge_size)
         form_layout.addRow(badge_row)
 
-        # Grid lines: vertical 1 s / axis-tick grid on the EEG panel (more checkboxes join this row later)
+        # Grid lines: vertical 1 s / axis-tick grid, amplitude lines
         grid_label = QLabel("Grid lines")
         grid_label.setAlignment(Qt.AlignRight)
         grid_label.setFixedWidth(self.width_label)
@@ -440,9 +447,15 @@ class GeneralConfiguration(QDialog):
         vgrid_checkbox.setChecked(general_config.get("Show_vertical_grid", True))
         vgrid_checkbox.stateChanged.connect(lambda _=None: self.apply_changes(general_config))
         self.checkboxes["Show_vertical_grid"] = vgrid_checkbox
+        self.amplitude_checkbox = QCheckBox(self)
+        self.amplitude_checkbox.setChecked(general_config.get("Show_amplitude_lines", True))
+        self.amplitude_checkbox.stateChanged.connect(lambda _=None: self.apply_changes(general_config))
+        self.checkboxes["Show_amplitude_lines"] = self.amplitude_checkbox
+        self._update_amplitude_label()
         grid_row = QHBoxLayout()
         grid_row.addWidget(grid_label)
         grid_row.addWidget(vgrid_checkbox)
+        grid_row.addWidget(self.amplitude_checkbox)
         grid_row.addStretch(1)
         form_layout.addRow(grid_row)
 
@@ -454,12 +467,29 @@ class GeneralConfiguration(QDialog):
             for optionbox in optionbox_list:
                 optionbox.currentTextChanged.connect(lambda _=None: self.apply_changes(general_config))
         self.start_time_edit.timeChanged.connect(lambda _=None: self.apply_changes(general_config))
+        self.spinboxes["Reference_amplitude_line_muV"][0].valueChanged.connect(
+            lambda _=None: self._update_amplitude_label()
+        )
+        if self._z_standardize_checkbox is not None:
+            self._z_standardize_checkbox.stateChanged.connect(
+                lambda _=None: self._update_amplitude_label()
+            )
 
         # Final layout
         layout.addLayout(form_layout)
         layout.addStretch(1)
 
 
+
+    def _update_amplitude_label(self):
+        """Keep the amplitude-lines checkbox text in sync with what it controls:
+        +-ref uV in µV mode, +-3 when robustly z-standardizing."""
+        if self._z_standardize_checkbox is not None and self._z_standardize_checkbox.isChecked():
+            self.amplitude_checkbox.setText("Amplitude lines (\u00b13)")
+            return
+        ref_amp = self._general_config["Reference_amplitude_line_muV"]
+        ref_label = int(ref_amp) if ref_amp == int(ref_amp) else ref_amp
+        self.amplitude_checkbox.setText(f"Amplitude lines (\u00b1{ref_label} \u03bcV)")
 
     def apply_changes(self, general_config):
         old_config = copy.deepcopy(general_config)

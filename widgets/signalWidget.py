@@ -109,6 +109,7 @@ class SignalWidget(QWidget):
 
         stack = config[0].get("Stack_channels", False)
         z_standardize = config[0].get("Robust_z_standardize", False)
+        show_amplitude_lines = config[0].get("Show_amplitude_lines", True)
 
         # Loop through channels
         self.axes.clear()
@@ -160,36 +161,37 @@ class SignalWidget(QWidget):
                 self.drawn_overlay_signals.append(drawn_overlay)
 
             # Amplitude lines
-            if z_standardize:
-                # Show lines at z = +3 and z = -3
-                for z_val in [3, -3]:
+            if show_amplitude_lines:
+                if z_standardize:
+                    # Show lines at z = +3 and z = -3
+                    for z_val in [3, -3]:
+                        amplitude_line = pg.InfiniteLine(
+                            angle=0,
+                            pos=z_val * config[1][visible_counter]["Scaling_factor"] / 100
+                            + config[1][visible_counter]["Vertical_shift"]
+                            - chan_y_offset,
+                            pen=self.pen_amplines,
+                        )
+                        self.axes.addItem(amplitude_line)
+                else:
                     amplitude_line = pg.InfiniteLine(
                         angle=0,
-                        pos=z_val * config[1][visible_counter]["Scaling_factor"] / 100
+                        pos=0
+                        - chan_y_offset
                         + config[1][visible_counter]["Vertical_shift"]
-                        - chan_y_offset,
+                        + config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
                         pen=self.pen_amplines,
                     )
                     self.axes.addItem(amplitude_line)
-            else:
-                amplitude_line = pg.InfiniteLine(
-                    angle=0,
-                    pos=0
-                    - chan_y_offset
-                    + config[1][visible_counter]["Vertical_shift"]
-                    + config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
-                    pen=self.pen_amplines,
-                )
-                self.axes.addItem(amplitude_line)
-                amplitude_line = pg.InfiniteLine(
-                    angle=0,
-                    pos=0
-                    - chan_y_offset
-                    + config[1][visible_counter]["Vertical_shift"]
-                    - config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
-                    pen=self.pen_amplines,
-                )
-                self.axes.addItem(amplitude_line)
+                    amplitude_line = pg.InfiniteLine(
+                        angle=0,
+                        pos=0
+                        - chan_y_offset
+                        + config[1][visible_counter]["Vertical_shift"]
+                        - config[0]["Reference_amplitude_line_muV"] * config[1][visible_counter]["Scaling_factor"] / 100,
+                        pen=self.pen_amplines,
+                    )
+                    self.axes.addItem(amplitude_line)
 
             # Add channel labels
             channel_label = ChannelPill(self.axes, config[1][visible_counter]["Channel_name"])
@@ -205,17 +207,23 @@ class SignalWidget(QWidget):
         if z_standardize:
             sc0 = config[1][index_visible_chans[0]]["Scaling_factor"] / 100
             sh0 = config[1][index_visible_chans[0]]["Vertical_shift"]
-            left_axis.setTicks([[(sh0 + 3 * sc0, "+3"), (sh0, "0"), (sh0 - 3 * sc0, "-3")]])
+            if show_amplitude_lines:
+                left_axis.setTicks([[(sh0 + 3 * sc0, "+3"), (sh0, "0"), (sh0 - 3 * sc0, "-3")]])
+            else:
+                left_axis.setTicks([[(sh0, "0")]])
         else:
             vc0 = index_visible_chans[0]
             ref_amp = config[0]["Reference_amplitude_line_muV"]
             scaling = config[1][vc0]["Scaling_factor"]
             vshift  = config[1][vc0]["Vertical_shift"]
             base    = vshift
-            top_pos = base + ref_amp * scaling / 100
-            bot_pos = base - ref_amp * scaling / 100
-            ref_label = int(ref_amp) if ref_amp == int(ref_amp) else ref_amp
-            left_axis.setTicks([[(top_pos, f"+{ref_label}"), (base, "0"), (bot_pos, f"-{ref_label}")]])
+            if show_amplitude_lines:
+                top_pos = base + ref_amp * scaling / 100
+                bot_pos = base - ref_amp * scaling / 100
+                ref_label = int(ref_amp) if ref_amp == int(ref_amp) else ref_amp
+                left_axis.setTicks([[(top_pos, f"+{ref_label}"), (base, "0"), (bot_pos, f"-{ref_label}")]])
+            else:
+                left_axis.setTicks([[(base, "0")]])
         tick_font = QFont()
         tick_font.setPixelSize(10)
         left_axis.setTickFont(tick_font)

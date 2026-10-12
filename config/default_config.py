@@ -21,6 +21,7 @@ def default_configuration(number_of_signals, srate, channel_names, units=None):
         "Recording_start_time": "00:00",
         "Show_stage_badge": True,
         "Show_vertical_grid": True,
+        "Show_amplitude_lines": True,
         "Stage_badge_position": [0.5, 0.5],
         "Stage_badge_size": 24,
         "Wavelet_display_mode": "dB (median baseline)",
