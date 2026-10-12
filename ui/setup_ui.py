@@ -96,14 +96,14 @@ def setup_ui(ui, MainWindow):
     ui.statusbar = QStatusBar(MainWindow)
     ui.statusbar.setObjectName("statusbar")
     ui.StatusReadout = StatusReadout(ui.statusbar, ui.PaintEventWidget)
-    ui.EpochReadout = ui.StatusReadout.epoch
+    ui.EpochCounter = ui.StatusReadout.epoch
     def save_badge_position(fx, fy, ui=ui):
         ui.config[0]["Stage_badge_position"] = [round(fx, 4), round(fy, 4)]
         save_configuration(ui)
 
     ui.StatusReadout.stage_badge.positionChosen.connect(save_badge_position)
-    ui.EpochReadout.epochChosen.connect(lambda number, ui=ui: jump_to_epoch(number, ui))
-    ui.EpochReadout.editingDone.connect(ui.SignalWidget.axes.setFocus)
+    ui.EpochCounter.epochChosen.connect(lambda number, ui=ui: jump_to_epoch(number, ui))
+    ui.EpochCounter.editingDone.connect(ui.SignalWidget.axes.setFocus)
 
 
     # *** Menu ***
