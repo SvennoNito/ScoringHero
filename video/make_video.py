@@ -64,7 +64,7 @@ ROOT = os.path.dirname(VIDEO_DIR)
 sys.path.insert(0, ROOT)
 sys.path.insert(0, VIDEO_DIR)
 
-from PySide6.QtCore import QEvent, QPoint, QPointF, QRectF, Qt  # noqa: E402
+from PySide6.QtCore import QEvent, QObject, QPoint, QPointF, QRectF, Qt  # noqa: E402
 from PySide6.QtGui import QColor, QFont, QFontMetrics, QImage, QMouseEvent, QPainter, QPolygonF  # noqa: E402
 from PySide6.QtTest import QTest  # noqa: E402
 from PySide6.QtWidgets import (  # noqa: E402
@@ -91,6 +91,27 @@ def ease(t):
     return t * t * t * (t * (6 * t - 15) + 10)
 
 
+SHOW_ORDER_PROPERTY = "_ctx_show_order"
+
+
+class _ShowOrderTracker(QObject):
+    """App-wide event filter: stamps every top-level widget with an incrementing sequence
+    number the moment it receives QEvent.Show, so _stacking_order can sort by actual show
+    order. Keying off a dynamic Qt property (stored on the widget itself) rather than a
+    Python dict keyed by id() avoids stale entries: CPython can reuse a destroyed widget's id
+    for an unrelated later widget, which would silently resurrect a stale sequence number."""
+
+    def __init__(self):
+        super().__init__()
+        self._counter = 0
+
+    def eventFilter(self, watched, event):
+        if event.type() == QEvent.Show and isinstance(watched, QWidget) and watched.isWindow():
+            self._counter += 1
+            watched.setProperty(SHOW_ORDER_PROPERTY, self._counter)
+        return False
+
+
 class Context:
     """What a scene sees: the app (`ui`, `window`) and the helpers listed in the module docstring."""
 
@@ -104,6 +125,8 @@ class Context:
         self._caption = None
         self._card = None
         self._ripples = []  # (start frame, x, y)
+        self._show_tracker = _ShowOrderTracker()
+        self.app.installEventFilter(self._show_tracker)
         self._cursor = QPointF(WINDOW_SIZE[0] / 2, WINDOW_SIZE[1] / 2)
         self.frames_written = 0
 
@@ -181,22 +204,16 @@ class Context:
         return QPoint(target)
 
     def _stacking_order(self):
-        """Visible top-level windows in paint order (bottom to top): the main window first,
-        then dialogs/menus ordered so a window whose parent chain contains another top-level
-        window comes after it, then the active popup last (always topmost)."""
+        """Visible top-level windows in paint order (bottom to top): the main window first, then
+        dialogs/menus ordered by show order (a window shown more recently paints in front of one
+        shown earlier; re-showing an already-tracked window bumps it back to the front, via the
+        `_ShowOrderTracker` event filter installed in `__init__`), then the active popup last
+        (always topmost)."""
         popup = QApplication.activePopupWidget()
         tops = [w for w in QApplication.topLevelWidgets()
                 if w.isVisible() and w is not self.window and w is not popup]
 
-        def depth(widget):
-            d, parent, seen = 0, widget.parentWidget(), set()
-            while parent is not None and id(parent) not in seen:
-                seen.add(id(parent))
-                d += 1
-                parent = parent.parentWidget()
-            return d
-
-        tops.sort(key=depth)
+        tops.sort(key=lambda w: w.property(SHOW_ORDER_PROPERTY) or 0)
         order = [self.window] + tops
         if popup is not None and popup.isVisible():
             order.append(popup)
