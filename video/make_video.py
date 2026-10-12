@@ -100,6 +100,9 @@ class Context:
         self._caption = None
         self._card = None
         self._ripples = []  # (start frame, x, y)
+        self._show_order = {}  # id(top-level widget) -> sequence number, when first seen visible
+        self._show_counter = 0
+        self._visible_ids = set()  # id()s of non-window top-levels visible as of the last _stacking_order() call
         self._cursor = QPointF(WINDOW_SIZE[0] / 2, WINDOW_SIZE[1] / 2)
         self.frames_written = 0
 
@@ -177,22 +180,22 @@ class Context:
         return QPoint(target)
 
     def _stacking_order(self):
-        """Visible top-level windows in paint order (bottom to top): the main window first,
-        then dialogs/menus ordered so a window whose parent chain contains another top-level
-        window comes after it, then the active popup last (always topmost)."""
+        """Visible top-level windows in paint order (bottom to top): the main window first, then
+        dialogs/menus ordered by show order (a window shown more recently paints in front of one
+        shown earlier; re-showing an already-tracked window bumps it back to the front), then the
+        active popup last (always topmost)."""
         popup = QApplication.activePopupWidget()
         tops = [w for w in QApplication.topLevelWidgets()
                 if w.isVisible() and w is not self.window and w is not popup]
 
-        def depth(widget):
-            d, parent, seen = 0, widget.parentWidget(), set()
-            while parent is not None and id(parent) not in seen:
-                seen.add(id(parent))
-                d += 1
-                parent = parent.parentWidget()
-            return d
+        visible_ids = {id(w) for w in tops}
+        for w in tops:
+            if id(w) not in self._visible_ids:
+                self._show_counter += 1
+                self._show_order[id(w)] = self._show_counter
+        self._visible_ids = visible_ids
 
-        tops.sort(key=depth)
+        tops.sort(key=lambda w: self._show_order[id(w)])
         order = [self.window] + tops
         if popup is not None and popup.isVisible():
             order.append(popup)
