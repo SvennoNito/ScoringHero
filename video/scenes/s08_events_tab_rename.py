@@ -2,7 +2,6 @@
 label 'F1', then rename that slot to 'Spindle' on camera."""
 
 from PySide6.QtCore import Qt
-from PySide6.QtTest import QTest
 
 SPINDLE_SLOT = 1
 OLD_LABEL = "F1"
@@ -41,11 +40,12 @@ def run(ctx):
     ctx.wait(0.6)
 
     ctx.caption(f"Rename '{OLD_LABEL}' to '{NEW_LABEL}'")
-    QTest.keyClicks(labelbox, NEW_LABEL)  # types the real string, keeping case (unlike per-key Key_ constants)
+    ctx.type_text(labelbox, NEW_LABEL)
     ctx.wait(0.6)
     ctx.press_key(Qt.Key_Return, seconds=0.3)
 
     ctx.caption("Close the Configuration window")
+    ctx.wait(1.5)
     window.close()
     ctx.wait(0.6)
     ctx.caption(None)
