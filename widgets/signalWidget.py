@@ -73,9 +73,7 @@ class SignalWidget(QWidget):
             self.event_boxes.append(box)
 
     def _overlay_pen(self, config, visible_counter):
-        base_color = self.channelColorPalette[config[1][visible_counter]["Channel_color"]]
-        pen = pg.mkPen(color=(*base_color, 150), style=Qt.DashLine, width=1)
-        return pen
+        return pg.mkPen(color=(95, 110, 145), width=config[1][visible_counter]["Line_width"])
 
     def _standardize_or_scale(self, data, config, visible_counter, chan_y_offset, z_standardize):
         chan = config[1][visible_counter]
