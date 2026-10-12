@@ -5,6 +5,7 @@ Booting waits for the worker thread that builds the displayed signal and analysi
 The first boot computes the spectrogram (~2 s) and writes the disk cache; a session
 fixture does that once so every test boots from the warm cache (~0.2 s)."""
 
+import json
 import os
 import shutil
 import time
@@ -19,11 +20,23 @@ EXAMPLE_DIR = os.path.join(
 EXTENSIONS = (".mat", ".json", ".config.json", ".cache.pkl")
 
 
+# Display toggles the tracked example config sets for the film; tests assume the defaults.
+_FILM_DISPLAY_KEYS = ("Show_vertical_grid", "Show_zero_lines", "Show_amplitude_lines")
+
+
 def _copy_example(source_dir, target_dir):
     for ext in EXTENSIONS:
         src = os.path.join(source_dir, "example_data" + ext)
         if os.path.exists(src):
             shutil.copy(src, target_dir)
+    config_path = os.path.join(target_dir, "example_data.config.json")
+    if os.path.exists(config_path):
+        with open(config_path) as f:
+            config = json.load(f)
+        for key in _FILM_DISPLAY_KEYS:
+            config[0].pop(key, None)
+        with open(config_path, "w") as f:
+            json.dump(config, f)
 
 
 def wait_until_loaded(ui):

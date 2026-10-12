@@ -50,11 +50,13 @@ def test_stage_badge_shows_unscored_not_sure_and_comparison_disagreement(ui):
     _jump(ui, 3)
     text = ui.StatusReadout.stage_badge.text()
     assert "N2" in text and "vs N3" in text
-    assert "#c0392b" in text and "font-size" in text and ">vs N3<" in text
+    badge = ui.StatusReadout.stage_badge
+    assert "#b57edc" in text and "font-size" in text and ">vs N3<" in text
+    assert "#c0392b" in badge.styleSheet()
     ui.scoring_comparison.set(3, "N2")
     _jump(ui, 3)
     text = ui.StatusReadout.stage_badge.text()
-    assert "vs N2" in text and "#c0392b" not in text
+    assert "vs N2" in text and "#b57edc" in text and "#c0392b" not in badge.styleSheet()
 
 
 def test_status_bar_shows_recording_name_and_comparison(ui):
