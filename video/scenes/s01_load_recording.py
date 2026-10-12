@@ -1,7 +1,5 @@
 """Scene 1: the window starts empty; load the example recording through File > Load EEG."""
 
-import os
-
 from make_video import assert_empty_start
 
 
@@ -9,8 +7,7 @@ def run(ctx):
     ctx.caption("ScoringHero starts with no recording loaded")
     ctx.wait(1.5)
     ctx.caption("File > Load EEG > Load EEGLAB structure (.mat)")
-    path = os.path.join(ctx.directory, "example_data.mat")
-    with ctx.file_dialogs(open=[path]):
+    with ctx.file_dialogs(open=(ctx.directory, "example_data.mat", "*.mat")):
         ctx.click_menu("action_load_eeglab")
     ctx.wait_idle()
     ctx.caption(None)
