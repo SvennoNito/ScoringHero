@@ -46,10 +46,15 @@ def run(ctx):
     start, end = START_S, END_S
     print(f"s09: arousal drawn in Epoch {EPOCH + 1} ({start:.2f}-{end:.2f} s)", flush=True)
 
+    # The hotkey add merges overlapping/touching spans (this real arousal location sits on top
+    # of an auto-detected spindle), so the slot count does not simply go up by one: work out how
+    # many existing spans the new rectangle will absorb to predict the post-add count.
+    absorbed = sum(1 for s0, s1 in ui.events.spans(SLOT_1) if s0 <= end and s1 >= start)
     ctx.state.update(
         s09_epoch=EPOCH,
         s09_slot1_before=ui.events.count(SLOT_1),
         s09_slot2_before=ui.events.count(SLOT_2),
+        s09_slot1_add_delta=1 - absorbed,
     )
 
     ctx.caption(f"An arousal in Epoch {EPOCH + 1}: go there")
@@ -120,8 +125,9 @@ def run(ctx):
 
 def check(ctx):
     ui, state = ctx.ui, ctx.state
-    assert state["s09_slot1_after_add"] == state["s09_slot1_before"] + 1, \
-        f"slot {SLOT_1} count after add: {state['s09_slot1_after_add']}, expected {state['s09_slot1_before'] + 1}"
+    expected_after_add = state["s09_slot1_before"] + state["s09_slot1_add_delta"]
+    assert state["s09_slot1_after_add"] == expected_after_add, \
+        f"slot {SLOT_1} count after add: {state['s09_slot1_after_add']}, expected {expected_after_add}"
     assert state["s09_slot1_after_move"] == state["s09_slot1_after_add"] - 1, \
         f"slot {SLOT_1} count after move: {state['s09_slot1_after_move']}, expected {state['s09_slot1_after_add'] - 1}"
     assert state["s09_slot2_after_move"] == state["s09_slot2_before"] + 1, \
