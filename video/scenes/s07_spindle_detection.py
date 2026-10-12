@@ -36,13 +36,16 @@ def run(ctx):
     ctx.click(_list_item_point(ctx, dialog._ch_list, CHANNEL), duration=0.8)
     assert dialog._ch_list.currentItem().text() == CHANNEL, f"{CHANNEL} not selected"
 
-    combo = dialog._marker  # keys, not the drop-down: its popup is clamped to the 800 px offscreen screen
+    combo = dialog._marker
     ctx.move_cursor(combo, duration=0.8)
     combo.setFocus()
-    while combo.currentIndex() != SPINDLE_SLOT:
-        ctx.press_key(Qt.Key_Up if combo.currentIndex() > SPINDLE_SLOT else Qt.Key_Down, seconds=0.5)
+    combo.showPopup()
+    ctx.wait(1.0)  # hold open, showing the Event marker options
+    combo.setCurrentIndex(SPINDLE_SLOT)
     assert combo.currentText() == "F1", "the F1 Event marker was not chosen"
-    ctx.wait(1.0)
+    ctx.wait(0.5)  # hold open, showing F1 chosen
+    combo.hidePopup()
+    ctx.wait(0.5)
 
     ctx.click(ctx.button(dialog, "OK"), duration=0.8)  # detection runs inside this click
     ctx.processing_card("Detecting spindles…", 2.0, until=lambda: not ctx.progress_dialogs())
