@@ -1,6 +1,6 @@
 [project]
 name = "scoringhero"
-version = "0.3.0"
+version = "0.3.1"
 description = "Open-source GUI application for sleep EEG scoring and visualization"
 requires-python = ">=3.13"
 dependencies = [
