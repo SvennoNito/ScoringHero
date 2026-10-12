@@ -432,6 +432,20 @@ class GeneralConfiguration(QDialog):
         badge_row.addWidget(badge_size)
         form_layout.addRow(badge_row)
 
+        # Grid lines: vertical 1 s / axis-tick grid on the EEG panel (more checkboxes join this row later)
+        grid_label = QLabel("Grid lines")
+        grid_label.setAlignment(Qt.AlignRight)
+        grid_label.setFixedWidth(self.width_label)
+        vgrid_checkbox = QCheckBox("Vertical grid", self)
+        vgrid_checkbox.setChecked(general_config.get("Show_vertical_grid", True))
+        vgrid_checkbox.stateChanged.connect(lambda _=None: self.apply_changes(general_config))
+        self.checkboxes["Show_vertical_grid"] = vgrid_checkbox
+        grid_row = QHBoxLayout()
+        grid_row.addWidget(grid_label)
+        grid_row.addWidget(vgrid_checkbox)
+        grid_row.addStretch(1)
+        form_layout.addRow(grid_row)
+
         # Edits write into the pending config; the window-level Apply commits them.
         for spinbox_list in self.spinboxes.values():
             for spinbox in spinbox_list:
