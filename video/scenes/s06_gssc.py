@@ -69,7 +69,11 @@ def run(ctx):
     ctx.caption("GSSC is scoring the night…")
     ctx.processing_card("Processing…", 2.0, until=lambda: _scored(ui) and not ctx.progress_dialogs())
     ctx.caption("The Hypnogram is filled with the GSSC Stages")
-    ctx.wait(2.5)
+    ctx.wait(1.5)
+    ctx.move_cursor(ctx.center(ui.StatusReadout.confidence))
+    ctx.caption("The Autoscorer's Confidence is shown for each Epoch")
+    ctx.wait(2.0)
+    ctx.caption(None)
 
 
 def _scored(ui):
