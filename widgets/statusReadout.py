@@ -123,7 +123,7 @@ class StatusReadout:
         )
         self.comparison.setText(status.comparison or "")
         self.comparison.setVisible(status.comparison is not None)
-        set_role(self.comparison, "error" if status.disagrees else None)
+        set_role(self.comparison, "comparison")
         self.confidence.setText(status.confidence)
         self.clock.setText(status.clock)
 

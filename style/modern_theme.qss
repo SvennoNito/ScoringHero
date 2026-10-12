@@ -102,6 +102,7 @@ QLabel[role="info"] { color: #2f6fed; font-weight: bold; }
 QLabel[role="warn"] { color: #b7791f; font-size: 11px; }
 QLabel[role="ok"] { color: #2e7d32; font-size: 11px; }
 QLabel[role="error"] { color: #c0392b; }
+QLabel[role="comparison"] { color: #b57edc; }
 QLineEdit[role="error"] { border-color: #c0392b; background: #fdf2f1; }
 
 /* Dialog title line inside a dialog body */

@@ -14,6 +14,7 @@ UNSCORED_COLOR = "#78808c"
 TEXT_COLOR = "#1f2933"
 LIGHT_TEXT = "#ffffff"
 DISAGREE_BORDER = "#c0392b"
+COMPARISON_TEXT = "#b57edc"
 TINT_ALPHA = 170
 
 
@@ -48,7 +49,7 @@ class StageBadge(QLabel):
     def show_stage(self, stage, comparison_stage=None, disagrees=False, position=(0.5, 0.5), size=24):
         text = stage
         if comparison_stage is not None:
-            vs_color = f"color: {DISAGREE_BORDER}; " if disagrees else ""
+            vs_color = f"color: {COMPARISON_TEXT}; "
             text += f' <span style="{vs_color}font-size: {size * 2 // 3}px;">vs {comparison_stage}</span>'
         border = DISAGREE_BORDER if disagrees else "transparent"
         self.setStyleSheet(
