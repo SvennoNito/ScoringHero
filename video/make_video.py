@@ -536,7 +536,9 @@ def main():
     import imageio_ffmpeg
 
     app, window, ui, directory = boot()
-    writer = imageio_ffmpeg.write_frames(out, mode["size"], fps=mode["fps"], quality=8, macro_block_size=1)
+    # constant-quality x264: ~9 MB for the 3.5 min 1080p film, under GitHub's 10 MB video upload limit
+    writer = imageio_ffmpeg.write_frames(out, mode["size"], fps=mode["fps"], quality=None, macro_block_size=1,
+                                         output_params=["-crf", "34", "-preset", "slow", "-movflags", "+faststart"])
     writer.send(None)
     ctx = Context(app, window, ui, directory, writer, mode["size"], mode["fps"])
     started = time.time()
