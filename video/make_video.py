@@ -161,14 +161,33 @@ class Context:
             return self.center(target)
         return QPoint(target)
 
-    def _widget_at(self, point):
-        """Widget under `point` (window coordinates): popups first, then other visible
-        top-level windows (dialogs), then the main window."""
-        global_point = self.to_global(point)
-        tops = [w for w in QApplication.topLevelWidgets() if w.isVisible() and w is not self.window]
+    def _stacking_order(self):
+        """Visible top-level windows in paint order (bottom to top): the main window first,
+        then dialogs/menus ordered so a window whose parent chain contains another top-level
+        window comes after it, then the active popup last (always topmost)."""
         popup = QApplication.activePopupWidget()
-        tops.sort(key=lambda w: w is not popup)
-        for top in tops + [self.window]:
+        tops = [w for w in QApplication.topLevelWidgets()
+                if w.isVisible() and w is not self.window and w is not popup]
+
+        def depth(widget):
+            d, parent, seen = 0, widget.parentWidget(), set()
+            while parent is not None and id(parent) not in seen:
+                seen.add(id(parent))
+                d += 1
+                parent = parent.parentWidget()
+            return d
+
+        tops.sort(key=depth)
+        order = [self.window] + tops
+        if popup is not None and popup.isVisible():
+            order.append(popup)
+        return order
+
+    def _widget_at(self, point):
+        """Widget under `point` (window coordinates): the topmost window at that point, in
+        reverse stacking order (popup first, then dialogs nearest the top, then the main window)."""
+        global_point = self.to_global(point)
+        for top in reversed(self._stacking_order()):
             if top.frameGeometry().contains(global_point) or top.geometry().contains(global_point):
                 local = top.mapFromGlobal(global_point)
                 child = top.childAt(local)
@@ -186,9 +205,8 @@ class Context:
         base = self.window.grab().toImage().convertToFormat(QImage.Format_RGB888)
         origin = self._origin()
         painter = QPainter(base)
-        for top in QApplication.topLevelWidgets():  # dialogs and menu popups
-            if top is not self.window and top.isVisible():
-                painter.drawImage(top.pos() - origin, top.grab().toImage())
+        for top in self._stacking_order()[1:]:  # dialogs and menu popups, bottom to top
+            painter.drawImage(top.pos() - origin, top.grab().toImage())
         self._paint_overlays(painter, base.width(), base.height())
         painter.end()
         return base
