@@ -14,4 +14,5 @@ uv run --extra gssc python video/make_video.py --scenes s01 s02   # only these s
 - The smoke run is manual (needs GSSC, takes a few minutes); it is not part of pytest or the commit hook.
 - Generated files in `video/` (`.mp4`, `.json`, `.mat`, `.pdf`) are gitignored.
 - Scene 12 demos every Jump button after showing the Comparison summary statistics: a few Epochs are cleared and a few are staged by hand, on camera, so "Next unscored" and "Next human-scored" have real targets; "Next stage transition", "Next event" and "Next disagreement" already have real targets (the GSSC-staged night, the spindle Events, and the Comparison scoring just imported). "Next uncertain" is reported rather than asserted if GSSC produced no uncertain Epoch.
+- Scene 13 imports an Overlay signal through File > Import Overlay (EEGLAB) via a real, non-native file dialog filmed at the same temp folder — the cursor clicks `example_data_overlay.mat`, then Open; the Overlay signal is shown drawn over the Displayed signal on the current Epoch for a few seconds, then removed. No Epoch roaming.
 - See the docstring of `make_video.py` for the scene contract and helpers.
