@@ -28,9 +28,15 @@ Scene contract (add a scene = one new module + one line in video/scenes/__init__
   * Film helpers: `caption(text | None)`, `processing_card(text, seconds, until)` (runs the work
     off camera, shows a short card instead), `wait(seconds)`, `ctx.wait_until(cond)` and `ctx.wait_idle()` (off camera;
     call wait_idle before the first click of a scene: background work blocks mouse input).
-  * Native dialogs: `with ctx.file_dialogs(open=path, save=path, directory=path):` answers
-    QFileDialog calls and QMessageBox.exec (Yes). Dialogs the app opens with its own `exec`
-    (QDialog) would block the script: patch that class's `exec` in the scene, as
+  * Native dialogs: `with ctx.file_dialogs(open=(folder, filename, name_filter=None), save=path,
+    directory=path):` answers the app's static QFileDialog calls and QMessageBox.exec (Yes).
+    `open` drives `ctx.filmed_open_dialog(folder, filename, name_filter=None)`: it opens a
+    real, non-native QFileDialog at `folder` (restricted to `name_filter` if given, e.g.
+    "*.mat"), films it, clicks `filename` in the file list, then clicks Open, and returns the
+    chosen path — this is what the viewer sees when the app loads a Recording (scene 1) or
+    imports a Comparison scoring / Overlay signal (later scenes). `save`/`directory` still
+    answer getSaveFileName/getExistingDirectory silently. Dialogs the app opens with its own
+    `exec` (QDialog) would block the script: patch that class's `exec` in the scene, as
     make_screenshots.py does. Visible dialogs and menu popups are composited into the frames.
   * Durations are in seconds of video; smoke lowers fps, so scenes stay fast without changes.
   * Generated inputs (Comparison scoring, Overlay signal, report) go to `ctx.video_dir`
@@ -57,7 +63,16 @@ sys.path.insert(0, VIDEO_DIR)
 from PySide6.QtCore import QEvent, QPoint, QPointF, QRectF, Qt  # noqa: E402
 from PySide6.QtGui import QColor, QFont, QFontMetrics, QImage, QMouseEvent, QPainter, QPolygonF  # noqa: E402
 from PySide6.QtTest import QTest  # noqa: E402
-from PySide6.QtWidgets import QApplication, QFileDialog, QMessageBox, QProgressDialog, QPushButton, QWidget  # noqa: E402
+from PySide6.QtWidgets import (  # noqa: E402
+    QApplication,
+    QFileDialog,
+    QListView,
+    QMessageBox,
+    QProgressDialog,
+    QPushButton,
+    QTreeView,
+    QWidget,
+)
 
 from tests.conftest import EXAMPLE_DIR, _build  # noqa: E402
 
@@ -377,13 +392,53 @@ class Context:
         """Progress dialogs of the app that are showing."""
         return [w for w in self.app.topLevelWidgets() if isinstance(w, QProgressDialog) and w.isVisible()]
 
+    def filmed_open_dialog(self, folder, filename, name_filter=None):
+        """Open a real, non-native QFileDialog at `folder` (restricted to `name_filter` if
+        given, e.g. "*.mat"), film it, click `filename` in the file list, then click Open.
+        Returns the chosen path. Used by `file_dialogs(open=...)` to answer the app's static
+        open-file calls with a visible, driven dialog instead of an instant silent answer."""
+        dialog = QFileDialog(self.window, "Open File", folder, name_filter or "")
+        dialog.setOption(QFileDialog.DontUseNativeDialog, True)
+        dialog.setFileMode(QFileDialog.ExistingFile)
+        dialog.setModal(False)
+        dialog.show()
+        for _ in range(5):
+            self.app.processEvents()
+        view = dialog.findChild(QTreeView, "treeView")
+        if view is None or not view.isVisible():
+            view = dialog.findChild(QListView, "listView")
+        root = view.rootIndex()
+        self.wait_until(lambda: view.model().rowCount(root) > 0)
+        self.wait(0.6)
+        index = None
+        model = view.model()
+        for row in range(model.rowCount(root)):
+            candidate = model.index(row, 0, root)
+            if model.data(candidate) == filename:
+                index = candidate
+                break
+        if index is None:
+            dialog.close()
+            raise LookupError(f"'{filename}' not found in {folder}")
+        self.click(self.window_point(view.viewport(), view.visualRect(index).center()))
+        self.click(self.button(dialog, "Open"))
+        path = os.path.join(folder, filename)
+        dialog.close()
+        return path
+
     @contextlib.contextmanager
     def file_dialogs(self, open=None, save=None, directory=None):
-        """Answer native dialogs: QFileDialog open/save/directory return the given paths and
-        QMessageBox.exec returns Yes."""
-        opened = (open,) if isinstance(open, str) else open
-        with mock.patch.object(QFileDialog, "getOpenFileName", lambda *a, **k: (opened[0] if opened else "", "")), \
-                mock.patch.object(QFileDialog, "getOpenFileNames", lambda *a, **k: (list(opened or []), "")), \
+        """Answer the app's static dialog calls. `open`: a (folder, filename) or (folder,
+        filename, name_filter) tuple — getOpenFileName/getOpenFileNames are answered by filming
+        and driving a real dialog through `filmed_open_dialog`. `save`/`directory`: paths
+        returned silently by getSaveFileName/getExistingDirectory. QMessageBox.exec always
+        returns Yes."""
+        def opened_path():
+            folder, filename, *rest = open
+            return self.filmed_open_dialog(folder, filename, rest[0] if rest else None)
+
+        with mock.patch.object(QFileDialog, "getOpenFileName", lambda *a, **k: (opened_path() if open else "", "")), \
+                mock.patch.object(QFileDialog, "getOpenFileNames", lambda *a, **k: ([opened_path()] if open else [], "")), \
                 mock.patch.object(QFileDialog, "getSaveFileName", lambda *a, **k: (save or "", "")), \
                 mock.patch.object(QFileDialog, "getExistingDirectory", lambda *a, **k: directory or ""), \
                 mock.patch.object(QMessageBox, "exec", lambda self: QMessageBox.Yes):
@@ -399,9 +454,11 @@ def _packed(image):
     return b"".join(data[y * image.bytesPerLine(): y * image.bytesPerLine() + width] for y in range(image.height()))
 
 
-def boot(directory):
-    """Bare app window on a temp copy of the example recording files (no scoring sidecar); no
+def boot():
+    """Bare app window on a temp copy of the example recording files (no scoring sidecar), in a
+    temp folder named to read clearly in the filmed file dialog ("...ScoringHero example"); no
     recording is loaded yet — the first scene loads it through File > Load EEG."""
+    directory = tempfile.mkdtemp(suffix=" - ScoringHero example")
     for name in os.listdir(EXAMPLE_DIR):
         stem = "example_data"
         if name.startswith(stem + ".") and name != stem + ".json":
@@ -416,7 +473,7 @@ def boot(directory):
     window.show()
     for _ in range(5):
         app.processEvents()
-    return app, window, ui
+    return app, window, ui, directory
 
 
 def assert_empty_start(ui):
@@ -445,8 +502,7 @@ def main():
 
     import imageio_ffmpeg
 
-    directory = tempfile.mkdtemp(prefix="video_")
-    app, window, ui = boot(directory)
+    app, window, ui, directory = boot()
     writer = imageio_ffmpeg.write_frames(out, mode["size"], fps=mode["fps"], quality=8, macro_block_size=1)
     writer.send(None)
     ctx = Context(app, window, ui, directory, writer, mode["size"], mode["fps"])
