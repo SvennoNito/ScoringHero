@@ -45,9 +45,7 @@ def run(ctx):
     ctx.wait(0.6)
     ctx.press_key(Qt.Key_Return, seconds=0.3)
 
-    ctx.caption("Apply and close")
-    ctx.click(window.apply_button, duration=0.7)
-    ctx.wait(0.6)
+    ctx.caption("Close the Configuration window")
     window.close()
     ctx.wait(0.6)
     ctx.caption(None)
