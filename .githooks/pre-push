@@ -1,3 +1,13 @@
 #!/bin/sh
-# Full test suite before push. Enable once per clone: git config core.hooksPath .githooks
-uv run pytest -q || exit 1
+# Full test suite before push, unless every pushed change is a Markdown file.
+# Enable once per clone: git config core.hooksPath .githooks
+zero=0000000000000000000000000000000000000000
+while read -r _ local_sha _ remote_sha; do
+    [ "$local_sha" = "$zero" ] && continue                 # branch deletion
+    [ "$remote_sha" = "$zero" ] && exec uv run pytest -q   # new branch: no base to diff
+    files=$(git diff --name-only "$remote_sha" "$local_sha") || exec uv run pytest -q
+    if printf '%s\n' "$files" | grep -qv '\.md$'; then
+        exec uv run pytest -q
+    fi
+done
+exit 0
