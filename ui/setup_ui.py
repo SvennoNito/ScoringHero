@@ -14,6 +14,7 @@ from style.icons import icon
 from utilities.jump_to_epoch import jump_to_epoch
 from widgets import *
 from utilities.score_stage import score_stage
+from utilities.clear_all_stages import clear_all_stages
 from scoring.scoring_export_window import scoring_export_window, export_scoring
 from scoring_model.formats import FORMATS
 from config.write_configuration import save_configuration
@@ -244,6 +245,11 @@ def setup_ui(ui, MainWindow):
     ui.action_express_uncertainty.triggered.connect(lambda: score_not_sure(ui))
     ui.action_express_uncertainty.setShortcut("Q")
     ui.menu_stages.addAction(ui.action_express_uncertainty)
+    ui.menu_stages.addSeparator()
+    ui.action_clear_all_stages = QAction("Clear all stages…", MainWindow)
+    ui.action_clear_all_stages.setObjectName("action_clear_all_stages")
+    ui.action_clear_all_stages.triggered.connect(lambda: clear_all_stages(ui))
+    ui.menu_stages.addAction(ui.action_clear_all_stages)
 
     # Sleep stages menu
     ui.menu_labels = QMenu("Events", ui.menu)
