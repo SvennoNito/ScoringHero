@@ -1,6 +1,7 @@
 """Render the silent, captioned ScoringHero walk-through video (issue #55).
 
     uv run python video/make_video.py                  # video/scoringhero_walkthrough.mp4, 1920x1080, 30 fps
+    uv run python video/make_video.py --no-captions    # video/scoringhero_walkthrough_nocaptions.mp4, same film without captions
     uv run python video/make_video.py --smoke          # all scenes, 640x360, 6 fps, state asserted after each
     uv run python video/make_video.py --scenes s01     # only scenes whose module name starts with s01
 
@@ -115,12 +116,13 @@ class _ShowOrderTracker(QObject):
 class Context:
     """What a scene sees: the app (`ui`, `window`) and the helpers listed in the module docstring."""
 
-    def __init__(self, app, window, ui, directory, writer, size, fps):
+    def __init__(self, app, window, ui, directory, writer, size, fps, captions=True):
         self.app, self.window, self.ui = app, window, ui
         self.directory = directory  # temp copy of the recording
         self.video_dir = VIDEO_DIR
         self.state = {}
         self._writer, self._size, self._fps = writer, size, fps
+        self.captions = captions  # False: caption() calls are ignored, frames carry no subtitles
         self._frame = 0
         self._caption = None
         self._card = None
@@ -233,8 +235,8 @@ class Context:
     # ---- frames ------------------------------------------------------------------------
 
     def caption(self, text):
-        """Show `text` (None clears) at the bottom of every following frame."""
-        self._caption = text
+        """Show `text` (None clears) at the bottom of every following frame (ignored when captions are off)."""
+        self._caption = text if self.captions else None
 
     def _compose(self):
         self.app.processEvents()
@@ -527,10 +529,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--smoke", action="store_true", help="low resolution and fps; every scene is checked")
     parser.add_argument("--scenes", nargs="*", default=[], help="only scenes whose module name starts with one of these")
-    parser.add_argument("--out", help="output mp4 (default video/scoringhero_walkthrough.mp4, video/smoke.mp4 with --smoke)")
+    parser.add_argument("--no-captions", action="store_true", help="render without the bottom captions (subtitles)")
+    parser.add_argument("--out", help="output mp4 (default video/scoringhero_walkthrough.mp4, "
+                        "..._nocaptions.mp4 with --no-captions, video/smoke.mp4 with --smoke)")
     args = parser.parse_args()
     mode = SMOKE if args.smoke else FULL
-    out = args.out or os.path.join(VIDEO_DIR, "smoke.mp4" if args.smoke else "scoringhero_walkthrough.mp4")
+    default = "smoke.mp4" if args.smoke else "scoringhero_walkthrough_nocaptions.mp4" if args.no_captions else "scoringhero_walkthrough.mp4"
+    out = args.out or os.path.join(VIDEO_DIR, default)
     scenes = load_scenes(args.scenes)
 
     import imageio_ffmpeg
@@ -540,7 +545,7 @@ def main():
     writer = imageio_ffmpeg.write_frames(out, mode["size"], fps=mode["fps"], quality=None, macro_block_size=1,
                                          output_params=["-crf", "34", "-preset", "slow", "-movflags", "+faststart"])
     writer.send(None)
-    ctx = Context(app, window, ui, directory, writer, mode["size"], mode["fps"])
+    ctx = Context(app, window, ui, directory, writer, mode["size"], mode["fps"], captions=not args.no_captions)
     started = time.time()
     try:
         ctx.wait(1.0)
