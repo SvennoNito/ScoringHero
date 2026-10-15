@@ -1,58 +1,57 @@
-# ScoringHero — Open-Source Sleep EEG Visualization, Annotation & Scoring
+<div align="center">
 
-**ScoringHero** is an open-source tool (PySide6/Qt6, cross-platform) for visualizing long EEG recordings, marking events (spindles, artefacts, anything) and scoring sleep. Used by multiple labs.
+# ScoringHero
+
+**Open-source sleep EEG visualization, annotation and scoring**
+
+Developed by Sven Leach · Used by multiple labs
+
+[![Latest Release](https://img.shields.io/github/v/release/SvennoNito/ScoringHero?style=for-the-badge&label=Release)](https://github.com/SvennoNito/ScoringHero/releases/latest)
+[![Build](https://img.shields.io/github/actions/workflow/status/SvennoNito/ScoringHero/checks.yml?style=for-the-badge&label=Build)](https://github.com/SvennoNito/ScoringHero/actions/workflows/checks.yml)
+[![Downloads](https://img.shields.io/github/downloads/SvennoNito/ScoringHero/total?style=for-the-badge&label=Downloads)](https://github.com/SvennoNito/ScoringHero/releases)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-blue?style=for-the-badge)](#-download)
+
+[📥 Download](#-download) · [Features](#features) · [File formats](#file-formats) · [Shortcuts](#keyboard-shortcuts) · [From source](#from-source) · [Report issue](https://github.com/SvennoNito/ScoringHero/issues/new)
+
+</div>
+
+---
+
+## 📥 Download
+
+| Platform | Variant | File | |
+|----------|---------|------|---|
+| Windows | **Full** (GSSC + NIDRA bundled, about 290 MB) | `auto-scoringhero_windows.exe` | [Download](https://github.com/SvennoNito/ScoringHero/releases/latest/download/auto-scoringhero_windows.exe) |
+| Windows | **Lite** (about 80 MB) | `scoringhero_windows.exe` | [Download](https://github.com/SvennoNito/ScoringHero/releases/latest/download/scoringhero_windows.exe) |
+| macOS (Apple Silicon) | **Lite** | `scoringhero_mac_arm64` | [Download](https://github.com/SvennoNito/ScoringHero/releases/latest/download/scoringhero_mac_arm64) |
+| macOS (Intel) | **Lite** | `scoringhero_mac_x86_64` | [Download](https://github.com/SvennoNito/ScoringHero/releases/latest/download/scoringhero_mac_x86_64) |
+
+Links always point at the newest release. See [all releases and release notes](https://github.com/SvennoNito/ScoringHero/releases).
+
+On macOS, GSSC and NIDRA need the Windows **Full** build or a [source install](#from-source); macOS downloads are Lite only.
+
+**macOS Gatekeeper:** the app is not Apple-registered. Run `chmod +x scoringhero_mac_<arch>` in Terminal, then System Settings → Privacy & Security → **Open Anyway**.
+
+**Code signing & privacy:** Windows builds are signed for free by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/). ScoringHero runs fully locally and sends no data.
+
+---
 
 ![ScoringHero Main Window](screenshots/main.png)
 
 ## Video walkthrough
 
-
 https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
-
-
-
-
-## Getting Started
-
-**Download:** grab the file for your OS from [Releases](https://github.com/SvennoNito/ScoringHero/releases) (Windows `.exe`; macOS `arm64` / `x86_64`) and run it. No installation.
-
-**macOS:** the app is not Apple-registered. Run `chmod +x scoringhero_macOS_<arch>` in Terminal, then System Settings → Privacy & Security → **Open Anyway**.
-
-**From source** (needs [uv](https://docs.astral.sh/uv/getting-started/installation/), Python 3.14.3):
-
-```bash
-git clone https://github.com/SvennoNito/ScoringHero.git
-cd ScoringHero
-uv sync
-uv run scoringhero.py
-```
-
-**Build binaries:** Windows `uv sync --extra build-win && ./build-win.bat` (→ `dist/scoringhero.exe`); macOS `uv sync --extra build-mac && arch -arm64 ./release-mac.sh` (or `-x86_64`).
-
-**Code signing:** free signing by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/). ScoringHero runs fully locally and sends no data.
-
----
-
-<table>
-  <tr>
-    <td width="50%"><img src="screenshots/signal_panel.png" alt="EEG signal panel" /><br /><b>Signal</b> — multi-channel EEG, stage shown in a movable badge</td>
-    <td width="50%"><img src="screenshots/hypnogram_panel.png" alt="Hypnogram with SWA" /><br /><b>Hypnogram</b> — stages, events, slow-wave activity</td>
-  </tr>
-  <tr>
-    <td width="50%"><img src="screenshots/spectrogram_panel.png" alt="Spectrogram" /><br /><b>Spectrogram</b> — click to jump to that time</td>
-    <td width="50%"><img src="screenshots/periodogram_panel.png" alt="Periodogram" /><br /><b>Periodogram</b> — epoch or selected region</td>
-  </tr>
-  <tr>
-    <td width="50%"><img src="screenshots/wavelet_panel.png" alt="Wavelet panel" /><br /><b>Time-frequency</b> — Morlet wavelet power</td>
-    <td width="50%"><img src="screenshots/events_on_signal.png" alt="Events on the signal" /><br /><b>Events</b> — draw, label, relabel on the signal</td>
-  </tr>
-</table>
 
 ---
 
 ## Features
 
 ### Signal display
+
+<p align="center">
+    <img src="screenshots/signal_panel.png" width="70%" alt="EEG signal panel" />
+</p>
+
 - Multiple channels with per-channel scaling, shift, color, line width; amplitude reference lines, 1 s grid
 - Time axis in seconds, minutes, hours or clock time (set the recording start in the configuration)
 - **Stack channels** on one baseline, or **robustly z-standardize** (median/IQR) to compare channels
@@ -83,6 +82,10 @@ uv run scoringhero.py
 - Double-click an event to remove it; hold a key and click an event to relabel it; `Backspace` erases events inside the drawn selection
 - Shown on signal and hypnogram
 
+<p align="center">
+    <img src="screenshots/events_on_signal.png" width="70%" alt="Events on the signal" />
+</p>
+
 ### Compare scoring
 **Compare → Scoring → Import scoring for comparison.** Disagreements are highlighted in the hypnogram, the *Next disagreement* jump uses them, and a statistics window shows Cohen's kappa and per-stage agreement.
 
@@ -92,10 +95,33 @@ uv run scoringhero.py
 </p>
 
 ### Spectral panels
-- **Spectrogram**: Welch PSD of the full night (4 s Hann, 2 s hop), cached; channel, frequency range, power limits and colormap configurable
-- **Hypnogram**: color-coded stages, events, and a **slow-wave activity** overlay (delta 0.5–4 Hz, smoothing slider)
-- **Periodogram**: Welch spectrum of the epoch or of a rectangle drawn on the signal; modes 1/f removed, dB, raw
-- **Wavelet**: complex Morlet via FFT convolution, adaptive cycles (3 to f/2), padded epoch against edge artifacts; 4 normalizations (raw, L2, z, dB median baseline), linear/log axis, optional ridge, can be hidden
+
+**Spectrogram** — Welch PSD of the full night (4 s Hann, 2 s hop), cached; channel, frequency range, power limits and colormap configurable
+
+<p align="center">
+    <img src="screenshots/spectrogram_panel.png" width="70%" alt="Spectrogram panel" />
+</p>
+
+**Hypnogram** — color-coded stages, events, and a **slow-wave activity** overlay (delta 0.5–4 Hz, smoothing slider)
+
+<p align="center">
+    <img src="screenshots/hypnogram_panel.png" width="70%" alt="Hypnogram panel" />
+</p>
+
+**Periodogram** — Welch spectrum of the epoch or of a rectangle drawn on the signal; modes 1/f removed, dB, raw
+
+<table>
+  <tr>
+    <td>Shown at its native size: the panel is compact next to the signal view.</td>
+    <td width="178"><img src="screenshots/periodogram_panel.png" alt="Periodogram panel" /></td>
+  </tr>
+</table>
+
+**Wavelet** — complex Morlet via FFT convolution, adaptive cycles (3 to f/2), padded epoch against edge artifacts; 4 normalizations (raw, L2, z, dB median baseline), linear/log axis, optional ridge, can be hidden
+
+<p align="center">
+    <img src="screenshots/wavelet_panel.png" width="70%" alt="Wavelet panel" />
+</p>
 
 ### Automatic detection and scoring
 - **MT-KCD / MT-Spindle** (`Ctrl+K`, Detectors menu): multitaper K-complex and spindle detection with amplitude/slope thresholds, optional stage restriction; results become normal events.
@@ -150,7 +176,8 @@ Predictions are imported as a scoring you can review, correct and export.
 | BDF | `.bdf` | BioSemi 24-bit; read directly; annotation channels dropped |
 | Zurich R09 | `.r09` | legacy; fixed 9 channels at 128 Hz (`F3-A2, F4-A1, C3-A2, C4-A1, O1-A2, O2-A1, EOG1, EOG2, EMG`), `int16` |
 
-### Scoring import
+<details>
+<summary><strong>Scoring import</strong></summary>
 
 | Format | Ext. | Encoding |
 |--------|------|----------|
@@ -163,7 +190,10 @@ Predictions are imported as a scoring you can review, correct and export.
 
 Epoch-count and stage-name mismatches are checked for every format: one extra/missing epoch is dropped/filled with a warning; more asks to cancel or truncate/copy the last epoch; unknown stages ask to cancel or set *unscored*.
 
-### Native JSON
+</details>
+
+<details>
+<summary><strong>Native JSON schema</strong></summary>
 
 Saved as `{filename}.json` next to the EEG: `[ <stages>, <annotations> ]`.
 
@@ -177,6 +207,8 @@ Saved as `{filename}.json` next to the EEG: `[ <stages>, <annotations> ]`.
 {"key": "A", "event": "Spindle", "digit": 0, "counter": 3, "epoch": 7, "start": 195.2, "end": 196.8}
 ```
 `digit` is the event type 0–12 (0 = Artefact, 1–12 = `F1`–`F12`).
+
+</details>
 
 ---
 
@@ -196,13 +228,42 @@ Saved as `{filename}.json` next to the EEG: `[ <stages>, <annotations> ]`.
 
 ---
 
-## Code Layout
+<details>
+<summary><h2>From source</h2></summary>
+
+Needs [uv](https://docs.astral.sh/uv/getting-started/installation/), Python 3.13 or newer (the exact version is pinned by `uv`).
+
+```bash
+git clone https://github.com/SvennoNito/ScoringHero.git
+cd ScoringHero
+uv sync
+uv run scoringhero.py
+```
+
+<details>
+<summary><strong>Build binaries</strong></summary>
+
+Windows: `uv sync --extra build-win && ./build-win.bat` (→ `dist/scoringhero.exe`)
+
+macOS: `uv sync --extra build-mac && arch -arm64 ./release-mac.sh` (or `-x86_64`)
+
+</details>
+
+</details>
+
+<details>
+<summary><h2>Code layout</h2></summary>
 
 `scoringhero.py` entry; `ui/` layout; `widgets/` custom widgets; `eeg/` loaders; `scoring/` import/export; `signal_processing/` spectrogram, wavelet, periodogram, SWA; `autoscoring/` GSSC, NIDRA; `event_detection/` detectors; `export/` reports; `config/`, `cache/`, `style/`, `tests/`. Terms in [GLOSSARY.md](GLOSSARY.md). Dependencies in [pyproject.toml](pyproject.toml).
 
-## Contributing
+</details>
+
+<details>
+<summary><h2>Contributing</h2></summary>
 
 Commit subjects: `[NEW]` feature, `[FIX]` bug fix, `[MOD]` change/refactor, `[DOC]` docs.
+
+</details>
 
 ## Cite & Support
 
