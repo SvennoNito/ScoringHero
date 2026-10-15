@@ -152,3 +152,13 @@ An epoch where the primary scoring and the comparison scoring have different sta
 
 **Scoring**:
 The stage of every epoch of a recording; events are not part of it. The scoring file stores a scoring together with the events.
+
+### Releases
+
+**Lite build**:
+A downloadable ScoringHero build without the bundled Autoscorers GSSC and NIDRA. Available for Windows and macOS.
+_Avoid_: standard build, basic build
+
+**Full build**:
+A downloadable ScoringHero build with GSSC and NIDRA bundled. Available for Windows only; on macOS the Autoscorers come from a source install.
+_Avoid_: auto build, bundled build
