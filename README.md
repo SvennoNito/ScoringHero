@@ -45,6 +45,13 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
 
 ## Features
 
+### Scoring
+- Keys: `W`, `1`, `2`, `3`, `R`, `I` (Inconclusive), `Delete` clears, `Q` flags an epoch as uncertain
+- The **stage badge** over the EEG shows the current stage (drag it anywhere; size and visibility in Configuration → General). With a comparison loaded and disagreeing it reads e.g. *N2 vs N3* with a red border.
+- The status bar shows epoch (click, type a number, Enter to jump), stage, confidence, clock time, EEG and scoring file.
+
+![Stage badge](screenshots/stage_badge.png)
+
 ### Signal display
 
 <p align="center">
@@ -58,13 +65,6 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
 - **Zoom**: draw a rectangle and press `Z`.
 
 ![Filter window](screenshots/filter.png)
-
-### Scoring
-- Keys: `W`, `1`, `2`, `3`, `R`, `I` (Inconclusive), `Delete` clears, `Q` flags an epoch as uncertain
-- The **stage badge** over the EEG shows the current stage (drag it anywhere; size and visibility in Configuration → General). With a comparison loaded and disagreeing it reads e.g. *N2 vs N3* with a red border.
-- The status bar shows epoch (click, type a number, Enter to jump), stage, confidence, clock time, EEG and scoring file.
-
-![Stage badge](screenshots/stage_badge.png)
 
 ### Navigation
 `←`/`→` step epochs; jumps wrap around. The left navigation bar has one button per jump: next **unscored**, **uncertain** (confidence < 0.5), **stage transition**, **event**, **human-scored**, **disagreement** (needs comparison). Clicking the hypnogram or spectrogram jumps to that time.
