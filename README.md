@@ -4,7 +4,7 @@
 
 **Open-source sleep EEG visualization, annotation and scoring**
 
-Developed by Sven Leach · Used by multiple labs
+Developed by Sven Leach · Used by research labs & clinicians alike
 
 [![Latest Release](https://img.shields.io/github/v/release/SvennoNito/ScoringHero?style=for-the-badge&label=Release)](https://github.com/SvennoNito/ScoringHero/releases/latest)
 [![Build](https://img.shields.io/github/actions/workflow/status/SvennoNito/ScoringHero/checks.yml?style=for-the-badge&label=Build)](https://github.com/SvennoNito/ScoringHero/actions/workflows/checks.yml)
