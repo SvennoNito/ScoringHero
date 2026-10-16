@@ -54,12 +54,6 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
 - Multiple channels with per-channel scaling, shift, color, line width; amplitude reference lines, 1 s grid
 - Time axis in seconds, minutes, hours or clock time (set the recording start in the configuration)
 - **Stack channels** on one baseline, or **robustly z-standardize** (median/IQR) to compare channels
-
-<p align="center">
-    <img src="screenshots/signal_stacked.png" width="49%" alt="Stacked channels" />
-    <img src="screenshots/signal_zscore.png" width="49%" alt="Robustly z-standardized channels" />
-</p>
-
 - **Filtering** (`Ctrl+F`): per-channel high-pass, low-pass and notch (zero-phase Chebyshev II), with a live magnitude response. Cutoff is the −3 dB point; order sets roll-off. Filters affect the displayed signal and all derived spectra.
 - **Zoom**: draw a rectangle and press `Z`.
 
