@@ -46,7 +46,7 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
 ## ✨ Features
 
 <details>
-<summary><strong>🎯 Scoring</strong></summary>
+<summary><strong>Scoring</strong></summary>
 
 - Keys: `W`, `1`, `2`, `3`, `R`, `I` (Inconclusive), `Delete` clears, `Q` flags an epoch as uncertain
 - The **stage badge** over the EEG shows the current stage (drag it anywhere; size and visibility in Configuration → General). With a comparison loaded and disagreeing it reads e.g. *N2 vs N3* with a red border.
@@ -57,7 +57,7 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
 </details>
 
 <details>
-<summary><strong>📈 Signal display</strong></summary>
+<summary><strong>Signal display</strong></summary>
 
 - Multiple channels with per-channel scaling, shift, color, line width; amplitude reference lines, 1 s grid
 - Time axis in seconds, minutes, hours or clock time (set the recording start in the configuration)
@@ -67,14 +67,14 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
 </details>
 
 <details>
-<summary><strong>🧭 Navigation</strong></summary>
+<summary><strong>Navigation</strong></summary>
 
 `←`/`→` step epochs; jumps wrap around. The left navigation bar has one button per jump: next **unscored**, **uncertain** (confidence < 0.5), **stage transition**, **event**, **human-scored**, **disagreement** (needs comparison). Clicking the hypnogram or spectrogram jumps to that time.
 
 </details>
 
 <details>
-<summary><strong>⚡ Events</strong></summary>
+<summary><strong>Events</strong></summary>
 
 - 13 types: Artefact (`A`) + 12 customizable (`F1`–`F12`) with own names and colors
 - Draw by click-and-drag (live duration/amplitude), press the key to assign; overlapping same-type events merge
@@ -88,7 +88,7 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
 </details>
 
 <details>
-<summary><strong>⚖️ Compare scoring</strong></summary>
+<summary><strong>Compare scoring</strong></summary>
 
 **Compare → Scoring → Import scoring for comparison.** Disagreements are highlighted in the hypnogram, the *Next disagreement* jump uses them, and a statistics window shows Cohen's kappa and per-stage agreement.
 
@@ -100,7 +100,7 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
 </details>
 
 <details>
-<summary><strong>🖥️ Panels</strong></summary>
+<summary><strong>Panels</strong></summary>
 
 **Spectrogram** — Welch PSD of the full night (4 s Hann, 2 s hop), cached; channel, frequency range, power limits and colormap configurable
 
@@ -129,7 +129,7 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
 </details>
 
 <details>
-<summary><strong>🔍 Filtering</strong></summary>
+<summary><strong>Filtering</strong></summary>
 
 - **Filtering** (`Ctrl+F`): per-channel high-pass, low-pass and notch (zero-phase Chebyshev II), with a live magnitude response. Cutoff is the −3 dB point; order sets roll-off. Filters affect the displayed signal and all derived spectra.
 
@@ -140,7 +140,7 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
 </details>
 
 <details>
-<summary><strong>🤖 Automatic detection and scoring</strong></summary>
+<summary><strong>Automatic detection and scoring</strong></summary>
 
 - **MT-KCD / MT-Spindle** (`Ctrl+K`, Detectors menu): multitaper K-complex and spindle detection with amplitude/slope thresholds, optional stage restriction; results become normal events.
 
@@ -162,7 +162,7 @@ Predictions are imported as a scoring you can review, correct and export.
 </details>
 
 <details>
-<summary><strong>📊 Sleep report (PDF)</strong></summary>
+<summary><strong>Sleep report (PDF)</strong></summary>
 
 **File → Export → Sleep Report**: hypnogram, whole-night spectrogram, example EEG trace, TST/TRT/efficiency, stage distribution, N2/N3/REM latencies.
 
@@ -173,7 +173,7 @@ Predictions are imported as a scoring you can review, correct and export.
 </details>
 
 <details>
-<summary><strong>⚙️ Configuration</strong></summary>
+<summary><strong>Configuration</strong></summary>
 
 `Ctrl+C`; saved per recording as `{filename}.config.json`.
 
@@ -191,7 +191,7 @@ Predictions are imported as a scoring you can review, correct and export.
 </details>
 
 <details>
-<summary><strong>⌨️ Keyboard shortcuts</strong></summary>
+<summary><strong>Keyboard shortcuts</strong></summary>
 
 | Key | Action |
 |-----|--------|
@@ -212,7 +212,7 @@ Predictions are imported as a scoring you can review, correct and export.
 ## 📄 File Formats
 
 <details>
-<summary><strong>🧠 EEG import</strong></summary>
+<summary><strong>EEG import</strong></summary>
 
 | Format | Ext. | Notes |
 |--------|------|-------|
@@ -224,7 +224,7 @@ Predictions are imported as a scoring you can review, correct and export.
 </details>
 
 <details>
-<summary><strong>📂 Scoring import</strong></summary>
+<summary><strong>Scoring import</strong></summary>
 
 | Format | Ext. | Encoding |
 |--------|------|----------|
@@ -240,7 +240,7 @@ Epoch-count and stage-name mismatches are checked for every format: one extra/mi
 </details>
 
 <details>
-<summary><strong>🗂️ Native JSON schema</strong></summary>
+<summary><strong>Native JSON schema</strong></summary>
 
 Saved as `{filename}.json` next to the EEG: `[ <stages>, <annotations> ]`.
 
@@ -262,7 +262,7 @@ Saved as `{filename}.json` next to the EEG: `[ <stages>, <annotations> ]`.
 ## 🛠️ Development
 
 <details>
-<summary><strong>💻 From source</strong></summary>
+<summary><strong>From source</strong></summary>
 
 Needs [uv](https://docs.astral.sh/uv/getting-started/installation/), Python 3.13 or newer (the exact version is pinned by `uv`).
 
@@ -274,7 +274,7 @@ uv run scoringhero.py
 ```
 
 <details>
-<summary><strong>🏗️ Build binaries</strong></summary>
+<summary><strong>Build binaries</strong></summary>
 
 Windows: `uv sync --extra build-win && ./build-win.bat` (→ `dist/scoringhero.exe`)
 
@@ -285,14 +285,14 @@ macOS: `uv sync --extra build-mac && arch -arm64 ./release-mac.sh` (or `-x86_64`
 </details>
 
 <details>
-<summary><strong>🗺️ Code layout</strong></summary>
+<summary><strong>Code layout</strong></summary>
 
 `scoringhero.py` entry; `ui/` layout; `widgets/` custom widgets; `eeg/` loaders; `scoring/` import/export; `signal_processing/` spectrogram, wavelet, periodogram, SWA; `autoscoring/` GSSC, NIDRA; `event_detection/` detectors; `export/` reports; `config/`, `cache/`, `style/`, `tests/`. Terms in [GLOSSARY.md](GLOSSARY.md). Dependencies in [pyproject.toml](pyproject.toml).
 
 </details>
 
 <details>
-<summary><strong>🤝 Contributing</strong></summary>
+<summary><strong>Contributing</strong></summary>
 
 Commit subjects: `[NEW]` feature, `[FIX]` bug fix, `[MOD]` change/refactor, `[DOC]` docs.
 
@@ -314,8 +314,6 @@ Cite via the metadata in [`CITATION.cff`](CITATION.cff) (or GitHub's *"Cite this
 
 Outreach is the currency success is measured in — a star goes a long way.
 
-| | |
-|---|---|
-| ⭐ **Star** | Top right of this page |
-| ☕ **Donate** | [![Ko-fi](https://img.shields.io/badge/Ko--fi-Buy%20me%20a%20coffee-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/Svennonito) |
-| 💜 **Sponsor** | [![GitHub Sponsors](https://img.shields.io/badge/GitHub-Sponsor-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/SvennoNito) |
+- **Star** — top right of this page
+- **Donate** — [![Ko-fi](https://img.shields.io/badge/Ko--fi-Buy%20me%20a%20coffee-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/Svennonito)
+- **Sponsor** — [![GitHub Sponsors](https://img.shields.io/badge/GitHub-Sponsor-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/SvennoNito)
