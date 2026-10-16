@@ -308,7 +308,7 @@ This software is free to use for research, and always will be. If it improved yo
   
 ## Cite
 
-Cite via the metadata in [`CITATION.cff`](CITATION.cff) (or GitHub's *"Cite this repository"* button, top right), e.g. APA:
+Use this software as part of your work? Cite via the metadata in [`CITATION.cff`](CITATION.cff) (or GitHub's *"Cite this repository"* button, top right), e.g. APA:
 
 <!-- CITATION:START -->
 > Leach, S. (2026). *Scoring Hero* (Version 0.3.1) [Computer software]. https://github.com/SvennoNito/ScoringHero
