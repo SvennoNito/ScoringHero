@@ -54,15 +54,14 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
 
 ### Signal display
 
-<p align="center">
-    <img src="screenshots/signal_panel.png" width="70%" alt="EEG signal panel" />
-</p>
-
 - Multiple channels with per-channel scaling, shift, color, line width; amplitude reference lines, 1 s grid
 - Time axis in seconds, minutes, hours or clock time (set the recording start in the configuration)
 - **Stack channels** on one baseline, or **robustly z-standardize** (median/IQR) to compare channels
-- **Filtering** (`Ctrl+F`): per-channel high-pass, low-pass and notch (zero-phase Chebyshev II), with a live magnitude response. Cutoff is the −3 dB point; order sets roll-off. Filters affect the displayed signal and all derived spectra.
 - **Zoom**: draw a rectangle and press `Z`.
+
+### Filtering
+
+- **Filtering** (`Ctrl+F`): per-channel high-pass, low-pass and notch (zero-phase Chebyshev II), with a live magnitude response. Cutoff is the −3 dB point; order sets roll-off. Filters affect the displayed signal and all derived spectra.
 
 ![Filter window](screenshots/filter.png)
 
