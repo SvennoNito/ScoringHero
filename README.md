@@ -31,7 +31,7 @@ On macOS, GSSC and NIDRA need the Windows **Full** build or a [source install](#
 
 **macOS Gatekeeper:** the app is not Apple-registered. Run `chmod +x scoringhero_mac_<arch>` in Terminal, then System Settings → Privacy & Security → **Open Anyway**.
 
-**Code signing & privacy:** Windows builds are signed for free by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/). ScoringHero runs fully locally and sends no data.
+**Privacy:** ScoringHero runs fully locally and sends no data.
 
 ---
 
