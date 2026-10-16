@@ -1,0 +1,36 @@
+name: Sync README citation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - CITATION.cff
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Update README citation
+        run: uv run --with pyyaml python scripts/sync_citation_readme.py
+
+      - name: Commit if changed
+        run: |
+          if ! git diff --quiet -- README.md; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add README.md
+            git commit -m "[DOC] sync README citation from CITATION.cff"
+            git push
+          else
+            echo "README citation already up to date."
+          fi
