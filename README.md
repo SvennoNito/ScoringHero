@@ -59,12 +59,6 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
 - **Stack channels** on one baseline, or **robustly z-standardize** (median/IQR) to compare channels
 - **Zoom**: draw a rectangle and press `Z`.
 
-### Filtering
-
-- **Filtering** (`Ctrl+F`): per-channel high-pass, low-pass and notch (zero-phase Chebyshev II), with a live magnitude response. Cutoff is the −3 dB point; order sets roll-off. Filters affect the displayed signal and all derived spectra.
-
-![Filter window](screenshots/filter.png)
-
 ### Navigation
 `←`/`→` step epochs; jumps wrap around. The left navigation bar has one button per jump: next **unscored**, **uncertain** (confidence < 0.5), **stage transition**, **event**, **human-scored**, **disagreement** (needs comparison). Clicking the hypnogram or spectrogram jumps to that time.
 
@@ -86,7 +80,7 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
     <img src="screenshots/compare_hypnogram.png" width="45%" alt="Hypnogram with disagreements" />
 </p>
 
-### Spectral panels
+### Panels
 
 **Spectrogram** — Welch PSD of the full night (4 s Hann, 2 s hop), cached; channel, frequency range, power limits and colormap configurable
 
@@ -112,12 +106,20 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
     <img src="screenshots/wavelet_panel.png" width="70%" alt="Wavelet panel" />
 </p>
 
+### Filtering
+
+- **Filtering** (`Ctrl+F`): per-channel high-pass, low-pass and notch (zero-phase Chebyshev II), with a live magnitude response. Cutoff is the −3 dB point; order sets roll-off. Filters affect the displayed signal and all derived spectra.
+
+<p align="center">
+    <img src="screenshots/filter.png" width="70%" alt="Filter window" />
+</p>
+
 ### Automatic detection and scoring
 - **MT-KCD / MT-Spindle** (`Ctrl+K`, Detectors menu): multitaper K-complex and spindle detection with amplitude/slope thresholds, optional stage restriction; results become normal events.
 
 <p align="center">
-    <img src="screenshots/mt_kcd.png" width="40%" alt="MT-KCD window" />
-    <img src="screenshots/mt_spindle.png" width="40%" alt="MT-Spindle window" />
+    <img src="screenshots/mt_kcd.png" width="30%" alt="MT-KCD window" />
+    <img src="screenshots/mt_spindle.png" width="30%" alt="MT-Spindle window" />
 </p>
 
 - **GSSC** (`Ctrl+G`): Greifswald Sleep Stage Classifier for scalp EEG/EOG; optional 0.3–30 Hz bandpass.
@@ -133,7 +135,9 @@ Predictions are imported as a scoring you can review, correct and export.
 ### Sleep report (PDF)
 **File → Export → Sleep Report**: hypnogram, whole-night spectrogram, example EEG trace, TST/TRT/efficiency, stage distribution, N2/N3/REM latencies.
 
-![Sleep report page](screenshots/report_page.png)
+<p align="center">
+    <img src="screenshots/report_page.png" width="70%" alt="Sleep report" />
+</p>
 
 ---
 
@@ -156,7 +160,8 @@ Predictions are imported as a scoring you can review, correct and export.
 
 ## File Formats
 
-### EEG import
+<details>
+<summary><strong>EEG import</strong></summary>
 
 | Format | Ext. | Notes |
 |--------|------|-------|
@@ -164,6 +169,8 @@ Predictions are imported as a scoring you can review, correct and export.
 | EDF | `.edf` | via pyedflib; a Volt-scaled variant converts to µV |
 | BDF | `.bdf` | BioSemi 24-bit; read directly; annotation channels dropped |
 | Zurich R09 | `.r09` | legacy; fixed 9 channels at 128 Hz (`F3-A2, F4-A1, C3-A2, C4-A1, O1-A2, O2-A1, EOG1, EOG2, EMG`), `int16` |
+
+</details>
 
 <details>
 <summary><strong>Scoring import</strong></summary>
