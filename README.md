@@ -306,4 +306,4 @@ Cite via the metadata in [`CITATION.cff`](CITATION.cff) (or GitHub's *"Cite this
 > Leach, S. (2026). *Scoring Hero* (Version 0.3.1) [Computer software]. https://github.com/SvennoNito/ScoringHero
 <!-- CITATION:END -->
 
-[Buy me a coffee](https://ko-fi.com/Svennonito) or [sponsor on GitHub](https://github.com/sponsors/SvennoNito).
+This software is free to use for research, and always will be. If it improved your workflow you want to support this work, star the repository (top right). Outreach it the currency that success is measured in. If you'd like to support it financially or say thank you, you can [buy me a coffee](https://ko-fi.com/Svennonito) once or [sponsor on GitHub](https://github.com/sponsors/SvennoNito). 
