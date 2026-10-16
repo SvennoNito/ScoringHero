@@ -10,7 +10,7 @@ Developed by Sven Leach · Used by research labs & clinicians alike
 [![Downloads](https://img.shields.io/github/downloads/SvennoNito/ScoringHero/total?style=for-the-badge&label=Downloads)](https://github.com/SvennoNito/ScoringHero/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-blue?style=for-the-badge)](#-download)
 
-[📥 Download](#-download) · [Features](#features) · [File formats](#file-formats) · [Shortcuts](#keyboard-shortcuts) · [From source](#from-source) · [Report issue](https://github.com/SvennoNito/ScoringHero/issues/new)
+[📥 Download](#-download) · [Features](#features) · [File formats](#file-formats) · [Development](#development) · [Report issue](https://github.com/SvennoNito/ScoringHero/issues/new)
 
 </div>
 
@@ -27,7 +27,7 @@ Developed by Sven Leach · Used by research labs & clinicians alike
 
 Links always point at the newest release. See [all releases and release notes](https://github.com/SvennoNito/ScoringHero/releases).
 
-On macOS, GSSC and NIDRA need the Windows **Full** build or a [source install](#from-source); macOS downloads are Lite only.
+On macOS, GSSC and NIDRA need the Windows **Full** build or a [source install](#development); macOS downloads are Lite only.
 
 **macOS Gatekeeper:** the app is not Apple-registered. Run `chmod +x scoringhero_mac_<arch>` in Terminal, then System Settings → Privacy & Security → **Open Anyway**.
 
@@ -172,9 +172,8 @@ Predictions are imported as a scoring you can review, correct and export.
 
 </details>
 
----
-
-## Configuration
+<details>
+<summary><strong>Configuration</strong></summary>
 
 `Ctrl+C`; saved per recording as `{filename}.config.json`.
 
@@ -188,6 +187,25 @@ Predictions are imported as a scoring you can review, correct and export.
     <img src="screenshots/channel_config.png" width="32%" alt="Channels tab" />
     <img src="screenshots/event_config.png" width="32%" alt="Events tab" />
 </p>
+
+</details>
+
+<details>
+<summary><strong>Keyboard shortcuts</strong></summary>
+
+| Key | Action |
+|-----|--------|
+| `W` `1` `2` `3` `R` `I` | Score Wake / N1 / N2 / N3 / REM / Inconclusive |
+| `Delete` / `Q` | Clear score / toggle uncertain |
+| `A`, `F1`–`F12` | Mark drawn region as event; hold + click relabels |
+| `Backspace` | Erase events in drawn selection |
+| `←` `→` | Previous / next epoch |
+| `Z` | Zoom on selection |
+| `Ctrl+S` / `Ctrl+C` / `Ctrl+F` | Save / configuration / filter |
+| `Ctrl+G` / `Ctrl+N` / `Ctrl+K` | GSSC / NIDRA / MT-KCD |
+| `Ctrl+H` | Help |
+
+</details>
 
 ---
 
@@ -241,24 +259,10 @@ Saved as `{filename}.json` next to the EEG: `[ <stages>, <annotations> ]`.
 
 ---
 
-## Keyboard Shortcuts
-
-| Key | Action |
-|-----|--------|
-| `W` `1` `2` `3` `R` `I` | Score Wake / N1 / N2 / N3 / REM / Inconclusive |
-| `Delete` / `Q` | Clear score / toggle uncertain |
-| `A`, `F1`–`F12` | Mark drawn region as event; hold + click relabels |
-| `Backspace` | Erase events in drawn selection |
-| `←` `→` | Previous / next epoch |
-| `Z` | Zoom on selection |
-| `Ctrl+S` / `Ctrl+C` / `Ctrl+F` | Save / configuration / filter |
-| `Ctrl+G` / `Ctrl+N` / `Ctrl+K` | GSSC / NIDRA / MT-KCD |
-| `Ctrl+H` | Help |
-
----
+## Development
 
 <details>
-<summary><h2>From source</h2></summary>
+<summary><strong>From source</strong></summary>
 
 Needs [uv](https://docs.astral.sh/uv/getting-started/installation/), Python 3.13 or newer (the exact version is pinned by `uv`).
 
@@ -281,14 +285,14 @@ macOS: `uv sync --extra build-mac && arch -arm64 ./release-mac.sh` (or `-x86_64`
 </details>
 
 <details>
-<summary><h2>Code layout</h2></summary>
+<summary><strong>Code layout</strong></summary>
 
 `scoringhero.py` entry; `ui/` layout; `widgets/` custom widgets; `eeg/` loaders; `scoring/` import/export; `signal_processing/` spectrogram, wavelet, periodogram, SWA; `autoscoring/` GSSC, NIDRA; `event_detection/` detectors; `export/` reports; `config/`, `cache/`, `style/`, `tests/`. Terms in [GLOSSARY.md](GLOSSARY.md). Dependencies in [pyproject.toml](pyproject.toml).
 
 </details>
 
 <details>
-<summary><h2>Contributing</h2></summary>
+<summary><strong>Contributing</strong></summary>
 
 Commit subjects: `[NEW]` feature, `[FIX]` bug fix, `[MOD]` change/refactor, `[DOC]` docs.
 
