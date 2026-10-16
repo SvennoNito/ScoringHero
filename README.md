@@ -300,4 +300,8 @@ Commit subjects: `[NEW]` feature, `[FIX]` bug fix, `[MOD]` change/refactor, `[DO
 
 ## Cite & Support
 
-Cite via [*"Cite this repository"*](https://github.com/SvennoNito/ScoringHero/blob/main/CITATION.cff) (top right). [Buy me a coffee](https://ko-fi.com/Svennonito) or [sponsor on GitHub](https://github.com/sponsors/SvennoNito).
+Cite via the metadata in [`CITATION.cff`](CITATION.cff) (or GitHub's *"Cite this repository"* button, top right), e.g. APA:
+
+> Leach, S. (2026). *Scoring Hero* (Version 0.3.1) [Computer software]. https://github.com/SvennoNito/ScoringHero
+
+[Buy me a coffee](https://ko-fi.com/Svennonito) or [sponsor on GitHub](https://github.com/sponsors/SvennoNito).
