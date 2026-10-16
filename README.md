@@ -300,4 +300,4 @@ Commit subjects: `[NEW]` feature, `[FIX]` bug fix, `[MOD]` change/refactor, `[DO
 
 ## Cite & Support
 
-Cite via *"Cite this repository"* (top right). [Buy me a coffee](https://ko-fi.com/Svennonito) or [sponsor on GitHub](https://github.com/sponsors/SvennoNito).
+Cite via [*"Cite this repository"*](https://github.com/SvennoNito/ScoringHero/blob/main/CITATION.cff) (top right). [Buy me a coffee](https://ko-fi.com/Svennonito) or [sponsor on GitHub](https://github.com/sponsors/SvennoNito).
