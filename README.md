@@ -10,7 +10,7 @@ Developed by Sven Leach · Used by research labs & clinicians alike
 [![Downloads](https://img.shields.io/github/downloads/SvennoNito/ScoringHero/total?style=for-the-badge&label=Downloads)](https://github.com/SvennoNito/ScoringHero/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-blue?style=for-the-badge)](#-download)
 
-[📥 Download](#-download) · [Features](#-features) · [File formats](#-file-formats) · [Development](#-development) · [Cite & Support](#-cite--support) · [Report issue](https://github.com/SvennoNito/ScoringHero/issues/new)
+[📥 Download](#-download) · [Video](#-video-walkthrough) · [Features](#-features) · [File formats](#file-formats) · [Development](#development) · [Support](#support) · [Cite](#cite) · [Report issue](https://github.com/SvennoNito/ScoringHero/issues/new)
 
 </div>
 
@@ -209,7 +209,7 @@ Predictions are imported as a scoring you can review, correct and export.
 
 ---
 
-## 📄 File Formats
+## File Formats
 
 <details>
 <summary><strong>EEG import</strong></summary>
@@ -259,7 +259,7 @@ Saved as `{filename}.json` next to the EEG: `[ <stages>, <annotations> ]`.
 
 ---
 
-## 🛠️ Development
+## Development
 
 <details>
 <summary><strong>From source</strong></summary>
@@ -298,22 +298,18 @@ Commit subjects: `[NEW]` feature, `[FIX]` bug fix, `[MOD]` change/refactor, `[DO
 
 </details>
 
-## ⭐ Cite & Support
+## Support
 
-Free to use for research, forever. 🫶
+This software is free to use for research, and always will be. If it improved your workflow and you want to support this work, ⭐ the repository (top right). Outreach is the currency that success is measured in. If you'd like to support it financially or say thank you, you can 
 
-### 📖 Cite
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Buy%20me%20a%20coffee-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/Svennonito)
+
+[![GitHub Sponsors](https://img.shields.io/badge/GitHub-Sponsor-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/SvennoNito)
+  
+## Cite
 
 Cite via the metadata in [`CITATION.cff`](CITATION.cff) (or GitHub's *"Cite this repository"* button, top right), e.g. APA:
 
 <!-- CITATION:START -->
 > Leach, S. (2026). *Scoring Hero* (Version 0.3.1) [Computer software]. https://github.com/SvennoNito/ScoringHero
 <!-- CITATION:END -->
-
-### 🙌 Support
-
-Outreach is the currency success is measured in — a star goes a long way.
-
-- **Star** — top right of this page
-- **Donate** — [![Ko-fi](https://img.shields.io/badge/Ko--fi-Buy%20me%20a%20coffee-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/Svennonito)
-- **Sponsor** — [![GitHub Sponsors](https://img.shields.io/badge/GitHub-Sponsor-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/SvennoNito)
