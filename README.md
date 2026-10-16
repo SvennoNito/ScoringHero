@@ -45,24 +45,37 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
 
 ## Features
 
-### Scoring
+<details>
+<summary><strong>Scoring</strong></summary>
+
 - Keys: `W`, `1`, `2`, `3`, `R`, `I` (Inconclusive), `Delete` clears, `Q` flags an epoch as uncertain
 - The **stage badge** over the EEG shows the current stage (drag it anywhere; size and visibility in Configuration → General). With a comparison loaded and disagreeing it reads e.g. *N2 vs N3* with a red border.
 - The status bar shows epoch (click, type a number, Enter to jump), stage, confidence, clock time, EEG and scoring file.
 
 ![Stage badge](screenshots/stage_badge.png)
 
-### Signal display
+</details>
+
+<details>
+<summary><strong>Signal display</strong></summary>
 
 - Multiple channels with per-channel scaling, shift, color, line width; amplitude reference lines, 1 s grid
 - Time axis in seconds, minutes, hours or clock time (set the recording start in the configuration)
 - **Stack channels** on one baseline, or **robustly z-standardize** (median/IQR) to compare channels
 - **Zoom**: draw a rectangle and press `Z`.
 
-### Navigation
+</details>
+
+<details>
+<summary><strong>Navigation</strong></summary>
+
 `←`/`→` step epochs; jumps wrap around. The left navigation bar has one button per jump: next **unscored**, **uncertain** (confidence < 0.5), **stage transition**, **event**, **human-scored**, **disagreement** (needs comparison). Clicking the hypnogram or spectrogram jumps to that time.
 
-### Events
+</details>
+
+<details>
+<summary><strong>Events</strong></summary>
+
 - 13 types: Artefact (`A`) + 12 customizable (`F1`–`F12`) with own names and colors
 - Draw by click-and-drag (live duration/amplitude), press the key to assign; overlapping same-type events merge
 - Double-click an event to remove it; hold a key and click an event to relabel it; `Backspace` erases events inside the drawn selection
@@ -72,7 +85,11 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
     <img src="screenshots/events_on_signal.png" width="70%" alt="Events on the signal" />
 </p>
 
-### Compare scoring
+</details>
+
+<details>
+<summary><strong>Compare scoring</strong></summary>
+
 **Compare → Scoring → Import scoring for comparison.** Disagreements are highlighted in the hypnogram, the *Next disagreement* jump uses them, and a statistics window shows Cohen's kappa and per-stage agreement.
 
 <p align="center">
@@ -80,7 +97,10 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
     <img src="screenshots/compare_hypnogram.png" width="45%" alt="Hypnogram with disagreements" />
 </p>
 
-### Panels
+</details>
+
+<details>
+<summary><strong>Panels</strong></summary>
 
 **Spectrogram** — Welch PSD of the full night (4 s Hann, 2 s hop), cached; channel, frequency range, power limits and colormap configurable
 
@@ -106,7 +126,10 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
     <img src="screenshots/wavelet_panel.png" width="70%" alt="Wavelet panel" />
 </p>
 
-### Filtering
+</details>
+
+<details>
+<summary><strong>Filtering</strong></summary>
 
 - **Filtering** (`Ctrl+F`): per-channel high-pass, low-pass and notch (zero-phase Chebyshev II), with a live magnitude response. Cutoff is the −3 dB point; order sets roll-off. Filters affect the displayed signal and all derived spectra.
 
@@ -114,7 +137,11 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
     <img src="screenshots/filter.png" width="70%" alt="Filter window" />
 </p>
 
-### Automatic detection and scoring
+</details>
+
+<details>
+<summary><strong>Automatic detection and scoring</strong></summary>
+
 - **MT-KCD / MT-Spindle** (`Ctrl+K`, Detectors menu): multitaper K-complex and spindle detection with amplitude/slope thresholds, optional stage restriction; results become normal events.
 
 <p align="center">
@@ -132,12 +159,18 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
 
 Predictions are imported as a scoring you can review, correct and export.
 
-### Sleep report (PDF)
+</details>
+
+<details>
+<summary><strong>Sleep report (PDF)</strong></summary>
+
 **File → Export → Sleep Report**: hypnogram, whole-night spectrogram, example EEG trace, TST/TRT/efficiency, stage distribution, N2/N3/REM latencies.
 
 <p align="center">
     <img src="screenshots/report_page.png" width="70%" alt="Sleep report" />
 </p>
+
+</details>
 
 ---
 
