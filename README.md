@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌙 ScoringHero
+# ScoringHero
 
 **Open-source sleep EEG visualization, annotation and scoring**
 
