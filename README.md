@@ -7,7 +7,6 @@
 Developed by Sven Leach · Used by research labs & clinicians alike
 
 [![Latest Release](https://img.shields.io/github/v/release/SvennoNito/ScoringHero?style=for-the-badge&label=Release)](https://github.com/SvennoNito/ScoringHero/releases/latest)
-[![Build](https://img.shields.io/github/actions/workflow/status/SvennoNito/ScoringHero/checks.yml?style=for-the-badge&label=Build)](https://github.com/SvennoNito/ScoringHero/actions/workflows/checks.yml)
 [![Downloads](https://img.shields.io/github/downloads/SvennoNito/ScoringHero/total?style=for-the-badge&label=Downloads)](https://github.com/SvennoNito/ScoringHero/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-blue?style=for-the-badge)](#-download)
 
