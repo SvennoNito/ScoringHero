@@ -102,12 +102,9 @@ https://github.com/user-attachments/assets/069d6ed9-d5ff-43c1-8521-0c32c8efeef3
 
 **Periodogram** — Welch spectrum of the epoch or of a rectangle drawn on the signal; modes 1/f removed, dB, raw
 
-<table>
-  <tr>
-    <td>Shown at its native size: the panel is compact next to the signal view.</td>
-    <td width="178"><img src="screenshots/periodogram_panel.png" alt="Periodogram panel" /></td>
-  </tr>
-</table>
+<p align="center">
+    <img src="screenshots/periodogram_panel.png" width="178" alt="Periodogram panel" />
+</p>
 
 **Wavelet** — complex Morlet via FFT convolution, adaptive cycles (3 to f/2), padded epoch against edge artifacts; 4 normalizations (raw, L2, z, dB median baseline), linear/log axis, optional ridge, can be hidden
 
