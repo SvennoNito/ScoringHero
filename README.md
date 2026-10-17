@@ -182,6 +182,8 @@ Predictions are imported as a scoring you can review, correct and export.
 - **Events**: names, colors, counts and durations, delete per type
 - **Spectrogram / Periodogram / Wavelet**: channel, frequency limits, power limits, mode, colormap
 
+**Channel template** (`channel_template.json`): every time a setting is changed in the configuration or filter window, the channel list (name, visibility, color, scaling, shift, line width, re-reference, filters, polarity flip, derived channels) is also written to this global file. A recording opened for the first time (no `{filename}.config.json` yet) inherits it for channels with the same name; derived channels are recreated if their source channel exists. Links to the file's signals are not stored, and recordings that already have a config are never changed. Stored next to the executable (packaged build) or the source folder, else in `~/.scoringhero/`. Delete the file to reset.
+
 <p align="center">
     <img src="screenshots/general_config.png" width="32%" alt="General tab" />
     <img src="screenshots/channel_config.png" width="32%" alt="Channels tab" />
