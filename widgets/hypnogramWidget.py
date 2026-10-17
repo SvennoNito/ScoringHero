@@ -9,11 +9,11 @@ from signal_processing import *
 from scoring_model.scoring import disagreements
 from scoring_model.events import N_SLOTS
 
-COMPARISON_COLOR = (181, 126, 220)  # lavender, dark enough to read on white
+COMPARISON_COLOR = (75, 0, 130)  # deep purple (indigo), dark enough to read on white
 COMPARISON_TITLE = (
     '<span style="color:black;">Primary scoring</span>'
     '<span style="color:black;"> | </span>'
-    '<span style="color:rgb(181,126,220);">Comparison scoring</span>'
+    '<span style="color:rgb(75,0,130);">Comparison scoring</span>'
 )
 
 
@@ -97,7 +97,7 @@ class HypnogramWidget(QWidget):
         # X axis ticks
         self._update_time_ticks(ui)
 
-        # Draw comparison overlay (disagreement epochs in lavender) and its legend title
+        # Draw comparison overlay (disagreement epochs in deep purple) and its legend title
         if ui.scoring_comparison is not None:
             self._draw_comparison_overlay(ui)
             self.axes.setTitle(COMPARISON_TITLE)
@@ -144,7 +144,7 @@ class HypnogramWidget(QWidget):
         self._update_time_ticks(ui)
 
     def _draw_comparison_overlay(self, ui):
-        """Overlay disagreement epochs in lavender, showing the comparison scoring's stage."""
+        """Overlay disagreement epochs in deep purple, showing the comparison scoring's stage."""
         disagreeing = disagreements(ui.scoring, ui.scoring_comparison)
         if not disagreeing:
             return

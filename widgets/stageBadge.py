@@ -14,7 +14,7 @@ UNSCORED_COLOR = "#78808c"
 TEXT_COLOR = "#1f2933"
 LIGHT_TEXT = "#ffffff"
 DISAGREE_BORDER = "#c0392b"
-COMPARISON_TEXT = "#b57edc"
+COMPARISON_TEXT = "#4b0082"
 TINT_ALPHA = 170
 
 
@@ -50,6 +50,8 @@ class StageBadge(QLabel):
         text = stage
         if comparison_stage is not None:
             vs_color = f"color: {COMPARISON_TEXT}; "
+            if stage_text_color(stage) == LIGHT_TEXT:  # dark tint: indigo needs a light chip behind it
+                vs_color += f"background-color: {LIGHT_TEXT}; "
             text += f' <span style="{vs_color}font-size: {size * 2 // 3}px;">vs {comparison_stage}</span>'
         border = DISAGREE_BORDER if disagrees else "transparent"
         self.setStyleSheet(
