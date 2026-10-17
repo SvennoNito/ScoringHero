@@ -65,7 +65,7 @@ ROOT = os.path.dirname(VIDEO_DIR)
 sys.path.insert(0, ROOT)
 sys.path.insert(0, VIDEO_DIR)
 
-from PySide6.QtCore import QEvent, QObject, QPoint, QPointF, QRectF, Qt  # noqa: E402
+from PySide6.QtCore import QEvent, QObject, QPoint, QPointF, QRectF, Qt, QTimer  # noqa: E402
 from PySide6.QtGui import QColor, QFont, QFontMetrics, QImage, QMouseEvent, QPainter, QPolygonF  # noqa: E402
 from PySide6.QtTest import QTest  # noqa: E402
 from PySide6.QtWidgets import (  # noqa: E402
@@ -357,16 +357,28 @@ class Context:
         self.wait(0.2)
 
     def drag(self, start, end, duration=1.0, button=Qt.LeftButton):
-        """Move to `start`, press, glide to `end` with the button held, release."""
+        """Move to `start`, press, glide to `end` with the button held, release. Each glide
+        step is its own timer callback, scheduled before the step's mouse move is sent: a Qt
+        drag-and-drop (e.g. reordering a QListWidget row) starts a nested event loop inside
+        that move, and the remaining steps and the release then run inside it."""
         self.move_cursor(start, 0.8)
         begin, finish = self._as_point(start), self._as_point(end)
         self._send_mouse(QEvent.MouseButtonPress, begin, button, button)
         steps = max(1, round(duration * self._fps))
-        for i in range(1, steps + 1):
+        released = []
+
+        def step(i):
+            if i < steps:
+                QTimer.singleShot(0, lambda: step(i + 1))
             self._cursor = QPointF(begin) + QPointF(finish - begin) * ease(i / steps)
             self._send_mouse(QEvent.MouseMove, self._cursor.toPoint(), Qt.NoButton, button)
             self.frame()
-        self._send_mouse(QEvent.MouseButtonRelease, finish, button, Qt.NoButton)
+            if i == steps:
+                self._send_mouse(QEvent.MouseButtonRelease, finish, button, Qt.NoButton)
+                released.append(True)
+
+        QTimer.singleShot(0, lambda: step(1))
+        self.wait_until(lambda: released)
         self.wait(0.2)
 
     def press_key(self, key, modifier=Qt.NoModifier, seconds=0.4):
