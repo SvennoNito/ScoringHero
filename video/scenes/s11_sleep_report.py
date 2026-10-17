@@ -18,7 +18,7 @@ from PySide6.QtWidgets import QLabel, QMessageBox
 from export import export_sleep_report as report
 
 PDF_NAME = "sleep_report.pdf"
-PREVIEW_SECONDS = 3.0
+PREVIEW_SECONDS = 5.0
 
 
 def _show_pdf_page(ctx, path):

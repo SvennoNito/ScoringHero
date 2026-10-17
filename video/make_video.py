@@ -131,6 +131,7 @@ class Context:
         self.app.installEventFilter(self._show_tracker)
         self._cursor = QPointF(WINDOW_SIZE[0] / 2, WINDOW_SIZE[1] / 2)
         self.frames_written = 0
+        self._dispatching = False  # True while a synthetic mouse event is being delivered (see drag)
 
     # ---- finding widgets by reference ---------------------------------------------------
 
@@ -343,7 +344,11 @@ class Context:
         widget = self._widget_at(point)
         local = QPointF(widget.mapFromGlobal(self.to_global(point)))
         event = QMouseEvent(kind, local, QPointF(self.to_global(point)), button, buttons, Qt.NoModifier)
-        QApplication.sendEvent(widget, event)
+        outer, self._dispatching = self._dispatching, True
+        try:
+            QApplication.sendEvent(widget, event)
+        finally:
+            self._dispatching = outer
         self.app.processEvents()
 
     def click(self, target, duration=0.8, button=Qt.LeftButton):
@@ -360,19 +365,27 @@ class Context:
         """Move to `start`, press, glide to `end` with the button held, release. Each glide
         step is its own timer callback, scheduled before the step's mouse move is sent: a Qt
         drag-and-drop (e.g. reordering a QListWidget row) starts a nested event loop inside
-        that move, and the remaining steps and the release then run inside it."""
+        that move, and the remaining steps and the release then run inside it. A step that
+        fires from the processEvents calls of the running step (not from inside a mouse
+        event) is postponed, else all steps would nest and run before any frame is filmed."""
         self.move_cursor(start, 0.8)
         begin, finish = self._as_point(start), self._as_point(end)
         self._send_mouse(QEvent.MouseButtonPress, begin, button, button)
         steps = max(1, round(duration * self._fps))
         released = []
+        running = []
 
         def step(i):
+            if running and not self._dispatching:
+                QTimer.singleShot(5, lambda: step(i))
+                return
             if i < steps:
                 QTimer.singleShot(0, lambda: step(i + 1))
+            running.append(i)
             self._cursor = QPointF(begin) + QPointF(finish - begin) * ease(i / steps)
             self._send_mouse(QEvent.MouseMove, self._cursor.toPoint(), Qt.NoButton, button)
             self.frame()
+            running.pop()
             if i == steps:
                 self._send_mouse(QEvent.MouseButtonRelease, finish, button, Qt.NoButton)
                 released.append(True)

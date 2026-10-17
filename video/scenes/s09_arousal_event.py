@@ -1,6 +1,5 @@
 """Scene 9: draw a real Arousal event in Epoch 137 (4083-4090 s), move it to another Event
-slot by holding that slot's hotkey and clicking the event, rename the slot to "Arousal" in
-the Configuration Events tab, then delete it with a plain click.
+slot by holding that slot's hotkey and clicking the event, wait 1 s, then delete it with a plain click.
 """
 
 from PySide6.QtCore import QPoint, QPointF, Qt
@@ -11,10 +10,9 @@ EPOCH = 136  # 0-based: Epoch 137
 START_S = 4083.0
 END_S = 4090.0
 SLOT_1 = 1  # the slot the event is first drawn into (the spindle slot from scene 7)
-SLOT_2 = 2  # the slot it is moved to, then renamed
+SLOT_2 = 2  # the slot it is moved to, then deleted from
 HOTKEY_1 = Qt.Key(Qt.Key_F1 + SLOT_1 - 1)  # Event hotkeys F1, F2, ... belong to slots 1, 2, ...
 HOTKEY_2 = Qt.Key(Qt.Key_F1 + SLOT_2 - 1)
-NEW_LABEL = "Arousal"
 
 
 def _signal_x(ctx, seconds):
@@ -86,38 +84,7 @@ def run(ctx):
     )
     ctx.wait(1.0)
 
-    ctx.caption("Configuration: rename the slot to 'Arousal'")
-    ctx.click_menu("action_config_window")
-    window = ui.ConfigurationWindow
-    window.move(ctx.to_global(ctx.at(ctx.window, 0.5, 0.5)) - window.rect().center())
-    ctx.wait(0.6)
-
-    tabs = window.tabs
-    index = tabs.indexOf(ui.EventPage)
-    ctx.click(ctx.window_point(tabs.tabBar(), tabs.tabBar().tabRect(index).center()), duration=0.7)
-    if tabs.currentIndex() != index:
-        tabs.setCurrentIndex(index)
-    ctx.wait(0.6)
-
-    labelbox = ui.EventPage.label[SLOT_2]
-    ctx.click(labelbox, duration=0.7)
-    window.activateWindow()  # the config dialog must be the active window for key events to reach it
-    window.raise_()
-    labelbox.setFocus()
-    labelbox.selectAll()
-    ctx.wait(0.6)
-
-    ctx.caption(f"Rename slot {SLOT_2} to '{NEW_LABEL}'")
-    ctx.type_text(labelbox, NEW_LABEL)
-    ctx.wait(0.6)
-    ctx.press_key(Qt.Key_Return, seconds=0.3)
-
-    ctx.caption("Close the Configuration window")
-    ctx.wait(1.5)
-    window.close()
-    ctx.wait(0.6)
-
-    ctx.caption(f"Click the {NEW_LABEL} to delete it")
+    ctx.caption("Click the event to delete it")
     ctx.click(point, duration=1.0)
     ctx.state["s09_slot2_after_delete"] = ui.events.count(SLOT_2)
     ctx.wait(1.0)
@@ -133,7 +100,6 @@ def check(ctx):
         f"slot {SLOT_1} count after move: {state['s09_slot1_after_move']}, expected {state['s09_slot1_after_add'] - 1}"
     assert state["s09_slot2_after_move"] == state["s09_slot2_before"] + 1, \
         f"slot {SLOT_2} count after move: {state['s09_slot2_after_move']}, expected {state['s09_slot2_before'] + 1}"
-    assert ui.events.label(SLOT_2) == NEW_LABEL, f"slot {SLOT_2} was not renamed to '{NEW_LABEL}'"
     assert state["s09_slot2_after_delete"] == state["s09_slot2_before"], \
         f"slot {SLOT_2} count after delete: {state['s09_slot2_after_delete']}, expected {state['s09_slot2_before']}"
     assert not ui.PaintEventWidget.stored_corners, "rectangles are left on the paint overlay"
