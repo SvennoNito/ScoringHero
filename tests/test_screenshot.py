@@ -321,6 +321,12 @@ def test_panel_cancel_and_failed_write(loaded_ui, monkeypatch, tmp_path):
 
 def _take_as(ui, monkeypatch, path, filter_, **kw):
     """Like _take, but the user picks `filter_` in the file dialog."""
+    from PySide6.QtGui import QImageWriter
+
+    fmt = filter_.split()[0].lower()
+    raster = {"png", "jpeg", "tiff", "bmp", "webp"}
+    if fmt in raster and fmt.encode() not in QImageWriter.supportedImageFormats():  # e.g. the Linux wheel has no TIFF plugin
+        pytest.skip(f"this Qt build cannot write {fmt}")
     choices = Choices(monkeypatch, path=str(path), **kw)
     monkeypatch.setattr(
         dialog_module.QFileDialog, "getSaveFileName",
