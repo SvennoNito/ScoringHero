@@ -43,6 +43,7 @@ dev = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+tmp_path_retention_policy = "failed"
 
 [tool.ruff]
 extend-exclude = ["sumo_lib", "build", "dist", "example_data"]
