@@ -89,6 +89,21 @@ def _boot(directory):
     return app, window, ui
 
 
+def _dispose(app, window, ui):
+    """Close and destroy the window and drop the recording; without this every test leaks
+    ~250 MB (qt-connected lambdas keep `ui` alive past gc), which kills a CI runner at half the suite."""
+    import gc
+
+    from PySide6 import QtCore
+
+    window.close()
+    window.deleteLater()
+    app.sendPostedEvents(None, QtCore.QEvent.DeferredDelete)
+    app.processEvents()
+    ui.__dict__.clear()
+    gc.collect()
+
+
 @pytest.fixture
 def wait_loaded():
     return wait_until_loaded
@@ -118,8 +133,7 @@ def unloaded_ui(tmp_path):
     """The app window before any recording is opened."""
     app, window, ui = _build(tmp_path)
     yield ui
-    window.close()
-    app.processEvents()
+    _dispose(app, window, ui)
 
 
 @pytest.fixture
@@ -131,5 +145,4 @@ def loaded_ui(tmp_path, monkeypatch, warm_example_dir):
     # Closing a partly scored recording asks for confirmation; answer yes instead of blocking.
     monkeypatch.setattr(sh.QMessageBox, "exec", lambda self: sh.QMessageBox.Yes)
     yield ui
-    window.close()
-    app.processEvents()
+    _dispose(app, window, ui)
