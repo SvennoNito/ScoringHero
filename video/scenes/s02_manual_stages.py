@@ -14,7 +14,7 @@ import os
 from PySide6.QtCore import Qt
 
 from scoring_model.formats import load_scoringhero
-from tests.conftest import EXAMPLE_DIR
+FIXTURES_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "fixtures")
 
 N_EPOCHS = 10
 KEY = Qt.Key_W
@@ -23,7 +23,7 @@ KEY = Qt.Key_W
 def _landmark_epochs():
     """0-based (first N1, first N2, first N3, 10th REM) Epochs from the example recording's
     tracked reference scoring file (read directly, never loaded into the app)."""
-    stages = load_scoringhero(os.path.join(EXAMPLE_DIR, "example_data.json")).stages
+    stages = load_scoringhero(os.path.join(FIXTURES_DIR, "example_data.json")).stages
     rem = [i for i, stage in enumerate(stages) if stage == "REM"]
     return stages.index("N1"), stages.index("N2"), stages.index("N3"), rem[9]
 

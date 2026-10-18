@@ -10,7 +10,7 @@ Cuts (`scenes.CUTS`): `walkthrough` (default) = every scene; `presentation` = ev
 and 14 (Overlay signal). `--cut NAME` writes video/scoringhero_NAME.mp4 (walkthrough keeps its name); `--no-captions`
 adds `_nocaptions`. `--scenes` filters inside the cut.
 
-The real main window is booted offscreen on a temp copy of example_data (tracked files are
+The real main window is booted offscreen on a temp copy of example_data.mat + the pinned video/fixtures sidecars (tracked files are
 never touched), with no recording loaded: the film opens on the empty window. The first scene
 loads the recording through File > Load EEG, without its scoring sidecar: no Primary scoring,
 no Events. Scenes drive the window with Qt mouse and key events through a drawn cursor; every
@@ -86,6 +86,7 @@ from PySide6.QtWidgets import (  # noqa: E402
 
 from tests.conftest import EXAMPLE_DIR, _build  # noqa: E402
 
+FIXTURES_DIR = os.path.join(VIDEO_DIR, "fixtures")  # pinned copies of the small example_data sidecars
 FULL = {"size": (1920, 1080), "fps": 30}
 SMOKE = {"size": (640, 360), "fps": 6}
 WINDOW_SIZE = (1920, 1080)  # the app is always laid out at full size; smoke only scales the frames
@@ -524,14 +525,9 @@ def boot():
     temp folder named to read clearly in the filmed file dialog ("...ScoringHero example"); no
     recording is loaded yet — the first scene loads it through File > Load EEG."""
     directory = tempfile.mkdtemp(suffix=" - ScoringHero example")
-    for name in os.listdir(EXAMPLE_DIR):
-        stem = "example_data"
-        if name.startswith(stem + ".") and name != stem + ".json":
-            shutil.copy(os.path.join(EXAMPLE_DIR, name), directory)
+    shutil.copy(os.path.join(EXAMPLE_DIR, "example_data.mat"), directory)  # the app never writes the recording
+    shutil.copy(os.path.join(FIXTURES_DIR, "example_data.config.json"), directory)  # pinned: app runs can't alter the film
     shutil.copy(os.path.join(ROOT, "spectral.txt"), directory)  # the report colormap, found via ui.app_path
-    cache = os.path.join(directory, "example_data.cache.pkl")  # the tracked one may predate the code
-    if os.path.exists(cache):
-        os.remove(cache)
 
     app, window, ui = _build(directory)
     window.resize(*WINDOW_SIZE)
