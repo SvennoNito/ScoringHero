@@ -22,7 +22,7 @@ Scene contract (add a scene = one new module + one line in video/scenes/__init__
     def run(ctx):    # film the scene: caption + input steps through ctx
     def check(ctx):  # assert the app state the scene must have produced (raise AssertionError)
 
-  * Scenes run in the order of `scenes.SCENES`, sharing one app and one ctx (`ctx.state` is a
+  * Scenes run in the order of the chosen cut (`scenes.CUTS[cut]`), sharing one app and one ctx (`ctx.state` is a
     dict for handing data to later scenes and to `check`). `check` runs right after `run`, in
     smoke and full renders alike; any exception (failed lookup, failed assertion) aborts the run.
   * Find widgets by reference, never by pixel: `ctx.ref("A.b")` (dotted attribute path from `ui`),
@@ -555,6 +555,8 @@ def output_name(cut, no_captions, smoke):
 def load_scenes(cut, prefixes):
     import scenes
 
+    if cut not in scenes.CUTS:
+        raise SystemExit(f"unknown cut {cut!r}; available cuts: {list(scenes.CUTS)}")
     names = [n for n in scenes.CUTS[cut] if not prefixes or any(n.startswith(p) for p in prefixes)]
     if not names:
         raise SystemExit(f"no scene matches {prefixes}; available in cut {cut}: {scenes.CUTS[cut]}")
@@ -564,9 +566,7 @@ def load_scenes(cut, prefixes):
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--smoke", action="store_true", help="low resolution and fps; every scene is checked")
-    import scenes as registry
-    parser.add_argument("--cut", default="walkthrough", choices=list(registry.CUTS),
-                        help="named cut: walkthrough = every scene, presentation = without s12 and s14")
+    parser.add_argument("--cut", default="walkthrough", help="named cut from scenes.CUTS")
     parser.add_argument("--scenes", nargs="*", default=[], help="only scenes whose module name starts with one of these")
     parser.add_argument("--no-captions", action="store_true", help="render without the bottom captions (subtitles)")
     parser.add_argument("--out", help="output mp4 (default video/scoringhero_<cut>.mp4, "

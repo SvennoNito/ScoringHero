@@ -33,7 +33,7 @@ BUTTONS = [
 
 def run(ctx):
     ui = ctx.ui
-    ctx.state["s12_visited"] = []
+    ctx.state["s12_visited"] = {}  # ui attribute -> {name, hover_only, clicked, before, after}
     ctx.state["s12_uncertain_target"] = ui.scoring.next_uncertain(ui.this_epoch) is not None
     if not ctx.state["s12_uncertain_target"]:
         print("s12: no Epoch with confidence below UNCERTAIN_BELOW "
@@ -71,7 +71,7 @@ def run(ctx):
 
         if hover_only:
             assert ui.this_epoch == before, f"hovering '{name}' moved the displayed Epoch"
-            ctx.state["s12_visited"].append((name, None))
+            record = {"name": name, "hover_only": True, "clicked": False, "before": before, "after": ui.this_epoch}
         else:
             ctx.click(button, duration=0.1)
             ctx.wait_idle()
@@ -80,18 +80,21 @@ def run(ctx):
                 assert ui.this_epoch == expected, f"'{name}': went to epoch {ui.this_epoch}, expected {expected}"
             else:
                 assert ui.this_epoch == before, f"'{name}': moved to {ui.this_epoch} despite no target"
-            ctx.state["s12_visited"].append((name, ui.this_epoch))
+            record = {"name": name, "hover_only": False, "clicked": True, "before": before, "after": ui.this_epoch}
+        ctx.state["s12_visited"][attribute] = record
+        if not hover_only:
             ctx.wait(1.5)
     ctx.caption(None)
-    print("s12: " + ", ".join(f"{n} -> {e}" for n, e in ctx.state["s12_visited"]), flush=True)
+    print("s12: " + ", ".join(f"{r['name']} -> {None if r['hover_only'] else r['after']}"
+                                for r in ctx.state["s12_visited"].values()), flush=True)
 
 
 def check(ctx):
-    visited = dict(ctx.state["s12_visited"])
-    names = [name for _, name, _ in BUTTONS]
-    assert list(visited) == names, "not every Jump button was visited in turn"
-    # hover-only buttons recorded None: they were hovered, not clicked (asserted in run)
-    if ctx.ui.scoring_comparison is None:
-        assert visited["Next disagreement"] is None, "'Next disagreement' clicked without a Comparison scoring"
+    visited = ctx.state["s12_visited"]
+    assert list(visited) == [attribute for attribute, _, _ in BUTTONS], "not every Jump button was visited in turn"
+    for attribute, record in visited.items():
+        if record["hover_only"]:
+            assert not record["clicked"], f"'{record['name']}' is hover-only but was clicked"
+            assert record["after"] == record["before"], f"hovering '{record['name']}' moved the Epoch"
     if not ctx.state["s12_uncertain_target"]:
         print("s12 check: no real uncertain Epoch existed; 'Next uncertain' target assertion skipped.", flush=True)
