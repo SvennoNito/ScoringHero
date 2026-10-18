@@ -17,7 +17,7 @@ import os
 from unittest import mock
 
 import numpy as np
-from PySide6.QtWidgets import QDialog
+from PySide6.QtWidgets import QDialog, QToolTip
 
 from scoring import scoring_import_comparison as import_module
 from scoring_model.formats import FORMATS, write_scoringhero
@@ -27,6 +27,7 @@ CHANGED_FRACTION = 0.15  # share of epochs the second scorer disagrees on
 COMPARISON_FILENAME = "example_data_scorer2.json"
 
 HOVER_ONLY = {"tool_nextunscored", "tool_nexthuman"}  # no real target after GSSC: hover, don't click
+TOOLTIP_SECONDS = 1.5  # each Jump button's tooltip stays on screen at least this long
 
 # ui attribute -> (caption, expected target epoch from the current epoch)
 BUTTONS = [
@@ -81,21 +82,29 @@ def _jump_button_demo(ctx):
         assert action.isEnabled(), f"Jump button '{name}' is disabled"
         button = ui.navigation_bar.widgetForAction(action)
         before = ui.this_epoch
-        if attribute in HOVER_ONLY:
-            expected = target_of(ui)
+        expected = target_of(ui)
+        hover_only = attribute in HOVER_ONLY
+        if hover_only:
             assert expected is None, f"'{name}' unexpectedly has a target after GSSC (epoch {expected})"
             ctx.caption(f"{name}: no such Epoch after GSSC \u2014 would jump to one, hover only")
-            ctx.move_cursor(button, duration=1.0)
-            ctx.wait(1.5)
-            assert ui.this_epoch == before, f"hovering '{name}' moved the displayed Epoch"
-            ctx.state["s12_visited"].append((name, None))
         else:
-            expected = target_of(ui)
             has_target = expected is not None and expected != before
             if attribute != "tool_nextuncertain":
                 assert has_target, f"'{name}' has no visible target"
             ctx.caption(name)
-            ctx.click(button, duration=1.0)
+
+        ctx.move_cursor(button, duration=1.0)
+        # synthetic mouse moves don't start Qt's tooltip timer: show the button's tooltip directly
+        QToolTip.showText(ctx.to_global(ctx._cursor.toPoint()), action.toolTip(), button)
+        assert QToolTip.isVisible(), f"no tooltip shown for '{name}'"
+        ctx.wait(TOOLTIP_SECONDS)
+        QToolTip.hideText()
+
+        if hover_only:
+            assert ui.this_epoch == before, f"hovering '{name}' moved the displayed Epoch"
+            ctx.state["s12_visited"].append((name, None))
+        else:
+            ctx.click(button, duration=0.1)
             ctx.wait_idle()
             assert pressed and pressed[-1] is action, f"the click did not press '{name}'"
             if has_target:
@@ -103,7 +112,7 @@ def _jump_button_demo(ctx):
             else:
                 assert ui.this_epoch == before, f"'{name}': moved to {ui.this_epoch} despite no target"
             ctx.state["s12_visited"].append((name, ui.this_epoch))
-        ctx.wait(1.5)
+            ctx.wait(1.5)
     ctx.caption(None)
     print("s12: " + ", ".join(f"{n} -> {e}" for n, e in ctx.state["s12_visited"]), flush=True)
 

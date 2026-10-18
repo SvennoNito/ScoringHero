@@ -1,5 +1,5 @@
 """Scene 14: tour through the Configuration (Events, Spectrogram and Periodogram tabs are skipped): on the
-Channels tab set a few channel colours, stack then unstack the channels, flip one channel and drag another
+Channels tab set a few channel colours, flip one channel and drag another
 to a new row; on the Wavelet tab change the colormap; apply, close."""
 import copy
 
@@ -89,18 +89,6 @@ def run(ctx):
                 _choose_channel_color(ctx, page.color[names.index(name)], ORANGE_CHANNEL_COLOR)
 
             ctx.wait_idle()
-            ctx.caption("Stack the channels on top of each other ...")
-            stack_box = page.stack_channels_checkbox
-            indicator = ctx.window_point(stack_box, QPoint(10, stack_box.height() // 2))  # the box is wider than its label
-            ctx.click(indicator)
-            ctx.state["s14_stacked"] = ui.config[0].get("Stack_channels")
-            ctx.wait(2.0)
-            ctx.caption("... and unstack them again")
-            ctx.wait_idle()
-            ctx.click(indicator)
-            ctx.wait(1.2)
-
-            ctx.wait_idle()
             ctx.caption("Flip the polarity of one channel")
             ctx.click(page.flip[0])
             ctx.wait(1.2)
@@ -129,8 +117,7 @@ def check(ctx):
         assert after[key] != before[key], f"{key} was not changed"
     others = {k for k in before if before[k] != after[k]}
     assert others == set(COSMETIC_KEYS), f"scoring-relevant settings changed: {others - set(COSMETIC_KEYS)}"
-    assert ctx.state["s14_stacked"], "channels were not stacked"
-    assert not after.get("Stack_channels"), "channels are still stacked"
+    assert not after.get("Stack_channels"), "channels got stacked"
     assert list(ui.scoring.stages()) == ctx.state["s14_stages_before"], "scoring changed"
 
     channels = {c["Channel_name"]: c for c in ui.config[1]}
