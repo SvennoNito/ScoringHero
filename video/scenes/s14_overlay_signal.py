@@ -1,4 +1,4 @@
-"""Scene 13: import an Overlay signal (visible file dialog: example_data_overlay.mat), hold on the current Epoch to show it drawn over the Displayed signal, then remove it."""
+"""Scene 14: import an Overlay signal (visible file dialog: example_data_overlay.mat), hold on the current Epoch to show it drawn over the Displayed signal, then remove it."""
 
 import os
 
@@ -25,12 +25,12 @@ def make_overlay_file(ctx):
 
 
 def run(ctx):
-    ctx.state["s13_path"] = path = make_overlay_file(ctx)
+    ctx.state["s14_path"] = path = make_overlay_file(ctx)
     ctx.caption("Import an Overlay signal: a second Recording drawn over the Displayed signal")
     with ctx.file_dialogs(open=(ctx.directory, "example_data_overlay.mat", "*.mat")):
         ctx.click_menu("action_import_overlay_eeglab")
     ctx.wait_until(lambda: getattr(ctx.ui, "eeg_data_ref", None) is not None)
-    ctx.state["s13_loaded"] = ctx.ui.eeg_data_ref is not None and ctx.ui.show_overlay
+    ctx.state["s14_loaded"] = ctx.ui.eeg_data_ref is not None and ctx.ui.show_overlay
     ctx.wait(2.5)
 
     ctx.caption("Remove the Overlay signal again")
@@ -41,7 +41,7 @@ def run(ctx):
 
 def check(ctx):
     ui = ctx.ui
-    assert os.path.exists(ctx.state["s13_path"]), "overlay file was not generated"
-    assert ctx.state["s13_loaded"], "Overlay signal was not imported and shown"
+    assert os.path.exists(ctx.state["s14_path"]), "overlay file was not generated"
+    assert ctx.state["s14_loaded"], "Overlay signal was not imported and shown"
     assert getattr(ui, "eeg_data_ref", None) is None, "Overlay signal was not removed"
     assert not ui.show_overlay, "overlay is still shown"

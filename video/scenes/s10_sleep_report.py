@@ -1,10 +1,10 @@
-"""Scene 11: export the sleep report (PDF) from the Export menu.
+"""Scene 10: export the sleep report (PDF) from the Export menu.
 
 The options dialog is shown and clicked through: "Preview" first (renders page 1 of the
 generated PDF onto the frame for a few seconds), then "Generate Report". The native save
 dialog is mocked to return `<video_dir>/sleep_report.pdf`. Needs Stages from an earlier scene
-(s06 GSSC).
-Hands over: ctx.state["s11_report"] = path of the PDF.
+(s05 GSSC).
+Hands over: ctx.state["s10_report"] = path of the PDF.
 """
 
 import os
@@ -24,7 +24,7 @@ PREVIEW_SECONDS = 5.0
 def _show_pdf_page(ctx, path):
     """Render page 1 of the PDF at `path` and show it as a top-level QLabel positioned over
     the window: ctx._compose() composites every visible top-level widget besides the window
-    itself, so this is captured by the normal frame grab exactly like the s05 magnitude
+    itself, so this is captured by the normal frame grab exactly like the s04 magnitude
     response dialog, with no Context changes needed."""
     doc = QPdfDocument()
     doc.load(path)
@@ -49,8 +49,8 @@ def run(ctx):
     path = os.path.join(ctx.video_dir, PDF_NAME)
     if os.path.exists(path):
         os.remove(path)
-    ctx.state["s11_report"] = path
-    ctx.state["s11_preview_rendered"] = False
+    ctx.state["s10_report"] = path
+    ctx.state["s10_preview_rendered"] = False
 
     def film_options(dialog):
         """Replaces QDialog.exec: show the options, preview page 1, click Generate Report, report the result."""
@@ -69,8 +69,8 @@ def run(ctx):
         preview_path = dialog._preview_files[-1] if dialog._preview_files else None
         assert preview_path and os.path.isfile(preview_path), "Preview did not generate a PDF"
         _show_pdf_page(ctx, preview_path)
-        ctx.state["s11_preview_rendered"] = True
-        ctx.state["s11_preview_rendered_at"] = ctx.frames_written
+        ctx.state["s10_preview_rendered"] = True
+        ctx.state["s10_preview_rendered_at"] = ctx.frames_written
 
         ctx.caption("Choose what goes into the report")
         ctx.click(ctx.button(dialog, "Generate Report"), duration=0.8)
@@ -82,16 +82,16 @@ def run(ctx):
             mock.patch.object(QMessageBox, "information", lambda *a, **k: QMessageBox.Ok):
         ctx.click_menu("action_export_sleep_report")
         ctx.wait(0.5)
-    ctx.state["s11_pdf_written_at"] = ctx.frames_written
+    ctx.state["s10_pdf_written_at"] = ctx.frames_written
     ctx.caption("The sleep report is saved as a PDF")
     ctx.wait(2.0)
 
 
 def check(ctx):
-    assert ctx.state.get("s11_preview_rendered"), "sleep report preview was not rendered"
-    assert ctx.state["s11_preview_rendered_at"] < ctx.state["s11_pdf_written_at"], \
+    assert ctx.state.get("s10_preview_rendered"), "sleep report preview was not rendered"
+    assert ctx.state["s10_preview_rendered_at"] < ctx.state["s10_pdf_written_at"], \
         "preview was not rendered before the report was generated"
-    path = ctx.state["s11_report"]
+    path = ctx.state["s10_report"]
     assert os.path.isfile(path), f"sleep report PDF missing: {path}"
     with open(path, "rb") as f:
         assert f.read(5) == b"%PDF-", "sleep report is not a PDF"

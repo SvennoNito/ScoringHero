@@ -1,4 +1,4 @@
-"""Scene 4: drag the SWA slider to show SWA moments, then click the Hypnogram to jump in time."""
+"""Scene 3: drag the SWA slider to show SWA moments, then click the Hypnogram to jump in time."""
 
 from PySide6.QtCore import QPoint, QPointF
 from PySide6.QtWidgets import QStyle, QStyleOptionSlider
@@ -31,10 +31,10 @@ def _hypnogram_point(ctx, hour, fy=0.5):
 def run(ctx):
     ctx.caption("Drag the SWA slider to smooth the slow-wave activity curve of the Hypnogram")
     slider = ctx.ref("HypnogramSlider.slider")
-    ctx.state["s04_values"] = []
+    ctx.state["s03_values"] = []
     for dy in (0.9, -0.5, 0.3):  # fractions of the slider height: down, back up, down a bit
         _drag_handle_by(ctx, slider, round(dy * slider.height()))
-        ctx.state["s04_values"].append(slider.value())
+        ctx.state["s03_values"].append(slider.value())
         ctx.wait(0.8)
 
     ctx.caption("The Hypnogram navigates the night too: click it to jump to that time")
@@ -43,7 +43,7 @@ def run(ctx):
 
 
 def check(ctx):
-    values = ctx.state["s04_values"]
+    values = ctx.state["s03_values"]
     assert len(set(values)) > 1, f"the SWA slider did not move: {values}"
     assert ctx.ui.HypnogramWidget.kernel == ctx.ui.HypnogramSlider.slider.value(), "slider did not smooth the SWA curve"
     assert ctx.ui.this_epoch == 540, f"displayed Epoch {ctx.ui.this_epoch}, expected Epoch 540 (4.5h into the night)"

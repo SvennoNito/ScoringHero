@@ -1,4 +1,4 @@
-"""Scene 6: run the GSSC Autoscorer for stages, chosen from the Autoscorer menu.
+"""Scene 5: run the GSSC Autoscorer for stages, chosen from the Autoscorer menu.
 
 GSSC needs its optional dependency: run with `uv run --extra gssc python video/make_video.py ...`.
 The real GSSC run happens off camera; a short "processing" card replaces the wait.
@@ -39,7 +39,7 @@ def _click_overwrite_all(ctx):
         if button is None:
             raise LookupError("GSSC's existing-scores dialog has no 'Overwrite all' button")
         button.click()
-        ctx.state["s06_overwrite_clicked"] = True
+        ctx.state["s05_overwrite_clicked"] = True
         return QMessageBox.Accepted
 
     return mock.patch.object(QMessageBox, "exec", exec_and_click)
@@ -52,8 +52,8 @@ def run(ctx):
     except ImportError as error:
         raise RuntimeError("GSSC is not installed: run with `uv run --extra gssc python video/make_video.py`") from error
     ctx.wait_idle()  # earlier scenes' background work blocks mouse input
-    ctx.state["s06_stages_before"] = sum(stage is not None for stage in ui.scoring.stages())
-    ctx.state["s06_overwrite_clicked"] = False
+    ctx.state["s05_stages_before"] = sum(stage is not None for stage in ui.scoring.stages())
+    ctx.state["s05_overwrite_clicked"] = False
 
     ctx.caption("Autoscorer: let GSSC score the Stages of the whole night")
     ctx.click_menu("action_gssc")
@@ -83,8 +83,8 @@ def _scored(ui):
 
 def check(ctx):
     ui = ctx.ui
-    assert ctx.state["s06_stages_before"] == 10, "expected the ten Wake Epochs from manual staging before GSSC ran"
-    assert ctx.state["s06_overwrite_clicked"], "GSSC's 'Overwrite all' button was not clicked"
+    assert ctx.state["s05_stages_before"] == 10, "expected the ten Wake Epochs from manual staging before GSSC ran"
+    assert ctx.state["s05_overwrite_clicked"], "GSSC's 'Overwrite all' button was not clicked"
     stages = [stage for stage in ui.scoring.stages() if stage is not None]
     assert len(stages) == ui.numepo, f"GSSC scored {len(stages)} of {ui.numepo} Epochs"
     assert len(set(stages)) >= 3, f"GSSC produced only {sorted(set(stages))}"

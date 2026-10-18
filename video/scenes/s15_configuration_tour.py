@@ -1,4 +1,4 @@
-"""Scene 14: tour through the Configuration (Events, Spectrogram and Periodogram tabs are skipped): on the
+"""Scene 15: tour through the Configuration (Events, Spectrogram and Periodogram tabs are skipped): on the
 Channels tab set a few channel colours, flip one channel and drag another
 to a new row; on the Wavelet tab change the colormap; apply, close."""
 import copy
@@ -61,10 +61,10 @@ def _drag_last_visible_row_to_top(ctx, page):
 def run(ctx):
     ui = ctx.ui
     ctx.wait_idle()
-    ctx.state["s14_config_before"] = copy.deepcopy(ui.config[0])
-    ctx.state["s14_stages_before"] = list(ui.scoring.stages())
+    ctx.state["s15_config_before"] = copy.deepcopy(ui.config[0])
+    ctx.state["s15_stages_before"] = list(ui.scoring.stages())
     names = [c["Channel_name"] for c in ui.config[1]]
-    ctx.state["s14_first_channel"] = names[0]
+    ctx.state["s15_first_channel"] = names[0]
     ctx.caption("Configuration: a tour through the tabs")
     ctx.click_menu("action_config_window")
     window = ui.ConfigurationWindow
@@ -95,7 +95,7 @@ def run(ctx):
 
             ctx.wait_idle()
             ctx.caption("Drag a channel to a different position")
-            ctx.state["s14_moved_channel"] = _drag_last_visible_row_to_top(ctx, page)
+            ctx.state["s15_moved_channel"] = _drag_last_visible_row_to_top(ctx, page)
             ctx.wait(1.2)
         else:
             ctx.wait(1.2)
@@ -111,20 +111,20 @@ def run(ctx):
 
 def check(ctx):
     ui = ctx.ui
-    before, after = ctx.state["s14_config_before"], ui.config[0]
+    before, after = ctx.state["s15_config_before"], ui.config[0]
     assert not ui.ConfigurationWindow.isVisible(), "Configuration window is still open"
     for key in COSMETIC_KEYS:
         assert after[key] != before[key], f"{key} was not changed"
     others = {k for k in before if before[k] != after[k]}
     assert others == set(COSMETIC_KEYS), f"scoring-relevant settings changed: {others - set(COSMETIC_KEYS)}"
     assert not after.get("Stack_channels"), "channels got stacked"
-    assert list(ui.scoring.stages()) == ctx.state["s14_stages_before"], "scoring changed"
+    assert list(ui.scoring.stages()) == ctx.state["s15_stages_before"], "scoring changed"
 
     channels = {c["Channel_name"]: c for c in ui.config[1]}
-    first = ctx.state["s14_first_channel"]
+    first = ctx.state["s15_first_channel"]
     assert channels[first]["Channel_color"] == BLACK_CHANNEL_COLOR, "first channel's colour was not set to Black"
     assert channels[first]["Flip_polarity"], "first channel was not flipped"
     for name in ORANGE_CHANNELS:
         assert channels[name]["Channel_color"] == ORANGE_CHANNEL_COLOR, f"{name}'s colour was not set to Orange"
-    moved = ctx.state["s14_moved_channel"]
+    moved = ctx.state["s15_moved_channel"]
     assert ui.config[1][0]["Channel_name"] == moved and moved != first, "a channel was not dragged to the top"

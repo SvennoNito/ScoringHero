@@ -1,4 +1,4 @@
-"""Scene 10: draw a transient selection rectangle (NOT an Event: no hotkey) centred on the
+"""Scene 9: draw a transient selection rectangle (NOT an Event: no hotkey) centred on the
 C3-A2 trace's row over one detected spindle, showing that the Periodogram panel (RectanglePower)
 displays the row the rectangle overlaps -- not whatever channel Configuration > Periodogram has
 set (Periodogram_channel defaults to a different channel in example_data).
@@ -70,8 +70,8 @@ def run(ctx):
     ctx.wait_idle()
 
     start_s, end_s, epoch = _choose_spindle(ctx.state)
-    ctx.state["s10_count_before"] = ui.events.count(SPINDLE_SLOT)
-    ctx.state["s10_periodogram_channel_config"] = ui.config[0]["Periodogram_channel"]
+    ctx.state["s09_count_before"] = ui.events.count(SPINDLE_SLOT)
+    ctx.state["s09_periodogram_channel_config"] = ui.config[0]["Periodogram_channel"]
 
     ctx.caption(f"Jump to the spindle at epoch {epoch + 1}")
     ctx.click_epoch(epoch, duration=0.9)
@@ -88,11 +88,11 @@ def run(ctx):
     ctx.wait(0.3)
 
     ctx.caption("Periodogram panel: power spectrum of that selection")
-    ctx.state["s10_channel_shown"] = ui.RectanglePower.channel_pill._name
-    ctx.state["s10_power"] = list(ui.RectanglePower.powerline.yData)
-    ctx.state["s10_freqs"] = list(ui.RectanglePower.powerline.xData)
+    ctx.state["s09_channel_shown"] = ui.RectanglePower.channel_pill._name
+    ctx.state["s09_power"] = list(ui.RectanglePower.powerline.yData)
+    ctx.state["s09_freqs"] = list(ui.RectanglePower.powerline.xData)
     data, times = ui.PaintEventWidget.selected_data
-    ctx.state["s10_selected_times"] = (float(times[0]), float(times[-1]))
+    ctx.state["s09_selected_times"] = (float(times[0]), float(times[-1]))
     ctx.move_cursor(ctx.center(ui.RectanglePower.axes), 1.0)
     ctx.wait(1.5)
 
@@ -103,21 +103,21 @@ def run(ctx):
 
 def check(ctx):
     ui, state = ctx.ui, ctx.state
-    assert state["s10_channel_shown"] == CHANNEL, (
-        f"Periodogram panel shows '{state['s10_channel_shown']}', expected '{CHANNEL}'"
+    assert state["s09_channel_shown"] == CHANNEL, (
+        f"Periodogram panel shows '{state['s09_channel_shown']}', expected '{CHANNEL}'"
     )
     # The rectangle-row selection must have overridden Configuration > Periodogram's channel,
     # proving the panel is driven by the drawn rectangle, not the config combo.
-    assert state["s10_channel_shown"] != state["s10_periodogram_channel_config"], (
+    assert state["s09_channel_shown"] != state["s09_periodogram_channel_config"], (
         "Periodogram channel matches the Configuration combo default; "
         "the rectangle-row selection did not override it"
     )
-    assert state["s10_freqs"] and state["s10_power"], "no periodogram data was computed"
-    assert len(state["s10_freqs"]) == len(state["s10_power"])
-    assert all(0.0 <= p <= 1.0 + 1e-9 for p in state["s10_power"]), "power is not scaled to 0-1"
-    lo_t, hi_t = state["s10_selected_times"]
+    assert state["s09_freqs"] and state["s09_power"], "no periodogram data was computed"
+    assert len(state["s09_freqs"]) == len(state["s09_power"])
+    assert all(0.0 <= p <= 1.0 + 1e-9 for p in state["s09_power"]), "power is not scaled to 0-1"
+    lo_t, hi_t = state["s09_selected_times"]
     assert lo_t < hi_t, "selected time window is empty"
-    assert ui.events.count(SPINDLE_SLOT) == state["s10_count_before"], (
+    assert ui.events.count(SPINDLE_SLOT) == state["s09_count_before"], (
         "the selection rectangle was committed as an Event"
     )
     assert not ui.PaintEventWidget.stored_corners, "selection rectangle left on the paint overlay"

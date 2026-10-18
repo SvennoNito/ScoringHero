@@ -1,4 +1,4 @@
-"""Scene 8: Configuration > Events tab shows the spindle slot's count under its default
+"""Scene 7: Configuration > Events tab shows the spindle slot's count under its default
 label 'F1', then rename that slot to 'Spindle' on camera."""
 
 from PySide6.QtCore import Qt
@@ -11,7 +11,7 @@ NEW_LABEL = "Spindle"
 def run(ctx):
     ui = ctx.ui
     ctx.wait_idle()
-    ctx.state["s08_count_before"] = ui.events.count(SPINDLE_SLOT)
+    ctx.state["s07_count_before"] = ui.events.count(SPINDLE_SLOT)
 
     ctx.caption("Configuration: Events tab")
     ctx.click_menu("action_config_window")
@@ -56,4 +56,4 @@ def check(ctx):
     assert not ui.ConfigurationWindow.isVisible(), "Configuration window is still open"
     assert ui.events.label(SPINDLE_SLOT) == NEW_LABEL, "spindle slot was not renamed to 'Spindle'"
     assert ui.events.label(SPINDLE_SLOT) != OLD_LABEL
-    assert ui.events.count(SPINDLE_SLOT) == state["s08_count_before"], "spindle count changed by the rename"
+    assert ui.events.count(SPINDLE_SLOT) == state["s07_count_before"], "spindle count changed by the rename"

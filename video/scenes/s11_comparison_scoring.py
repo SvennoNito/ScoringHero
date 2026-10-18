@@ -1,4 +1,4 @@
-"""Scene 12: import a Comparison scoring through a real, filmed file dialog, show the comparison
+"""Scene 11: import a Comparison scoring through a real, filmed file dialog, show the comparison
 summary statistics, then demo every Jump button on the Navigation bar, then remove the
 Comparison scoring.
 
@@ -53,7 +53,7 @@ def make_comparison_file(ctx):
         scoring.set(epoch, others[rng.integers(len(others))], source=HUMAN)
     path = os.path.join(ctx.directory, COMPARISON_FILENAME)
     write_scoringhero(scoring, path, [])
-    ctx.state["s12_changed"] = len(changed)
+    ctx.state["s11_changed"] = len(changed)
     return path
 
 
@@ -63,10 +63,10 @@ def _jump_button_demo(ctx):
     imported). "Next unscored" and "Next human-scored" have no real target after GSSC: they are
     only hovered, not clicked."""
     ui = ctx.ui
-    ctx.state["s12_visited"] = []
-    ctx.state["s12_uncertain_target"] = ui.scoring.next_uncertain(ui.this_epoch) is not None
-    if not ctx.state["s12_uncertain_target"]:
-        print("s12: GSSC gave no Epoch with confidence below UNCERTAIN_BELOW "
+    ctx.state["s11_visited"] = []
+    ctx.state["s11_uncertain_target"] = ui.scoring.next_uncertain(ui.this_epoch) is not None
+    if not ctx.state["s11_uncertain_target"]:
+        print("s11: GSSC gave no Epoch with confidence below UNCERTAIN_BELOW "
               f"({UNCERTAIN_BELOW}): 'Next uncertain' has no real target, pressed as a no-op.",
               flush=True)
 
@@ -102,7 +102,7 @@ def _jump_button_demo(ctx):
 
         if hover_only:
             assert ui.this_epoch == before, f"hovering '{name}' moved the displayed Epoch"
-            ctx.state["s12_visited"].append((name, None))
+            ctx.state["s11_visited"].append((name, None))
         else:
             ctx.click(button, duration=0.1)
             ctx.wait_idle()
@@ -111,16 +111,16 @@ def _jump_button_demo(ctx):
                 assert ui.this_epoch == expected, f"'{name}': went to epoch {ui.this_epoch}, expected {expected}"
             else:
                 assert ui.this_epoch == before, f"'{name}': moved to {ui.this_epoch} despite no target"
-            ctx.state["s12_visited"].append((name, ui.this_epoch))
+            ctx.state["s11_visited"].append((name, ui.this_epoch))
             ctx.wait(1.5)
     ctx.caption(None)
-    print("s12: " + ", ".join(f"{n} -> {e}" for n, e in ctx.state["s12_visited"]), flush=True)
+    print("s11: " + ", ".join(f"{n} -> {e}" for n, e in ctx.state["s11_visited"]), flush=True)
 
 
 def run(ctx):
     ui = ctx.ui
     ctx.wait_idle()
-    ctx.state["s12_path"] = path = make_comparison_file(ctx)
+    ctx.state["s11_path"] = path = make_comparison_file(ctx)
     ctx.caption("Import a Comparison scoring from a second scorer")
     # the format dialog is modal: answer it with the default format (ScoringHero .json)
     assert list(FORMATS.values())[0].file_filter == "*.json", "default import format is not ScoringHero JSON"
@@ -141,7 +141,7 @@ def run(ctx):
 
     with mock.patch.object(QDialog, "exec", show_nonmodal):
         ctx.click_menu("action_comparison_stats")
-    ctx.state["s12_stats_shown"] = bool(dialogs) and dialogs[0].isVisible()
+    ctx.state["s11_stats_shown"] = bool(dialogs) and dialogs[0].isVisible()
     ctx.wait(4.0)
     for dialog in dialogs:
         dialog.close()
@@ -157,18 +157,18 @@ def run(ctx):
 
 def check(ctx):
     ui = ctx.ui
-    assert os.path.exists(ctx.state["s12_path"]), "comparison file was not generated"
-    assert ctx.state["s12_changed"] > 0, "no epochs were changed in the comparison scoring"
-    assert ctx.state["s12_stats_shown"], "summary statistics were not shown"
+    assert os.path.exists(ctx.state["s11_path"]), "comparison file was not generated"
+    assert ctx.state["s11_changed"] > 0, "no epochs were changed in the comparison scoring"
+    assert ctx.state["s11_stats_shown"], "summary statistics were not shown"
 
-    visited = dict(ctx.state["s12_visited"])
+    visited = dict(ctx.state["s11_visited"])
     names = [name for _, name, _ in BUTTONS]
     assert list(visited) == names, "not every Jump button was pressed in turn"
     for attribute, name, _ in BUTTONS:
         if attribute in HOVER_ONLY:
             assert visited[name] is None, f"'{name}' was clicked, not just hovered"
-    if not ctx.state["s12_uncertain_target"]:
-        print("s12 check: no real uncertain Epoch existed; 'Next uncertain' target assertion skipped.", flush=True)
+    if not ctx.state["s11_uncertain_target"]:
+        print("s11 check: no real uncertain Epoch existed; 'Next uncertain' target assertion skipped.", flush=True)
 
     assert ui.scoring_comparison is None, "Comparison scoring was not removed"
     assert not ui.action_comparison_stats.isEnabled(), "comparison statistics still enabled"
