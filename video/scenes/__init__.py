@@ -12,7 +12,9 @@ SCENES = [
     "s08_arousal_event",
     "s09_periodogram",
     "s10_sleep_report",
-    "s11_comparison_scoring",
+    "s11_comparison_import",
+    "s12_jump_buttons",
+    "s13_comparison_remove",
     "s14_overlay_signal",
     "s15_configuration_tour",
 ]
