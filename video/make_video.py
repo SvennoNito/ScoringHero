@@ -2,8 +2,13 @@
 
     uv run python video/make_video.py                  # video/scoringhero_walkthrough.mp4, 1920x1080, 30 fps
     uv run python video/make_video.py --no-captions    # video/scoringhero_walkthrough_nocaptions.mp4, same film without captions
+    uv run python video/make_video.py --cut presentation   # video/scoringhero_presentation.mp4: every scene but 12 (Jump buttons) and 14 (Overlay signal)
     uv run python video/make_video.py --smoke          # all scenes, 640x360, 6 fps, state asserted after each
-    uv run python video/make_video.py --scenes s01     # only scenes whose module name starts with s01
+    uv run python video/make_video.py --scenes s01     # only scenes whose module name starts with s01 (inside the cut)
+
+Cuts (`scenes.CUTS`): `walkthrough` (default) = every scene; `presentation` = every scene except 12 (Jump buttons)
+and 14 (Overlay signal). `--cut NAME` writes video/scoringhero_NAME.mp4 (walkthrough keeps its name); `--no-captions`
+adds `_nocaptions`. `--scenes` filters inside the cut.
 
 The real main window is booted offscreen on a temp copy of example_data (tracked files are
 never touched), with no recording loaded: the film opens on the empty window. The first scene
@@ -541,27 +546,36 @@ def assert_empty_start(ui):
     assert not any(ui.events.count(s) for s in range(len(ui.events.labels()))), "Events are not empty at the start"
 
 
-def load_scenes(prefixes):
+def output_name(cut, no_captions, smoke):
+    if smoke:
+        return "smoke.mp4"
+    return f"scoringhero_{cut}{'_nocaptions' if no_captions else ''}.mp4"
+
+
+def load_scenes(cut, prefixes):
     import scenes
 
-    names = [n for n in scenes.SCENES if not prefixes or any(n.startswith(p) for p in prefixes)]
+    names = [n for n in scenes.CUTS[cut] if not prefixes or any(n.startswith(p) for p in prefixes)]
     if not names:
-        raise SystemExit(f"no scene matches {prefixes}; available: {scenes.SCENES}")
+        raise SystemExit(f"no scene matches {prefixes}; available in cut {cut}: {scenes.CUTS[cut]}")
     return [(n, importlib.import_module(f"scenes.{n}")) for n in names]
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--smoke", action="store_true", help="low resolution and fps; every scene is checked")
+    import scenes as registry
+    parser.add_argument("--cut", default="walkthrough", choices=list(registry.CUTS),
+                        help="named cut: walkthrough = every scene, presentation = without s12 and s14")
     parser.add_argument("--scenes", nargs="*", default=[], help="only scenes whose module name starts with one of these")
     parser.add_argument("--no-captions", action="store_true", help="render without the bottom captions (subtitles)")
-    parser.add_argument("--out", help="output mp4 (default video/scoringhero_walkthrough.mp4, "
+    parser.add_argument("--out", help="output mp4 (default video/scoringhero_<cut>.mp4, "
                         "..._nocaptions.mp4 with --no-captions, video/smoke.mp4 with --smoke)")
     args = parser.parse_args()
     mode = SMOKE if args.smoke else FULL
-    default = "smoke.mp4" if args.smoke else "scoringhero_walkthrough_nocaptions.mp4" if args.no_captions else "scoringhero_walkthrough.mp4"
+    default = output_name(args.cut, args.no_captions, args.smoke)
     out = args.out or os.path.join(VIDEO_DIR, default)
-    scenes = load_scenes(args.scenes)
+    scenes = load_scenes(args.cut, args.scenes)
 
     import imageio_ffmpeg
 

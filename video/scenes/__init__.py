@@ -18,3 +18,9 @@ SCENES = [
     "s14_overlay_signal",
     "s15_configuration_tour",
 ]
+
+# Named cuts: ordered scene lists. `presentation` is defined by exclusion, so new scenes land in it.
+CUTS = {
+    "walkthrough": list(SCENES),
+    "presentation": [n for n in SCENES if n not in ("s12_jump_buttons", "s14_overlay_signal")],
+}

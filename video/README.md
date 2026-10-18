@@ -4,10 +4,12 @@ Renders a silent, captioned 1920x1080, 30 fps walk-through of ScoringHero by dri
 
 ```
 uv run --extra gssc python video/make_video.py            # -> video/scoringhero_walkthrough.mp4
+uv run --extra gssc python video/make_video.py --cut presentation   # -> video/scoringhero_presentation.mp4
 uv run --extra gssc python video/make_video.py --smoke    # 640x360, 6 fps, state asserted after each scene
-uv run --extra gssc python video/make_video.py --scenes s01 s02   # only these scenes
+uv run --extra gssc python video/make_video.py --scenes s01 s02   # only these scenes (inside the chosen cut)
 ```
 
+- Cuts (`CUTS` in `video/scenes/__init__.py`): `walkthrough` (default) = every scene; `presentation` = every scene except 12 (Jump buttons) and 14 (Overlay signal), defined by exclusion so new scenes join it automatically. `--cut NAME` writes `video/scoringhero_NAME.mp4` (`_nocaptions` with `--no-captions`); an unknown cut exits with the list of cuts.
 - `--extra gssc` is required: scene 5 runs the GSSC Autoscorer for real.
 - Scenes run in film order (`video/scenes/__init__.py`); the film opens on the empty window and scene 1 loads the example recording through File > Load EEG with the cursor on the menus, via a real, non-native file dialog filmed at a temp folder named "... ScoringHero example" — the cursor clicks `example_data.mat`, then Open. Later scenes depend on earlier ones (scene 8 needs the spindles of scene 6, scene 11 derives its Comparison scoring from the Primary scoring after scene 9), so `--scenes` subsets only work for independent scenes.
 - Scene 2 jumps the spectrogram to four landmark Epochs (first N1, first N2, first N3, 10th REM, in the second REM period) computed at render time from the example recording's tracked reference scoring (`example_data.json`, never loaded into the app itself), then jumps back to Epoch 1 via the Epoch counter and stages the first ten Epochs Wake by hand through the Stage menu and the Wake hotkey.
