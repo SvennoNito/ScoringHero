@@ -27,6 +27,6 @@ keywords:
   - Event labels
   - EEG
 license: AGPL-3.0-only
-commit: 444b3a17b120ac7aedb19b3e2fdc724ba530aee9
-version: 0.3.1
-date-released: '2026-10-12'
+commit: 1944ed333385270076c83394efae766e39682265
+version: 0.3.2
+date-released: '2026-10-20'

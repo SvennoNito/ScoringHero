@@ -1,6 +1,6 @@
 [project]
 name = "scoringhero"
-version = "0.3.1"
+version = "0.3.2"
 description = "Open-source GUI application for sleep EEG scoring and visualization"
 license = "AGPL-3.0-only"
 license-files = ["LICENSE", "NOTICE"]
