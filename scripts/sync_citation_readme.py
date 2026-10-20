@@ -36,11 +36,13 @@ def apa_citation(cff: dict) -> str:
     year = cff["date-released"].split("-")[0]
     title = cff["title"]
     version = cff["version"]
-    repo = cff["repository-code"]
+    doi = cff.get("doi")
+    # APA software: publisher + DOI link when archived (Zenodo), else repository URL
+    source = f"Zenodo. https://doi.org/{doi}" if doi else cff["repository-code"]
 
     return (
         f"> {author_str} ({year}). *{title}* (Version {version}) "
-        f"[Computer software]. {repo}"
+        f"[Computer software]. {source}"
     )
 
 

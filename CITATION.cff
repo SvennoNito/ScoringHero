@@ -18,6 +18,7 @@ authors:
       Switzerland; Netherlands Institute for Neuroscience, 
       Amsterdam, Netherlands,
     orcid: 'https://orcid.org/0000-0001-7425-4589'
+doi: 10.5281/zenodo.23495148
 repository-code: 'https://github.com/SvennoNito/ScoringHero'
 abstract: >-
   EEG visualization, sleep scoring and event labeling software.
