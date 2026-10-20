@@ -22,5 +22,5 @@ SCENES = [
 # Named cuts: ordered scene lists. `presentation` is defined by exclusion, so new scenes land in it.
 CUTS = {
     "walkthrough": list(SCENES),
-    "presentation": [n for n in SCENES if n not in ("s12_jump_buttons", "s14_overlay_signal")],
+    "esrs": [n for n in SCENES if n not in ("s12_jump_buttons", "s14_overlay_signal")],
 }
