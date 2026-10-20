@@ -9,8 +9,8 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Existing release tag to attach LICENSE and NOTICE to
-        required: true
+        description: Release tag to attach LICENSE and NOTICE to (empty = all releases)
+        required: false
 
 jobs:
   upload:
@@ -27,4 +27,8 @@ jobs:
       run: |
         cp LICENSE LICENSE.txt
         cp NOTICE NOTICE.txt
-        gh release upload "$TAG" LICENSE.txt NOTICE.txt --clobber
+        tags="$TAG"
+        [ -n "$tags" ] || tags=$(gh release list --limit 1000 --json tagName --jq '.[].tagName')
+        for t in $tags; do
+          gh release upload "$t" LICENSE.txt NOTICE.txt --clobber
+        done
