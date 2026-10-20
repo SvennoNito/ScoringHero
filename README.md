@@ -9,9 +9,9 @@ Developed by Sven Leach · Used by research labs & clinicians alike
 [![Latest Release](https://img.shields.io/github/v/release/SvennoNito/ScoringHero?style=for-the-badge&label=Release)](https://github.com/SvennoNito/ScoringHero/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/SvennoNito/ScoringHero/total?style=for-the-badge&label=Downloads)](https://github.com/SvennoNito/ScoringHero/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-blue?style=for-the-badge)](#-download)
-[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-green?style=for-the-badge)](#license)
+[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-green?style=for-the-badge)](LICENSE)
 
-[📥 Download](#-download) · [Video](#-video-walkthrough) · [Features](#-features) · [File formats](#file-formats) · [Development](#development) · [License](#license) · [Support](#support) · [Cite](#cite) · [Report issue](https://github.com/SvennoNito/ScoringHero/issues/new)
+[📥 Download](#-download) · [Video](#-video-walkthrough) · [Features](#-features) · [File formats](#file-formats) · [Development](#development) · [Support](#support) · [Cite](#cite) · [Report issue](https://github.com/SvennoNito/ScoringHero/issues/new)
 
 </div>
 
@@ -301,7 +301,8 @@ Commit subjects: `[NEW]` feature, `[FIX]` bug fix, `[MOD]` change/refactor, `[DO
 
 </details>
 
-## License
+<details>
+<summary><strong>License</strong></summary>
 
 ScoringHero is free and open source under the [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0-only). Copyright © Sven Leach.
 
@@ -312,6 +313,8 @@ You may use, modify and share it for free. If you distribute ScoringHero or a mo
 **Commercial licensing:** to use ScoringHero in closed-source products or services without the AGPL obligations, contact leach.sven@gmail.com.
 
 Third-party code (SUMO, NIDRA port; MIT) keeps its own license, see [NOTICE](NOTICE).
+
+</details>
 
 ## Support
 
