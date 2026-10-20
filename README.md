@@ -326,3 +326,5 @@ You may use, modify and share it for free. If you distribute ScoringHero or a mo
 **Attribution (additional term under AGPL-3.0 section 7(b), see [NOTICE](NOTICE)):** modified versions must retain the attribution *"Based on ScoringHero by Sven Leach (https://github.com/SvennoNito/ScoringHero)"* in the source and in their Appropriate Legal Notices (e.g. an About/Help screen).
 
 **Commercial licensing:** to use ScoringHero in closed-source products or services without the AGPL obligations, contact leach.sven@gmail.com.
+
+Third-party code (SUMO, NIDRA port; MIT) keeps its own license, see [NOTICE](NOTICE).

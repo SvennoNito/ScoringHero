@@ -3,7 +3,7 @@ nidra_runner.py — ONNX inference for the NIDRA ezscore-f models.
 
 The preprocessing, windowing and label remapping below are a faithful port of
 NIDRA 0.2.3 (`NIDRA/forehead_scorer.py`, MIT licence, Paul Zerr,
-https://github.com/paulzerr/nidra). Porting rather than importing keeps
+https://github.com/paulzerr/nidra; licence text in NOTICE). Porting rather than importing keeps
 ScoringHero free of NIDRA's GUI dependency chain (Flask, pywebview,
 pydantic-core) — only `onnxruntime` and `mne` are needed. Any change to
 upstream's preprocessing has to be mirrored here.
