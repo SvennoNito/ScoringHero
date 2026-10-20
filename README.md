@@ -11,7 +11,7 @@ Developed by Sven Leach · Used by research labs & clinicians alike
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-blue?style=for-the-badge)](#-download)
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-green?style=for-the-badge)](#license)
 
-[📥 Download](#-download) · [Video](#-video-walkthrough) · [Features](#-features) · [File formats](#file-formats) · [Development](#development) · [Support](#support) · [Cite](#cite) · [License](#license) · [Report issue](https://github.com/SvennoNito/ScoringHero/issues/new)
+[📥 Download](#-download) · [Video](#-video-walkthrough) · [Features](#-features) · [File formats](#file-formats) · [Development](#development) · [License](#license) · [Support](#support) · [Cite](#cite) · [Report issue](https://github.com/SvennoNito/ScoringHero/issues/new)
 
 </div>
 
@@ -301,6 +301,18 @@ Commit subjects: `[NEW]` feature, `[FIX]` bug fix, `[MOD]` change/refactor, `[DO
 
 </details>
 
+## License
+
+ScoringHero is free and open source under the [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0-only). Copyright © Sven Leach.
+
+You may use, modify and share it for free. If you distribute ScoringHero or a modified version, or let others use a modified version over a network, you must license it under AGPL-3.0 and provide its source code.
+
+**Attribution (additional term under AGPL-3.0 section 7(b), see [NOTICE](NOTICE)):** modified versions must retain the attribution *"Based on ScoringHero by Sven Leach (https://github.com/SvennoNito/ScoringHero)"* in the source and in their Appropriate Legal Notices (e.g. an About/Help screen).
+
+**Commercial licensing:** to use ScoringHero in closed-source products or services without the AGPL obligations, contact leach.sven@gmail.com.
+
+Third-party code (SUMO, NIDRA port; MIT) keeps its own license, see [NOTICE](NOTICE).
+
 ## Support
 
 This software is free to use for research, and always will be. If it improved your workflow and you want to support this work, ⭐ the repository (top right). Outreach is the currency that success is measured in. If you'd like to support it financially or say thank you, you can 
@@ -316,15 +328,3 @@ Use this software as part of your work? Please cite via the metadata in [`CITATI
 <!-- CITATION:START -->
 > Leach, S. (2026). *Scoring Hero* (Version 0.3.2) [Computer software]. https://github.com/SvennoNito/ScoringHero
 <!-- CITATION:END -->
-
-## License
-
-ScoringHero is free and open source under the [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0-only). Copyright © Sven Leach.
-
-You may use, modify and share it for free. If you distribute ScoringHero or a modified version, or let others use a modified version over a network, you must license it under AGPL-3.0 and provide its source code.
-
-**Attribution (additional term under AGPL-3.0 section 7(b), see [NOTICE](NOTICE)):** modified versions must retain the attribution *"Based on ScoringHero by Sven Leach (https://github.com/SvennoNito/ScoringHero)"* in the source and in their Appropriate Legal Notices (e.g. an About/Help screen).
-
-**Commercial licensing:** to use ScoringHero in closed-source products or services without the AGPL obligations, contact leach.sven@gmail.com.
-
-Third-party code (SUMO, NIDRA port; MIT) keeps its own license, see [NOTICE](NOTICE).
