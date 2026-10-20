@@ -1,0 +1,30 @@
+name: Attach license to Release
+
+permissions:
+  contents: write
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to attach LICENSE and NOTICE to
+        required: true
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # .txt so Windows/macOS users can open them by double-click
+    - name: Upload LICENSE and NOTICE to release
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      run: |
+        cp LICENSE LICENSE.txt
+        cp NOTICE NOTICE.txt
+        gh release upload "$TAG" LICENSE.txt NOTICE.txt --clobber
