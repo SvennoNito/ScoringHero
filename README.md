@@ -9,8 +9,9 @@ Developed by Sven Leach · Used by research labs & clinicians alike
 [![Latest Release](https://img.shields.io/github/v/release/SvennoNito/ScoringHero?style=for-the-badge&label=Release)](https://github.com/SvennoNito/ScoringHero/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/SvennoNito/ScoringHero/total?style=for-the-badge&label=Downloads)](https://github.com/SvennoNito/ScoringHero/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-blue?style=for-the-badge)](#-download)
+[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-green?style=for-the-badge)](#license)
 
-[📥 Download](#-download) · [Video](#-video-walkthrough) · [Features](#-features) · [File formats](#file-formats) · [Development](#development) · [Support](#support) · [Cite](#cite) · [Report issue](https://github.com/SvennoNito/ScoringHero/issues/new)
+[📥 Download](#-download) · [Video](#-video-walkthrough) · [Features](#-features) · [File formats](#file-formats) · [Development](#development) · [Support](#support) · [Cite](#cite) · [License](#license) · [Report issue](https://github.com/SvennoNito/ScoringHero/issues/new)
 
 </div>
 
@@ -315,3 +316,13 @@ Use this software as part of your work? Please cite via the metadata in [`CITATI
 <!-- CITATION:START -->
 > Leach, S. (2026). *Scoring Hero* (Version 0.3.1) [Computer software]. https://github.com/SvennoNito/ScoringHero
 <!-- CITATION:END -->
+
+## License
+
+ScoringHero is free and open source under the [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0-only). Copyright © Sven Leach.
+
+You may use, modify and share it for free. If you distribute ScoringHero or a modified version, or let others use a modified version over a network, you must license it under AGPL-3.0 and provide its source code.
+
+**Attribution (additional term under AGPL-3.0 section 7(b), see [NOTICE](NOTICE)):** modified versions must retain the attribution *"Based on ScoringHero by Sven Leach (https://github.com/SvennoNito/ScoringHero)"* in the source and in their Appropriate Legal Notices (e.g. an About/Help screen).
+
+**Commercial licensing:** to use ScoringHero in closed-source products or services without the AGPL obligations, contact leach.sven@gmail.com.

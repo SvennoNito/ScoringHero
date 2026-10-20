@@ -26,7 +26,7 @@ keywords:
   - Sleep scoring
   - Event labels
   - EEG
-license: CC-BY-4.0
+license: AGPL-3.0-only
 commit: 444b3a17b120ac7aedb19b3e2fdc724ba530aee9
 version: 0.3.1
 date-released: '2026-10-12'

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# ScoringHero, Copyright (C) Sven Leach. Licensed under AGPL-3.0-only, see LICENSE.
+# Additional attribution term (AGPL-3.0 section 7(b)): see NOTICE.
 
 # To do
 # - also show the .json file scoringhero writes into
